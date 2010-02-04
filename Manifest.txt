@@ -4,6 +4,7 @@ Manifest.txt
 README.md
 Rakefile
 lib/ronin/extensions.rb
+lib/ronin/extensions/kernel.rb
 lib/ronin/extensions/array.rb
 lib/ronin/extensions/uri.rb
 lib/ronin/extensions/uri/query_params.rb
@@ -43,6 +44,8 @@ lib/ronin/templates/erb.rb
 lib/ronin/ext.rb
 lib/ronin/ext/version.rb
 spec/spec_helper.rb
+spec/extensions/classes/some_class.rb
+spec/extensions/kernel_spec.rb
 spec/extensions/array_spec.rb
 spec/extensions/string_spec.rb
 spec/extensions/ip_addr_spec.rb
