@@ -46,11 +46,23 @@ class String
   # @return [Integer]
   #   The depacked Integer.
   #
-  # @example
-  #   0x41.pack(Arch('i686')) # => "A\000\000\000"
+  # @raise [RuntimeError]
+  #   The given `arch` does not respond to the `endian` or
+  #   `address_length` methods.
   #
-  # @example
-  #   0x41.pack(Arch('ppc'),2) # => "\000A"
+  # @example using archs other than `Ronin::Arch`.
+  #   arch = OpenStruct.new(:endian => :little, :address_length => 4)
+  #   
+  #   "A\0\0\0".depack(arch)
+  #   # => 65
+  #
+  # @example using a `Ronin::Arch` arch.
+  #   "A\0\0\0".depack(Arch.i386)
+  #   # => 65
+  #
+  # @example specifying a custom address-length.
+  #   "A\0".depack(Arch.ppc,2)
+  #   # => 65
   #
   def depack(arch,address_length=nil)
     unless arch.respond_to?(:address_length)

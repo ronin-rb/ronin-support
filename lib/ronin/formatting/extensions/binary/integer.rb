@@ -33,6 +33,10 @@ class Integer
   # @return [Array]
   #   The bytes decoded from the Integer.
   #
+  # @raise [RuntimeError]
+  #   The given `endian` is not `:little`, `"little"`, `:net`, `"net"`,
+  #   `:big` or `"big"`.
+  #
   # @example
   #   0xff41.bytes(2)
   #   # => [65, 255]
@@ -80,15 +84,23 @@ class Integer
   # @return [String]
   #   The packed Integer.
   #
-  # @example Integer#pack
+  # @raise [RuntimeError]
+  #   The given `arch` does not respond to the `endian` or
+  #   `address_length` methods.
+  #
+  # @example using archs other than `Ronin::Arch`.
   #   arch = OpenStruct.new(:endian => :little, :address_length => 4)
+  #   
   #   0x41.pack(arch)
+  #   # => "A\0\0\0"
   #
-  # @example
-  #   0x41.pack(Arch.i686) # => "A\000\000\000"
+  # @example using a `Ronin::Arch` arch.
+  #   0x41.pack(Arch.i686)
+  #   # => "A\0\0\0"
   #
-  # @example
-  #   0x41.pack(Arch.ppc,2) # => "\000A"
+  # @example specifying a custom address-length.
+  #   0x41.pack(Arch.ppc,2)
+  #   # => "\0A"
   #
   def pack(arch,address_length=nil)
     unless arch.respond_to?(:address_length)
