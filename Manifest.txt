@@ -28,6 +28,7 @@ lib/ronin/formatting/extensions/text/string.rb
 lib/ronin/formatting/extensions/text/array.rb
 lib/ronin/formatting/extensions/http.rb
 lib/ronin/formatting/extensions/http/string.rb
+lib/ronin/path.rb
 lib/ronin/ext.rb
 lib/ronin/ext/version.rb
 spec/spec_helper.rb
@@ -63,4 +64,5 @@ spec/formatting/digest/string_spec.rb
 spec/formatting/http/string_spec.rb
 spec/formatting/text/string_spec.rb
 spec/formatting/text/array_spec.rb
+spec/path_spec.rb
 spec/ext_spec.rb
