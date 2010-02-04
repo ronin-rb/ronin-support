@@ -41,6 +41,11 @@ lib/ronin/scanner/scanner.rb
 lib/ronin/templates.rb
 lib/ronin/templates/template.rb
 lib/ronin/templates/erb.rb
+lib/ronin/yard.rb
+lib/ronin/yard/extensions.rb
+lib/ronin/yard/scanner_handler.rb
+lib/ronin/yard/legacy.rb
+lib/ronin/yard/legacy/scanner_handler.rb
 lib/ronin/ext.rb
 lib/ronin/ext/version.rb
 spec/spec_helper.rb
