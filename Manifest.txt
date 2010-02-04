@@ -29,6 +29,9 @@ lib/ronin/formatting/extensions/text/array.rb
 lib/ronin/formatting/extensions/http.rb
 lib/ronin/formatting/extensions/http/string.rb
 lib/ronin/path.rb
+lib/ronin/templates.rb
+lib/ronin/templates/template.rb
+lib/ronin/templates/erb.rb
 lib/ronin/ext.rb
 lib/ronin/ext/version.rb
 spec/spec_helper.rb
@@ -65,4 +68,11 @@ spec/formatting/http/string_spec.rb
 spec/formatting/text/string_spec.rb
 spec/formatting/text/array_spec.rb
 spec/path_spec.rb
+spec/templates/classes/example_template.rb
+spec/templates/classes/example_erb.rb
+spec/templates/helpers/static.rb
+spec/templates/helpers/static/templates/example.erb
+spec/templates/helpers/static/templates/_relative.erb
+spec/templates/template_spec.rb
+spec/templates/erb_spec.rb
 spec/ext_spec.rb
