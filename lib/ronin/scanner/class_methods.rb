@@ -147,7 +147,7 @@ module Ronin
 
         (scanners[name] ||= []) << block
 
-        class_def("first_#{method_name}") do |*arguments|
+        define_method("first_#{method_name}") do |*arguments|
           options = case arguments.length
                     when 1
                       arguments.first
@@ -167,20 +167,20 @@ module Ronin
           return first_result
         end
 
-        class_def("has_#{method_name}?") do |*arguments|
+        define_method("has_#{method_name}?") do |*arguments|
           !(self.send("first_#{method_name}",*arguments).nil?)
         end
 
         name = name.to_s
 
         module_eval %{
-              def #{method_name}_scan(options=true,&block)
-                results = scan(:#{name.dump} => options) do |category,result|
-                  block.call(result) if block
-                end
+          def #{method_name}_scan(options=true,&block)
+            results = scan(:#{name.dump} => options) do |category,result|
+              block.call(result) if block
+            end
 
-                return results[:#{name.dump}]
-              end
+            return results[:#{name.dump}]
+          end
         }
 
         return true

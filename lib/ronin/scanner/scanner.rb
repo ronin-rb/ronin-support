@@ -20,7 +20,6 @@
 
 require 'ronin/scanner/exceptions/unknown_category'
 require 'ronin/scanner/class_methods'
-require 'ronin/extensions/meta'
 
 require 'set'
 
