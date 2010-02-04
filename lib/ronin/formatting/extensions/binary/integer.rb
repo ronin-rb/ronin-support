@@ -18,8 +18,6 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/arch'
-
 class Integer
 
   #
@@ -28,7 +26,7 @@ class Integer
   # @param [Integer] address_length
   #   The number of bytes to decode from the Integer.
   #
-  # @param [Symbol] endian
+  # @param [String, Symbol] endian
   #   The endianness to use while decoding the bytes of the Integer.
   #   May be either `:big`, `:little` or `:net`.
   #
@@ -47,20 +45,23 @@ class Integer
     endian = endian.to_s
     buffer = []
 
-    if (endian == 'little' || endian == 'net')
+    case endian
+    when :little, 'little', :net, 'net'
       mask = 0xff
 
       address_length.times do |i|
         buffer << ((self & mask) >> (i*8))
         mask <<= 8
       end
-    elsif endian == 'big'
+    when :big, 'big'
       mask = (0xff << ((address_length-1)*8))
 
       address_length.times do |i|
         buffer << ((self & mask) >> ((address_length-i-1)*8))
         mask >>= 8
       end
+    else
+      raise(RuntimeError,"invalid endian #{endian.inspect}",caller)
     end
 
     return buffer
@@ -70,7 +71,7 @@ class Integer
   # Packs the Integer into a String, for a specific architecture and
   # address-length.
   #
-  # @param [Ronin::Arch] arch
+  # @param [Ronin::Arch, #endian, #address_length] arch
   #   The architecture to pack the Integer for.
   #
   # @param [Integer] address_length
@@ -79,14 +80,27 @@ class Integer
   # @return [String]
   #   The packed Integer.
   #
+  # @example Integer#pack
+  #   arch = OpenStruct.new(:endian => :little, :address_length => 4)
+  #   0x41.pack(arch)
+  #
   # @example
   #   0x41.pack(Arch.i686) # => "A\000\000\000"
   #
   # @example
   #   0x41.pack(Arch.ppc,2) # => "\000A"
   #
-  def pack(arch,address_length=arch.address_length)
-    bytes(address_length,arch.endian).map { |b| b.chr }.join
+  def pack(arch,address_length=nil)
+    unless arch.respond_to?(:address_length)
+      raise(RuntimeError,"first argument to Ineger#pack must respond to address_length",caller)
+    end
+
+    unless arch.respond_to?(:endian)
+      raise(RuntimeError,"first argument to Ineger#pack must respond to endian",caller)
+    end
+
+    address_length ||= arch.address_length
+    return bytes(address_length,arch.endian).map { |b| b.chr }.join
   end
 
   #

@@ -20,7 +20,6 @@
 
 require 'ronin/formatting/extensions/binary/integer'
 require 'ronin/formatting/extensions/text'
-require 'ronin/arch'
 
 require 'base64'
 require 'enumerator'
@@ -38,7 +37,7 @@ class String
   # Packs an Integer from a String, which was originally packed for
   # a specific architecture and address-length.
   #
-  # @param [Ronin::Arch] arch
+  # @param [Ronin::Arch, #endian, #address_length] arch
   #   The architecture that the Integer was originally packed with.
   #
   # @param [Integer] address_length
@@ -53,16 +52,29 @@ class String
   # @example
   #   0x41.pack(Arch('ppc'),2) # => "\000A"
   #
-  def depack(arch,address_length=arch.address_length)
+  def depack(arch,address_length=nil)
+    unless arch.respond_to?(:address_length)
+      raise(RuntimeError,"first argument to Ineger#pack must respond to address_length",caller)
+    end
+
+    unless arch.respond_to?(:endian)
+      raise(RuntimeError,"first argument to Ineger#pack must respond to endian",caller)
+    end
+
+    address_length ||= arch.address_length
+
     integer = 0x0
     byte_index = 0
 
-    if arch.endian == 'little'
+    case arch.endian
+    when :little, 'little'
       mask = lambda { |b| b << (byte_index * 8) }
-    elsif arch.endian == 'big'
+    when :big, 'big'
       mask = lambda { |b|
         b << ((address_length - byte_index - 1) * 8)
       }
+    else
+      raise(RuntimeError,"invalid endian #{arch.endian.inspect}",caller)
     end
 
     self.each_byte do |b|

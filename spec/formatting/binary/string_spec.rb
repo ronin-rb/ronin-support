@@ -1,6 +1,7 @@
 require 'ronin/formatting/binary'
 
 require 'spec_helper'
+require 'ostruct'
 require 'formatting/binary/helpers/hexdumps'
 
 describe String do
@@ -30,6 +31,9 @@ describe String do
 
   describe "depack" do
     before(:all) do
+      @i386 = OpenStruct.new(:endian => :little, :address_length => 4)
+      @ppc = OpenStruct.new(:endian => :big, :address_length => 4)
+
       @integer = 0x1337
 
       @i386_packed_int = "7\023\000\000"
@@ -44,35 +48,35 @@ describe String do
     end
 
     it "should depack itself for a little-endian architecture" do
-      @i386_packed_int.depack(Arch.i386).should == @integer
+      @i386_packed_int.depack(@i386).should == @integer
     end
 
     it "should depack itself as a short for a little-endian architecture" do
-      @i386_packed_short.depack(Arch.i386,2).should == @integer
+      @i386_packed_short.depack(@i386,2).should == @integer
     end
 
     it "should depack itself as a long for a little-endian architecture" do
-      @i386_packed_long.depack(Arch.i386,4).should == @integer
+      @i386_packed_long.depack(@i386,4).should == @integer
     end
 
     it "should depack itself as a quad for a little-endian architecture" do
-      @i386_packed_quad.depack(Arch.i386,8).should == @integer
+      @i386_packed_quad.depack(@i386,8).should == @integer
     end
 
     it "should depack itself for a big-endian architecture" do
-      @ppc_packed_int.depack(Arch.ppc).should == @integer
+      @ppc_packed_int.depack(@ppc).should == @integer
     end
 
     it "should depack itself as a short for a big-endian architecture" do
-      @ppc_packed_short.depack(Arch.ppc,2).should == @integer
+      @ppc_packed_short.depack(@ppc,2).should == @integer
     end
 
     it "should depack itself as a long for a big-endian architecture" do
-      @ppc_packed_long.depack(Arch.ppc,4).should == @integer
+      @ppc_packed_long.depack(@ppc,4).should == @integer
     end
 
     it "should depack itself as a quad for a big-endian architecture" do
-      @ppc_packed_quad.depack(Arch.ppc,8).should == @integer
+      @ppc_packed_quad.depack(@ppc,8).should == @integer
     end
   end
 

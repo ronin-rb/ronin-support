@@ -1,6 +1,7 @@
 require 'ronin/formatting/binary'
 
 require 'spec_helper'
+require 'ostruct'
 
 describe Integer do
   it "should provide Integer#bytes" do
@@ -73,6 +74,9 @@ describe Integer do
 
   describe "pack" do
     before(:all) do
+      @i386 = OpenStruct.new(:endian => :little, :address_length => 4)
+      @ppc = OpenStruct.new(:endian => :big, :address_length => 4)
+
       @integer = 0x1337
 
       @i386_packed_int = "7\023\000\000"
@@ -87,35 +91,35 @@ describe Integer do
     end
 
     it "should pack itself for a little-endian architecture" do
-      @integer.pack(Arch.i386).should == @i386_packed_int
+      @integer.pack(@i386).should == @i386_packed_int
     end
 
     it "should pack itself as a short for a little-endian architecture" do
-      @integer.pack(Arch.i386,2).should == @i386_packed_short
+      @integer.pack(@i386,2).should == @i386_packed_short
     end
 
     it "should pack itself as a long for a little-endian architecture" do
-      @integer.pack(Arch.i386,4).should == @i386_packed_long
+      @integer.pack(@i386,4).should == @i386_packed_long
     end
 
     it "should pack itself as a quad for a little-endian architecture" do
-      @integer.pack(Arch.i386,8).should == @i386_packed_quad
+      @integer.pack(@i386,8).should == @i386_packed_quad
     end
 
     it "should pack itself for a big-endian architecture" do
-      @integer.pack(Arch.ppc).should == @ppc_packed_int
+      @integer.pack(@ppc).should == @ppc_packed_int
     end
 
     it "should pack itself as a short for a big-endian architecture" do
-      @integer.pack(Arch.ppc,2).should == @ppc_packed_short
+      @integer.pack(@ppc,2).should == @ppc_packed_short
     end
 
     it "should pack itself as a long for a big-endian architecture" do
-      @integer.pack(Arch.ppc,4).should == @ppc_packed_long
+      @integer.pack(@ppc,4).should == @ppc_packed_long
     end
 
     it "should pack itself as a quad for a big-endian architecture" do
-      @integer.pack(Arch.ppc,8).should == @ppc_packed_quad
+      @integer.pack(@ppc,8).should == @ppc_packed_quad
     end
   end
 
