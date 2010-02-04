@@ -29,6 +29,13 @@ lib/ronin/formatting/extensions/text/array.rb
 lib/ronin/formatting/extensions/http.rb
 lib/ronin/formatting/extensions/http/string.rb
 lib/ronin/path.rb
+lib/ronin/scanner.rb
+lib/ronin/scanner/exceptions.rb
+lib/ronin/scanner/exceptions/unknown_category.rb
+lib/ronin/scanner/extensions/ip_addr.rb
+lib/ronin/scanner/extensions/uri.rb
+lib/ronin/scanner/extensions/uri/http.rb
+lib/ronin/scanner/scanner.rb
 lib/ronin/templates.rb
 lib/ronin/templates/template.rb
 lib/ronin/templates/erb.rb
@@ -68,6 +75,10 @@ spec/formatting/http/string_spec.rb
 spec/formatting/text/string_spec.rb
 spec/formatting/text/array_spec.rb
 spec/path_spec.rb
+spec/scanner/classes/example_scanner.rb
+spec/scanner/classes/another_scanner.rb
+spec/scanner/scanner_spec.rb
+spec/scanner/extensions_spec.rb
 spec/templates/classes/example_template.rb
 spec/templates/classes/example_erb.rb
 spec/templates/helpers/static.rb
