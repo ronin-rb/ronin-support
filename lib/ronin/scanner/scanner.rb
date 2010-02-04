@@ -96,7 +96,7 @@ module Ronin
           name = name.to_sym
 
           unless scans_for?(name)
-            raise(Ronin::UnknownCategory,"unknown scanner category #{name}",caller)
+            raise(Ronin::Scanner::UnknownCategory,"unknown scanner category #{name}",caller)
           end
 
           tests = []
