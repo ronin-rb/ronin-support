@@ -19,7 +19,6 @@
 #
 
 require 'ronin/extensions/uri/query_params'
-require 'ronin/scanners/scanner'
 
 require 'uri/http'
 
@@ -27,7 +26,6 @@ module URI
   class HTTP < Generic
 
     include QueryParams
-    include Ronin::Scanners::Scanner
 
   end
 end
