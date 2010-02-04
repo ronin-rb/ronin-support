@@ -35,6 +35,7 @@ lib/ronin/scanner/exceptions/unknown_category.rb
 lib/ronin/scanner/extensions/ip_addr.rb
 lib/ronin/scanner/extensions/uri.rb
 lib/ronin/scanner/extensions/uri/http.rb
+lib/ronin/scanner/class_methods.rb
 lib/ronin/scanner/scanner.rb
 lib/ronin/templates.rb
 lib/ronin/templates/template.rb
