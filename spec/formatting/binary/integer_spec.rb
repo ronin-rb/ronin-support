@@ -121,6 +121,10 @@ describe Integer do
     it "should pack itself as a quad for a big-endian architecture" do
       @integer.pack(@ppc,8).should == @ppc_packed_quad
     end
+
+    it "should accept Array#pack template strings" do
+      @integer.pack('L').should == @i386_packed_long
+    end
   end
 
   describe "hex_escape" do

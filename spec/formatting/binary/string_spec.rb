@@ -78,6 +78,10 @@ describe String do
     it "should depack itself as a quad for a big-endian architecture" do
       @ppc_packed_quad.depack(@ppc,8).should == @integer
     end
+
+    it "should accept String#unpack template strings" do
+      @i386_packed_long.depack('L').should == [@integer]
+    end
   end
 
   describe "base64_encode" do

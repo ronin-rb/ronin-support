@@ -75,7 +75,7 @@ class Integer
   # Packs the Integer into a String, for a specific architecture and
   # address-length.
   #
-  # @param [Ronin::Arch, #endian, #address_length] arch
+  # @param [Ronin::Arch, #endian, #address_length, String] arch
   #   The architecture to pack the Integer for.
   #
   # @param [Integer] address_length
@@ -102,7 +102,17 @@ class Integer
   #   0x41.pack(Arch.ppc,2)
   #   # => "\0A"
   #
+  # @example using a `Array#pack` template String for the arch.
+  #   0x41.pack('L')
+  #   # => "A\0\0\0"
+  #
+  # @see http://ruby-doc.org/core/classes/Array.html#M002222
+  #
   def pack(arch,address_length=nil)
+    if arch.kind_of?(String)
+      return [self].pack(arch)
+    end
+
     unless arch.respond_to?(:address_length)
       raise(RuntimeError,"first argument to Ineger#pack must respond to address_length",caller)
     end

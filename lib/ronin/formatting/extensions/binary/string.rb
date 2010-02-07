@@ -37,7 +37,7 @@ class String
   # Packs an Integer from a String, which was originally packed for
   # a specific architecture and address-length.
   #
-  # @param [Ronin::Arch, #endian, #address_length] arch
+  # @param [Ronin::Arch, #endian, #address_length, String] arch
   #   The architecture that the Integer was originally packed with.
   #
   # @param [Integer] address_length
@@ -64,7 +64,17 @@ class String
   #   "A\0".depack(Arch.ppc,2)
   #   # => 65
   #
+  # @example using a `String#unpack` template String as the arch.
+  #   "A\0\0\0".depack('L')
+  #   # => 65
+  #
+  # @see http://ruby-doc.org/core/classes/String.html#M000760
+  #
   def depack(arch,address_length=nil)
+    if arch.kind_of?(String)
+      return self.unpack(arch)
+    end
+
     unless arch.respond_to?(:address_length)
       raise(RuntimeError,"first argument to Ineger#pack must respond to address_length",caller)
     end
