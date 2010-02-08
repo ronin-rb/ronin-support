@@ -22,7 +22,7 @@ require 'ronin/network/smtp'
 
 module Ronin
   module Network
-    module Helpers
+    module Mixins
       module SMTP
         protected
 

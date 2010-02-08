@@ -22,7 +22,7 @@ require 'ronin/network/http'
 
 module Ronin
   module Network
-    module Helpers
+    module Mixins
       module HTTP
         protected
 

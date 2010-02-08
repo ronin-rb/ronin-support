@@ -22,7 +22,7 @@ require 'ronin/network/imap'
 
 module Ronin
   module Network
-    module Helpers
+    module Mixins
       module IMAP
         protected
 

@@ -22,7 +22,7 @@ require 'ronin/network/tcp'
 
 module Ronin
   module Network
-    module Helpers
+    module Mixins
       module TCP
         protected
 

@@ -22,7 +22,7 @@ require 'ronin/network/udp'
 
 module Ronin
   module Network
-    module Helpers
+    module Mixins
       module UDP
         protected
 

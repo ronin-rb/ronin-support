@@ -22,7 +22,7 @@ require 'ronin/network/telnet'
 
 module Ronin
   module Network
-    module Helpers
+    module Mixins
       module Telnet
         protected
 

@@ -18,11 +18,11 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/network/helpers/tcp'
-require 'ronin/network/helpers/udp'
-require 'ronin/network/helpers/smtp'
-require 'ronin/network/helpers/esmtp'
-require 'ronin/network/helpers/pop3'
-require 'ronin/network/helpers/imap'
-require 'ronin/network/helpers/telnet'
-require 'ronin/network/helpers/web'
+require 'ronin/network/mixins/tcp'
+require 'ronin/network/mixins/udp'
+require 'ronin/network/mixins/smtp'
+require 'ronin/network/mixins/esmtp'
+require 'ronin/network/mixins/pop3'
+require 'ronin/network/mixins/imap'
+require 'ronin/network/mixins/telnet'
+require 'ronin/network/mixins/web'

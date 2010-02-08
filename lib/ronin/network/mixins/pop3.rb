@@ -22,7 +22,7 @@ require 'ronin/network/pop3'
 
 module Ronin
   module Network
-    module Helpers
+    module Mixins
       module POP3
         protected
 
