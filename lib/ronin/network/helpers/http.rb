@@ -18,15 +18,12 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/network/helpers/helper'
 require 'ronin/network/http'
 
 module Ronin
   module Network
     module Helpers
       module HTTP
-        include Helper
-
         protected
 
         #

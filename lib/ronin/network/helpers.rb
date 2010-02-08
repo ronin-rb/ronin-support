@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/network/helpers/helper'
 require 'ronin/network/helpers/tcp'
 require 'ronin/network/helpers/udp'
 require 'ronin/network/helpers/smtp'

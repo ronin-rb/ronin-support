@@ -18,15 +18,12 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/network/helpers/helper'
 require 'ronin/network/smtp'
 
 module Ronin
   module Network
     module Helpers
       module SMTP
-        include Helper
-
         protected
 
         #
@@ -74,8 +71,6 @@ module Ronin
         # @since 0.3.0
         #
         def smtp_connect(options={},&block)
-          require_variable :host
-
           options[:port] ||= self.port
           options[:login] ||= self.smtp_login
           options[:user] ||= self.smtp_user

@@ -18,15 +18,12 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/network/helpers/helper'
 require 'ronin/network/telnet'
 
 module Ronin
   module Network
     module Helpers
       module Telnet
-        include Helper
-
         protected
 
         #
@@ -100,8 +97,6 @@ module Ronin
         # @since 0.3.0
         #
         def telnet_connect(options={},&block)
-          require_variable :host
-
           options[:port] ||= self.port
           options[:user] ||= self.telnet_user
           options[:password] ||= self.telnet_password

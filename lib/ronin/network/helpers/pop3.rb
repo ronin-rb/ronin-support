@@ -18,15 +18,12 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/network/helpers/helper'
 require 'ronin/network/pop3'
 
 module Ronin
   module Network
     module Helpers
       module POP3
-        include Helper
-
         protected
 
         #
@@ -61,8 +58,6 @@ module Ronin
         # @since 0.3.0
         #
         def pop3_connect(options={},&block)
-          require_variable :host
-
           options[:port] ||= self.port
           options[:user] ||= self.pop3_user
           options[:password] ||= self.pop3_password

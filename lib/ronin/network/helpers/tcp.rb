@@ -18,15 +18,12 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/network/helpers/helper'
 require 'ronin/network/tcp'
 
 module Ronin
   module Network
     module Helpers
       module TCP
-        include Helper
-
         protected
 
         #
@@ -57,9 +54,6 @@ module Ronin
         # @since 0.3.0
         #
         def tcp_connect(&block)
-          require_variable :host
-          require_variable :port
-
           print_info "Connecting to #{self.host}:#{self.port} ..."
 
           return ::Net.tcp_connect(self.host,self.port,self.local_host,self.local_port,&block)
@@ -84,9 +78,6 @@ module Ronin
         # @since 0.3.0
         #
         def tcp_connect_and_send(data,&block)
-          require_variable :host
-          require_variable :port
-
           print_info "Connecting to #{self.host}:#{self.port} ..."
           print_debug "Sending data: #{data.inspect}"
 
@@ -109,9 +100,6 @@ module Ronin
         # @since 0.3.0
         #
         def tcp_session(&block)
-          require_variable :host
-          require_variable :port
-
           print_info "Connecting to #{self.host}:#{self.port} ..."
 
           Net.tcp_session(self.host,self.port,self.local_host,self.local_port,&block)
@@ -140,9 +128,6 @@ module Ronin
         # @since 0.3.0
         #
         def tcp_banner(&block)
-          require_variable :host
-          require_variable :port
-
           print_debug "Grabbing banner from #{self.host}:#{self.port}"
 
           return ::Net.tcp_banner(self.host,self.port,self.local_host,self.local_port,&block)
@@ -163,9 +148,6 @@ module Ronin
         # @since 0.3.0
         #
         def tcp_send(data)
-          require_variable :host
-          require_variable :port
-
           print_info "Connecting to #{self.host}:#{self.port} ..."
           print_debug "Sending data: #{data.inspect}"
 
@@ -194,8 +176,6 @@ module Ronin
         # @since 0.3.0
         #
         def tcp_server(&block)
-          require_variable :server_port
-
           if self.server_host
             print_info "Listening on #{self.server_host}:#{self.server_port} ..."
           else
@@ -232,8 +212,6 @@ module Ronin
         # @since 0.3.0
         #
         def tcp_server_session(&block)
-          require_variable :server_port
-
           if self.server_host
             print_info "Listening on #{self.server_host}:#{self.server_port} ..."
           else
@@ -276,8 +254,6 @@ module Ronin
         # @since 0.3.0
         #
         def tcp_single_server(&block)
-          require_variable :server_port
-
           if self.server_host
             print_info "Listening on #{self.server_host}:#{self.server_port} ..."
           else

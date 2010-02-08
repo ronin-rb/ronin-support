@@ -50,7 +50,6 @@ lib/ronin/network/extensions/http/net.rb
 lib/ronin/network/extensions/ssl.rb
 lib/ronin/network/extensions/ssl/io.rb
 lib/ronin/network/helpers.rb
-lib/ronin/network/helpers/helper.rb
 lib/ronin/network/helpers/tcp.rb
 lib/ronin/network/helpers/udp.rb
 lib/ronin/network/helpers/smtp.rb
