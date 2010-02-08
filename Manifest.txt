@@ -127,9 +127,6 @@ spec/formatting/digest/string_spec.rb
 spec/formatting/http/string_spec.rb
 spec/formatting/text/string_spec.rb
 spec/formatting/text/array_spec.rb
-spec/network/helpers/classes/test_helper.rb
-spec/network/helpers/classes/uses_test_helper.rb
-spec/network/helpers/helper_spec.rb
 spec/network/http/proxy_spec.rb
 spec/network/http/http_spec.rb
 spec/path_spec.rb
