@@ -20,10 +20,38 @@
 
 require 'ronin/network/tcp'
 
+require 'parameters'
+
 module Ronin
   module Network
     module Mixins
       module TCP
+        include Parameters
+
+        # TCP host
+        parameter :host,
+                   :description => 'TCP host'
+
+        # TCP port
+        parameter :port,
+                  :description => 'TCP port'
+
+        # TCP local host
+        parameter :local_host,
+                  :description => 'TCP local host'
+
+        # TCP local port
+        parameter :local_port,
+                  :description => 'TCP local port'
+
+        # TCP server host
+        parameter :server_host,
+                  :description => 'TCP server host'
+
+        # TCP server port
+        parameter :server_port,
+                  :description => 'TCP server port'
+
         protected
 
         #

@@ -20,10 +20,34 @@
 
 require 'ronin/network/esmtp'
 
+require 'parameters'
+
 module Ronin
   module Network
     module Mixins
       module ESMTP
+        include Parameters
+
+        # ESMTP host
+        parameter :host,
+                  :description => 'ESMTP host'
+
+        # ESMTP port
+        parameter :port,
+                  :description => 'ESMTP port'
+
+        # ESMTP authentication method to use
+        parameter :esmtp_login,
+                  :description => 'ESMTP authentication method to use'
+
+        # ESMTP user to login as
+        parameter :esmtp_user,
+                  :description => 'ESMTP user to login as'
+
+        # ESMTP password to login with
+        parameter :esmtp_password,
+                  :description => 'ESMTP password to login with'
+
         protected
 
         #

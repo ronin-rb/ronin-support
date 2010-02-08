@@ -20,10 +20,42 @@
 
 require 'ronin/network/http'
 
+require 'parameters'
+
 module Ronin
   module Network
     module Mixins
       module HTTP
+        include Parameters
+
+        # HTTP host
+        parameter :host,
+                  :description => 'HTTP host'
+
+        # HTTP port
+        parameter :port,
+                  :description => 'HTTP port'
+
+        # HTTP `Host` header to send
+        parameter :http_vhost,
+                  :description => 'HTTP Host header to send'
+
+        # HTTP user to authenticate as
+        parameter :http_user,
+                  :description => 'HTTP user to authenticate as'
+
+        # HTTP password to authenticate with
+        parameter :http_password,
+                  :description => 'HTTP password to authenticate with'
+
+        # HTTP proxy information
+        parameter :http_proxy,
+                  :description => 'HTTP proxy information'
+
+        # HTTP `User-Agent` header to send
+        parameter :http_user_agent,
+                  :description => 'HTTP User-Agent header to send'
+
         protected
 
         #

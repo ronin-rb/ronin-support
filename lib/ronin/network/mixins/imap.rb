@@ -20,10 +20,34 @@
 
 require 'ronin/network/imap'
 
+require 'parameters'
+
 module Ronin
   module Network
     module Mixins
       module IMAP
+        include Parameters
+
+        # IMAP host
+        parameter :host,
+                  :description => 'IMAP host'
+
+        # IMAP port
+        parameter :port,
+                  :description => 'IMAP port'
+
+        # IMAP auth
+        parameter :imap_auth,
+                  :description => 'IMAP authentication method'
+
+        # IMAP user to login as
+        parameter :imap_user,
+                  :description => 'IMAP user to login as'
+
+        # IMAP password to login with
+        parameter :imap_password,
+                  :description => 'IMAP password to login with'
+
         protected
 
         #

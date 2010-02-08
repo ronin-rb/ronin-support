@@ -20,10 +20,30 @@
 
 require 'ronin/network/pop3'
 
+require 'parameters'
+
 module Ronin
   module Network
     module Mixins
       module POP3
+        include Parameters
+
+        # POP3 host
+        parameter :host,
+                  :description => 'POP3 host'
+
+        # POP3 port
+        parameter :port,
+                  :description => 'POP3 port'
+
+        # POP3 user
+        parameter :pop3_user,
+                  :description => 'POP3 user to login as'
+
+        # POP3 password
+        parameter :pop3_password,
+                  :description => 'POP3 password to login with'
+
         protected
 
         #

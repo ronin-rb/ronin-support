@@ -20,10 +20,38 @@
 
 require 'ronin/network/udp'
 
+require 'parameters'
+
 module Ronin
   module Network
     module Mixins
       module UDP
+        include Parameters
+
+        # UDP host
+        parameter :host,
+                   :description => 'UDP host'
+
+        # UDP port
+        parameter :port,
+                  :description => 'UDP port'
+
+        # UDP local host
+        parameter :local_host,
+                  :description => 'UDP local host'
+
+        # UDP local port
+        parameter :local_port,
+                  :description => 'UDP local port'
+
+        # UDP server host
+        parameter :server_host,
+                  :description => 'UDP server host'
+
+        # UDP server port
+        parameter :server_port,
+                  :description => 'UDP server port'
+
         protected
 
         #

@@ -14,6 +14,10 @@ Hoe.spec('ronin-ext') do
   self.yard_options += ['--markup', 'markdown', '--protected']
   self.remote_yard_dir = 'docs/ronin-ext'
 
+  self.dev_deps += [
+    ['parameters', '>=0.1.9']
+  ]
+
   self.extra_dev_deps = [
     ['rspec', '>=1.3.0'],
     ['yard', '>=0.5.3']

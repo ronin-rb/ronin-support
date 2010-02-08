@@ -20,10 +20,38 @@
 
 require 'ronin/network/telnet'
 
+require 'parameters'
+
 module Ronin
   module Network
     module Mixins
       module Telnet
+        include Parameters
+
+        # Telnet host
+        parameter :host,
+                  :description => 'Telnet host'
+
+        # Telnet port
+        parameter :port,
+                  :description => 'Telnet port'
+
+        # Telnet user
+        parameter :telnet_user,
+                  :description => 'Telnet user to login as'
+
+        # Telnet password
+        parameter :telnet_password,
+                  :description => 'Telnet password to login with'
+
+        # Telnet proxy
+        parameter :telnet_proxy,
+                  :description => 'Telnet proxy'
+
+        # Enable Telnet SSL
+        parameter :telnet_ssl,
+                  :description => 'Enable Telnet over SSL'
+
         protected
 
         #

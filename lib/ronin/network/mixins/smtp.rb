@@ -20,10 +20,34 @@
 
 require 'ronin/network/smtp'
 
+require 'parameters'
+
 module Ronin
   module Network
     module Mixins
       module SMTP
+        include Parameters
+
+        # SMTP host
+        parameter :host,
+                  :description => 'SMTP host'
+
+        # SMTP port
+        parameter :port,
+                  :description => 'SMTP port'
+
+        # SMTP authentication method
+        parameter :smtp_login,
+                  :description => 'SMTP authentication method'
+
+        # SMTP user to login as
+        parameter :smtp_user,
+                  :description => 'SMTP user to login as'
+
+        # SMTP user to login with
+        parameter :smtp_password,
+                  :description => 'SMTP password to login with'
+
         protected
 
         #
