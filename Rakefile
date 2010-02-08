@@ -18,7 +18,7 @@ Hoe.spec('ronin-ext') do
     ['parameters', '>=0.1.9']
   ]
 
-  self.extra_dev_deps = [
+  self.extra_dev_deps += [
     ['rspec', '>=1.3.0'],
     ['yard', '>=0.5.3']
   ]
