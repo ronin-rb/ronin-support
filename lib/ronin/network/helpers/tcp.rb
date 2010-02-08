@@ -31,8 +31,8 @@ module Ronin
 
         #
         # Opens a TCP connection to the host and port specified by the
-        # `@host` and `@port` instance variables. If the `@local_host` and
-        # `@local_port` instance variables are set, they will be used for
+        # `host` and `port` instance variables. If the `local_host` and
+        # `local_port` instance methods are set, they will be used for
         # the local host and port of the TCP connection.
         #
         # @yield [socket]
@@ -60,13 +60,13 @@ module Ronin
           require_variable :host
           require_variable :port
 
-          print_info "Connecting to #{@host}:#{@port} ..."
+          print_info "Connecting to #{self.host}:#{self.port} ..."
 
-          return ::Net.tcp_connect(@host,@port,@local_host,@local_port,&block)
+          return ::Net.tcp_connect(self.host,self.port,self.local_host,self.local_port,&block)
         end
 
         #
-        # Connects to the host and port specified by the `@host` and `@port`
+        # Connects to the host and port specified by the `host` and `port`
         # instance variables, then sends the given data.
         #
         # @param [String] data
@@ -87,15 +87,15 @@ module Ronin
           require_variable :host
           require_variable :port
 
-          print_info "Connecting to #{@host}:#{@port} ..."
+          print_info "Connecting to #{self.host}:#{self.port} ..."
           print_debug "Sending data: #{data.inspect}"
 
-          return ::Net.tcp_connect_and_send(data,@host,@port,@local_host,@local_port,&block)
+          return ::Net.tcp_connect_and_send(data,self.host,self.port,self.local_host,self.local_port,&block)
         end
 
         #
         # Creates a TCP session to the host and port specified by the
-        # `@host` and `@port` instance variables.
+        # `host` and `port` instance methods.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
@@ -112,17 +112,17 @@ module Ronin
           require_variable :host
           require_variable :port
 
-          print_info "Connecting to #{@host}:#{@port} ..."
+          print_info "Connecting to #{self.host}:#{self.port} ..."
 
-          Net.tcp_session(@host,@port,@local_host,@local_port,&block)
+          Net.tcp_session(self.host,self.port,self.local_host,self.local_port,&block)
 
-          print_info "Disconnected from #{@host}:#{@port}"
+          print_info "Disconnected from #{self.host}:#{self.port}"
           return nil
         end
 
         #
-        # Connects to the host and port specified by the `@host` and `@port`
-        # instance variables, reads the banner then closes the connection.
+        # Connects to the host and port specified by the `host` and `port`
+        # instance methods, reads the banner then closes the connection.
         #
         # @yield [banner]
         #   If a block is given, it will be passed the grabbed banner.
@@ -143,14 +143,14 @@ module Ronin
           require_variable :host
           require_variable :port
 
-          print_debug "Grabbing banner from #{@host}:#{@port}"
+          print_debug "Grabbing banner from #{self.host}:#{self.port}"
 
-          return ::Net.tcp_banner(@host,@port,@local_host,@local_port,&block)
+          return ::Net.tcp_banner(self.host,self.port,self.local_host,self.local_port,&block)
         end
 
         #
-        # Connects to the host and port specified by the `@host` and `@port`
-        # instance variables, sends the given data and then disconnects.
+        # Connects to the host and port specified by the `host` and `port`
+        # instance methods, sends the given data and then disconnects.
         #
         # @return [true]
         #   The data was successfully sent.
@@ -166,18 +166,18 @@ module Ronin
           require_variable :host
           require_variable :port
 
-          print_info "Connecting to #{@host}:#{@port} ..."
+          print_info "Connecting to #{self.host}:#{self.port} ..."
           print_debug "Sending data: #{data.inspect}"
 
-          ::Net.tcp_send(data,@host,@port,@local_host,@local_port)
+          ::Net.tcp_send(data,self.host,self.port,self.local_host,self.local_port)
 
-          print_info "Disconnected from #{@host}:#{@port}"
+          print_info "Disconnected from #{self.host}:#{self.port}"
           return true
         end
 
         #
-        # Creates a new TCPServer object listening on the `@server_host`
-        # and `@server_port` instance variables.
+        # Creates a new TCPServer object listening on the `server_host`
+        # and `server_port` instance methods.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -196,18 +196,18 @@ module Ronin
         def tcp_server(&block)
           require_variable :server_port
 
-          if @server_host
-            print_info "Listening on #{@server_host}:#{@server_port} ..."
+          if self.server_host
+            print_info "Listening on #{self.server_host}:#{self.server_port} ..."
           else
-            print_info "Listening on #{@server_port} ..."
+            print_info "Listening on #{self.server_port} ..."
           end
 
-          return ::Net.tcp_server(@server_port,@server_host,&block)
+          return ::Net.tcp_server(self.server_port,self.server_host,&block)
         end
 
         #
         # Creates a new temporary TCPServer object listening on the
-        # `@server_host` and `@server_port` instance variables.
+        # `server_host` and `server_port` instance methods.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -234,18 +234,18 @@ module Ronin
         def tcp_server_session(&block)
           require_variable :server_port
 
-          if @server_host
-            print_info "Listening on #{@server_host}:#{@server_port} ..."
+          if self.server_host
+            print_info "Listening on #{self.server_host}:#{self.server_port} ..."
           else
-            print_info "Listening on #{@server_port} ..."
+            print_info "Listening on #{self.server_port} ..."
           end
 
           ::Net.tcp_server_session(&block)
 
-          if @server_host
-            print_info "Closed #{@server_host}:#{@server_port}"
+          if self.server_host
+            print_info "Closed #{self.server_host}:#{self.server_port}"
           else
-            print_info "Closed #{@server_port}"
+            print_info "Closed #{self.server_port}"
           end
 
           return nil
@@ -253,7 +253,7 @@ module Ronin
 
         #
         # Creates a new temporary TCPServer object listening on
-        # `@server_host` and `@server_port` instance variables.
+        # `server_host` and `server_port` instance methods.
         # The TCPServer will accepting one client, pass the newly connected
         # client to a given block, disconnects the client and stops
         # listening.
@@ -278,10 +278,10 @@ module Ronin
         def tcp_single_server(&block)
           require_variable :server_port
 
-          if @server_host
-            print_info "Listening on #{@server_host}:#{@server_port} ..."
+          if self.server_host
+            print_info "Listening on #{self.server_host}:#{self.server_port} ..."
           else
-            print_info "Listening on #{@server_port} ..."
+            print_info "Listening on #{self.server_port} ..."
           end
 
           ::Net.tcp_single_server do |client|
@@ -296,10 +296,10 @@ module Ronin
             print_info "Disconnecting client #{client_host}:#{client_port}"
           end
 
-          if @server_host
-            print_info "Closed #{@server_host}:#{@server_port}"
+          if self.server_host
+            print_info "Closed #{self.server_host}:#{self.server_port}"
           else
-            print_info "Closed #{@server_port}"
+            print_info "Closed #{self.server_port}"
           end
 
           return nil

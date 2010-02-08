@@ -30,9 +30,9 @@ module Ronin
         protected
 
         #
-        # Creates a connection to a Telnet server. The `@host`, `@port`,
-        # `@telnet_user`, `@telnet_password`, `@telnet_proxy` and
-        # `@telnet_ssl` instance variables will also be used to connect
+        # Creates a connection to a Telnet server. The `host`, `port`,
+        # `telnet_user`, `telnet_password`, `telnet_proxy` and
+        # `telnet_ssl` instance methods will also be used to connect
         # to the Telnet server.
         #
         # @param [Hash] options
@@ -102,26 +102,26 @@ module Ronin
         def telnet_connect(options={},&block)
           require_variable :host
 
-          options[:port] ||= @port
-          options[:user] ||= @telnet_user
-          options[:password] ||= @telnet_password
+          options[:port] ||= self.port
+          options[:user] ||= self.telnet_user
+          options[:password] ||= self.telnet_password
 
-          options[:proxy] ||= @telnet_proxy
-          options[:ssl] ||= @telnet_ssl
+          options[:proxy] ||= self.telnet_proxy
+          options[:ssl] ||= self.telnet_ssl
 
-          if @port
-            print_info "Connecting to #{@host}:#{@port} ..."
+          if self.port
+            print_info "Connecting to #{self.host}:#{self.port} ..."
           else
-            print_info "Connecting to #{@host} ..."
+            print_info "Connecting to #{self.host} ..."
           end
 
-          return ::Net.telnet_connect(@host,options,&block)
+          return ::Net.telnet_connect(self.host,options,&block)
         end
 
         #
-        # Starts a session with a Telnet server. The `@host`, `@port`,
-        # `@telnet_user`, `@telnet_password`, `@telnet_proxy` and
-        # `@telnet_ssl` instance variables will also be used to connect
+        # Starts a session with a Telnet server. The `host`, `port`,
+        # `telnet_user`, `telnet_password`, `telnet_proxy` and
+        # `telnet_ssl` instance methods will also be used to connect
         # to the Telnet server.
         #
         # @yield [session]
@@ -145,10 +145,10 @@ module Ronin
             block.call(sess) if block
             sess.close
 
-            if @port
-              print_info "Disconnecting to #{@host}:#{@port}"
+            if self.port
+              print_info "Disconnecting to #{self.host}:#{self.port}"
             else
-              print_info "Disconnecting to #{@host}"
+              print_info "Disconnecting to #{self.host}"
             end
           end
         end

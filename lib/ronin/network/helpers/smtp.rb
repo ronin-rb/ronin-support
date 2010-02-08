@@ -39,9 +39,9 @@ module Ronin
         end
 
         #
-        # Creates a connection to the SMTP server. The `@host`, `@port`,
-        # `@smtp_login`, `@smtp_user` and `@smtp_password` instance
-        # variables will also be used to connect to the server.
+        # Creates a connection to the SMTP server. The `host`, `port`,
+        # `smtp_login`, `smtp_user` and `smtp_password` instance
+        # methods will also be used to connect to the server.
         #
         # @param [Hash] options
         #   Additional options.
@@ -76,24 +76,24 @@ module Ronin
         def smtp_connect(options={},&block)
           require_variable :host
 
-          options[:port] ||= @port
-          options[:login] ||= @smtp_login
-          options[:user] ||= @smtp_user
-          options[:password] ||= @smtp_password
+          options[:port] ||= self.port
+          options[:login] ||= self.smtp_login
+          options[:user] ||= self.smtp_user
+          options[:password] ||= self.smtp_password
 
-          if @port
-            print_info "Connecting to #{@host}:#{@port} ..."
+          if self.port
+            print_info "Connecting to #{self.host}:#{self.port} ..."
           else
-            print_info "Connecting to #{@host} ..."
+            print_info "Connecting to #{self.host} ..."
           end
 
-          return ::Net.smtp_connect(@host,options,&block)
+          return ::Net.smtp_connect(self.host,options,&block)
         end
 
         #
-        # Starts a session with the SMTP server. The `@host`, `@port`,
-        # `@smtp_login`, `@smtp_user` and `@smtp_password` instance
-        # variables will also be used to connect to the server.
+        # Starts a session with the SMTP server. The `host`, `port`,
+        # `smtp_login`, `smtp_user` and `smtp_password` instance
+        # methods will also be used to connect to the server.
         #
         # @yield [session]
         #   If a block is given, it will be passed an SMTP session object.
@@ -110,10 +110,10 @@ module Ronin
             block.call(sess) if block
             sess.close
 
-            if @port
-              print_info "Disconnecting to #{@host}:#{@port}"
+            if self.port
+              print_info "Disconnecting to #{self.host}:#{self.port}"
             else
-              print_info "Disconnecting to #{@host}"
+              print_info "Disconnecting to #{self.host}"
             end
           end
         end

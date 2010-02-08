@@ -30,8 +30,8 @@ module Ronin
         protected
 
         #
-        # Creates a connection to the POP3 server. The `@host`, `@port`,
-        # `@pop3_user` and `@pop3_password` instance variables will also
+        # Creates a connection to the POP3 server. The `host`, `port`,
+        # `pop3_user` and `pop3_password` instance methods will also
         # be used to connect to the server.
         #
         # @param [Hash] options
@@ -63,22 +63,22 @@ module Ronin
         def pop3_connect(options={},&block)
           require_variable :host
 
-          options[:port] ||= @port
-          options[:user] ||= @pop3_user
-          options[:password] ||= @pop3_password
+          options[:port] ||= self.port
+          options[:user] ||= self.pop3_user
+          options[:password] ||= self.pop3_password
 
-          if @port
-            print_info "Connecting to #{@host}:#{@port} ..."
+          if self.port
+            print_info "Connecting to #{self.host}:#{self.port} ..."
           else
-            print_info "Connecting to #{@host} ..."
+            print_info "Connecting to #{self.host} ..."
           end
 
-          return ::Net.pop3_connect(@host,options,&block)
+          return ::Net.pop3_connect(self.host,options,&block)
         end
 
         #
-        # Starts a session with the POP3 server. The `@host`, `@port`,
-        # `@pop3_user` and `@pop3_password` instance variables will
+        # Starts a session with the POP3 server. The `host`, `port`,
+        # `pop3_user` and `pop3_password` instance methods will
         # also be used to connect to the server.
         #
         # @yield [session]
@@ -98,9 +98,9 @@ module Ronin
             sess.finish
 
             if @port
-              print_info "Disconnecting to #{@host}:#{@port}"
+              print_info "Disconnecting to #{self.host}:#{self.port}"
             else
-              print_info "Disconnecting to #{@host}"
+              print_info "Disconnecting to #{self.host}"
             end
           end
         end

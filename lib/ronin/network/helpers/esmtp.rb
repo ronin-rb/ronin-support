@@ -39,9 +39,9 @@ module Ronin
         end
 
         #
-        # Creates a connection to the ESMTP server. The `@host`, `@port`,
-        # `@esmtp_login`, `@esmtp_user` and `@esmtp_password` instance
-        # variables will also be used to connect to the ESMTP server.
+        # Creates a connection to the ESMTP server. The `host`, `port`,
+        # `esmtp_login`, `esmtp_user` and `esmtp_password` instance
+        # methods will also be used to connect to the ESMTP server.
         #
         # @param [Hash] options
         #   Additional options.
@@ -77,24 +77,24 @@ module Ronin
         def esmtp_connect(options={},&block)
           require_variable :host
 
-          options[:port] ||= @port
-          options[:login] ||= @esmtp_login
-          options[:user] ||= @esmtp_user
-          options[:password] ||= @esmtp_password
+          options[:port] ||= self.port
+          options[:login] ||= self.esmtp_login
+          options[:user] ||= self.esmtp_user
+          options[:password] ||= self.esmtp_password
 
-          if @port
-            print_info "Connecting to #{@host}:#{@port} ..."
+          if self.port
+            print_info "Connecting to #{self.host}:#{self.port} ..."
           else
-            print_info "Connecting to #{@host} ..."
+            print_info "Connecting to #{self.host} ..."
           end
 
-          return ::Net.esmtp_connect(@host,options,&block)
+          return ::Net.esmtp_connect(self.host,options,&block)
         end
 
         #
-        # Starts a session with the ESMTP server. The `@host`, `@port`,
-        # `@esmtp_login`, `@esmtp_user` and `@esmtp_password` instance
-        # variables will also be used to connect to the ESMTP server.
+        # Starts a session with the ESMTP server. The `host`, `port`,
+        # `esmtp_login`, `esmtp_user` and `esmtp_password` instance
+        # methods will also be used to connect to the ESMTP server.
         #
         # @param [Hash] options
         #   Additional options.
@@ -116,10 +116,10 @@ module Ronin
 
             sess.close
 
-            if @port
-              print_info "Disconnecting from #{@host}:#{@port}"
+            if self.port
+              print_info "Disconnecting from #{self.host}:#{self.port}"
             else
-              print_info "Disconnecting from #{@host}"
+              print_info "Disconnecting from #{self.host}"
             end
           end
         end

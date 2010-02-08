@@ -31,8 +31,8 @@ module Ronin
 
         #
         # Opens a UDP connection to the host and port specified by the
-        # `@host` and `@port` instance variables. If the `@local_host` and
-        # `@local_port` instance variables are set, they will be used for
+        # `host` and `port` instance methods . If the `local_host` and
+        # `local_port` instance methods are set, they will be used for
         # the local host and port of the UDP connection.
         #
         # @yield [socket]
@@ -59,15 +59,15 @@ module Ronin
           require_variable :host
           require_variable :port
 
-          print_info "Connecting to #{@host}:#{@port} ..."
+          print_info "Connecting to #{self.host}:#{self.port} ..."
 
-          return ::Net.udp_connect(@host,@port,@local_host,@local_port,&block)
+          return ::Net.udp_connect(self.host,self.port,self.local_host,self.local_port,&block)
         end
 
         #
-        # Connects to the host and port specified by the `@host` and `@port`
-        # instance variables, then sends the given data. If the
-        # `@local_host` and `@local_port` instance variables are set, they
+        # Connects to the host and port specified by the `host` and `port`
+        # instance methods, then sends the given data. If the
+        # `local_host` and `local_port` instance methods are set, they
         # will be used for the local host and port of the UDP connection.
         #
         # @param [String] data
@@ -88,16 +88,16 @@ module Ronin
           require_variable :host
           require_variable :port
 
-          print_info "Connecting to #{@host}:#{@port} ..."
+          print_info "Connecting to #{self.host}:#{self.port} ..."
           print_debug "Sending data: #{data.inspect}"
 
-          return ::Net.udp_connect_and_send(data,@host,@port,@local_host,@local_port,&block)
+          return ::Net.udp_connect_and_send(data,self.host,self.port,self.local_host,self.local_port,&block)
         end
 
         #
         # Creates a UDP session to the host and port specified by the
-        # `@host` and `@port` instance variables. If the `@local_host` and
-        # `@local_port` instance variables are set, they will be used for
+        # `host` and `port` instance methods. If the `local_host` and
+        # `local_port` instance methods are set, they will be used for
         # the local host and port of the UDP connection.
         #
         # @yield [socket]
@@ -115,17 +115,17 @@ module Ronin
           require_variable :host
           require_variable :port
 
-          print_info "Connecting to #{@host}:#{@port} ..."
+          print_info "Connecting to #{self.host}:#{self.port} ..."
 
-          ::Net.udp_session(@host,@port,@local_host,@local_port,&block)
+          ::Net.udp_session(self.host,self.port,self.local_host,self.local_port,&block)
 
-          print_info "Disconnected from #{@host}:#{@port}"
+          print_info "Disconnected from #{self.host}:#{self.port}"
           return nil
         end
 
         #
-        # Creates a new UDPServer object listening on `@server_host` and
-        # `@server_port` instance variables.
+        # Creates a new UDPServer object listening on `server_host` and
+        # `server_port` instance methods.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -144,18 +144,18 @@ module Ronin
         def udp_server(&block)
           require_variable :server_port
 
-          if @server_host
-            print_info "Listening on #{@server_host}:#{@server_port} ..."
+          if self.server_host
+            print_info "Listening on #{self.server_host}:#{self.server_port} ..."
           else
-            print_info "Listening on #{@server_port} ..."
+            print_info "Listening on #{self.server_port} ..."
           end
 
-          return ::Net.udp_server(@server_port,@server_host,&block)
+          return ::Net.udp_server(self.server_port,self.server_host,&block)
         end
 
         #
         # Creates a new temporary UDPServer object listening on the
-        # `@server_host` and `@server_port` instance variables.
+        # `server_host` and `server_port` instance methods.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -176,18 +176,18 @@ module Ronin
         def udp_server_session(&block)
           require_variable :server_port
 
-          if @server_host
-            print_info "Listening on #{@server_host}:#{@server_port} ..."
+          if self.server_host
+            print_info "Listening on #{self.server_host}:#{self.server_port} ..."
           else
-            print_info "Listening on #{@server_port} ..."
+            print_info "Listening on #{self.server_port} ..."
           end
 
           ::Net.udp_server_session(&block)
 
-          if @server_host
-            print_info "Closed #{@server_host}:#{@server_port}"
+          if self.server_host
+            print_info "Closed #{self.server_host}:#{self.server_port}"
           else
-            print_info "Closed #{@server_port}"
+            print_info "Closed #{self.server_port}"
           end
 
           return nil

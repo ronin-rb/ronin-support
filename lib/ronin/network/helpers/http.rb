@@ -421,19 +421,19 @@ module Ronin
         private
 
         def http_merge_options(options={})
-          options[:host] ||= @host if @host
-          options[:port] ||= @port if @port
+          options[:host] ||= self.host if self.host
+          options[:port] ||= self.port if self.port
 
           options[:headers] ||= {}
           headers = options[:headers]
 
-          headers[:host] ||= @http_vhost if @http_vhost
+          headers[:host] ||= self.http_vhost if self.http_vhost
 
-          options[:user] ||= @http_user if @http_user
-          options[:password] ||= @http_password if @http_password
+          options[:user] ||= self.http_user if self.http_user
+          options[:password] ||= self.http_password if self.http_password
 
-          options[:proxy] ||= @http_proxy if @http_proxy
-          options[:user_agent] ||= @http_user_agent if @http_user_agent
+          options[:proxy] ||= self.http_proxy if self.http_proxy
+          options[:user_agent] ||= self.http_user_agent if self.http_user_agent
 
           return options
         end
