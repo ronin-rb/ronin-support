@@ -23,14 +23,29 @@ require 'pathname'
 module Ronin
   class Path < Pathname
 
+    # The separator to join paths together with
+    attr_accessor :separator
+
+    def initialize(path)
+      @separator = File::SEPARATOR
+
+      super(path)
+    end
+
     #
     # Creates a new path object for upward directory traversal.
     #
     # @param [Integer, Array, Range] n
     #   The number of directories to go up.
     #
+    # @param [String] separator
+    #   Path separator.
+    #
     # @return [Path]
     #   The new path object.
+    #
+    # @raise [ArgumentError]
+    #   A negative number was given as the first argument.
     #
     # @example Generate a relative path that goes up 7 directories.
     #   Path.up(7)
@@ -41,9 +56,20 @@ module Ronin
     #   # => [#<Ronin::Path:..>, #<Ronin::Path:../..>,
     #   #<Ronin::Path:../../..>]
     #
-    def self.up(n)
+    def self.up(n,separator=File::SEPARATOR)
       if n.kind_of?(Integer)
-        return self.new(File.join(['..'] * n))
+        if n == 0
+          return separator
+        elsif n < 0
+          raise(ArgumentError,"negative argument")
+        end
+
+        dirs = (['..'] * n)
+
+        path = self.new('..')
+        path.separator = separator
+
+        return Path.new(path.join(*(['..'] * (n-1))))
       else
         return n.map { |i| self.up(i) }
       end
@@ -66,7 +92,7 @@ module Ronin
     def join(*names)
       names = names.map { |name| name.to_s }
 
-      return self.class.new(File.join(self,*names))
+      return self.class.new([self,*names].join(@separator))
     end
 
     #
