@@ -3,6 +3,7 @@ COPYING.txt
 Manifest.txt
 README.md
 Rakefile
+lib/ronin/autoload.rb
 lib/ronin/extensions.rb
 lib/ronin/extensions/kernel.rb
 lib/ronin/extensions/array.rb
