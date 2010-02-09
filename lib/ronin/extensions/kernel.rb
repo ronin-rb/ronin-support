@@ -129,6 +129,8 @@ module Kernel
   # @see require_const
   #
   def require_within(directory,sub_path)
-    require_const File.expand_path(File.join('',sub_path))
+    sub_path = File.expand_path(File.join('',sub_path))
+
+    return require_const(File.join(directory,sub_path))
   end
 end
