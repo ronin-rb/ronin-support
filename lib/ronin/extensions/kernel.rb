@@ -102,7 +102,7 @@ module Kernel
     end
 
     begin
-      return Object.full_const_get(path.to_const_name)
+      return Object.full_const_get(path.to_const_string)
     rescue NameError
       return nil
     end
