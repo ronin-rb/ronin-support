@@ -18,6 +18,8 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
+require 'extlib'
+
 module Kernel
   #
   # Calls the given block and ignores any raised exceptions.
@@ -94,5 +96,37 @@ module Kernel
   def require_within(directory,sub_path)
     path = File.expand_path(File.join('',sub_path))
     require File.join(directory,path)
+  end
+
+  #
+  # Requires the given path and finds the constant defined in the file.
+  #
+  # @param [String] path
+  #   The path to require.
+  #
+  # @return [Class, Module, nil]
+  #   The constant defined by the file. If `nil` is returned, then either
+  #   the file could not be loaded or the constant could not be found.
+  #
+  # @example
+  #   require_const 'ronin/exploits/exploit'
+  #   # => Ronin::Exploits::Exploit
+  #
+  # @since 0.1.0
+  #
+  def require_const(path)
+    begin
+      require path
+    rescue Gem::LoadError => e
+      raise(e)
+    rescue ::LoadError
+      return nil
+    end
+
+    begin
+      return Object.full_const_get(path.to_const_name)
+    rescue NameError
+      return nil
+    end
   end
 end
