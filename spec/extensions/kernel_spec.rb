@@ -58,19 +58,18 @@ describe Kernel do
   end
 
   describe "require_within" do
+    before(:all) do
+      @directory = File.join('extensions','classes')
+    end
+
     it "should require paths from within a directory" do
-      Object.const_defined?('SomeClass').should_not == true
-
-      require_within 'extensions/classes', 'some_class'
-
-      Object.const_defined?('SomeClass').should == true
+      require_within(@directory,'some_class').should_not be_nil
     end
 
     it "should prevent directory traversal" do
-      lambda {
-        require_within 'extensions/classes',
-                       File.join('..','classes','some_class')
-      }.should raise_error(LoadError)
+      bad = File.join('..','classes','some_class')
+
+      require_within(@directory,bad).should be_nil
     end
   end
 end
