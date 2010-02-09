@@ -77,28 +77,6 @@ module Kernel
   end
 
   #
-  # Safely requires the specified sub_path from within the specified
-  # directory.
-  #
-  # @param [String] directory
-  #   The directory to require the _sub_path_ within.
-  #
-  # @param [String] sub_path
-  #   The relative path to require, specifically within the specified
-  #   directory.
-  #
-  # @return [Boolean]
-  #   Specifies wether or not the _sub_path_ has not been loaded before.
-  #
-  # @example
-  #   require_within 'ronin/exploits/helpers', helper_name
-  #
-  def require_within(directory,sub_path)
-    path = File.expand_path(File.join('',sub_path))
-    require File.join(directory,path)
-  end
-
-  #
   # Requires the given path and finds the constant defined in the file.
   #
   # @param [String] path
@@ -128,5 +106,29 @@ module Kernel
     rescue NameError
       return nil
     end
+  end
+
+  #
+  # Safely requires the specified sub_path from within the specified
+  # directory.
+  #
+  # @param [String] directory
+  #   The directory to require the _sub_path_ within.
+  #
+  # @param [String] sub_path
+  #   The relative path to require, specifically within the specified
+  #   directory.
+  #
+  # @return [Class, Module, nil]
+  #   The constant defined by the file. If `nil` is returned, then either
+  #   the file could not be loaded or the constant could not be found.
+  #
+  # @example
+  #   require_within 'ronin/exploits/helpers', helper_name
+  #
+  # @see require_const
+  #
+  def require_within(directory,sub_path)
+    require_const File.expand_path(File.join('',sub_path))
   end
 end
