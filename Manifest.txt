@@ -86,6 +86,7 @@ lib/ronin/scanner/scanner.rb
 lib/ronin/templates.rb
 lib/ronin/templates/template.rb
 lib/ronin/templates/erb.rb
+lib/ronin/ronin.rb
 lib/ronin/yard.rb
 lib/ronin/yard/extensions.rb
 lib/ronin/yard/scanner_handler.rb
