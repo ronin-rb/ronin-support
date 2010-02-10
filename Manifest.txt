@@ -142,7 +142,7 @@ spec/templates/classes/example_template.rb
 spec/templates/classes/example_erb.rb
 spec/templates/helpers/static.rb
 spec/templates/helpers/static/templates/example.erb
-spec/templates/helpers/static/templates/_relative.erb
+spec/templates/helpers/static/includes/_relative.erb
 spec/templates/template_spec.rb
 spec/templates/erb_spec.rb
 spec/ext_spec.rb
