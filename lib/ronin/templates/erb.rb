@@ -61,7 +61,9 @@ module Ronin
       #   erb_file 'path/to/template.erb'
       #
       def erb_file(template_path)
-        erb(read_template(template_path))
+        read_template(template_path) do |template|
+          erb(template)
+        end
       end
     end
   end

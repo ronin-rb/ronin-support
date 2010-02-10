@@ -132,7 +132,10 @@ module Ronin
       # @param [String] template_path
       #   The relative path to the template.
       #
-      # @return [String]
+      # @yield [template]
+      #   The given block will receive the contents of the template.
+      #
+      # @yieldparam [String] template
       #   The contents of the template.
       #
       # @example
@@ -140,9 +143,9 @@ module Ronin
       #
       # @since 0.4.0
       #
-      def read_template(template_path)
+      def read_template(template_path,&block)
         enter_template(template_path) do |path|
-          File.read(path)
+          block.call(File.read(path))
         end
       end
     end
