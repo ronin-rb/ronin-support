@@ -38,4 +38,23 @@ describe Templates::Template do
       end
     }.should raise_error(RuntimeError)
   end
+
+  it "should be able to read templates relative to the current one" do
+    @template.read_example_template do |contents|
+      contents.should == File.read(@example_template)
+    end
+  end
+
+  it "should be able to find static templates" do
+    @template.read_relative_template do |contents|
+      contents.should == File.read(@relative_template)
+    end
+  end
+
+  it "should raise a RuntimeError when entering an unknown template" do
+    lambda {
+      @template.read_missing_template do |path|
+      end
+    }.should raise_error(RuntimeError)
+  end
 end
