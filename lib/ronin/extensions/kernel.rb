@@ -109,11 +109,10 @@ module Kernel
   end
 
   #
-  # Safely requires the specified sub_path from within the specified
-  # directory.
+  # Safely requires a given path from within the specified directory.
   #
   # @param [String] directory
-  #   The directory to require the _sub_path_ within.
+  #   The directory to require from within.
   #
   # @param [String] sub_path
   #   The relative path to require, specifically within the specified
@@ -124,11 +123,11 @@ module Kernel
   #   the file could not be loaded or the constant could not be found.
   #
   # @example
-  #   require_within 'ronin/exploits/helpers', helper_name
+  #   require_const_in 'ronin/exploits/helpers', helper_name
   #
   # @see require_const
   #
-  def require_within(directory,sub_path)
+  def require_const_in(directory,sub_path)
     sub_path = File.expand_path(File.join('',sub_path))
 
     return require_const(File.join(directory,sub_path))

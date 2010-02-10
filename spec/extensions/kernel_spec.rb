@@ -75,19 +75,19 @@ describe Kernel do
     end
   end
 
-  describe "require_within" do
+  describe "require_const_in" do
     before(:all) do
       @directory = File.join('extensions','classes')
     end
 
     it "should require paths from within a directory" do
-      require_within(@directory,'some_class').should_not be_nil
+      require_const_in(@directory,'some_class').should_not be_nil
     end
 
     it "should prevent directory traversal" do
       bad = File.join('..','classes','some_class')
 
-      require_within(@directory,bad).should be_nil
+      require_const_in(@directory,bad).should be_nil
     end
   end
 end
