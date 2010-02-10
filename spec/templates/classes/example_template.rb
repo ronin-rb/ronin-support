@@ -10,7 +10,7 @@ class ExampleTemplate
 
   def enter_relative_template(&block)
     enter_template(File.join('templates','example.erb')) do |path|
-      enter_template('_relative.erb',&block)
+      enter_template(File.join('..','includes','_relative.erb'),&block)
     end
   end
 
