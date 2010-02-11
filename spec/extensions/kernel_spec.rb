@@ -56,38 +56,4 @@ describe Kernel do
       }.should_not raise_error(StandardError)
     end
   end
-
-  describe "require_const" do
-    before(:all) do
-      @directory = File.join('extensions','classes')
-    end
-
-    it "should return nil for missing paths" do
-      require_const(File.join(@directory,'bla')).should be_nil
-    end
-
-    it "should return nil when loading misnamed constants" do
-      require_const(File.join(@directory,'misnamed_class')).should be_nil
-    end
-
-    it "should not return nil when loading correctly named constants" do
-      require_const(File.join(@directory,'a_class')).should_not be_nil
-    end
-  end
-
-  describe "require_const_in" do
-    before(:all) do
-      @directory = File.join('extensions','classes')
-    end
-
-    it "should require paths from within a directory" do
-      require_const_in(@directory,'some_class').should_not be_nil
-    end
-
-    it "should prevent directory traversal" do
-      bad = File.join('..','classes','some_class')
-
-      require_const_in(@directory,bad).should be_nil
-    end
-  end
 end

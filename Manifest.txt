@@ -3,7 +3,6 @@ COPYING.txt
 Manifest.txt
 README.md
 Rakefile
-lib/ronin/autoload.rb
 lib/ronin/extensions.rb
 lib/ronin/extensions/kernel.rb
 lib/ronin/extensions/array.rb
@@ -95,9 +94,6 @@ lib/ronin/yard/legacy/scanner_handler.rb
 lib/ronin/ext.rb
 lib/ronin/ext/version.rb
 spec/spec_helper.rb
-spec/extensions/classes/misnamed_class.rb
-spec/extensions/classes/a_class.rb
-spec/extensions/classes/some_class.rb
 spec/extensions/kernel_spec.rb
 spec/extensions/array_spec.rb
 spec/extensions/string_spec.rb
