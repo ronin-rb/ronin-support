@@ -1,11 +1,12 @@
 # Ronin EXT
 
-* http://ronin.rubyforge.org/
-* http://github.com/ronin-ruby/ronin-ext
+* [ronin.rubyforge.org](http://ronin.rubyforge.org/)
+* [github.com/ronin-ruby/ronin-ext](http://github.com/ronin-ruby/ronin-ext)
+* [github.com/ronin-ruby/ronin-ext/issues](http://github.com/ronin-ruby/ronin-ext/issues)
 * irc.freenode.net #ronin
 * Postmodern (postmodern.mod3 at gmail.com)
 
-## DESCRIPTION:
+## Description
 
 Ronin EXT is a support library for Ronin. Ronin EXT contains many of the
 convenience methods used by Ronin and additional libraries.
@@ -35,15 +36,15 @@ data via Overlays. Overlays are directories of code and data that can be
 hosted on any SVN, Hg, Git or Rsync server. Ronin makes it easy to create,
 install or update Overlays.
 
-## FEATURES:
+## Features
 
-## EXAMPLES:
+## Examples
 
-## INSTALL:
+## Install
 
     $ sudo gem install ronin-ext
 
-## LICENSE:
+## License
 
 Ronin EXT - A support library for Ronin.
 
