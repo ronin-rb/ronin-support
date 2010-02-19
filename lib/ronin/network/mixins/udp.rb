@@ -30,26 +30,32 @@ module Ronin
 
         # UDP host
         parameter :host,
-                   :description => 'UDP host'
+                  :type => String,
+                  :description => 'UDP host'
 
         # UDP port
         parameter :port,
+                  :type => Integer,
                   :description => 'UDP port'
 
         # UDP local host
         parameter :local_host,
+                  :type => String,
                   :description => 'UDP local host'
 
         # UDP local port
         parameter :local_port,
+                  :type => Integer,
                   :description => 'UDP local port'
 
         # UDP server host
         parameter :server_host,
+                  :type => String,
                   :description => 'UDP server host'
 
         # UDP server port
         parameter :server_port,
+                  :type => Integer,
                   :description => 'UDP server port'
 
         protected

@@ -30,22 +30,27 @@ module Ronin
 
         # IMAP host
         parameter :host,
+                  :type => String,
                   :description => 'IMAP host'
 
         # IMAP port
         parameter :port,
+                  :type => Integer,
                   :description => 'IMAP port'
 
         # IMAP auth
         parameter :imap_auth,
+                  :type => String,
                   :description => 'IMAP authentication method'
 
         # IMAP user to login as
         parameter :imap_user,
+                  :type => String,
                   :description => 'IMAP user to login as'
 
         # IMAP password to login with
         parameter :imap_password,
+                  :type => String,
                   :description => 'IMAP password to login with'
 
         protected

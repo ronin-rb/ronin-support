@@ -30,18 +30,22 @@ module Ronin
 
         # Telnet host
         parameter :host,
+                  :type => String,
                   :description => 'Telnet host'
 
         # Telnet port
         parameter :port,
+                  :type => Integer,
                   :description => 'Telnet port'
 
         # Telnet user
         parameter :telnet_user,
+                  :type => String,
                   :description => 'Telnet user to login as'
 
         # Telnet password
         parameter :telnet_password,
+                  :type => String,
                   :description => 'Telnet password to login with'
 
         # Telnet proxy
@@ -50,6 +54,7 @@ module Ronin
 
         # Enable Telnet SSL
         parameter :telnet_ssl,
+                  :type => true,
                   :description => 'Enable Telnet over SSL'
 
         protected

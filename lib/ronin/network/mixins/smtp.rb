@@ -30,22 +30,27 @@ module Ronin
 
         # SMTP host
         parameter :host,
+                  :type => String,
                   :description => 'SMTP host'
 
         # SMTP port
         parameter :port,
+                  :type => Integer,
                   :description => 'SMTP port'
 
         # SMTP authentication method
         parameter :smtp_login,
+                  :type => String,
                   :description => 'SMTP authentication method'
 
         # SMTP user to login as
         parameter :smtp_user,
+                  :type => String,
                   :description => 'SMTP user to login as'
 
         # SMTP user to login with
         parameter :smtp_password,
+                  :type => String,
                   :description => 'SMTP password to login with'
 
         protected

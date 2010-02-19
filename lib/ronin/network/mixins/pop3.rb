@@ -30,18 +30,22 @@ module Ronin
 
         # POP3 host
         parameter :host,
+                  :type => String,
                   :description => 'POP3 host'
 
         # POP3 port
         parameter :port,
+                  :type => Integer,
                   :description => 'POP3 port'
 
         # POP3 user
         parameter :pop3_user,
+                  :type => String,
                   :description => 'POP3 user to login as'
 
         # POP3 password
         parameter :pop3_password,
+                  :type => String,
                   :description => 'POP3 password to login with'
 
         protected

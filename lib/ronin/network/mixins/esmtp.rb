@@ -30,22 +30,27 @@ module Ronin
 
         # ESMTP host
         parameter :host,
+                  :type => String,
                   :description => 'ESMTP host'
 
         # ESMTP port
         parameter :port,
+                  :type => Integer,
                   :description => 'ESMTP port'
 
         # ESMTP authentication method to use
         parameter :esmtp_login,
+                  :type => String,
                   :description => 'ESMTP authentication method to use'
 
         # ESMTP user to login as
         parameter :esmtp_user,
+                  :type => String,
                   :description => 'ESMTP user to login as'
 
         # ESMTP password to login with
         parameter :esmtp_password,
+                  :type => String,
                   :description => 'ESMTP password to login with'
 
         protected
