@@ -25,6 +25,9 @@ require 'parameters'
 module Ronin
   module Network
     module Mixins
+      #
+      # Adds HTTP convenience methods and connection parameters to a class.
+      #
       module HTTP
         include Parameters
 

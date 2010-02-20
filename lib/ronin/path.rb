@@ -21,6 +21,10 @@
 require 'pathname'
 
 module Ronin
+  #
+  # The {Path} class extends `Pathname` to allow representing directory
+  # traversal paths.
+  #
   class Path < Pathname
 
     # The separator to join paths together with

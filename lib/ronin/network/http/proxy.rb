@@ -21,6 +21,11 @@
 module Ronin
   module Network
     module HTTP
+      #
+      # The {Proxy} class represents the information needed to connect
+      # to a HTTP Proxy. The {Proxy} class can also test the reliability
+      # of a HTTP proxy.
+      #
       class Proxy < Hash
 
         # The default port of proxies

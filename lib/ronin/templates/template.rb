@@ -22,6 +22,11 @@ require 'static_paths/finders'
 
 module Ronin
   module Templates
+    #
+    # The {Template} module allows a class to find templates and manage
+    # multiple template directories. The {Template} module also can find
+    # templates within `static/` directories using `StaticPaths::Finders`.
+    #
     module Template
       include StaticPaths::Finders
 

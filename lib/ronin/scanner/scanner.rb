@@ -24,6 +24,12 @@ require 'ronin/scanner/class_methods'
 require 'set'
 
 module Ronin
+  #
+  # The {Scanner} module allows a class to have multiple scanner rules
+  # added to it. The scanner rules can be called individually or en-mass.
+  # These scanner rules can be passed options, and pass back their results
+  # in real-time.
+  #
   module Scanner
     def self.included(base)
       base.extend ClassMethods

@@ -25,6 +25,9 @@ require 'parameters'
 module Ronin
   module Network
     module Mixins
+      #
+      # Adds UDP convenience methods and connection parameters to a class.
+      #
       module UDP
         include Parameters
 

@@ -21,6 +21,10 @@
 require 'cgi'
 
 module URI
+  #
+  # Adds the ability to parse individual parameters from a the query field
+  # of a URI.
+  #
   module QueryParams
     # Query parameters
     attr_accessor :query_params

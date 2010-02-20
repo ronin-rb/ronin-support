@@ -25,6 +25,9 @@ require 'parameters'
 module Ronin
   module Network
     module Mixins
+      #
+      # Adds IMAP convenience methods and connection parameters to a class.
+      #
       module IMAP
         include Parameters
 

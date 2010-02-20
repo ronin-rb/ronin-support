@@ -24,6 +24,10 @@ require 'erb'
 
 module Ronin
   module Templates
+    #
+    # The {Erb} module uses the {Template} module to find and render
+    # Embedded Ruby (ERb) templates.
+    #
     module Erb
       include Template
       #

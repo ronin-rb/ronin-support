@@ -25,6 +25,10 @@ require 'parameters'
 module Ronin
   module Network
     module Mixins
+      #
+      # Adds Telnet convenience methods and connection parameters to a
+      # class.
+      #
       module Telnet
         include Parameters
 
