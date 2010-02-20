@@ -54,9 +54,9 @@ module Ronin
         protected
 
         #
-        # Creates a connection to the POP3 server. The `host`, `port`,
-        # `pop3_user` and `pop3_password` instance methods will also
-        # be used to connect to the server.
+        # Creates a connection to the POP3 server. The {host}, {port},
+        # {pop3_user} and {pop3_password} parameters will also be used
+        # to connect to the server.
         #
         # @param [Hash] options
         #   Additional options.
@@ -99,9 +99,9 @@ module Ronin
         end
 
         #
-        # Starts a session with the POP3 server. The `host`, `port`,
-        # `pop3_user` and `pop3_password` instance methods will
-        # also be used to connect to the server.
+        # Starts a session with the POP3 server. The {host}, {port},
+        # {pop3_user} and {pop3_password} parameters will also be used
+        # to connect to the server.
         #
         # @yield [session]
         #   If a block is given, it will be passed the newly created

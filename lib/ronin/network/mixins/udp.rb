@@ -65,8 +65,8 @@ module Ronin
 
         #
         # Opens a UDP connection to the host and port specified by the
-        # `host` and `port` instance methods . If the `local_host` and
-        # `local_port` instance methods are set, they will be used for
+        # {host} and {port} parameters. If the {local_host} and
+        # {local_port} parameters are set, they will be used for
         # the local host and port of the UDP connection.
         #
         # @yield [socket]
@@ -96,10 +96,10 @@ module Ronin
         end
 
         #
-        # Connects to the host and port specified by the `host` and `port`
-        # instance methods, then sends the given data. If the
-        # `local_host` and `local_port` instance methods are set, they
-        # will be used for the local host and port of the UDP connection.
+        # Connects to the host and port specified by the {host} and {port}
+        # parameters, then sends the given data. If the {local_host} and
+        # {local_port} instance methods are set, they will be used for the
+        # local host and port of the UDP connection.
         #
         # @param [String] data
         #   The data to send through the connection.
@@ -124,9 +124,9 @@ module Ronin
 
         #
         # Creates a UDP session to the host and port specified by the
-        # `host` and `port` instance methods. If the `local_host` and
-        # `local_port` instance methods are set, they will be used for
-        # the local host and port of the UDP connection.
+        # {host} and {port} parameters. If the {local_host} and {local_port}
+        # parameters are set, they will be used for the local host and port
+        # of the UDP connection.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
@@ -149,8 +149,8 @@ module Ronin
         end
 
         #
-        # Creates a new UDPServer object listening on `server_host` and
-        # `server_port` instance methods.
+        # Creates a new UDPServer object listening on {server_host} and
+        # {server_port} parameters.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -178,7 +178,7 @@ module Ronin
 
         #
         # Creates a new temporary UDPServer object listening on the
-        # `server_host` and `server_port` instance methods.
+        # {server_host} and {server_port} parameters.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.

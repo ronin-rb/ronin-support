@@ -65,8 +65,8 @@ module Ronin
 
         #
         # Opens a TCP connection to the host and port specified by the
-        # `host` and `port` instance variables. If the `local_host` and
-        # `local_port` instance methods are set, they will be used for
+        # {host} and {port} parameters. If the {local_host} and
+        # {local_port} parameters are set, they will be used for
         # the local host and port of the TCP connection.
         #
         # @yield [socket]
@@ -97,8 +97,8 @@ module Ronin
         end
 
         #
-        # Connects to the host and port specified by the `host` and `port`
-        # instance variables, then sends the given data.
+        # Connects to the host and port specified by the {host} and {port}
+        # parameters, then sends the given data.
         #
         # @param [String] data
         #   The data to send through the connection.
@@ -123,7 +123,7 @@ module Ronin
 
         #
         # Creates a TCP session to the host and port specified by the
-        # `host` and `port` instance methods.
+        # {host} and {port} parameters.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
@@ -146,8 +146,8 @@ module Ronin
         end
 
         #
-        # Connects to the host and port specified by the `host` and `port`
-        # instance methods, reads the banner then closes the connection.
+        # Connects to the host and port specified by the {host} and {port}
+        # parameters, reads the banner then closes the connection.
         #
         # @yield [banner]
         #   If a block is given, it will be passed the grabbed banner.
@@ -171,8 +171,8 @@ module Ronin
         end
 
         #
-        # Connects to the host and port specified by the `host` and `port`
-        # instance methods, sends the given data and then disconnects.
+        # Connects to the host and port specified by the {host} and {port}
+        # parameters, sends the given data and then disconnects.
         #
         # @return [true]
         #   The data was successfully sent.
@@ -195,8 +195,8 @@ module Ronin
         end
 
         #
-        # Creates a new TCPServer object listening on the `server_host`
-        # and `server_port` instance methods.
+        # Creates a new TCPServer object listening on the {server_host}
+        # and {server_port} parameters.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -224,7 +224,7 @@ module Ronin
 
         #
         # Creates a new temporary TCPServer object listening on the
-        # `server_host` and `server_port` instance methods.
+        # {server_host} and {server_port} parameters.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -268,7 +268,7 @@ module Ronin
 
         #
         # Creates a new temporary TCPServer object listening on
-        # `server_host` and `server_port` instance methods.
+        # {server_host} and {server_port} parameters.
         # The TCPServer will accepting one client, pass the newly connected
         # client to a given block, disconnects the client and stops
         # listening.
