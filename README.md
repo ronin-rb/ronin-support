@@ -40,6 +40,10 @@ install or update Overlays.
 
 ## Examples
 
+## Requirements
+
+* [parameters](http://github.com/postmodern/parameters) >= 0.2.0
+
 ## Install
 
     $ sudo gem install ronin-ext
