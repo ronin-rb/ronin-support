@@ -36,9 +36,9 @@ module Ronin
     end
 
     #
-    # Runs all scanners in the given categories against `each_target`.
+    # Runs all scanners in the given categories against {#each_target}.
     # If no categories are specified, all categories will be ran
-    # against `each_target`.
+    # against {#each_target}.
     #
     # @param [Hash{Symbol,String => Boolean,Hash}] categories
     #   The categories to scan for, with additional per-category
