@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Postmodern"]
-  s.date = %q{2010-02-24}
+  s.date = %q{2010-03-08}
   s.description = %q{Ronin EXT is a support library for Ronin. Ronin EXT contains many of the convenience methods used by Ronin and additional libraries.}
   s.email = %q{postmodern.mod3@gmail.com}
   s.extra_rdoc_files = [
@@ -99,7 +99,6 @@ Gem::Specification.new do |s|
     "lib/ronin/network/telnet.rb",
     "lib/ronin/network/udp.rb",
     "lib/ronin/path.rb",
-    "lib/ronin/ronin.rb",
     "lib/ronin/scanner.rb",
     "lib/ronin/scanner/class_methods.rb",
     "lib/ronin/scanner/exceptions.rb",
