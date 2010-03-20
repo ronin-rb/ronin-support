@@ -74,4 +74,46 @@ class Array
     chars.join
   end
 
+  #
+  # Decodes the bytes contained with the Array, and escapes them as
+  # hexadecimal characters.
+  #
+  # @return [Array<String>]
+  #   The hexidecimal characters contained within the Array.
+  #
+  # @example
+  #   [0x41, 0x41, 0x20].bytes
+  #   # => ['\x41', '\x41', '\x20']
+  #
+  # @example
+  #   ['A', 'BB', 0x90].bytes
+  #   # => ['\x41', '\x42', '\x42', '\x90']
+  #
+  # @since 0.1.0
+  #
+  def hex_chars
+    self.bytes.map { |b| '\x%x' % b }
+  end
+
+  #
+  # Decodes the bytes contained with the Array, and escapes them as
+  # hexadecimal integers.
+  #
+  # @return [Array<String>]
+  #   The hexidecimal integers contained within the Array.
+  #
+  # @example
+  #   [0x41, 0x41, 0x20].bytes
+  #   # => ['0x41', '0x41', '0x20']
+  #
+  # @example
+  #   ['A', 'BB', 0x90].bytes
+  #   # => ['0x41', '0x42', '0x42', '0x90']
+  #
+  # @since 0.1.0
+  #
+  def hex_integers
+    self.bytes.map { |b| '0x%x' % b }
+  end
+
 end
