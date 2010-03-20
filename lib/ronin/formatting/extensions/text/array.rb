@@ -25,7 +25,7 @@ class Array
   # both Integer and String objects.
   #
   # @return [Array]
-  #   The bytes contained in the Array.
+  #   The bytes contained within the Array.
   #
   # @example
   #   [0x41, 0x41, 0x20].bytes
