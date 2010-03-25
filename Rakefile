@@ -7,7 +7,7 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = 'ronin-ext'
     gem.version = Ronin::EXT::VERSION
-    gem.license = 'LGPL-2.1'
+    gem.licenses = ['LGPL-2.1']
     gem.summary = %Q{A support library for Ronin.}
     gem.description = %Q{Ronin EXT is a support library for Ronin. Ronin EXT contains many of the convenience methods used by Ronin and additional libraries.}
     gem.email = 'postmodern.mod3@gmail.com'
