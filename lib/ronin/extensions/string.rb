@@ -58,6 +58,46 @@ class String
   end
 
   #
+  # Enumerates over the unique sub-strings contained in the string.
+  #
+  # @param [Integer] min
+  #   Minimum length of each unique sub-string.
+  #
+  # @yield [substring,(index)]
+  #   The given block will receive every unique sub-string contained
+  #   within the string. If the block accepts two arguments, then the
+  #   index of the unique sub-string will also be passed in.
+  #
+  # @yieldparam [String] substring
+  #   A unique sub-string from the string.
+  #
+  # @yieldparam [Integer] index
+  #   The optional index of the unique sub-string.
+  #
+  # @return [String]
+  #   The original string
+  #
+  # @see each_substring
+  #
+  def each_unique_substring(min=0,&block)
+    unique_strings = {}
+
+    each_substring(min) do |sub_string,index|
+      unless unique_strings.has_key?(sub_string)
+        unique_strings[sub_string] = index
+
+        if block.arity == 2
+          block.call(sub_string,index)
+        else
+          block.call(sub_string)
+        end
+      end
+    end
+
+    return self
+  end
+
+  #
   # Returns the common prefix of the string and the specified other
   # string. If no common prefix can be found an empty string will be
   # returned.
