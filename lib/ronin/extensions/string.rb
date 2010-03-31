@@ -22,6 +22,32 @@
 class String
 
   #
+  # Enumerates over every sub-string within the string.
+  #
+  # @param [Integer] min
+  #   Minimum length of each sub-string.
+  #
+  # @yield [substring]
+  #   The given block will receive every sub-string contained within the
+  #   string.
+  #
+  # @yieldparam [String] substring
+  #   A sub-string from the string.
+  #
+  # @return [String]
+  #   The original string
+  #
+  def each_substring(min=0,&block)
+    (0..(self.length - 0)).each do |i|
+      (i..self.length).each do |j|
+        block.call(self[i..j])
+      end
+    end
+
+    return self
+  end
+
+  #
   # Returns the common prefix of the string and the specified other
   # string. If no common prefix can be found an empty string will be
   # returned.
