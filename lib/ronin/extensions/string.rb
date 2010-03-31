@@ -27,12 +27,16 @@ class String
   # @param [Integer] min
   #   Minimum length of each sub-string.
   #
-  # @yield [substring]
+  # @yield [substring,(index)]
   #   The given block will receive every sub-string contained within the
-  #   string.
+  #   string. If the block accepts two arguments, then the index of
+  #   the sub-string will also be passed in.
   #
   # @yieldparam [String] substring
   #   A sub-string from the string.
+  #
+  # @yieldparam [Integer] index
+  #   The optional index of the sub-string.
   #
   # @return [String]
   #   The original string
@@ -40,7 +44,13 @@ class String
   def each_substring(min=0,&block)
     (0..(self.length - 0)).each do |i|
       (i..self.length).each do |j|
-        block.call(self[i..j])
+        sub_string = self[i..j]
+
+        if block.arity == 2
+          block.call(sub_string,i)
+        else
+          block.call(sub_string)
+        end
       end
     end
 
