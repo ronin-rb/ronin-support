@@ -42,9 +42,9 @@ class String
   #   The original string
   #
   def each_substring(min=0,&block)
-    (0..(self.length - 0)).each do |i|
-      (i..self.length).each do |j|
-        sub_string = self[i..j]
+    (0..(self.length - min)).each do |i|
+      ((i + min)..self.length).each do |j|
+        sub_string = self[i...j]
 
         if block.arity == 2
           block.call(sub_string,i)
