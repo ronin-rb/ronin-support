@@ -3,6 +3,40 @@ require 'ronin/extensions/string'
 require 'spec_helper'
 
 describe String do
+  describe "each_substring" do
+    before(:all) do
+      @string = 'hello'
+    end
+
+    it "should enumerate over each sub-string within the String" do
+      @string.each_substring do |substring|
+        @string.should include(substring)
+      end
+    end
+
+    it "should allow passing the string index back" do
+      @string.each_substring do |substring,index|
+        @string[index,substring.length].should == substring
+
+        @string.should include(substring)
+      end
+    end
+
+    it "should enumerate over each sub-string of a minimum length" do
+      @string.each_substring(2) do |substring|
+        substring.length.should >= 2
+
+        @string.should include(substring)
+      end
+    end
+
+    it "should return an Enumerator when no block is given" do
+      @string.each_substring.all? { |substring|
+        @string.include?(substring)
+      }.should == true
+    end
+  end
+
   describe "common_prefix" do
     it "should find the common prefix between two Strings" do
       one = 'What is puzzling you is the nature of my game'
