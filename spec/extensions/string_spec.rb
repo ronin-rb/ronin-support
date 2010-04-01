@@ -37,6 +37,47 @@ describe String do
     end
   end
 
+  describe "each_unique_substring" do
+    before(:all) do
+      @string = 'abablol'
+    end
+
+    before(:each) do
+      @seen = []
+    end
+
+    it "should enumerate over each unique sub-string within the String" do
+      @string.each_unique_substring do |substring|
+        @string.should include(substring)
+
+        @seen << substring
+      end
+
+      @seen.uniq.should == @seen
+    end
+
+    it "should enumerate over each sub-string of a minimum length" do
+      @string.each_unique_substring(2) do |substring|
+        substring.length.should >= 2
+        @string.should include(substring)
+
+        @seen << substring
+      end
+
+      @seen.uniq.should == @seen
+    end
+
+    it "should return an Enumerator when no block is given" do
+      @seen = @string.each_unique_substring.to_a
+
+      @seen.all? { |substring|
+        @string.include?(substring)
+      }.should == true
+
+      @seen.uniq.should == @seen
+    end
+  end
+
   describe "common_prefix" do
     it "should find the common prefix between two Strings" do
       one = 'What is puzzling you is the nature of my game'
