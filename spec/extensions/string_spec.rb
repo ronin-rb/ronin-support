@@ -9,30 +9,30 @@ describe String do
     end
 
     it "should enumerate over each sub-string within the String" do
-      @string.each_substring do |substring|
-        @string.should include(substring)
+      @string.each_substring do |sub_string|
+        @string.should include(sub_string)
       end
     end
 
     it "should allow passing the string index back" do
-      @string.each_substring do |substring,index|
-        @string[index,substring.length].should == substring
+      @string.each_substring do |sub_string,index|
+        @string[index,sub_string.length].should == sub_string
 
-        @string.should include(substring)
+        @string.should include(sub_string)
       end
     end
 
     it "should enumerate over each sub-string of a minimum length" do
-      @string.each_substring(2) do |substring|
-        substring.length.should >= 2
+      @string.each_substring(2) do |sub_string|
+        sub_string.length.should >= 2
 
-        @string.should include(substring)
+        @string.should include(sub_string)
       end
     end
 
     it "should return an Enumerator when no block is given" do
-      @string.each_substring.all? { |substring|
-        @string.include?(substring)
+      @string.each_substring.all? { |sub_string|
+        @string.include?(sub_string)
       }.should == true
     end
   end
@@ -47,21 +47,21 @@ describe String do
     end
 
     it "should enumerate over each unique sub-string within the String" do
-      @string.each_unique_substring do |substring|
-        @string.should include(substring)
+      @string.each_unique_substring do |sub_string|
+        @string.should include(sub_string)
 
-        @seen << substring
+        @seen << sub_string
       end
 
       @seen.uniq.should == @seen
     end
 
     it "should enumerate over each sub-string of a minimum length" do
-      @string.each_unique_substring(2) do |substring|
-        substring.length.should >= 2
-        @string.should include(substring)
+      @string.each_unique_substring(2) do |sub_string|
+        sub_string.length.should >= 2
+        @string.should include(sub_string)
 
-        @seen << substring
+        @seen << sub_string
       end
 
       @seen.uniq.should == @seen
@@ -70,8 +70,8 @@ describe String do
     it "should return an Enumerator when no block is given" do
       @seen = @string.each_unique_substring.to_a
 
-      @seen.all? { |substring|
-        @string.include?(substring)
+      @seen.all? { |sub_string|
+        @string.include?(sub_string)
       }.should == true
 
       @seen.uniq.should == @seen
