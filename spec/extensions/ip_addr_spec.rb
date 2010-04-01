@@ -21,6 +21,12 @@ describe IPAddr do
         @class_c.should include(IPAddr.new(ip))
       end
     end
+
+    it "should return an Enumerator when no block is given" do
+      @class_c.each.all? { |ip|
+        @class_c.should include(IPAddr.new(ip))
+      }.should == true
+    end
   end
 
   describe "globbed addresses" do
@@ -39,6 +45,12 @@ describe IPAddr do
       IPAddr.each(@ipv6_range) do |ip|
         ip =~ /^::ff::0[2-9a]::c3$/
       end
+    end
+
+    it "should return an Enumerator when no block is given" do
+      IPAddr.each(@ipv4_range).all? { |ip|
+        ip =~ /^10\.1\.[1-5]\.1$/
+      }.should == true
     end
   end
 end
