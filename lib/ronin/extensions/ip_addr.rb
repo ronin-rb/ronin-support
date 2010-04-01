@@ -59,9 +59,10 @@ class IPAddr
   #
   def IPAddr.each(cidr_or_glob,&block)
     unless (cidr_or_glob.include?('*') || cidr_or_glob.include?('-'))
-      IPAddr.new(cidr_or_glob).each(&block)
-      return nil
+      return IPAddr.new(cidr_or_glob).each(&block)
     end
+
+    return enum_for(:each,cidr_or_glob) unless block
 
     if cidr_or_glob.include?('::')
       prefix = if cidr_or_glob =~ /^::/
@@ -133,6 +134,8 @@ class IPAddr
   #   end
   #
   def each(&block)
+    return enum_for(:each) unless block
+
     case @family
     when Socket::AF_INET
       family_mask = IN4MASK

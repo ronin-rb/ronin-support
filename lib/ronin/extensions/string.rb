@@ -42,6 +42,8 @@ class String
   #   The original string
   #
   def each_substring(min=0,&block)
+    return enum_for(:each_substring,min) unless block
+
     (0..(self.length - min)).each do |i|
       ((i + min)..self.length).each do |j|
         sub_string = self[i...j]
@@ -80,6 +82,8 @@ class String
   # @see each_substring
   #
   def each_unique_substring(min=0,&block)
+    return enum_for(:each_unique_substring,min) unless block
+
     unique_strings = {}
 
     each_substring(min) do |sub_string,index|
