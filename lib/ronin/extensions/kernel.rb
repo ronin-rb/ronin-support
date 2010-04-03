@@ -42,36 +42,4 @@ module Kernel
       return nil
     end
   end
-
-  #
-  # Attempts to run the given block and catches any SyntaxError,
-  # RuntimeError or StandardError exceptions.
-  #
-  # @param [Boolean] verbose
-  #   Specifies wether a backtrace will be printed when an exception
-  #   has been raised.
-  #
-  # @yield []
-  #   The block to be called.
-  #
-  # @return [nil]
-  #   An exception was ignored, or the block returned nil.
-  #
-  # @example
-  #   catch_all do
-  #     load 'suspicious.rb'
-  #   end
-  #
-  def catch_all(verbose=true,&block)
-    begin
-      block.call() if block
-    rescue Exception => e
-      if verbose
-        STDERR.puts "#{e.class}: #{e}"
-        e.backtrace[0,5].each { |trace| STDERR.puts "\t#{trace}" }
-      end
-
-      return nil
-    end
-  end
 end
