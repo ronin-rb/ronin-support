@@ -145,6 +145,10 @@ module Ronin
       #   The contents of the template.
       #
       # @example
+      #   read_template 'path/to/_include.txt'
+      #   # => "..."
+      #
+      # @example Calling read_template with a block
       #   read_template 'path/to/_include.txt' do |contents|
       #     # ...
       #   end
@@ -153,7 +157,13 @@ module Ronin
       #
       def read_template(template_path,&block)
         enter_template(template_path) do |path|
-          block.call(File.read(path))
+          contents = File.read(path)
+
+          if block
+            block.call(contents)
+          else
+            contents
+          end
         end
       end
     end
