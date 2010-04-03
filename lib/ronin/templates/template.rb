@@ -145,7 +145,9 @@ module Ronin
       #   The contents of the template.
       #
       # @example
-      #   read_template 'path/to/_include.txt'
+      #   read_template 'path/to/_include.txt' do |contents|
+      #     # ...
+      #   end
       #
       # @since 0.4.0
       #
