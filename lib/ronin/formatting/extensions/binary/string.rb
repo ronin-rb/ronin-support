@@ -197,24 +197,11 @@ class String
   #   # => "=$\x8d9.\xc14&\x80</"
   #
   def xor(key)
-    encoded = ''
-
-    # expand key into many keys
-    keys = if key.kind_of?(Enumerable)
-             key.to_a
-           else
-             [key]
-           end
-
-    # make sure all keys are integers
-    keys.map! { |key| key.to_i }
-
-    Enumerator.new(self,:each_byte).each_with_index do |b,i|
-      encoded << (b ^ keys[i % keys.length]).chr
-    end
-
-    return encoded
+    kenum = key.bytes.cycle
+    bytes.map {|b| b ^ kenum.next }.pack("C*")
   end
+  
+  
 
   #
   # Base64 encodes a string.
