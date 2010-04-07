@@ -197,8 +197,19 @@ class String
   #   # => "=$\x8d9.\xc14&\x80</"
   #
   def xor(key)
-    kenum = key.bytes.cycle
-    bytes.map {|b| b ^ kenum.next }.pack("C*")
+    key = if key.kind_of?(Integer)
+            [key]
+          elsif key.kind_of?(String)
+            key.bytes
+          else
+            key.each
+          end
+
+    key_enum = key.cycle
+
+    return self.bytes.map { |b|
+      b ^ key_enum.next
+    }.pack("C*")
   end
   
   
