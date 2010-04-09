@@ -49,6 +49,8 @@ class String
     Digest::SHA1.hexdigest(self)
   end
 
+  alias sha128 sha1
+
   #
   # @return [String]
   #   The SHA2 checksum of the String.
@@ -57,21 +59,11 @@ class String
   #   "hello".sha2
   #   # => "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
   #
-  def sha2
-    Digest::SHA2.hexdigest(self)
-  end
-
-  #
-  # @return [String]
-  #   The SHA256 checksum of the String.
-  #
-  # @example
-  #   "hello".sha256
-  #   # => "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
-  #
   def sha256
     Digest::SHA256.hexdigest(self)
   end
+
+  alias sha2 sha256
 
   #
   # @return [String]
