@@ -132,8 +132,6 @@ module Ronin
         #   telnet_connect
         #   # => Net::Telnet
         #
-        # @since 0.3.0
-        #
         def telnet_connect(options={},&block)
           options[:port] ||= self.port
           options[:user] ||= self.telnet_user
@@ -171,7 +169,6 @@ module Ronin
         #   end
         #
         # @see telnet_connect
-        # @since 0.3.0
         #
         def telnet_session(options={},&block)
           return telnet_connect(options) do |sess|

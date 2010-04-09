@@ -62,8 +62,6 @@ module Ronin
         #
         # @see Ronin::Network::SMTP.message
         #
-        # @since 0.3.0
-        #
         def smtp_message(options={},&block)
           Network::SMTP.message(options,&block)
         end
@@ -101,8 +99,6 @@ module Ronin
         # @return [Net::SMTP]
         #   The SMTP session.
         #
-        # @since 0.3.0
-        #
         def smtp_connect(options={},&block)
           options[:port] ||= self.port
           options[:login] ||= self.smtp_login
@@ -131,7 +127,6 @@ module Ronin
         #   The SMTP session.
         #
         # @see smtp_connect
-        # @since 0.3.0
         #
         def smtp_session(options={},&block)
           smtp_connect(options) do |sess|
