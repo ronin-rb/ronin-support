@@ -200,16 +200,18 @@ class String
     key = if key.kind_of?(Integer)
             [key]
           elsif key.kind_of?(String)
-            key.bytes
+            key.enum_for(:each_byte).to_a
           else
-            key.each
+            key.to_a
           end
 
-    key_enum = key.cycle
+    result = ''
 
-    return self.bytes.map { |b|
-      b ^ key_enum.next
-    }.pack("C*")
+    self.enum_for(:each_byte).each_with_index do |b,i|
+      result << (b ^ key[i % key.length])
+    end
+
+    return result
   end
   
   
