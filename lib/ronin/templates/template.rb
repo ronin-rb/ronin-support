@@ -19,17 +19,17 @@
 # Boston, MA  02110-1301  USA
 #
 
-require 'static_paths/finders'
+require 'data_paths/finders'
 
 module Ronin
   module Templates
     #
     # The {Template} module allows a class to find templates and manage
     # multiple template directories. The {Template} module also can find
-    # templates within `static/` directories using `StaticPaths::Finders`.
+    # templates within `data/` directories using `DataPaths::Finders`.
     #
     module Template
-      include StaticPaths::Finders
+      include DataPaths::Finders
 
       protected
 
@@ -57,8 +57,8 @@ module Ronin
 
       #
       # Finds the template within the {#template_dir} or uses
-      # `StaticPaths::Finders#find_static_file` to search through all
-      # `static/` directories for the template.
+      # `DataPaths::Finders#find_data_file` to search through all
+      # `data/` directories for the template.
       #
       # @param [String] sub_path
       #   The relative path of the template to find.
@@ -79,7 +79,7 @@ module Ronin
           return path if File.file?(path)
         end
 
-        return find_static_file(sub_path)
+        return find_data_file(sub_path)
       end
 
       #

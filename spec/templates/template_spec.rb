@@ -2,12 +2,12 @@ require 'ronin/templates/template'
 
 require 'spec_helper'
 require 'templates/classes/example_template'
-require 'templates/helpers/static'
+require 'templates/helpers/data'
 
 describe Templates::Template do
   before(:all) do
-    @example_template = File.join(Helpers::STATIC_TEMPLATE_DIR,'templates','example.erb')
-    @relative_template = File.join(Helpers::STATIC_TEMPLATE_DIR,'includes','_relative.erb')
+    @example_template = File.join(Helpers::TEMPLATE_DIR,'templates','example.erb')
+    @relative_template = File.join(Helpers::TEMPLATE_DIR,'includes','_relative.erb')
   end
 
   before(:each) do

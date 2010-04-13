@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Postmodern"]
-  s.date = %q{2010-04-08}
+  s.date = %q{2010-04-13}
   s.description = %q{Ronin EXT is a support library for Ronin. Ronin EXT contains many of the convenience methods used by Ronin and additional libraries.}
   s.email = %q{postmodern.mod3@gmail.com}
   s.extra_rdoc_files = [
@@ -163,9 +163,9 @@ Gem::Specification.new do |s|
      "spec/templates/classes/example_erb.rb",
      "spec/templates/classes/example_template.rb",
      "spec/templates/erb_spec.rb",
-     "spec/templates/helpers/static.rb",
-     "spec/templates/helpers/static/includes/_relative.erb",
-     "spec/templates/helpers/static/templates/example.erb",
+     "spec/templates/helpers/data.rb",
+     "spec/templates/helpers/data/includes/_relative.erb",
+     "spec/templates/helpers/data/templates/example.erb",
      "spec/templates/template_spec.rb"
   ]
   s.has_rdoc = %q{yard}
@@ -177,32 +177,32 @@ Gem::Specification.new do |s|
   s.summary = %q{A support library for Ronin.}
   s.test_files = [
     "spec/spec_helper.rb",
-     "spec/formatting/binary/integer_spec.rb",
-     "spec/formatting/binary/string_spec.rb",
-     "spec/formatting/binary/helpers/hexdumps.rb",
-     "spec/formatting/digest/string_spec.rb",
-     "spec/formatting/http/string_spec.rb",
+     "spec/ext_spec.rb",
      "spec/formatting/text/array_spec.rb",
      "spec/formatting/text/string_spec.rb",
-     "spec/extensions/string_spec.rb",
-     "spec/extensions/uri/http_spec.rb",
-     "spec/extensions/uri/query_params_spec.rb",
-     "spec/extensions/ip_addr_spec.rb",
+     "spec/formatting/binary/integer_spec.rb",
+     "spec/formatting/binary/helpers/hexdumps.rb",
+     "spec/formatting/binary/string_spec.rb",
+     "spec/formatting/http/string_spec.rb",
+     "spec/formatting/digest/string_spec.rb",
+     "spec/templates/erb_spec.rb",
+     "spec/templates/helpers/data.rb",
+     "spec/templates/template_spec.rb",
+     "spec/templates/classes/example_template.rb",
+     "spec/templates/classes/example_erb.rb",
+     "spec/network/http/http_spec.rb",
+     "spec/network/http/proxy_spec.rb",
+     "spec/path_spec.rb",
      "spec/extensions/kernel_spec.rb",
      "spec/extensions/array_spec.rb",
-     "spec/ext_spec.rb",
-     "spec/path_spec.rb",
-     "spec/templates/classes/example_erb.rb",
-     "spec/templates/classes/example_template.rb",
-     "spec/templates/erb_spec.rb",
-     "spec/templates/helpers/static.rb",
-     "spec/templates/template_spec.rb",
-     "spec/scanner/classes/another_scanner.rb",
-     "spec/scanner/classes/example_scanner.rb",
+     "spec/extensions/ip_addr_spec.rb",
+     "spec/extensions/uri/query_params_spec.rb",
+     "spec/extensions/uri/http_spec.rb",
+     "spec/extensions/string_spec.rb",
      "spec/scanner/scanner_spec.rb",
      "spec/scanner/extensions_spec.rb",
-     "spec/network/http/http_spec.rb",
-     "spec/network/http/proxy_spec.rb"
+     "spec/scanner/classes/another_scanner.rb",
+     "spec/scanner/classes/example_scanner.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -212,14 +212,14 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<chars>, ["~> 0.1.2"])
       s.add_runtime_dependency(%q<parameters>, ["~> 0.2.0"])
-      s.add_runtime_dependency(%q<static_paths>, ["~> 0.1.0"])
+      s.add_runtime_dependency(%q<data_paths>, ["~> 0.2.0"])
       s.add_development_dependency(%q<rspec>, ["~> 1.3.0"])
       s.add_development_dependency(%q<yard>, ["~> 0.5.3"])
       s.add_development_dependency(%q<yard-parameters>, ["~> 0.1.0"])
     else
       s.add_dependency(%q<chars>, ["~> 0.1.2"])
       s.add_dependency(%q<parameters>, ["~> 0.2.0"])
-      s.add_dependency(%q<static_paths>, ["~> 0.1.0"])
+      s.add_dependency(%q<data_paths>, ["~> 0.2.0"])
       s.add_dependency(%q<rspec>, ["~> 1.3.0"])
       s.add_dependency(%q<yard>, ["~> 0.5.3"])
       s.add_dependency(%q<yard-parameters>, ["~> 0.1.0"])
@@ -227,7 +227,7 @@ Gem::Specification.new do |s|
   else
     s.add_dependency(%q<chars>, ["~> 0.1.2"])
     s.add_dependency(%q<parameters>, ["~> 0.2.0"])
-    s.add_dependency(%q<static_paths>, ["~> 0.1.0"])
+    s.add_dependency(%q<data_paths>, ["~> 0.2.0"])
     s.add_dependency(%q<rspec>, ["~> 1.3.0"])
     s.add_dependency(%q<yard>, ["~> 0.5.3"])
     s.add_dependency(%q<yard-parameters>, ["~> 0.1.0"])
