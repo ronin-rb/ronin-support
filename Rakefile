@@ -15,7 +15,7 @@ begin
     gem.authors = ['Postmodern']
     gem.add_dependency 'chars', '~> 0.1.2'
     gem.add_dependency 'parameters', '~> 0.2.0'
-    gem.add_dependency 'data_paths', '~> 0.2.0'
+    gem.add_dependency 'data_paths', '~> 0.2.1'
     gem.add_development_dependency 'rspec', '~> 1.3.0'
     gem.add_development_dependency 'yard', '~> 0.5.3'
     gem.add_development_dependency 'yard-parameters', '~> 0.1.0'
