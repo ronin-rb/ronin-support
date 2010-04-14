@@ -21,6 +21,7 @@ begin
     gem.add_development_dependency 'yard-parameters', '~> 0.1.0'
     gem.has_rdoc = 'yard'
   end
+  Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
