@@ -2,6 +2,7 @@
 source 'http://rubygems.org'
 
 group :runtime do
+  gem 'bundler',	'~> 0.9.19'
   gem 'chars',		'~> 0.1.2'
   gem 'parameters',	'~> 0.2.0'
   gem 'data_paths',	'~> 0.2.1'
