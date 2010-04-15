@@ -33,7 +33,6 @@ Spec::Rake::SpecTask.new(:spec) do |spec|
   spec.spec_opts = ['--options', '.specopts']
 end
 
-task :spec => :check_dependencies
 task :default => :spec
 
 begin
