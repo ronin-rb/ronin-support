@@ -220,6 +220,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>, ["~> 1.3.0"])
       s.add_development_dependency(%q<yard>, ["~> 0.5.3"])
       s.add_development_dependency(%q<yard-parameters>, ["~> 0.1.0"])
+      s.add_development_dependency(%q<rspec>, ["~> 1.3.0"])
     else
       s.add_dependency(%q<chars>, ["~> 0.1.2"])
       s.add_dependency(%q<parameters>, ["~> 0.2.0"])
@@ -230,6 +231,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, ["~> 1.3.0"])
       s.add_dependency(%q<yard>, ["~> 0.5.3"])
       s.add_dependency(%q<yard-parameters>, ["~> 0.1.0"])
+      s.add_dependency(%q<rspec>, ["~> 1.3.0"])
     end
   else
     s.add_dependency(%q<chars>, ["~> 0.1.2"])
@@ -241,6 +243,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rspec>, ["~> 1.3.0"])
     s.add_dependency(%q<yard>, ["~> 0.5.3"])
     s.add_dependency(%q<yard-parameters>, ["~> 0.1.0"])
+    s.add_dependency(%q<rspec>, ["~> 1.3.0"])
   end
 end
 
