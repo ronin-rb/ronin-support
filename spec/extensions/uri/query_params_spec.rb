@@ -1,6 +1,5 @@
-require 'ronin/extensions/uri'
-
 require 'spec_helper'
+require 'ronin/extensions/uri'
 
 describe URI::QueryParams do
   before(:each) do

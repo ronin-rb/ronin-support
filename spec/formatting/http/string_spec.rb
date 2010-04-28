@@ -1,6 +1,5 @@
-require 'ronin/formatting/http'
-
 require 'spec_helper'
+require 'ronin/formatting/http'
 
 describe String do
   it "should provide String#uri_encode" do

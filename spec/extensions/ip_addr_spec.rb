@@ -1,6 +1,5 @@
-require 'ronin/extensions/ip_addr'
-
 require 'spec_helper'
+require 'ronin/extensions/ip_addr'
 
 describe IPAddr do
   describe "CIDR addresses" do

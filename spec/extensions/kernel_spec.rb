@@ -1,6 +1,5 @@
-require 'ronin/extensions/kernel'
-
 require 'spec_helper'
+require 'ronin/extensions/kernel'
 
 describe Kernel do
   it "should provide Kernel#attempt" do

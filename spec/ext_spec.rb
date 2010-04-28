@@ -1,6 +1,5 @@
-require 'ronin/ext/version'
-
 require 'spec_helper'
+require 'ronin/ext/version'
 
 describe EXT do
   it "should have a version" do

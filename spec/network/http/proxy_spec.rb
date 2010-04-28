@@ -1,6 +1,5 @@
-require 'ronin/network/http/proxy'
-
 require 'spec_helper'
+require 'ronin/network/http/proxy'
 
 describe Network::HTTP::Proxy do
   before(:each) do

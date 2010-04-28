@@ -1,6 +1,6 @@
+require 'spec_helper'
 require 'ronin/templates/erb'
 
-require 'spec_helper'
 require 'templates/classes/example_erb'
 
 describe Templates::Erb do

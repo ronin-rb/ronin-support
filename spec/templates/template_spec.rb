@@ -1,6 +1,6 @@
+require 'spec_helper'
 require 'ronin/templates/template'
 
-require 'spec_helper'
 require 'templates/classes/example_template'
 require 'templates/helpers/data'
 

@@ -1,6 +1,5 @@
-require 'ronin/formatting/digest'
-
 require 'spec_helper'
+require 'ronin/formatting/digest'
 
 describe String do
   it "should provide String#md5" do

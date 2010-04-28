@@ -1,6 +1,5 @@
-require 'ronin/scanner/extensions'
-
 require 'spec_helper'
+require 'ronin/scanner/extensions'
 
 describe Scanner do
   it "should include Scanner into IPAddr" do

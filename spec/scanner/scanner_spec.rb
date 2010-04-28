@@ -1,6 +1,6 @@
+require 'spec_helper'
 require 'ronin/scanner/scanner'
 
-require 'spec_helper'
 require 'scanner/classes/example_scanner'
 require 'scanner/classes/another_scanner'
 

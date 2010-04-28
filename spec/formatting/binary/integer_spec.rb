@@ -1,6 +1,6 @@
+require 'spec_helper'
 require 'ronin/formatting/binary'
 
-require 'spec_helper'
 require 'ostruct'
 
 describe Integer do

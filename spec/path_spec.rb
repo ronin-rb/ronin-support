@@ -1,6 +1,5 @@
-require 'ronin/path'
-
 require 'spec_helper'
+require 'ronin/path'
 
 describe Path do
   before(:all) do

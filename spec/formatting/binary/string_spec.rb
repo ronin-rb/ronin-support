@@ -1,8 +1,8 @@
+require 'spec_helper'
 require 'ronin/formatting/binary'
 
-require 'spec_helper'
-require 'ostruct'
 require 'formatting/binary/helpers/hexdumps'
+require 'ostruct'
 
 describe String do
   it "should provide String#depack" do
