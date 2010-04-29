@@ -80,15 +80,6 @@ Gem::Specification.new do |s|
     "lib/ronin/network/http/http.rb",
     "lib/ronin/network/http/proxy.rb",
     "lib/ronin/network/imap.rb",
-    "lib/ronin/network/mixins.rb",
-    "lib/ronin/network/mixins/esmtp.rb",
-    "lib/ronin/network/mixins/http.rb",
-    "lib/ronin/network/mixins/imap.rb",
-    "lib/ronin/network/mixins/pop3.rb",
-    "lib/ronin/network/mixins/smtp.rb",
-    "lib/ronin/network/mixins/tcp.rb",
-    "lib/ronin/network/mixins/telnet.rb",
-    "lib/ronin/network/mixins/udp.rb",
     "lib/ronin/network/pop3.rb",
     "lib/ronin/network/smtp.rb",
     "lib/ronin/network/smtp/email.rb",
@@ -117,7 +108,7 @@ Gem::Specification.new do |s|
     "lib/ronin/yard/legacy.rb",
     "lib/ronin/yard/legacy/scanner_handler.rb",
     "lib/ronin/yard/scanner_handler.rb",
-    "ronin-ext.gemspec",
+    "ronin-support.gemspec",
     "spec/extensions/array_spec.rb",
     "spec/extensions/ip_addr_spec.rb",
     "spec/extensions/kernel_spec.rb",
@@ -211,34 +202,28 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<chars>, ["~> 0.1.2"])
-      s.add_runtime_dependency(%q<parameters>, ["~> 0.2.0"])
       s.add_runtime_dependency(%q<data_paths>, ["~> 0.2.1"])
       s.add_development_dependency(%q<bundler>, ["~> 0.9.19"])
       s.add_development_dependency(%q<rake>, ["~> 0.8.7"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.4.0"])
       s.add_development_dependency(%q<yard>, ["~> 0.5.3"])
-      s.add_development_dependency(%q<yard-parameters>, ["~> 0.1.0"])
       s.add_development_dependency(%q<rspec>, ["~> 1.3.0"])
     else
       s.add_dependency(%q<chars>, ["~> 0.1.2"])
-      s.add_dependency(%q<parameters>, ["~> 0.2.0"])
       s.add_dependency(%q<data_paths>, ["~> 0.2.1"])
       s.add_dependency(%q<bundler>, ["~> 0.9.19"])
       s.add_dependency(%q<rake>, ["~> 0.8.7"])
       s.add_dependency(%q<jeweler>, ["~> 1.4.0"])
       s.add_dependency(%q<yard>, ["~> 0.5.3"])
-      s.add_dependency(%q<yard-parameters>, ["~> 0.1.0"])
       s.add_dependency(%q<rspec>, ["~> 1.3.0"])
     end
   else
     s.add_dependency(%q<chars>, ["~> 0.1.2"])
-    s.add_dependency(%q<parameters>, ["~> 0.2.0"])
     s.add_dependency(%q<data_paths>, ["~> 0.2.1"])
     s.add_dependency(%q<bundler>, ["~> 0.9.19"])
     s.add_dependency(%q<rake>, ["~> 0.8.7"])
     s.add_dependency(%q<jeweler>, ["~> 1.4.0"])
     s.add_dependency(%q<yard>, ["~> 0.5.3"])
-    s.add_dependency(%q<yard-parameters>, ["~> 0.1.0"])
     s.add_dependency(%q<rspec>, ["~> 1.3.0"])
   end
 end

@@ -43,7 +43,6 @@ install or update Overlays.
 ## Requirements
 
 * [chars](http://github.com/postmodern/chars) ~> 0.1.2
-* [parameters](http://github.com/postmodern/parameters) ~> 0.2.0
 * [data_paths](http://github.com/postmodern/data_paths) ~> 0.2.0
 
 ## Install
