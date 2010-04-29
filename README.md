@@ -1,15 +1,15 @@
-# Ronin EXT
+# Ronin Support
 
 * [ronin.rubyforge.org](http://ronin.rubyforge.org/)
-* [github.com/ronin-ruby/ronin-ext](http://github.com/ronin-ruby/ronin-ext)
-* [github.com/ronin-ruby/ronin-ext/issues](http://github.com/ronin-ruby/ronin-ext/issues)
+* [github.com/ronin-ruby/ronin-support](http://github.com/ronin-ruby/ronin-support)
+* [github.com/ronin-ruby/ronin-support/issues](http://github.com/ronin-ruby/ronin-support/issues)
 * irc.freenode.net #ronin
 * Postmodern (postmodern.mod3 at gmail.com)
 
 ## Description
 
-Ronin EXT is a support library for Ronin. Ronin EXT contains many of the
-convenience methods used by Ronin and additional libraries.
+Ronin Support is a support library for Ronin. Ronin Support contains many of
+the convenience methods used by Ronin and additional libraries.
 
 Ronin is a Ruby platform for exploit development and security research.
 Ronin allows for the rapid development and distribution of code, exploits
@@ -48,11 +48,11 @@ install or update Overlays.
 
 ## Install
 
-    $ sudo gem install ronin-ext
+    $ sudo gem install ronin-support
 
 ## License
 
-Ronin EXT - A support library for Ronin.
+Ronin Support - A support library for Ronin.
 
 Copyright (c) 2010 Hal Brodigan (postmodern.mod3 at gmail.com)
 

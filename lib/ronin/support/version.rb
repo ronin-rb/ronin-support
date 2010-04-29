@@ -1,5 +1,5 @@
 #
-# Ronin EXT - A support library for Ronin.
+# Ronin Support - A support library for Ronin.
 #
 # Copyright (c) 2010 Hal Brodigan (postmodern.mod3 at gmail.com)
 #
@@ -20,8 +20,8 @@
 #
 
 module Ronin
-  module EXT
-    # ronin-ext version
+  module Support
+    # ronin-support version
     VERSION = '0.1.0'
   end
 end

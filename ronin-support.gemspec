@@ -4,13 +4,13 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{ronin-ext}
+  s.name = %q{ronin-support}
   s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Postmodern"]
-  s.date = %q{2010-04-15}
-  s.description = %q{Ronin EXT is a support library for Ronin. Ronin EXT contains many of the convenience methods used by Ronin and additional libraries.}
+  s.date = %q{2010-04-29}
+  s.description = %q{Ronin Support is a support library for Ronin. Ronin EXT contains many of the convenience methods used by Ronin and additional libraries.}
   s.email = %q{postmodern.mod3@gmail.com}
   s.extra_rdoc_files = [
     "ChangeLog.md",
@@ -25,8 +25,6 @@ Gem::Specification.new do |s|
     "Gemfile",
     "README.md",
     "Rakefile",
-    "lib/ronin/ext.rb",
-    "lib/ronin/ext/version.rb",
     "lib/ronin/extensions.rb",
     "lib/ronin/extensions/array.rb",
     "lib/ronin/extensions/file.rb",
@@ -109,6 +107,8 @@ Gem::Specification.new do |s|
     "lib/ronin/scanner/extensions/uri.rb",
     "lib/ronin/scanner/extensions/uri/http.rb",
     "lib/ronin/scanner/scanner.rb",
+    "lib/ronin/support.rb",
+    "lib/ronin/support/version.rb",
     "lib/ronin/templates.rb",
     "lib/ronin/templates/erb.rb",
     "lib/ronin/templates/template.rb",
@@ -118,7 +118,6 @@ Gem::Specification.new do |s|
     "lib/ronin/yard/legacy/scanner_handler.rb",
     "lib/ronin/yard/scanner_handler.rb",
     "ronin-ext.gemspec",
-    "spec/ext_spec.rb",
     "spec/extensions/array_spec.rb",
     "spec/extensions/ip_addr_spec.rb",
     "spec/extensions/kernel_spec.rb",
@@ -161,6 +160,7 @@ Gem::Specification.new do |s|
     "spec/scanner/extensions_spec.rb",
     "spec/scanner/scanner_spec.rb",
     "spec/spec_helper.rb",
+    "spec/support_spec.rb",
     "spec/templates/classes/example_erb.rb",
     "spec/templates/classes/example_template.rb",
     "spec/templates/erb_spec.rb",
@@ -170,40 +170,39 @@ Gem::Specification.new do |s|
     "spec/templates/template_spec.rb"
   ]
   s.has_rdoc = %q{yard}
-  s.homepage = %q{http://github.com/ronin-ruby/ronin-ext}
+  s.homepage = %q{http://github.com/ronin-ruby/ronin-support}
   s.licenses = ["LGPL-2.1"]
-  s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{A support library for Ronin.}
   s.test_files = [
-    "spec/spec_helper.rb",
-    "spec/ext_spec.rb",
+    "spec/extensions/array_spec.rb",
+    "spec/extensions/ip_addr_spec.rb",
+    "spec/extensions/kernel_spec.rb",
+    "spec/extensions/string_spec.rb",
+    "spec/extensions/uri/http_spec.rb",
+    "spec/extensions/uri/query_params_spec.rb",
+    "spec/formatting/binary/helpers/hexdumps.rb",
+    "spec/formatting/binary/integer_spec.rb",
+    "spec/formatting/binary/string_spec.rb",
+    "spec/formatting/digest/string_spec.rb",
+    "spec/formatting/http/string_spec.rb",
     "spec/formatting/text/array_spec.rb",
     "spec/formatting/text/string_spec.rb",
-    "spec/formatting/binary/integer_spec.rb",
-    "spec/formatting/binary/helpers/hexdumps.rb",
-    "spec/formatting/binary/string_spec.rb",
-    "spec/formatting/http/string_spec.rb",
-    "spec/formatting/digest/string_spec.rb",
-    "spec/templates/erb_spec.rb",
-    "spec/templates/helpers/data.rb",
-    "spec/templates/template_spec.rb",
-    "spec/templates/classes/example_template.rb",
-    "spec/templates/classes/example_erb.rb",
     "spec/network/http/http_spec.rb",
     "spec/network/http/proxy_spec.rb",
     "spec/path_spec.rb",
-    "spec/extensions/kernel_spec.rb",
-    "spec/extensions/array_spec.rb",
-    "spec/extensions/ip_addr_spec.rb",
-    "spec/extensions/uri/query_params_spec.rb",
-    "spec/extensions/uri/http_spec.rb",
-    "spec/extensions/string_spec.rb",
-    "spec/scanner/scanner_spec.rb",
-    "spec/scanner/extensions_spec.rb",
     "spec/scanner/classes/another_scanner.rb",
-    "spec/scanner/classes/example_scanner.rb"
+    "spec/scanner/classes/example_scanner.rb",
+    "spec/scanner/extensions_spec.rb",
+    "spec/scanner/scanner_spec.rb",
+    "spec/spec_helper.rb",
+    "spec/support_spec.rb",
+    "spec/templates/classes/example_erb.rb",
+    "spec/templates/classes/example_template.rb",
+    "spec/templates/erb_spec.rb",
+    "spec/templates/helpers/data.rb",
+    "spec/templates/template_spec.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -217,7 +216,6 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<bundler>, ["~> 0.9.19"])
       s.add_development_dependency(%q<rake>, ["~> 0.8.7"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.4.0"])
-      s.add_development_dependency(%q<rspec>, ["~> 1.3.0"])
       s.add_development_dependency(%q<yard>, ["~> 0.5.3"])
       s.add_development_dependency(%q<yard-parameters>, ["~> 0.1.0"])
       s.add_development_dependency(%q<rspec>, ["~> 1.3.0"])
@@ -228,7 +226,6 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<bundler>, ["~> 0.9.19"])
       s.add_dependency(%q<rake>, ["~> 0.8.7"])
       s.add_dependency(%q<jeweler>, ["~> 1.4.0"])
-      s.add_dependency(%q<rspec>, ["~> 1.3.0"])
       s.add_dependency(%q<yard>, ["~> 0.5.3"])
       s.add_dependency(%q<yard-parameters>, ["~> 0.1.0"])
       s.add_dependency(%q<rspec>, ["~> 1.3.0"])
@@ -240,7 +237,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<bundler>, ["~> 0.9.19"])
     s.add_dependency(%q<rake>, ["~> 0.8.7"])
     s.add_dependency(%q<jeweler>, ["~> 1.4.0"])
-    s.add_dependency(%q<rspec>, ["~> 1.3.0"])
     s.add_dependency(%q<yard>, ["~> 0.5.3"])
     s.add_dependency(%q<yard-parameters>, ["~> 0.1.0"])
     s.add_dependency(%q<rspec>, ["~> 1.3.0"])
