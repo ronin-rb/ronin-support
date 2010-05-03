@@ -4,9 +4,6 @@ require 'ronin/path'
 describe Path do
   before(:all) do
     @n = 7
-    @range = (7..10)
-    @sub_path = File.join('one','two')
-    @sub_directory = 'three'
   end
 
   it "should inherit from Pathname" do
@@ -35,7 +32,9 @@ describe Path do
     end
 
     it "should create a range of directory-escaping paths" do
-      Path.up(@range).should == @range.map { |i| Path.up(i) }
+      range = 7..10
+
+      Path.up(range).should == range.map { |i| Path.up(i) }
     end
 
     it "should allow using custom path separators" do
@@ -44,18 +43,29 @@ describe Path do
   end
 
   describe "join" do
+    before(:all) do
+      @base_path = Path.new('base')
+    end
+
     it "should join with sub-paths" do
-      Path.up(@n).join(@sub_path).to_s.should == [
-        Path.up(@n),
-        @sub_path
-      ].join(File::SEPARATOR)
+      sub_path = File.join('one','two')
+      expected = [@base_path, sub_path].join(File::SEPARATOR)
+
+      @base_path.join(sub_path).to_s.should == expected
     end
 
     it "should join with a sub-directory" do
-      (Path.up(@n) / @sub_directory).to_s.should == [
-        Path.up(@n),
-        @sub_directory
-      ].join(File::SEPARATOR)
+      sub_directory = 'three'
+      expected = [@base_path, sub_directory].join(File::SEPARATOR)
+
+      @base_path.join(sub_directory).to_s.should == expected
+    end
+
+    it "should not collapse directory traversals" do
+      traversal = Path.up(@n)
+      expected = [@base_path, traversal].join(File::SEPARATOR)
+
+      @base_path.join(traversal).to_s.should == expected
     end
   end
 end
