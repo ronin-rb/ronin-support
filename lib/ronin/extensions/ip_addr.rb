@@ -65,7 +65,7 @@ class IPAddr
     return enum_for(:each,cidr_or_glob) unless block
 
     if cidr_or_glob.include?('::')
-      prefix = if cidr_or_glob =~ /^::/
+      prefix = if cidr_or_glob[0,2] == '::'
                  '::'
                else
                  ''
@@ -84,7 +84,11 @@ class IPAddr
       format = lambda { |address| address.join('.') }
     end
 
-    ranges = cidr_or_glob.split(separator).map { |segment|
+    # split the address
+    ranges = cidr_or_glob.split(separator)
+    
+    # map the components of the address to numeric ranges
+    ranges.map! do |segment|
       if segment == '*'
         (1..254)
       elsif segment.include?('-')
@@ -94,7 +98,8 @@ class IPAddr
       elsif !(segment.empty?)
         segment.to_i(base)
       end
-    }.compact
+    end
+    ranges.compact!
 
     expand_range = lambda { |address,remaining|
       if remaining.empty?
