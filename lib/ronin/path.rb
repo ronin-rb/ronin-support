@@ -69,12 +69,12 @@ module Ronin
           raise(ArgumentError,"negative argument")
         end
 
-        dirs = (['..'] * n)
-
         path = self.new('..')
         path.separator = separator
 
-        return Path.new(path.join(*(['..'] * (n-1))))
+        dirs = (['..'] * (n-1))
+
+        return Path.new(path.join(*dirs))
       else
         return n.map { |i| self.up(i) }
       end
@@ -96,26 +96,12 @@ module Ronin
     #
     def join(*names)
       names = names.map { |name| name.to_s }
+      names = [self] + names
 
-      return self.class.new([self,*names].join(@separator))
+      return self.class.new(names.join(@separator))
     end
 
-    #
-    # Joins a directory name to the path, but does not resolve the resulting
-    # path.
-    #
-    # @param [String] name
-    #   A directory name.
-    #
-    # @example
-    #   Path.up(7) / 'etc' / 'passwd'
-    #   # => #<Ronin::Path:../../../../../../../etc/passwd>
-    #
-    # @see join
-    #
-    def /(name)
-      join(name)
-    end
+    alias / join
 
   end
 end
