@@ -60,7 +60,10 @@ class Array
   #   # => ["A", "A", " "]
   #
   def chars
-    self.bytes.map { |b| b.chr }
+    array_bytes = self.bytes
+
+    array_bytes.map! { |b| b.chr }
+    return array_bytes
   end
 
   #
@@ -91,7 +94,10 @@ class Array
   #   # => ['\x41', '\x42', '\x42', '\x90']
   #
   def hex_chars
-    self.bytes.map { |b| '\x%x' % b }
+    array_bytes = self.bytes
+    
+    array_bytes.map! { |b| '\x%x' % b }
+    return array_bytes
   end
 
   #
@@ -110,7 +116,10 @@ class Array
   #   # => ['0x41', '0x42', '0x42', '0x90']
   #
   def hex_integers
-    self.bytes.map { |b| '0x%x' % b }
+    array_bytes = self.bytes
+    
+    array_bytes.map! { |b| '0x%x' % b }
+    return array_bytes
   end
 
 end

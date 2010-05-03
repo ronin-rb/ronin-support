@@ -123,7 +123,11 @@ class Integer
     end
 
     address_length ||= arch.address_length
-    return bytes(address_length,arch.endian).map { |b| b.chr }.join
+
+    integer_bytes = bytes(address_length,arch.endian)
+    integer_bytes.map! { |b| b.chr }
+
+    return integer_bytes.join
   end
 
   #
