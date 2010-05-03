@@ -55,9 +55,9 @@ module Net
   #     puts sock.readlines
   #   end
   #
-  def Net.udp_connect(host,port,local_host=nil,local_port=nil,&block)
+  def Net.udp_connect(host,port,local_host=nil,local_port=nil)
     sock = UDPSocket.new(host,port,local_host,local_port)
-    block.call(sock) if block
+    yield sock if block_given?
 
     return sock
   end
@@ -90,11 +90,11 @@ module Net
   # @return [UDPSocket]
   #   The newly created UDPSocket object.
   #
-  def Net.udp_connect_and_send(data,host,port,local_host=nil,local_port=nil,&block)
+  def Net.udp_connect_and_send(data,host,port,local_host=nil,local_port=nil)
     Net.udp_connect(host,port,local_host,local_port) do |sock|
       sock.write(data)
 
-      block.call(sock) if block
+      yield sock if block_given?
     end
   end
 
@@ -123,9 +123,10 @@ module Net
   #
   # @return [nil]
   #
-  def Net.udp_session(host,port,local_host=nil,local_port=nil,&block)
+  def Net.udp_session(host,port,local_host=nil,local_port=nil)
     Net.udp_connect(host,port,local_host,local_port) do |sock|
-      block.call(sock) if block
+      yield sock if block_given?
+
       sock.close
     end
 
@@ -156,12 +157,12 @@ module Net
   # @return [String]
   #   The grabbed banner.
   #
-  def Net.udp_banner(host,port,local_host=nil,local_port=nil,&block)
+  def Net.udp_banner(host,port,local_host=nil,local_port=nil)
     Net.udp_session(host,port,local_host,local_port) do |sock|
       banner = sock.readline
     end
 
-    block.call(banner) if block
+    yield banner if block_given?
     return banner
   end
 
@@ -180,10 +181,10 @@ module Net
   # @example
   #   Net.udp_server(1337)
   #
-  def Net.udp_server(port,host='0.0.0.0',&block)
+  def Net.udp_server(port,host='0.0.0.0')
     server = UDPServer.new(host,port)
 
-    block.call(server) if block
+    yield server if block_given?
     return server
   end
 

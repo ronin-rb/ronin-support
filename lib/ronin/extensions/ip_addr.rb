@@ -138,8 +138,8 @@ class IPAddr
   #     puts ip
   #   end
   #
-  def each(&block)
-    return enum_for(:each) unless block
+  def each
+    return enum_for(:each) unless block_given?
 
     case @family
     when Socket::AF_INET
@@ -149,7 +149,7 @@ class IPAddr
     end
 
     (0..((~@mask_addr) & family_mask)).each do |i|
-      block.call(_to_string(@addr | i))
+      yield _to_string(@addr | i)
     end
 
     return self

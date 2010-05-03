@@ -51,13 +51,13 @@ module Net
   # @return [Net::POP3]
   #   The newly created POP3 session.
   #
-  def Net.pop3_connect(host,options={},&block)
+  def Net.pop3_connect(host,options={})
     port = (options[:port] || Ronin::Network::POP3.default_port)
     user = options[:user]
     password = options[:password]
 
     sess Net::POP3.start(host,port,user,password)
-    block.call(sess) if block
+    yield sess if block_given?
     return sess
   end
 
@@ -79,9 +79,9 @@ module Net
   #
   # @return [nil]
   #
-  def Net.pop3_session(host,options={},&block)
+  def Net.pop3_session(host,options={})
     Net.pop3_connect(host,options) do |sess|
-      block.call(sess) if block
+      yield sess if block_given?
       sess.finish
     end
 

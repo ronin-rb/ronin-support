@@ -109,7 +109,7 @@ module Ronin
       #     # do stuff with the full path
       #   end
       #
-      def enter_template(sub_path,&block)
+      def enter_template(sub_path)
         sub_path = sub_path.to_s
 
         unless (path = find_template(sub_path))
@@ -118,7 +118,7 @@ module Ronin
 
         template_dirs.unshift(File.dirname(path))
 
-        result = block.call(path)
+        result = yield(path)
 
         template_dirs.shift
         return result
@@ -145,12 +145,12 @@ module Ronin
       #     # ...
       #   end
       #
-      def read_template(template_path,&block)
+      def read_template(template_path)
         enter_template(template_path) do |path|
           contents = File.read(path)
 
-          if block
-            block.call(contents)
+          if block_given?
+            yield(contents)
           else
             contents
           end

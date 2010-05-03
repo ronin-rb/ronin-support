@@ -56,9 +56,9 @@ module Net
   #     sock.close
   #   end
   #
-  def Net.tcp_connect(host,port,local_host=nil,local_port=nil,&block)
+  def Net.tcp_connect(host,port,local_host=nil,local_port=nil)
     sock = TCPSocket.new(host,port,local_host,local_port)
-    block.call(sock) if block
+    yield sock if block_given?
 
     return sock
   end
@@ -88,11 +88,11 @@ module Net
   # @yieldparam [TCPsocket] socket
   #   The newly created TCPSocket object.
   #
-  def Net.tcp_connect_and_send(data,host,port,local_host=nil,local_port=nil,&block)
+  def Net.tcp_connect_and_send(data,host,port,local_host=nil,local_port=nil)
     Net.tcp_connect(host,port,local_host,local_port) do |sock|
       sock.write(data)
 
-      block.call(sock) if block
+      yield sock if block_given?
     end
   end
 
@@ -121,9 +121,10 @@ module Net
   #
   # @return [nil]
   #
-  def Net.tcp_session(host,port,local_host=nil,local_port=nil,&block)
+  def Net.tcp_session(host,port,local_host=nil,local_port=nil)
     Net.tcp_connect(host,port,local_host,local_port) do |sock|
-      block.call(sock) if block
+      yield sock if block_given?
+
       sock.close
     end
 
@@ -158,14 +159,14 @@ module Net
   #   Net.tcp_banner('pop.gmail.com',25)
   #   # => "220 mx.google.com ESMTP c20sm3096959rvf.1"
   #
-  def Net.tcp_banner(host,port,local_host=nil,local_port=nil,&block)
+  def Net.tcp_banner(host,port,local_host=nil,local_port=nil)
     banner = nil
 
     Net.tcp_session(host,port,local_host,local_port) do |sock|
       banner = sock.readline.strip
     end
 
-    block.call(banner) if block
+    yield banner if block_given?
     return banner
   end
 
@@ -219,11 +220,11 @@ module Net
   # @example
   #   Net.tcp_server(1337)
   #
-  def Net.tcp_server(port,host='0.0.0.0',&block)
+  def Net.tcp_server(port,host='0.0.0.0')
     server = TCPServer.new(host,port)
     server.listen(3)
 
-    block.call(server) if block
+    yield server if block_given?
     return server
   end
 
@@ -287,13 +288,13 @@ module Net
   #     client.puts 'lol'
   #   end
   #
-  def Net.tcp_single_server(port,host='0.0.0.0',&block)
+  def Net.tcp_single_server(port,host='0.0.0.0')
     server = TCPServer.new(host,port)
     server.listen(1)
 
     client = server.accept
 
-    block.call(client) if block
+    yield client if block_given?
 
     client.close
     server.close

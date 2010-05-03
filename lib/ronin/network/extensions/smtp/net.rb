@@ -65,7 +65,7 @@ module Net
   # @return [Net::SMTP]
   #   The SMTP session.
   #
-  def Net.smtp_connect(host,options={},&block)
+  def Net.smtp_connect(host,options={})
     port = (options[:port] || Ronin::Network::SMTP.default_port)
 
     helo = options[:helo]
@@ -76,7 +76,7 @@ module Net
 
     sess = Net::SMTP.start(host,port,helo,user,password,auth)
 
-    block.call(sess) if block
+    yield sess if block_given?
     return sess
   end
 
@@ -98,9 +98,9 @@ module Net
   #
   # @see Net.smtp_connect
   #
-  def Net.smtp_session(host,options={},&block)
+  def Net.smtp_session(host,options={})
     Net.smtp_connect(host,options) do |sess|
-      block.call(sess) if block
+      yield sess if block_given?
       sess.finish
     end
 

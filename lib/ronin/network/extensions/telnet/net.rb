@@ -90,7 +90,7 @@ module Net
   #   Net.telnet_connect('towel.blinkenlights.nl')
   #   # => #<Net::Telnet: ...>
   #
-  def Net.telnet_connect(host,options={},&block)
+  def Net.telnet_connect(host,options={})
     sess_opts = {}
     sess_opts['Host'] = host
     sess_opts['Port'] = (options[:port] || Ronin::Network::Telnet.default_port)
@@ -113,7 +113,7 @@ module Net
     sess = Net::Telnet.new(sess_opts)
     sess.login(user,passwd) if user
 
-    block.call(sess) if block
+    yield sess if block_given?
     return sess
   end
 
@@ -143,9 +143,10 @@ module Net
   #
   # @see Net.telnet_session
   #
-  def Net.telnet_session(host,options={},&block)
+  def Net.telnet_session(host,options={})
     Net.telnet_connect(host,options) do |sess|
-      block.call(sess) if block
+      yield sess if block_given?
+
       sess.close
     end
 

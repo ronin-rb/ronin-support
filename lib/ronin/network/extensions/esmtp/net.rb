@@ -63,10 +63,10 @@ module Net
   # @return [Net::SMTP]
   #   The ESMTP enabled session.
   #
-  def Net.esmtp_connect(host,options={},&block)
+  def Net.esmtp_connect(host,options={})
     Net.smtp_connect(host,options) do |sess|
       sess.esmtp = true
-      block.call(sess)
+      yield sess
     end
   end
 
@@ -88,10 +88,10 @@ module Net
   #
   # @see Net.esmtp_connect
   #
-  def Net.esmtp_session(host,options={},&block)
+  def Net.esmtp_session(host,options={})
     Net.smtp_session(host,options) do |sess|
       sess.esmtp = true
-      block.call(sess)
+      yield sess
     end
   end
 end

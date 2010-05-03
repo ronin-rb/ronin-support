@@ -48,7 +48,7 @@ class IO
   # @return [OpenSSL::SSL::SSLSocket]
   #   The ssl socket.
   #
-  def ssl_start(options={},&block)
+  def ssl_start(options={})
     verify_mode = 'VERIFY_' + (options[:verify] || :none).to_s.upcase
 
     unless OpenSSL::SSL.const_defined?(verify_mode)
@@ -61,7 +61,7 @@ class IO
     socket = OpenSSL::SSL::SSLSocket.new(self,ctx)
     socket.sync = true if options[:sync]
 
-    block.call(socket) if block
+    yield socket if block_given?
     return socket
   end
 
@@ -87,10 +87,10 @@ class IO
   #
   # @return [nil]
   #
-  def ssl_session(options={},&block)
+  def ssl_session(options={})
     session = ssl(options)
 
-    block.call(session) if block
+    yield session if block_given?
     session.close
     return nil
   end

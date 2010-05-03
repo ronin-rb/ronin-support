@@ -45,7 +45,7 @@ class String
   # @return [String]
   #   The formatted version of the String.
   #
-  def format_bytes(options={},&block)
+  def format_bytes(options={})
     included = (options[:included] || (0x00..0xff))
     excluded = (options[:excluded] || [])
 
@@ -56,7 +56,7 @@ class String
 
       if ((included.include?(b) || included.include?(c)) \
           && !(excluded.include?(b) || excluded.include?(c)))
-        formatted << block.call(b)
+        formatted << yield(b)
       else
         formatted << b
       end
@@ -87,9 +87,9 @@ class String
   # @return [String]
   #   The formatted version of the String.
   #
-  def format_chars(options={},&block)
+  def format_chars(options={})
     format_bytes(options) do |b|
-      block.call(b.chr)
+      yield b.chr
     end
   end
 

@@ -59,7 +59,7 @@ module Net
   # @return [Net::IMAP]
   #   The newly created IMAP session object.
   #
-  def Net.imap_connect(host,options={},&block)
+  def Net.imap_connect(host,options={})
     port = (options[:port] || Ronin::Net::IMAP.default_port)
     certs = options[:certs]
     auth = options[:auth]
@@ -85,7 +85,7 @@ module Net
       end
     end
 
-    block.call(sess) if block
+    yield sess if block_given?
     return sess
   end
 
@@ -109,9 +109,10 @@ module Net
   #
   # @see Net.imap_connect
   #
-  def Net.imap_session(host,options={},&block)
+  def Net.imap_session(host,options={})
     Net.imap_connect(host,options) do |sess|
-      block.call(sess) if block
+      yield sess if block_given?
+
       sess.logout if options[:user]
       sess.close
       sess.disconnect

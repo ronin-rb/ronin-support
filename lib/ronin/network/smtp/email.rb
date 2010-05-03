@@ -73,7 +73,7 @@ module Ronin
         # @yieldparam [Email] email
         #   The newly created email object.
         #
-        def initialize(options={},&block)
+        def initialize(options={})
           @from = options[:from]
           @to = options[:to]
           @subject = options[:subject]
@@ -87,7 +87,7 @@ module Ronin
             @body << options[:body]
           end
 
-          block.call(self) if block
+          yield self if block_given?
         end
 
         #

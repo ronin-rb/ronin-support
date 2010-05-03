@@ -35,9 +35,9 @@ module Kernel
   #     Resolv.getaddress('might.not.exist.com')
   #   end
   #
-  def attempt(&block)
+  def attempt
     begin
-      block.call() if block
+      yield() if block_given?
     rescue Exception
       return nil
     end

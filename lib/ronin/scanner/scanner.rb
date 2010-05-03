@@ -84,7 +84,7 @@ module Ronin
       current_category = nil
       result_callback = lambda { |result|
         results[current_category] << result
-        block.call(current_category,result) if block
+        yield current_category, result if block_given?
       }
 
       each_target do |target|
@@ -117,8 +117,8 @@ module Ronin
     # @yieldparam [Object] target
     #   The target object to be scanned.
     #
-    def each_target(&block)
-      block.call(self)
+    def each_target
+      yield self
     end
 
     private

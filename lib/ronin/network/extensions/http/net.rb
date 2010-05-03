@@ -151,10 +151,10 @@ module Net
   #
   # @see http_request
   #
-  def Net.http_copy(options={},&block)
+  def Net.http_copy(options={})
     resp = Net.http_request(options.merge(:method => :copy))
 
-    block.call(resp) if block
+    yield resp if block_given?
     return resp
   end
 
@@ -188,7 +188,7 @@ module Net
 
     resp = Net.http_request(options.merge(:method => :delete))
 
-    block.call(resp) if block
+    yield resp if block_given?
     return resp
   end
 
@@ -213,7 +213,7 @@ module Net
   def Net.http_get(options={},&block)
     resp = Net.http_request(options.merge(:method => :get))
 
-    block.call(resp) if block
+    yield resp if block_given?
     return resp
   end
 
@@ -260,7 +260,7 @@ module Net
   def Net.http_head(options={},&block)
     resp = Net.http_request(options.merge(:method => :head))
 
-    block.call(resp) if block
+    yield resp if block_given?
     return resp
   end
 
@@ -336,7 +336,7 @@ module Net
   def Net.http_lock(options={},&block)
     resp = Net.http_request(options.merge(:method => :lock))
 
-    block.call(resp) if block
+    yield resp if block_given?
     return resp
   end
 
@@ -361,7 +361,7 @@ module Net
   def Net.http_mkcol(options={},&block)
     resp = Net.http_request(options.merge(:method => :mkcol))
 
-    block.call(resp) if block
+    yield resp if block_given?
     return resp
   end
 
@@ -386,7 +386,7 @@ module Net
   def Net.http_move(options={},&block)
     resp = Net.http_request(options.merge(:method => :move))
 
-    block.call(resp) if block
+    yield resp if block_given?
     return resp
   end
 
@@ -411,7 +411,7 @@ module Net
   def Net.http_options(options={},&block)
     resp = Net.http_request(options.merge(:method => :options))
 
-    block.call(resp) if block
+    yield resp if block_given?
     return resp
   end
 
@@ -449,7 +449,7 @@ module Net
       req.set_form_data(postdata) if postdata
     end
 
-    block.call(resp) if block
+    yield resp if block_given?
     return resp
   end
 
@@ -508,7 +508,7 @@ module Net
 
     resp = Net.http_request(options.merge(:method => :propfind))
 
-    block.call(resp) if block
+    yield resp if block_given?
     return resp
   end
 
@@ -533,7 +533,7 @@ module Net
   def Net.http_prop_patch(options={},&block)
     resp = Net.http_request(options.merge(:method => :proppatch))
 
-    block.call(resp) if block
+    yield resp if block_given?
     return resp
   end
 
@@ -558,7 +558,7 @@ module Net
   def Net.http_trace(options={},&block)
     resp = Net.http_request(options.merge(:method => :trace))
 
-    block.call(resp) if block
+    yield resp if block_given?
     return resp
   end
 
@@ -583,7 +583,7 @@ module Net
   def Net.http_unlock(options={},&block)
     resp = Net.http_request(options.merge(:method => :unlock))
 
-    block.call(resp) if block
+    yield resp if block_given?
     return resp
   end
 end
