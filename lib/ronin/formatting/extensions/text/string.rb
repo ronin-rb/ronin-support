@@ -154,7 +154,7 @@ class String
     padded = self + (padding * (max_length / padding.length))
 
     unless (remaining = max_length % padding.length) == 0
-      padded += padding[0...remaining]
+      padded << padding[0...remaining]
     end
 
     return padded
