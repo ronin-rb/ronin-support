@@ -45,6 +45,7 @@ Gem::Specification.new do |s|
     "lib/ronin/formatting/extensions/binary/integer.rb",
     "lib/ronin/formatting/extensions/binary/string.rb",
     "lib/ronin/formatting/extensions/digest.rb",
+    "lib/ronin/formatting/extensions/digest/file.rb",
     "lib/ronin/formatting/extensions/digest/string.rb",
     "lib/ronin/formatting/extensions/http.rb",
     "lib/ronin/formatting/extensions/http/string.rb",

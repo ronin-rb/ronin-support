@@ -20,3 +20,4 @@
 #
 
 require 'ronin/formatting/extensions/digest/string'
+require 'ronin/formatting/extensions/digest/file'
