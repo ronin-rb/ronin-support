@@ -76,6 +76,13 @@ class File
   end
 
   #
+  # @see File.sha1
+  #
+  def File.sha128(path)
+    File.sha1(path)
+  end
+
+  #
   # Calculates the SHA256 checksum of a file.
   #
   # @param [String] path
@@ -101,6 +108,13 @@ class File
   end
 
   #
+  # @see File.sha256
+  #
+  def File.sha2(path)
+    File.sha256(path)
+  end
+
+  #
   # Calculates the SHA512 checksum of a file.
   #
   # @param [String] path
@@ -123,6 +137,13 @@ class File
     end
 
     return sha512sum.hexdigest
+  end
+
+  #
+  # @see File.sha512
+  #
+  def File.sha5(path)
+    File.sha512(path)
   end
 
 end
