@@ -39,15 +39,7 @@ class File
   #   # => "5d41402abc4b2a76b9719d911017c592"
   #
   def File.md5(path)
-    md5sum = Digest::MD5.new
-
-    File.open(path,'rb') do |file|
-      until file.eof?
-        md5sum << file.read(1024)
-      end
-    end
-
-    return md5sum.hexdigest
+    Digest::MD5.file(path).hexdigest
   end
 
   #
@@ -64,15 +56,7 @@ class File
   #   # => "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d"
   #
   def File.sha1(path)
-    sha1sum = Digest::SHA1.new
-
-    File.open(path,'rb') do |file|
-      until file.eof?
-        sha1sum << file.read(1024)
-      end
-    end
-
-    return sha1sum.hexdigest
+    Digest::SHA1.file(path).hexdigest
   end
 
   #
@@ -96,15 +80,7 @@ class File
   #   # => "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
   #
   def File.sha256(path)
-    sha256sum = Digest::SHA256.new
-
-    File.open(path,'rb') do |file|
-      until file.eof?
-        sha256sum << file.read(1024)
-      end
-    end
-
-    return sha256sum.hexdigest
+    Digest::SHA256.file(path).hexdigest
   end
 
   #
@@ -128,15 +104,7 @@ class File
   #   # => "9b71d224bd62f3785d96d46ad3ea3d73319bfbc2890caadae2dff72519673ca72323c3d99ba5c11d7c7acc6e14b8c5da0c4663475c2e5c3adef46f73bcdec043"
   #
   def File.sha512(path)
-    sha512sum = Digest::SHA512.new
-
-    File.open(path,'rb') do |file|
-      until file.eof?
-        sha512sum << file.read(1024)
-      end
-    end
-
-    return sha512sum.hexdigest
+    Digest::SHA512.file(path).hexdigest
   end
 
   #
