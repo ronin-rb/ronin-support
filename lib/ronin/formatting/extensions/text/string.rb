@@ -29,10 +29,10 @@ class String
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [Array, Range] :included (0x00..0xff)
+  # @option options [Array, Range] :include (0x00..0xff)
   #   The bytes to format.
   #
-  # @option options [Array, Range] :excluded
+  # @option options [Array, Range] :exclude
   #   The bytes not to format.
   #
   # @yield [byte]
@@ -46,8 +46,8 @@ class String
   #   The formatted version of the String.
   #
   def format_bytes(options={})
-    included = (options[:included] || (0x00..0xff))
-    excluded = (options[:excluded] || [])
+    included = (options[:include] || (0x00..0xff))
+    excluded = (options[:exclude] || [])
 
     formatted = ''
 
@@ -71,10 +71,10 @@ class String
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [Array, Range] :included (0x00..0xff)
+  # @option options [Array, Range] :include (0x00..0xff)
   #   The bytes to format.
   #
-  # @option options [Array, Range] :excluded
+  # @option options [Array, Range] :exclude
   #   The bytes not to format.
   #
   # @yield [char]
@@ -100,10 +100,10 @@ class String
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [Array, Range] :included (0x00..0xff)
+  # @option options [Array, Range] :include (0x00..0xff)
   #   The bytes to format.
   #
-  # @option options [Array, Range] :excluded
+  # @option options [Array, Range] :exclude
   #   The bytes not to format.
   #
   # @option options [Float] :probability (0.5)

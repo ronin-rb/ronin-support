@@ -26,49 +26,49 @@ describe String do
     end
 
     it "should format specific bytes in a String" do
-      @string.format_chars(:included => [104, 108]) { |c|
+      @string.format_chars(:include => [104, 108]) { |c|
         c.upcase
       }.should == 'HeLLo'
     end
 
     it "should not format specific bytes in a String" do
-      @string.format_chars(:excluded => [101, 111]) { |c|
+      @string.format_chars(:exclude => [101, 111]) { |c|
         c.upcase
       }.should == 'HeLLo'
     end
 
     it "should format ranges of bytes in a String" do
-      @string.format_chars(:included => (104..108)) { |c|
+      @string.format_chars(:include => (104..108)) { |c|
         c.upcase
       }.should == 'HeLLo'
     end
 
     it "should not format ranges of bytes in a String" do
-      @string.format_chars(:excluded => (104..108)) { |c|
+      @string.format_chars(:exclude => (104..108)) { |c|
         c.upcase
       }.should == 'hEllO'
     end
 
     it "should format specific chars in a String" do
-      @string.format_chars(:included => ['h', 'l']) { |c|
+      @string.format_chars(:include => ['h', 'l']) { |c|
         c.upcase
       }.should == 'HeLLo'
     end
 
     it "should not format specific bytes in a String" do
-      @string.format_chars(:excluded => ['e', 'o']) { |c|
+      @string.format_chars(:exclude => ['e', 'o']) { |c|
         c.upcase
       }.should == 'HeLLo'
     end
 
     it "should format ranges of chars in a String" do
-      @string.format_chars(:included => ('h'..'l')) { |c|
+      @string.format_chars(:include => ('h'..'l')) { |c|
         c.upcase
       }.should == 'HeLLo'
     end
 
     it "should not format ranges of chars in a String" do
-      @string.format_chars(:excluded => ('h'..'l')) { |c|
+      @string.format_chars(:exclude => ('h'..'l')) { |c|
         c.upcase
       }.should == 'hEllO'
     end
@@ -82,49 +82,49 @@ describe String do
     end
 
     it "should format specific bytes in a String" do
-      @string.format_bytes(:included => [104, 108]) { |b|
+      @string.format_bytes(:include => [104, 108]) { |b|
         b - 32
       }.should == 'HeLLo'
     end
 
     it "should not format specific bytes in a String" do
-      @string.format_bytes(:excluded => [101, 111]) { |b|
+      @string.format_bytes(:exclude => [101, 111]) { |b|
         b - 32
       }.should == 'HeLLo'
     end
 
     it "should format ranges of bytes in a String" do
-      @string.format_bytes(:included => (104..108)) { |b|
+      @string.format_bytes(:include => (104..108)) { |b|
         b - 32
       }.should == 'HeLLo'
     end
 
     it "should not format ranges of bytes in a String" do
-      @string.format_bytes(:excluded => (104..108)) { |b|
+      @string.format_bytes(:exclude => (104..108)) { |b|
         b - 32
       }.should == 'hEllO'
     end
 
     it "should format specific chars in a String" do
-      @string.format_bytes(:included => ['h', 'l']) { |b|
+      @string.format_bytes(:include => ['h', 'l']) { |b|
         b - 32
       }.should == 'HeLLo'
     end
 
     it "should not format specific bytes in a String" do
-      @string.format_bytes(:excluded => ['e', 'o']) { |b|
+      @string.format_bytes(:exclude => ['e', 'o']) { |b|
         b - 32
       }.should == 'HeLLo'
     end
 
     it "should format ranges of chars in a String" do
-      @string.format_bytes(:included => ('h'..'l')) { |b|
+      @string.format_bytes(:include => ('h'..'l')) { |b|
         b - 32
       }.should == 'HeLLo'
     end
 
     it "should not format ranges of chars in a String" do
-      @string.format_bytes(:excluded => ('h'..'l')) { |b|
+      @string.format_bytes(:exclude => ('h'..'l')) { |b|
         b - 32
       }.should == 'hEllO'
     end
