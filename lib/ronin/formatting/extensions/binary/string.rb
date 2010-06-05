@@ -118,6 +118,8 @@ class String
   #   "hello".hex_escape
   #   # => "\\x68\\x65\\x6c\\x6c\\x6f"
   #
+  # @see String#format_bytes
+  #
   def hex_escape(options={})
     format_bytes(options) { |b| "\\x%.2x" % b }
   end

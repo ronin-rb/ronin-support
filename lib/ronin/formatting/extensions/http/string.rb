@@ -82,6 +82,8 @@ class String
   #   "hello".format_http
   #   # => "&#104;&#101;&#108;&#108;&#111;"
   #
+  # @see String#format_bytes
+  #
   def format_http(options={})
     format_bytes(options) { |b| "%%%x" % b }
   end
