@@ -1,6 +1,6 @@
 # Ronin Support
 
-* [ronin.rubyforge.org](http://ronin.rubyforge.org/)
+* [ronin.rubyforge.org/docs/ronin-support](http://ronin.rubyforge.org/docs/ronin-support)
 * [github.com/ronin-ruby/ronin-support](http://github.com/ronin-ruby/ronin-support)
 * [github.com/ronin-ruby/ronin-support/issues](http://github.com/ronin-ruby/ronin-support/issues)
 * irc.freenode.net #ronin
