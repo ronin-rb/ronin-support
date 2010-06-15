@@ -1,17 +1,17 @@
 source 'http://rubygems.org'
 
-group :runtime do
+group(:runtime) do
   gem 'chars',		'~> 0.1.2'
   gem 'data_paths',	'~> 0.2.1'
 end
 
-group :development do
+group(:development) do
   gem 'bundler',		'~> 0.9.19'
   gem 'rake',			'~> 0.8.7'
   gem 'jeweler',		'~> 1.4.0', :git => 'git://github.com/technicalpickles/jeweler.git'
 end
 
-group :doc do
+group(:doc) do
   case RUBY_PLATFORM
   when 'java'
     gem 'maruku',	'~> 0.6.0'
