@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 group(:runtime) do
   gem 'chars',		'~> 0.1.2'
