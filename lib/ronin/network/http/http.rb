@@ -186,6 +186,9 @@ module Ronin
       # @option options [String] :path ('/')
       #   The path to request.
       #
+      # @option options [Hash, String] :form_data
+      #   The form data that may be sent in the body of the request.
+      #
       # @option options [String] :user
       #   The user to authenticate as.
       #
@@ -222,6 +225,12 @@ module Ronin
         path = (options[:path] || '/').to_s
 
         request = Net::HTTP.const_get(name).new(path,headers)
+
+        if request.request_body_permitted?
+          if options[:form_data]
+            request.set_form_data(options[:form_data])
+          end
+        end
 
         if (user = options.delete(:user))
           user = user.to_s
