@@ -449,8 +449,8 @@ module Net
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [String] :postdata
-  #   The `POSTDATA` to send with the HTTP Post request.
+  # @option options [Hash, String] :form_data
+  #   The form data to send with the HTTP Post request.
   #
   # @yield [response]
   #   If a block is given, it will be passed the response received from
