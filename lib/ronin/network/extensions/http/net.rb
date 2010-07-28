@@ -421,8 +421,8 @@ module Net
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [String] :postdata
-  #   The `POSTDATA` to send with the HTTP Post request.
+  # @option options [Hash, String] :form_data
+  #   The form data to send with the HTTP Post request.
   #
   # @yield [response]
   #   If a block is given, it will be passed the response received from
@@ -437,17 +437,7 @@ module Net
   # @see http_request
   #
   def Net.http_post(options={},&block)
-    options = options.merge(:method => :post)
-    postdata = options.delete(:postdata)
-
-    if options[:url]
-      url = URI(options[:url].to_s)
-      postdata ||= url.query_params
-    end
-
-    resp = Net.http_request(options) do |req,expanded_options|
-      req.set_form_data(postdata) if postdata
-    end
+    resp = Net.http_request(options.merge(:method => :post))
 
     yield resp if block_given?
     return resp
