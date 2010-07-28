@@ -46,9 +46,6 @@ module Net
   # @option options [Integer] :port (Net::HTTP.default_port)
   #   The port the HTTP server is listening on.
   #
-  # @option options [String] :path
-  #   The path to request from the HTTP server.
-  #
   # @option options [String, Hash] :proxy (Ronin::Network::HTTP.proxy)
   #   A Hash of proxy settings to use when connecting to the HTTP server.
   #
@@ -90,6 +87,9 @@ module Net
   #
   # @option options [Symbol, String] :method
   #   The HTTP method to use in the request.
+  #
+  # @option options [String] :path
+  #   The path to request from the HTTP server.
   #
   # @option options [Hash] :headers
   #   The Hash of the HTTP headers to send with the request.
