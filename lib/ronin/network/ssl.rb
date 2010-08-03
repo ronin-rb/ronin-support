@@ -20,3 +20,28 @@
 #
 
 require 'ronin/network/extensions/ssl'
+
+module Ronin
+  module Network
+    module SSL
+      #
+      # Returns the OpenSSL verify mode.
+      #
+      # @param [Symbol, String] mode
+      #   The name of the verify mode.
+      #
+      # @return [Integer]
+      #   The verify mode number used by OpenSSL.
+      #
+      def SSL.verify(mode=nil)
+        verify_mode = 'VERIFY_' + (mode || :none).to_s.upcase
+
+        unless OpenSSL::SSL.const_defined?(verify_mode)
+          raise(RuntimeError,"unknown verify mode #{mode}",caller)
+        end
+
+        return OpenSSL::SSL.const_get(verify_mode)
+      end
+    end
+  end
+end
