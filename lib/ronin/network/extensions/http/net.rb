@@ -20,6 +20,7 @@
 #
 
 require 'ronin/network/http'
+require 'ronin/network/ssl'
 require 'ronin/extensions/uri/http'
 
 require 'net/http'
@@ -31,19 +32,13 @@ end
 
 module Net
   #
-  # Connects to the HTTP server.
+  # Starts a HTTP connection with the server.
   #
   # @param [Hash] options
   #   Additional options
   #
   # @option options [String, URI::HTTP] :url
   #   The full URL to request.
-  #
-  # @option options [String] :user
-  #   The user to authenticate with when connecting to the HTTP server.
-  #
-  # @option options [String] :password
-  #   The password to authenticate with when connecting to the HTTP server.
   #
   # @option options [String] :host
   #   The host the HTTP server is running on.
@@ -54,6 +49,18 @@ module Net
   # @option options [String, Hash] :proxy (Ronin::Network::HTTP.proxy)
   #   A Hash of proxy settings to use when connecting to the HTTP server.
   #
+  # @option options [String] :user
+  #   The user to authenticate with when connecting to the HTTP server.
+  #
+  # @option options [String] :password
+  #   The password to authenticate with when connecting to the HTTP server.
+  #
+  # @option options [Boolean, Hash] :ssl
+  #   Enables SSL for the HTTP connection.
+  #
+  # @option :ssl [Symbol] :verify
+  #   Specifies the SSL certificate verification mode.
+  #   
   # @yield [session]
   #   If a block is given, it will be passed the newly created HTTP
   #   session object.
@@ -64,14 +71,21 @@ module Net
   # @return [Net::HTTP]
   #   The HTTP session object.
   #
-  def Net.http_session(options={},&block)
+  def Net.http_connect(options={},&block)
     options = Ronin::Network::HTTP.expand_options(options)
 
     host = options[:host]
     port = options[:port]
     proxy = options[:proxy]
 
-    sess = Net::HTTP::Proxy(proxy[:host],proxy[:port],proxy[:user],proxy[:pass]).start(host,port)
+    sess = Net::HTTP::Proxy(proxy[:host],proxy[:port],proxy[:user],proxy[:pass]).new(host,port)
+
+    if options[:ssl]
+      sess.use_ssl = true
+      sess.verify_mode = Ronin::Network::SSL.verify(options[:ssl][:verify])
+    end
+
+    sess.start()
 
     if block
       if block.arity == 2
@@ -82,6 +96,63 @@ module Net
     end
 
     return sess
+  end
+
+  #
+  # Creates a new temporary HTTP session with the server.
+  #
+  # @param [Hash] options
+  #   Additional options
+  #
+  # @option options [String, URI::HTTP] :url
+  #   The full URL to request.
+  #
+  # @option options [String] :host
+  #   The host the HTTP server is running on.
+  #
+  # @option options [Integer] :port (Net::HTTP.default_port)
+  #   The port the HTTP server is listening on.
+  #
+  # @option options [String] :user
+  #   The user to authenticate with when connecting to the HTTP server.
+  #
+  # @option options [String] :password
+  #   The password to authenticate with when connecting to the HTTP server.
+  #
+  # @option options [String, Hash] :proxy (Ronin::Network::HTTP.proxy)
+  #   A Hash of proxy settings to use when connecting to the HTTP server.
+  #
+  # @option options [Boolean, Hash] :ssl
+  #   Enables SSL for the HTTP connection.
+  #
+  # @option :ssl [Symbol] :verify
+  #   Specifies the SSL certificate verification mode.
+  #   
+  # @yield [session]
+  #   If a block is given, it will be passed the newly created HTTP
+  #   session object.
+  #
+  # @yieldparam [Net::HTTP] session
+  #   The newly created HTTP session.
+  #
+  # @return [nil]
+  #
+  # @see Net.http_connect
+  #
+  def Net.http_session(options={},&block)
+    Net.http_connect(options) do |sess,options|
+      if block
+        if block.arity == 2
+          block.call(sess,options)
+        else
+          block.call(sess)
+        end
+      end
+
+      sess.finish
+    end
+
+    return nil
   end
 
   #
