@@ -27,7 +27,7 @@ require 'net/http'
 
 begin
   require 'net/https'
-rescue LoadError
+rescue ::LoadError
 end
 
 module Net
