@@ -48,6 +48,13 @@ describe Network::HTTP do
   end
 
   describe "expand_options" do
+    it "should expand the :ssl option into a Hash" do
+      options = {:ssl => true}
+      expanded_options = Network::HTTP.expand_options(options)
+
+      expanded_options[:ssl].should == {}
+    end
+
     it "should added a default port and path" do
       options = {:host => 'example.com'}
       expanded_options = Network::HTTP.expand_options(options)
@@ -80,6 +87,13 @@ describe Network::HTTP do
       expanded_options = Network::HTTP.expand_options(options)
 
       expanded_options[:path].should == '/'
+    end
+
+    it "should set the :ssl option if the URI scheme is 'https'" do
+      options = {:url => 'https://example.com'}
+      expanded_options = Network::HTTP.expand_options(options)
+
+      expanded_options[:ssl].should == {}
     end
   end
 

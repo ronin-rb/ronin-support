@@ -110,8 +110,16 @@ module Ronin
       def HTTP.expand_options(options={})
         new_options = options.dup
 
+        if new_options[:ssl] == true
+          new_options[:ssl] = {}
+        end
+
         if new_options[:url]
           url = URI(new_options.delete(:url).to_s)
+
+          if url.scheme == 'https'
+            new_options[:ssl] ||= {}
+          end
 
           new_options[:host] = url.host
           new_options[:port] = url.port
