@@ -24,6 +24,11 @@ require 'ronin/extensions/uri/http'
 
 require 'net/http'
 
+begin
+  require 'net/https'
+rescue LoadError
+end
+
 module Net
   #
   # Connects to the HTTP server.
