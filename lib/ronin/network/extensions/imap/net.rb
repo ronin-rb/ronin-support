@@ -20,6 +20,7 @@
 #
 
 require 'ronin/network/imap'
+require 'ronin/network/ssl'
 
 require 'net/imap'
 
@@ -69,7 +70,7 @@ module Net
     if options[:ssl]
       ssl = true
       ssl_certs = options[:ssl][:certs]
-      ssl_verify = options[:ssl][:verify]
+      ssl_verify = Ronin::Network::SSL.verify(options[:ssl][:verify])
     else
       ssl = false
       ssl_verify = false

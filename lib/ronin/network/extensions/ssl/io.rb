@@ -19,6 +19,8 @@
 # Boston, MA  02110-1301  USA
 #
 
+require 'ronin/network/ssl'
+
 begin
   require 'openssl'
 rescue ::LoadError
@@ -49,14 +51,8 @@ class IO
   #   The ssl socket.
   #
   def ssl_start(options={})
-    verify_mode = 'VERIFY_' + (options[:verify] || :none).to_s.upcase
-
-    unless OpenSSL::SSL.const_defined?(verify_mode)
-      raise(RuntimeError,"unknown verify mode #{options[:verify]}",caller)
-    end
-
     ctx = OpenSSL::SSL::SSLContext.new()
-    ctx.verify_mode = OpenSSL::SSL.const_get(verify_mode)
+    ctx.verify_mode = Ronin::Network::SSL.verify(options[:verify])
 
     socket = OpenSSL::SSL::SSLSocket.new(self,ctx)
     socket.sync = true if options[:sync]
