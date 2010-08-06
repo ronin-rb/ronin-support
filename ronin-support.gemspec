@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Postmodern"]
-  s.date = %q{2010-07-09}
+  s.date = %q{2010-08-06}
   s.description = %q{Ronin Support is a support library for Ronin. Ronin EXT contains many of the convenience methods used by Ronin and additional libraries.}
   s.email = %q{postmodern.mod3@gmail.com}
   s.extra_rdoc_files = [
@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
     "COPYING.txt",
     "ChangeLog.md",
     "Gemfile",
+    "Gemfile.lock",
     "README.md",
     "Rakefile",
     "lib/ronin/extensions.rb",
@@ -146,6 +147,7 @@ Gem::Specification.new do |s|
     "spec/formatting/text/string_spec.rb",
     "spec/network/http/http_spec.rb",
     "spec/network/http/proxy_spec.rb",
+    "spec/network/ssl_spec.rb",
     "spec/path_spec.rb",
     "spec/scanner/classes/another_scanner.rb",
     "spec/scanner/classes/example_scanner.rb",
@@ -183,6 +185,7 @@ Gem::Specification.new do |s|
     "spec/formatting/text/string_spec.rb",
     "spec/network/http/http_spec.rb",
     "spec/network/http/proxy_spec.rb",
+    "spec/network/ssl_spec.rb",
     "spec/path_spec.rb",
     "spec/scanner/classes/another_scanner.rb",
     "spec/scanner/classes/example_scanner.rb",
@@ -204,14 +207,14 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<chars>, ["~> 0.1.2"])
       s.add_runtime_dependency(%q<data_paths>, ["~> 0.2.1"])
-      s.add_development_dependency(%q<bundler>, ["~> 0.9.19"])
+      s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<rake>, ["~> 0.8.7"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.4.0"])
       s.add_development_dependency(%q<rspec>, ["~> 2.0.0.beta.16"])
     else
       s.add_dependency(%q<chars>, ["~> 0.1.2"])
       s.add_dependency(%q<data_paths>, ["~> 0.2.1"])
-      s.add_dependency(%q<bundler>, ["~> 0.9.19"])
+      s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<rake>, ["~> 0.8.7"])
       s.add_dependency(%q<jeweler>, ["~> 1.4.0"])
       s.add_dependency(%q<rspec>, ["~> 2.0.0.beta.16"])
@@ -219,7 +222,7 @@ Gem::Specification.new do |s|
   else
     s.add_dependency(%q<chars>, ["~> 0.1.2"])
     s.add_dependency(%q<data_paths>, ["~> 0.2.1"])
-    s.add_dependency(%q<bundler>, ["~> 0.9.19"])
+    s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<rake>, ["~> 0.8.7"])
     s.add_dependency(%q<jeweler>, ["~> 1.4.0"])
     s.add_dependency(%q<rspec>, ["~> 2.0.0.beta.16"])
