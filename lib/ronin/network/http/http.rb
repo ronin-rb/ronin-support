@@ -153,6 +153,20 @@ module Ronin
       end
 
       #
+      # Converts an underscored, dashed, lowercase or uppercase HTTP header
+      # name to the standard camel-case HTTP header name.
+      #
+      # @param [Symbol, String] name
+      #   The unformatted HTTP header name.
+      #
+      # @return [String]
+      #   The camel-case HTTP header name.
+      #
+      def HTTP.header_name(name)
+        name.to_s.split(/[\s+_-]/).map { |word| word.capitalize }.join('-')
+      end
+
+      #
       # Converts underscored, dashed, lowercase and uppercase HTTP headers
       # to standard camel-cased HTTP headers.
       #
@@ -171,11 +185,7 @@ module Ronin
 
         if options
           options.each do |name,value|
-            header_name = name.to_s.split(/[\s+_-]/).map { |word|
-              word.capitalize
-            }.join('-')
-
-            headers[header_name] = value.to_s
+            headers[HTTP.header_name(name)] = value.to_s
           end
         end
 
