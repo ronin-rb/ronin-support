@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/technicalpickles/jeweler.git
-  revision: f27bcbb
+  revision: 429f8b7
   specs:
     jeweler (1.4.0)
       bundler (>= 0.9.5)
