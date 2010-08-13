@@ -3,77 +3,75 @@ require 'ronin/extensions/string'
 
 describe String do
   describe "each_substring" do
-    before(:all) do
-      @string = 'hello'
-    end
+    subject { 'hello' }
 
     it "should enumerate over each sub-string within the String" do
-      @string.each_substring do |sub_string|
-        @string.should include(sub_string)
+      subject.each_substring do |sub_string|
+        should include(sub_string)
       end
     end
 
     it "should allow passing the string index back" do
-      @string.each_substring do |sub_string,index|
-        @string[index,sub_string.length].should == sub_string
+      subject.each_substring do |sub_string,index|
+        subject[index,sub_string.length].should == sub_string
 
-        @string.should include(sub_string)
+        should include(sub_string)
       end
     end
 
     it "should enumerate over each sub-string of a minimum length" do
-      @string.each_substring(2) do |sub_string|
+      subject.each_substring(2) do |sub_string|
         sub_string.length.should >= 2
 
-        @string.should include(sub_string)
+        should include(sub_string)
       end
     end
 
     it "should return an Enumerator when no block is given" do
-      @string.each_substring.all? { |sub_string|
-        @string.include?(sub_string)
+      substrings = subject.each_substring
+      
+      substrings.all? { |sub_string|
+        subject.include?(sub_string)
       }.should == true
     end
   end
 
   describe "each_unique_substring" do
-    before(:all) do
-      @string = 'abablol'
-    end
-
-    before(:each) do
-      @seen = []
-    end
+    subject { 'abablol' }
 
     it "should enumerate over each unique sub-string within the String" do
-      @string.each_unique_substring do |sub_string|
-        @string.should include(sub_string)
+      seen = []
 
-        @seen << sub_string
+      subject.each_unique_substring do |sub_string|
+        should include(sub_string)
+        seen.should_not include(sub_string)
+
+        seen << sub_string
       end
-
-      @seen.uniq.should == @seen
     end
 
     it "should enumerate over each sub-string of a minimum length" do
-      @string.each_unique_substring(2) do |sub_string|
+      seen = []
+
+      subject.each_unique_substring(2) do |sub_string|
         sub_string.length.should >= 2
-        @string.should include(sub_string)
 
-        @seen << sub_string
+        should include(sub_string)
+        seen.should_not include(sub_string)
+
+        seen << sub_string
       end
-
-      @seen.uniq.should == @seen
     end
 
     it "should return an Enumerator when no block is given" do
-      @seen = @string.each_unique_substring.to_a
+      seen = subject.each_unique_substring
 
-      @seen.all? { |sub_string|
-        @string.include?(sub_string)
+      seen.all? { |sub_string|
+        subject.include?(sub_string)
       }.should == true
 
-      @seen.uniq.should == @seen
+      seen = seen.to_a
+      seen.uniq.should == seen
     end
   end
 
@@ -159,19 +157,21 @@ describe String do
     end
   end
 
-  it "should dump printable strings" do
-    "hello".dump.should == '"hello"'
-  end
+  describe "dump" do
+    it "should dump printable strings" do
+      "hello".dump.should == '"hello"'
+    end
 
-  it "should dump strings containing control characters" do
-    "hello\n\b\a".dump.should == '"hello\n\b\a"'
-  end
+    it "should dump strings containing control characters" do
+      "hello\n\b\a".dump.should == '"hello\n\b\a"'
+    end
 
-  it "should dump strings containing non-printable characters" do
-    "hello\x90\x05\xef".dump.should == '"hello\x90\x05\xef"'
-  end
+    it "should dump strings containing non-printable characters" do
+      "hello\x90\x05\xef".dump.should == '"hello\x90\x05\xef"'
+    end
 
-  it "should dump the string when calling the inspect method" do
-    "hello\x90\x05\xef".inspect.should == '"hello\x90\x05\xef"'
+    it "should dump the string when calling the inspect method" do
+      "hello\x90\x05\xef".inspect.should == '"hello\x90\x05\xef"'
+    end
   end
 end

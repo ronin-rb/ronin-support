@@ -2,9 +2,7 @@ require 'spec_helper'
 require 'ronin/path'
 
 describe Path do
-  before(:all) do
-    @n = 7
-  end
+  let(:n) { 7 }
 
   it "should inherit from Pathname" do
     Path.superclass.should == Pathname
@@ -28,7 +26,7 @@ describe Path do
     end
 
     it "should create directory-escaping paths" do
-      Path.up(@n).to_s.should == (['..'] * @n).join(File::SEPARATOR)
+      Path.up(n).to_s.should == (['..'] * n).join(File::SEPARATOR)
     end
 
     it "should create a range of directory-escaping paths" do
@@ -38,34 +36,32 @@ describe Path do
     end
 
     it "should allow using custom path separators" do
-      Path.up(@n,'\\').to_s.should == (['..'] * @n).join("\\")
+      Path.up(n,'\\').to_s.should == (['..'] * n).join("\\")
     end
   end
 
   describe "join" do
-    before(:all) do
-      @base_path = Path.new('base')
-    end
+    let(:base_path) { Path.new('base') }
 
     it "should join with sub-paths" do
       sub_path = File.join('one','two')
-      expected = [@base_path, sub_path].join(File::SEPARATOR)
+      expected = [base_path, sub_path].join(File::SEPARATOR)
 
-      @base_path.join(sub_path).to_s.should == expected
+      base_path.join(sub_path).to_s.should == expected
     end
 
     it "should join with a sub-directory" do
       sub_directory = 'three'
-      expected = [@base_path, sub_directory].join(File::SEPARATOR)
+      expected = [base_path, sub_directory].join(File::SEPARATOR)
 
-      @base_path.join(sub_directory).to_s.should == expected
+      base_path.join(sub_directory).to_s.should == expected
     end
 
     it "should not collapse directory traversals" do
-      traversal = Path.up(@n)
-      expected = [@base_path, traversal].join(File::SEPARATOR)
+      traversal = Path.up(n)
+      expected = [base_path, traversal].join(File::SEPARATOR)
 
-      @base_path.join(traversal).to_s.should == expected
+      base_path.join(traversal).to_s.should == expected
     end
   end
 end
