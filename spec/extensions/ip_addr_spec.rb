@@ -23,7 +23,7 @@ describe IPAddr do
 
     it "should return an Enumerator when no block is given" do
       @class_c.each.all? { |ip|
-        @class_c.should include(IPAddr.new(ip))
+        @class_c.include?(IPAddr.new(ip))
       }.should == true
     end
   end
