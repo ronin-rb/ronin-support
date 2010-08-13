@@ -61,7 +61,7 @@ module Net
   #   The newly created IMAP session object.
   #
   def Net.imap_connect(host,options={})
-    port = (options[:port] || Ronin::Net::IMAP.default_port)
+    port = (options[:port] || Ronin::Network::IMAP.default_port)
     certs = options[:certs]
     auth = options[:auth]
     user = options[:user]
