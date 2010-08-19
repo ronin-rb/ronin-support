@@ -27,13 +27,21 @@ module Ronin
   module Network
     module HTTP
       #
-      # The Ronin HTTP proxy to use.
+      # The Ronin HTTP proxy to use. Parses the value of the `HTTP_PROXY`
+      # environment variable if set.
       #
       # @return [Proxy]
-      #   The Ronin HTTP proxy hash.
+      #   The Ronin HTTP proxy.
+      #
+      # @see Proxy.new
+      # @see Proxy.parse
       #
       def HTTP.proxy
-        @@http_proxy ||= Proxy.new
+        @@http_proxy ||= if ENV['HTTP_PROXY']
+                           Proxy.parse(ENV['HTTP_PROXY'])
+                         else
+                           Proxy.new
+                         end
       end
 
       #
