@@ -1,10 +1,9 @@
 GIT
   remote: git://github.com/technicalpickles/jeweler.git
-  revision: 429f8b7
+  revision: d3b29e1
   specs:
     jeweler (1.4.0)
-      bundler (>= 0.9.5)
-      gemcutter (>= 0.1.0)
+      bundler (>= 1.0.0.rc.5)
       git (>= 1.2.5)
       rake
 
@@ -15,7 +14,6 @@ GEM
       yard (>= 0.2.3.5)
     data_paths (0.2.1)
     diff-lcs (1.1.2)
-    gemcutter (0.6.1)
     git (1.2.5)
     rake (0.8.7)
     rdiscount (1.6.5)

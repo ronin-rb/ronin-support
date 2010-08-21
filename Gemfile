@@ -1,9 +1,7 @@
 source 'https://rubygems.org'
 
-group(:runtime) do
-  gem 'chars',		'~> 0.1.2'
-  gem 'data_paths',	'~> 0.2.1'
-end
+gem 'chars',		'~> 0.1.2'
+gem 'data_paths',	'~> 0.2.1'
 
 group(:development) do
   gem 'bundler',		'~> 1.0.0'
