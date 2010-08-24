@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
 
-RSPEC_VERSION = '~> 2.0.0.beta.16'
-
 gem 'chars',		'~> 0.1.2'
 gem 'data_paths',	'~> 0.2.1'
 
@@ -22,7 +20,4 @@ group(:doc) do
   gem 'yard',		'~> 0.5.3'
 end
 
-group(:development, :test) do
-  gem 'rspec-core',	RSPEC_VERSION, :git => 'git://github.com/postmodern/rspec-core.git'
-  gem 'rspec',		RSPEC_VERSION
-end
+gem 'rspec',	'~> 2.0.0.beta.20', :group => [:development, :test]

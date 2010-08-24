@@ -1,12 +1,6 @@
 GIT
-  remote: git://github.com/postmodern/rspec-core.git
-  revision: 7a08cc8
-  specs:
-    rspec-core (2.0.0.beta.19)
-
-GIT
   remote: git://github.com/technicalpickles/jeweler.git
-  revision: 2a40fdc
+  revision: 62f2651
   specs:
     jeweler (1.5.0.pre)
       bundler (>= 1.0.0.rc.5)
@@ -23,13 +17,14 @@ GEM
     git (1.2.5)
     rake (0.8.7)
     rdiscount (1.6.5)
-    rspec (2.0.0.beta.19)
-      rspec-core (= 2.0.0.beta.19)
-      rspec-expectations (= 2.0.0.beta.19)
-      rspec-mocks (= 2.0.0.beta.19)
-    rspec-expectations (2.0.0.beta.19)
+    rspec (2.0.0.beta.20)
+      rspec-core (= 2.0.0.beta.20)
+      rspec-expectations (= 2.0.0.beta.20)
+      rspec-mocks (= 2.0.0.beta.20)
+    rspec-core (2.0.0.beta.20)
+    rspec-expectations (2.0.0.beta.20)
       diff-lcs (>= 1.1.2)
-    rspec-mocks (2.0.0.beta.19)
+    rspec-mocks (2.0.0.beta.20)
     yard (0.5.8)
 
 PLATFORMS
@@ -42,6 +37,5 @@ DEPENDENCIES
   jeweler (~> 1.5.0)!
   rake (~> 0.8.7)
   rdiscount (~> 1.6.3)
-  rspec (~> 2.0.0.beta.16)
-  rspec-core (~> 2.0.0.beta.16)!
+  rspec (~> 2.0.0.beta.20)
   yard (~> 0.5.3)
