@@ -35,11 +35,36 @@ module URI
     # new Hash.
     #
     def initialize(*args)
-      @query_params = {}
-
       super(*args)
 
       parse_query_params
+    end
+
+    #
+    # Parses a URI query string.
+    #
+    # @param [String] query_string
+    #   The URI query string.
+    #
+    # @return [Hash]
+    #   The parsed query parameters.
+    #
+    def QueryParams.parse(query_string)
+      query_params = {}
+
+      if query_string
+        query_string.split('&').each do |param|
+          name, value = param.split('=')
+
+          if value
+            query_params[name] = URI.decode(value)
+          else
+            query_params[name] = nil
+          end
+        end
+      end
+
+      return query_params
     end
 
     #
@@ -89,19 +114,7 @@ module URI
     # query_params with the parsed parameters.
     #
     def parse_query_params
-      @query_params.clear
-
-      if @query
-        @query.split('&').each do |param|
-          name, value = param.split('=')
-
-          if value
-            @query_params[name] = URI.decode(value)
-          else
-            @query_params[name] = nil
-          end
-        end
-      end
+      @query_params = QueryParams.parse(@query)
     end
 
     private
