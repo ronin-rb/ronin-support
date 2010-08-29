@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Postmodern"]
-  s.date = %q{2010-08-24}
+  s.date = %q{2010-08-28}
   s.description = %q{Ronin Support is a support library for Ronin. Ronin EXT contains many of the convenience methods used by Ronin and additional libraries.}
   s.email = %q{postmodern.mod3@gmail.com}
   s.extra_rdoc_files = [
@@ -34,9 +34,6 @@ Gem::Specification.new do |s|
     "lib/ronin/extensions/meta.rb",
     "lib/ronin/extensions/meta/object.rb",
     "lib/ronin/extensions/string.rb",
-    "lib/ronin/extensions/uri.rb",
-    "lib/ronin/extensions/uri/http.rb",
-    "lib/ronin/extensions/uri/query_params.rb",
     "lib/ronin/formatting.rb",
     "lib/ronin/formatting/binary.rb",
     "lib/ronin/formatting/digest.rb",
@@ -115,8 +112,6 @@ Gem::Specification.new do |s|
     "spec/extensions/ip_addr_spec.rb",
     "spec/extensions/kernel_spec.rb",
     "spec/extensions/string_spec.rb",
-    "spec/extensions/uri/http_spec.rb",
-    "spec/extensions/uri/query_params_spec.rb",
     "spec/formatting/binary/helpers/hexdumps.rb",
     "spec/formatting/binary/helpers/hexdumps/ascii.bin",
     "spec/formatting/binary/helpers/hexdumps/hexdump_decimal_shorts.txt",
@@ -174,8 +169,6 @@ Gem::Specification.new do |s|
     "spec/extensions/ip_addr_spec.rb",
     "spec/extensions/kernel_spec.rb",
     "spec/extensions/string_spec.rb",
-    "spec/extensions/uri/http_spec.rb",
-    "spec/extensions/uri/query_params_spec.rb",
     "spec/formatting/binary/helpers/hexdumps.rb",
     "spec/formatting/binary/integer_spec.rb",
     "spec/formatting/binary/string_spec.rb",
@@ -206,6 +199,7 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<chars>, ["~> 0.1.2"])
+      s.add_runtime_dependency(%q<uri-query_params>, ["~> 0.4.0"])
       s.add_runtime_dependency(%q<data_paths>, ["~> 0.2.1"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<rake>, ["~> 0.8.7"])
@@ -213,6 +207,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>, ["~> 2.0.0.beta.20"])
     else
       s.add_dependency(%q<chars>, ["~> 0.1.2"])
+      s.add_dependency(%q<uri-query_params>, ["~> 0.4.0"])
       s.add_dependency(%q<data_paths>, ["~> 0.2.1"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<rake>, ["~> 0.8.7"])
@@ -221,6 +216,7 @@ Gem::Specification.new do |s|
     end
   else
     s.add_dependency(%q<chars>, ["~> 0.1.2"])
+    s.add_dependency(%q<uri-query_params>, ["~> 0.4.0"])
     s.add_dependency(%q<data_paths>, ["~> 0.2.1"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<rake>, ["~> 0.8.7"])
