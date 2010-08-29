@@ -21,8 +21,8 @@
 
 require 'ronin/network/http'
 require 'ronin/network/ssl'
-require 'ronin/extensions/uri/http'
 
+require 'uri/query_params'
 require 'net/http'
 
 begin
