@@ -44,6 +44,7 @@ install or update Overlays.
 
 * [chars](http://github.com/postmodern/chars) ~> 0.1.2
 * [data_paths](http://github.com/postmodern/data_paths) ~> 0.2.0
+* [uri-query_params](http://github.com/postmodern/uri-query_params) ~> 0.4.0
 
 ## Install
 
