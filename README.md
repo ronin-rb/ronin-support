@@ -38,6 +38,27 @@ install or update Overlays.
 
 ## Features
 
+* Provides convenience methods for:
+  * Formatting data:
+    * Binary
+    * Text
+    * HTTP
+    * URIs
+  * Generating random text.
+  * Networking:
+    * TCP
+    * UDP
+    * SMTP / ESMTP
+    * POP3
+    * Imap
+    * Telnet
+    * HTTP / HTTPS
+  * Enumerating IP ranges:
+    * IPv4 / IPv6 addresses.
+    * CIDR / globbed ranges.
+  * (Un-)Hexdumping data.
+  * Handling exceptions.
+
 ## Examples
 
 For examples of the convenience methods provided by ronin-support,
