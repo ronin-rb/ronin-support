@@ -140,10 +140,10 @@ module Net
   # @see Net.http_connect
   #
   def Net.http_session(options={},&block)
-    Net.http_connect(options) do |sess,options|
+    Net.http_connect(options) do |sess,expanded_options|
       if block
         if block.arity == 2
-          block.call(sess,options)
+          block.call(sess,expanded_options)
         else
           block.call(sess)
         end
