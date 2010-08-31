@@ -40,6 +40,9 @@ install or update Overlays.
 
 ## Examples
 
+For examples of the convenience methods provided by ronin-support,
+please see [Everyday Ronin](http://ronin-ruby.github.com/resources/everyday_ronin.html).
+
 ## Requirements
 
 * [chars](http://github.com/postmodern/chars) ~> 0.1.2
