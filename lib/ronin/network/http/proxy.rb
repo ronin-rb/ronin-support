@@ -180,11 +180,11 @@ module Ronin
                        end
                      end
           
-          return URI::HTTP.build({
+          return URI::HTTP.build(
             :userinfo => userinfo,
             :host => self.host,
             :port => self.port
-          })
+          )
         end
 
         #
