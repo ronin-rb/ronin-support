@@ -29,9 +29,6 @@ module Ronin
       #
       class Proxy < Hash
 
-        # The default port of proxies
-        DEFAULT_PORT = 8080
-
         #
         # Creates a new Proxy object that represents a proxy to connect to.
         #
@@ -41,7 +38,7 @@ module Ronin
         # @option options [String] :host
         #   The host-name of the proxy.
         #
-        # @option options [Integer] :port (DEFAULT_PORT)
+        # @option options [Integer] :port
         #   The port that the proxy is running on.
         # @option options [String] :user
         #   The user-name to authenticate as.
@@ -52,7 +49,7 @@ module Ronin
           super()
 
           self[:host] = options[:host]
-          self[:port] = (options[:port] || DEFAULT_PORT)
+          self[:port] = options[:port]
           self[:user] = options[:user]
           self[:password] = options[:password]
         end
@@ -145,7 +142,7 @@ module Ronin
         #
         def disable!
           self[:host] = nil
-          self[:port] = DEFAULT_PORT
+          self[:port] = nil
           self[:user] = nil
           self[:password] = nil
 
@@ -160,7 +157,7 @@ module Ronin
         #   Net::HTTP::Proxy.
         #
         def enabled?
-          !(self[:host].nil? || self[:port].nil?)
+          !(self[:host].nil?)
         end
 
         #
@@ -289,10 +286,13 @@ module Ronin
         #   The inspection of the proxy object.
         #
         def inspect
-          unless (self[:host] || self[:port])
+          unless self[:host]
             str = 'disabled'
           else
-            str = "#{self[:host]}:#{self[:port]}"
+            str = ''
+            
+            str << self[:host]
+            str << ":#{self[:port]}" if self[:port]
 
             if self[:user]
               auth_str = self[:user]

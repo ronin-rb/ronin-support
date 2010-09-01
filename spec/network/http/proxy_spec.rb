@@ -54,8 +54,8 @@ describe Network::HTTP::Proxy do
     subject.host.should be_nil
   end
 
-  it "should have a default port" do
-    subject.port.should == 8080
+  it "should not have a port by default" do
+    subject.port.should be_nil
   end
 
   it "should be disabled by default" do
@@ -71,7 +71,7 @@ describe Network::HTTP::Proxy do
     subject.disable!
 
     subject[:host].should be_nil
-    subject[:port].should == 8080
+    subject[:port].should be_nil
     subject[:user].should be_nil
     subject[:password].should be_nil
   end
