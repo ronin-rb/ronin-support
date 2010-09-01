@@ -27,7 +27,7 @@ module Ronin
       # to a HTTP Proxy. The {Proxy} class can also test the reliability
       # of a HTTP proxy.
       #
-      class Proxy < Hash
+      class Proxy < Struct.new(:host, :port, :user, :password)
 
         #
         # Creates a new Proxy object that represents a proxy to connect to.
@@ -40,18 +40,20 @@ module Ronin
         #
         # @option options [Integer] :port
         #   The port that the proxy is running on.
+        #
         # @option options [String] :user
         #   The user-name to authenticate as.
+        #
         # @option options [String] :password
         #   The password to authenticate with.
         #
         def initialize(options={})
-          super()
-
-          self[:host] = options[:host]
-          self[:port] = options[:port]
-          self[:user] = options[:user]
-          self[:password] = options[:password]
+          super(
+            options[:host],
+            options[:port],
+            options[:user],
+            options[:password]
+          )
         end
 
         #
@@ -141,10 +143,10 @@ module Ronin
         # Disables the Proxy object.
         #
         def disable!
-          self[:host] = nil
-          self[:port] = nil
-          self[:user] = nil
-          self[:password] = nil
+          self.host = nil
+          self.port = nil
+          self.user = nil
+          self.password = nil
 
           return self
         end
@@ -157,91 +159,7 @@ module Ronin
         #   Net::HTTP::Proxy.
         #
         def enabled?
-          !(self[:host].nil?)
-        end
-
-        #
-        # @return [String, nil]
-        #   The host-name to connect when using the proxy.
-        #
-        def host
-          self[:host]
-        end
-
-        #
-        # Set the host-name of the proxy.
-        #
-        # @param [String] new_host
-        #   The new host-name to use.
-        #
-        # @return [String]
-        #   The new host-name to use.
-        #
-        def host=(new_host)
-          self[:host] = new_host.to_s
-        end
-
-        #
-        # @return [Integer]
-        #   The port to connect when using the proxy.
-        #
-        def port
-          self[:port]
-        end
-
-        #
-        # Set the port of the proxy.
-        #
-        # @param [Integer] new_port
-        #   The new port to use.
-        #
-        # @return [Integer]
-        #   The new port to use.
-        #
-        def port=(new_port)
-          self[:port] = new_port.to_i
-        end
-
-        #
-        # @return [String, nil]
-        #   The user-name to authenticate as, when using the proxy.
-        #
-        def user
-          self[:user]
-        end
-
-        #
-        # Set the user-name to authenticate as with the proxy.
-        #
-        # @param [String] new_user
-        #   The new user-name to use.
-        #
-        # @return [Integer]
-        #   The new user-name to use.
-        #
-        def user=(new_user)
-          self[:user] = new_user.to_s
-        end
-
-        #
-        # @return [String, nil]
-        #   The password to authenticate with, when using the proxy.
-        #
-        def password
-          self[:password]
-        end
-
-        #
-        # Set the password to authenticate with for the proxy.
-        #
-        # @param [String] new_user
-        #   The new user-name to use.
-        #
-        # @return [Integer]
-        #   The new user-name to use.
-        #
-        def password=(new_password)
-          self[:password] = new_password.to_s
+          !(self.host.nil?)
         end
 
         #
@@ -254,18 +172,18 @@ module Ronin
         def url
           return nil unless enabled?
 
-          userinfo = if self[:user]
-                       if self[:password]
-                         "#{self[:user]}:#{self[:password]}"
+          userinfo = if self.user
+                       if self.password
+                         "#{self.user}:#{self.password}"
                        else
-                         self[:user]
+                         self.user
                        end
                      end
           
           return URI::HTTP.build({
             :userinfo => userinfo,
-            :host => self[:host],
-            :port => self[:port]
+            :host => self.host,
+            :port => self.port
           })
         end
 
@@ -276,7 +194,7 @@ module Ronin
         #   The host-name of the proxy.
         #
         def to_s
-          self[:host].to_s
+          self.host.to_s
         end
 
         #
@@ -286,21 +204,21 @@ module Ronin
         #   The inspection of the proxy object.
         #
         def inspect
-          unless self[:host]
+          unless self.host
             str = 'disabled'
           else
             str = ''
             
-            str << self[:host]
-            str << ":#{self[:port]}" if self[:port]
+            str << self.host
+            str << ":#{self.port}" if self.port
 
-            if self[:user]
+            if self.user
               auth_str = ''
 
-              auth_str << self[:user]
+              auth_str << self.user
 
-              if self[:password]
-                auth_str << ":#{self[:password]}"
+              if self.password
+                auth_str << ":#{self.password}"
               end
 
               str = "#{auth_str}@#{str}"

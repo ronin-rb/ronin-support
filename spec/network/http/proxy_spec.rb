@@ -76,16 +76,6 @@ describe Network::HTTP::Proxy do
     subject[:password].should be_nil
   end
 
-  it "should convert host-names to Strings" do
-    subject.host = :"example.com"
-    subject.host.should == 'example.com'
-  end
-
-  it "should convert ports to Integers" do
-    subject.port = '8001'
-    subject.port.should == 8001
-  end
-
   it "should return a URI::HTTP representing the proxy" do
     subject[:host] = 'example.com'
     subject[:port] = 9001
