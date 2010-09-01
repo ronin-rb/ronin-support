@@ -21,7 +21,7 @@ GEM
       diff-lcs (>= 1.1.2)
     rspec-mocks (2.0.0.beta.20)
     uri-query_params (0.4.0)
-    yard (0.5.8)
+    yard (0.6.0)
 
 PLATFORMS
   ruby
@@ -34,4 +34,4 @@ DEPENDENCIES
   rdiscount (~> 1.6.3)
   rspec (~> 2.0.0.beta.20)
   uri-query_params (~> 0.4.0)
-  yard (~> 0.5.3)
+  yard (~> 0.6.0)
