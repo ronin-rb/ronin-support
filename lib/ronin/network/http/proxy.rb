@@ -295,10 +295,12 @@ module Ronin
             str << ":#{self[:port]}" if self[:port]
 
             if self[:user]
-              auth_str = self[:user]
+              auth_str = ''
+
+              auth_str << self[:user]
 
               if self[:password]
-                auth_str = "#{auth_str}:#{self[:password]}"
+                auth_str << ":#{self[:password]}"
               end
 
               str = "#{auth_str}@#{str}"
