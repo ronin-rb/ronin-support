@@ -78,7 +78,12 @@ module Net
     port = options[:port]
     proxy = options[:proxy]
 
-    sess = Net::HTTP::Proxy(proxy[:host],proxy[:port],proxy[:user],proxy[:pass]).new(host,port)
+    sess = Net::HTTP::Proxy(
+      proxy[:host],
+      proxy[:port],
+      proxy[:user],
+      proxy[:password]
+    ).new(host,port)
 
     if options[:ssl]
       sess.use_ssl = true
