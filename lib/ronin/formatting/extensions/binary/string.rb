@@ -202,18 +202,15 @@ class String
     key = if key.kind_of?(Integer)
             [key]
           elsif key.kind_of?(String)
-            key.enum_for(:each_byte).to_a
+            key.bytes
           else
-            key.to_a
+            key
           end
 
+    key = key.cycle
     result = ''
 
-    self.enum_for(:each_byte).each_with_index do |b,i|
-      result << (b ^ key[i % key.length])
-    end
-
-    return result
+    self.bytes.inject('') { |result,b| result << (b ^ key.next).chr }
   end
   
   
