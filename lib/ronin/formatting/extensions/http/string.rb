@@ -90,7 +90,7 @@ class String
   #
   # @example
   #   "hello".format_http
-  #   # => "&#104;&#101;&#108;&#108;&#111;"
+  #   # => "%68%65%6c%6c%6f"
   #
   # @see String#format_bytes
   #
