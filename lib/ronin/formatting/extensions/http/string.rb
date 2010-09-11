@@ -27,6 +27,8 @@ require 'cgi'
 class String
 
   #
+  # URI encodes the String.
+  #
   # @return [String]
   #   The URI encoded form of the String.
   #
@@ -38,6 +40,8 @@ class String
     URI.encode(self)
   end
 
+  #
+  # URI decodes the String.
   #
   # @return [String]
   #   The decoded URI form of the String.
@@ -51,6 +55,8 @@ class String
   end
 
   #
+  # URI escapes the String.
+  #
   # @return [String]
   #   The URI escaped form of the String.
   #
@@ -63,6 +69,8 @@ class String
   end
 
   #
+  # URI unescapes the String.
+  #
   # @return [String]
   #   The unescaped URI form of the String.
   #
@@ -74,6 +82,8 @@ class String
     CGI.unescape(self)
   end
 
+  #
+  # Formats the bytes of the String.
   #
   # @return [String]
   #   The HTTP hexidecimal encoded form of the String.
