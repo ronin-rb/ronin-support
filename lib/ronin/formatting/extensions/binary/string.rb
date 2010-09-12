@@ -121,7 +121,7 @@ class String
   # @see String#format_bytes
   #
   def hex_escape(options={})
-    format_bytes(options) { |b| "\\x%.2x" % b }
+    format_bytes(options) { |b| b.hex_escape }
   end
 
   #
