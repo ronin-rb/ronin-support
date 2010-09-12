@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'ronin/formatting/extensions/http/integer'
 
 describe Integer do
-  subject { ' ' }
+  subject { 0x20 }
 
   it "should provide String#uri_encode" do
     should respond_to(:uri_encode)
