@@ -12,6 +12,10 @@ describe Integer do
     should respond_to(:uri_escape)
   end
 
+  it "should provide String#format_http" do
+    should respond_to(:format_http)
+  end
+
   describe "uri_encode" do
     let(:uri_encoded) { '%20' }
 
@@ -25,6 +29,14 @@ describe Integer do
 
     it "should URI escape itself" do
       subject.uri_escape.should == uri_escaped
+    end
+  end
+
+  describe "format_http" do
+    let(:http_formatted) { '%20' }
+
+    it "should format the byte" do
+      subject.format_http.should == http_formatted
     end
   end
 end

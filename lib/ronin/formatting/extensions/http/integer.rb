@@ -44,4 +44,14 @@ class Integer
     CGI.escape(self.chr)
   end
 
+  #
+  # Formats the byte for HTTP.
+  #
+  # @return [String]
+  #   The formatted byte.
+  #
+  def format_http
+    "%%%x" % self
+  end
+
 end

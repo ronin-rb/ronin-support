@@ -19,6 +19,7 @@
 # Boston, MA  02110-1301  USA
 #
 
+require 'ronin/formatting/extensions/http/integer'
 require 'ronin/formatting/extensions/text'
 
 require 'uri'
@@ -95,7 +96,7 @@ class String
   # @see String#format_bytes
   #
   def format_http(options={})
-    format_bytes(options) { |b| "%%%x" % b }
+    format_bytes(options) { |b| b.format_http }
   end
 
 end
