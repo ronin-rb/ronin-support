@@ -37,10 +37,10 @@ describe String do
   describe "uri_decode" do
     subject { "mod%20%25%203" }
 
-    let(:uri_unencoded) { "mod % 3" }
+    let(:uri_decoded) { "mod % 3" }
 
     it "should URI decode itself" do
-      subject.uri_decode.should == uri_unencoded
+      subject.uri_decode.should == uri_decoded
     end
   end
 
@@ -67,10 +67,10 @@ describe String do
   describe "format_http" do
     subject { "mod % 3" }
 
-    let(:uri_http_encoded) { "%6d%6f%64%20%25%20%33" }
+    let(:http_formatted) { "%6d%6f%64%20%25%20%33" }
 
     it "should format each byte of the String" do
-      subject.format_http.should == uri_http_encoded
+      subject.format_http.should == http_formatted
     end
   end
 end
