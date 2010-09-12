@@ -19,5 +19,29 @@
 # Boston, MA  02110-1301  USA
 #
 
-require 'ronin/formatting/extensions/http/integer'
-require 'ronin/formatting/extensions/http/string'
+require 'uri'
+require 'cgi'
+
+class Integer
+
+  #
+  # URI encodes the byte.
+  #
+  # @return [String]
+  #   The URI encoded byte.
+  #
+  def uri_encode
+    URI.encode(self.chr)
+  end
+
+  #
+  # URI escapes the byte.
+  #
+  # @return [String]
+  #   The URI escaped byte.
+  #
+  def uri_escape
+    CGI.escape(self.chr)
+  end
+
+end

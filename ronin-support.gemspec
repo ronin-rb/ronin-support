@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Postmodern"]
-  s.date = %q{2010-08-31}
+  s.date = %q{2010-09-11}
   s.description = %q{Ronin Support is a support library for Ronin. Ronin EXT contains many of the convenience methods used by Ronin and additional libraries.}
   s.email = %q{postmodern.mod3@gmail.com}
   s.extra_rdoc_files = [
@@ -46,6 +46,7 @@ Gem::Specification.new do |s|
     "lib/ronin/formatting/extensions/digest/file.rb",
     "lib/ronin/formatting/extensions/digest/string.rb",
     "lib/ronin/formatting/extensions/http.rb",
+    "lib/ronin/formatting/extensions/http/integer.rb",
     "lib/ronin/formatting/extensions/http/string.rb",
     "lib/ronin/formatting/extensions/text.rb",
     "lib/ronin/formatting/extensions/text/array.rb",
@@ -137,6 +138,7 @@ Gem::Specification.new do |s|
     "spec/formatting/binary/integer_spec.rb",
     "spec/formatting/binary/string_spec.rb",
     "spec/formatting/digest/string_spec.rb",
+    "spec/formatting/http/integer_spec.rb",
     "spec/formatting/http/string_spec.rb",
     "spec/formatting/text/array_spec.rb",
     "spec/formatting/text/string_spec.rb",
@@ -173,6 +175,7 @@ Gem::Specification.new do |s|
     "spec/formatting/binary/integer_spec.rb",
     "spec/formatting/binary/string_spec.rb",
     "spec/formatting/digest/string_spec.rb",
+    "spec/formatting/http/integer_spec.rb",
     "spec/formatting/http/string_spec.rb",
     "spec/formatting/text/array_spec.rb",
     "spec/formatting/text/string_spec.rb",
