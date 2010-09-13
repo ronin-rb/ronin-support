@@ -19,7 +19,7 @@ Jeweler::Tasks.new do |gem|
   gem.licenses = ['LGPL-2.1']
   gem.summary = %Q{A support library for Ronin.}
   gem.description = %Q{Ronin Support is a support library for Ronin. Ronin EXT contains many of the convenience methods used by Ronin and additional libraries.}
-  gem.email = 'postmodern.mod3@gmail.com'
+  gem.email = 'ronin-ruby@googlegroups.com'
   gem.homepage = 'http://github.com/ronin-ruby/ronin-support'
   gem.authors = ['Postmodern']
   gem.has_rdoc = 'yard'
