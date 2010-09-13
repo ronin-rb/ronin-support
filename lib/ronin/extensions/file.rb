@@ -36,4 +36,23 @@ class File
     File.open(path,'w') { |file| file.write(data) }
   end
 
+  #
+  # Escapes a file name.
+  #
+  # @param [String]
+  #   Unescaped file name.
+  #
+  # @return [String]
+  #   The escaped file name.
+  #
+  def File.escape_name(name)
+    # remove any \0 characters first
+    filename = name.gsub("\0",'')
+
+    # escape directory separators
+    filename.gsub!("\/","\\\/")
+
+    return filename
+  end
+
 end
