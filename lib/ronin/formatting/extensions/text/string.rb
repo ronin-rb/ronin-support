@@ -88,9 +88,7 @@ class String
   #   The formatted version of the String.
   #
   def format_chars(options={})
-    format_bytes(options) do |b|
-      yield b.chr
-    end
+    format_bytes(options) { |b| yield b.chr }
   end
 
   #
