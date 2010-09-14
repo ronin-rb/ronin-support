@@ -70,6 +70,22 @@ describe Network::HTTP do
       expanded_options[:proxy].should == subject.proxy
     end
 
+    it "should disable the proxy settings if :proxy is nil" do
+      options = {:host => 'example.com', :proxy => nil}
+      expanded_options = subject.expand_options(options)
+
+      expanded_options[:proxy][:host].should be_nil
+      expanded_options[:proxy][:port].should be_nil
+    end
+
+    it "should parse the :proxy option" do
+      options = {:host => 'example.com', :proxy => 'http://proxy.com:8181'}
+      expanded_options = subject.expand_options(options)
+
+      expanded_options[:proxy][:host].should == 'proxy.com'
+      expanded_options[:proxy][:port].should == 8181
+    end
+
     it "should expand the :url option" do
       options = {:url => 'http://joe:secret@example.com:8080/bla?var'}
       expanded_options = subject.expand_options(options)
