@@ -196,8 +196,6 @@ module Net
     resp = nil
 
     Net.http_session(options) do |http,expanded_options|
-      http_body = expanded_options.delete(:body)
-
       req = Ronin::Network::HTTP.request(expanded_options)
 
       if block
@@ -208,7 +206,7 @@ module Net
         end
       end
 
-      resp = http.request(req,http_body)
+      resp = http.request(req)
     end
 
     return resp

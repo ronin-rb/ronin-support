@@ -214,6 +214,9 @@ module Ronin
       # @option options [String] :path ('/')
       #   The path to request.
       #
+      # @option options [String] :body
+      #   The body of the request.
+      #
       # @option options [Hash, String] :form_data
       #   The form data that may be sent in the body of the request.
       #
@@ -257,6 +260,8 @@ module Ronin
         if request.request_body_permitted?
           if options[:form_data]
             request.set_form_data(options[:form_data])
+          elsif options[:body]
+            request.body = options[:body]
           end
         end
 
