@@ -38,6 +38,16 @@ module Ronin
     end
 
     #
+    # The root path.
+    #
+    # @return [Path]
+    #   The root path.
+    #
+    def Path.root
+      Path.new('/')
+    end
+
+    #
     # Creates a new path object for upward directory traversal.
     #
     # @param [Integer, Array, Range] n
@@ -97,10 +107,23 @@ module Ronin
     #   # => #<Ronin::Path:../../../../../../../etc/passwd>
     #
     def join(*names)
-      names = names.map { |name| name.to_s }
-      names = [self] + names
+      sub_dirs = names.map { |name| name.to_s }
 
-      return self.class.new(names.join(@separator))
+      # filter out errant directory separators
+      sub_dirs.reject! { |dir| dir == @separator }
+
+      # join the path
+      sub_path = sub_dirs.join(@separator)
+
+      path = if self.root?
+               # prefix the root dir
+               self.to_s + sub_path
+             else
+               # join the path with the sub-path
+               [self.to_s, sub_path].join(@separator)
+             end
+
+      return self.class.new(path)
     end
 
     alias / join

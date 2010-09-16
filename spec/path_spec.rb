@@ -8,6 +8,13 @@ describe Path do
     Path.superclass.should == Pathname
   end
 
+  it "should provide the root path" do
+    path = Path.root
+
+    path.should.class == Path
+    path.to_s.should == '/'
+  end
+
   describe "up" do
     it "should be able to traverse up 0 directories" do
       Path.up(0).should == File::SEPARATOR
@@ -62,6 +69,16 @@ describe Path do
       expected = [base_path, traversal].join(File::SEPARATOR)
 
       base_path.join(traversal).to_s.should == expected
+    end
+
+    it "should filter out extra directory separators" do
+      expected = [base_path, 'sub'].join(File::SEPARATOR)
+
+      base_path.join('/','sub','/').to_s.should == expected
+    end
+
+    it "should join with the root path" do
+      Path.root.join('etc','passwd').to_s.should == '/etc/passwd'
     end
   end
 end
