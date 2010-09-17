@@ -48,4 +48,14 @@ describe IPAddr do
       ips.all? { |ip| ip =~ /^10\.1\.[1-5]\.1$/ }.should == true
     end
   end
+
+  let(:ip) { IPAddr.new(Resolv.getaddress('www.example.com')) }
+
+  it "should resolv the host-name for an IP" do
+    ip.resolv_name.should == 'www.example.com'
+  end
+
+  it "should resolv the host-names for an IP" do
+    ip.resolv_name.should include('www.example.com')
+  end
 end

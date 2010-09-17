@@ -20,6 +20,7 @@
 #
 
 require 'ipaddr'
+require 'resolv'
 
 class IPAddr
 
@@ -118,6 +119,26 @@ class IPAddr
 
     expand_range.call([], ranges)
     return nil
+  end
+
+  #
+  # Resolves the host-name for the IP address.
+  #
+  # @return [String]
+  #   The host-name for the IP address.
+  #
+  def resolv_name
+    Resolv.getname(self.to_s)
+  end
+
+  #
+  # Resolves the host-names for the IP address.
+  #
+  # @return [Array<String>]
+  #   The host-names for the IP address.
+  #
+  def resolv_names
+    Resolv.getnames(self.to_s)
   end
 
   #
