@@ -38,7 +38,7 @@ module Ronin
       #   The default Ronin Telnet port.
       #
       def Telnet.default_port
-        @@telnet_default_port ||= DEFAULT_PORT
+        @default_port ||= DEFAULT_PORT
       end
 
       #
@@ -48,7 +48,7 @@ module Ronin
       #   The new default Ronin Telnet port.
       #
       def Telnet.default_port=(port)
-        @@telnet_default_port = port
+        @default_port = port
       end
 
       #
@@ -56,7 +56,7 @@ module Ronin
       #   The default Ronin Telnet prompt pattern.
       #
       def Telnet.default_prompt
-        @@telnet_default_prompt ||= DEFAULT_PROMPT
+        @default_prompt ||= DEFAULT_PROMPT
       end
 
       #
@@ -66,7 +66,7 @@ module Ronin
       #   The new default Ronin Telnet prompt pattern.
       #
       def Telnet.default_prompt=(prompt)
-        @@telnet_default_prompt = prompt
+        @default_prompt = prompt
       end
 
       #
@@ -74,7 +74,7 @@ module Ronin
       #   The default Ronin Telnet timeout.
       #
       def Telnet.default_timeout
-        @@telnet_default_timeout ||= DEFAULT_TIMEOUT
+        @default_timeout ||= DEFAULT_TIMEOUT
       end
 
       #
@@ -84,7 +84,7 @@ module Ronin
       #   The new default Ronin Telnet timeout.
       #
       def Telnet.default_timeout=(timeout)
-        @@telnet_default_timeout = timeout
+        @default_timeout = timeout
       end
 
       #
@@ -92,7 +92,7 @@ module Ronin
       #   The Ronin Telnet proxy.
       #
       def Telnet.proxy
-        @@telnet_proxy ||= nil
+        @proxy ||= nil
       end
 
       #
@@ -102,7 +102,7 @@ module Ronin
       #   The new Ronin Telnet proxy.
       #
       def Telnet.proxy=(new_proxy)
-        @@telnet_proxy = new_proxy
+        @proxy = new_proxy
       end
     end
   end

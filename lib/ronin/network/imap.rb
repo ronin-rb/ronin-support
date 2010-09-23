@@ -32,7 +32,7 @@ module Ronin
       #   The default Ronin IMAP port.
       #
       def IMAP.default_port
-        @@imap_default_port ||= DEFAULT_PORT
+        @default_port ||= DEFAULT_PORT
       end
 
       #
@@ -42,7 +42,7 @@ module Ronin
       #   The new default Ronin IMAP port.
       #
       def IMAP.default_port=(port)
-        @@imap_default_port = port
+        @default_port = port
       end
     end
   end

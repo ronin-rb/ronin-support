@@ -32,7 +32,7 @@ module Ronin
       #   The default Ronin POP3 port.
       #
       def POP3.default_port
-        @@pop3_default_port ||= DEFAULT_PORT
+        @default_port ||= DEFAULT_PORT
       end
 
       #
@@ -42,7 +42,7 @@ module Ronin
       #   The new default Ronin POP3 port.
       #
       def POP3.default_port=(port)
-        @@pop3_default_port = port
+        @default_port = port
       end
     end
   end

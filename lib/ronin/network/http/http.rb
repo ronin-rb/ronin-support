@@ -37,11 +37,11 @@ module Ronin
       # @see Proxy.parse
       #
       def HTTP.proxy
-        @@http_proxy ||= if ENV['HTTP_PROXY']
-                           Proxy.parse(ENV['HTTP_PROXY'])
-                         else
-                           Proxy.new
-                         end
+        @proxy ||= if ENV['HTTP_PROXY']
+                     Proxy.parse(ENV['HTTP_PROXY'])
+                   else
+                     Proxy.new
+                   end
       end
 
       #
@@ -54,7 +54,7 @@ module Ronin
       #   The new proxy.
       #
       def HTTP.proxy=(new_proxy)
-        @@http_proxy = Proxy.create(new_proxy)
+        @proxy = Proxy.create(new_proxy)
       end
 
       #
@@ -64,7 +64,7 @@ module Ronin
       #   The default Ronin HTTP User-Agent.
       #
       def HTTP.user_agent
-        @@http_user_agent ||= nil
+        @user_agent ||= nil
       end
 
       #
@@ -74,7 +74,7 @@ module Ronin
       #   The new User-Agent string to use.
       #
       def HTTP.user_agent=(agent)
-        @@http_user_agent = agent
+        @user_agent = agent
       end
 
       #

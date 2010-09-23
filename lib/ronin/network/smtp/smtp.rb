@@ -32,7 +32,7 @@ module Ronin
       #   The default Ronin SMTP port.
       #
       def SMTP.default_port
-        @@smtp_default_port ||= DEFAULT_PORT
+        @default_port ||= DEFAULT_PORT
       end
 
       #
@@ -42,7 +42,7 @@ module Ronin
       #   The new default Ronin SMTP port.
       #
       def SMTP.default_port=(port)
-        @@smtp_default_port = port
+        @default_port = port
       end
 
       #
