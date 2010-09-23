@@ -74,7 +74,7 @@ module Ronin
         # @example
         #   Proxy.parse('http://201.26.192.61:8080')
         #
-        def Proxy.parse(proxy)
+        def self.parse(proxy)
           proxy = proxy.to_s.gsub(/^http(s)?:\/*/,'')
 
           if proxy.include?('@')
@@ -88,7 +88,7 @@ module Ronin
           host, port = proxy.split(':',2)
           port = port.to_i if port
 
-          return Proxy.new(
+          return self.new(
             :host => host,
             :port => port,
             :user => user,
