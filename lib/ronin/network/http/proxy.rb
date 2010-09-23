@@ -97,6 +97,39 @@ module Ronin
         end
 
         #
+        # Creates a new proxy.
+        #
+        # @param [Proxy, URI::HTTP, Hash, String] proxy
+        #   The proxy information.
+        #
+        # @return [Proxy]
+        #   The new proxy.
+        #
+        # @raise [ArgumentError]
+        #   The given proxy information was not a {Proxy}, `URI::HTTP`, {Hash}
+        #   or {String}.
+        #
+        def self.create(proxy)
+          case proxy
+          when Proxy
+            proxy
+          when URI::HTTP
+            self.new(
+              :host => proxy.host,
+              :port => proxy.port,
+              :user => proxy.user,
+              :password => proxy.password
+            )
+          when Hash
+            self.new(proxy)
+          when String
+            self.parse(proxy)
+          else
+            raise(ArgumentError,"argument must be either a #{self}, URI::HTTP, Hash or String",caller)
+          end
+        end
+
+        #
         # Tests the proxy.
         #
         # @return [Boolean]

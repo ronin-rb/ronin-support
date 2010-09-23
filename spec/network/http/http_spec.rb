@@ -8,45 +8,6 @@ describe Network::HTTP do
     end
   end
 
-  describe "proxy=" do
-    after(:all) do
-      subject.proxy.disable!
-    end
-
-    it "should accept subject::Proxy arguments" do
-      subject.proxy = subject::Proxy.new(
-        :host => 'www.example.com',
-        :port => 9001
-      )
-
-      subject.proxy[:host].should == 'www.example.com'
-      subject.proxy[:port].should == 9001
-    end
-
-    it "should accept Hash arguments" do
-      subject.proxy = {
-        :host => 'www.example.com',
-        :port => 9001
-      }
-
-      subject.proxy[:host].should == 'www.example.com'
-      subject.proxy[:port].should == 9001
-    end
-
-    it "should accept String arguments" do
-      subject.proxy = 'www.example.com:9001'
-
-      subject.proxy[:host].should == 'www.example.com'
-      subject.proxy[:port].should == 9001
-    end
-
-    it "should raise a RuntimeError exception when given anything else" do
-      lambda {
-        subject.proxy = 42
-      }.should raise_error(RuntimeError)
-    end
-  end
-
   describe "expand_options" do
     it "should expand the :ssl option into a Hash" do
       options = {:ssl => true}

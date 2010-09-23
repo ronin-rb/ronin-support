@@ -3,21 +3,23 @@ require 'ronin/network/http/proxy'
 
 describe Network::HTTP::Proxy do
   describe "parse" do
+    subject { Network::HTTP::Proxy }
+
     it "should parse host-names" do
-      proxy = Network::HTTP::Proxy.parse('127.0.0.1')
+      proxy = subject.parse('127.0.0.1')
 
       proxy.host.should == '127.0.0.1'
     end
 
     it "should parse 'host:port' URLs" do
-      proxy = Network::HTTP::Proxy.parse('127.0.0.1:80')
+      proxy = subject.parse('127.0.0.1:80')
 
       proxy.host.should == '127.0.0.1'
       proxy.port.should == 80
     end
 
     it "should parse 'user@host:port' URLs" do
-      proxy = Network::HTTP::Proxy.parse('joe@127.0.0.1:80')
+      proxy = subject.parse('joe@127.0.0.1:80')
 
       proxy.user.should == 'joe'
       proxy.host.should == '127.0.0.1'
@@ -25,7 +27,7 @@ describe Network::HTTP::Proxy do
     end
 
     it "should prase 'user:password@host:port' URLs" do
-      proxy = Network::HTTP::Proxy.parse('joe:lol@127.0.0.1:80')
+      proxy = subject.parse('joe:lol@127.0.0.1:80')
 
       proxy.user.should == 'joe'
       proxy.password.should == 'lol'
@@ -34,12 +36,49 @@ describe Network::HTTP::Proxy do
     end
 
     it "should ignore http:// prefixes when parsing proxy URLs" do
-      proxy = Network::HTTP::Proxy.parse('http://joe:lol@127.0.0.1:80')
+      proxy = subject.parse('http://joe:lol@127.0.0.1:80')
 
       proxy.user.should == 'joe'
       proxy.password.should == 'lol'
       proxy.host.should == '127.0.0.1'
       proxy.port.should == 80
+    end
+  end
+
+  describe "create" do
+    subject { Network::HTTP::Proxy }
+
+    let(:host) { '127.0.0.1' }
+    let(:port) { 8080 }
+
+    it "should accept Proxy objects" do
+      proxy = subject.new(:host => host, :port => port)
+
+      subject.create(proxy).should == proxy
+    end
+
+    it "should accept URI::HTTP objects" do
+      url = URI::HTTP.build(:host => host, :port => port)
+
+      proxy = subject.create(url)
+      proxy.host.should == host
+      proxy.port.should == port
+    end
+
+    it "should accept Hash objects" do
+      hash = {:host => host, :port => port}
+
+      proxy = subject.create(hash)
+      proxy.host.should == host
+      proxy.port.should == port
+    end
+
+    it "should accept String objects" do
+      string = "#{host}:#{port}"
+
+      proxy = subject.create(string)
+      proxy.host.should == host
+      proxy.port.should == port
     end
   end
 
