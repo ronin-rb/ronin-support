@@ -124,6 +124,8 @@ module Ronin
             self.new(proxy)
           when String
             self.parse(proxy)
+          when nil
+            self.new
           else
             raise(ArgumentError,"argument must be either a #{self}, URI::HTTP, Hash or String",caller)
           end

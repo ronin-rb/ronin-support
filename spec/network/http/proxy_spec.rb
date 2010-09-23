@@ -59,26 +59,32 @@ describe Network::HTTP::Proxy do
 
     it "should accept URI::HTTP objects" do
       url = URI::HTTP.build(:host => host, :port => port)
-
       proxy = subject.create(url)
+
       proxy.host.should == host
       proxy.port.should == port
     end
 
     it "should accept Hash objects" do
       hash = {:host => host, :port => port}
-
       proxy = subject.create(hash)
+
       proxy.host.should == host
       proxy.port.should == port
     end
 
     it "should accept String objects" do
       string = "#{host}:#{port}"
-
       proxy = subject.create(string)
+
       proxy.host.should == host
       proxy.port.should == port
+    end
+
+    it "should accept nil" do
+      proxy = subject.create(nil)
+
+      proxy.should_not be_enabled
     end
   end
 
