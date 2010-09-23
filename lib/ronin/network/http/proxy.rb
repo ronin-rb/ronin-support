@@ -106,8 +106,8 @@ module Ronin
         #   The new proxy.
         #
         # @raise [ArgumentError]
-        #   The given proxy information was not a {Proxy}, `URI::HTTP`, {Hash}
-        #   or {String}.
+        #   The given proxy information was not a {Proxy}, `URI::HTTP`,
+        #   `Hash` or {String}.
         #
         def self.create(proxy)
           case proxy

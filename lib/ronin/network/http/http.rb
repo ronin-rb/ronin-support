@@ -47,11 +47,15 @@ module Ronin
       #
       # Sets the Ronin HTTP proxy to use.
       #
-      # @param [Proxy, Hash, String] new_proxy
-      #   The new proxy to use.
+      # @param [Proxy, URI::HTTP, Hash, String] new_proxy
+      #   The new proxy information to use.
       #
       # @return [Proxy]
       #   The new proxy.
+      #
+      # @raise [ArgumentError]
+      #   The given proxy information was not a {Proxy}, `URI::HTTP`,
+      #   `Hash` or {String}.
       #
       def HTTP.proxy=(new_proxy)
         @proxy = Proxy.create(new_proxy)
