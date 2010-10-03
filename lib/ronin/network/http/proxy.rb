@@ -149,13 +149,13 @@ module Ronin
         end
 
         #
-        # Measures the lag of the proxy.
+        # Measures the latency of the proxy.
         #
         # @return [Float]
         #   The extra number of seconds it takes the proxy to process the
-        #   request.
+        #   request, compared to sending the request directly.
         #
-        def lag
+        def latency
           time = lambda { |proxy|
             t1 = Time.now
             Net.http_head(
@@ -173,6 +173,8 @@ module Ronin
             return (1.0/0)
           end
         end
+
+        alias lag latency
 
         #
         # Disables the Proxy object.
