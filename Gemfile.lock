@@ -3,6 +3,7 @@ GEM
   specs:
     chars (0.1.2)
       yard (>= 0.2.3.5)
+    combinatorics (0.1.0)
     data_paths (0.2.1)
     diff-lcs (1.1.2)
     git (1.2.5)
@@ -28,6 +29,7 @@ PLATFORMS
 
 DEPENDENCIES
   chars (~> 0.1.2)
+  combinatorics (~> 0.1.0)
   data_paths (~> 0.2.1)
   jeweler (~> 1.5.0.pre)
   rake (~> 0.8.7)
