@@ -82,6 +82,39 @@ module Ronin
       end
 
       #
+      # Expands the URL into options.
+      #
+      # @param [URI::HTTP, String, nil] url
+      #   The URL to expand.
+      #
+      # @return [Hash{Symbol => Object}]
+      #   The options for the URL.
+      #
+      def HTTP.expand_url(url)
+        new_options = {
+          :port => Net::HTTP.default_port,
+          :path => '/'
+        }
+
+        if url
+          url = URI(url.to_s) unless url.kind_of?(URI)
+
+          new_options[:ssl] = {} if url.scheme == 'https'
+
+          new_options[:host] = url.host
+          new_options[:port] = url.port
+
+          new_options[:user] = url.user if url.user
+          new_options[:password] = url.password if url.password
+
+          new_options[:path] = url.path unless url.path.empty?
+          new_options[:path] += "?#{url.query}" if url.query
+        end
+
+        return new_options
+      end
+
+      #
       # Expands the given HTTP options.
       #
       # @param [Hash] options
@@ -118,43 +151,13 @@ module Ronin
           new_options[:ssl] = {}
         end
 
-        if new_options[:url]
-          url = URI(new_options.delete(:url).to_s)
-
-          if url.scheme == 'https'
-            new_options[:ssl] ||= {}
-          end
-
-          new_options[:host] = url.host
-          new_options[:port] = url.port
-
-          new_options[:user] = url.user if url.user
-          new_options[:password] = url.password if url.password
-
-          unless url.path.empty?
-            new_options[:path] = url.path
-          else
-            new_options[:path] = '/'
-          end
-
-          new_options[:path] << "?#{url.query}" if url.query
-        else
-          new_options[:port] ||= ::Net::HTTP.default_port
-          new_options[:path] ||= '/'
-        end
+        url = new_options.delete(:url)
+        new_options.merge!(HTTP.expand_url(url))
 
         new_options[:proxy] = if new_options.has_key?(:proxy)
-                                proxy = new_options[:proxy]
-
-                                if proxy.kind_of?(HTTP::Proxy)
-                                  proxy
-                                elsif proxy.kind_of?(Hash)
-                                  HTTP::Proxy.new(proxy)
-                                else
-                                  HTTP::Proxy.parse(proxy)
-                                end
+                                HTTP::Proxy.create(new_options[:proxy])
                               else
-                                Ronin::Network::HTTP.proxy
+                                HTTP.proxy
                               end
 
         return new_options
