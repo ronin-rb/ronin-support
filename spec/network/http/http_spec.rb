@@ -39,6 +39,14 @@ describe Network::HTTP do
       expanded_options[:proxy][:port].should be_nil
     end
 
+    it "should not modify :proxy if it is a HTTP::Proxy object" do
+      proxy = Network::HTTP::Proxy.new(:host => 'proxy.com', :port => 8181)
+      options = {:host => 'example.com', :proxy => proxy}
+      expanded_options = subject.expand_options(options)
+
+      expanded_options[:proxy].should == proxy
+    end
+
     it "should parse the :proxy option" do
       options = {:host => 'example.com', :proxy => 'http://proxy.com:8181'}
       expanded_options = subject.expand_options(options)

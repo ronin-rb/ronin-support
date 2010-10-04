@@ -146,10 +146,12 @@ module Ronin
         new_options[:proxy] = if new_options.has_key?(:proxy)
                                 proxy = new_options[:proxy]
 
-                                if proxy.kind_of?(Hash)
-                                  Ronin::Network::HTTP::Proxy.new(proxy)
+                                if proxy.kind_of?(HTTP::Proxy)
+                                  proxy
+                                elsif proxy.kind_of?(Hash)
+                                  HTTP::Proxy.new(proxy)
                                 else
-                                  Ronin::Network::HTTP::Proxy.parse(proxy)
+                                  HTTP::Proxy.parse(proxy)
                                 end
                               else
                                 Ronin::Network::HTTP.proxy
