@@ -2,6 +2,113 @@ require 'spec_helper'
 require 'ronin/extensions/ip_addr'
 
 describe IPAddr do
+  describe "extract" do
+    context "ipv4" do
+      it "should extract a single IPv4 address" do
+        addr = '127.0.0.1'
+
+        IPAddr.extract(addr,:ipv4).should == [addr]
+      end
+
+      it "should extract multiple IPv4 addresses" do
+        addrs = %w[127.0.0.1 192.168.0.1]
+        text = "#{addrs[0]} #{addrs[1]}"
+
+        IPAddr.extract(text,:ipv4).should == addrs
+      end
+
+      it "should extract IPv4 addresses from text" do
+        addr = '127.0.0.1'
+        text = "ip (#{addr})"
+
+        IPAddr.extract(text,:ipv4).should == [addr]
+      end
+
+      it "should ignore leading periods" do
+        addr = '127.0.0.1'
+        text = ".#{addr}"
+
+        IPAddr.extract(text,:ipv4).should == [addr]
+      end
+
+      it "should ignore tailing periods" do
+        addr = '127.0.0.1'
+        text = "#{addr}."
+
+        IPAddr.extract(text,:ipv4).should == [addr]
+      end
+
+      it "should ignore less than 3 octet IPv4 addresses" do
+        text = '127.0.0. 1'
+
+        IPAddr.extract(text,:ipv4).should be_empty
+      end
+
+      it "should ignore IPv4 addresses with more than 3 diget octets" do
+        text = '127.1111.0.1'
+
+        IPAddr.extract(text,:ipv4).should be_empty
+      end
+    end
+
+    context "ipv6" do
+      it "should extract a single IPv6 address" do
+        addr = 'fe80:0000:0000:0000:0204:61ff:fe9d:f156'
+
+        IPAddr.extract(addr,:ipv6).should == [addr]
+      end
+
+      it "should extract multiple IPv6 addresses" do
+        addrs = %w[::1 fe80:0000:0000:0000:0204:61ff:fe9d:f156]
+        text = "#{addrs[0]} #{addrs[1]}"
+
+        IPAddr.extract(text,:ipv6).should == addrs
+      end
+
+      it "should extract collapsed IPv6 addresses" do
+        addr = 'fe80::0204:61ff:fe9d:f156'
+        text = ":: #{addr} ::"
+
+        IPAddr.extract(text,:ipv6).should == [addr]
+      end
+
+      it "should extract IPv6 addresses from text" do
+        addr = 'fe80:0000:0000:0000:0204:61ff:fe9d:f156'
+        text = "hello #{addr} world"
+
+        IPAddr.extract(text,:ipv6).should == [addr]
+      end
+
+      it "should extract trailing IPv4 suffixes" do
+        addr = 'fe80:0000:0000:0000:0204:61ff:fe9d:f156:222.1.1.1'
+        text = "#{addr} 1.1.1.1"
+
+        IPAddr.extract(text,:ipv6).should == [addr]
+      end
+
+      it "should extract short-hand IPv6 addresses" do
+        addr = '::f0:0d'
+        text = "ipv6: #{addr}"
+
+        IPAddr.extract(text,:ipv6).should == [addr]
+      end
+    end
+
+    it "should extract both IPv4 and IPv6 addresses" do
+      ipv4 = '127.0.0.1'
+      ipv6 = '::1'
+      text = "ipv4: #{ipv4}, ipv6: #{ipv6}"
+
+      IPAddr.extract(text).should == [ipv4, ipv6]
+    end
+
+    it "should ignore non-IP addresses" do
+      text = 'one :: two.three.'
+
+      IPAddr.extract(text).should be_empty
+    end
+  end
+
   describe "CIDR addresses" do
     let(:fixed_addr) { IPAddr.new('10.1.1.2') }
     let(:class_c) { IPAddr.new('10.1.1.2/24') }

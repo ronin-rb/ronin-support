@@ -21,10 +21,61 @@
 
 require 'ipaddr'
 require 'resolv'
+require 'strscan'
 
 class IPAddr
 
   include Enumerable
+
+  # A regular expression for matching IPv4 Addresses.
+  IPV4_REGEXP = /[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}/
+
+  # A regular expression for matching IPv6 Addresses.
+  IPV6_REGEXP = /:(:[0-9a-f]{1,4}){1,7}|([0-9a-f]{1,4}::?){1,7}[0-9a-f]{1,4}(:#{IPV4_REGEXP})?/
+
+  # A regular expression for matching IP Addresses.
+  REGEXP = /#{IPV4_REGEXP}|#{IPV6_REGEXP}/
+
+  #
+  # Extracts IP Addresses from text.
+  #
+  # @param [String] text
+  #   The text to scan for IP Addresses.
+  #
+  # @param [Symbol] version
+  #   The version of IP Address to scan for (`:ipv4` or `:ipv6`).
+  #
+  # @yield [ip]
+  #   The given block will be passed each extracted IP Address.
+  #
+  # @yieldparam [String] ip
+  #   An IP Address from the text.
+  #
+  # @return [Array<String>]
+  #   The IP Addresses found in the text.
+  #
+  def IPAddr.extract(text,version=nil,&block)
+    regexp = case version
+             when :ipv4
+               IPV4_REGEXP
+             when :ipv6
+               IPV6_REGEXP
+             else
+               REGEXP
+             end
+
+    parser = StringScanner.new(text)
+
+    if block_given?
+      yield parser.matched while parser.skip_until(regexp)
+      return nil
+    else
+      ips = []
+
+      ips << parser.matched while parser.skip_until(regexp)
+      return ips
+    end
+  end
 
   #
   # Iterates over each IP address within the IP Address range. Supports
