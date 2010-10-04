@@ -19,6 +19,9 @@
 # Boston, MA  02110-1301  USA
 #
 
+require 'ronin/extensions/ip_addr'
+require 'ronin/network/network'
+
 module Ronin
   module Network
     module HTTP
@@ -175,6 +178,39 @@ module Ronin
         end
 
         alias lag latency
+
+        #
+        # The IP address the proxy sends with proxied requests.
+        #
+        # @return [String]
+        #   The IP address the proxy uses for our reuqests.
+        #
+        def proxied_ip
+          IPAddr.extract(Net.http_get_body(
+            :url => Network::IP_URL,
+            :proxy => self
+          )).first
+        end
+
+        #
+        # Determines whether the proxy forwards our IP address.
+        #
+        # @return [Boolean]
+        #   Specifies whether the proxy will forward our IP address.
+        #
+        def transparent?
+          Network.ip == proxied_ip
+        end
+
+        #
+        # Determines whether the proxy will hide our IP address.
+        #
+        # @return [Boolean]
+        #   Specifies whether the proxy will hide our IP address.
+        #
+        def anonymous?
+          (valid? && !(transparent?))
+        end
 
         #
         # Disables the Proxy object.
