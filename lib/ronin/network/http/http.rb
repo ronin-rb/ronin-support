@@ -97,7 +97,14 @@ module Ronin
         }
 
         if url
-          url = URI(url.to_s) unless url.kind_of?(URI)
+          url = case url
+                when URI
+                  url
+                when Hash
+                  URI::HTTP.build(url)
+                else
+                  URI(url.to_s)
+                end
 
           new_options[:ssl] = {} if url.scheme == 'https'
 

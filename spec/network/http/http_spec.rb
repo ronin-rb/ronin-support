@@ -11,11 +11,21 @@ describe Network::HTTP do
   describe "expand_url" do
     let(:url) { URI('http://example.com:443/path?q=1') }
 
-    it "should accept nil" do
-      options = subject.expand_url(nil)
+    it "should accept URI objects" do
+      options = subject.expand_url(url)
 
-      options[:port].should == Net::HTTP.default_port
-      options[:path].should == '/'
+      options[:host].should == url.host
+    end
+
+    it "should accept Hashes" do
+      hash = {
+        :host => url.host,
+        :port => url.port,
+      }
+      options = subject.expand_url(hash)
+
+      options[:host].should == url.host
+      options[:port].should == url.port
     end
 
     it "should accept Strings" do
@@ -25,10 +35,11 @@ describe Network::HTTP do
       options[:port].should == url.port
     end
 
-    it "should accept URI objects" do
-      options = subject.expand_url(url)
+    it "should accept nil" do
+      options = subject.expand_url(nil)
 
-      options[:host].should == url.host
+      options[:port].should == Net::HTTP.default_port
+      options[:path].should == '/'
     end
 
     it "should default :path to '/'" do
