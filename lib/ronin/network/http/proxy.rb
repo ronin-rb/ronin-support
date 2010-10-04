@@ -209,7 +209,7 @@ module Ronin
         #   Specifies whether the proxy will hide our IP address.
         #
         def anonymous?
-          (valid? && !(transparent?))
+          !(transparent?)
         end
 
         #
