@@ -192,7 +192,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<data_paths>, ["~> 0.2.1"])
       s.add_development_dependency(%q<rake>, ["~> 0.8.7"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.0.pre"])
-      s.add_development_dependency(%q<rspec>, ["~> 2.0.0.beta.20"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.0.0.rc"])
     else
       s.add_dependency(%q<combinatorics>, ["~> 0.2.0"])
       s.add_dependency(%q<chars>, ["~> 0.1.2"])
@@ -200,7 +200,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<data_paths>, ["~> 0.2.1"])
       s.add_dependency(%q<rake>, ["~> 0.8.7"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.0.pre"])
-      s.add_dependency(%q<rspec>, ["~> 2.0.0.beta.20"])
+      s.add_dependency(%q<rspec>, ["~> 2.0.0.rc"])
     end
   else
     s.add_dependency(%q<combinatorics>, ["~> 0.2.0"])
@@ -209,7 +209,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<data_paths>, ["~> 0.2.1"])
     s.add_dependency(%q<rake>, ["~> 0.8.7"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.0.pre"])
-    s.add_dependency(%q<rspec>, ["~> 2.0.0.beta.20"])
+    s.add_dependency(%q<rspec>, ["~> 2.0.0.rc"])
   end
 end
 
