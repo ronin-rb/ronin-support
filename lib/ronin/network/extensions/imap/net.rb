@@ -76,18 +76,18 @@ module Net
       ssl_verify = false
     end
 
-    sess = Net::IMAP.new(host,port,ssl,ssl_certs,ssl_verify)
+    session = Net::IMAP.new(host,port,ssl,ssl_certs,ssl_verify)
 
     if user
-      if auth==:cram_md5
-        sess.authenticate('CRAM-MD5',user,passwd)
+      if auth == :cram_md5
+        session.authenticate('CRAM-MD5',user,passwd)
       else
-        sess.authenticate('LOGIN',user,passwd)
+        session.authenticate('LOGIN',user,passwd)
       end
     end
 
-    yield sess if block_given?
-    return sess
+    yield session if block_given?
+    return session
   end
 
   #
@@ -111,14 +111,13 @@ module Net
   # @see Net.imap_connect
   #
   def Net.imap_session(host,options={})
-    Net.imap_connect(host,options) do |sess|
-      yield sess if block_given?
+    session = Net.imap_connect(host,options)
 
-      sess.logout if options[:user]
-      sess.close
-      sess.disconnect
-    end
+    yield session if block_given?
 
+    session.logout if options[:user]
+    session.close
+    session.disconnect
     return nil
   end
 end

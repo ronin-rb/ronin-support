@@ -91,30 +91,31 @@ module Net
   #   # => #<Net::Telnet: ...>
   #
   def Net.telnet_connect(host,options={})
-    sess_opts = {}
-    sess_opts['Host'] = host
-    sess_opts['Port'] = (options[:port] || Ronin::Network::Telnet.default_port)
-    sess_opts['Binmode'] = options[:binmode]
-    sess_opts['Output_log'] = options[:output_log]
-    sess_opts['Dump_log'] = options[:dump_log]
-    sess_opts['Prompt'] = (options[:prompt] || Ronin::Network::Telnet.default_prompt)
+    telnet_options = {}
+
+    telnet_options['Host'] = host
+    telnet_options['Port'] = (options[:port] || Ronin::Network::Telnet.default_port)
+    telnet_options['Binmode'] = options[:binmode]
+    telnet_options['Output_log'] = options[:output_log]
+    telnet_options['Dump_log'] = options[:dump_log]
+    telnet_options['Prompt'] = (options[:prompt] || Ronin::Network::Telnet.default_prompt)
 
     if (options[:telnet] && !options[:plain])
-      sess_opts['Telnetmode'] = true
+      telnet_options['Telnetmode'] = true
     end
 
-    sess_opts['Timeout'] = (options[:timeout] || Ronin::Network::Telnet.default_timeout)
-    sess_opts['Waittime'] = options[:wait_time]
-    sess_opts['Proxy'] = (options[:proxy] || Ronin::Network::Telnet.proxy)
+    telnet_options['Timeout'] = (options[:timeout] || Ronin::Network::Telnet.default_timeout)
+    telnet_options['Waittime'] = options[:wait_time]
+    telnet_options['Proxy'] = (options[:proxy] || Ronin::Network::Telnet.proxy)
 
     user = options[:user]
     passwd = options[:passwd]
 
-    sess = Net::Telnet.new(sess_opts)
-    sess.login(user,passwd) if user
+    session = Net::Telnet.new(telnet_options)
+    session.login(user,passwd) if user
 
-    yield sess if block_given?
-    return sess
+    yield session if block_given?
+    return session
   end
 
   #
@@ -144,12 +145,11 @@ module Net
   # @see Net.telnet_session
   #
   def Net.telnet_session(host,options={})
-    Net.telnet_connect(host,options) do |sess|
-      yield sess if block_given?
+    session = Net.telnet_connect(host,options)
 
-      sess.close
-    end
+    yield session if block_given?
 
+    session.close
     return nil
   end
 end

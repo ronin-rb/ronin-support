@@ -74,10 +74,10 @@ module Net
     user = options[:user]
     password = options[:password]
 
-    sess = Net::SMTP.start(host,port,helo,user,password,auth)
+    session = Net::SMTP.start(host,port,helo,user,password,auth)
 
-    yield sess if block_given?
-    return sess
+    yield session if block_given?
+    return session
   end
 
   #
@@ -99,11 +99,11 @@ module Net
   # @see Net.smtp_connect
   #
   def Net.smtp_session(host,options={})
-    Net.smtp_connect(host,options) do |sess|
-      yield sess if block_given?
-      sess.finish
-    end
+    session = Net.smtp_connect(host,options)
 
+    yield session if block_given?
+
+    session.finish
     return nil
   end
 end

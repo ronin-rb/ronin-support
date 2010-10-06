@@ -56,9 +56,10 @@ module Net
     user = options[:user]
     password = options[:password]
 
-    sess Net::POP3.start(host,port,user,password)
-    yield sess if block_given?
-    return sess
+    session = Net::POP3.start(host,port,user,password)
+
+    yield session if block_given?
+    return session
   end
 
   #
@@ -80,11 +81,11 @@ module Net
   # @return [nil]
   #
   def Net.pop3_session(host,options={})
-    Net.pop3_connect(host,options) do |sess|
-      yield sess if block_given?
-      sess.finish
-    end
+    session = Net.pop3_connect(host,options)
 
+    yield session if block_given?
+
+    session.finish
     return nil
   end
 end

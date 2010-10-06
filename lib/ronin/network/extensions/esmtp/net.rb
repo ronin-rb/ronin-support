@@ -55,7 +55,8 @@ module Net
   #   The password to authenticate with.
   #
   # @yield [session]
-  #   If a block is given, it will be passed an ESMTP enabled session object.
+  #   If a block is given, it will be passed an ESMTP enabled session
+  #   object.
   #
   # @yieldparam [Net::SMTP] session
   #   The ESMTP session.
@@ -64,10 +65,11 @@ module Net
   #   The ESMTP enabled session.
   #
   def Net.esmtp_connect(host,options={})
-    Net.smtp_connect(host,options) do |sess|
-      sess.esmtp = true
-      yield sess
-    end
+    session = Net.smtp_connect(host,options)
+    session.esmtp = true
+
+    yield session if block_given?
+    return session
   end
 
   #
@@ -89,9 +91,10 @@ module Net
   # @see Net.esmtp_connect
   #
   def Net.esmtp_session(host,options={})
-    Net.smtp_session(host,options) do |sess|
-      sess.esmtp = true
-      yield sess
+    Net.smtp_session(host,options) do |session|
+      session.esmtp = true
+
+      yield session if block_given?
     end
   end
 end
