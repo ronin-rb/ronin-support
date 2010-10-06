@@ -19,4 +19,4 @@
 # Boston, MA  02110-1301  USA
 #
 
-require 'ronin/network/extensions/ssl/io'
+require 'ronin/network/extensions/ssl/net'
