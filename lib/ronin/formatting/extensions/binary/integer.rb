@@ -34,7 +34,7 @@ class Integer
   # @return [Array]
   #   The bytes decoded from the Integer.
   #
-  # @raise [RuntimeError]
+  # @raise [ArgumentError]
   #   The given `endian` is not `:little`, `"little"`, `:net`, `"net"`,
   #   `:big` or `"big"`.
   #
@@ -66,7 +66,7 @@ class Integer
         mask >>= 8
       end
     else
-      raise(RuntimeError,"invalid endian #{endian.inspect}")
+      raise(ArgumentError,"invalid endian #{endian.inspect}")
     end
 
     return buffer
@@ -85,7 +85,7 @@ class Integer
   # @return [String]
   #   The packed Integer.
   #
-  # @raise [RuntimeError]
+  # @raise [ArgumentError]
   #   The given `arch` does not respond to the `endian` or
   #   `address_length` methods.
   #
@@ -115,11 +115,11 @@ class Integer
     end
 
     unless arch.respond_to?(:address_length)
-      raise(RuntimeError,"first argument to Ineger#pack must respond to address_length")
+      raise(ArgumentError,"first argument to Ineger#pack must respond to address_length")
     end
 
     unless arch.respond_to?(:endian)
-      raise(RuntimeError,"first argument to Ineger#pack must respond to endian")
+      raise(ArgumentError,"first argument to Ineger#pack must respond to endian")
     end
 
     address_length ||= arch.address_length
