@@ -77,11 +77,11 @@ class String
     end
 
     unless arch.respond_to?(:address_length)
-      raise(RuntimeError,"first argument to Ineger#pack must respond to address_length",caller)
+      raise(RuntimeError,"first argument to Ineger#pack must respond to address_length")
     end
 
     unless arch.respond_to?(:endian)
-      raise(RuntimeError,"first argument to Ineger#pack must respond to endian",caller)
+      raise(RuntimeError,"first argument to Ineger#pack must respond to endian")
     end
 
     address_length ||= arch.address_length
@@ -97,7 +97,7 @@ class String
         b << ((address_length - byte_index - 1) * 8)
       }
     else
-      raise(RuntimeError,"invalid endian #{arch.endian.inspect}",caller)
+      raise(RuntimeError,"invalid endian #{arch.endian.inspect}")
     end
 
     self.each_byte do |b|

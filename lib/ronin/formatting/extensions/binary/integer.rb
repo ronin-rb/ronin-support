@@ -66,7 +66,7 @@ class Integer
         mask >>= 8
       end
     else
-      raise(RuntimeError,"invalid endian #{endian.inspect}",caller)
+      raise(RuntimeError,"invalid endian #{endian.inspect}")
     end
 
     return buffer
@@ -115,11 +115,11 @@ class Integer
     end
 
     unless arch.respond_to?(:address_length)
-      raise(RuntimeError,"first argument to Ineger#pack must respond to address_length",caller)
+      raise(RuntimeError,"first argument to Ineger#pack must respond to address_length")
     end
 
     unless arch.respond_to?(:endian)
-      raise(RuntimeError,"first argument to Ineger#pack must respond to endian",caller)
+      raise(RuntimeError,"first argument to Ineger#pack must respond to endian")
     end
 
     address_length ||= arch.address_length

@@ -37,7 +37,7 @@ module Ronin
         verify_mode = 'VERIFY_' + (mode || :none).to_s.upcase
 
         unless OpenSSL::SSL.const_defined?(verify_mode)
-          raise(RuntimeError,"unknown verify mode #{mode}",caller)
+          raise(RuntimeError,"unknown verify mode #{mode}")
         end
 
         return OpenSSL::SSL.const_get(verify_mode)

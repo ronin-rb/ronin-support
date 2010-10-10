@@ -88,7 +88,7 @@ module Ronin
       elsif n.kind_of?(Enumerable)
         return n.map { |i| self.up(i) }
       else
-        raise(ArgumentError,"The first argument of Path.up must be either an Integer or Enumerable",caller)
+        raise(ArgumentError,"The first argument of Path.up must be either an Integer or Enumerable")
       end
     end
 

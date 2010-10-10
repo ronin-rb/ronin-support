@@ -130,7 +130,7 @@ module Ronin
           when nil
             self.new
           else
-            raise(ArgumentError,"argument must be either a #{self}, URI::HTTP, Hash or String",caller)
+            raise(ArgumentError,"argument must be either a #{self}, URI::HTTP, Hash or String")
           end
         end
 
