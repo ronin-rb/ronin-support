@@ -282,13 +282,13 @@ module Ronin
           else
             str = ''
             
-            str << self.host
+            str << self.host.to_s
             str << ":#{self.port}" if self.port
 
             if self.user
               auth_str = ''
 
-              auth_str << self.user
+              auth_str << self.user.to_s
 
               if self.password
                 auth_str << ":#{self.password}"

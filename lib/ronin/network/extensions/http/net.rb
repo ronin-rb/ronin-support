@@ -77,9 +77,12 @@ module Net
     host = options[:host]
     port = options[:port]
     proxy = options[:proxy]
+    proxy_host = if (proxy && proxy[:host])
+                   proxy[:host].to_s
+                 end
 
     sess = Net::HTTP::Proxy(
-      proxy[:host],
+      proxy_host,
       proxy[:port],
       proxy[:user],
       proxy[:password]
