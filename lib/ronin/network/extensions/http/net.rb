@@ -74,7 +74,7 @@ module Net
   def Net.http_connect(options={},&block)
     options = Ronin::Network::HTTP.expand_options(options)
 
-    host = options[:host]
+    host = options[:host].to_s
     port = options[:port]
     proxy = options[:proxy]
     proxy_host = if (proxy && proxy[:host])
@@ -86,7 +86,7 @@ module Net
       proxy[:port],
       proxy[:user],
       proxy[:password]
-    ).new(host,port)
+    ).new(host.to_s,port)
 
     if options[:ssl]
       sess.use_ssl = true
