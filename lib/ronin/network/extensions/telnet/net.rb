@@ -91,6 +91,7 @@ module Net
   #   # => #<Net::Telnet: ...>
   #
   def Net.telnet_connect(host,options={})
+    host = host.to_s
     telnet_options = {}
 
     telnet_options['Host'] = host

@@ -57,6 +57,11 @@ module Net
   #   end
   #
   def Net.tcp_connect(host,port,local_host=nil,local_port=nil)
+    host = host.to_s
+    local_host = if local_host
+                   local_host.to_s
+                 end
+
     sock = TCPSocket.new(host,port,local_host,local_port)
 
     yield sock if block_given?
@@ -220,6 +225,8 @@ module Net
   #   Net.tcp_server(1337)
   #
   def Net.tcp_server(port,host='0.0.0.0')
+    host = host.to_s
+
     server = TCPServer.new(host,port)
     server.listen(3)
 
@@ -267,13 +274,6 @@ module Net
   # accepts only one client and then stops listening.
   #
   # @param [Integer] port
-  #   The local port to listen on.
-  #
-  # @param [String] host ('0.0.0.0')
-  #   The host to bind to.
-  #
-  # @yield [client]
-  #   The block which will be passed the newly connected client.
   #   After the block has finished, the client and the server will be
   #   closed.
   #
@@ -288,6 +288,8 @@ module Net
   #   end
   #
   def Net.tcp_single_server(port,host='0.0.0.0')
+    host = host.to_s
+
     server = TCPServer.new(host,port)
     server.listen(1)
 

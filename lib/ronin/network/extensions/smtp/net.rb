@@ -66,6 +66,7 @@ module Net
   #   The SMTP session.
   #
   def Net.smtp_connect(host,options={})
+    host = host.to_s
     port = (options[:port] || Ronin::Network::SMTP.default_port)
 
     helo = options[:helo]

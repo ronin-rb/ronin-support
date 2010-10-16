@@ -19,6 +19,7 @@
 # Boston, MA  02110-1301  USA
 #
 
+require 'ronin/network/extensions/tcp/net'
 require 'ronin/network/ssl'
 
 begin
@@ -67,7 +68,10 @@ module Net
   #   socket = Net.ssl_connect('twitter.com',443)
   #
   def Net.ssl_connect(host,port,options={})
-    socket = TCPSocket.new(host,port,options[:local_host],options[:local_port])
+    local_host = options[:local_host]
+    local_port = options[:local_port]
+
+    socket = Net.tcp_connect(host,port,local_host,local_port)
 
     ssl_context = OpenSSL::SSL::SSLContext.new()
     ssl_context.verify_mode = Ronin::Network::SSL.verify(options[:verify])

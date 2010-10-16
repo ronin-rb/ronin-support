@@ -56,6 +56,11 @@ module Net
   #   end
   #
   def Net.udp_connect(host,port,local_host=nil,local_port=nil)
+    host = host.to_s
+    local_host = if local_host
+                   local_host.to_s
+                 end
+
     sock = UDPSocket.new(host,port,local_host,local_port)
 
     yield sock if block_given?
@@ -183,6 +188,7 @@ module Net
   #   Net.udp_server(1337)
   #
   def Net.udp_server(port,host='0.0.0.0')
+    host = host.to_s
     server = UDPServer.new(host,port)
 
     yield server if block_given?

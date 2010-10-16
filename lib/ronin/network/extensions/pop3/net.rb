@@ -52,6 +52,7 @@ module Net
   #   The newly created POP3 session.
   #
   def Net.pop3_connect(host,options={})
+    host = host.to_s
     port = (options[:port] || Ronin::Network::POP3.default_port)
     user = options[:user]
     password = options[:password]
