@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Postmodern"]
-  s.date = %q{2010-10-15}
+  s.date = %q{2010-10-17}
   s.description = %q{Ronin Support is a support library for Ronin. Ronin EXT contains many of the convenience methods used by Ronin and additional libraries.}
   s.email = %q{ronin-ruby@googlegroups.com}
   s.extra_rdoc_files = [
@@ -186,7 +186,7 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<combinatorics>, ["~> 0.2.0"])
+      s.add_runtime_dependency(%q<combinatorics>, ["~> 0.3.0"])
       s.add_runtime_dependency(%q<chars>, ["~> 0.1.2"])
       s.add_runtime_dependency(%q<uri-query_params>, ["~> 0.4.0"])
       s.add_runtime_dependency(%q<data_paths>, ["~> 0.2.1"])
@@ -194,7 +194,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.0.pre"])
       s.add_development_dependency(%q<rspec>, ["~> 2.0.0"])
     else
-      s.add_dependency(%q<combinatorics>, ["~> 0.2.0"])
+      s.add_dependency(%q<combinatorics>, ["~> 0.3.0"])
       s.add_dependency(%q<chars>, ["~> 0.1.2"])
       s.add_dependency(%q<uri-query_params>, ["~> 0.4.0"])
       s.add_dependency(%q<data_paths>, ["~> 0.2.1"])
@@ -203,7 +203,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, ["~> 2.0.0"])
     end
   else
-    s.add_dependency(%q<combinatorics>, ["~> 0.2.0"])
+    s.add_dependency(%q<combinatorics>, ["~> 0.3.0"])
     s.add_dependency(%q<chars>, ["~> 0.1.2"])
     s.add_dependency(%q<uri-query_params>, ["~> 0.4.0"])
     s.add_dependency(%q<data_paths>, ["~> 0.2.1"])

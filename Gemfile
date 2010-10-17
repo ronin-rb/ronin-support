@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'combinatorics',	'~> 0.2.0'
+gem 'combinatorics',	'~> 0.3.0'
 gem 'chars',		'~> 0.1.2'
 gem 'uri-query_params',	'~> 0.4.0'
 gem 'data_paths',	'~> 0.2.1'
