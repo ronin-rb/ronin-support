@@ -1,16 +1,10 @@
 source 'https://rubygems.org'
 
-gem 'combinatorics',	'~> 0.3.0'
-gem 'chars',		'~> 0.1.2'
-gem 'uri-query_params',	'~> 0.4.0'
-gem 'data_paths',	'~> 0.2.1'
+gemspec
 
-group(:development) do
-  gem 'rake',			'~> 0.8.7'
-  gem 'jeweler',		'~> 1.5.0.pre'
-end
+group :development do
+  gem 'rake',		'~> 0.8.7'
 
-group(:doc) do
   case RUBY_PLATFORM
   when 'java'
     gem 'maruku',	'~> 0.6.0'
@@ -18,7 +12,7 @@ group(:doc) do
     gem 'rdiscount',	'~> 1.6.3'
   end
 
-  gem 'yard',		'~> 0.6.0'
+  gem 'ore',		'~> 0.2.0'
+  gem 'ore-tasks',	'~> 0.1.2'
+  gem 'rspec',		'~> 2.0.0'
 end
-
-gem 'rspec',	'~> 2.0.0', :group => [:development, :test]
