@@ -19,7 +19,3 @@ dependencies:
 development_dependencies:
   bundler: ~> 1.0.0
   yard: ~> 0.6.1
-  ore: ~> 0.2.0
-  ore-tasks: ~> 0.1.2
-  rspec: ~> 2.0.0
-  yard: ~> 0.6.0
