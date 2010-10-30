@@ -2,6 +2,10 @@ source 'https://rubygems.org'
 
 gemspec
 
+if RUBY_PLATFORM == 'java'
+  gem 'jruby-openssl',	'~> 0.7.0'
+end
+
 group :development do
   gem 'rake',		'~> 0.8.7'
 
