@@ -69,7 +69,7 @@ please see [Everyday Ronin](http://ronin-ruby.github.com/resources/everyday_roni
 * [combinatorics](http://github.com/postmodern/combinatorics) ~> 0.1.0
 * [chars](http://github.com/postmodern/chars) ~> 0.1.2
 * [data_paths](http://github.com/postmodern/data_paths) ~> 0.2.0
-* [uri-query_params](http://github.com/postmodern/uri-query_params) ~> 0.4.0
+* [uri-query_params](http://github.com/postmodern/uri-query_params) ~> 0.5.0
 
 ## Install
 
