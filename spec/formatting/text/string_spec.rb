@@ -16,6 +16,14 @@ describe String do
     should respond_to(:random_case)
   end
 
+  it "should provide String#inject_before" do
+    should respond_to(:inject_before)
+  end
+
+  it "should provide String#inject_after" do
+    should respond_to(:inject_after)
+  end
+
   it "should provide String#inject_with" do
     should respond_to(:inject_with)
   end
@@ -143,6 +151,34 @@ describe String do
       new_string = subject.random_case(:probability => 0.0)
 
       subject.should == new_string
+    end
+  end
+
+  describe "inject_before" do
+    it "should inject data before a matched String" do
+      subject.inject_before('ll','x').should == "hexllo"
+    end
+
+    it "should inject data before a matched Regexp" do
+      subject.inject_before(/l+/,'x').should == "hexllo"
+    end
+
+    it "should not inject data if no matches are found" do
+      subject.inject_before(/x/,'x').should == subject
+    end
+  end
+
+  describe "inject_after" do
+    it "should inject data after a matched String" do
+      subject.inject_after('ll','x').should == "hellxo"
+    end
+
+    it "should inject data after a matched Regexp" do
+      subject.inject_after(/l+/,'x').should == "hellxo"
+    end
+
+    it "should not inject data if no matches are found" do
+      subject.inject_after(/x/,'x').should == subject
     end
   end
 
