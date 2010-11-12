@@ -13,7 +13,7 @@ has_yard: true
 dependencies:
   combinatorics: ~> 0.3.1
   chars: ~> 0.2.0
-  uri-query_params: ~> 0.5.1
+  uri-query_params: ~> 0.5.2
   data_paths: ~> 0.2.1
 
 development_dependencies:
