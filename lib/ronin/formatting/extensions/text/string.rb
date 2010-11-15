@@ -124,48 +124,48 @@ class String
   end
 
   #
-  # Injects data before the occurrence of a pattern.
+  # Inserts data before the occurrence of a pattern.
   #
   # @param [String, Regexp] pattern
   #   The pattern to search for.
   #
-  # @param [String] injection
-  #   The data to inject before the pattern.
+  # @param [String] data
+  #   The data to insert before the pattern.
   #
   # @return [String]
-  #   The new injected String.
+  #   The new modified String.
   #
-  def inject_before(pattern,injection)
-    injected = self.dup
-    index = injected.index(pattern)
+  def insert_before(pattern,data)
+    string = self.dup
+    index = string.index(pattern)
 
-    injected.insert(index,injection) if index
-    return injected
+    string.insert(index,data) if index
+    return string
   end
 
   #
-  # Injects data after the occurrence of a pattern.
+  # Inserts data after the occurrence of a pattern.
   #
   # @param [String, Regexp] pattern
   #   The pattern to search for.
   #
-  # @param [String] injection
-  #   The data to inject after the pattern.
+  # @param [String] data
+  #   The data to insert after the pattern.
   #
   # @return [String]
-  #   The new injected String.
+  #   The new modified String.
   #
-  def inject_after(pattern,injection)
-    injected = self.dup
-    match = injected.match(pattern)
+  def insert_after(pattern,data)
+    string = self.dup
+    match = string.match(pattern)
 
     if match
       index = match.end(match.length - 1)
 
-      injected.insert(index,injection)
+      string.insert(index,data)
     end
 
-    return injected
+    return string
   end
 
   #

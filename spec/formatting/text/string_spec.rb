@@ -16,12 +16,12 @@ describe String do
     should respond_to(:random_case)
   end
 
-  it "should provide String#inject_before" do
-    should respond_to(:inject_before)
+  it "should provide String#insert_before" do
+    should respond_to(:insert_before)
   end
 
-  it "should provide String#inject_after" do
-    should respond_to(:inject_after)
+  it "should provide String#insert_after" do
+    should respond_to(:insert_after)
   end
 
   describe "format_chars" do
@@ -150,31 +150,31 @@ describe String do
     end
   end
 
-  describe "inject_before" do
+  describe "insert_before" do
     it "should inject data before a matched String" do
-      subject.inject_before('ll','x').should == "hexllo"
+      subject.insert_before('ll','x').should == "hexllo"
     end
 
     it "should inject data before a matched Regexp" do
-      subject.inject_before(/l+/,'x').should == "hexllo"
+      subject.insert_before(/l+/,'x').should == "hexllo"
     end
 
     it "should not inject data if no matches are found" do
-      subject.inject_before(/x/,'x').should == subject
+      subject.insert_before(/x/,'x').should == subject
     end
   end
 
-  describe "inject_after" do
+  describe "insert_after" do
     it "should inject data after a matched String" do
-      subject.inject_after('ll','x').should == "hellxo"
+      subject.insert_after('ll','x').should == "hellxo"
     end
 
     it "should inject data after a matched Regexp" do
-      subject.inject_after(/l+/,'x').should == "hellxo"
+      subject.insert_after(/l+/,'x').should == "hellxo"
     end
 
     it "should not inject data if no matches are found" do
-      subject.inject_after(/x/,'x').should == subject
+      subject.insert_after(/x/,'x').should == subject
     end
   end
 end
