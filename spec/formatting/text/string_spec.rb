@@ -24,10 +24,6 @@ describe String do
     should respond_to(:inject_after)
   end
 
-  it "should provide String#inject_with" do
-    should respond_to(:inject_with)
-  end
-
   describe "format_chars" do
     it "should format each character in the String" do
       subject.format_chars { |c|
@@ -179,40 +175,6 @@ describe String do
 
     it "should not inject data if no matches are found" do
       subject.inject_after(/x/,'x').should == subject
-    end
-  end
-
-  describe "inject_with" do
-    it "should replace the data when given a String" do
-      subject.inject_with('foo').should == 'foo'
-    end
-
-    it "should append data" do
-      subject.inject_with(:append => 'x').should == "#{subject}x"
-    end
-
-    it "should prepend data" do
-      subject.inject_with(:prepend => 'x').should == "x#{subject}"
-    end
-
-    it "should randomly insert data" do
-      new_string = subject.inject_with(:insert => 'x')
-
-      new_string[0,1].should_not == 'x'
-      new_string[-2..-1].should_not == 'x'
-      new_string.should include('x')
-    end
-
-    it "should insert data before appending or prepending data" do
-      new_string = subject.inject_with(
-        :append => 'xxx',
-        :prepend => 'yyy',
-        :insert => 'z'
-      )
-
-      new_string[0,3].should_not include('z')
-      new_string[-4..-1].should_not include('z')
-      new_string.should include('z')
     end
   end
 end

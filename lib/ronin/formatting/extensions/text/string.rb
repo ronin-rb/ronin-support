@@ -169,48 +169,6 @@ class String
   end
 
   #
-  # Injects data into the String.
-  #
-  # @param [Hash, String] injection
-  #   The injection.
-  #
-  # @option options [String] :append
-  #   Data to append to the String.
-  #
-  # @option options [String] :prepend
-  #   Data to prepend to the String.
-  #
-  # @option options [String] :insert
-  #   Data to insert randomly into the middle of the String.
-  #
-  # @return [String]
-  #   The new injected String.
-  #
-  def inject_with(options)
-    if options.kind_of?(Hash)
-      injected = self.dup
-
-      if options.has_key?(:insert)
-        index = rand(injected.length - 1) + 1
-
-        injected.insert(index,options[:insert].to_s)
-      end
-
-      if options.has_key?(:append)
-        injected << options[:append].to_s
-      end
-
-      if options.has_key?(:prepend)
-        injected.insert(0,options[:prepend].to_s)
-      end
-
-      injected
-    else
-      options.to_s
-    end
-  end
-
-  #
   # Creates a new String by padding the String with repeating text,
   # out to a specified length.
   #
