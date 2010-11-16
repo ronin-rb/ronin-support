@@ -19,4 +19,5 @@
 # Boston, MA  02110-1301  USA
 #
 
+require 'ronin/support/inflector'
 require 'ronin/support/version'
