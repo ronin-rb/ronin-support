@@ -193,11 +193,7 @@ class IPAddr
   #   The host-names for the IP address.
   #
   def resolv_names
-    begin
-      Resolv.getnames(self.to_s)
-    rescue Resolv::ResolvError
-      []
-    end
+    Resolv.getnames(self.to_s)
   end
 
   #
