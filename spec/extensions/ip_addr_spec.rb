@@ -157,12 +157,25 @@ describe IPAddr do
   end
 
   let(:ip) { IPAddr.new(Resolv.getaddress('www.example.com')) }
+  let(:bad_ip) { IPAddr.new('0.0.0.0') }
 
-  it "should resolv the host-name for an IP" do
-    ip.resolv_name.should == 'www.example.com'
+  describe "resolv_name" do
+    it "should resolv the host-name for an IP" do
+      ip.resolv_name.should == 'www.example.com'
+    end
+
+    it "should return nil for unresolved IP addresses" do
+      bad_ip.resolv_name.should be_nil
+    end
   end
 
-  it "should resolv the host-names for an IP" do
-    ip.resolv_name.should include('www.example.com')
+  describe "resolv_names" do
+    it "should resolv the host-names for an IP" do
+      ip.resolv_names.should include('www.example.com')
+    end
+
+    it "should return an empty Array for unresolved IP addresses" do
+      bad_ip.resolv_names.should be_empty
+    end
   end
 end
