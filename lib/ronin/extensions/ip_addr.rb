@@ -186,6 +186,8 @@ class IPAddr
     end
   end
 
+  alias resolv resolv_name
+
   #
   # Resolves the host-names for the IP address.
   #
