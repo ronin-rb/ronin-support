@@ -179,14 +179,12 @@ class IPAddr
   #   The host-name for the IP address. If the IP address could not be
   #   resolved, `nil` will be returned.
   #
-  def resolv_name
+  def resolv
     begin
       Resolv.getname(self.to_s)
     rescue Resolv::ResolvError
     end
   end
-
-  alias resolv resolv_name
 
   #
   # Resolves the host-names for the IP address.
@@ -194,7 +192,7 @@ class IPAddr
   # @return [Array<String>]
   #   The host-names for the IP address.
   #
-  def resolv_names
+  def resolv_all
     Resolv.getnames(self.to_s)
   end
 
