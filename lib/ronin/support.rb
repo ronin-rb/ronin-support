@@ -19,5 +19,10 @@
 # Boston, MA  02110-1301  USA
 #
 
+require 'ronin/extensions'
+require 'ronin/formatting'
+require 'ronin/network'
+require 'ronin/path'
+require 'ronin/templates'
 require 'ronin/support/inflector'
 require 'ronin/support/version'
