@@ -1,8 +1,8 @@
 name: ronin-support
 summary: A support library for Ronin.
 description:
-  Ronin Support is a support library for Ronin. Ronin EXT contains many of
-  the convenience methods used by Ronin and additional libraries.
+  Ronin Support is a support library for Ronin. Ronin Support contains many
+  of the convenience methods used by Ronin and additional libraries.
 
 license: LGPL-2.1
 authors: Postmodern
