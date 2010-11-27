@@ -1,9 +1,10 @@
 # Ronin Support
 
-* [github.com/ronin-ruby/ronin-support](http://github.com/ronin-ruby/ronin-support)
-* [github.com/ronin-ruby/ronin-support/issues](http://github.com/ronin-ruby/ronin-support/issues)
+* [Source](http://github.com/ronin-ruby/ronin-support)
+* [Issues](http://github.com/ronin-ruby/ronin-support/issues)
+* [Documentation](http://rubydoc.info/github/ronin-ruby/ronin-support/frames)
+* [Mailing List](http://groups.google.com/group/ronin-ruby)
 * irc.freenode.net #ronin
-* Postmodern (postmodern.mod3 at gmail.com)
 
 ## Description
 
