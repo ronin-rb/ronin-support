@@ -7,17 +7,17 @@ platforms :jruby do
 end
 
 group :development do
-  gem 'rake',		    '~> 0.8.7'
+  gem 'rake',		        '~> 0.8.7'
 
   platforms :jruby do
-    gem 'maruku',	  '~> 0.6.0'
+    gem 'bluecloth',    '>= 2.0.0'
   end
 
   platforms :ruby do
-    gem 'rdiscount','~> 1.6.3'
+    gem 'rdiscount',    '~> 1.6.3'
   end
 
-  gem 'ore-core',   '~> 0.1.0'
-  gem 'ore-tasks',	'~> 0.2.0'
-  gem 'rspec',      '~> 2.0.0'
+  gem 'ore-core',       '~> 0.1.0'
+  gem 'ore-tasks',	    '~> 0.2.0'
+  gem 'rspec',          '~> 2.0.0'
 end
