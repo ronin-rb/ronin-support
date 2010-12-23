@@ -37,22 +37,27 @@ class File
   end
 
   #
-  # Escapes a file name.
+  # Escapes a path.
   #
-  # @param [String]
-  #   Unescaped file name.
+  # @param [String] path
+  #   Unescaped path.
   #
   # @return [String]
-  #   The escaped file name.
+  #   The escaped path.
   #
-  def File.escape_name(name)
+  def File.escape_path(path)
+    path = path.to_s
+
     # remove any \0 characters first
-    filename = name.gsub("\0",'')
+    path.gsub!("\0",'')
 
-    # escape directory separators
-    filename.gsub!("\/","\\\/")
+    # remove any home-dir expansions
+    path.gsub!("~","\\~")
 
-    return filename
+    path = File.expand_path(File.join('/',path))
+
+    # remove the leading slash
+    return path[1..-1]
   end
 
 end
