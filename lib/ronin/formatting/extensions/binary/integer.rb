@@ -27,7 +27,7 @@ class Integer
   # @param [Integer] address_length
   #   The number of bytes to decode from the Integer.
   #
-  # @param [String, Symbol] endian
+  # @param [Symbol, String] endian
   #   The endianness to use while decoding the bytes of the Integer.
   #   May be either `:big`, `:little` or `:net`.
   #
@@ -47,18 +47,18 @@ class Integer
   #   # => [0, 0, 255, 65]
   #
   def bytes(address_length,endian=:little)
-    endian = endian.to_s
+    endian = endian.to_sym
     buffer = []
 
     case endian
-    when :little, 'little', :net, 'net'
+    when :little, :net
       mask = 0xff
 
       address_length.times do |i|
         buffer << ((self & mask) >> (i*8))
         mask <<= 8
       end
-    when :big, 'big'
+    when :big
       mask = (0xff << ((address_length-1)*8))
 
       address_length.times do |i|
@@ -66,7 +66,7 @@ class Integer
         mask >>= 8
       end
     else
-      raise(ArgumentError,"invalid endian #{endian.inspect}")
+      raise(ArgumentError,"invalid endian #{endian}")
     end
 
     return buffer
