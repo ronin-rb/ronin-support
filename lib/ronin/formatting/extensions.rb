@@ -20,4 +20,6 @@
 #
 
 require 'ronin/formatting/extensions/binary'
+require 'ronin/formatting/extensions/text'
+require 'ronin/formatting/extensions/digest'
 require 'ronin/formatting/extensions/http'
