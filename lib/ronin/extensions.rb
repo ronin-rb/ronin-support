@@ -19,8 +19,10 @@
 # Boston, MA  02110-1301  USA
 #
 
+require 'ronin/extensions/meta'
 require 'ronin/extensions/string'
 require 'ronin/extensions/file'
 require 'ronin/extensions/ip_addr'
+require 'ronin/extensions/kernel'
 
 require 'uri/query_params'
