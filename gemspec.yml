@@ -11,7 +11,6 @@ homepage: http://github.com/ronin-ruby/ronin-support
 has_yard: true
 
 dependencies:
-  combinatorics: ~> 0.3.1
   chars: ~> 0.2.0
   uri-query_params: ~> 0.5.2
   data_paths: ~> 0.2.1
