@@ -1,4 +1,5 @@
-## 0.1.0 / 2010-01-01
+### 0.1.0 / 2011-02-01
 
-* Initial release.
+* Initial release:
+  * Split out of [ronin](http://github.com/ronin-ruby/ronin) 0.3.0.
 
