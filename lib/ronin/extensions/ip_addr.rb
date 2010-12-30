@@ -173,26 +173,12 @@ class IPAddr
   end
 
   #
-  # Resolves the host-name for the IP address.
-  #
-  # @return [String, nil]
-  #   The host-name for the IP address. If the IP address could not be
-  #   resolved, `nil` will be returned.
-  #
-  def resolv
-    begin
-      Resolv.getname(self.to_s)
-    rescue Resolv::ResolvError
-    end
-  end
-
-  #
   # Resolves the host-names for the IP address.
   #
   # @return [Array<String>]
   #   The host-names for the IP address.
   #
-  def resolv_all
+  def lookup
     Resolv.getnames(self.to_s)
   end
 
