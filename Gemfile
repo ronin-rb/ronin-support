@@ -10,7 +10,7 @@ group :development do
   gem 'rake',		        '~> 0.8.7'
 
   platforms :jruby do
-    gem 'bluecloth',    '>= 2.0.0'
+    gem 'BlueCloth'
   end
 
   platforms :ruby do
