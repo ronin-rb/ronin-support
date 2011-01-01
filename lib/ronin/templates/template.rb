@@ -48,8 +48,8 @@ module Ronin
       # other templates in.
       #
       # @return [String, nil]
-      #   Returns the first path in template_dirs, or `nil` if
-      #   template_dirs is empty.
+      #   Returns the first path in {#template_dirs}, or `nil` if
+      #   {#template_dirs} is empty.
       #
       def template_dir
         template_dirs.first
