@@ -6,7 +6,7 @@ describe Kernel do
     Kernel.should respond_to('attempt')
   end
 
-  describe "attempt" do
+  describe "#attempt" do
     it "should return the result of the block if nothing is raised" do
       attempt { 2 + 2 }.should == 4
     end

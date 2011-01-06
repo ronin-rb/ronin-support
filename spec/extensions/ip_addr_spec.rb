@@ -3,7 +3,7 @@ require 'ronin/extensions/ip_addr'
 
 describe IPAddr do
   describe "extract" do
-    context "ipv4" do
+    context "IPv4" do
       it "should extract a single IPv4 address" do
         addr = '127.0.0.1'
 
@@ -51,7 +51,7 @@ describe IPAddr do
       end
     end
 
-    context "ipv6" do
+    context "IPv6" do
       it "should extract a single IPv6 address" do
         addr = 'fe80:0000:0000:0000:0204:61ff:fe9d:f156'
 
@@ -109,7 +109,7 @@ describe IPAddr do
     end
   end
 
-  describe "CIDR addresses" do
+  context "CIDR addresses" do
     let(:fixed_addr) { IPAddr.new('10.1.1.2') }
     let(:class_c) { IPAddr.new('10.1.1.2/24') }
 
@@ -133,7 +133,7 @@ describe IPAddr do
     end
   end
 
-  describe "globbed addresses" do
+  context "globbed addresses" do
     let(:ipv4_range) { '10.1.1-5.1' }
     let(:ipv6_range) { '::ff::02-0a::c3' }
 
@@ -159,7 +159,7 @@ describe IPAddr do
   let(:ip) { IPAddr.new(Resolv.getaddress('www.example.com')) }
   let(:bad_ip) { IPAddr.new('0.0.0.0') }
 
-  describe "lookup" do
+  describe "#lookup" do
     it "should lookup the host-name for an IP" do
       ip.lookup.should == ['www.example.com']
     end

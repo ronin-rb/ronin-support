@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'ronin/extensions/string'
 
 describe String do
-  describe "each_substring" do
+  describe "#each_substring" do
     subject { 'hello' }
 
     it "should enumerate over each sub-string within the String" do
@@ -36,7 +36,7 @@ describe String do
     end
   end
 
-  describe "each_unique_substring" do
+  describe "#each_unique_substring" do
     subject { 'abablol' }
 
     it "should enumerate over each unique sub-string within the String" do
@@ -75,7 +75,7 @@ describe String do
     end
   end
 
-  describe "common_prefix" do
+  describe "#common_prefix" do
     it "should find the common prefix between two Strings" do
       one = 'What is puzzling you is the nature of my game'
       two = 'What is puzzling you is the nature of my name'
@@ -107,7 +107,7 @@ describe String do
     end
   end
 
-  describe "common_postfix" do
+  describe "#common_postfix" do
     it "should find the common postfix between two Strings" do
       one = 'Tell me baby whats my name'
       two = "Can't you guess my name"
@@ -131,7 +131,7 @@ describe String do
     end
   end
 
-  describe "uncommon_substring" do
+  describe "#uncommon_substring" do
     it "should find the uncommon substring between two Strings" do
       one = "Tell me baby whats my name"
       two = "Tell me honey whats my name"
@@ -157,7 +157,7 @@ describe String do
     end
   end
 
-  describe "dump" do
+  describe "#dump" do
     it "should dump printable strings" do
       "hello".dump.should == '"hello"'
     end

@@ -24,7 +24,7 @@ describe String do
     should respond_to(:sha512)
   end
 
-  describe "md5" do
+  describe "#md5" do
     subject { "test" }
 
     let(:digest_md5) { "098f6bcd4621d373cade4e832627b4f6" }
@@ -34,7 +34,7 @@ describe String do
     end
   end
 
-  describe "sha1" do
+  describe "#sha1" do
     subject { "test" }
 
     let(:digest_sha1) { "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3" }
@@ -44,7 +44,7 @@ describe String do
     end
   end
 
-  describe "sha2" do
+  describe "#sha2" do
     subject { "test" }
 
     let(:digest_sha2) do
@@ -56,7 +56,7 @@ describe String do
     end
   end
 
-  describe "sha256" do
+  describe "#sha256" do
     subject { "test" }
 
     let(:digest_sha256) do
@@ -68,7 +68,7 @@ describe String do
     end
   end
 
-  describe "sha512" do
+  describe "#sha512" do
     subject { "test" }
 
     let(:digest_sha512) do

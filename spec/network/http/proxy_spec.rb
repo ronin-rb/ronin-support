@@ -88,8 +88,6 @@ describe Network::HTTP::Proxy do
     end
   end
 
-  subject { Network::HTTP::Proxy.new }
-
   it "should behave like a Hash" do
     subject[:host] = 'example.com'
     subject[:host].should == 'example.com'

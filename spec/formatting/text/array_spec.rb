@@ -29,7 +29,7 @@ describe Array do
     should respond_to(:hex_integers)
   end
 
-  describe "bytes" do
+  describe "#bytes" do
     it "should convert an Array of bytes to an Array of bytes" do
       byte_array.bytes.should == byte_array
     end
@@ -43,7 +43,7 @@ describe Array do
     end
   end
 
-  describe "chars" do
+  describe "#chars" do
     it "should convert an Array of bytes to an Array of chars" do
       byte_array.chars.should == char_array
     end
@@ -57,7 +57,7 @@ describe Array do
     end
   end
 
-  describe "char_string" do
+  describe "#char_string" do
     it "should convert an Array of bytes to a String" do
       byte_array.char_string.should == string
     end
@@ -71,7 +71,7 @@ describe Array do
     end
   end
 
-  describe "hex_chars" do
+  describe "#hex_chars" do
     let(:hex_chars) { ['\x41', '\x41', '\x20'] }
 
     it "should convert an Array of bytes into hexadecimal chars" do
@@ -87,7 +87,7 @@ describe Array do
     end
   end
 
-  describe "hex_integers" do
+  describe "#hex_integers" do
     let(:hex_integers) { ['0x41', '0x41', '0x20'] }
 
     it "should convert an Array of bytes into hexadecimal integers" do

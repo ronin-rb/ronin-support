@@ -24,7 +24,7 @@ describe String do
     should respond_to(:format_http)
   end
 
-  describe "uri_encode" do
+  describe "#uri_encode" do
     subject { "mod % 3" }
 
     let(:uri_encoded) { "mod%20%25%203" }
@@ -34,7 +34,7 @@ describe String do
     end
   end
 
-  describe "uri_decode" do
+  describe "#uri_decode" do
     subject { "mod%20%25%203" }
 
     let(:uri_decoded) { "mod % 3" }
@@ -44,7 +44,7 @@ describe String do
     end
   end
 
-  describe "uri_escape" do
+  describe "#uri_escape" do
     subject { "x + y" }
 
     let(:uri_escaped) { "x+%2B+y" }
@@ -54,7 +54,7 @@ describe String do
     end
   end
 
-  describe "uri_unescape" do
+  describe "#uri_unescape" do
     subject { "x+%2B+y" }
 
     let(:uri_unescaped) { "x + y" }
@@ -64,7 +64,7 @@ describe String do
     end
   end
 
-  describe "format_http" do
+  describe "#format_http" do
     subject { "mod % 3" }
 
     let(:http_formatted) { "%6d%6f%64%20%25%20%33" }

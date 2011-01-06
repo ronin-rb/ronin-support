@@ -16,7 +16,7 @@ describe Integer do
     should respond_to(:format_http)
   end
 
-  describe "uri_encode" do
+  describe "#uri_encode" do
     let(:uri_encoded) { '%20' }
 
     it "should URI encode itself" do
@@ -24,7 +24,7 @@ describe Integer do
     end
   end
 
-  describe "uri_escape" do
+  describe "#uri_escape" do
     let(:uri_escaped) { '+' }
 
     it "should URI escape itself" do
@@ -32,7 +32,7 @@ describe Integer do
     end
   end
 
-  describe "format_http" do
+  describe "#format_http" do
     let(:http_formatted) { '%20' }
 
     it "should format the byte" do

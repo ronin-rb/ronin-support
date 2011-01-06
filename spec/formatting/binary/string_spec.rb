@@ -31,7 +31,7 @@ describe String do
     should respond_to(:unhexdump)
   end
 
-  describe "depack" do
+  describe "#depack" do
     subject { 0x1337 }
 
     let(:i386) do
@@ -89,7 +89,7 @@ describe String do
     end
   end
 
-  describe "base64_encode" do
+  describe "#base64_encode" do
     subject { "hello\0" }
 
     it "should base64 encode a String" do
@@ -97,7 +97,7 @@ describe String do
     end
   end
 
-  describe "base64_decode" do
+  describe "#base64_decode" do
     subject { "aGVsbG8A\n" }
 
     it "should base64 decode a String" do
@@ -105,7 +105,7 @@ describe String do
     end
   end
 
-  describe "zlib_inflate" do
+  describe "#zlib_inflate" do
     subject do
       "x\xda3H\xb3H3MM6\xd354II\xd651K5\xd7M43N\xd4M\xb3\xb0L2O14423Mb\0\0\xc02\t\xae"
     end
@@ -115,7 +115,7 @@ describe String do
     end
   end
 
-  describe "zlib_deflate" do
+  describe "#zlib_deflate" do
     subject { "hello" }
 
     it "should zlib deflate a String" do
@@ -123,7 +123,7 @@ describe String do
     end
   end
 
-  describe "hex_escape" do
+  describe "#hex_escape" do
     subject { "hello\x4e" }
 
     it "should hex escape a String" do
@@ -131,7 +131,7 @@ describe String do
     end
   end
 
-  describe "hex_unescape" do
+  describe "#hex_unescape" do
     it "should unescape a normal String" do
       "hello".hex_unescape.should == "hello"
     end
@@ -149,7 +149,7 @@ describe String do
     end
   end
 
-  describe "xor" do
+  describe "#xor" do
     subject { 'hello' }
 
     let(:key) { 0x50 }
@@ -176,10 +176,10 @@ describe String do
     end
   end
 
-  describe "unhexdump" do
+  describe "#unhexdump" do
     include Helpers
 
-    describe "GNU hexdump" do
+    context "GNU hexdump" do
       let(:ascii) { load_binary_data('ascii') }
       let(:repeated) { load_binary_data('repeated') }
 
@@ -220,7 +220,7 @@ describe String do
       end
     end
 
-    describe "od" do
+    context "od" do
       let(:ascii) { load_binary_data('ascii') }
       let(:repeated) { load_binary_data('repeated') }
 

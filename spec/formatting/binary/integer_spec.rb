@@ -22,7 +22,7 @@ describe Integer do
     subject.char.should == subject.chr
   end
 
-  describe "hex_escape" do
+  describe "#hex_escape" do
     subject { 42 }
 
     it "should hex escape an Integer" do
@@ -30,7 +30,7 @@ describe Integer do
     end
   end
 
-  describe "bytes" do
+  describe "#bytes" do
     let(:little_endian_char)  { [0x37] }
     let(:little_endian_short) { [0x37, 0x13] }
     let(:little_endian_long)  { [0x37, 0x13, 0x0, 0x0] }
@@ -80,7 +80,7 @@ describe Integer do
     end
   end
 
-  describe "pack" do
+  describe "#pack" do
     let(:i386) do
       OpenStruct.new(:endian => :little, :address_length => 4)
     end

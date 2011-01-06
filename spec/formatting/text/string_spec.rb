@@ -24,7 +24,7 @@ describe String do
     should respond_to(:insert_after)
   end
 
-  describe "format_chars" do
+  describe "#format_chars" do
     it "should format each character in the String" do
       subject.format_chars { |c|
         "_#{c}"
@@ -80,7 +80,7 @@ describe String do
     end
   end
 
-  describe "format_bytes" do
+  describe "#format_bytes" do
     it "should format each byte in the String" do
       subject.format_bytes { |b|
         sprintf("%%%x",b)
@@ -136,7 +136,7 @@ describe String do
     end
   end
 
-  describe "random_case" do
+  describe "#random_case" do
     it "should capitalize each character when :probability is 1.0" do
       new_string = subject.random_case(:probability => 1.0)
 
@@ -150,7 +150,7 @@ describe String do
     end
   end
 
-  describe "insert_before" do
+  describe "#insert_before" do
     it "should inject data before a matched String" do
       subject.insert_before('ll','x').should == "hexllo"
     end
@@ -164,7 +164,7 @@ describe String do
     end
   end
 
-  describe "insert_after" do
+  describe "#insert_after" do
     it "should inject data after a matched String" do
       subject.insert_after('ll','x').should == "hellxo"
     end
