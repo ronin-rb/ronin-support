@@ -4,7 +4,7 @@ description:
   Ronin Support is a support library for Ronin. Ronin Support contains many
   of the convenience methods used by Ronin and additional libraries.
 
-license: LGPL-2.1
+license: LGPL-3
 authors: Postmodern
 email: postmodern.mod3@gmail.com
 homepage: http://github.com/ronin-ruby/ronin-support
