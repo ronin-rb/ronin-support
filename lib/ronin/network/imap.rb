@@ -22,7 +22,7 @@ require 'ronin/network/extensions/imap'
 module Ronin
   module Network
     module IMAP
-      # Default imap port
+      # Default IMAP port
       DEFAULT_PORT = 143
 
       #

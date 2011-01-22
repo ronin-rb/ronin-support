@@ -22,7 +22,7 @@ require 'ronin/network/extensions/pop3'
 module Ronin
   module Network
     module POP3
-      # Default pop3 port
+      # Default POP3 port
       DEFAULT_PORT = 110
 
       #

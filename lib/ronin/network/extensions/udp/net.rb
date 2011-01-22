@@ -203,8 +203,8 @@ module Net
   #   The host to bind to.
   #
   # @yield [server]
-  #   The block which will be called after the _server_ has been created.
-  #   After the block has finished, the _server_ will be closed.
+  #   The block which will be called after the server has been created.
+  #   After the block has finished, the server will be closed.
   #
   # @yieldparam [UDPServer] server
   #   The newly created UDP server.

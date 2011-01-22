@@ -237,7 +237,7 @@ class String
   # Zlib inflate a string.
   #
   # @return [String]
-  #   The zlib inflated form of the string.
+  #   The Zlib inflated form of the string.
   #
   def zlib_inflate
     Zlib::Inflate.inflate(self)
@@ -247,7 +247,7 @@ class String
   # Zlib deflate a string.
   #
   # @return [String]
-  #   The zlib deflated form of the string.
+  #   The Zlib deflated form of the string.
   #
   def zlib_deflate
     Zlib::Deflate.deflate(self)

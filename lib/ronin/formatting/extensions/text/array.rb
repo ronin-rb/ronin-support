@@ -81,7 +81,7 @@ class Array
   # hexadecimal characters.
   #
   # @return [Array<String>]
-  #   The hexidecimal characters contained within the Array.
+  #   The hexadecimal characters contained within the Array.
   #
   # @example
   #   [0x41, 0x41, 0x20].bytes
@@ -103,7 +103,7 @@ class Array
   # hexadecimal integers.
   #
   # @return [Array<String>]
-  #   The hexidecimal integers contained within the Array.
+  #   The hexadecimal integers contained within the Array.
   #
   # @example
   #   [0x41, 0x41, 0x20].bytes

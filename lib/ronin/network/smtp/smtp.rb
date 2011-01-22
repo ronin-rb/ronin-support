@@ -22,7 +22,7 @@ require 'ronin/network/smtp/email'
 module Ronin
   module Network
     module SMTP
-      # Default smtp port
+      # Default SMTP port
       DEFAULT_PORT = 25
 
       #

@@ -85,7 +85,7 @@ class String
   # Formats the bytes of the String.
   #
   # @return [String]
-  #   The HTTP hexidecimal encoded form of the String.
+  #   The HTTP hexadecimal encoded form of the String.
   #
   # @example
   #   "hello".format_http

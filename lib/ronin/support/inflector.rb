@@ -29,7 +29,7 @@ end
 
 module Ronin
   module Support
-    # The inflector that Ronin will use.
+    # The Inflector that Ronin will use.
     Inflector = if Object.const_defined?(:ActiveSupport)
                   ActiveSupport::Inflector
                 else
