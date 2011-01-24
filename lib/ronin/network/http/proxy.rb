@@ -181,7 +181,7 @@ module Ronin
         # The IP address the proxy sends with proxied requests.
         #
         # @return [String]
-        #   The IP address the proxy uses for our reuqests.
+        #   The IP address the proxy uses for our requests.
         #
         def proxied_ip
           IPAddr.extract(Net.http_get_body(
