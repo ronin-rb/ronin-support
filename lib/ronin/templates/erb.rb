@@ -4,8 +4,8 @@
 # This file is part of Ronin Support.
 #
 # Ronin Support is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as publishe by
-# the Free Software Foundation, either version 3 of the License, or
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
 # Ronin Support is distributed in the hope that it will be useful,
@@ -25,7 +25,7 @@ module Ronin
   module Templates
     #
     # The {Erb} module uses the {Template} module to find and render
-    # Embedded Ruby (ERb) templates.
+    # Embedded Ruby (ERB) templates.
     #
     module Erb
       include Template
