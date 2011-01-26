@@ -21,6 +21,9 @@ require 'ronin/network/extensions/ssl'
 
 module Ronin
   module Network
+    #
+    # SSL helper methods.
+    #
     module SSL
       #
       # Returns the OpenSSL verify mode.

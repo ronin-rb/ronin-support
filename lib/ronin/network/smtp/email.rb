@@ -20,6 +20,9 @@
 module Ronin
   module Network
     module SMTP
+      #
+      # Represents an Email to be sent over {SMTP}.
+      #
       class Email
 
         # Sender of the email

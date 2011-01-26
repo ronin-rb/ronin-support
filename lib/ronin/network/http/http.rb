@@ -23,6 +23,9 @@ require 'ronin/network/extensions/http'
 
 module Ronin
   module Network
+    #
+    # Settings and helper methods for HTTP.
+    #
     module HTTP
       #
       # The Ronin HTTP proxy to use. Parses the value of the `HTTP_PROXY`

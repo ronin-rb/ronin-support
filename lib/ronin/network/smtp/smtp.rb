@@ -21,6 +21,9 @@ require 'ronin/network/smtp/email'
 
 module Ronin
   module Network
+    #
+    # Global settings for accessing STMP.
+    #
     module SMTP
       # Default SMTP port
       DEFAULT_PORT = 25

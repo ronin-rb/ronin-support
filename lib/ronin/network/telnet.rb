@@ -21,6 +21,9 @@ require 'ronin/network/extensions/telnet'
 
 module Ronin
   module Network
+    #
+    # Global settings for accessing Telnet.
+    #
     module Telnet
       # Default telnet port
       DEFAULT_PORT = 23

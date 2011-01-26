@@ -23,6 +23,9 @@ require 'uri'
 require 'net/http'
 
 module Ronin
+  #
+  # Network helper methods.
+  #
   module Network
     IP_URL = URI('http://checkip.dyndns.org/')
 
