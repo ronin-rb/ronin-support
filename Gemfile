@@ -13,7 +13,7 @@ group :development do
 
   gem 'ore-core',       '~> 0.1.1'
   gem 'ore-tasks',	    '~> 0.3.0'
-  gem 'rspec',          '~> 2.3.0'
+  gem 'rspec',          '~> 2.4.0'
 
   gem 'kramdown',       '~> 0.12.0'
 end
