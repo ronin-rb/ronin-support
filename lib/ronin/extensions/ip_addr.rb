@@ -20,6 +20,7 @@
 require 'ipaddr'
 require 'resolv'
 require 'strscan'
+require 'combinatorics/list_comprehension'
 
 class IPAddr
 
@@ -135,38 +136,29 @@ class IPAddr
     end
 
     # split the address
-    ranges = cidr_or_glob.split(separator)
+    segments = cidr_or_glob.split(separator)
+    ranges = []
     
     # map the components of the address to numeric ranges
-    ranges.map! do |segment|
-      if segment == '*'
-        (1..254)
-      elsif segment.include?('-')
-        start, stop = segment.split('-',2).map { |i| i.to_i(base) }
+    segments.each do |segment|
+      next if segment.empty?
 
-        (start..stop)
-      elsif !(segment.empty?)
-        segment.to_i(base)
-      end
+      ranges << if segment == '*'
+                  (1..254)
+                elsif segment.include?('-')
+                  start, stop = segment.split('-',2)
+
+                  (start.to_i(base)..stop.to_i(base))
+                else
+                  segment.to_i(base)
+                end
     end
-    ranges.compact!
 
-    expand_range = lambda { |address,remaining|
-      if remaining.empty?
-        block.call(format.call(address))
-      else
-        n = remaining.first
-        remaining = remaining[1..-1]
+    # cycle through the address ranges
+    ranges.comprehension do |address|
+      yield format[address]
+    end
 
-        if n.kind_of?(Range)
-          n.each { |i| expand_range.call(address + [i], remaining) }
-        else
-          expand_range.call(address + [n], remaining)
-        end
-      end
-    }
-
-    expand_range.call([], ranges)
     return nil
   end
 
