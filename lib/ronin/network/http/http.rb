@@ -182,7 +182,10 @@ module Ronin
       #   The camel-case HTTP header name.
       #
       def HTTP.header_name(name)
-        name.to_s.split(/[\s+_-]/).map { |word| word.capitalize }.join('-')
+        words = name.to_s.split(/[\s+_-]/)
+
+        words.each { |word| word.capitalize! }
+        return words.join('-')
       end
 
       #

@@ -70,7 +70,8 @@ module Ronin
     #   #<Ronin::Path:../../..>]
     #
     def self.up(n,separator=File::SEPARATOR)
-      if n.kind_of?(Integer)
+      case n
+      when Integer
         if n == 0
           return separator
         elsif n < 0
@@ -83,7 +84,7 @@ module Ronin
         dirs = (['..'] * (n-1))
 
         return Path.new(path.join(*dirs))
-      elsif n.kind_of?(Enumerable)
+      when Enumerable
         return n.map { |i| self.up(i) }
       else
         raise(ArgumentError,"The first argument of Path.up must be either an Integer or Enumerable")
@@ -105,13 +106,13 @@ module Ronin
     #   # => #<Ronin::Path:../../../../../../../etc/passwd>
     #
     def join(*names)
-      sub_dirs = names.map { |name| name.to_s }
+      names.map! { |name| name.to_s }
 
       # filter out errant directory separators
-      sub_dirs.reject! { |dir| dir == @separator }
+      names.reject! { |dir| dir == @separator }
 
       # join the path
-      sub_path = sub_dirs.join(@separator)
+      sub_path = names.join(@separator)
 
       path = if self.root?
                # prefix the root dir
