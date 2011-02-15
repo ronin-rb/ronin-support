@@ -15,8 +15,8 @@ required_ruby_version: >= 1.8.7
 dependencies:
   chars: ~> 0.2
   combinatorics: ~> 0.3
-  uri-query_params: ~> 0.5
-  data_paths: ~> 0.2
+  uri-query_params: ~> 0.5, >= 0.5.2
+  data_paths: ~> 0.2, >= 0.2.1
 
 development_dependencies:
   bundler: ~> 1.0.0
