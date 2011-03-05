@@ -19,5 +19,5 @@ dependencies:
   data_paths: ~> 0.2, >= 0.2.1
 
 development_dependencies:
-  bundler: ~> 1.0.0
+  bundler: ~> 1.0.10
   yard: ~> 0.6.4
