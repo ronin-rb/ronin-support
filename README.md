@@ -46,9 +46,14 @@ please see [Everyday Ronin](http://ronin-ruby.github.com/resources/everyday_roni
 ## Requirements
 
 * [Ruby](http://www.ruby-lang.org/) >= 1.8.7
-* [chars](http://github.com/postmodern/chars) ~> 0.1.2
-* [data_paths](http://github.com/postmodern/data_paths) ~> 0.2.0
-* [uri-query_params](http://github.com/postmodern/uri-query_params) ~> 0.5.0
+* [chars](http://github.com/postmodern/chars#readme)
+  ~> 0.2
+* [combinatorics](http://github.com/postmodern/combinatorics#readme)
+  ~> 0.3
+* [uri-query_params](http://github.com/postmodern/uri-query_params#readme)
+  ~> 0.5, >= 0.5.2
+* [data_paths](http://github.com/postmodern/data_paths#readme)
+  ~> 0.2, >= 0.2.1
 
 ## Install
 
