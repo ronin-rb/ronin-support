@@ -14,3 +14,9 @@ group :development do
 
   gem 'kramdown',       '~> 0.12'
 end
+
+group :test do
+  gem 'i18n',           '~> 0.4'
+  gem 'tzinfo',         '~> 0.3.0'
+  gem 'activesupport',  '~> 3.0.0'
+end

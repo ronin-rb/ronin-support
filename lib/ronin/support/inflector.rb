@@ -17,23 +17,37 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-begin
-  require 'active_support/inflector'
-rescue LoadError
-  begin
-    require 'extlib/inflection'
-  rescue LoadError
-    raise(LoadError,"unable to load 'active_support/inflector' or 'extlib/inflection'",caller)
-  end
-end
-
 module Ronin
   module Support
-    # The Inflector that Ronin will use.
-    Inflector = if Object.const_defined?(:ActiveSupport)
-                  ActiveSupport::Inflector
-                else
-                  Extlib::Inflection
-                end
+    inflectors = [
+      {
+        :path => 'dm-core/support/inflector',
+        :const => 'DataMapper::Inflector'
+      },
+      {
+        :path => 'active_support/inflector',
+        :const => 'ActiveSupport::Inflector'
+      },
+      {
+        :path => 'extlib/inflection',
+        :const => 'Extlib::Inflection'
+      }
+    ]
+    inflector_const = 'Inflector'
+
+    inflectors.each do |inflector|
+      begin
+        require inflector[:path]
+      rescue LoadError
+        next
+      end
+
+      const_set(inflector_const, eval("::#{inflector[:const]}"))
+      break
+    end
+
+    unless const_defined?(inflector_const)
+      raise(LoadError,"unable to load or find any Inflectors")
+    end
   end
 end
