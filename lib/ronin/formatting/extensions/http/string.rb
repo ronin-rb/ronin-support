@@ -20,7 +20,7 @@
 require 'ronin/formatting/extensions/http/integer'
 require 'ronin/formatting/extensions/text'
 
-require 'uri'
+require 'uri/common'
 require 'cgi'
 
 class String

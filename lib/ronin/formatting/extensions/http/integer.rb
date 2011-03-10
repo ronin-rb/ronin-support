@@ -17,7 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'uri'
+require 'uri/common'
 require 'cgi'
 
 class Integer
