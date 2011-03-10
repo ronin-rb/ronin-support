@@ -18,7 +18,7 @@
 #
 
 require 'uri/common'
-require 'cgi/util'
+require 'cgi'
 
 class Integer
 
