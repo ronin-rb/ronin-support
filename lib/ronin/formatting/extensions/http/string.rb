@@ -21,7 +21,7 @@ require 'ronin/formatting/extensions/http/integer'
 require 'ronin/formatting/extensions/text'
 
 require 'uri/common'
-require 'cgi'
+require 'cgi/util'
 
 class String
 
