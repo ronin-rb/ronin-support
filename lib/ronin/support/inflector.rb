@@ -19,34 +19,71 @@
 
 module Ronin
   module Support
-    inflectors = [
-      {
+    # The Inflectors supported by ronin-support
+    INFLECTORS = {
+      :datamapper => {
         :path => 'dm-core/support/inflector',
         :const => 'DataMapper::Inflector'
       },
-      {
+      :active_support => {
         :path => 'active_support/inflector',
         :const => 'ActiveSupport::Inflector'
       },
-      {
+      :extlib => {
         :path => 'extlib/inflection',
         :const => 'Extlib::Inflection'
       }
-    ]
-    inflector_const = 'Inflector'
+    }
 
-    inflectors.each do |inflector|
+    #
+    # Loads an Inflector library and sets the `Ronin::Support::Inflector`
+    # constant.
+    #
+    # @param [Symbol, String] name
+    #   The name of the Inflector library to load. May be either `:datamapper`,
+    #   `:active_support` or `:extlib`.
+    #
+    # @return [true]
+    #   Specifies that the Inflector library was successfully loaded.
+    #
+    # @raise [ArgumentError]
+    #   The Inflector library is not supported.
+    #
+    # @raise [LoadError]
+    #   The Inflector library could not be loaded, or the constant could not
+    #   be found.
+    #
+    def Support.load_inflector!(name)
+      name = name.to_sym
+
+      unless (inflector = INFLECTORS[name])
+        raise(ArgumentError,"unsupported Inflector: #{name}")
+      end
+
       begin
         require inflector[:path]
       rescue LoadError
-        next
+        raise(LoadError,"unable to load #{inflector[:path]}")
       end
 
-      const_set(inflector_const, eval("::#{inflector[:const]}"))
-      break
+      begin
+        const_set('Inflector', eval("::#{inflector[:const]}"))
+      rescue NameError
+        raise(RuntimeError,"unable to find #{inflector[:const]}")
+      end
+
+      return true
     end
 
-    unless const_defined?(inflector_const)
+    [:datamapper, :active_support, :extlib].each do |name|
+      begin
+        Support.load_inflector!(name)
+        break
+      rescue LoadError
+      end
+    end
+
+    unless const_defined?('Inflector')
       raise(LoadError,"unable to load or find any Inflectors")
     end
   end
