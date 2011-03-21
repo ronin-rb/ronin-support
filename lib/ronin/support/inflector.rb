@@ -64,7 +64,9 @@ module Ronin
 
       begin
         require inflector[:path]
-      rescue LoadError
+      rescue Gem::LoadError => e
+        raise(e)
+      rescue ::LoadError
         raise(LoadError,"unable to load #{inflector[:path]}")
       end
 
