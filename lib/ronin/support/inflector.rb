@@ -50,8 +50,10 @@ module Ronin
     #   The Inflector library is not supported.
     #
     # @raise [LoadError]
-    #   The Inflector library could not be loaded, or the constant could not
-    #   be found.
+    #   The Inflector library could not be loaded.
+    #
+    # @raise [NameError]
+    #   The constant could not be found.
     #
     def Support.load_inflector!(name)
       name = name.to_sym
@@ -69,7 +71,7 @@ module Ronin
       begin
         const_set('Inflector', eval("::#{inflector[:const]}"))
       rescue NameError
-        raise(RuntimeError,"unable to find #{inflector[:const]}")
+        raise(NameError,"unable to find #{inflector[:const]}")
       end
 
       return true
