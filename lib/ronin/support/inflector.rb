@@ -40,8 +40,8 @@ module Ronin
     # constant.
     #
     # @param [Symbol, String] name
-    #   The name of the Inflector library to load. May be either `:datamapper`,
-    #   `:active_support` or `:extlib`.
+    #   The name of the Inflector library to load. May be either
+    #   `:datamapper`, `:active_support` or `:extlib`.
     #
     # @return [true]
     #   Specifies that the Inflector library was successfully loaded.
