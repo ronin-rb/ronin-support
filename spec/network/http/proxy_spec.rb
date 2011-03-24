@@ -3,7 +3,7 @@ require 'ronin/network/http/proxy'
 
 describe Network::HTTP::Proxy do
   describe "parse" do
-    subject { Network::HTTP::Proxy }
+    subject { described_class }
 
     it "should parse host-names" do
       proxy = subject.parse('127.0.0.1')
@@ -46,7 +46,7 @@ describe Network::HTTP::Proxy do
   end
 
   describe "create" do
-    subject { Network::HTTP::Proxy }
+    subject { described_class }
 
     let(:host) { '127.0.0.1' }
     let(:port) { 8080 }

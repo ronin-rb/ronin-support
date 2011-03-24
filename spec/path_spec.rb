@@ -2,22 +2,22 @@ require 'spec_helper'
 require 'ronin/path'
 
 describe Path do
+  subject { described_class }
+
   let(:n) { 7 }
 
   it "should inherit from Pathname" do
-    Path.superclass.should == Pathname
+    subject.superclass.should == Pathname
   end
 
   it "should provide the root path" do
-    path = Path.root
+    path = subject.root
 
     path.should.class == Path
     path.to_s.should == '/'
   end
 
   describe "up" do
-    subject { Path }
-
     it "should be able to traverse up 0 directories" do
       subject.up(0).should == File::SEPARATOR
     end
@@ -50,33 +50,33 @@ describe Path do
   end
 
   describe "#join" do
-    let(:base_path) { Path.new('base') }
+    subject { Path.new('base') }
 
     it "should join with sub-paths" do
       sub_path = File.join('one','two')
-      expected = [base_path, sub_path].join(File::SEPARATOR)
+      expected = [subject, sub_path].join(File::SEPARATOR)
 
-      base_path.join(sub_path).to_s.should == expected
+      subject.join(sub_path).to_s.should == expected
     end
 
     it "should join with a sub-directory" do
       sub_directory = 'three'
-      expected = [base_path, sub_directory].join(File::SEPARATOR)
+      expected = [subject, sub_directory].join(File::SEPARATOR)
 
-      base_path.join(sub_directory).to_s.should == expected
+      subject.join(sub_directory).to_s.should == expected
     end
 
     it "should not collapse directory traversals" do
       traversal = Path.up(n)
-      expected = [base_path, traversal].join(File::SEPARATOR)
+      expected = [subject, traversal].join(File::SEPARATOR)
 
-      base_path.join(traversal).to_s.should == expected
+      subject.join(traversal).to_s.should == expected
     end
 
     it "should filter out extra directory separators" do
-      expected = [base_path, 'sub'].join(File::SEPARATOR)
+      expected = [subject, 'sub'].join(File::SEPARATOR)
 
-      base_path.join('/','sub','/').to_s.should == expected
+      subject.join('/','sub','/').to_s.should == expected
     end
 
     it "should join with the root path" do
