@@ -41,7 +41,7 @@ or payloads over many common Source-Code-Management (SCM) systems.
 ## Examples
 
 For examples of the convenience methods provided by ronin-support,
-please see [Everyday Ronin](http://ronin-ruby.github.com/resources/everyday_ronin.html).
+please see [Everyday Ronin](http://ronin-ruby.github.com/guides/everyday_ronin.html).
 
 ## Requirements
 
