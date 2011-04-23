@@ -85,39 +85,38 @@ module Ronin
       #
       # Expands the URL into options.
       #
-      # @param [URI::HTTP, String, nil] url
+      # @param [URI::HTTP, String] url
       #   The URL to expand.
       #
       # @return [Hash{Symbol => Object}]
       #   The options for the URL.
       #
       def HTTP.expand_url(url)
-        new_options = {
-          :port => Net::HTTP.default_port,
-          :path => '/'
-        }
+        new_options = {}
 
-        if url
-          url = case url
-                when URI
-                  url
-                when Hash
-                  URI::HTTP.build(url)
-                else
-                  URI(url.to_s)
-                end
+        url = case url
+              when URI
+                url
+              when Hash
+                URI::HTTP.build(url)
+              else
+                URI(url.to_s)
+              end
 
-          new_options[:ssl] = {} if url.scheme == 'https'
+        new_options[:ssl] = {} if url.scheme == 'https'
 
-          new_options[:host] = url.host
-          new_options[:port] = url.port
+        new_options[:host] = url.host
+        new_options[:port] = url.port
 
-          new_options[:user] = url.user if url.user
-          new_options[:password] = url.password if url.password
+        new_options[:user] = url.user if url.user
+        new_options[:password] = url.password if url.password
 
-          new_options[:path] = url.path unless url.path.empty?
-          new_options[:path] += "?#{url.query}" if url.query
-        end
+        new_options[:path] = unless url.path.empty?
+                               url.path
+                             else
+                               '/'
+                             end
+        new_options[:path] += "?#{url.query}" if url.query
 
         return new_options
       end
@@ -155,12 +154,16 @@ module Ronin
       def HTTP.expand_options(options={})
         new_options = options.dup
 
+        new_options[:port] ||= Net::HTTP.default_port
+        new_options[:path] ||= '/'
+
         if new_options[:ssl] == true
           new_options[:ssl] = {}
         end
 
-        url = new_options.delete(:url)
-        new_options.merge!(HTTP.expand_url(url))
+        if (url = new_options.delete(:url))
+          new_options.merge!(HTTP.expand_url(url))
+        end
 
         new_options[:proxy] = if new_options.has_key?(:proxy)
                                 HTTP::Proxy.create(new_options[:proxy])

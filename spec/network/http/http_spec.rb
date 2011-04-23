@@ -35,13 +35,6 @@ describe Network::HTTP do
       options[:port].should == url.port
     end
 
-    it "should accept nil" do
-      options = subject.expand_url(nil)
-
-      options[:port].should == Net::HTTP.default_port
-      options[:path].should == '/'
-    end
-
     it "should default :path to '/'" do
       options = subject.expand_url(URI('http://example.com'))
 
