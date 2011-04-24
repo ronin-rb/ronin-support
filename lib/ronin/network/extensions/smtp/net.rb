@@ -17,18 +17,30 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/network/smtp/smtp'
 require 'ronin/network/smtp/email'
 
 require 'net/smtp'
 
 module Net
   #
-  # @see Ronin::Network::SMTP.message
+  # Creates a new email message.
+  #
+  # @param [Hash] options
+  #   Additional options for the email.
+  #
+  # @yield [email]
+  #   The given block will be passed the new email.
+  #
+  # @yieldparam [Ronin::Network::SMTP::Email] email
+  #   The new email.
+  #
+  # @see Ronin::Network::SMTP::Email.new
   #
   # @api public
   #
   def Net.smtp_message(options={},&block)
-    Ronin::Network::SMTP.message(options,&block)
+    Ronin::Network::SMTP::Email.new(options,&block)
   end
 
   #
