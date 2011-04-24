@@ -247,7 +247,7 @@ module Net
   # @return [Boolean]
   #   Specifies wether the response had an HTTP OK status code or not.
   #
-  # @see http_request
+  # @see http_status
   #
   def Net.http_ok?(options={})
     Net.http_status(options) == 200
