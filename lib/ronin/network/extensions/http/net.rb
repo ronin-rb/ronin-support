@@ -214,6 +214,66 @@ module Net
   end
 
   #
+  # Checks if the response has an HTTP OK status code.
+  #
+  # @param [Hash] options
+  #   Additional options.
+  #
+  # @option options [Symbol, String] :method (:head)
+  #   The method to use for the request.
+  #
+  # @return [Boolean]
+  #   Specifies wether the response had an HTTP OK status code or not.
+  #
+  # @see http_request
+  #
+  def Net.http_ok?(options={})
+    options = {:method => :head}.merge(options)
+
+    return Net.http_request(options).code == 200
+  end
+
+  #
+  # Sends a HTTP Head request and returns the HTTP Server header.
+  #
+  # @param [Hash] options
+  #   Additional options.
+  #
+  # @option options [Symbol, String] :method (:head)
+  #   The method to use for the request.
+  #
+  # @return [String]
+  #   The HTTP `Server` header.
+  #
+  # @see http_request
+  #
+  def Net.http_server(options={})
+    options = {:method => :head}.merge(options)
+
+    return Net.http_request(options)['server']
+  end
+
+  #
+  # Sends an HTTP Head request and returns the HTTP X-Powered-By header.
+  #
+  # @param [Hash] options
+  #   Additional options.
+  #
+  # @option options [Symbol, String] :method (:get)
+  #   The method to use for the request.
+  #
+  # @return [String]
+  #   The HTTP `X-Powered-By` header.
+  #
+  # @see http_request
+  #
+  def Net.http_powered_by(options={})
+    options = {:method => :get}.merge(options)
+    
+    return Net.http_request(options)['x-powered-by']
+  end
+
+  #
   # Performs an HTTP Copy request.
   #
   # @param [Hash] options
@@ -342,57 +402,6 @@ module Net
 
     yield resp if block_given?
     return resp
-  end
-
-  #
-  # Checks if the response has an HTTP OK status code.
-  #
-  # @param [Hash] options
-  #   Additional options.
-  #
-  # @return [Boolean]
-  #   Specifies wether the response had an HTTP OK status code or not.
-  #
-  # @see http_request
-  #
-  def Net.http_ok?(options={})
-    Net.http_head(options).code == 200
-  end
-
-  #
-  # Sends a HTTP Head request and returns the HTTP Server header.
-  #
-  # @param [Hash] options
-  #   Additional options.
-  #
-  # @return [String]
-  #   The HTTP `Server` header.
-  #
-  # @see http_request
-  #
-  def Net.http_server(options={})
-    Net.http_head(options)['server']
-  end
-
-  #
-  # Sends an HTTP Head request and returns the HTTP X-Powered-By header.
-  #
-  # @param [Hash] options
-  #   Additional options.
-  #
-  # @return [String]
-  #   The HTTP `X-Powered-By` header.
-  #
-  # @see http_request
-  #
-  def Net.http_powered_by(options={})
-    resp = Net.http_head(options)
-
-    if resp.code != 200
-      resp = Net.http_get(options)
-    end
-
-    return resp['x-powered-by']
   end
 
   #
