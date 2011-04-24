@@ -80,7 +80,7 @@ module Ronin
           @from = options[:from]
           @to = options[:to]
           @subject = options[:subject]
-          @date = options[:date] || Time.now
+          @date = options.fetch(:date,Time.now)
           @message_id = options[:message_id]
           @body = []
 
@@ -106,22 +106,22 @@ module Ronin
         def to_s
           address = lambda { |info|
             if info.kind_of?(Array)
-              return "#{info[0]} <#{info[1]}>"
+              "#{info[0]} <#{info[1]}>"
             elsif info.kind_of?(Hash)
-              return "#{info[:name]} <#{info[:email]}>"
+              "#{info[:name]} <#{info[:email]}>"
             else
-              return info
+              info
             end
           }
 
           message = []
 
           if @from
-            message << "From: #{address.call(@from)}"
+            message << "From: #{address[@from]}"
           end
 
           if @to
-            message << "To: #{address.call(@to)}"
+            message << "To: #{address[@to]}"
           end
 
           if @subject
