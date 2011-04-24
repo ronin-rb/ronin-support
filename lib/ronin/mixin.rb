@@ -45,6 +45,21 @@ module Ronin
       base.module_eval do
         protected
 
+        #
+        # Mixins in the modules or code block into other modules that the
+        # module might be included or extended into.
+        #
+        # @param [Array<Module>] modules
+        #   Other modules to mixin.
+        #
+        # @yield []
+        #   The given code block will be evaluated into the modules
+        #   the module is included or extended into.
+        #
+        # @since 0.2.0
+        #
+        # @api semipublic
+        #
         def self.mixin(*modules,&block)
           unless modules.empty?
             @mixin_modules = modules
