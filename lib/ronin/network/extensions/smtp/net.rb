@@ -77,6 +77,9 @@ module Net
   # @return [Net::SMTP]
   #   The SMTP session.
   #
+  # @example
+  #   Net.smtp_connect('www.example.com', :user => 'joe')
+  #
   # @api public
   #
   def Net.smtp_connect(host,options={})
@@ -110,6 +113,11 @@ module Net
   #
   # @yieldparam [Net::SMTP] session
   #   The SMTP session.
+  #
+  # @example
+  #   Net.smtp_session('www.example.com', :user => 'joe') do |smtp|
+  #     # ...
+  #   end
   #
   # @see Net.smtp_connect
   #
