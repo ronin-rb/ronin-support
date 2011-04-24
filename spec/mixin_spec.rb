@@ -14,9 +14,8 @@ describe Mixin do
     Module.new do
       include Mixin
 
-      mixin(Mixins::Test1,Mixins::Test2) do
-        @var = 1
-      end
+      mixin Mixins::Test1, Mixins::Test2
+      mixin { @var = 1 }
     end
   end
 
