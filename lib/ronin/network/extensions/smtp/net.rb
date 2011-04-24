@@ -123,4 +123,40 @@ module Net
     session.finish
     return nil
   end
+
+  #
+  # @since 0.2.0
+  #
+  # @param [String] host
+  #   The host to connect to.
+  #
+  # @param [Hash] options
+  #   Additional SMTP options.
+  #
+  # @yield [email]
+  #   The given block will be passed the new email to be sent.
+  #
+  # @yieldparam [Ronin::Network::SMTP::Email] email
+  #   The new email to be sent.
+  #
+  # @see Net.smtp_session
+  #
+  # @example
+  #   Net.smtp_send_message('www.example.com') do |email|
+  #     email.to = 'joe@example.com'
+  #     email.from 'eve@example.com'
+  #     email.subject = 'Hello'
+  #     email.message_id = 'XXXXXXXXXX'
+  #     email.body << 'Hello!'
+  #   end
+  #
+  # @since 0.2.0
+  #
+  # @api public
+  #
+  def Net.smtp_send_message(host,options={},&block)
+    Net.smtp_session(host,options) do |smtp|
+      smtp.send_message(Net.smtp_message(&block))
+    end
+  end
 end
