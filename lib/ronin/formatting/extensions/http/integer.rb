@@ -28,6 +28,8 @@ class Integer
   # @return [String]
   #   The URI encoded byte.
   #
+  # @api public
+  #
   def uri_encode
     URI.encode(self.chr)
   end
@@ -38,6 +40,8 @@ class Integer
   # @return [String]
   #   The URI escaped byte.
   #
+  # @api public
+  #
   def uri_escape
     CGI.escape(self.chr)
   end
@@ -47,6 +51,8 @@ class Integer
   #
   # @return [String]
   #   The formatted byte.
+  #
+  # @api public
   #
   def format_http
     "%%%x" % self

@@ -43,6 +43,8 @@ class String
   # @return [String]
   #   The formatted version of the String.
   #
+  # @api public
+  #
   def format_bytes(options={})
     included = (options[:include] || (0x00..0xff))
     excluded = (options[:exclude] || [])
@@ -85,6 +87,8 @@ class String
   # @return [String]
   #   The formatted version of the String.
   #
+  # @api public
+  #
   def format_chars(options={})
     format_bytes(options) { |b| yield b.chr }
   end
@@ -108,6 +112,8 @@ class String
   # @example
   #   "get out your checkbook".random_case
   #   # => "gEt Out YOur CHEckbook"
+  #
+  # @api public
   #
   def random_case(options={})
     prob = (options[:probability] || 0.5)
@@ -133,6 +139,8 @@ class String
   # @return [String]
   #   The new modified String.
   #
+  # @api public
+  #
   def insert_before(pattern,data)
     string = self.dup
     index = string.index(pattern)
@@ -152,6 +160,8 @@ class String
   #
   # @return [String]
   #   The new modified String.
+  #
+  # @api public
   #
   def insert_after(pattern,data)
     string = self.dup
@@ -182,6 +192,8 @@ class String
   # @example
   #   "hello".pad('A',50)
   #   # => "helloAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  #
+  # @api public
   #
   def pad(padding,max_length=self.length)
     padding = padding.to_s

@@ -30,6 +30,8 @@ class File
   #
   # @return [nil]
   #
+  # @api public
+  #
   def File.write(path,data)
     File.open(path,'w') { |file| file.write(data) }
   end
@@ -42,6 +44,8 @@ class File
   #
   # @return [String]
   #   The escaped path.
+  #
+  # @api public
   #
   def File.escape_path(path)
     path = path.to_s

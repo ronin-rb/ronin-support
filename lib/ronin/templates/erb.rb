@@ -47,6 +47,8 @@ module Ronin
       #   }
       #   # => "\nUSER: lolcats\nPASSWORD: staclol\n"
       #
+      # @api public
+      #
       def erb(template)
         ERB.new(template).result(binding)
       end
@@ -62,6 +64,8 @@ module Ronin
       #
       # @example
       #   erb_file 'path/to/template.erb'
+      #
+      # @api public
       #
       def erb_file(template_path)
         read_template(template_path) do |template|

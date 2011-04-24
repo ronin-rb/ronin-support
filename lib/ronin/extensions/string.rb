@@ -39,6 +39,8 @@ class String
   # @return [String]
   #   The original string
   #
+  # @api public
+  #
   def each_substring(min=0,&block)
     return enum_for(:each_substring,min) unless block
 
@@ -79,6 +81,8 @@ class String
   #
   # @see each_substring
   #
+  # @api public
+  #
   def each_unique_substring(min=0,&block)
     return enum_for(:each_unique_substring,min) unless block
 
@@ -100,9 +104,15 @@ class String
   end
 
   #
-  # Returns the common prefix of the string and the specified other
-  # string. If no common prefix can be found an empty string will be
-  # returned.
+  # The common prefix of the string and the specified other string.
+  #
+  # @param [String] other
+  #   The other String to compare against.
+  #
+  # @return [String]
+  #   The common prefix between the two Strings.
+  #
+  # @api public
   #
   def common_prefix(other)
     min_length = [length, other.length].min
@@ -117,9 +127,15 @@ class String
   end
 
   #
-  # Returns the common postfix of the string and the specified other
-  # string. If no common postfix can be found an empty string will be
-  # returned.
+  # Finds the common postfix of the string and the specified other string.
+  #
+  # @param [String] pther
+  #   The other String to compare against.
+  #
+  # @return [String]
+  #   The common postfix of the two Strings.
+  #
+  # @api public
   #
   def common_postfix(other)
     min_length = [length, other.length].min
@@ -137,9 +153,16 @@ class String
   end
 
   #
-  # Returns the uncommon substring within the specified other string,
-  # which does not occur within the string. If no uncommon substring can be
-  # found, an empty string will be returned.
+  # Finds the uncommon substring within the specified other string,
+  # which does not occur within the string.
+  #
+  # @param [String] other
+  #   The other String to compare against.
+  #
+  # @return [String]
+  #   The uncommon substring between the two Strings.
+  #
+  # @api public
   #
   def uncommon_substring(other)
     prefix = common_prefix(other)
@@ -157,6 +180,8 @@ class String
   # @example
   #   "hello\x00\073\x90\r\n".dump
   #   # => "hello\0;\x90\r\n"
+  #
+  # @api public
   #
   def dump
     c_string = ''

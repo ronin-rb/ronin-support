@@ -32,6 +32,8 @@ module Ronin
       # @return [Integer]
       #   The default Ronin SMTP port.
       #
+      # @api public
+      #
       def SMTP.default_port
         @default_port ||= DEFAULT_PORT
       end
@@ -41,6 +43,8 @@ module Ronin
       #
       # @param [Integer] port
       #   The new default Ronin SMTP port.
+      #
+      # @api public
       #
       def SMTP.default_port=(port)
         @default_port = port
@@ -60,6 +64,8 @@ module Ronin
       #   Formatted SMTP email.
       #
       # @see Ronin::Network::SMTP::Email
+      #
+      # @api public
       #
       def SMTP.message(options={},&block)
         Email.new(options,&block).to_s

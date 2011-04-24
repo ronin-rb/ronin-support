@@ -34,6 +34,8 @@ module Ronin
       # @return [Integer]
       #   The verify mode number used by OpenSSL.
       #
+      # @api private
+      #
       def SSL.verify(mode=nil)
         verify_mode = 'VERIFY_' + (mode || :none).to_s.upcase
 

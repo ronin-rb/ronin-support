@@ -35,6 +35,8 @@ class String
   #   "art is graffiti".uri_encode
   #   # => "art%20is%20graffiti"
   #
+  # @api public
+  #
   def uri_encode
     URI.encode(self)
   end
@@ -48,6 +50,8 @@ class String
   # @example
   #   "genre%3f".uri_decode
   #   # => "genre?"
+  #
+  # @api public
   #
   def uri_decode
     URI.decode(self)
@@ -63,6 +67,8 @@ class String
   #   "x > y".uri_escape
   #   # => "x+%3E+y"
   #
+  # @api public
+  #
   def uri_escape
     CGI.escape(self)
   end
@@ -76,6 +82,8 @@ class String
   # @example
   #   "sweet+%26+sour".uri_unescape
   #   # => "sweet & sour"
+  #
+  # @api public
   #
   def uri_unescape
     CGI.unescape(self)
@@ -92,6 +100,8 @@ class String
   #   # => "%68%65%6c%6c%6f"
   #
   # @see String#format_bytes
+  #
+  # @api public
   #
   def format_http(options={})
     format_bytes(options) { |b| b.format_http }

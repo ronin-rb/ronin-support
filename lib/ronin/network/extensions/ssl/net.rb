@@ -65,6 +65,8 @@ module Net
   # @example
   #   socket = Net.ssl_connect('twitter.com',443)
   #
+  # @api public
+  #
   def Net.ssl_connect(host,port,options={})
     local_host = options[:local_host]
     local_port = options[:local_port]
@@ -133,6 +135,8 @@ module Net
   #
   #     sock.each_line { |line| puts line }
   #   end
+  #
+  # @api public
   #
   def Net.ssl_session(host,port)
     ssl_socket = Net.ssl_connect(host,port)

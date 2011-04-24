@@ -44,6 +44,8 @@ class Integer
   #   0xff41.bytes(4, :big)
   #   # => [0, 0, 255, 65]
   #
+  # @api public
+  #
   def bytes(address_length,endian=:little)
     endian = endian.to_sym
     buffer = []
@@ -107,6 +109,8 @@ class Integer
   #
   # @see http://ruby-doc.org/core/classes/Array.html#M002222
   #
+  # @api public
+  #
   def pack(arch,address_length=nil)
     if arch.kind_of?(String)
       return [self].pack(arch)
@@ -135,6 +139,8 @@ class Integer
   # @example
   #   42.hex_escape
   #   # => "\\x2a"
+  #
+  # @api public
   #
   def hex_escape
     "\\x%.2x" % self

@@ -53,6 +53,8 @@ class IPAddr
   # @return [Array<String>]
   #   The IP Addresses found in the text.
   #
+  # @api public
+  #
   def IPAddr.extract(text,version=nil,&block)
     regexp = case version
              when :ipv4
@@ -107,6 +109,8 @@ class IPAddr
   #   IPAddr.each('::ff::02-0a::c3') do |ip|
   #     puts ip
   #   end
+  #
+  # @api public
   #
   def IPAddr.each(cidr_or_glob,&block)
     unless (cidr_or_glob.include?('*') || cidr_or_glob.include?('-'))
@@ -168,6 +172,8 @@ class IPAddr
   # @return [Array<String>]
   #   The host-names for the IP address.
   #
+  # @api public
+  #
   def lookup
     Resolv.getnames(self.to_s)
   end
@@ -189,6 +195,8 @@ class IPAddr
   #   netblock.each do |ip|
   #     puts ip
   #   end
+  #
+  # @api public
   #
   def each
     return enum_for(:each) unless block_given?

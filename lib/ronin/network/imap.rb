@@ -32,6 +32,8 @@ module Ronin
       # @return [Integer]
       #   The default Ronin IMAP port.
       #
+      # @api public
+      #
       def IMAP.default_port
         @default_port ||= DEFAULT_PORT
       end
@@ -41,6 +43,8 @@ module Ronin
       #
       # @param [Integer] port
       #   The new default Ronin IMAP port.
+      #
+      # @api public
       #
       def IMAP.default_port=(port)
         @default_port = port

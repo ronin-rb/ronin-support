@@ -35,6 +35,8 @@ module Ronin
     # @return [String]
     #   The external IP Address according to {http://checkip.dyndns.org}.
     #
+    # @api public
+    #
     def Network.ip
       IPAddr.extract(Net::HTTP.get(IP_URL)).first
     end

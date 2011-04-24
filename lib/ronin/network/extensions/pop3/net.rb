@@ -49,6 +49,8 @@ module Net
   # @return [Net::POP3]
   #   The newly created POP3 session.
   #
+  # @api public
+  #
   def Net.pop3_connect(host,options={})
     host = host.to_s
     port = (options[:port] || Ronin::Network::POP3.default_port)
@@ -78,6 +80,8 @@ module Net
   #   The newly created POP3 session.
   #
   # @return [nil]
+  #
+  # @api public
   #
   def Net.pop3_session(host,options={})
     session = Net.pop3_connect(host,options)

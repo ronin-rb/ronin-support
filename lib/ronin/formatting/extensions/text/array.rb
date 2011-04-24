@@ -34,6 +34,8 @@ class Array
   #   ['A', 'BB', 0x90].bytes
   #   # => [0x41, 0x42, 0x42, 0x90]
   #
+  # @api public
+  #
   def bytes
     self.inject([]) do |accum,elem|
       if elem.kind_of?(Integer)
@@ -57,6 +59,8 @@ class Array
   #   [0x41, 0x41, 0x20].chars
   #   # => ["A", "A", " "]
   #
+  # @api public
+  #
   def chars
     array_bytes = self.bytes
 
@@ -71,6 +75,8 @@ class Array
   # @example
   #   [0x41, 0x41, 0x20].char_string
   #   # => "AA "
+  #
+  # @api public
   #
   def char_string
     chars.join
@@ -90,6 +96,8 @@ class Array
   # @example
   #   ['A', 'BB', 0x90].bytes
   #   # => ['\x41', '\x42', '\x42', '\x90']
+  #
+  # @api public
   #
   def hex_chars
     array_bytes = self.bytes
@@ -112,6 +120,8 @@ class Array
   # @example
   #   ['A', 'BB', 0x90].bytes
   #   # => ['0x41', '0x42', '0x42', '0x90']
+  #
+  # @api public
   #
   def hex_integers
     array_bytes = self.bytes

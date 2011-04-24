@@ -25,6 +25,8 @@ module Net
   #
   # @see Ronin::Network::SMTP.message
   #
+  # @api public
+  #
   def Net.smtp_message(options={},&block)
     Ronin::Network::SMTP.message(options,&block)
   end
@@ -63,6 +65,8 @@ module Net
   # @return [Net::SMTP]
   #   The SMTP session.
   #
+  # @api public
+  #
   def Net.smtp_connect(host,options={})
     host = host.to_s
     port = (options[:port] || Ronin::Network::SMTP.default_port)
@@ -96,6 +100,8 @@ module Net
   #   The SMTP session.
   #
   # @see Net.smtp_connect
+  #
+  # @api public
   #
   def Net.smtp_session(host,options={})
     session = Net.smtp_connect(host,options)

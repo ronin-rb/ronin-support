@@ -33,6 +33,8 @@ module Kernel
   #     Resolv.getaddress('might.not.exist.com')
   #   end
   #
+  # @api public
+  #
   def attempt
     begin
       yield() if block_given?

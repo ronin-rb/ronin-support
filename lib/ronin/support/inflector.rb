@@ -55,6 +55,8 @@ module Ronin
     # @raise [NameError]
     #   The constant could not be found.
     #
+    # @api private
+    #
     def Support.load_inflector!(name)
       name = name.to_sym
 

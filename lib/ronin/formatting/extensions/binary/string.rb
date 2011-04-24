@@ -69,6 +69,8 @@ class String
   #
   # @see http://ruby-doc.org/core/classes/String.html#M000760
   #
+  # @api public
+  #
   def depack(arch,address_length=nil)
     if arch.kind_of?(String)
       return self.unpack(arch)
@@ -118,10 +120,14 @@ class String
   #
   # @see String#format_bytes
   #
+  # @api public
+  #
   def hex_escape(options={})
     format_bytes(options) { |b| b.hex_escape }
   end
 
+  #
+  # Unescapes the hex-escaped String.
   #
   # @return [String]
   #   The unescaped version of the hex escaped String.
@@ -129,6 +135,8 @@ class String
   # @example
   #   "\\x68\\x65\\x6c\\x6c\\x6f".hex_unescape
   #   # => "hello"
+  #
+  # @api public
   #
   def hex_unescape
     buffer = ''
@@ -196,6 +204,8 @@ class String
   #   "hello again".xor([0x55, 0x41, 0xe1])
   #   # => "=$\x8d9.\xc14&\x80</"
   #
+  # @api public
+  #
   def xor(key)
     key = if key.kind_of?(Integer)
             [key]
@@ -219,6 +229,8 @@ class String
   # @return [String]
   #   The base64 encoded form of the string.
   #
+  # @api public
+  #
   def base64_encode
     Base64.encode64(self)
   end
@@ -228,6 +240,8 @@ class String
   #
   # @return [String]
   #   The base64 decoded form of the string.
+  #
+  # @api public
   #
   def base64_decode
     Base64.decode64(self)
@@ -239,6 +253,8 @@ class String
   # @return [String]
   #   The Zlib inflated form of the string.
   #
+  # @api public
+  #
   def zlib_inflate
     Zlib::Inflate.inflate(self)
   end
@@ -248,6 +264,8 @@ class String
   #
   # @return [String]
   #   The Zlib deflated form of the string.
+  #
+  # @api public
   #
   def zlib_deflate
     Zlib::Deflate.deflate(self)
@@ -287,6 +305,8 @@ class String
   #   The length in bytes of each segment in the hexdump.
   #
   # @return [String] The raw-data from the hexdump.
+  #
+  # @api public
   #
   def unhexdump(options={})
     case (format = options[:format])

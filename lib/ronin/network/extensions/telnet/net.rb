@@ -88,6 +88,8 @@ module Net
   #   Net.telnet_connect('towel.blinkenlights.nl')
   #   # => #<Net::Telnet: ...>
   #
+  # @api public
+  #
   def Net.telnet_connect(host,options={})
     host = host.to_s
     telnet_options = {}
@@ -142,6 +144,8 @@ module Net
   #   end
   #
   # @see Net.telnet_session
+  #
+  # @api public
   #
   def Net.telnet_session(host,options={})
     session = Net.telnet_connect(host,options)

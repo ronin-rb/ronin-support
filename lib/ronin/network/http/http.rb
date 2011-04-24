@@ -37,6 +37,8 @@ module Ronin
       # @see Proxy.new
       # @see Proxy.parse
       #
+      # @api public
+      #
       def HTTP.proxy
         @proxy ||= if ENV['HTTP_PROXY']
                      Proxy.parse(ENV['HTTP_PROXY'])
@@ -58,6 +60,8 @@ module Ronin
       #   The given proxy information was not a {Proxy}, `URI::HTTP`,
       #   `Hash` or {String}.
       #
+      # @api public
+      #
       def HTTP.proxy=(new_proxy)
         @proxy = Proxy.create(new_proxy)
       end
@@ -68,6 +72,8 @@ module Ronin
       # @return [String, nil]
       #   The default Ronin HTTP User-Agent.
       #
+      # @api public
+      #
       def HTTP.user_agent
         @user_agent ||= nil
       end
@@ -77,6 +83,8 @@ module Ronin
       #
       # @param [String] agent
       #   The new User-Agent string to use.
+      #
+      # @api public
       #
       def HTTP.user_agent=(agent)
         @user_agent = agent
@@ -90,6 +98,8 @@ module Ronin
       #
       # @return [Hash{Symbol => Object}]
       #   The options for the URL.
+      #
+      # @api private
       #
       def HTTP.expand_url(url)
         new_options = {}
@@ -151,6 +161,8 @@ module Ronin
       # @return [Hash]
       #   The expanded version of options.
       #
+      # @api private
+      #
       def HTTP.expand_options(options={})
         new_options = options.dup
 
@@ -184,6 +196,8 @@ module Ronin
       # @return [String]
       #   The camel-case HTTP header name.
       #
+      # @api private
+      #
       def HTTP.header_name(name)
         words = name.to_s.split(/[\s+_-]/)
 
@@ -200,6 +214,8 @@ module Ronin
       #
       # @return [Hash]
       #   The camel-cased HTTP headers created from the given options.
+      #
+      # @api private
       #
       def HTTP.headers(options={})
         headers = {}
@@ -255,6 +271,8 @@ module Ronin
       #   class.
       #
       # @see HTTP.expand_options
+      #
+      # @api private
       #
       def HTTP.request(options={})
         unless options[:method]

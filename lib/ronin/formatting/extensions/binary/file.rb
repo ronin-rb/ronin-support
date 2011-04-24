@@ -22,9 +22,20 @@ require 'ronin/formatting/extensions/binary/string'
 class File
 
   #
-  # Converts the hexdump at the given path back into raw-data.
+  # Converts a hexdump file to it's original binary data.
+  #
+  # @param [Pathname, String] path
+  #   The path of the hexdump file.
+  #
+  # @param [Hash] options
+  #   Hexdump options.
+  #
+  # @return [String]
+  #   The original binary data.
   #
   # @see String#unhexdump.
+  #
+  # @api public
   #
   def File.unhexdump(path,options={})
     File.read(path).unhexdump(options)

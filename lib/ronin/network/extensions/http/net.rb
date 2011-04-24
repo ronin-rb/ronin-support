@@ -69,6 +69,8 @@ module Net
   # @return [Net::HTTP]
   #   The HTTP session object.
   #
+  # @api public
+  #
   def Net.http_connect(options={},&block)
     options = Ronin::Network::HTTP.expand_options(options)
 
@@ -145,6 +147,8 @@ module Net
   #
   # @see Net.http_connect
   #
+  # @api public
+  #
   def Net.http_session(options={},&block)
     Net.http_connect(options) do |sess,expanded_options|
       if block
@@ -193,6 +197,8 @@ module Net
   #
   # @see http_session
   #
+  # @api public
+  #
   def Net.http_request(options={},&block)
     resp = nil
 
@@ -229,6 +235,8 @@ module Net
   #
   # @since 0.2.0
   #
+  # @api public
+  #
   def Net.http_status(options={})
     options = {:method => :head}.merge(options)
 
@@ -249,6 +257,8 @@ module Net
   #
   # @see http_status
   #
+  # @api public
+  #
   def Net.http_ok?(options={})
     Net.http_status(options) == 200
   end
@@ -266,6 +276,8 @@ module Net
   #   The HTTP `Server` header.
   #
   # @see http_request
+  #
+  # @api public
   #
   def Net.http_server(options={})
     options = {:method => :head}.merge(options)
@@ -286,6 +298,8 @@ module Net
   #   The HTTP `X-Powered-By` header.
   #
   # @see http_request
+  #
+  # @api public
   #
   def Net.http_powered_by(options={})
     options = {:method => :get}.merge(options)
@@ -311,6 +325,8 @@ module Net
   #
   # @see http_request
   #
+  # @api public
+  #
   def Net.http_copy(options={})
     resp = Net.http_request(options.merge(:method => :copy))
 
@@ -335,6 +351,8 @@ module Net
   #   The response of the HTTP request.
   #
   # @see http_request
+  #
+  # @api public
   #
   def Net.http_delete(options={},&block)
     original_headers = options[:headers]
@@ -370,6 +388,8 @@ module Net
   #
   # @see http_request
   #
+  # @api public
+  #
   def Net.http_get(options={},&block)
     resp = Net.http_request(options.merge(:method => :get))
 
@@ -395,6 +415,8 @@ module Net
   #
   # @see http_request
   #
+  # @api public
+  #
   def Net.http_get_body(options={},&block)
     Net.http_get(options,&block).body
   end
@@ -416,6 +438,8 @@ module Net
   #   The response of the HTTP request.
   #
   # @see http_request
+  #
+  # @api public
   #
   def Net.http_head(options={},&block)
     resp = Net.http_request(options.merge(:method => :head))
@@ -442,6 +466,8 @@ module Net
   #
   # @see http_request
   #
+  # @api public
+  #
   def Net.http_lock(options={},&block)
     resp = Net.http_request(options.merge(:method => :lock))
 
@@ -466,6 +492,8 @@ module Net
   #   The response of the HTTP request.
   #
   # @see http_request
+  #
+  # @api public
   #
   def Net.http_mkcol(options={},&block)
     resp = Net.http_request(options.merge(:method => :mkcol))
@@ -492,6 +520,8 @@ module Net
   #
   # @see http_request
   #
+  # @api public
+  #
   def Net.http_move(options={},&block)
     resp = Net.http_request(options.merge(:method => :move))
 
@@ -516,6 +546,8 @@ module Net
   #   The response of the HTTP request.
   #
   # @see http_request
+  #
+  # @api public
   #
   def Net.http_options(options={},&block)
     resp = Net.http_request(options.merge(:method => :options))
@@ -545,6 +577,8 @@ module Net
   #
   # @see http_request
   #
+  # @api public
+  #
   def Net.http_post(options={},&block)
     resp = Net.http_request(options.merge(:method => :post))
 
@@ -573,6 +607,8 @@ module Net
   #
   # @see http_request
   #
+  # @api public
+  #
   def Net.http_post_body(options={},&block)
     Net.http_post(options,&block).body
   end
@@ -594,6 +630,8 @@ module Net
   #   The response of the HTTP request.
   #
   # @see http_request
+  #
+  # @api public
   #
   def Net.http_prop_find(options={},&block)
     original_headers = options[:headers]
@@ -629,6 +667,8 @@ module Net
   #
   # @see http_request
   #
+  # @api public
+  #
   def Net.http_prop_patch(options={},&block)
     resp = Net.http_request(options.merge(:method => :proppatch))
 
@@ -654,6 +694,8 @@ module Net
   #
   # @see http_request
   #
+  # @api public
+  #
   def Net.http_trace(options={},&block)
     resp = Net.http_request(options.merge(:method => :trace))
 
@@ -678,6 +720,8 @@ module Net
   #   The response of the HTTP request.
   #
   # @see http_request
+  #
+  # @api public
   #
   def Net.http_unlock(options={},&block)
     resp = Net.http_request(options.merge(:method => :unlock))

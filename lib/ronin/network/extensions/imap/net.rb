@@ -58,6 +58,8 @@ module Net
   # @return [Net::IMAP]
   #   The newly created IMAP session object.
   #
+  # @api public
+  #
   def Net.imap_connect(host,options={})
     host = host.to_s
     port = (options[:port] || Ronin::Network::IMAP.default_port)
@@ -108,6 +110,8 @@ module Net
   # @return [nil]
   #
   # @see Net.imap_connect
+  #
+  # @api public
   #
   def Net.imap_session(host,options={})
     session = Net.imap_connect(host,options)

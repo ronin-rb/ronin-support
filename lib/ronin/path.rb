@@ -41,6 +41,8 @@ module Ronin
     # @return [Path]
     #   The root path.
     #
+    # @api public
+    #
     def Path.root
       Path.new('/')
     end
@@ -68,6 +70,8 @@ module Ronin
     #   Path.up(1..3)
     #   # => [#<Ronin::Path:..>, #<Ronin::Path:../..>,
     #   #<Ronin::Path:../../..>]
+    #
+    # @api public
     #
     def self.up(n,separator=File::SEPARATOR)
       case n
@@ -104,6 +108,8 @@ module Ronin
     # @example
     #   Path.up(7).join('etc/passwd')
     #   # => #<Ronin::Path:../../../../../../../etc/passwd>
+    #
+    # @api public
     #
     def join(*names)
       names.map! { |name| name.to_s }

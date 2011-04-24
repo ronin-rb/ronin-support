@@ -37,6 +37,8 @@ module Ronin
       # @return [Array]
       #   The stack of directory paths.
       #
+      # @api semipublic
+      #
       def template_dirs
         @template_dirs ||= []
       end
@@ -48,6 +50,8 @@ module Ronin
       # @return [String, nil]
       #   Returns the first path in {#template_dirs}, or `nil` if
       #   {#template_dirs} is empty.
+      #
+      # @api semipublic
       #
       def template_dir
         template_dirs.first
@@ -67,6 +71,8 @@ module Ronin
       #
       # @example
       #   find_template 'sub/path/template.erb'
+      #
+      # @api semipublic
       #
       def find_template(sub_path)
         sub_path = sub_path.to_s
@@ -107,6 +113,8 @@ module Ronin
       #     # do stuff with the full path
       #   end
       #
+      # @api semipublic
+      #
       def enter_template(sub_path)
         sub_path = sub_path.to_s
 
@@ -142,6 +150,8 @@ module Ronin
       #   read_template 'path/to/_include.txt' do |contents|
       #     # ...
       #   end
+      #
+      # @api semipublic
       #
       def read_template(template_path)
         enter_template(template_path) do |path|

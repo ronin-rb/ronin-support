@@ -54,6 +54,8 @@ module Net
   #     sock.close
   #   end
   #
+  # @api public
+  #
   def Net.tcp_connect(host,port,local_host=nil,local_port=nil)
     host = host.to_s
     local_host = if local_host
@@ -91,6 +93,8 @@ module Net
   # @yieldparam [TCPsocket] socket
   #   The newly created TCPSocket object.
   #
+  # @api public
+  #
   def Net.tcp_connect_and_send(data,host,port,local_host=nil,local_port=nil)
     sock = Net.tcp_connect(host,port,local_host,local_port)
     sock.write(data)
@@ -123,6 +127,8 @@ module Net
   #   The newly created TCPSocket object.
   #
   # @return [nil]
+  #
+  # @api public
   #
   def Net.tcp_session(host,port,local_host=nil,local_port=nil)
     sock = Net.tcp_connect(host,port,local_host,local_port)
@@ -160,6 +166,8 @@ module Net
   # @example
   #   Net.tcp_banner('pop.gmail.com',25)
   #   # => "220 mx.google.com ESMTP c20sm3096959rvf.1"
+  #
+  # @api public
   #
   def Net.tcp_banner(host,port,local_host=nil,local_port=nil)
     banner = nil
@@ -199,6 +207,8 @@ module Net
   #   Net.tcp_send(buffer,'victim.com',80)
   #   # => true
   #
+  # @api public
+  #
   def Net.tcp_send(data,host,port,local_host=nil,local_port=nil)
     Net.tcp_session(host,port,local_host,local_port) do |sock|
       sock.write(data)
@@ -221,6 +231,8 @@ module Net
   #
   # @example
   #   Net.tcp_server(1337)
+  #
+  # @api public
   #
   def Net.tcp_server(port,host='0.0.0.0')
     host = host.to_s
@@ -261,6 +273,8 @@ module Net
   #     client2.close
   #   end
   #
+  # @api public
+  #
   def Net.tcp_server_session(port,host='0.0.0.0',&block)
     server = Net.tcp_server(port,host,&block)
     server.close()
@@ -284,6 +298,8 @@ module Net
   #   Net.tcp_single_server(1337) do |client|
   #     client.puts 'lol'
   #   end
+  #
+  # @api public
   #
   def Net.tcp_single_server(port,host='0.0.0.0')
     host = host.to_s

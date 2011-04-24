@@ -74,6 +74,8 @@ module Ronin
         # @yieldparam [Email] email
         #   The newly created email object.
         #
+        # @api public
+        #
         def initialize(options={})
           @from = options[:from]
           @to = options[:to]
@@ -98,6 +100,8 @@ module Ronin
         #   Properly formatted SMTP message.
         #
         # @see http://www.ruby-doc.org/stdlib/libdoc/net/smtp/rdoc/classes/Net/SMTP.html
+        #
+        # @api public
         #
         def to_s
           address = lambda { |info|

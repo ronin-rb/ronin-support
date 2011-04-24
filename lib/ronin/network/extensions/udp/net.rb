@@ -53,6 +53,8 @@ module Net
   #     puts sock.readlines
   #   end
   #
+  # @api public
+  #
   def Net.udp_connect(host,port,local_host=nil,local_port=nil)
     host = host.to_s
     local_host = if local_host
@@ -93,6 +95,8 @@ module Net
   # @return [UDPSocket]
   #   The newly created UDPSocket object.
   #
+  # @api public
+  #
   def Net.udp_connect_and_send(data,host,port,local_host=nil,local_port=nil)
     sock = Net.udp_connect(host,port,local_host,local_port)
     sock.write(data)
@@ -125,6 +129,8 @@ module Net
   #   The newly created UDPSocket object.
   #
   # @return [nil]
+  #
+  # @api public
   #
   def Net.udp_session(host,port,local_host=nil,local_port=nil)
     sock = Net.udp_connect(host,port,local_host,local_port)
@@ -159,6 +165,8 @@ module Net
   # @return [String]
   #   The grabbed banner.
   #
+  # @api public
+  #
   def Net.udp_banner(host,port,local_host=nil,local_port=nil)
     banner = nil
 
@@ -184,6 +192,8 @@ module Net
   #
   # @example
   #   Net.udp_server(1337)
+  #
+  # @api public
   #
   def Net.udp_server(port,host='0.0.0.0')
     host = host.to_s
@@ -215,6 +225,8 @@ module Net
   #   Net.udp_server_session(1337) do |server|
   #     data, sender = server.recvfrom(1024)
   #   end
+  #
+  # @api public
   #
   def Net.udp_server_session(port,host='0.0.0.0',&block)
     server = Net.udp_server(port,host,&block)

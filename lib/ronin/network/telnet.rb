@@ -38,6 +38,8 @@ module Ronin
       # @return [Integer]
       #   The default Ronin Telnet port.
       #
+      # @api public
+      #
       def Telnet.default_port
         @default_port ||= DEFAULT_PORT
       end
@@ -48,6 +50,8 @@ module Ronin
       # @param [Integer] port
       #   The new default Ronin Telnet port.
       #
+      # @api public
+      #
       def Telnet.default_port=(port)
         @default_port = port
       end
@@ -55,6 +59,8 @@ module Ronin
       #
       # @return [Regexp]
       #   The default Ronin Telnet prompt pattern.
+      #
+      # @api public
       #
       def Telnet.default_prompt
         @default_prompt ||= DEFAULT_PROMPT
@@ -66,6 +72,8 @@ module Ronin
       # @param [Regexp] prompt
       #   The new default Ronin Telnet prompt pattern.
       #
+      # @api public
+      #
       def Telnet.default_prompt=(prompt)
         @default_prompt = prompt
       end
@@ -73,6 +81,8 @@ module Ronin
       #
       # @return [Integer]
       #   The default Ronin Telnet timeout.
+      #
+      # @api public
       #
       def Telnet.default_timeout
         @default_timeout ||= DEFAULT_TIMEOUT
@@ -84,6 +94,8 @@ module Ronin
       # @param [Integer] timeout
       #   The new default Ronin Telnet timeout.
       #
+      # @api public
+      #
       def Telnet.default_timeout=(timeout)
         @default_timeout = timeout
       end
@@ -91,6 +103,8 @@ module Ronin
       #
       # @return [Telnet, IO, nil]
       #   The Ronin Telnet proxy.
+      #
+      # @api public
       #
       def Telnet.proxy
         @proxy ||= nil
@@ -101,6 +115,8 @@ module Ronin
       #
       # @param [Telnet, IO, nil] new_proxy
       #   The new Ronin Telnet proxy.
+      #
+      # @api public
       #
       def Telnet.proxy=(new_proxy)
         @proxy = new_proxy
