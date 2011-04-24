@@ -214,6 +214,28 @@ module Net
   end
 
   #
+  # Returns the Status Code of the Response.
+  #
+  # @param [Hash] options
+  #   Additional options.
+  #
+  # @option options [Symbol, String] :method (:head)
+  #   The method to use for the request.
+  #
+  # @return [Integer]
+  #   The HTTP Response Status.
+  #
+  # @see http_request
+  #
+  # @since 0.2.0
+  #
+  def Net.http_status(options={})
+    options = {:method => :head}.merge(options)
+
+    return Net.http_request(options).code.to_i
+  end
+
+  #
   # Checks if the response has an HTTP OK status code.
   #
   # @param [Hash] options
@@ -228,9 +250,7 @@ module Net
   # @see http_request
   #
   def Net.http_ok?(options={})
-    options = {:method => :head}.merge(options)
-
-    return Net.http_request(options).code == 200
+    Net.http_status(options) == 200
   end
 
   #
