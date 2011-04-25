@@ -139,7 +139,7 @@ module Net
   #   The host to connect to.
   #
   # @param [Hash] options
-  #   Additional SMTP options.
+  #   Additional SMTP and Email options.
   #
   # @yield [email]
   #   The given block will be passed the new email to be sent.
@@ -150,6 +150,13 @@ module Net
   # @see Net.smtp_session
   #
   # @example
+  #   Net.smtp_send_message 'www.example.com', :to => 'joe@example.com',
+  #                                            :from => 'eve@example.com',
+  #                                            :subject => 'Hello',
+  #                                            :message_id => 'XXXX',
+  #                                            :body => 'Hello'
+  #
+  # @example Using the block.
   #   Net.smtp_send_message('www.example.com') do |email|
   #     email.to = 'joe@example.com'
   #     email.from 'eve@example.com'
@@ -163,8 +170,10 @@ module Net
   # @api public
   #
   def Net.smtp_send_message(host,options={},&block)
+    email = Net.smtp_message(options,&block)
+
     Net.smtp_session(host,options) do |smtp|
-      smtp.send_message(Net.smtp_message(&block))
+      smtp.send_message(email.to_s, email.from, email.to)
     end
   end
 end
