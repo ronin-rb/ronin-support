@@ -108,8 +108,6 @@ module Ronin
             case info
             when Array
               "#{info[0]} <#{info[1]}>"
-            when Hash
-              "#{info[:name]} <#{info[:email]}>"
             else
               info
             end
