@@ -40,6 +40,9 @@ module Ronin
         # Unique message-id string
         attr_accessor :message_id
 
+        # Additional headers
+        attr_reader :headers
+
         # Body of the email
         attr_accessor :body
 
@@ -64,6 +67,9 @@ module Ronin
         # @option options [String, Time] :date (Time.now)
         #   The date the email was sent on.
         #
+        # @option options [Hash<String => String}] :headers
+        #   Additional headers.
+        #
         # @option options [String, Array<String>] :body
         #   The body of the email.
         #
@@ -82,6 +88,12 @@ module Ronin
           @subject = options[:subject]
           @date = options.fetch(:date,Time.now)
           @message_id = options[:message_id]
+          @headers = {}
+
+          if options[:headers]
+            @headers.merge!(options[:headers])
+          end
+
           @body = []
 
           if options[:body]
@@ -136,6 +148,10 @@ module Ronin
 
           if @message_id
             message << "Message-Id: <#{@message_id}>"
+          end
+
+          @headers.each do |name,value|
+            message << "#{name}: #{value}"
           end
 
           message << ''
