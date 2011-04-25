@@ -54,10 +54,10 @@ module Ronin
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Array<name, address>, String] :from
+        # @option options [String] :from
         #   The address the email is from.
         #
-        # @option options [Array<name, address>, String] :to
+        # @option options [Array, String] :to
         #   The address that the email should be sent to.
         #
         # @option options [String] :subject
@@ -133,11 +133,16 @@ module Ronin
           message = []
 
           if @from
-            message << "From: #{address[@from]}"
+            message << "From: #{@from}"
           end
 
           if @to
-            message << "To: #{address[@to]}"
+            message << case @to
+                       when Array
+                         "To: #{@to.join(', ')}"
+                       else
+                         "To: #{@to}"
+                       end
           end
 
           if @subject

@@ -35,25 +35,17 @@ describe Network::SMTP::Email do
   describe "#to_s" do
     subject { Network::SMTP::Email.new }
 
-    context "when formating 'from'" do
-      it "should accept an Array of Name and Address" do
-        subject.from = ['Joe', 'joe@example.com']
+    it "should add the 'from'" do
+      subject.from = 'joe@example.com'
 
-        subject.to_s.should include("From: Joe <joe@example.com>\n\r")
-      end
-
-      it "should accept a String" do
-        subject.from = 'joe@example.com'
-
-        subject.to_s.should include("From: joe@example.com\n\r")
-      end
+      subject.to_s.should include("From: joe@example.com\n\r")
     end
 
     context "when formatting 'to'" do
-      it "should accept an Array of Name and Address" do
-        subject.to = ['Joe', 'joe@example.com']
+      it "should accept an Array of addresses" do
+        subject.to = ['alice@example.com', 'joe@example.com']
 
-        subject.to_s.should include("To: Joe <joe@example.com>\n\r")
+        subject.to_s.should include("To: alice@example.com, joe@example.com\n\r")
       end
 
       it "should accept a String" do
