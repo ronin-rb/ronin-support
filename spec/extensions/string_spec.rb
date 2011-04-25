@@ -107,27 +107,27 @@ describe String do
     end
   end
 
-  describe "#common_postfix" do
+  describe "#common_suffix" do
     it "should find the common postfix between two Strings" do
       one = 'Tell me baby whats my name'
       two = "Can't you guess my name"
       common = 's my name'
 
-      one.common_postfix(two).should == common
+      one.common_suffix(two).should == common
     end
 
     it "should return an empty String if there is no common postfix" do
       one = 'You got to right up, stand up'
       two = 'stand up for your rights'
 
-      one.common_postfix(two).should == ''
+      one.common_suffix(two).should == ''
     end
 
     it "should return an empty String if one of the strings is also empty" do
       one = 'You and I must fight for our rights'
       two = ''
 
-      one.common_postfix(two).should == ''
+      one.common_suffix(two).should == ''
     end
   end
 

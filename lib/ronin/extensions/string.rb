@@ -127,17 +127,19 @@ class String
   end
 
   #
-  # Finds the common postfix of the string and the specified other string.
+  # Finds the common suffix of the string and the specified other string.
   #
   # @param [String] pther
   #   The other String to compare against.
   #
   # @return [String]
-  #   The common postfix of the two Strings.
+  #   The common suffix of the two Strings.
+  #
+  # @since 0.2.0
   #
   # @api public
   #
-  def common_postfix(other)
+  def common_suffix(other)
     min_length = [length, other.length].min
 
     (min_length - 1).times do |i|
@@ -150,6 +152,18 @@ class String
     end
 
     return ''
+  end
+
+  #
+  # @deprecated
+  #   Deprecates as of 0.2.0, and will be removed in 1.0.0.
+  #   Please use {#common_suffix} instead.
+  #
+  def common_postfix(other)
+    STDERR.puts "DEPRECATED: String#common_postfix was deprecated in 0.2.0."
+    STDERR.puts "DEPRECATED: Please use String#common_suffix instead."
+
+    common_suffix(other)
   end
 
   #
@@ -166,7 +180,7 @@ class String
   #
   def uncommon_substring(other)
     prefix = common_prefix(other)
-    postfix = self[prefix.length..-1].common_postfix(other[prefix.length..-1])
+    postfix = self[prefix.length..-1].common_suffix(other[prefix.length..-1])
 
     return self[prefix.length...(length - postfix.length)]
   end
