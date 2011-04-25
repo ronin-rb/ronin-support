@@ -49,10 +49,10 @@ module Ronin
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [String] :from
+        # @option options [Array<name, address>, String] :from
         #   The address the email is from.
         #
-        # @option options [String] :to
+        # @option options [Array<name, address>, String] :to
         #   The address that the email should be sent to.
         #
         # @option options [String] :subject
