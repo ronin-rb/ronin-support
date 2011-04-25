@@ -48,6 +48,8 @@ module Ronin
         # @option options [String] :password
         #   The password to authenticate with.
         #
+        # @api public
+        #
         def initialize(options={})
           super(
             options[:host],
@@ -74,6 +76,8 @@ module Ronin
         #
         # @example
         #   Proxy.parse('http://201.26.192.61:8080')
+        #
+        # @api public
         #
         def self.parse(proxy)
           proxy = proxy.to_s.gsub(/^http(s)?:\/*/,'')
@@ -110,6 +114,8 @@ module Ronin
         #   The given proxy information was not a {Proxy}, `URI::HTTP`,
         #   `Hash` or {String}.
         #
+        # @api public
+        #
         def self.create(proxy)
           case proxy
           when Proxy
@@ -138,6 +144,8 @@ module Ronin
         # @return [Boolean]
         #   Specifies if the proxy can proxy requests.
         #
+        # @api public
+        #
         def valid?
           begin
             Net.http_get_body(
@@ -155,6 +163,8 @@ module Ronin
         # @return [Float]
         #   The extra number of seconds it takes the proxy to process the
         #   request, compared to sending the request directly.
+        #
+        # @api public
         #
         def latency
           time = lambda { |proxy|
@@ -183,6 +193,8 @@ module Ronin
         # @return [String]
         #   The IP address the proxy uses for our requests.
         #
+        # @api public
+        #
         def proxied_ip
           IPAddr.extract(Net.http_get_body(
             :url => Network::IP_URL,
@@ -196,6 +208,8 @@ module Ronin
         # @return [Boolean]
         #   Specifies whether the proxy will forward our IP address.
         #
+        # @api public
+        #
         def transparent?
           Network.ip == proxied_ip
         end
@@ -206,12 +220,16 @@ module Ronin
         # @return [Boolean]
         #   Specifies whether the proxy will hide our IP address.
         #
+        # @api public
+        #
         def anonymous?
           !(transparent?)
         end
 
         #
         # Disables the Proxy object.
+        #
+        # @api public
         #
         def disable!
           self.host = nil
@@ -229,6 +247,8 @@ module Ronin
         #   Specifies whether the proxy object is usable by
         #   Net::HTTP::Proxy.
         #
+        # @api public
+        #
         def enabled?
           !(self.host.nil?)
         end
@@ -239,6 +259,8 @@ module Ronin
         # @return [URI::HTTP, nil]
         #   The HTTP URI representing the proxy. If the proxy is disabled,
         #   then `nil` will be returned.
+        #
+        # @api public
         #
         def url
           return nil unless enabled?
@@ -264,6 +286,8 @@ module Ronin
         # @return [String]
         #   The host-name of the proxy.
         #
+        # @api public
+        #
         def to_s
           self.host.to_s
         end
@@ -273,6 +297,8 @@ module Ronin
         #
         # @return [String]
         #   The inspection of the proxy object.
+        #
+        # @api public
         #
         def inspect
           unless self.host
