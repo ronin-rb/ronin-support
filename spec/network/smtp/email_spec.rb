@@ -39,13 +39,13 @@ describe Network::SMTP::Email do
       it "should accept an Array of Name and Address" do
         subject.from = ['Joe', 'joe@example.com']
 
-        subject.to_s.should include("From: Joe <joe@example.com>\n")
+        subject.to_s.should include("From: Joe <joe@example.com>\n\r")
       end
 
       it "should accept a String" do
         subject.from = 'joe@example.com'
 
-        subject.to_s.should include("From: joe@example.com\n")
+        subject.to_s.should include("From: joe@example.com\n\r")
       end
     end
 
@@ -53,52 +53,52 @@ describe Network::SMTP::Email do
       it "should accept an Array of Name and Address" do
         subject.to = ['Joe', 'joe@example.com']
 
-        subject.to_s.should include("To: Joe <joe@example.com>\n")
+        subject.to_s.should include("To: Joe <joe@example.com>\n\r")
       end
 
       it "should accept a String" do
         subject.to = 'joe@example.com'
 
-        subject.to_s.should include("To: joe@example.com\n")
+        subject.to_s.should include("To: joe@example.com\n\r")
       end
     end
 
     it "should add the 'subject'" do
       subject.subject = 'Hello'
 
-      subject.to_s.should include("Subject: Hello\n")
+      subject.to_s.should include("Subject: Hello\n\r")
     end
 
     it "should add the 'date'" do
       subject.date = Date.parse('Sun Apr 24 17:22:55 PDT 2011')
 
-      subject.to_s.should include("Date: #{subject.date}\n")
+      subject.to_s.should include("Date: #{subject.date}\n\r")
     end
 
     it "should add the 'message_id'" do
       subject.message_id = '1234'
 
-      subject.to_s.should include("Message-Id: <#{subject.message_id}>\n")
+      subject.to_s.should include("Message-Id: <#{subject.message_id}>\n\r")
     end
 
     it "should add additional headers" do
       subject.headers['X-Foo'] = 'Bar'
       subject.headers['X-Baz'] = 'Quix'
 
-      subject.to_s.should include("X-Foo: Bar\nX-Baz: Quix\n")
+      subject.to_s.should include("X-Foo: Bar\n\rX-Baz: Quix\n\r")
     end
 
     context "when formatting 'body'" do
-      it "should append each line" do
+      it "should append each line with a CRLF" do
         subject.body = ['hello', 'world']
 
-        subject.to_s.should include("hello\nworld")
+        subject.to_s.should include("hello\n\rworld")
       end
 
-      it "should add a new-line before the body" do
+      it "should add a CRLF before the body" do
         subject.body = ['hello', 'world']
 
-        subject.to_s.should include("\nhello\nworld")
+        subject.to_s.should include("\n\rhello")
       end
     end
   end

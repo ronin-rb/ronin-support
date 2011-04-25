@@ -25,6 +25,8 @@ module Ronin
       #
       class Email
 
+        CRLF = "\n\r"
+
         # Sender of the email
         attr_accessor :from
 
@@ -157,7 +159,7 @@ module Ronin
           message << ''
           message += @body
 
-          return message.join("\n")
+          return message.join(CRLF)
         end
 
       end
