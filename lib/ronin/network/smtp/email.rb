@@ -84,10 +84,13 @@ module Ronin
           @message_id = options[:message_id]
           @body = []
 
-          if options[:body].kind_of?(Array)
-            @body += options[:body]
-          else
-            @body << options[:body]
+          if options[:body]
+            case options[:body]
+            when Array
+              @body += options[:body]
+            else
+              @body << options[:body]
+            end
           end
 
           yield self if block_given?
