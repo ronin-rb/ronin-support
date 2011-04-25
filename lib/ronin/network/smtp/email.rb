@@ -105,9 +105,10 @@ module Ronin
         #
         def to_s
           address = lambda { |info|
-            if info.kind_of?(Array)
+            case info
+            when Array
               "#{info[0]} <#{info[1]}>"
-            elsif info.kind_of?(Hash)
+            when Hash
               "#{info[:name]} <#{info[:email]}>"
             else
               info
