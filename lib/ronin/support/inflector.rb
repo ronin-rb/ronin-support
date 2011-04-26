@@ -22,7 +22,7 @@ module Ronin
     # The Inflectors supported by ronin-support
     INFLECTORS = {
       :datamapper => {
-        :path => 'dm-core/support/inflector',
+        :path => 'dm-core',
         :const => 'DataMapper::Inflector'
       },
       :active_support => {
