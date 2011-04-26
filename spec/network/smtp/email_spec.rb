@@ -77,7 +77,10 @@ describe Network::SMTP::Email do
       subject.headers['X-Foo'] = 'Bar'
       subject.headers['X-Baz'] = 'Quix'
 
-      subject.to_s.should include("X-Foo: Bar\n\rX-Baz: Quix\n\r")
+      lines = subject.to_s.split("\n\r")
+      
+      lines.should include('X-Foo: Bar')
+      lines.should include('X-Baz: Quix')
     end
 
     context "when formatting 'body'" do
