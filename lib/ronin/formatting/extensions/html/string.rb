@@ -20,7 +20,7 @@
 require 'ronin/formatting/extensions/html/integer'
 require 'ronin/formatting/extensions/text/string'
 
-require 'cgi/util'
+require 'cgi'
 
 class String
 
@@ -80,7 +80,12 @@ class String
   # @api public
   #
   def format_html
-    format_chars { |c| c.ord.format_html }
+    if RUBY_VERSION < '1.9.'
+      # String#ord was not backported to Rub 1.8.7
+      format_chars { |c| c[0].format_html }
+    else
+      format_chars { |c| c.ord.format_html }
+    end
   end
 
   #
@@ -100,7 +105,12 @@ class String
   # @api public
   #
   def js_escape
-    format_chars { |c| c.ord.js_escape }
+    if RUBY_VERSION < '1.9.'
+      # String#ord was not backported to Rub 1.8.7
+      format_chars { |c| c[0].js_escape }
+    else
+      format_chars { |c| c.ord.js_escape }
+    end
   end
 
   #
@@ -154,7 +164,12 @@ class String
   # @api public
   #
   def format_js
-    format_chars { |c| c.ord.format_js }
+    if RUBY_VERSION < '1.9.'
+      # String#ord was not backported to Rub 1.8.7
+      format_chars { |c| c[0].format_js }
+    else
+      format_chars { |c| c.ord.format_js }
+    end
   end
 
 end

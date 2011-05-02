@@ -17,7 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'cgi/util'
+require 'cgi'
 
 class Integer
 
