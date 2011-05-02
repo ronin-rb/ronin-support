@@ -17,7 +17,6 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'chars'
 require 'set'
 
 class String

@@ -19,3 +19,5 @@
 
 require 'ronin/formatting/extensions/text/string'
 require 'ronin/formatting/extensions/text/array'
+
+require 'chars/extensions'
