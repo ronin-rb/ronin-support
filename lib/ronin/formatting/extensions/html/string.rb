@@ -24,6 +24,17 @@ require 'cgi/util'
 
 class String
 
+  # JavaScript characters that must be back-slashed.
+  JS_BACKSLASHED_CHARS = {
+    "\\b" => "\b",
+    "\\t" => "\t",
+    "\\n" => "\n",
+    "\\f" => "\f",
+    "\\r" => "\r",
+    "\\\"" => "\"",
+    "\\\\" => "\\"
+  }
+
   #
   # HTML escapes the String.
   #
@@ -109,15 +120,15 @@ class String
   def js_unescape
     unescaped = ''
 
-    scan(/(%u[0-9a-fA-F]{4}|%[0-9a-fA-F]{2}|.)/).each do |match|
+    scan(/([\\%]u[0-9a-fA-F]{4}|[\\%][0-9a-fA-F]{2}|\\[btnfr"\\]|.)/).each do |match|
       c = match[0]
 
-      if (c.length > 1 && c[0,1] == '%')
-        if c[1,1] == 'u'
-          unescaped << c[2,4].to_i(16)
-        else
-          unescaped << c[1,2].to_i(16)
-        end
+      if c.length == 6
+        unescaped << c[2,4].to_i(16)
+      elsif c.length == 3
+        unescaped << c[1,2].to_i(16)
+      elsif c.length == 2
+        unescaped << JS_BACKSLASHED_CHARS[c]
       else
         unescaped << c
       end

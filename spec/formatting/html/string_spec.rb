@@ -71,12 +71,16 @@ describe String do
     let(:js_hex) { "%6F%6E%65%20%26%20%74%77%6F" }
     let(:js_mixed) { "one %26 two" }
 
-    it "should escape JavaScript unicode characters" do
+    it "should unescape JavaScript unicode characters" do
       js_unicode.js_unescape.should == subject
     end
 
-    it "should escape JavaScript hex characters" do
+    it "should unescape JavaScript hex characters" do
       js_hex.js_unescape.should == subject
+    end
+
+    it "should unescape backslash-escaped characters" do
+      "\\b\\t\\n\\f\\r\\\"\\\\".js_unescape.should == "\b\t\n\f\r\"\\"
     end
 
     it "should ignore non-escaped characters" do
