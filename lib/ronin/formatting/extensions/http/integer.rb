@@ -55,7 +55,7 @@ class Integer
   # @api public
   #
   def format_http
-    "%%%x" % self
+    "%%%X" % self
   end
 
 end
