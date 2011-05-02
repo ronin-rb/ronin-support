@@ -24,62 +24,6 @@ describe String do
     should respond_to(:insert_after)
   end
 
-  describe "#format_chars" do
-    it "should format each character in the String" do
-      subject.format_chars { |c|
-        "_#{c}"
-      }.should == "_h_e_l_l_o"
-    end
-
-    it "should format specific bytes in a String" do
-      subject.format_chars(:include => [104, 108]) { |c|
-        c.upcase
-      }.should == 'HeLLo'
-    end
-
-    it "should not format specific bytes in a String" do
-      subject.format_chars(:exclude => [101, 111]) { |c|
-        c.upcase
-      }.should == 'HeLLo'
-    end
-
-    it "should format ranges of bytes in a String" do
-      subject.format_chars(:include => (104..108)) { |c|
-        c.upcase
-      }.should == 'HeLLo'
-    end
-
-    it "should not format ranges of bytes in a String" do
-      subject.format_chars(:exclude => (104..108)) { |c|
-        c.upcase
-      }.should == 'hEllO'
-    end
-
-    it "should format specific chars in a String" do
-      subject.format_chars(:include => ['h', 'l']) { |c|
-        c.upcase
-      }.should == 'HeLLo'
-    end
-
-    it "should not format specific bytes in a String" do
-      subject.format_chars(:exclude => ['e', 'o']) { |c|
-        c.upcase
-      }.should == 'HeLLo'
-    end
-
-    it "should format ranges of chars in a String" do
-      subject.format_chars(:include => ('h'..'l')) { |c|
-        c.upcase
-      }.should == 'HeLLo'
-    end
-
-    it "should not format ranges of chars in a String" do
-      subject.format_chars(:exclude => ('h'..'l')) { |c|
-        c.upcase
-      }.should == 'hEllO'
-    end
-  end
-
   describe "#format_bytes" do
     it "should format each byte in the String" do
       subject.format_bytes { |b|
@@ -110,28 +54,36 @@ describe String do
         b - 32
       }.should == 'hEllO'
     end
+  end
+
+  describe "#format_chars" do
+    it "should format each character in the String" do
+      subject.format_chars { |c|
+        "#{c}."
+      }.should == "h.e.l.l.o."
+    end
 
     it "should format specific chars in a String" do
-      subject.format_bytes(:include => ['h', 'l']) { |b|
-        b - 32
+      subject.format_chars(:include => ['h', 'l']) { |c|
+        c.upcase
       }.should == 'HeLLo'
     end
 
-    it "should not format specific bytes in a String" do
-      subject.format_bytes(:exclude => ['e', 'o']) { |b|
-        b - 32
-      }.should == 'HeLLo'
+    it "should not format specific chars in a String" do
+      subject.format_chars(:exclude => ['h', 'l']) { |c|
+        c.upcase
+      }.should == 'hEllO'
     end
 
     it "should format ranges of chars in a String" do
-      subject.format_bytes(:include => ('h'..'l')) { |b|
-        b - 32
+      subject.format_chars(:include => /[h-l]/) { |c|
+        c.upcase
       }.should == 'HeLLo'
     end
 
     it "should not format ranges of chars in a String" do
-      subject.format_bytes(:exclude => ('h'..'l')) { |b|
-        b - 32
+      subject.format_chars(:exclude => /[h-l]/) { |c|
+        c.upcase
       }.should == 'hEllO'
     end
   end

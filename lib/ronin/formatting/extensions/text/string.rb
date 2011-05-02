@@ -18,6 +18,7 @@
 #
 
 require 'chars'
+require 'set'
 
 class String
 
@@ -27,10 +28,10 @@ class String
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [Array, Range] :include (0x00..0xff)
+  # @option options [#include?] :include (0x00..0xff)
   #   The bytes to format.
   #
-  # @option options [Array, Range] :exclude
+  # @option options [#include?] :exclude
   #   The bytes not to format.
   #
   # @yield [byte]
@@ -46,16 +47,13 @@ class String
   # @api public
   #
   def format_bytes(options={})
-    included = (options[:include] || (0x00..0xff))
-    excluded = (options[:exclude] || [])
+    included = options.fetch(:include,(0x00..0xff))
+    excluded = options.fetch(:exclude,Set[])
 
     formatted = ''
 
     self.each_byte do |b|
-      c = b.chr
-
-      if ((included.include?(b) || included.include?(c)) \
-          && !(excluded.include?(b) || excluded.include?(c)))
+      if (included.include?(b) && !excluded.include?(b))
         formatted << yield(b)
       else
         formatted << b
@@ -71,10 +69,10 @@ class String
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [Array, Range] :include (0x00..0xff)
+  # @option options [#include?, Regexp] :include (/./)
   #   The bytes to format.
   #
-  # @option options [Array, Range] :exclude
+  # @option options [#include?, Regexp] :exclude
   #   The bytes not to format.
   #
   # @yield [char]
@@ -90,7 +88,30 @@ class String
   # @api public
   #
   def format_chars(options={})
-    format_bytes(options) { |b| yield b.chr }
+    included = options.fetch(:include,/./)
+    excluded = options.fetch(:exclude,Set[])
+
+    formatted = ''
+
+    matches = lambda { |filter,c|
+      if filter.respond_to?(:include?)
+        filter.include?(c)
+      elsif filter.kind_of?(Regexp)
+        c =~ filter
+      else
+        false
+      end
+    }
+
+    self.each_char do |c|
+      if (matches[included,c] && !matches[excluded,c])
+        formatted << yield(c)
+      else
+        formatted << c
+      end
+    end
+
+    return formatted
   end
 
   #
