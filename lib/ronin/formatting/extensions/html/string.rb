@@ -70,6 +70,9 @@ class String
   #
   # Formats the chars in the String for HTML.
   #
+  # @param [Hash] options
+  #   Additional options for {#format_chars}.
+  #
   # @return [String]
   #   The formatted HTML String.
   #
@@ -79,17 +82,20 @@ class String
   #
   # @api public
   #
-  def format_html
+  def format_html(options={})
     if RUBY_VERSION < '1.9.'
       # String#ord was not backported to Rub 1.8.7
-      format_chars { |c| c[0].format_html }
+      format_chars(options) { |c| c[0].format_html }
     else
-      format_chars { |c| c.ord.format_html }
+      format_chars(options) { |c| c.ord.format_html }
     end
   end
 
   #
   # Escapes a String for JavaScript.
+  #
+  # @param [Hash] options
+  #   Additional options for {#format_chars}.
   #
   # @return [String]
   #   The JavaScript escaped String.
@@ -104,12 +110,12 @@ class String
   #
   # @api public
   #
-  def js_escape
+  def js_escape(options={})
     if RUBY_VERSION < '1.9.'
       # String#ord was not backported to Rub 1.8.7
-      format_chars { |c| c[0].js_escape }
+      format_chars(options) { |c| c[0].js_escape }
     else
-      format_chars { |c| c.ord.js_escape }
+      format_chars(options) { |c| c.ord.js_escape }
     end
   end
 
@@ -150,6 +156,9 @@ class String
   #
   # Escapes a String for JavaScript.
   #
+  # @param [Hash] options
+  #   Additional options for {#format_chars}.
+  #
   # @return [String]
   #   The JavaScript escaped String.
   #
@@ -163,12 +172,12 @@ class String
   #
   # @api public
   #
-  def format_js
+  def format_js(options={})
     if RUBY_VERSION < '1.9.'
       # String#ord was not backported to Rub 1.8.7
-      format_chars { |c| c[0].format_js }
+      format_chars(options) { |c| c[0].format_js }
     else
-      format_chars { |c| c.ord.format_js }
+      format_chars(options) { |c| c.ord.format_js }
     end
   end
 
