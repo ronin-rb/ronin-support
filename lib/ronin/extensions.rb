@@ -23,4 +23,4 @@ require 'ronin/extensions/file'
 require 'ronin/extensions/ip_addr'
 require 'ronin/extensions/kernel'
 
-require 'uri/query_params'
+require 'uri/query_params/extensions'
