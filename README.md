@@ -55,7 +55,7 @@ please see [Everyday Ronin](http://ronin-ruby.github.com/guides/everyday_ronin.h
 * [uri-query_params](http://github.com/postmodern/uri-query_params#readme)
   ~> 0.5, >= 0.5.2
 * [data_paths](http://github.com/postmodern/data_paths#readme)
-  ~> 0.2, >= 0.2.1
+  ~> 0.3
 
 ## Install
 

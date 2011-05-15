@@ -17,7 +17,8 @@ dependencies:
   hexdump: ~> 0.1
   combinatorics: ~> 0.3
   uri-query_params: ~> 0.5, >= 0.5.2
-  data_paths: ~> 0.2, >= 0.2.1
+  # data_paths: ~> 0.3
+  data_paths: 0.3.0.rc1
 
 development_dependencies:
   bundler: ~> 1.0.10
