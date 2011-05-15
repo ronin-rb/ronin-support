@@ -22,8 +22,9 @@ or payloads over many common Source-Code-Management (SCM) systems.
     * Binary
     * Text
     * HTTP
-    * HTML
     * URIs
+    * HTML
+    * JavaScript
   * Generating random text.
   * Networking:
     * TCP
