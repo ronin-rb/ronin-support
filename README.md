@@ -60,7 +60,7 @@ please see [Everyday Ronin](http://ronin-ruby.github.com/guides/everyday_ronin.h
 
 ## Install
 
-    $ sudo gem install ronin-support
+    $ gem install ronin-support
 
 ## License
 
