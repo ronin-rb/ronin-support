@@ -55,12 +55,17 @@ describe String do
   end
 
   describe "#js_escape" do
+    let(:special_chars) { "\t\n\r" }
+    let(:escaped_special_chars) { '\t\n\r' }
+
+    let(:normal_chars) { "abc" }
+
     it "should escape special JavaScript characters" do
-      pending
+      special_chars.js_escape.should == escaped_special_chars
     end
 
     it "should ignore normal characters" do
-      pending
+      normal_chars.js_escape.should == normal_chars
     end
   end
 
