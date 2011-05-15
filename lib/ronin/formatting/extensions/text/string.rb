@@ -68,7 +68,7 @@ class String
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [#include?, Regexp] :include (/./)
+  # @option options [#include?, Regexp] :include (/./m)
   #   The bytes to format.
   #
   # @option options [#include?, Regexp] :exclude
@@ -87,7 +87,7 @@ class String
   # @api public
   #
   def format_chars(options={})
-    included = options.fetch(:include,/./)
+    included = options.fetch(:include,/./m)
     excluded = options.fetch(:exclude,Set[])
 
     formatted = ''
