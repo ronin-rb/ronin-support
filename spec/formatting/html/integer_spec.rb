@@ -37,12 +37,18 @@ describe Integer do
   end
 
   describe "#js_escape" do
+    let(:special_byte) { 0x0a }
+    let(:escaped_special_byte) { '\n' }
+
+    let(:normal_byte) { 0x41 }
+    let(:normal_char) { 'A' }
+
     it "should escape special JavaScript characters" do
-      pending
+      special_byte.js_escape.should == escaped_special_byte
     end
 
     it "should ignore normal characters" do
-      pending
+      normal_byte.js_escape.should == normal_char
     end
   end
 

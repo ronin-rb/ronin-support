@@ -98,7 +98,11 @@ class Integer
   # @api public
   #
   def js_escape
-    JS_ESCAPE_BYTES[self] || format_js
+    if self > 0xff
+      format_js
+    else
+      JS_ESCAPE_BYTES.fetch(self,self.chr)
+    end
   end
 
   #
