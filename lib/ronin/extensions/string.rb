@@ -186,6 +186,19 @@ class String
   end
 
   if RUBY_VERSION < '1.9.'
+    ESCAPE_BYTES = {
+      0x00 => '\0',
+      0x07 => '\a',
+      0x08 => '\b',
+      0x09 => '\t',
+      0x0a => '\n',
+      0x0b => '\v',
+      0x0c => '\f',
+      0x0d => '\r',
+      0x22 => '\"',
+      0x5c => '\\'
+    }
+
     #
     # Dumps the string as a C-style string.
     #
@@ -202,38 +215,19 @@ class String
     # @api public
     #
     def dump
-      c_string = ''
+      dumped_string = ''
 
       each_byte do |b|
-        c_string << case b
-        when 0x00
-          "\\0"
-        when 0x07
-          "\\a"
-        when 0x08
-          "\\b"
-        when 0x09
-          "\\t"
-        when 0x0a
-          "\\n"
-        when 0x0b
-          "\\v"
-        when 0x0c
-          "\\f"
-        when 0x0d
-          "\\r"
-        when 0x22
-          "\\\""
-        when 0x5c
-          "\\\\"
-        when (0x20..0x7e)
-          b.chr
-        else
-          ("\\x%.2X" % b)
-        end
+        dumped_string << if (b >= 0x20 && b <= 0x7e)
+                           b.chr
+                         elsif ESCAPE_BYTES.has_key?(b)
+                           ESCAPE_BYTES[b]
+                         else
+                           ("\\x%.2X" % b)
+                         end
       end
 
-      return "\"#{c_string}\""
+      return "\"#{dumped_string}\""
     end
 
     alias inspect dump
