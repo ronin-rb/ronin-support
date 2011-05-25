@@ -53,17 +53,23 @@ class Integer
     case endian
     when :little, :net
       mask = 0xff
+      shift = 0
 
       address_length.times do |i|
-        buffer << ((self & mask) >> (i*8))
+        buffer << ((self & mask) >> shift)
+
         mask <<= 8
+        shift += 8
       end
     when :big
-      mask = (0xff << ((address_length-1)*8))
+      shift = ((address_length - 1) * 8)
+      mask = (0xff << shift)
 
       address_length.times do |i|
-        buffer << ((self & mask) >> ((address_length-i-1)*8))
+        buffer << ((self & mask) >> shift)
+
         mask >>= 8
+        shift -= 8
       end
     else
       raise(ArgumentError,"invalid endian #{endian}")
