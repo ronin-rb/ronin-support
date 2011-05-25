@@ -220,8 +220,6 @@ class String
 
     self.bytes.inject('') { |result,b| result << (b ^ key.next).chr }
   end
-  
-  
 
   #
   # Base64 encodes a string.
