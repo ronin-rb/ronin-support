@@ -2,28 +2,28 @@ require 'spec_helper'
 require 'ronin/extensions/kernel'
 
 describe Kernel do
-  it "should provide Kernel#attempt" do
-    Kernel.should respond_to('attempt')
+  it "should provide Kernel#try" do
+    Kernel.should respond_to('try')
   end
 
-  describe "#attempt" do
+  describe "#try" do
     it "should return the result of the block if nothing is raised" do
-      attempt { 2 + 2 }.should == 4
+      try { 2 + 2 }.should == 4
     end
 
     it "should return nil if an exception is raised" do
-      attempt { 2 + 'a' }.should be_nil
+      try { 2 + 'a' }.should be_nil
     end
 
     it "should rescue RuntimeError exceptions" do
       lambda {
-        attempt { raise(RuntimeError,"something happened",caller) }
+        try { raise(RuntimeError,"something happened",caller) }
       }.should_not raise_error(RuntimeError)
     end
 
     it "should rescue StandardError exceptions" do
       lambda {
-        attempt { raise(StandardError,"not allowed to do that",caller) }
+        try { raise(StandardError,"not allowed to do that",caller) }
       }.should_not raise_error(StandardError)
     end
   end

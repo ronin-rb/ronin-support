@@ -35,11 +35,13 @@ module Kernel
   #
   # @api public
   #
-  def attempt
+  def try
     begin
       yield() if block_given?
     rescue Exception
       return nil
     end
   end
+
+  alias attempt try
 end
