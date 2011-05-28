@@ -14,9 +14,13 @@
 * Added {Net.smtp_send_message}.
 * Added {Net.http_status}.
 * Added YARD `@api` tags to define the public, semi-public and private APIs.
+* Renamed `Kernel#attempt` to {Kernel#try}.
 * Allow `:method` to be used with {Net.http_ok?}.
 * Fixed a bug in {Ronin::Network::HTTP.expand_url} where `:host` and `:port`
   options were being overridden.
+* Improved the performance of {Integer#bytes}.
+* Only redefine {String#dump} for Ruby 1.8.x.
+  * Ruby >= 1.9.1 correctly hex-escapes special characters.
 * Fixed a bug in {String#format_chars}, where it was not using `each_char`
   for unicode characters.
 * Deprecated {String#common_postfix}, in favor of {String#common_suffix}.
