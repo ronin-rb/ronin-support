@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'hexdump', '~> 0.2', :git => 'git://github.com/postmodern/hexdump.git'
-
 platforms :jruby do
   gem 'jruby-openssl',	'~> 0.7.0'
 end

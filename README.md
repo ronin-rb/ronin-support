@@ -51,7 +51,7 @@ please see [Everyday Ronin](http://ronin-ruby.github.com/guides/everyday_ronin.h
 * [chars](http://github.com/postmodern/chars#readme)
   ~> 0.2
 * [hexdump](http://github.com/postmodern/hexdump#readme)
-  ~> 0.2
+  ~> 0.1
 * [combinatorics](http://github.com/postmodern/combinatorics#readme)
   ~> 0.3
 * [uri-query_params](http://github.com/postmodern/uri-query_params#readme)
