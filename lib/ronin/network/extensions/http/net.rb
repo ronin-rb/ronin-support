@@ -422,13 +422,6 @@ module Net
   # @param [Hash] options
   #   Additional options.
   #
-  # @yield [response]
-  #   If a block is given, it will be passed the response received from
-  #   the request.
-  #
-  # @yieldparam [Net::HTTP::Response] response
-  #   The HTTP response object.
-  #
   # @return [String]
   #   The body of the HTTP response.
   #
@@ -436,8 +429,8 @@ module Net
   #
   # @api public
   #
-  def Net.http_get_body(options={},&block)
-    Net.http_get(options,&block).body
+  def Net.http_get_body(options={})
+    Net.http_get(options).body
   end
 
   #
@@ -636,13 +629,6 @@ module Net
   # @option options [Hash, String] :form_data
   #   The form data to send with the HTTP Post request.
   #
-  # @yield [response]
-  #   If a block is given, it will be passed the response received from
-  #   the request.
-  #
-  # @yieldparam [Net::HTTP::Response] response
-  #   The HTTP response object.
-  #
   # @return [String]
   #   The body of the HTTP response.
   #
@@ -650,8 +636,8 @@ module Net
   #
   # @api public
   #
-  def Net.http_post_body(options={},&block)
-    Net.http_post(options,&block).body
+  def Net.http_post_body(options={})
+    Net.http_post(options).body
   end
 
   #
