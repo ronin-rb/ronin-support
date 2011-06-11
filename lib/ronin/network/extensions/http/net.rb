@@ -398,7 +398,26 @@ module Net
   end
 
   #
-  # Performs an HTTP Get request.
+  # Performs an HTTP Get request and returns the Response Headers.
+  #
+  # @param [Hash] options
+  #   Additional options.
+  #
+  # @return [Hash{String => Array<String>}]
+  #   The Headers of the HTTP response.
+  #
+  # @see http_get
+  #
+  # @since 0.2.0
+  #
+  # @api public
+  #
+  def Net.http_get_headers(options={})
+    Net.http_get(options).to_hash
+  end
+
+  #
+  # Performs an HTTP Get request and returns the Respond Body.
   #
   # @param [Hash] options
   #   Additional options.
@@ -413,7 +432,7 @@ module Net
   # @return [String]
   #   The body of the HTTP response.
   #
-  # @see http_request
+  # @see http_get
   #
   # @api public
   #
@@ -587,7 +606,29 @@ module Net
   end
 
   #
-  # Performs an HTTP Post request.
+  # Performs an HTTP Post request and returns the Response Headers.
+  #
+  # @param [Hash] options
+  #   Additional options.
+  #
+  # @option options [Hash, String] :form_data
+  #   The form data to send with the HTTP Post request.
+  #
+  # @return [Hash{String => Array<String>}]
+  #   The headers of the HTTP response.
+  #
+  # @see http_post
+  #
+  # @since 0.2.0
+  #
+  # @api public
+  #
+  def Net.http_post_headers(options={})
+    Net.http_post(options).to_hash
+  end
+
+  #
+  # Performs an HTTP Post request and returns the Response Body.
   #
   # @param [Hash] options
   #   Additional options.
@@ -605,7 +646,7 @@ module Net
   # @return [String]
   #   The body of the HTTP response.
   #
-  # @see http_request
+  # @see http_post
   #
   # @api public
   #
