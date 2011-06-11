@@ -9,7 +9,7 @@ platforms :jruby do
 end
 
 group :development do
-  gem 'rake',		        '~> 0.8.7'
+  gem 'rake',		        '~> 0.8'
 
   gem 'ore-tasks',	    '~> 0.4'
   gem 'rspec',          '~> 2.4'
