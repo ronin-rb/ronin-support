@@ -160,8 +160,8 @@ class String
   #   Please use {#common_suffix} instead.
   #
   def common_postfix(other)
-    STDERR.puts "DEPRECATED: String#common_postfix was deprecated in 0.2.0."
-    STDERR.puts "DEPRECATED: Please use String#common_suffix instead."
+    warn "DEPRECATED: String#common_postfix was deprecated in 0.2.0."
+    warn "DEPRECATED: Please use String#common_suffix instead."
 
     common_suffix(other)
   end
