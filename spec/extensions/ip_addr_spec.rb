@@ -156,12 +156,12 @@ describe IPAddr do
     end
   end
 
-  let(:ip) { IPAddr.new(Resolv.getaddress('www.example.com')) }
+  let(:ip) { IPAddr.new('127.0.0.1') }
   let(:bad_ip) { IPAddr.new('0.0.0.0') }
 
   describe "#lookup" do
     it "should lookup the host-name for an IP" do
-      ip.lookup.should == ['www.example.com']
+      ip.lookup.should include('localhost')
     end
 
     it "should return an empty Array for unknown IP addresses" do
