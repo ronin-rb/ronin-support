@@ -4,7 +4,7 @@
 * [Issues](http://github.com/ronin-ruby/ronin-support/issues)
 * [Documentation](http://rubydoc.info/gems/ronin-support/frames)
 * [Mailing List](http://groups.google.com/group/ronin-ruby)
-* irc.freenode.net #ronin
+* [irc.freenode.net #ronin](http://webchat.freenode.net/?channels=ronin&uio=Mj10cnVldd)
 
 ## Description
 
