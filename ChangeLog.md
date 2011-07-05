@@ -1,4 +1,4 @@
-### 0.2.0 / 2011-05-14
+### 0.2.0 / 2011-07-04
 
 * Require data_paths ~> 0.3.
 * Added {Ronin::Mixin}.
