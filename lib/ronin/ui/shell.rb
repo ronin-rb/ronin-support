@@ -74,7 +74,7 @@ module Ronin
         @prompt   = options.fetch(:prompt,DEFAULT_PROMPT)
 
         @commands = Set[:help, :exit]
-        @commands += protected_methods(false).map { |name| name.to_sym }
+        @commands += protected_methods.map { |name| name.to_sym }
 
         @handler_block = block
       end
