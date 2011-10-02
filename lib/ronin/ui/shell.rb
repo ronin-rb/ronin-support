@@ -19,6 +19,8 @@
 
 require 'ronin/ui/output/helpers'
 
+require 'set'
+
 module Ronin
   module UI
     #
@@ -70,7 +72,9 @@ module Ronin
       def initialize(options={},&block)
         @name     = options.fetch(:name,'')
         @prompt   = options.fetch(:prompt,DEFAULT_PROMPT)
-        @commands = protected_methods(false).map { |name| name.to_sym }
+
+        @commands = Set[:help, :exit]
+        @commands += protected_methods(false).map { |name| name.to_sym }
 
         @handler_block = block
       end
@@ -121,6 +125,7 @@ module Ronin
           line = raw_line.strip
 
           if (line == 'exit' || line == 'quit')
+            exit
             break
           elsif !(line.empty?)
             Readline::HISTORY << raw_line
@@ -152,7 +157,8 @@ module Ronin
         if @handler_block
           @handler_block.call(self,line)
         else
-          command, arguments = line.split(/\s+/)
+          arguments = line.split(/\s+/)
+          command   = arguments.shift
 
           # ignore empty lines
           return unless command
@@ -168,6 +174,43 @@ module Ronin
           end
 
           send(command,*arguments)
+        end
+      end
+
+      #
+      # Method which is called before exiting the shell.
+      #
+      def exit
+      end
+
+      #
+      # @see #exit
+      #
+      def quit
+        exit
+      end
+
+      #
+      # Prints the available commands.
+      #
+      def help
+        puts "Available commands:"
+        puts
+
+        @commands.sort.each do |name|
+          command_method = method(name)
+          arguments = command_method.parameters.map do |param|
+            case param[0]
+            when :opt
+              "[#{param[1]}]"
+            when :rest
+              "[#{param[1]} ...]"
+            else
+              param[1]
+            end
+          end
+
+          puts "  #{name} #{arguments.join(' ')}"
         end
       end
 
