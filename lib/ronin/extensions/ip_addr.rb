@@ -179,7 +179,7 @@ class IPAddr
   # @api public
   #
   def lookup(nameserver=nil)
-    Resolv[nameserver].getnames(self.to_s)
+    Resolv.resolver(nameserver).getnames(self.to_s)
   end
 
   #
