@@ -11,7 +11,7 @@ describe UI::Shell do
       lines = []
       shell = described_class.new { |shell,input| lines << input }
 
-      shell.send(:handler,line)
+      shell.call(line)
 
       lines.should == [line]
     end
@@ -34,43 +34,43 @@ describe UI::Shell do
       end
     end
 
-    describe "#handler" do
+    describe "#call" do
       it "should ignore empty lines" do
-        subject.send(:handler,'').should == false
+        subject.call('').should == false
       end
 
       it "should ignore white-space lines" do
-        subject.send(:handler,"     \t   ").should == false
+        subject.call("     \t   ").should == false
       end
 
       it "should not allow calling the handler method" do
-        subject.send(:handler,'handler').should == false
+        subject.call('handler').should == false
       end
 
       it "should not allow calling unknown commands" do
-        subject.send(:handler,'an_unknown_command').should == false
+        subject.call('an_unknown_command').should == false
       end
 
       it "should not allow calling unknown commands" do
-        subject.send(:handler,'an_unknown_command').should == false
+        subject.call('an_unknown_command').should == false
       end
 
       it "should not allow calling public methods" do
-        subject.send(:handler,'a_public_method').should == false
+        subject.call('a_public_method').should == false
       end
 
       it "should allow calling protected methods" do
-        subject.send(:handler,'command1').should == :command1
+        subject.call('command1').should == :command1
       end
 
       it "should raise an exception when passing invalid number of arguments" do
         lambda {
-          subject.send(:handler,'command_with_arg too many args')
+          subject.call('command_with_arg too many args')
         }.should raise_error(ArgumentError)
       end
 
       it "should splat the command arguments to the command method" do
-        subject.send(:handler,'command_with_args one two three').should == [
+        subject.call('command_with_args one two three').should == [
           'one', 'two', 'three'
         ]
       end

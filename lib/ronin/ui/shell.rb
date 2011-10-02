@@ -143,8 +143,6 @@ module Ronin
         return nil
       end
 
-      protected
-
       #
       # Handles input for the shell.
       #
@@ -153,7 +151,7 @@ module Ronin
       # 
       # @since 0.3.0
       #
-      def handler(line)
+      def call(line)
         if @handler_block
           @handler_block.call(self,line)
         else
@@ -176,6 +174,8 @@ module Ronin
           return send(command,*arguments)
         end
       end
+
+      protected
 
       #
       # Method which is called before exiting the shell.
