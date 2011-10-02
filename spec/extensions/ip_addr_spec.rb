@@ -160,8 +160,14 @@ describe IPAddr do
   let(:bad_ip) { IPAddr.new('0.0.0.0') }
 
   describe "#lookup" do
+    let(:nameserver) { '4.2.2.1' }
+
     it "should lookup the host-name for an IP" do
       ip.lookup.should include('localhost')
+    end
+
+    it "may lookup host-names via other nameservers" do
+      ip.lookup(nameserver).should be_empty
     end
 
     it "should return an empty Array for unknown IP addresses" do

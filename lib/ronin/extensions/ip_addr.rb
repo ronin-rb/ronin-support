@@ -169,13 +169,22 @@ class IPAddr
   #
   # Resolves the host-names for the IP address.
   #
+  # @param [String] nameserver
+  #   The optional nameserver to query.
+  #
   # @return [Array<String>]
   #   The host-names for the IP address.
   #
   # @api public
   #
-  def lookup
-    Resolv.getnames(self.to_s)
+  def lookup(nameserver=nil)
+    resolver = if nameserver
+                 Resolv::DNS.new(:nameserver => nameserver)
+               else
+                 Resolv
+               end
+
+    resolver.getnames(self.to_s)
   end
 
   #
