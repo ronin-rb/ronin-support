@@ -41,8 +41,8 @@ class IPAddr
   # @param [String] text
   #   The text to scan for IP Addresses.
   #
-  # @param [Symbol] version
-  #   The version of IP Address to scan for (`:ipv4` or `:ipv6`).
+  # @param [Integer, Symbol] version
+  #   The version of IP Address to scan for (`4`, `6`, `:v4` or `:v6`).
   #
   # @yield [ip]
   #   The given block will be passed each extracted IP Address.
@@ -57,9 +57,9 @@ class IPAddr
   #
   def IPAddr.extract(text,version=nil,&block)
     regexp = case version
-             when :ipv4
+             when :ipv4, :v4, 4
                IPV4_REGEXP
-             when :ipv6
+             when :ipv6, :v6, 6
                IPV6_REGEXP
              else
                REGEXP
