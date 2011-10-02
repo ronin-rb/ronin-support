@@ -21,6 +21,7 @@ require 'ronin/extensions/meta'
 require 'ronin/extensions/string'
 require 'ronin/extensions/file'
 require 'ronin/extensions/ip_addr'
+require 'ronin/extensions/resolv'
 require 'ronin/extensions/kernel'
 
 require 'hexdump/extensions'
