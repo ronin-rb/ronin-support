@@ -17,8 +17,9 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/extensions/resolv'
+
 require 'ipaddr'
-require 'resolv'
 require 'strscan'
 require 'combinatorics/list_comprehension'
 
@@ -178,13 +179,7 @@ class IPAddr
   # @api public
   #
   def lookup(nameserver=nil)
-    resolver = if nameserver
-                 Resolv::DNS.new(:nameserver => nameserver)
-               else
-                 Resolv
-               end
-
-    resolver.getnames(self.to_s)
+    Resolv[nameserver].getnames(self.to_s)
   end
 
   #
