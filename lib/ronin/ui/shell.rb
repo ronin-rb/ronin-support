@@ -76,7 +76,7 @@ module Ronin
         @commands = Set[:help, :exit]
         @commands += protected_methods.map { |name| name.to_sym }
 
-        @handler_block = block
+        @input_handler = block
       end
 
       #
@@ -152,8 +152,8 @@ module Ronin
       # @since 0.3.0
       #
       def call(line)
-        if @handler_block
-          @handler_block.call(self,line)
+        if @input_handler
+          @input_handler.call(self,line)
         else
           arguments = line.split(/\s+/)
           command   = arguments.shift

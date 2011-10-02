@@ -7,7 +7,7 @@ describe UI::Shell do
   context "with handler callback" do
     let(:line) { 'one two three' }
 
-    it "should call the handler callback with the shell and input line" do
+    it "should call the input handler with the shell and input line" do
       lines = []
       shell = described_class.new { |shell,input| lines << input }
 
