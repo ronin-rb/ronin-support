@@ -180,18 +180,24 @@ module Ronin
       #
       # Method which is called before exiting the shell.
       #
+      # @since 0.3.0
+      #
       def exit
       end
 
       #
       # @see #exit
       #
+      # @since 0.3.0
+      #
       def quit
         exit
       end
 
       #
-      # Prints the available commands.
+      # Prints the available commands and their arguments.
+      #
+      # @since 0.3.0
       #
       def help
         puts "Available commands:"
