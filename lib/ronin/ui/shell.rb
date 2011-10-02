@@ -24,12 +24,56 @@ module Ronin
     #
     # Spawns a ReadLine powered interactive Shell.
     #
-    module Shell
+    # @api semipublic
+    #
+    class Shell
 
-      extend Output::Helpers
+      include Output::Helpers
 
       # Default shell prompt
       DEFAULT_PROMPT = '>'
+
+      # The shell name
+      attr_accessor :name
+
+      # The shell prompt
+      attr_accessor :prompt
+
+      # The commands available for the shell
+      attr_reader :commands
+
+      #
+      # Creates a new shell.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @option options [String] :name ('')
+      #   The shell-name to use before the prompt.
+      #
+      # @option options [String] :prompt (DEFAULT_PROMPT)
+      #   The prompt to use for the shell.
+      #
+      # @yield [shell, line]
+      #   The block that will be passed every command entered.
+      #
+      # @yieldparam [Shell] shell
+      #   The shell to use for output.
+      #
+      # @yieldparam [String] line
+      #   The command entered into the shell.
+      #
+      # @api semipublic
+      #
+      # @since 0.3.0
+      #
+      def initialize(options={},&block)
+        @name     = options.fetch(:name,'')
+        @prompt   = options.fetch(:prompt,DEFAULT_PROMPT)
+        @commands = protected_methods(false).map { |name| name.to_sym }
+
+        @handler_block = block
+      end
 
       #
       # Creates a new Shell object and starts it.
@@ -57,34 +101,74 @@ module Ronin
       # @example
       #   Shell.start(:prompt => '$') { |shell,line| system(line) }
       #
-      # @api semipublic
-      #
-      def Shell.start(options={},&block)
-        name = (options[:name] || '')
-        prompt = (options[:prompt] || DEFAULT_PROMPT)
+      def self.start(options={},&block)
+        new(options,&block).start
+      end
 
+      #
+      # Starts the shell.
+      #
+      # @since 0.3.0
+      #
+      def start
         history_rollback = 0
 
         loop do
-          raw_line = Readline.readline("#{name}#{prompt} ")
+          unless (raw_line = Readline.readline("#{name}#{prompt} "))
+            break # user exited the shell
+          end
+
           line = raw_line.strip
 
-          if line =~ /^(exit|quit)$/
+          if (line == 'exit' || line == 'quit')
             break
           elsif !(line.empty?)
             Readline::HISTORY << raw_line
             history_rollback += 1
 
             begin
-              yield self, line
+              handler(line)
             rescue => e
-              puts "#{e.class.name}: #{e.message}"
+              print_error "#{e.class.name}: #{e.message}"
             end
           end
         end
 
         history_rollback.times { Readline::HISTORY.pop }
         return nil
+      end
+
+      protected
+
+      #
+      # Handles input for the shell.
+      #
+      # @param [String] line
+      #   A line of input received by the shell.
+      # 
+      # @since 0.3.0
+      #
+      def handler(line)
+        if @handler_block
+          @handler_block.call(self,line)
+        else
+          command, arguments = line.split(/\s+/)
+
+          # ignore empty lines
+          return unless command
+
+          command = command.to_sym
+
+          # no explicitly calling handler
+          return if command == :handler
+
+          unless @commands.include?(command)
+            print_error "Invalid command: #{command}"
+            return
+          end
+
+          send(command,*arguments)
+        end
       end
 
     end
