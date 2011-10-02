@@ -161,19 +161,19 @@ module Ronin
           command   = arguments.shift
 
           # ignore empty lines
-          return unless command
+          return false unless command
 
           command = command.to_sym
 
           # no explicitly calling handler
-          return if command == :handler
+          return false if command == :handler
 
           unless @commands.include?(command)
             print_error "Invalid command: #{command}"
-            return
+            return false
           end
 
-          send(command,*arguments)
+          return send(command,*arguments)
         end
       end
 
