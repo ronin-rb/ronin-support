@@ -82,14 +82,8 @@ module Ronin
       #
       # Creates a new Shell object and starts it.
       #
-      # @param [Hash] options
-      #   Additional options.
-      #
-      # @option options [String] :name ('')
-      #   The shell-name to use before the prompt.
-      #
-      # @option options [String] :prompt (DEFAULT_PROMPT)
-      #   The prompt to use for the shell.
+      # @param [Array] arguments
+      #   Arguments for {new}.
       #
       # @yield [shell, line]
       #   The block that will be passed every command entered.
@@ -105,8 +99,8 @@ module Ronin
       # @example
       #   Shell.start(:prompt => '$') { |shell,line| system(line) }
       #
-      def self.start(options={},&block)
-        new(options,&block).start
+      def self.start(*arguments,&block)
+        new(*arguments,&block).start
       end
 
       #
