@@ -12,7 +12,7 @@ describe Enumerable do
     end
 
     it "should not map the same element twice" do
-      [1, 2, 2].map_hash { |i| rand }.keys.should == [1, 2]
+      [1, 2, 2].map_hash { |i| rand }.keys.should =~ [1, 2]
     end
 
     it "should set the default_proc of the Hash" do
