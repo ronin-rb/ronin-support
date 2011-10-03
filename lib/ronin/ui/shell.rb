@@ -83,7 +83,7 @@ module Ronin
       # Creates a new Shell object and starts it.
       #
       # @param [Array] arguments
-      #   Arguments for {new}.
+      #   Arguments for {#initialize}.
       #
       # @yield [shell, line]
       #   The block that will be passed every command entered.
