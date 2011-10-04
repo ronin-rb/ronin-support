@@ -18,6 +18,7 @@ dependencies:
   combinatorics: ~> 0.3
   uri-query_params: ~> 0.5, >= 0.5.2
   data_paths: ~> 0.3
+  parameters: ~> 0.2, >= 0.2.3
 
 development_dependencies:
   bundler: ~> 1.0.10
