@@ -19,31 +19,37 @@
 
 require 'ronin/network/extensions/ssl'
 
+begin
+  require 'openssl'
+rescue ::LoadError
+end
+
 module Ronin
   module Network
     #
     # SSL helper methods.
     #
     module SSL
+      # Maps SSL verify modes to `OpenSSL::SSL::VERIFY_*` constants.
       #
-      # Returns the OpenSSL verify mode.
+      # @return [Hash{Symbol => Integer}]
       #
-      # @param [Symbol, String] mode
-      #   The name of the verify mode.
-      #
-      # @return [Integer]
-      #   The verify mode number used by OpenSSL.
+      # @since 1.3.0
       #
       # @api private
       #
-      def SSL.verify(mode=nil)
-        verify_mode = 'VERIFY_' + (mode || :none).to_s.upcase
+      VERIFY = Hash.new do |hash,key|
+        verify_const = if key
+                         "VERIFY_#{key.to_s.upcase}"
+                       else
+                         'VERIFY_NONE'
+                       end
 
-        unless OpenSSL::SSL.const_defined?(verify_mode)
-          raise(RuntimeError,"unknown verify mode #{mode}")
+        unless OpenSSL::SSL.const_defined?(verify_const)
+          raise(RuntimeError,"unknown verify mode #{key}")
         end
 
-        return OpenSSL::SSL.const_get(verify_mode)
+        hash[key] = OpenSSL::SSL.const_get(verify_const)
       end
     end
   end
