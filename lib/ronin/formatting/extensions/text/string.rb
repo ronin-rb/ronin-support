@@ -46,17 +46,16 @@ class String
   # @api public
   #
   def format_bytes(options={})
-    included = options.fetch(:include,(0x00..0xff))
-    excluded = options.fetch(:exclude,Set[])
-
+    included  = (options[:include] || (0x00..0xff))
+    excluded  = (options[:exclude] || Set[])
     formatted = ''
 
-    self.each_byte do |b|
-      if (included.include?(b) && !excluded.include?(b))
-        formatted << yield(b)
-      else
-        formatted << b
-      end
+    each_byte do |b|
+      formatted << if (included.include?(b) && !excluded.include?(b))
+                     yield(b)
+                   else
+                     b
+                   end
     end
 
     return formatted
@@ -87,9 +86,8 @@ class String
   # @api public
   #
   def format_chars(options={})
-    included = options.fetch(:include,/./m)
-    excluded = options.fetch(:exclude,Set[])
-
+    included  = (options[:include] || /./m)
+    excluded  = (options[:exclude] || Set[])
     formatted = ''
 
     matches = lambda { |filter,c|
@@ -97,17 +95,15 @@ class String
         filter.include?(c)
       elsif filter.kind_of?(Regexp)
         c =~ filter
-      else
-        false
       end
     }
 
-    self.each_char do |c|
-      if (matches[included,c] && !matches[excluded,c])
-        formatted << yield(c)
-      else
-        formatted << c
-      end
+    each_char do |c|
+      formatted << if (matches[included,c] && !matches[excluded,c])
+                     yield(c)
+                   else
+                     c
+                   end
     end
 
     return formatted
@@ -162,8 +158,8 @@ class String
   # @api public
   #
   def insert_before(pattern,data)
-    string = self.dup
-    index = string.index(pattern)
+    string = dup
+    index  = string.index(pattern)
 
     string.insert(index,data) if index
     return string
@@ -184,8 +180,8 @@ class String
   # @api public
   #
   def insert_after(pattern,data)
-    string = self.dup
-    match = string.match(pattern)
+    string = dup
+    match  = string.match(pattern)
 
     if match
       index = match.end(match.length - 1)
@@ -215,19 +211,19 @@ class String
   #
   # @api public
   #
-  def pad(padding,max_length=self.length)
+  def pad(padding,max_length=length)
     padding = padding.to_s
 
-    if max_length >= self.length
-      max_length -= self.length
+    if max_length > length
+      max_length -= length
     else
       max_length = 0
     end
 
     padded = self + (padding * (max_length / padding.length))
 
-    unless (remaining = max_length % padding.length) == 0
-      padded << padding[0...remaining]
+    unless (remaining = (max_length % padding.length)) == 0
+      padded << padding[0,remaining]
     end
 
     return padded

@@ -44,8 +44,8 @@ class String
   def each_substring(min=0,&block)
     return enum_for(:each_substring,min) unless block
 
-    (0..(self.length - min)).each do |i|
-      ((i + min)..self.length).each do |j|
+    (0..(length - min)).each do |i|
+      ((i + min)..length).each do |j|
         sub_string = self[i...j]
 
         if block.arity == 2
@@ -119,11 +119,11 @@ class String
 
     min_length.times do |i|
       if self[i] != other[i]
-        return self[0...i]
+        return self[0,i]
       end
     end
 
-    return self[0...min_length]
+    return self[0,min_length]
   end
 
   #
@@ -143,7 +143,7 @@ class String
     min_length = [length, other.length].min
 
     (min_length - 1).times do |i|
-      index = (length - i - 1)
+      index       = (length - i - 1)
       other_index = (other.length - i - 1)
 
       if self[index] != other[other_index]
@@ -160,8 +160,8 @@ class String
   #   Please use {#common_suffix} instead.
   #
   def common_postfix(other)
-    warn "DEPRECATED: String#common_postfix was deprecated in 0.2.0."
-    warn "DEPRECATED: Please use String#common_suffix instead."
+    warn 'DEPRECATED: String#common_postfix was deprecated in 0.2.0.'
+    warn 'DEPRECATED: Please use String#common_suffix instead.'
 
     common_suffix(other)
   end
@@ -179,25 +179,33 @@ class String
   # @api public
   #
   def uncommon_substring(other)
-    prefix = common_prefix(other)
+    prefix  = common_prefix(other)
     postfix = self[prefix.length..-1].common_suffix(other[prefix.length..-1])
 
     return self[prefix.length...(length - postfix.length)]
   end
 
   if RUBY_VERSION < '1.9.'
-    ESCAPE_BYTES = {
-      0x00 => '\0',
-      0x07 => '\a',
-      0x08 => '\b',
-      0x09 => '\t',
-      0x0a => '\n',
-      0x0b => '\v',
-      0x0c => '\f',
-      0x0d => '\r',
-      0x22 => '\"',
-      0x5c => '\\'
-    }
+    ESCAPE_BYTES = Hash.new do |escape,byte|
+      escape[byte] = if (byte >= 0x20 && byte <= 0x7e)
+                       byte.chr
+                     else
+                       "\\x%.2X" % byte
+                     end
+    end
+
+    ESCAPE_BYTES[0x00] = '\0'
+    ESCAPE_BYTES[0x07] = '\a'
+    ESCAPE_BYTES[0x08] = '\b'
+    ESCAPE_BYTES[0x09] = '\t'
+    ESCAPE_BYTES[0x0a] = '\n'
+    ESCAPE_BYTES[0x0b] = '\v'
+    ESCAPE_BYTES[0x0c] = '\f'
+    ESCAPE_BYTES[0x0d] = '\r'
+    ESCAPE_BYTES[0x20] = ' '
+    ESCAPE_BYTES[0x21] = '!'
+    ESCAPE_BYTES[0x22] = '\"'
+    ESCAPE_BYTES[0x5c] = '\\'
 
     #
     # Dumps the string as a C-style string.
@@ -217,16 +225,7 @@ class String
     def dump
       dumped_string = ''
 
-      each_byte do |b|
-        dumped_string << if (b >= 0x20 && b <= 0x7e)
-                           b.chr
-                         elsif ESCAPE_BYTES.has_key?(b)
-                           ESCAPE_BYTES[b]
-                         else
-                           ("\\x%.2X" % b)
-                         end
-      end
-
+      each_byte { |b| dumped_string << ESCAPE_BYTES[b] }
       return "\"#{dumped_string}\""
     end
 

@@ -82,14 +82,14 @@ module Ronin
           raise(ArgumentError,"negative argument")
         end
 
-        path = self.new('..')
+        path = new('..')
         path.separator = separator
 
         dirs = (['..'] * (n-1))
 
         return Path.new(path.join(*dirs))
       when Enumerable
-        return n.map { |i| self.up(i) }
+        return n.map { |i| up(i) }
       else
         raise(ArgumentError,"The first argument of Path.up must be either an Integer or Enumerable")
       end
@@ -120,7 +120,7 @@ module Ronin
       # join the path
       sub_path = names.join(@separator)
 
-      path = if self.root?
+      path = if root?
                # prefix the root dir
                self.to_s + sub_path
              else

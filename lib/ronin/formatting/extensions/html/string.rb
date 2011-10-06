@@ -83,12 +83,14 @@ class String
   # @api public
   #
   def format_html(options={})
-    if RUBY_VERSION < '1.9.'
-      # String#ord was not backported to Rub 1.8.7
-      format_chars(options) { |c| c[0].format_html }
-    else
-      format_chars(options) { |c| c.ord.format_html }
-    end
+    formatter = if RUBY_VERSION < '1.9.'
+                  # String#ord was not backported to Ruby 1.8.7
+                  lambda { |c| c[0].format_html }
+                else
+                  lambda { |c| c.ord.format_html }
+                end
+
+    format_chars(options,&formatter)
   end
 
   #
@@ -111,12 +113,14 @@ class String
   # @api public
   #
   def js_escape(options={})
-    if RUBY_VERSION < '1.9.'
-      # String#ord was not backported to Rub 1.8.7
-      format_chars(options) { |c| c[0].js_escape }
-    else
-      format_chars(options) { |c| c.ord.js_escape }
-    end
+    formatter = if RUBY_VERSION < '1.9.'
+                  # String#ord was not backported to Rub 1.8.7
+                  lambda { |c| c[0].js_escape }
+                else
+                  lambda { |c| c.ord.js_escape }
+                end
+
+    format_chars(options,&formatter)
   end
 
   #
@@ -139,15 +143,16 @@ class String
     scan(/([\\%]u[0-9a-fA-F]{4}|[\\%][0-9a-fA-F]{2}|\\[btnfr"\\]|.)/).each do |match|
       c = match[0]
 
-      if c.length == 6
-        unescaped << c[2,4].to_i(16)
-      elsif c.length == 3
-        unescaped << c[1,2].to_i(16)
-      elsif c.length == 2
-        unescaped << JS_BACKSLASHED_CHARS[c]
-      else
-        unescaped << c
-      end
+      unescaped << case c.length
+                   when 6
+                     c[2,4].to_i(16)
+                   when 3
+                     c[1,2].to_i(16)
+                   when 2
+                     JS_BACKSLASHED_CHARS[c]
+                   else
+                     c
+                   end
     end
 
     return unescaped
@@ -173,12 +178,14 @@ class String
   # @api public
   #
   def format_js(options={})
-    if RUBY_VERSION < '1.9.'
-      # String#ord was not backported to Rub 1.8.7
-      format_chars(options) { |c| c[0].format_js }
-    else
-      format_chars(options) { |c| c.ord.format_js }
-    end
+    formatter = if RUBY_VERSION < '1.9.'
+                  # String#ord was not backported to Rub 1.8.7
+                  lambda { |c| c[0].format_js }
+                else
+                  lambda { |c| c.ord.format_js }
+                end
+
+    format_chars(options,&formatter)
   end
 
 end

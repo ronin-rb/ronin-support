@@ -31,7 +31,7 @@ class Integer
   # @api public
   #
   def uri_encode
-    URI.encode(self.chr)
+    URI.encode(chr)
   end
 
   #
@@ -43,7 +43,7 @@ class Integer
   # @api public
   #
   def uri_escape
-    CGI.escape(self.chr)
+    CGI.escape(chr)
   end
 
   #

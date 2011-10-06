@@ -64,7 +64,7 @@ class Array
   # @api public
   #
   def chars
-    array_bytes = self.bytes
+    array_bytes = bytes
 
     array_bytes.map! { |b| b.chr }
     return array_bytes
@@ -102,7 +102,7 @@ class Array
   # @api public
   #
   def hex_chars
-    array_bytes = self.bytes
+    array_bytes = bytes
     
     array_bytes.map! { |b| '\x%x' % b }
     return array_bytes
@@ -126,7 +126,7 @@ class Array
   # @api public
   #
   def hex_integers
-    array_bytes = self.bytes
+    array_bytes = bytes
     
     array_bytes.map! { |b| '0x%x' % b }
     return array_bytes

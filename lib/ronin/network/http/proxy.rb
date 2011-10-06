@@ -93,7 +93,7 @@ module Ronin
           host, port = proxy.split(':',2)
           port = port.to_i if port
 
-          return self.new(
+          return new(
             :host => host,
             :port => port,
             :user => user,
@@ -121,18 +121,18 @@ module Ronin
           when Proxy
             proxy
           when URI::HTTP
-            self.new(
+            new(
               :host => proxy.host,
               :port => proxy.port,
               :user => proxy.user,
               :password => proxy.password
             )
           when Hash
-            self.new(proxy)
+            new(proxy)
           when String
-            self.parse(proxy)
+            parse(proxy)
           when nil
-            self.new
+            new
           else
             raise(ArgumentError,"argument must be either a #{self}, URI::HTTP, Hash or String")
           end
@@ -250,7 +250,7 @@ module Ronin
         # @api public
         #
         def enabled?
-          !(self.host.nil?)
+          !(host.nil?)
         end
 
         #
@@ -265,18 +265,18 @@ module Ronin
         def url
           return nil unless enabled?
 
-          userinfo = if self.user
-                       if self.password
-                         "#{self.user}:#{self.password}"
+          userinfo = if user
+                       if password
+                         "#{user}:#{password}"
                        else
-                         self.user
+                         user
                        end
                      end
           
           return URI::HTTP.build(
             :userinfo => userinfo,
-            :host => self.host,
-            :port => self.port
+            :host => host,
+            :port => port
           )
         end
 
@@ -289,7 +289,7 @@ module Ronin
         # @api public
         #
         def to_s
-          self.host.to_s
+          host.to_s
         end
 
         #
@@ -301,21 +301,20 @@ module Ronin
         # @api public
         #
         def inspect
-          unless self.host
+          unless host
             str = 'disabled'
           else
             str = ''
             
-            str << self.host.to_s
-            str << ":#{self.port}" if self.port
+            str << host.to_s
+            str << ":#{port}" if port
 
-            if self.user
+            if user
               auth_str = ''
+              auth_str << user.to_s
 
-              auth_str << self.user.to_s
-
-              if self.password
-                auth_str << ":#{self.password}"
+              if password
+                auth_str << ":#{password}"
               end
 
               str = "#{auth_str}@#{str}"

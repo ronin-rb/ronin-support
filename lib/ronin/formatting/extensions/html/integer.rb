@@ -70,7 +70,7 @@ class Integer
   # @api public
   #
   def html_escape
-    CGI.escapeHTML(self.chr)
+    CGI.escapeHTML(chr)
   end
 
   #
@@ -101,7 +101,7 @@ class Integer
     if self > 0xff
       format_js
     else
-      JS_ESCAPE_BYTES.fetch(self,self.chr)
+      JS_ESCAPE_BYTES.fetch(self,chr)
     end
   end
 

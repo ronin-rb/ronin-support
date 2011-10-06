@@ -59,7 +59,7 @@ class Integer
 
     case endian
     when :little, :net
-      mask = 0xff
+      mask  = 0xff
       shift = 0
 
       address_length.times do |i|
@@ -70,7 +70,7 @@ class Integer
       end
     when :big
       shift = ((address_length - 1) * 8)
-      mask = (0xff << shift)
+      mask  = (0xff << shift)
 
       address_length.times do |i|
         buffer << ((self & mask) >> shift)

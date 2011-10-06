@@ -84,15 +84,16 @@ class String
       raise(ArgumentError,"first argument to Ineger#pack must respond to endian")
     end
 
+    endian           = arch.endian.to_sym
     address_length ||= arch.address_length
 
     integer = 0x0
     byte_index = 0
 
-    case arch.endian
-    when :little, 'little'
+    case endian
+    when :little
       mask = lambda { |b| b << (byte_index * 8) }
-    when :big, 'big'
+    when :big
       mask = lambda { |b|
         b << ((address_length - byte_index - 1) * 8)
       }
@@ -100,7 +101,7 @@ class String
       raise(ArgumentError,"invalid endian #{arch.endian.inspect}")
     end
 
-    self.each_byte do |b|
+    each_byte do |b|
       break if byte_index >= address_length
 
       integer |= mask.call(b)
@@ -333,14 +334,17 @@ class String
   def unhexdump(options={})
     case (format = options[:format])
     when :od
-      address_base = base = 8
-      word_size = 2
+      address_base = 8
+      base         = 8
+      word_size    = 2
     when :hexdump
-      address_base = base = 16
-      word_size = 2
+      address_base = 16
+      base         = 16
+      word_size    = 2
     else
-      address_base = base = 16
-      word_size = 1
+      address_base = 16
+      base         = 16
+      word_size    = 1
     end
 
     case options[:encoding]
@@ -403,13 +407,13 @@ class String
           end
         end
 
-        segment = segment[0...segment_length]
+        segment = segment[0,segment_length]
         buffer += segment
         last_addr = current_addr
       end
     end
 
-    return buffer[0...(last_addr - first_addr)]
+    return buffer[0,(last_addr - first_addr)]
   end
 
 end
