@@ -46,6 +46,12 @@ module Net
   #
   # @option options [Symbol] :verify
   #   Specifies whether to verify the SSL certificate.
+  #   May be one of the following:
+  #
+  #   * `:none`
+  #   * `:peer`
+  #   * `:client_once`
+  #   * `:fail_if_no_peer_cert`
   #
   # @option options [String] :cert
   #   The path to the SSL certificate.
