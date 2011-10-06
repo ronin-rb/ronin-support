@@ -27,14 +27,21 @@ class Integer
   #
   # @param [Symbol, String] endian
   #   The endianness to use while decoding the bytes of the Integer.
-  #   May be either `:big`, `:little` or `:net`.
+  #   May be one of:
+  #
+  #   * `:big` / `"big"`
+  #   * `:little` / `"little"`
+  #   * `:net` / `"net"`
   #
   # @return [Array]
   #   The bytes decoded from the Integer.
   #
   # @raise [ArgumentError]
-  #   The given `endian` is not `:little`, `"little"`, `:net`, `"net"`,
-  #   `:big` or `"big"`.
+  #   The given `endian` was not one of:
+  #
+  #   * `:little` / `"little"`
+  #   * `:net` / `"net"`
+  #   * `:big` / `"big"`
   #
   # @example
   #   0xff41.bytes(2)
