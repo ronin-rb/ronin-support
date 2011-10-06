@@ -202,10 +202,6 @@ class String
     ESCAPE_BYTES[0x0b] = '\v'
     ESCAPE_BYTES[0x0c] = '\f'
     ESCAPE_BYTES[0x0d] = '\r'
-    ESCAPE_BYTES[0x20] = ' '
-    ESCAPE_BYTES[0x21] = '!'
-    ESCAPE_BYTES[0x22] = '\"'
-    ESCAPE_BYTES[0x5c] = '\\'
 
     #
     # Dumps the string as a C-style string.
