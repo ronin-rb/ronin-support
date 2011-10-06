@@ -209,9 +209,10 @@ class String
   # @api public
   #
   def xor(key)
-    key = if key.kind_of?(Integer)
+    key = case key
+          when Integer
             [key]
-          elsif key.kind_of?(String)
+          when String
             key.bytes
           else
             key
