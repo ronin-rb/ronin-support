@@ -300,6 +300,7 @@ class String
   # @option options [Symbol] :encoding
   #   Denotes the encoding used for the bytes within the hexdump.
   #   Must be one of the following:
+  #
   #   * `:binary`
   #   * `:octal`
   #   * `:octal_bytes`
