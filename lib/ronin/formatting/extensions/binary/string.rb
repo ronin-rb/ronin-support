@@ -229,6 +229,10 @@ class String
   # @return [String]
   #   The base64 encoded form of the string.
   #
+  # @example
+  #   "hello".base64_encode
+  #   # => "aGVsbG8=\n"
+  #
   # @api public
   #
   def base64_encode
@@ -240,6 +244,10 @@ class String
   #
   # @return [String]
   #   The base64 decoded form of the string.
+  #
+  # @example
+  #   "aGVsbG8=\n"
+  #   # => "hello"
   #
   # @api public
   #
@@ -253,6 +261,10 @@ class String
   # @return [String]
   #   The Zlib inflated form of the string.
   #
+  # @example
+  #   "x\x9C\xCBH\xCD\xC9\xC9\a\x00\x06,\x02\x15".zlib_inflate
+  #   # => "hello"
+  #
   # @api public
   #
   def zlib_inflate
@@ -264,6 +276,10 @@ class String
   #
   # @return [String]
   #   The Zlib deflated form of the string.
+  #
+  # @example
+  #   "hello".zlib_deflate
+  #   # => "x\x9C\xCBH\xCD\xC9\xC9\a\x00\x06,\x02\x15"
   #
   # @api public
   #
