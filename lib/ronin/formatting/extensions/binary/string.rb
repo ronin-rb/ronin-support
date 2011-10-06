@@ -111,6 +111,8 @@ class String
   end
 
   #
+  # Hex-escapes characters in the String.
+  #
   # @return [String]
   #   The hex escaped version of the String.
   #
