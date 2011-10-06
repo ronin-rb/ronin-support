@@ -37,15 +37,17 @@ class Array
   # @api public
   #
   def bytes
-    self.inject([]) do |accum,elem|
-      if elem.kind_of?(Integer)
-        accum << elem
-      else
-        elem.to_s.each_byte { |b| accum << b }
-      end
+    bytes = []
 
-      accum
+    each do |element|
+      if element.kind_of?(Integer)
+        bytes << element
+      else
+        element.to_s.each_byte { |b| bytes << b }
+      end
     end
+
+    return bytes
   end
 
   #

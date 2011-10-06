@@ -217,10 +217,14 @@ class String
             key
           end
 
-    key = key.cycle
+    key    = key.cycle
     result = ''
 
-    self.bytes.inject('') { |result,b| result << (b ^ key.next).chr }
+    bytes.each do |b|
+      result << (b ^ key.next).chr
+    end
+
+    return result
   end
 
   #
