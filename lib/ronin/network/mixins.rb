@@ -17,9 +17,11 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-module Ronin
-  module Support
-    # ronin-support version
-    VERSION = '0.3.0'
-  end
-end
+require 'ronin/network/mixins/tcp'
+require 'ronin/network/mixins/udp'
+require 'ronin/network/mixins/smtp'
+require 'ronin/network/mixins/esmtp'
+require 'ronin/network/mixins/pop3'
+require 'ronin/network/mixins/imap'
+require 'ronin/network/mixins/telnet'
+require 'ronin/network/mixins/web'

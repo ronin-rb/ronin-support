@@ -80,7 +80,7 @@ module Net
     socket = Net.tcp_connect(host,port,local_host,local_port)
 
     ssl_context = OpenSSL::SSL::SSLContext.new()
-    ssl_context.verify_mode = Ronin::Network::SSL.verify(options[:verify])
+    ssl_context.verify_mode = Ronin::Network::SSL::VERIFY[options[:verify]]
 
     if options[:cert]
       cert_file = File.new(options[:cert])

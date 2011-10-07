@@ -17,40 +17,12 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/network/extensions/ssl'
+require 'ronin/ui/output'
 
-begin
-  require 'openssl'
-rescue ::LoadError
-end
+require 'rspec'
 
-module Ronin
-  module Network
-    #
-    # SSL helper methods.
-    #
-    module SSL
-      # Maps SSL verify modes to `OpenSSL::SSL::VERIFY_*` constants.
-      #
-      # @return [Hash{Symbol => Integer}]
-      #
-      # @since 1.3.0
-      #
-      # @api private
-      #
-      VERIFY = Hash.new do |hash,key|
-        verify_const = if key
-                         "VERIFY_#{key.to_s.upcase}"
-                       else
-                         'VERIFY_NONE'
-                       end
-
-        unless OpenSSL::SSL.const_defined?(verify_const)
-          raise(RuntimeError,"unknown verify mode #{key}")
-        end
-
-        hash[key] = OpenSSL::SSL.const_get(verify_const)
-      end
-    end
+RSpec.configure do |spec|
+  spec.before(:suite) do
+    Ronin::UI::Output.silent! unless ENV['DEBUG']
   end
 end

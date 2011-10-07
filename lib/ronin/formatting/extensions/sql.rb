@@ -17,9 +17,4 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-module Ronin
-  module Support
-    # ronin-support version
-    VERSION = '0.3.0'
-  end
-end
+require 'ronin/formatting/extensions/sql/string'

@@ -17,8 +17,9 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/extensions/resolv'
+
 require 'ipaddr'
-require 'resolv'
 require 'strscan'
 require 'combinatorics/list_comprehension'
 
@@ -41,8 +42,8 @@ class IPAddr
   # @param [String] text
   #   The text to scan for IP Addresses.
   #
-  # @param [Symbol] version
-  #   The version of IP Address to scan for (`:ipv4` or `:ipv6`).
+  # @param [Integer, Symbol] version
+  #   The version of IP Address to scan for (`4`, `6`, `:v4` or `:v6`).
   #
   # @yield [ip]
   #   The given block will be passed each extracted IP Address.
@@ -57,9 +58,9 @@ class IPAddr
   #
   def IPAddr.extract(text,version=nil,&block)
     regexp = case version
-             when :ipv4
+             when :ipv4, :v4, 4
                IPV4_REGEXP
-             when :ipv6
+             when :ipv6, :v6, 6
                IPV6_REGEXP
              else
                REGEXP
@@ -169,13 +170,16 @@ class IPAddr
   #
   # Resolves the host-names for the IP address.
   #
+  # @param [String] nameserver
+  #   The optional nameserver to query.
+  #
   # @return [Array<String>]
   #   The host-names for the IP address.
   #
   # @api public
   #
-  def lookup
-    Resolv.getnames(self.to_s)
+  def lookup(nameserver=nil)
+    Resolv.resolver(nameserver).getnames(self.to_s)
   end
 
   #

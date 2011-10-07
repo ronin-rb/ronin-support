@@ -90,7 +90,7 @@ module Net
 
     if options[:ssl]
       sess.use_ssl = true
-      sess.verify_mode = Ronin::Network::SSL.verify(options[:ssl][:verify])
+      sess.verify_mode = Ronin::Network::SSL::VERIFY[options[:ssl][:verify]]
     end
 
     sess.start()

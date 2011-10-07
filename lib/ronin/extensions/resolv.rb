@@ -17,40 +17,29 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/network/extensions/ssl'
+require 'resolv'
 
-begin
-  require 'openssl'
-rescue ::LoadError
-end
+class Resolv
 
-module Ronin
-  module Network
-    #
-    # SSL helper methods.
-    #
-    module SSL
-      # Maps SSL verify modes to `OpenSSL::SSL::VERIFY_*` constants.
-      #
-      # @return [Hash{Symbol => Integer}]
-      #
-      # @since 1.3.0
-      #
-      # @api private
-      #
-      VERIFY = Hash.new do |hash,key|
-        verify_const = if key
-                         "VERIFY_#{key.to_s.upcase}"
-                       else
-                         'VERIFY_NONE'
-                       end
-
-        unless OpenSSL::SSL.const_defined?(verify_const)
-          raise(RuntimeError,"unknown verify mode #{key}")
-        end
-
-        hash[key] = OpenSSL::SSL.const_get(verify_const)
-      end
+  #
+  # Creates a new resolver.
+  #
+  # @param [String, Array<String>, nil] nameserver
+  #   The nameserver(s) to query.
+  #
+  # @return [Resolv::DNS]
+  #   A new resolver for the given nameservers, or the default resolver.
+  #
+  # @since 0.3.0
+  #
+  # @api public
+  #
+  def Resolv.resolver(nameserver=nil)
+    if nameserver
+      DNS.new(:nameserver => nameserver)
+    else
+      self
     end
   end
+
 end

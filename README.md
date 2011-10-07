@@ -25,6 +25,7 @@ or payloads over many common Source-Code-Management (SCM) systems.
     * URIs
     * HTML
     * JavaScript
+    * SQL
   * Generating random text.
   * Networking:
     * TCP
@@ -58,6 +59,8 @@ please see [Everyday Ronin](http://ronin-ruby.github.com/guides/everyday_ronin.h
   ~> 0.5, >= 0.5.2
 * [data_paths](http://github.com/postmodern/data_paths#readme)
   ~> 0.3
+* [parameters](http://github.com/postmodern/parameters#readme)
+  ~> 0.2, >= 0.2.3
 
 ## Install
 

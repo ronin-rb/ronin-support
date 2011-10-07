@@ -18,3 +18,4 @@
 #
 
 require 'ronin/network/extensions/http/net'
+require 'ronin/network/extensions/http/uri/http'
