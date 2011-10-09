@@ -41,6 +41,10 @@ class String
   # @return [String]
   #   The HTML escaped String.
   #
+  # @example
+  #   "one & two".html_escape
+  #   # => "one &amp; two"
+  #
   # @see http://rubydoc.info/stdlib/cgi/1.9.2/CGI.escapeHTML
   #
   # @since 0.2.0
@@ -56,6 +60,10 @@ class String
   #
   # @return [String]
   #   The unescaped String.
+  #
+  # @example
+  #   "&lt;p&gt;one &lt;span&gt;two&lt;/span&gt;&lt;/p&gt;".html_unescape
+  #   # => "<p>one <span>two</span></p>"
   #
   # @see http://rubydoc.info/stdlib/cgi/1.9.2/CGI.unescapeHTML
   #
@@ -75,6 +83,10 @@ class String
   #
   # @return [String]
   #   The formatted HTML String.
+  #
+  # @example
+  #   "abc".format_html
+  #   # => "&#97;&#98;&#99;"
   #
   # @see Integer#format_html
   #

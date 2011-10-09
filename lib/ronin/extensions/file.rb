@@ -30,6 +30,9 @@ class File
   #
   # @return [nil]
   #
+  # @example
+  #   File.write('dump.txt',data)
+  #
   # @api public
   #
   def File.write(path,data)

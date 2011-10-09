@@ -40,6 +40,10 @@ class Integer
   # @return [String]
   #   The URI escaped byte.
   #
+  # @example
+  #   0x3d.uri_escape
+  #   # => "%3D"
+  #
   # @api public
   #
   def uri_escape
@@ -51,6 +55,10 @@ class Integer
   #
   # @return [String]
   #   The formatted byte.
+  #
+  # @example
+  #   0x41.format_http
+  #   # => "%41"
   #
   # @api public
   #

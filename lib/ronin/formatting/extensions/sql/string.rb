@@ -32,6 +32,10 @@ class String
   # @raise [ArgumentError]
   #   The quotes argument was neither `:single` nor `:double`.
   #
+  # @example
+  #   "O'Brian".sql_escape
+  #   # => "'O''Brian'"
+  #
   # @since 0.3.0
   #
   def sql_escape(quotes=:single)
@@ -48,6 +52,7 @@ class String
   #
   # Returns the SQL hex-string encoded form of the String.
   #
+  # @example
   #   "/etc/passwd".sql_encode
   #   # => "0x2f6574632f706173737764"
   #
@@ -66,9 +71,11 @@ class String
   #
   # Returns the SQL decoded form of the String.
   #
+  # @example
   #   "'Conan O''Brian'".sql_decode
   #   # => "Conan O'Brian"
   #
+  # @example
   #  "0x2f6574632f706173737764".sql_decode
   #  # => "/etc/passwd"
   #

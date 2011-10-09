@@ -54,6 +54,15 @@ class IPAddr
   # @return [Array<String>]
   #   The IP Addresses found in the text.
   #
+  # @example
+  #   IPAddr.extract("Host: 127.0.0.1\n\rHost: 10.1.1.1\n\r")
+  #   # => ["127.0.0.1", "10.1.1.1"]
+  #
+  # @example Extract only IPv4 addresses from a large amount of text.
+  #   IPAddr.extract(text,:v4) do |ip|
+  #     puts ip
+  #   end
+  #   
   # @api public
   #
   def IPAddr.extract(text,version=nil,&block)

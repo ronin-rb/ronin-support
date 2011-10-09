@@ -30,6 +30,9 @@ class Resolv
   # @return [Resolv::DNS]
   #   A new resolver for the given nameservers, or the default resolver.
   #
+  # @example
+  #   Resolv.resolver('4.2.2.1')
+  #
   # @since 0.3.0
   #
   # @api public

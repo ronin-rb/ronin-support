@@ -43,6 +43,10 @@ class String
   # @return [String]
   #   The formatted version of the String.
   #
+  # @example
+  #   "hello".format_bytes { |b| "%x" % b }
+  #   # => "68656c6c6f"
+  #
   # @api public
   #
   def format_bytes(options={})
@@ -82,6 +86,10 @@ class String
   #
   # @return [String]
   #   The formatted version of the String.
+  #
+  # @example
+  #   "hello".format_chars { |c| c * 3 }
+  #   # => "hhheeellllllooo"
   #
   # @api public
   #

@@ -39,6 +39,10 @@ class String
   # @return [String]
   #   The original string
   #
+  # @example
+  #   "hello".each_substring(3).to_a
+  #   # => ["hel", "hell", "hello", "ell", "ello", "llo"]
+  #
   # @api public
   #
   def each_substring(min=0,&block)
@@ -78,6 +82,10 @@ class String
   #
   # @return [String]
   #   The original string
+  #
+  # @example
+  #   "xoxo".each_unique_substring(2).to_a
+  #   # => ["xo", "xox", "xoxo", "ox", "oxo"]
   #
   # @see each_substring
   #

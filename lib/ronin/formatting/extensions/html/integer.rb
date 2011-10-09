@@ -65,6 +65,10 @@ class Integer
   # @return [String]
   #   The escaped HTML String.
   #
+  # @example
+  #   0x26.html_escape
+  #   # => "&amp;"
+  #
   # @since 0.2.0
   #
   # @api public
@@ -79,6 +83,10 @@ class Integer
   # @return [String]
   #   The HTML String.
   #
+  # @example
+  #   0x41.format_html
+  #   # => "&#65;"
+  #
   # @since 0.2.0
   #
   # @api public
@@ -92,6 +100,14 @@ class Integer
   #
   # @return [String]
   #   The escaped JavaScript String.
+  #
+  # @example 
+  #   0x22.js_escape
+  #   # => "\\\""
+  #
+  # @example
+  #   0x7f.js_escape
+  #   # => "\x7F"
   #
   # @since 0.2.0
   #
@@ -110,6 +126,10 @@ class Integer
   #
   # @return [String]
   #   The escaped JavaScript String.
+  #
+  # @example
+  #   0x41.format_js
+  #   # => "%41"
   #
   # @since 0.2.0
   #
