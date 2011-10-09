@@ -36,6 +36,12 @@ class IPAddr
   # A regular expression for matching IP Addresses.
   REGEXP = /#{IPV4_REGEXP}|#{IPV6_REGEXP}/
 
+  # Socket families and IP address masks
+  MASKS = {
+    Socket::AF_INET  => IN4MASK,
+    Socket::AF_INET6 => IN6MASK
+  }
+
   #
   # Extracts IP Addresses from text.
   #
@@ -128,28 +134,27 @@ class IPAddr
     return enum_for(:each,cidr_or_glob) unless block
 
     if cidr_or_glob.include?('::')
-      prefix = if cidr_or_glob[0,2] == '::'
+      separator = '::'
+      base      = 16
+
+      prefix = if cidr_or_glob.start_with?('::')
                  '::'
                else
                  ''
                end
-
-      separator = '::'
-      base = 16
 
       format = lambda { |address|
         prefix + address.map { |i| '%.2x' % i }.join('::')
       }
     else
       separator = '.'
-      base = 10
-
-      format = lambda { |address| address.join('.') }
+      base      = 10
+      format    = lambda { |address| address.join('.') }
     end
 
     # split the address
     segments = cidr_or_glob.split(separator)
-    ranges = []
+    ranges   = []
     
     # map the components of the address to numeric ranges
     segments.each do |segment|
@@ -167,10 +172,7 @@ class IPAddr
     end
 
     # cycle through the address ranges
-    ranges.comprehension do |address|
-      yield format[address]
-    end
-
+    ranges.comprehension { |address| yield format[address] }
     return nil
   end
 
@@ -212,12 +214,7 @@ class IPAddr
   def each
     return enum_for(:each) unless block_given?
 
-    case @family
-    when Socket::AF_INET
-      family_mask = IN4MASK
-    when Socket::AF_INET6
-      family_mask = IN6MASK
-    end
+    family_mask = MASKS[@family]
 
     (0..((~@mask_addr) & family_mask)).each do |i|
       yield _to_string(@addr | i)
