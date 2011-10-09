@@ -4,6 +4,10 @@ require 'ronin/formatting/text'
 describe String do
   subject { "hello" }
 
+  it "should provide String.generate" do
+    described_class.should respond_to(:generate)
+  end
+
   it "should provide String#format_chars" do
     should respond_to(:format_chars)
   end
@@ -22,6 +26,46 @@ describe String do
 
   it "should provide String#insert_after" do
     should respond_to(:insert_after)
+  end
+
+  describe "generate" do
+    subject { described_class }
+
+    it "should generate Strings from CharSets" do
+      strings = subject.generate(:lowercase_hexadecimal, :numeric).to_a
+
+      strings.grep(/^[0-9a-f][0-9]$/).should == strings
+    end
+
+    it "should generate Strings from lengths of CharSets" do
+      strings = subject.generate([:numeric, 2]).to_a
+
+      strings.grep(/^[0-9]{2}$/).should == strings
+    end
+
+    it "should generate Strings from varying lengths of CharSets" do
+      strings = subject.generate([:numeric, 1..2]).to_a
+
+      strings.grep(/^[0-9]{1,2}$/).should == strings
+    end
+
+    it "should generate Strings from custom CharSets" do
+      strings = subject.generate([%w[a b c], 2]).to_a
+
+      strings.grep(/^[abc]{2}$/).should == strings
+    end
+
+    it "should raise an ArgumentError for unknown CharSets" do
+      lambda {
+        subject.generate([:foo_bar, 2]).to_a
+      }.should raise_error(ArgumentError)
+    end
+
+    it "should raise a TypeError for non Integer,Array,Range lengths" do
+      lambda {
+        subject.generate([:numeric, 'foo']).to_a
+      }.should raise_error(TypeError)
+    end
   end
 
   describe "#format_bytes" do

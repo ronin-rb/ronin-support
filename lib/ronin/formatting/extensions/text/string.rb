@@ -17,9 +17,96 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'combinatorics/list_comprehension'
+require 'chars'
 require 'set'
 
 class String
+
+  #
+  # Generate permutations of Strings from a format template.
+  #
+  # @param [Array<Array<Symbol, Integer>, Symbol, Array>] template
+  #   The template which defines the character sets that make up parts of the
+  #   String.
+  #
+  # @yield [string]
+  #   The given block will be passed each unique String.
+  #
+  # @yieldparam [String] string
+  #   A newly generated String.
+  #
+  # @return [Enumerator]
+  #   If no block is given, an Enumerator will be returned.
+  #
+  # @example Generate Strings with three alpha chars and one numeric chars.
+  #   String.generate([:alpha, 3], :numeric) do |password|
+  #     puts password
+  #   end
+  #
+  # @example Generate Strings with two to four alpha chars.
+  #   String.generate([:alpha, 2..4]) do |password|
+  #     puts password
+  #   end
+  #
+  # @example Generate Strings using alpha and punctuation chars.
+  #   String.generate([Chars.alpha + Chars.punctuation, 4]) do |password|
+  #     puts password
+  #   end
+  #
+  # @example Generate Strings from a custom char set.
+  #   String.generate([%w[a b c], 3], [%w[1 2 3], 3]) do |password|
+  #     puts password
+  #   end
+  #
+  # @since 0.3.0
+  #
+  # @api public
+  #
+  def self.generate(*template)
+    return enum_for(:generate,*template) unless block_given?
+
+    charsets = []
+
+    template.each do |charset|
+      charset, length = charset
+
+      charset = case charset
+                when Chars::CharSet
+                  charset
+                when Symbol
+                  name = charset.to_s.upcase
+
+                  unless Chars.const_defined?(name)
+                    raise(ArgumentError,"unknown charset #{charset.inspect}")
+                  end
+
+                  Chars.const_get(charset.to_s.upcase)
+                else
+                  Chars::CharSet.new(charset)
+                end
+
+      case length
+      when Integer
+        length.times { charsets << charset.each_char }
+      when Array, Range
+        charsets << Enumerator.new do |y|
+          length.each do |sublength|
+            subset = Array.new(sublength) { charset.each_char }
+
+            subset.comprehension { |chars| y << chars.join }
+          end
+        end
+      when nil
+        charsets << charset.each_char
+      else
+        raise(TypeError,"length must be an Integer or Range")
+      end
+    end
+
+    charsets.comprehension { |chars| yield chars.join }
+    return nil
+  end
 
   #
   # Creates a new String by formatting each byte.
