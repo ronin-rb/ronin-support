@@ -66,6 +66,8 @@ class IPAddr
   # @api public
   #
   def IPAddr.extract(text,version=nil,&block)
+    return enum_for(:extract,text,version).to_a unless block_given?
+
     regexp = case version
              when :ipv4, :v4, 4
                IPV4_REGEXP
@@ -77,15 +79,11 @@ class IPAddr
 
     parser = StringScanner.new(text)
 
-    if block_given?
-      yield parser.matched while parser.skip_until(regexp)
-      return nil
-    else
-      ips = []
-
-      ips << parser.matched while parser.skip_until(regexp)
-      return ips
+    while parser.skip_until(regexp)
+      yield parser.matched
     end
+
+    return nil
   end
 
   #
