@@ -45,7 +45,7 @@ class String
   #
   # @api public
   #
-  def each_substring(min=0,&block)
+  def each_substring(min=1,&block)
     return enum_for(:each_substring,min) unless block
 
     (0..(length - min)).each do |i|
@@ -91,7 +91,7 @@ class String
   #
   # @api public
   #
-  def each_unique_substring(min=0,&block)
+  def each_unique_substring(min=1,&block)
     return enum_for(:each_unique_substring,min) unless block
 
     unique_strings = {}
