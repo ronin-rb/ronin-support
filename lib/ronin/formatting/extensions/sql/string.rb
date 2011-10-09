@@ -41,9 +41,9 @@ class String
   def sql_escape(quotes=:single)
     case quotes
     when :single
-      "'" + self.gsub(/'/,"''") + "'"
+      "'#{gsub(/'/,"''")}'"
     when :double
-      '"' + self.gsub(/"/,'""') + '"'
+      "\"#{gsub(/"/,'""')}\""
     else
       raise(ArgumentError,"invalid quoting style #{quotes.inspect}")
     end
@@ -89,7 +89,7 @@ class String
 
       return raw
     elsif (self[0..0] == "'" && self[-1..-1] == "'")
-      self[1..-2].gsub(/\\'/,"'").gsub(/''/,"'")
+      self[1..-2].gsub("\\'","'").gsub("''","'")
     else
       return self
     end

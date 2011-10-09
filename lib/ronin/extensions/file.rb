@@ -54,10 +54,10 @@ class File
     path = path.to_s
 
     # remove any \0 characters first
-    path.gsub!("\0",'')
+    path.tr!("\0",'')
 
     # remove any home-dir expansions
-    path.gsub!("~","\\~")
+    path.gsub!('~',"\\~")
 
     path = File.expand_path(File.join('/',path))
 
