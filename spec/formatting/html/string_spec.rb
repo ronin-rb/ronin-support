@@ -94,7 +94,7 @@ describe String do
   end
 
   describe "#format_js" do
-    let(:js_formatted) { "%6F%6E%65%20%26%20%74%77%6F" }
+    let(:js_formatted) { '\x6F\x6E\x65\x20\x26\x20\x74\x77\x6F' }
 
     it "should JavaScript escape all characters" do
       subject.format_js.should == js_formatted

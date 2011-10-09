@@ -115,8 +115,8 @@ class String
   #   The JavaScript escaped String.
   #
   # @example
-  #   "hello".js_escape
-  #   # => "%u0068%u0065%u006C%u006C%u006F"
+  #   "hello\nworld\n".js_escape
+  #   # => "hello\\nworld\\n"
   #
   # @see Integer#js_escape
   #
@@ -142,7 +142,7 @@ class String
   #   The unescaped JavaScript String.
   #
   # @example
-  #   "%u0068%u0065%u006C%u006C%u006F world".js_unescape
+  #   "\\u0068\\u0065\\u006C\\u006C\\u006F world".js_unescape
   #   # => "hello world"
   #
   # @since 0.2.0
@@ -181,7 +181,7 @@ class String
   #
   # @example
   #   "hello".js_escape
-  #   # => "%u0068%u0065%u006C%u006C%u006F"
+  #   # => "\\u0068\\u0065\\u006C\\u006C\\u006F"
   #
   # @see Integer#js_escape
   #

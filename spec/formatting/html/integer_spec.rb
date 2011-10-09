@@ -53,14 +53,14 @@ describe Integer do
   end
 
   describe "#format_js" do
-    let(:js_escaped) { "%26" }
+    let(:js_escaped) { '\x26' }
 
     it "should JavaScript format ascii bytes" do
       subject.format_js.should == js_escaped
     end
 
     it "should JavaScript format unicode bytes" do
-      0xd556.format_js.should == "%uD556"
+      0xd556.format_js.should == '\uD556'
     end
   end
 end
