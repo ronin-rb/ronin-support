@@ -83,10 +83,10 @@ class IPAddr
                REGEXP
              end
 
-    parser = StringScanner.new(text)
+    scanner = StringScanner.new(text)
 
-    while parser.skip_until(regexp)
-      yield parser.matched
+    while scanner.skip_until(regexp)
+      yield scanner.matched
     end
 
     return nil
