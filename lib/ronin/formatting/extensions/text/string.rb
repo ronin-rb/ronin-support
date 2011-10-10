@@ -26,7 +26,7 @@ class String
   #
   # Generate permutations of Strings from a format template.
   #
-  # @param [Array<Array<Symbol, Integer>, Symbol, Array>] template
+  # @param [Array<Symbol, Chars::CharSet, Array, Integer, Range>] template
   #   The template which defines the character sets that make up parts of the
   #   String.
   #
@@ -38,6 +38,12 @@ class String
   #
   # @return [Enumerator]
   #   If no block is given, an Enumerator will be returned.
+  #
+  # @raise [ArgumentError]
+  #   A given character set name was unknown.
+  #
+  # @raise [TypeError]
+  #   A given character set length was not an Integer, Array or Range.
   #
   # @example Generate Strings with three alpha chars and one numeric chars.
   #   String.generate([:alpha, 3], :numeric) do |password|
@@ -55,7 +61,7 @@ class String
   #   end
   #
   # @example Generate Strings from a custom char set.
-  #   String.generate([%w[a b c], 3], [%w[1 2 3], 3]) do |password|
+  #   String.generate([['a', 'b', 'c'], 3], [['1', '2', '3'], 3]) do |password|
   #     puts password
   #   end
   #
@@ -70,7 +76,6 @@ class String
 
     template.each do |charset|
       charset, length = charset
-
       charset = case charset
                 when Chars::CharSet
                   charset
