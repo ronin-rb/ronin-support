@@ -54,7 +54,7 @@ please see [Everyday Ronin](http://ronin-ruby.github.com/guides/everyday_ronin.h
 * [hexdump](http://github.com/postmodern/hexdump#readme)
   ~> 0.1
 * [combinatorics](http://github.com/postmodern/combinatorics#readme)
-  ~> 0.3
+  ~> 0.4
 * [uri-query_params](http://github.com/postmodern/uri-query_params#readme)
   ~> 0.5, >= 0.5.2
 * [data_paths](http://github.com/postmodern/data_paths#readme)
