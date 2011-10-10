@@ -15,7 +15,7 @@ required_ruby_version: ">= 1.8.7"
 dependencies:
   chars: ~> 0.2
   hexdump: ~> 0.1
-  combinatorics: ~> 0.3
+  # combinatorics: ~> 0.4
   uri-query_params: ~> 0.5, >= 0.5.2
   data_paths: ~> 0.3
   parameters: ~> 0.2, >= 0.2.3

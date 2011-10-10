@@ -18,6 +18,7 @@
 #
 
 require 'combinatorics/list_comprehension'
+require 'combinatorics/generator'
 require 'chars'
 require 'set'
 
@@ -95,11 +96,11 @@ class String
       when Integer
         length.times { charsets << charset.each_char }
       when Array, Range
-        charsets << Enumerator.new do |y|
+        charsets << Combinatorics::Generator.new do |g|
           length.each do |sublength|
             subset = Array.new(sublength) { charset.each_char }
 
-            subset.comprehension { |chars| y << chars.join }
+            subset.comprehension { |chars| g.yield chars.join }
           end
         end
       when nil

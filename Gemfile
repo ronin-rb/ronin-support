@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'combinatorics', '~> 0.4.0', :git => 'http://github.com/postmodern/combinatorics.git'
+
 platforms :jruby do
   gem 'jruby-openssl',	'~> 0.7.0'
 end
