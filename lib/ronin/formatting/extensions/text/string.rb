@@ -66,6 +66,11 @@ class String
   #     puts password
   #   end
   #
+  # @example Generate Strings containing known Strings.
+  #   String.generate("rock", [:numeric, 4]) do |password|
+  #     puts password
+  #   end
+  #
   # @since 0.3.0
   #
   # @api public
@@ -75,8 +80,13 @@ class String
 
     charsets = []
 
-    template.each do |charset|
-      charset, length = charset
+    template.each do |pattern|
+      if pattern.kind_of?(String)
+        charsets << [pattern]
+        next
+      end
+
+      charset, length = pattern
       charset = case charset
                 when Chars::CharSet
                   charset
