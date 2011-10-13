@@ -115,6 +115,78 @@ class String
   end
 
   #
+  # Incrementally fuzzes the String.
+  #
+  # @param [Hash{Regexp,String,Integer,Enumerable => #each}] mutations
+  #   Patterns and their substitutions.
+  #
+  # @yield [fuzz]
+  #   The given block will be passed every fuzzed String.
+  #
+  # @yieldparam [String] fuzz
+  #   A fuzzed String.
+  #
+  # @return [Enumerator]
+  #   If no block is given, an Enumerator will be returned.
+  #
+  # @example Replace every `e`, `i`, `o`, `u` with `(`, 100 `A`s and a `\0`:
+  #   "the quick brown fox".fuzz(/[eiou]/ => ['(', ('A' * 100), "\0"]) do |str|
+  #     p str
+  #   end
+  #
+  # @example {String.generate} with {String.fuzz}:
+  #   "GET /".fuzz('/' => String.generate(['A', 1..100])) do |str|
+  #     p str
+  #   end
+  #
+  # @since 0.3.0
+  #
+  # @api public
+  #
+  def fuzz(mutations={})
+    return enum_for(:fuzz,mutations) unless block_given?
+
+    mutations.each do |pattern,substitution|
+      pattern = case pattern
+                when Regexp
+                  pattern
+                when String
+                  Regexp.new(Regexp.escape(pattern))
+                when Integer
+                  Regexp.new(pattern.chr)
+                when Enumerable
+                  Regexp.union(pattern.map { |s| Regexp.escape(s.to_s) })
+                else
+                  raise(TypeError,"cannot convert #{pattern.inspect} to a Regexp")
+                end
+
+      scanner = StringScanner.new(self)
+      indices = []
+
+      while scanner.scan_until(pattern)
+        indices << [scanner.pos - scanner.matched_size, scanner.matched_size]
+      end
+
+      indices.each do |index,length|
+        substitution.each do |substitute|
+          substitute = case substitute
+                       when Proc
+                         substitute.call(self[index,length])
+                       when Integer
+                         substitute.chr
+                       else
+                         substitute.to_s
+                       end
+
+          fuzzed = dup
+          fuzzed[index,length] = substitute
+          yield fuzzed
+        end
+      end
+    end
+  end
+
+  #
   # Creates a new String by formatting each byte.
   #
   # @param [Hash] options
