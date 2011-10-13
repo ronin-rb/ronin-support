@@ -27,7 +27,7 @@ class String
   #
   # Generate permutations of Strings from a format template.
   #
-  # @param [Array<Symbol, Chars::CharSet, Array, Integer, Range>] template
+  # @param [Array<Symbol, Chars::CharSet, Array, Integer, Enumerable>] template
   #   The template which defines the character sets that make up parts of the
   #   String.
   #
@@ -95,7 +95,7 @@ class String
       case length
       when Integer
         length.times { charsets << charset.each_char }
-      when Array, Range
+      when Enumerable
         charsets << Combinatorics::Generator.new do |g|
           length.each do |sublength|
             subset = Array.new(sublength) { charset.each_char }
