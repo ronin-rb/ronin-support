@@ -27,7 +27,7 @@ class String
   #
   # Generate permutations of Strings from a format template.
   #
-  # @param [Array<Symbol, Chars::CharSet, Array, Integer, Enumerable>] template
+  # @param [Array(<String, Symbol, Enumerable>, <Integer, Enumerable>)] template
   #   The template which defines the character sets that make up parts of the
   #   String.
   #
