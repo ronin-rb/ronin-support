@@ -28,8 +28,8 @@ class String
   # Generate permutations of Strings from a format template.
   #
   # @param [Array(<String, Symbol, Enumerable>, <Integer, Enumerable>)] template
-  #   The template which defines the character sets that make up parts of the
-  #   String.
+  #   The template which defines the string or character sets which will
+  #   make up parts of the String.
   #
   # @yield [string]
   #   The given block will be passed each unique String.
@@ -44,7 +44,8 @@ class String
   #   A given character set name was unknown.
   #
   # @raise [TypeError]
-  #   A given character set length was not an Integer, Array or Range.
+  #   A given string set was not a String, Symbol or Enumerable.
+  #   A given string set length was not an Integer or Enumerable.
   #
   # @example Generate Strings with ranges of repeating sub-strings.
   #
@@ -103,7 +104,7 @@ class String
             when Enumerable
               Chars::CharSet.new(set).each_char
             else
-              raise(TypeError,"charset must be a String, Symbol or Enumerable")
+              raise(TypeError,"set must be a String, Symbol or Enumerable")
             end
 
       case length
@@ -120,7 +121,7 @@ class String
       when nil
         sets << set
       else
-        raise(TypeError,"length must be an Integer or Range")
+        raise(TypeError,"length must be an Integer or Enumerable")
       end
     end
 
