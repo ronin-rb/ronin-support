@@ -61,6 +61,12 @@ describe String do
       strings.grep(/^foo[abc]{2}$/).should == strings
     end
 
+    it "should raise a TypeError for non String, Symbol, Enumerable CharSets" do
+      lambda {
+        subject.generate([Object.new, 2]).to_a
+      }.should raise_error(TypeError)
+    end
+
     it "should raise an ArgumentError for unknown CharSets" do
       lambda {
         subject.generate([:foo_bar, 2]).to_a
