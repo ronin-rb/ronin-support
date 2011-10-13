@@ -46,6 +46,8 @@ class String
   # @raise [TypeError]
   #   A given character set length was not an Integer, Array or Range.
   #
+  # @example Generate Strings with ranges of repeating sub-strings.
+  #
   # @example Generate Strings with three alpha chars and one numeric chars.
   #   String.generate([:alpha, 3], :numeric) do |password|
   #     puts password
@@ -69,6 +71,11 @@ class String
   # @example Generate Strings containing known Strings.
   #   String.generate("rock", [:numeric, 4]) do |password|
   #     puts password
+  #   end
+  #
+  # @example Generate Strings with ranges of repeating sub-strings.
+  #   String.generate(['/AA', (1..100).step(5)]) do |path|
+  #     puts path
   #   end
   #
   # @since 0.3.0
