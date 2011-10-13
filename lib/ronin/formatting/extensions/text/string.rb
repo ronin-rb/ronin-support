@@ -78,49 +78,46 @@ class String
   def self.generate(*template)
     return enum_for(:generate,*template) unless block_given?
 
-    charsets = []
+    sets = []
 
     template.each do |pattern|
-      if pattern.kind_of?(String)
-        charsets << [pattern]
-        next
-      end
+      set, length = pattern
+      set = case set
+            when String
+              [set].each
+            when Symbol
+              name = set.to_s.upcase
 
-      charset, length = pattern
-      charset = case charset
-                when Chars::CharSet
-                  charset
-                when Symbol
-                  name = charset.to_s.upcase
+              unless Chars.const_defined?(name)
+                raise(ArgumentError,"unknown charset #{set.inspect}")
+              end
 
-                  unless Chars.const_defined?(name)
-                    raise(ArgumentError,"unknown charset #{charset.inspect}")
-                  end
-
-                  Chars.const_get(charset.to_s.upcase)
-                else
-                  Chars::CharSet.new(charset)
-                end
+              Chars.const_get(name).each_char
+            when Enumerable
+              Chars::CharSet.new(set).each_char
+            else
+              raise(TypeError,"charset must be a String, Symbol or Enumerable")
+            end
 
       case length
       when Integer
-        length.times { charsets << charset.each_char }
+        length.times { sets << set.dup }
       when Enumerable
-        charsets << Combinatorics::Generator.new do |g|
+        sets << Combinatorics::Generator.new do |g|
           length.each do |sublength|
-            subset = Array.new(sublength) { charset.each_char }
+            superset = Array.new(sublength) { set.dup }
 
-            subset.comprehension { |chars| g.yield chars.join }
+            superset.comprehension { |strings| g.yield strings.join }
           end
         end
       when nil
-        charsets << charset.each_char
+        sets << set
       else
         raise(TypeError,"length must be an Integer or Range")
       end
     end
 
-    charsets.comprehension { |chars| yield chars.join }
+    sets.comprehension { |strings| yield strings.join }
     return nil
   end
 
