@@ -80,6 +80,60 @@ describe String do
     end
   end
 
+  describe "#fuzz" do
+    subject { 'GET /one/two/three' }
+
+    it "should match Regexps" do
+      fuzzed = subject.fuzz(/GET/ => ['get']).to_a
+
+      fuzzed.should == ['get /one/two/three']
+    end
+
+    it "should match Strings" do
+      fuzzed = subject.fuzz('GET' => ['get']).to_a
+
+      fuzzed.should == ['get /one/two/three']
+    end
+
+    it "should match Integers" do
+      fuzzed = subject.fuzz(0x20 => ["\t"]).to_a
+
+      fuzzed.should == ["GET\t/one/two/three"]
+    end
+
+    it "should substitute using Procs" do
+      fuzzed = subject.fuzz('GET' => [lambda { |s| s.downcase }]).to_a
+
+      fuzzed.should == ['get /one/two/three']
+    end
+
+    it "should substitute using Integers" do
+      fuzzed = subject.fuzz(' ' => [0x09]).to_a
+
+      fuzzed.should == ["GET\t/one/two/three"]
+    end
+
+    it "should incrementally replace each occurrence" do
+      fuzzed = subject.fuzz('/' => ["\n\r"]).to_a
+
+      fuzzed.should == [
+        "GET \n\rone/two/three",
+        "GET /one\n\rtwo/three",
+        "GET /one/two\n\rthree"
+      ]
+    end
+
+    it "should replace each occurrence with each substitution" do
+      fuzzed = subject.fuzz('GET' => ["\n\rGET", "G\n\rET", "GET\n\r"]).to_a
+
+      fuzzed.should == [
+        "\n\rGET /one/two/three",
+        "G\n\rET /one/two/three",
+        "GET\n\r /one/two/three"
+      ]
+    end
+  end
+
   describe "#format_bytes" do
     it "should format each byte in the String" do
       subject.format_bytes { |b|
