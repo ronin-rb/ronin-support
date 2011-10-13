@@ -55,6 +55,12 @@ describe String do
       strings.grep(/^[abc]{2}$/).should == strings
     end
 
+    it "should generate Strings containing known Strings" do
+      strings = subject.generate('foo', [%w[a b c], 2]).to_a
+
+      strings.grep(/^foo[abc]{2}$/).should == strings
+    end
+
     it "should raise an ArgumentError for unknown CharSets" do
       lambda {
         subject.generate([:foo_bar, 2]).to_a
