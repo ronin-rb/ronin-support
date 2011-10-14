@@ -20,6 +20,71 @@
 class File
 
   #
+  # Reads each line from the file.
+  #
+  # @param [String] path
+  #   The path of the file.
+  #
+  # @yield [line]
+  #   The given block will be passed each line.
+  #
+  # @yieldparam [String] line
+  #   A line from the file, with the trailing newline characters removed.
+  #
+  # @return [Enumerator]
+  #   If no block is given, an Enumerator will be returned.
+  #
+  # @example
+  #   File.each_line('passwords.txt') do |line|
+  #     # ...
+  #   end
+  #
+  # @since 0.3.0
+  #
+  # @api public
+  #
+  def File.each_line(path)
+    return enum_for(:each_line,path) unless block_given?
+
+    File.open(path) do |file|
+      file.each_line { |line| yield line.chomp }
+    end
+  end
+
+  #
+  # Reads each row from the file.
+  #
+  # @param [String] path
+  #   The path of the file.
+  #
+  # @param [Regexp, String] separator
+  #   The pattern to split the line by.
+  #
+  # @yield [row]
+  #   The given block will be passed each row.
+  #
+  # @yieldparam [Array<String>] row
+  #   A row from the file.
+  #
+  # @return [Enumerator]
+  #   If no block is given, an Enumerator will be returned.
+  #
+  # @example
+  #   File.each_row('db_dump.txt', '|') do |row|
+  #     # ...
+  #   end
+  #
+  # @since 0.3.0
+  #
+  # @api public
+  #
+  def File.each_row(path,separator=/\s+/)
+    return enum_for(:each_row,path,separator) unless block_given?
+
+    File.each_line(path) { |line| yield line.split(separator) }
+  end
+
+  #
   # Writes the given data to a specified path.
   #
   # @param [String] path
