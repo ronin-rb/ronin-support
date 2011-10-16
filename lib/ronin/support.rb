@@ -22,5 +22,8 @@ require 'ronin/formatting'
 require 'ronin/network'
 require 'ronin/path'
 require 'ronin/templates'
+require 'ronin/ui/output'
 require 'ronin/support/inflector'
 require 'ronin/support/version'
+
+include Ronin::UI::Output::Helpers
