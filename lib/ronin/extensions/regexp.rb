@@ -21,6 +21,9 @@ require 'ronin/extensions/resolv'
 
 class Regexp
 
+  # Regular expression for finding MAC addresses in text
+  MAC = /[0-9a-fA-F]{2}(?::[0-9a-fA-F]{2}){5}/
+
   # A regular expression for matching IPv4 Addresses.
   IPV4 = /[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}/
 
