@@ -209,7 +209,7 @@ module Ronin
         #   The method to use for the request.
         #
         # @return [Boolean]
-        #   Specifies wether the response had an HTTP OK status code or not.
+        #   Specifies whether the response had an HTTP OK status code or not.
         #
         # @see #http_status
         #
