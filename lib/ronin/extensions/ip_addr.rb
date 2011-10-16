@@ -18,6 +18,7 @@
 #
 
 require 'ronin/extensions/resolv'
+require 'ronin/extensions/regexp'
 
 require 'ipaddr'
 require 'strscan'
@@ -26,15 +27,6 @@ require 'combinatorics/list_comprehension'
 class IPAddr
 
   include Enumerable
-
-  # A regular expression for matching IPv4 Addresses.
-  IPV4_REGEXP = /[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}/
-
-  # A regular expression for matching IPv6 Addresses.
-  IPV6_REGEXP = /:(:[0-9a-f]{1,4}){1,7}|([0-9a-f]{1,4}::?){1,7}[0-9a-f]{1,4}(:#{IPV4_REGEXP})?/
-
-  # A regular expression for matching IP Addresses.
-  REGEXP = /#{IPV4_REGEXP}|#{IPV6_REGEXP}/
 
   # Socket families and IP address masks
   MASKS = {
@@ -76,11 +68,11 @@ class IPAddr
 
     regexp = case version
              when :ipv4, :v4, 4
-               IPV4_REGEXP
+               Regexp::IPV4
              when :ipv6, :v6, 6
-               IPV6_REGEXP
+               Regexp::IPV6
              else
-               REGEXP
+               Regexp::IP
              end
 
     scanner = StringScanner.new(text)
