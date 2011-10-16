@@ -1,6 +1,7 @@
 ### 0.3.0 / 2011-10-15
 
 * Require combinatorics ~> 0.4.
+* Added {Enumerable#map_hash}.
 * Added {String.generate}.
 * Added {String#fuzz}.
 * Added {File.each_line}.
