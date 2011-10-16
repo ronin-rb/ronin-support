@@ -1,3 +1,38 @@
+### 0.3.0 / 2011-10-15
+
+* Require combinatorics ~> 0.4.
+* Added {String.generate}.
+* Added {String#fuzz}.
+* Added {File.each_line}.
+* Added {File.each_row}.
+* Added {Resolv.resolver}.
+* Added {URI::HTTP#request}.
+* Added {URI::HTTP#status}.
+* Added {URI::HTTP#ok?}.
+* Added {URI::HTTP#server}.
+* Added {URI::HTTP#powered_by}.
+* Added {URI::HTTP#copy}.
+* Added {URI::HTTP#delete}.
+* Added {URI::HTTP#get}.
+* Added {URI::HTTP#get_headers}.
+* Added {URI::HTTP#get_body}.
+* Added {URI::HTTP#head}.
+* Added {URI::HTTP#lock}.
+* Added {URI::HTTP#mkcol}.
+* Added {URI::HTTP#move}.
+* Added {URI::HTTP#options}.
+* Added {URI::HTTP#post}.
+* Added {URI::HTTP#post_headers}.
+* Added {URI::HTTP#post_body}.
+* Added {URI::HTTP#prop_find}.
+* Added {URI::HTTP#prop_match}.
+* Added {URI::HTTP#trace}.
+* Added {URI::HTTP#unlock}.
+* Moved {Ronin::UI::Output}, {Ronin::UI::Shell} and {Ronin::Network::Mixins}
+  from ronin into ronin-support.
+* Refactored {Ronin::UI::Shell} into a Class where commands are defined as
+  protected methods.
+
 ### 0.2.0 / 2011-07-04
 
 * Require data_paths ~> 0.3.
