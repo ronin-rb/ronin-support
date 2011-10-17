@@ -74,7 +74,15 @@ module Ronin
         @prompt   = options.fetch(:prompt,DEFAULT_PROMPT)
 
         @commands = Set[:help, :exit]
-        @commands += protected_methods.map { |name| name.to_sym }
+
+        self.class.ancestors.each do |subclass|
+          if subclass < Shell
+            subclass.protected_instance_methods(false).each do |name|
+              @commands << name.to_sym
+            end
+          end
+        end
+
 
         @input_handler = block
       end
