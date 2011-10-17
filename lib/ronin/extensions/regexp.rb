@@ -25,13 +25,13 @@ class Regexp
   MAC = /[0-9a-fA-F]{2}(?::[0-9a-fA-F]{2}){5}/
 
   # A regular expression for matching IPv4 Addresses.
-  IPV4 = /[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}/
+  IPv4 = /[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}/
 
   # A regular expression for matching IPv6 Addresses.
-  IPV6 = /:(:[0-9a-f]{1,4}){1,7}|([0-9a-f]{1,4}::?){1,7}[0-9a-f]{1,4}(:#{IPV4})?/
+  IPv6 = /:(:[0-9a-f]{1,4}){1,7}|([0-9a-f]{1,4}::?){1,7}[0-9a-f]{1,4}(:#{IPv4})?/
 
   # A regular expression for matching IP Addresses.
-  IP = /#{IPV4}|#{IPV6}/
+  IP = /#{IPv4}|#{IPv6}/
 
   # Regular expression used to find host-names in text
   HOST_NAME = /(?:[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*\.)+(?:#{union(Resolv::TLDS)})/

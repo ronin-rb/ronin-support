@@ -68,9 +68,9 @@ class IPAddr
 
     regexp = case version
              when :ipv4, :v4, 4
-               Regexp::IPV4
+               Regexp::IPv4
              when :ipv6, :v6, 6
-               Regexp::IPV6
+               Regexp::IPv6
              else
                Regexp::IP
              end
