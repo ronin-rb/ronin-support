@@ -1,4 +1,4 @@
-### 0.3.0 / 2011-10-15
+### 0.3.0 / 2011-10-16
 
 * Require combinatorics ~> 0.4.
 * Added {Enumerable#map_hash}.
