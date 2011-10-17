@@ -126,7 +126,7 @@ module Ronin
             history_rollback += 1
 
             begin
-              handler(line)
+              call(line)
             rescue => e
               print_error "#{e.class.name}: #{e.message}"
             end
