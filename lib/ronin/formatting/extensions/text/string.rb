@@ -132,7 +132,7 @@ class String
   #
   # Incrementally fuzzes the String.
   #
-  # @param [Hash{Regexp,String,Integer,Enumerable => #each}] substitutions
+  # @param [Hash{Regexp,String => #each}] substitutions
   #   Patterns and their substitutions.
   #
   # @yield [fuzz]
@@ -167,10 +167,6 @@ class String
                   pattern
                 when String
                   Regexp.new(Regexp.escape(pattern))
-                when Integer
-                  Regexp.new(pattern.chr)
-                when Enumerable
-                  Regexp.union(pattern.map { |s| Regexp.escape(s.to_s) })
                 else
                   raise(TypeError,"cannot convert #{pattern.inspect} to a Regexp")
                 end
