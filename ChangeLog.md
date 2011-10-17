@@ -29,6 +29,11 @@
 * Added {URI::HTTP#prop_match}.
 * Added {URI::HTTP#trace}.
 * Added {URI::HTTP#unlock}.
+* Added {Regexp::MAC}.
+* Added {Regexp::IPv6}, {Regexp::IPv4} and {Regexp::IP}.
+* Added {Regexp::HOST_NAME}.
+* Added {Regexp::USER_NAME}.
+* Added {Regexp::EMAIL_ADDR}.
 * Moved {Ronin::UI::Output}, {Ronin::UI::Shell} and {Ronin::Network::Mixins}
   from ronin into ronin-support.
 * Refactored {Ronin::UI::Shell} into a Class where commands are defined as
