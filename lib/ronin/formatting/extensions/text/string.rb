@@ -132,7 +132,7 @@ class String
   #
   # Incrementally fuzzes the String.
   #
-  # @param [Hash{Regexp,String,Integer,Enumerable => #each}] mutations
+  # @param [Hash{Regexp,String,Integer,Enumerable => #each}] substitutions
   #   Patterns and their substitutions.
   #
   # @yield [fuzz]
@@ -158,10 +158,10 @@ class String
   #
   # @api public
   #
-  def fuzz(mutations={})
-    return enum_for(:fuzz,mutations) unless block_given?
+  def fuzz(substitutions={})
+    return enum_for(:fuzz,substitutions) unless block_given?
 
-    mutations.each do |pattern,substitution|
+    substitutions.each do |pattern,substitution|
       pattern = case pattern
                 when Regexp
                   pattern
