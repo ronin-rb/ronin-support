@@ -17,8 +17,9 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'combinatorics/list_comprehension'
 require 'combinatorics/generator'
+require 'combinatorics/list_comprehension'
+require 'combinatorics/power_set'
 
 require 'chars'
 
@@ -194,6 +195,99 @@ class String
           yield fuzzed
         end
       end
+    end
+  end
+
+  #
+  # Permutes over every possible mutation of the String.
+  #
+  # @param [Hash{Regexp,String => #each}] mutations
+  #   The patterns and substitutions to mutate the String with.
+  #
+  # @yield [mutant]
+  #   The given block will be yielded every possible mutant String.
+  #
+  # @yieldparam [String] mutant
+  #   A mutated String.
+  #
+  # @return [Enumerator]
+  #   If no block is given, an Enumerator will be returned.
+  #
+  # @example
+  #   "hello old dog".mutate('e' => ['3'], 'l' => ['1'], 'o' => ['0']) do |str|
+  #     puts str
+  #   end
+  #
+  # @since 0.4.0
+  #
+  # @api public
+  #
+  def mutate(mutations={})
+    return enum_for(:mutate,mutations) unless block_given?
+
+    matches = Set[]
+
+    mutations.each do |pattern,mutation|
+      pattern = case pattern
+                when Regexp
+                  pattern
+                when String
+                  Regexp.new(Regexp.escape(pattern))
+                else
+                  raise(TypeError,"cannot convert #{pattern.inspect} to a Regexp")
+                end
+
+      scanner = StringScanner.new(self)
+
+      while scanner.scan_until(pattern)
+        length   = scanner.matched_size
+        index    = scanner.pos - length
+        original = scanner.matched
+
+        mutator = Combinatorics::Generator.new do |g|
+                    mutation.each do |mutate|
+                      g.yield case mutate
+                              when Proc
+                                mutate.call(original)
+                              when Integer
+                                mutate.chr
+                              else
+                                mutate.to_s
+                              end
+                    end
+                  end
+
+        matches << [index, length, mutator]
+      end
+    end
+
+    matches.powerset do |submatches|
+      # ignore the empty Set
+      next if submatches.empty?
+
+      # sort the submatches by index
+      submatches = submatches.sort_by { |index,length,mutator| index }
+      sets       = []
+      prev_index = 0
+
+      submatches.each do |index,length,mutator|
+        # add the previous substring to the set of Strings
+        if index > prev_index
+          sets << [self[prev_index,index - prev_index]]
+        end
+
+        # add the mutator to the set of Strings
+        sets << mutator
+
+        prev_index = index + length
+      end
+
+      # add the remaining substring to the set of Strings
+      if prev_index < self.length
+        sets << [self[prev_index..-1]]
+      end
+
+      sets.comprehension { |strings| yield strings.join }
     end
   end
 
