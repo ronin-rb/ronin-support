@@ -17,14 +17,4 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/extensions'
-require 'ronin/formatting'
-require 'ronin/fuzzing'
-require 'ronin/network'
-require 'ronin/path'
-require 'ronin/templates'
-require 'ronin/ui/output'
-require 'ronin/support/inflector'
-require 'ronin/support/version'
-
-include Ronin::UI::Output::Helpers
+require 'ronin/fuzzing/extensions'
