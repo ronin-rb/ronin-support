@@ -26,7 +26,7 @@ or payloads over many common Source-Code-Management (SCM) systems.
     * HTML
     * JavaScript
     * SQL
-  * Generating random text.
+  * Fuzzing
   * Networking:
     * TCP
     * UDP
