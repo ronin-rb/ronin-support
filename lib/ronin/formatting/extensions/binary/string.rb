@@ -232,6 +232,13 @@ class String
   #
   # Base64 encodes a string.
   #
+  # @param [Symbol, nil] mode
+  #   The base64 mode to use. May be either:
+  #
+  #   * `:normal`
+  #   * `:strict`
+  #   * `:url` / `:urlsafe`
+  #
   # @return [String]
   #   The base64 encoded form of the string.
   #
@@ -241,12 +248,26 @@ class String
   #
   # @api public
   #
-  def base64_encode
-    Base64.encode64(self)
+  def base64_encode(mode=nil)
+    case mode
+    when :strict
+      Base64.strict_encode64(self)
+    when :url, :urlsafe
+      Base64.urlsafe_encode64(self)
+    else
+      Base64.encode64(self)
+    end
   end
 
   #
   # Base64 decodes a string.
+  #
+  # @param [Symbol, nil] mode
+  #   The base64 mode to use. May be either:
+  #
+  #   * `:normal`
+  #   * `:strict`
+  #   * `:url` / `:urlsafe`
   #
   # @return [String]
   #   The base64 decoded form of the string.
@@ -257,8 +278,15 @@ class String
   #
   # @api public
   #
-  def base64_decode
-    Base64.decode64(self)
+  def base64_decode(mode=nil)
+    case mode
+    when :strict
+      Base64.strict_decode64(self)
+    when :url, :urlsafe
+      Base64.urlsafe_decode64(self)
+    else
+      Base64.decode64(self)
+    end
   end
 
   #
