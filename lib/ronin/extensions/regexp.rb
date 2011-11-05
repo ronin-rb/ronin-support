@@ -34,7 +34,7 @@ class Regexp
   IP = /#{IPv4}|#{IPv6}/
 
   # Regular expression used to find host-names in text
-  HOST_NAME = /(?:[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*\.)+(?:#{union(Resolv::TLDS)})/
+  HOST_NAME = /(?:[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*\.)+(?:#{union(Resolv::TLDS)})/i
 
   # Regular expression to match a word in the username of an email address
   USER_NAME = /[A-Za-z](?:[A-Za-z0-9]+[\._-])*[A-Za-z0-9]+/
