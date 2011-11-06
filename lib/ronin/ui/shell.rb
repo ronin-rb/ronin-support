@@ -177,6 +177,8 @@ module Ronin
         end
       end
 
+      alias << write
+
       protected
 
       #
