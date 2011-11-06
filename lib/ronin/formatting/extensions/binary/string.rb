@@ -252,7 +252,7 @@ class String
   #   The base64 decoded form of the string.
   #
   # @example
-  #   "aGVsbG8=\n"
+  #   "aGVsbG8=\n".base64_decode
   #   # => "hello"
   #
   # @api public
