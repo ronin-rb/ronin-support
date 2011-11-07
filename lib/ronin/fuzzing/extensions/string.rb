@@ -221,7 +221,7 @@ class String
   #     p str
   #   end
   #
-  # @example {String.generate} with {String.fuzz}:
+  # @example {String.generate} with {String#fuzz}:
   #   "GET /".fuzz('/' => String.generate(['A', 1..100])) do |str|
   #     p str
   #   end
