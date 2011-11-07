@@ -112,7 +112,7 @@ module Ronin
       yield "/.:/#{padding}\x00\x00"
       yield "/.../#{padding}\x00\x00"
 
-      PATH_SEPARATORS.each do |separator|
+      DIR_SEPARATORS.each do |separator|
         DIR_TRAVERSALS.each do |dir|
           path = separator + dir
 
