@@ -130,12 +130,12 @@ class String
       new_string = ''
 
       strings.each do |string|
-        case string
-        when Integer
-          new_string << string.chr
-        else
-          new_string << string.to_s
-        end
+        new_string << case string
+                      when Integer
+                        string.chr
+                      else
+                        string.to_s
+                      end
       end
 
       yield new_string
