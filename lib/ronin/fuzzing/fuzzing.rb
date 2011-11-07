@@ -46,6 +46,25 @@ module Ronin
     # Directories which cause directory traversal
     DIR_TRAVERSALS = ['..', '...']
 
+    #
+    # Returns a fuzzer method.
+    #
+    # @param [Symbol] name
+    #   The name of the fuzzer to return.
+    #
+    # @return [Enumerator]
+    #   An Enumerator for the fuzzer method.
+    #
+    # @api semipublic
+    #
+    # @since 0.4.0
+    #
+    def self.[](name)
+      if (!Object.respond_to?(name) && respond_to?(name))
+        enum_for(name)
+      end
+    end
+
     def self.bad_strings(&block)
       yield ''
 

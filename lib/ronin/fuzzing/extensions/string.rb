@@ -18,11 +18,11 @@
 #
 
 require 'ronin/extensions/regexp'
+require 'ronin/fuzzing/fuzzing'
 
 require 'combinatorics/generator'
 require 'combinatorics/list_comprehension'
 require 'combinatorics/power_set'
-
 require 'chars'
 
 class String
@@ -244,6 +244,15 @@ class String
                 else
                   raise(TypeError,"cannot convert #{pattern.inspect} to a Regexp")
                 end
+
+      substitution = case substitution
+                      when Enumerable
+                        substitution
+                      when Symbol
+                        Ronin::Fuzzing[substitution]
+                      else
+                        raise(TypeError,"substitutions must be Enumerable or a Symbol")
+                      end
 
       scanner = StringScanner.new(self)
       indices = []
