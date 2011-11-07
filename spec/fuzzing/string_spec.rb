@@ -87,7 +87,7 @@ describe String do
       it "should repeat the String by each length" do
         strings = subject.repeating(n).to_a
 
-        strings.should == n.map { |length| subject * n }
+        strings.should == n.map { |length| subject * length }
       end
     end
   end
