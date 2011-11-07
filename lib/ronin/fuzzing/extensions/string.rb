@@ -103,7 +103,7 @@ class String
 
               Chars.const_get(name).each_char
             when Enumerable
-              Chars::CharSet.new(set).each_char
+              set
             else
               raise(TypeError,"set must be a String, Symbol or Enumerable")
             end
@@ -126,7 +126,20 @@ class String
       end
     end
 
-    sets.comprehension { |strings| yield strings.join }
+    sets.comprehension do |strings|
+      new_string = ''
+
+      strings.each do |string|
+        case string
+        when Integer
+          new_string << string.chr
+        else
+          new_string << string.to_s
+        end
+      end
+
+      yield new_string
+    end
     return nil
   end
 
