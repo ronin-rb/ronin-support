@@ -18,3 +18,4 @@
 #
 
 require 'ronin/fuzzing/extensions'
+require 'ronin/fuzzing/fuzzing'
