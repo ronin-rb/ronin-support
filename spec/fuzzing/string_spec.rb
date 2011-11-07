@@ -10,6 +10,14 @@ describe String do
     subject.should respond_to(:repeating)
   end
 
+  it "should provide String#fuzz" do
+    subject.should respond_to(:fuzz)
+  end
+
+  it "should provide String#mutate" do
+    subject.should respond_to(:mutate)
+  end
+
   describe "generate" do
     subject { described_class }
 
