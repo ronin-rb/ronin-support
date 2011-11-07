@@ -6,6 +6,10 @@ describe String do
     described_class.should respond_to(:generate)
   end
 
+  it "should provide String#repeating" do
+    subject.should respond_to(:repeating)
+  end
+
   describe "generate" do
     subject { described_class }
 
@@ -55,6 +59,28 @@ describe String do
       lambda {
         subject.generate([:numeric, 'foo']).to_a
       }.should raise_error(TypeError)
+    end
+  end
+
+  describe "#repeating" do
+    subject { 'A' }
+
+    context "when n is an Integer" do
+      let(:n) { 100 }
+
+      it "should multiply the String by n" do
+        subject.repeating(n).should == (subject * n)
+      end
+    end
+
+    context "when n is Enumerable" do
+      let(:n) { [128, 512, 1024] }
+
+      it "should repeat the String by each length" do
+        strings = subject.repeating(n).to_a
+
+        strings.should == n.map { |length| subject * n }
+      end
     end
   end
 
