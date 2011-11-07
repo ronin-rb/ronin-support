@@ -131,6 +131,64 @@ class String
   end
 
   #
+  # Repeats the String.
+  #
+  # @param [Enumerable, Integer] n
+  #   The number of times to repeat the String.
+  #
+  # @yield [repeated]
+  #   The given block will be passed every repeated String.
+  #
+  # @yieldparam [String] repeated
+  #   A repeated version of the String.
+  #
+  # @return [Enumerator]
+  #   If no block is given, an Enumerator will be returned.
+  #
+  # @raise [TypeError]
+  #   `n` must either be Enumerable or an Integer.
+  #
+  # @example
+  #   'A'.repeating(100)
+  #   # => "AAAAAAAAAAAAA..."
+  #
+  # @example Generates 100 upto 700 `A`s, increasing by 100 at a time:
+  #   'A'.repeating((100..700).step(100)) do |str|
+  #     # ...
+  #   end
+  #
+  # @example Generates 128, 1024, 65536 `A`s:
+  #   'A'.repeating([128, 1024, 65536]) do |str|
+  #     # ...
+  #   end
+  #
+  # @api public
+  #
+  # @since 0.4.0
+  #
+  def repeating(n)
+    if n.kind_of?(Integer)
+      # if n is an Integer, simply multiply the String and return
+      repeated = (self * n)
+
+      yield repeated if block_given?
+      return repeated
+    end
+
+    return enum_for(:repeating,n) unless block_given?
+
+    unless n.kind_of?(Enumerable)
+      raise(TypeError,"argument must be Enumerable or an Integer")
+    end
+
+    n.each do |length|
+      yield (self * length)
+    end
+
+    return self
+  end
+
+  #
   # Incrementally fuzzes the String.
   #
   # @param [Hash{Regexp,String => #each}] substitutions
