@@ -181,6 +181,12 @@ module Net
   #   The Hash of the HTTP headers to send with the request.
   #   May contain either Strings or Symbols, lower-case or camel-case keys.
   #
+  # @option options [String] :body
+  #   The body of the request.
+  #
+  # @option options [Hash, String] :form_data
+  #   The form data that may be sent in the body of the request.
+  #
   # @yield [request, (options)]
   #   If a block is given, it will be passed the HTTP request object.
   #   If the block has an arity of 2, it will also be passed the expanded
