@@ -42,4 +42,7 @@ class Regexp
   # Regular expression to find email addresses in text
   EMAIL_ADDR = /#{USER_NAME}(?:\.#{USER_NAME})*\@#{HOST_NAME}/
 
+  # Regular expression to find identifier in text
+  IDENTIFIER = /[_a-zA-Z][a-zA-Z9-0_-]*/
+
 end
