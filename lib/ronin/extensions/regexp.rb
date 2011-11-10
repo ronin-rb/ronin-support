@@ -46,6 +46,6 @@ class Regexp
   DELIM = /[;&\n\r]/
 
   # Regular expression to find identifier in text
-  IDENTIFIER = /[_a-zA-Z][a-zA-Z9-0_-]*/
+  IDENTIFIER = /[_a-zA-Z][a-zA-Z0-9_-]*/
 
 end
