@@ -17,6 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/extensions/regexp'
+
 require 'combinatorics/generator'
 require 'combinatorics/list_comprehension'
 require 'combinatorics/power_set'
@@ -272,7 +274,7 @@ class String
   #
   # Permutes over every possible mutation of the String.
   #
-  # @param [Hash{Regexp,String => #each}] mutations
+  # @param [Hash{Regexp,String,Symbol => Symbol,#each}] mutations
   #   The patterns and substitutions to mutate the String with.
   #
   # @yield [mutant]
@@ -304,6 +306,8 @@ class String
                   pattern
                 when String
                   Regexp.new(Regexp.escape(pattern))
+                when Symbol
+                  Regexp.const_get(pattern.to_s.upcase)
                 else
                   raise(TypeError,"cannot convert #{pattern.inspect} to a Regexp")
                 end
