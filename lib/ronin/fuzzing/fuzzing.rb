@@ -40,12 +40,6 @@ module Ronin
     # Format String flags
     FORMAT_STRINGS = ['%p', '%s', '%n']
 
-    # Directory Separators characters
-    DIR_SEPARATORS = ['/', "\\", ':']
-
-    # Directories which cause directory traversal
-    DIR_TRAVERSALS = ['..', '...']
-
     #
     # Returns a fuzzer method.
     #
@@ -111,20 +105,6 @@ module Ronin
 
       yield "/.:/#{padding}\x00\x00"
       yield "/.../#{padding}\x00\x00"
-
-      DIR_SEPARATORS.each do |separator|
-        DIR_TRAVERSALS.each do |dir|
-          path = separator + dir
-
-          yield path
-          yield path * 20
-
-          path = dir + separator
-
-          yield path
-          yield path * 20
-        end
-      end
 
       yield "\\\\*"
       yield "\\\\?\\"
