@@ -28,11 +28,14 @@ module Ronin
     #
     module HTTP
       #
-      # The Ronin HTTP proxy to use. Parses the value of the `HTTP_PROXY`
-      # environment variable if set.
+      # The Ronin HTTP proxy to use.
       #
       # @return [Proxy]
       #   The Ronin HTTP proxy.
+      #
+      # @note
+      #   If the `HTTP_PROXY` environment variable is specified, it will
+      #   be used as the default value.
       #
       # @see Proxy.new
       # @see Proxy.parse
