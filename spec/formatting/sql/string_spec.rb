@@ -20,7 +20,7 @@ describe String do
     @string.should respond_to(:sql_decode)
   end
 
-  describe "SQL escaping" do
+  describe "#sql_escape" do
     it "should be able to single-quote escape" do
       @string_with_quotes.sql_escape(:single).should == %{'"O''Brian"'}
     end
@@ -30,7 +30,7 @@ describe String do
     end
   end
 
-  describe "SQL-hex encoding" do
+  describe "#sql_encode" do
     it "should be able to be SQL-hex encoded" do
       @string.sql_encode.should == @sql_encoded
     end
@@ -40,7 +40,7 @@ describe String do
     end
   end
 
-  describe "SQL-hex decoding" do
+  describe "#sql_decode" do
     it "should be able to be SQL-hex decoded" do
       encoded = @string.sql_encode
 
