@@ -25,7 +25,7 @@ class Regexp
   MAC = /[0-9a-fA-F]{2}(?::[0-9a-fA-F]{2}){5}/
 
   # A regular expression for matching IPv4 Addresses.
-  IPv4 = /[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}/
+  IPv4 = /(?:0|1[0-9]{0,2}|2[1-5]{2}|2[0-9]?)(?:\.(?:0|1[0-9]{0,2}|2[1-5]{2}|2[0-9]?)){3}/
 
   # A regular expression for matching IPv6 Addresses.
   IPv6 = /:(:[0-9a-f]{1,4}){1,7}|([0-9a-f]{1,4}::?){1,7}[0-9a-f]{1,4}(:#{IPv4})?/
