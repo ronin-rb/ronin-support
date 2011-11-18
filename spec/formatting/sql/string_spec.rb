@@ -52,4 +52,24 @@ describe String do
       "'Conan O''Brian'".sql_decode.should == "Conan O'Brian"
     end
   end
+
+  describe "#sql_inject" do
+    context "when there is a leading quote character" do
+      it "should remove the first and last quote character" do
+        "'1' OR '1'='1'".sql_inject.should == "1' OR '1'='1"
+      end
+
+      context "when there is no matching leading/trailing quote characters" do
+        it "should comment-terminate the String" do
+          "'1' OR 1=1".sql_inject.should == "1' OR 1=1--"
+        end
+      end
+    end
+
+    context "when there is no leading quote character" do
+      it "should not modify the String" do
+        "1 OR 1=1".sql_inject.should == "1 OR 1=1"
+      end
+    end
+  end
 end
