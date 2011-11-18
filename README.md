@@ -64,11 +64,11 @@ please see [Everyday Ronin](http://ronin-ruby.github.com/guides/everyday_ronin.h
 
 ## Install
 
-Stable:
+### Stable
 
     $ gem install ronin-support
 
-Edge:
+### Edge
 
     $ git clone git://github.com/ronin-ruby/ronin-support.git
     $ cd ronin-support/
