@@ -43,6 +43,8 @@ module Ronin
     #
     # @see String#mutate
     #
+    # @api public
+    #
     def initialize(list,mutations={})
       @list = case list
               when String
