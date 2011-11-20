@@ -40,6 +40,12 @@ or payloads over many common Source-Code-Management (SCM) systems.
     * CIDR / globbed ranges.
   * (Un-)Hexdumping data.
   * Handling exceptions.
+* Provides Modules/Classes for:
+  * Paths
+  * Erb Templates
+  * UI:
+    * Terminal Output
+    * Custom Shells
 
 ## Examples
 
