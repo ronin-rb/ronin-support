@@ -41,6 +41,15 @@ module Ronin
     # @param [Hash{Regexp,String,Symbol => Symbol,#each}] mutations
     #   Additional mutation rules to perform on each word in the list.
     #
+    # @example Use a file wordlist
+    #   wordlist = Wordlist.new('passwords.txt')
+    #
+    # @example Use a range of Strings
+    #   wordlist = Wordlist.new('aaaa'..'zzzz')
+    #
+    # @example Specify mutation rules
+    #   wordlist = Wordlist.new('passwords.txt', /e/ => ['E', '3'])
+    #
     # @see String#mutate
     #
     # @api public
