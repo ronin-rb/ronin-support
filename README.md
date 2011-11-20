@@ -42,6 +42,7 @@ or payloads over many common Source-Code-Management (SCM) systems.
   * Handling exceptions.
 * Provides Modules/Classes for:
   * Paths
+  * Wordlists
   * Erb Templates
   * UI:
     * Terminal Output
