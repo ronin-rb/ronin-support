@@ -23,6 +23,8 @@ module Ronin
   #
   # An Enumerable class for iterating over wordlist files or lists of words.
   #
+  # @since 0.4.0
+  #
   class Wordlist
 
     include Enumerable
