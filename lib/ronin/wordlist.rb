@@ -41,6 +41,12 @@ module Ronin
     # @param [Hash{Regexp,String,Symbol => Symbol,#each}] mutations
     #   Additional mutation rules to perform on each word in the list.
     #
+    # @yield [wordlist]
+    #   The given block will be passed the new wordlist.
+    #
+    # @yieldparam [Wordlist] wordlist
+    #   The new wordlist object.
+    #
     # @example Use a file wordlist
     #   wordlist = Wordlist.new('passwords.txt')
     #
@@ -66,6 +72,8 @@ module Ronin
 
       @mutations = {}
       @mutations.merge!(mutations)
+
+      yield self if block_given?
     end
 
     #
