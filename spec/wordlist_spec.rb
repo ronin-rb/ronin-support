@@ -26,10 +26,14 @@ describe Wordlist do
 
       file.to_a.should == words
     end
+  end
 
+  describe "#each_word" do
     it "should raise a TypeError for non-String / non-Enumerable objects" do
+      wordlist = described_class.new(Object.new)
+
       lambda {
-        described_class.new(Object.new)
+        wordlist.each_word { |word| }
       }.should raise_error(TypeError)
     end
   end

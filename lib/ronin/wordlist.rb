@@ -17,7 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/fuzzing'
+require 'ronin/fuzzing/extensions'
 
 module Ronin
   #
@@ -28,6 +28,9 @@ module Ronin
   class Wordlist
 
     include Enumerable
+
+    # The path to the wordlist file or a list of words
+    attr_accessor :list
 
     # Mutation rules to apply to every word in the list
     attr_reader :mutations
@@ -61,15 +64,7 @@ module Ronin
     # @api public
     #
     def initialize(list,mutations={})
-      @list = case list
-              when String
-                File.new(list)
-              when Enumerable
-                list
-              else
-                raise(TypeError,"list must be a path or Enumerable")
-              end
-
+      @list      = list
       @mutations = {}
       @mutations.merge!(mutations)
 
@@ -77,7 +72,41 @@ module Ronin
     end
 
     #
-    # Iterates over each word from the list.
+    # Iterates over each word in the list.
+    #
+    # @yield [word]
+    #   The given block will be passed each word.
+    #
+    # @yieldparam [String] word
+    #   A word from the list.
+    #
+    # @return [Enumerator]
+    #   If no block is given, an Enumerator will be returned.
+    #
+    # @raise [TypeError]
+    #   The list was not a path to a wordlist file, nor a list of words.
+    #
+    # @api public
+    #
+    def each_word(&block)
+      return enum_for(:each_word) unless block
+
+      case @list
+      when String
+        File.open(@list) do |file|
+          file.each_line do |line|
+            yield line.chomp
+          end
+        end
+      when Enumerable
+        @list.each(&block)
+      else
+        raise(TypeError,"list must be a path or Enumerable")
+      end
+    end
+
+    #
+    # Iterates over each word, and each mutation, from the list.
     #
     # @yield [word]
     #   The given block will be passed each word.
@@ -93,16 +122,12 @@ module Ronin
     def each(&block)
       return enum_for(:each) unless block
 
-      @list.rewind if @list.respond_to?(:rewind)
-
-      @list.each do |line|
-        line = line.chomp
-
-        yield line
+      each_word do |word|
+        yield word
 
         unless @mutations.empty?
           # perform additional mutations
-          line.mutate(@mutations,&block)
+          word.mutate(@mutations,&block)
         end
       end
     end
