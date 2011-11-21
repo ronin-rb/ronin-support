@@ -107,6 +107,12 @@ describe String do
 
         fuzzed.should == ['get /one/two/three']
       end
+
+      it "should match Symbols to Regexp constants" do
+        fuzzed = subject.fuzz(:absolute_path => ['../../../..']).to_a
+
+        fuzzed.should == ['GET ../../../..']
+      end
     end
 
     context "substitution" do
