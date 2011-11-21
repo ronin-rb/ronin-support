@@ -42,4 +42,49 @@ class Regexp
   # Regular expression to find email addresses in text
   EMAIL_ADDR = /#{USER_NAME}(?:\.#{USER_NAME})*\@#{HOST_NAME}/
 
+  # Regular expression to find deliminators in text
+  DELIM = /[;&\n\r]/
+
+  # Regular expression to find identifier in text
+  IDENTIFIER = /[_a-zA-Z][a-zA-Z0-9_-]*/
+
+  # Regular expression to find File extensions in text
+  FILE_EXT = /(?:\.[A-Za-z0-9_-]+)+/
+
+  # Regular expression to find File names in text
+  FILE_NAME = /(?:[^\/\\\. ]|\\[\/\\ ])+/
+
+  # Regular expression to find Files in text
+  FILE = /#{FILE_NAME}(?:#{FILE_EXT})?/
+
+  # Regular expression to find Directory names in text
+  DIRECTORY = /(?:\.\.|\.|#{FILE})/
+
+  # Regular expression to find local UNIX Paths in text
+  LOCAL_UNIX_PATH = /(?:#{DIRECTORY}\/)+#{DIRECTORY}\/?/
+
+  # Regular expression to find absolute UNIX Paths in text
+  ABSOLUTE_UNIX_PATH = /(?:\/#{FILE})+\/?/
+
+  # Regular expression to find UNIX Paths in text
+  UNIX_PATH = /#{ABSOLUTE_UNIX_PATH}|#{LOCAL_UNIX_PATH}/
+
+  # Regular expression to find local Windows Paths in text
+  LOCAL_WINDOWS_PATH = /(?:#{DIRECTORY}\\)+#{DIRECTORY}\\?/
+
+  # Regular expression to find absolute Windows Paths in text
+  ABSOLUTE_WINDOWS_PATH = /[A-Za-z]:(?:\\#{DIRECTORY})+\\?/
+
+  # Regular expression to find Windows Paths in text
+  WINDOWS_PATH = /#{ABSOLUTE_WINDOWS_PATH}|#{LOCAL_WINDOWS_PATH}/
+
+  # Regular expression to find local Paths in text
+  LOCAL_PATH = /#{LOCAL_UNIX_PATH}|#{LOCAL_WINDOWS_PATH}/
+
+  # Regular expression to find absolute Paths in text
+  ABSOLUTE_PATH = /#{ABSOLUTE_UNIX_PATH}|#{ABSOLUTE_WINDOWS_PATH}/
+
+  # Regular expression to find Paths in text
+  PATH = /#{UNIX_PATH}|#{WINDOWS_PATH}/
+
 end
