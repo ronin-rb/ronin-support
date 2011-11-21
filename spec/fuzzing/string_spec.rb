@@ -122,6 +122,12 @@ describe String do
         fuzzed.should == ["GET\t/one/two/three"]
       end
 
+      it "should map Symbols to Fuzzing methods" do
+        fuzzed = subject.fuzz(/\/.*/ => :format_strings).to_a
+
+        fuzzed.should_not == [subject]
+      end
+
       it "should incrementally replace each occurrence" do
         fuzzed = subject.fuzz('/' => ["\n\r"]).to_a
 
