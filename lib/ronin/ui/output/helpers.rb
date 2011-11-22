@@ -184,7 +184,7 @@ module Ronin
         # @api public
         #
         def print_warning(*message)
-          if (Output.verbose? && !(Output.silent?))
+          unless Output.silent?
             Output.handler.print_warning(format_message(message))
             return true
           end
