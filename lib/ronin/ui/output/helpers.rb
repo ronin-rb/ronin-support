@@ -220,6 +220,40 @@ module Ronin
           return false
         end
 
+        #
+        # Prints an exception.
+        #
+        # @param [Exception] exception
+        #   The exception to print.
+        #
+        # @return [Boolean]
+        #   Specifies whether the exception was printed or not.
+        #
+        # @example
+        #   begin
+        #     socket.write(buffer)
+        #   rescue => e
+        #     print_exception(e)
+        #   end
+        #
+        # @since 0.4.0
+        #
+        # @api public
+        #
+        def print_exception(exception)
+          return false if Output.silent?
+
+          print_error "#{exception.class}: #{exception.message}"
+
+          if Output.verbose?
+            exception.backtrace[0,5].each do |line|
+              print_error "  #{line}"
+            end
+          end
+
+          return true
+        end
+
         protected
 
         #
