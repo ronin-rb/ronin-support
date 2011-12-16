@@ -50,7 +50,7 @@ module Ronin
       # @api public
       #
       def erb(template)
-        ERB.new(template).result(binding)
+        ERB.new(template,nil,'-').result(binding)
       end
 
       #
