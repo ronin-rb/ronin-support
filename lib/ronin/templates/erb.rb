@@ -29,6 +29,7 @@ module Ronin
     #
     module Erb
       include Template
+
       #
       # Renders the inline ERB template in the scope of the object.
       #
