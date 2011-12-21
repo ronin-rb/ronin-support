@@ -74,7 +74,7 @@ describe String do
       "%u006F%u006E%u0065%u0020%u0026%u0020%u0074%u0077%u006F"
     end
     let(:js_hex) { "%6F%6E%65%20%26%20%74%77%6F" }
-    let(:js_mixed) { "one %26 two" }
+    let(:js_mixed) { "%u6F%u6E%u65 %26 two" }
 
     it "should unescape JavaScript unicode characters" do
       js_unicode.js_unescape.should == subject
