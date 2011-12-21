@@ -155,12 +155,14 @@ class String
     scan(/([\\%]u[0-9a-fA-F]{1,4}|[\\%][0-9a-fA-F]{1,2}|\\[btnfr"\\]|.)/).each do |match|
       c = match[0]
 
-      unescaped << if c.start_with?('%u')
+      unescaped << if JS_BACKSLASHED_CHARS.has_key?(c)
+                     JS_BACKSLASHED_CHARS[c]
+                   elsif (c.start_with?("\\u") || c.start_with?("%u"))
                      c[2..-1].to_i(16)
-                   elsif c.start_with?('%')
+                   elsif (c.start_with?("\\") || c.start_with?("%"))
                      c[1..-1].to_i(16)
                    else
-                     JS_BACKSLASHED_CHARS[c] || c
+                     c
                    end
     end
 
