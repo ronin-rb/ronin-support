@@ -67,7 +67,7 @@ please see [Everyday Ronin](http://ronin-ruby.github.com/guides/everyday_ronin.h
 * [data_paths](http://github.com/postmodern/data_paths#readme)
   ~> 0.3
 * [parameters](http://github.com/postmodern/parameters#readme)
-  ~> 0.2, >= 0.2.3
+  ~> 0.4
 
 ## Install
 
