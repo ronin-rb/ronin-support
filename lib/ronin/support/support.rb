@@ -21,6 +21,9 @@ require 'ronin/ui/output'
 require 'ronin/network'
 
 module Ronin
+  #
+  # The main namespace for `ronin-support`.
+  #
   module Support
     include UI::Output::Helpers
     include Network::TCP

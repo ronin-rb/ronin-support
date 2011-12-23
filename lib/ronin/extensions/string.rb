@@ -194,6 +194,7 @@ class String
   end
 
   if RUBY_VERSION < '1.9.'
+    # Special ASCII bytes and their escaped character forms
     ESCAPE_BYTES = Hash.new do |escape,byte|
       escape[byte] = if (byte >= 0x20 && byte <= 0x7e)
                        byte.chr

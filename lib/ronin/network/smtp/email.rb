@@ -25,6 +25,7 @@ module Ronin
       #
       class Email
 
+        # The CR-LF String
         CRLF = "\n\r"
 
         # Sender of the email
