@@ -17,11 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/network/mixins/mixin'
 require 'ronin/network/pop3'
-require 'ronin/ui/output/helpers'
-require 'ronin/mixin'
-
-require 'parameters'
 
 module Ronin
   module Network
@@ -37,27 +34,23 @@ module Ronin
       # * `pop3_password` (`String`) - POP3 password to login with.
       #
       module POP3
-        include Mixin
+        include Mixin, Network::POP3
 
-        mixin UI::Output::Helpers, Parameters
+        # POP3 host
+        parameter :host, :type => String,
+                         :description => 'POP3 host'
 
-        mixin do
-          # POP3 host
-          parameter :host, :type => String,
-                           :description => 'POP3 host'
+        # POP3 port
+        parameter :port, :type => Integer,
+                         :description => 'POP3 port'
 
-          # POP3 port
-          parameter :port, :type => Integer,
-                           :description => 'POP3 port'
+        # POP3 user
+        parameter :pop3_user, :type => String,
+                              :description => 'POP3 user to login as'
 
-          # POP3 user
-          parameter :pop3_user, :type => String,
-                                :description => 'POP3 user to login as'
-
-          # POP3 password
-          parameter :pop3_password, :type => String,
-                                    :description => 'POP3 password to login with'
-        end
+        # POP3 password
+        parameter :pop3_password, :type => String,
+                                  :description => 'POP3 password to login with'
 
         protected
 
@@ -93,17 +86,9 @@ module Ronin
         # @api public
         #
         def pop3_connect(options={},&block)
-          options[:port] ||= self.port
-          options[:user] ||= self.pop3_user
-          options[:password] ||= self.pop3_password
+          print_info "Connecting to #{host_port} ..."
 
-          if self.port
-            print_info "Connecting to #{self.host}:#{self.port} ..."
-          else
-            print_info "Connecting to #{self.host} ..."
-          end
-
-          return ::Net.pop3_connect(self.host,options,&block)
+          return super(self.host,pop3_merge_options(options),&block)
         end
 
         #
@@ -124,16 +109,37 @@ module Ronin
         # @api public
         #
         def pop3_session(options={})
-          pop3_connect(options) do |sess|
+          super(options) do |sess|
             yield sess if block_given?
-            sess.finish
 
-            if @port
-              print_info "Disconnecting to #{self.host}:#{self.port}"
-            else
-              print_info "Disconnecting to #{self.host}"
-            end
+            print_info "Logging out ..."
           end
+
+          print_info "Disconnecting to #{host_port}"
+        end
+
+        private
+
+        #
+        # Merges the POP3 parameters into the options for {Network::POP3}
+        # methods.
+        #
+        # @param [Hash] options
+        #   The original options.
+        #
+        # @return [Hash]
+        #   The merged options.
+        #
+        # @since 0.4.0
+        #
+        # @api private
+        #   
+        def pop3_merge_options(options={})
+          options[:port]     ||= self.port
+          options[:user]     ||= self.pop3_user
+          options[:password] ||= self.pop3_password
+
+          return options
         end
       end
     end

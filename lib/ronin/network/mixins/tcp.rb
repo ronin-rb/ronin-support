@@ -17,11 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/network/mixins/mixin'
 require 'ronin/network/tcp'
-require 'ronin/ui/output/helpers'
-require 'ronin/mixin'
-
-require 'parameters'
 
 module Ronin
   module Network
@@ -39,35 +36,31 @@ module Ronin
       # * `server_port` (`Integer`) - TCP server port.
       #
       module TCP
-        include Mixin
+        include Mixin, Network::TCP
 
-        mixin UI::Output::Helpers, Parameters
+        # TCP host
+        parameter :host, :type => String,
+                         :description => 'TCP host'
 
-        mixin do
-          # TCP host
-          parameter :host, :type => String,
-                           :description => 'TCP host'
+        # TCP port
+        parameter :port, :type => Integer,
+                         :description => 'TCP port'
 
-          # TCP port
-          parameter :port, :type => Integer,
-                           :description => 'TCP port'
+        # TCP local host
+        parameter :local_host, :type => String,
+                               :description => 'TCP local host'
 
-          # TCP local host
-          parameter :local_host, :type => String,
-                                 :description => 'TCP local host'
+        # TCP local port
+        parameter :local_port, :type => Integer,
+                               :description => 'TCP local port'
 
-          # TCP local port
-          parameter :local_port, :type => Integer,
-                                 :description => 'TCP local port'
+        # TCP server host
+        parameter :server_host, :type => String,
+                                :description => 'TCP server host'
 
-          # TCP server host
-          parameter :server_host, :type => String,
-                                  :description => 'TCP server host'
-
-          # TCP server port
-          parameter :server_port, :type => Integer,
-                                  :description => 'TCP server port'
-        end
+        # TCP server port
+        parameter :server_port, :type => Integer,
+                                :description => 'TCP server port'
 
         protected
 
@@ -99,9 +92,9 @@ module Ronin
         # @api public
         #
         def tcp_connect(&block)
-          print_info "Connecting to #{self.host}:#{self.port} ..."
+          print_info "Connecting to #{host_port} ..."
 
-          return ::Net.tcp_connect(self.host,self.port,self.local_host,self.local_port,&block)
+          return super(self.host,self.port,self.local_host,self.local_port,&block)
         end
 
         #
@@ -123,10 +116,10 @@ module Ronin
         # @api public
         #
         def tcp_connect_and_send(data,&block)
-          print_info "Connecting to #{self.host}:#{self.port} ..."
+          print_info "Connecting to #{host_port} ..."
           print_debug "Sending data: #{data.inspect}"
 
-          return ::Net.tcp_connect_and_send(data,self.host,self.port,self.local_host,self.local_port,&block)
+          return super(data,self.host,self.port,self.local_host,self.local_port,&block)
         end
 
         #
@@ -145,11 +138,11 @@ module Ronin
         # @api public
         #
         def tcp_session(&block)
-          print_info "Connecting to #{self.host}:#{self.port} ..."
+          print_info "Connecting to #{host_port} ..."
 
           Net.tcp_session(self.host,self.port,self.local_host,self.local_port,&block)
 
-          print_info "Disconnected from #{self.host}:#{self.port}"
+          print_info "Disconnected from #{host_port}"
           return nil
         end
 
@@ -173,9 +166,9 @@ module Ronin
         # @api public
         #
         def tcp_banner(&block)
-          print_debug "Grabbing banner from #{self.host}:#{self.port}"
+          print_debug "Grabbing banner from #{host_port}"
 
-          return ::Net.tcp_banner(self.host,self.port,self.local_host,self.local_port,&block)
+          return super(self.host,self.port,self.local_host,self.local_port,&block)
         end
 
         #
@@ -193,12 +186,12 @@ module Ronin
         # @api public
         #
         def tcp_send(data)
-          print_info "Connecting to #{self.host}:#{self.port} ..."
+          print_info "Connecting to #{host_port} ..."
           print_debug "Sending data: #{data.inspect}"
 
-          ::Net.tcp_send(data,self.host,self.port,self.local_host,self.local_port)
+          super(data,self.host,self.port,self.local_host,self.local_port)
 
-          print_info "Disconnected from #{self.host}:#{self.port}"
+          print_info "Disconnected from #{host_port}"
           return true
         end
 
@@ -221,13 +214,9 @@ module Ronin
         # @api public
         #
         def tcp_server(&block)
-          if self.server_host
-            print_info "Listening on #{self.server_host}:#{self.server_port} ..."
-          else
-            print_info "Listening on #{self.server_port} ..."
-          end
+          print_info "Listening on #{self.server_host_port} ..."
 
-          return ::Net.tcp_server(self.server_port,self.server_host,&block)
+          return super(self.server_port,self.server_host,&block)
         end
 
         #
@@ -257,20 +246,11 @@ module Ronin
         # @api public
         #
         def tcp_server_session(&block)
-          if self.server_host
-            print_info "Listening on #{self.server_host}:#{self.server_port} ..."
-          else
-            print_info "Listening on #{self.server_port} ..."
-          end
+          print_info "Listening on #{server_host_port} ..."
 
-          ::Net.tcp_server_session(&block)
+          super(self.server_port,self.server_host,&block)
 
-          if self.server_host
-            print_info "Closed #{self.server_host}:#{self.server_port}"
-          else
-            print_info "Closed #{self.server_port}"
-          end
-
+          print_info "Closed #{server_host_port}"
           return nil
         end
 
@@ -299,13 +279,9 @@ module Ronin
         # @api public
         #
         def tcp_single_server(&block)
-          if self.server_host
-            print_info "Listening on #{self.server_host}:#{self.server_port} ..."
-          else
-            print_info "Listening on #{self.server_port} ..."
-          end
+          print_info "Listening on #{server_host_port} ..."
 
-          ::Net.tcp_single_server do |client|
+          super(self.server_port,self.server_host) do |client|
             client_addr = client.peeraddr
             client_host = (client_addr[2] || client_addr[3])
             client_port = client_addr[1]
@@ -317,13 +293,24 @@ module Ronin
             print_info "Disconnecting client #{client_host}:#{client_port}"
           end
 
-          if self.server_host
-            print_info "Closed #{self.server_host}:#{self.server_port}"
-          else
-            print_info "Closed #{self.server_port}"
-          end
-
+          print_info "Closed #{server_host_port}"
           return nil
+        end
+
+        private
+
+        #
+        # The server host/port parameters.
+        #
+        # @return [String]
+        #   The server host/port parameters in String form.
+        #
+        # @since 0.4.0
+        #
+        # @api private
+        #
+        def server_host_port
+          "#{self.server_host}:#{self.server_port}"
         end
       end
     end

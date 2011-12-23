@@ -17,11 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/network/mixins/mixin'
 require 'ronin/network/telnet'
-require 'ronin/ui/output/helpers'
-require 'ronin/mixin'
-
-require 'parameters'
 
 module Ronin
   module Network
@@ -40,34 +37,30 @@ module Ronin
       # * `telnet_ssl` (`Boolean`) - Enable Telnet over SSL. Defaults to `true`.
       #
       module Telnet
-        include Mixin
+        include Mixin, Network::Telnet
 
-        mixin UI::Output::Helpers, Parameters
+        # Telnet host
+        parameter :host, :type => String,
+                         :description => 'Telnet host'
 
-        mixin do
-          # Telnet host
-          parameter :host, :type => String,
-                           :description => 'Telnet host'
+        # Telnet port
+        parameter :port, :type => Integer,
+                         :description => 'Telnet port'
 
-          # Telnet port
-          parameter :port, :type => Integer,
-                           :description => 'Telnet port'
+        # Telnet user
+        parameter :telnet_user, :type => String,
+                                :description => 'Telnet user to login as'
 
-          # Telnet user
-          parameter :telnet_user, :type => String,
-                                  :description => 'Telnet user to login as'
+        # Telnet password
+        parameter :telnet_password, :type => String,
+                                    :description => 'Telnet password to login with'
 
-          # Telnet password
-          parameter :telnet_password, :type => String,
-                                      :description => 'Telnet password to login with'
+        # Telnet proxy
+        parameter :telnet_proxy, :description => 'Telnet proxy'
 
-          # Telnet proxy
-          parameter :telnet_proxy, :description => 'Telnet proxy'
-
-          # Enable Telnet SSL
-          parameter :telnet_ssl, :type => true,
-                                 :description => 'Enable Telnet over SSL'
-        end
+        # Enable Telnet SSL
+        parameter :telnet_ssl, :type => true,
+                               :description => 'Enable Telnet over SSL'
 
         protected
 
@@ -80,7 +73,7 @@ module Ronin
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (Ronin::Network::Telnet.default_port)
+        # @option options [Integer] :port (Network::Telnet.default_port)
         #   The port to connect to.
         #
         # @option options [Boolean] :binmode
@@ -94,7 +87,7 @@ module Ronin
         #   Similar to the `:output_log` option, but connection output
         #   is also written in hexdump format.
         #
-        # @option options [Regexp] :prompt (Ronin::Network::Telnet.default_prompt)
+        # @option options [Regexp] :prompt (Network::Telnet.default_prompt)
         #   A regular expression matching the host command-line prompt
         #   sequence, used to determine when a command has finished.
         #
@@ -106,7 +99,7 @@ module Ronin
         #   Indicates that the connection shall behave as a normal TCP
         #   connection.
         #
-        # @option options [Integer] :timeout (Ronin::Network::Telnet.default_timeout)
+        # @option options [Integer] :timeout (Network::Telnet.default_timeout)
         #   The number of seconds to wait before timing out both the
         #   initial attempt to connect to host, and all attempts to read
         #   data from the host.
@@ -115,7 +108,7 @@ module Ronin
         #   The amount of time to wait after seeing what looks like
         #   a prompt.
         #
-        # @option options [Net::Telnet, IO] :proxy (Ronin::Network::Telnet.proxy)
+        # @option options [Net::Telnet, IO] :proxy (Network::Telnet.proxy)
         #   A proxy object to used instead of opening a direct connection
         #   to the host.
         #
@@ -142,20 +135,9 @@ module Ronin
         # @api public
         #
         def telnet_connect(options={},&block)
-          options[:port] ||= self.port
-          options[:user] ||= self.telnet_user
-          options[:password] ||= self.telnet_password
+          print_info "Connecting to #{host_port} ..."
 
-          options[:proxy] ||= self.telnet_proxy
-          options[:ssl] ||= self.telnet_ssl
-
-          if self.port
-            print_info "Connecting to #{self.host}:#{self.port} ..."
-          else
-            print_info "Connecting to #{self.host} ..."
-          end
-
-          return ::Net.telnet_connect(self.host,options,&block)
+          return super(self.host,telnet_merge_options(options),&block)
         end
 
         #
@@ -182,16 +164,41 @@ module Ronin
         # @api public
         #
         def telnet_session(options={},&block)
-          return telnet_connect(options) do |sess|
+          super(telnet_merge_options(options)) do |sess|
             yield sess if block_given?
-            sess.close
 
-            if self.port
-              print_info "Disconnecting to #{self.host}:#{self.port}"
-            else
-              print_info "Disconnecting to #{self.host}"
-            end
+            print "Logging out ..."
           end
+
+          print_info "Disconnected to #{host_port}"
+          return nil
+        end
+
+        private
+
+        #
+        # Merges the Telnet parameters into the options for {Network::Telnet}
+        # methods.
+        #
+        # @param [Hash] options
+        #   The original options.
+        #
+        # @return [Hash]
+        #   The merged options.
+        #
+        # @since 0.4.0
+        #
+        # @api private
+        #   
+        def telnet_merge_options(options={})
+          options[:port]     ||= self.port
+          options[:user]     ||= self.telnet_user
+          options[:password] ||= self.telnet_password
+
+          options[:proxy] ||= self.telnet_proxy
+          options[:ssl]   ||= self.telnet_ssl
+
+          return options
         end
       end
     end

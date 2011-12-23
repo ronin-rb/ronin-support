@@ -17,11 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/network/mixins/mixin'
 require 'ronin/network/udp'
-require 'ronin/ui/output/helpers'
-require 'ronin/mixin'
-
-require 'parameters'
 
 module Ronin
   module Network
@@ -39,35 +36,31 @@ module Ronin
       # * `server_port` (`Integer`) - UDP server port.
       #
       module UDP
-        include Mixin
+        include Mixin, Network::UDP
 
-        mixin UI::Output::Helpers, Parameters
+        # UDP host
+        parameter :host, :type => String,
+                         :description => 'UDP host'
 
-        mixin do
-          # UDP host
-          parameter :host, :type => String,
-                           :description => 'UDP host'
+        # UDP port
+        parameter :port, :type => Integer,
+                         :description => 'UDP port'
 
-          # UDP port
-          parameter :port, :type => Integer,
-                           :description => 'UDP port'
+        # UDP local host
+        parameter :local_host, :type => String,
+                               :description => 'UDP local host'
 
-          # UDP local host
-          parameter :local_host, :type => String,
-                                 :description => 'UDP local host'
+        # UDP local port
+        parameter :local_port, :type => Integer,
+                               :description => 'UDP local port'
 
-          # UDP local port
-          parameter :local_port, :type => Integer,
-                                 :description => 'UDP local port'
+        # UDP server host
+        parameter :server_host, :type => String,
+                                :description => 'UDP server host'
 
-          # UDP server host
-          parameter :server_host, :type => String,
-                                  :description => 'UDP server host'
-
-          # UDP server port
-          parameter :server_port, :type => Integer,
-                                  :description => 'UDP server port'
-        end
+        # UDP server port
+        parameter :server_port, :type => Integer,
+                                :description => 'UDP server port'
 
         protected
 
@@ -98,9 +91,9 @@ module Ronin
         # @api public
         #
         def udp_connect(&block)
-          print_info "Connecting to #{self.host}:#{self.port} ..."
+          print_info "Connecting to #{host_port} ..."
 
-          return ::Net.udp_connect(self.host,self.port,self.local_host,self.local_port,&block)
+          return super(self.host,self.port,self.local_host,self.local_port,&block)
         end
 
         #
@@ -124,10 +117,10 @@ module Ronin
         # @api public
         #
         def udp_connect_and_send(data,&block)
-          print_info "Connecting to #{self.host}:#{self.port} ..."
+          print_info "Connecting to #{host_port} ..."
           print_debug "Sending data: #{data.inspect}"
 
-          return ::Net.udp_connect_and_send(data,self.host,self.port,self.local_host,self.local_port,&block)
+          return super(data,self.host,self.port,self.local_host,self.local_port,&block)
         end
 
         #
@@ -148,11 +141,11 @@ module Ronin
         # @api public
         #
         def udp_session(&block)
-          print_info "Connecting to #{self.host}:#{self.port} ..."
+          print_info "Connecting to #{host_port} ..."
 
-          ::Net.udp_session(self.host,self.port,self.local_host,self.local_port,&block)
+          super(self.host,self.port,self.local_host,self.local_port,&block)
 
-          print_info "Disconnected from #{self.host}:#{self.port}"
+          print_info "Disconnected from #{host_port}"
           return nil
         end
 
@@ -175,13 +168,9 @@ module Ronin
         # @api public
         #
         def udp_server(&block)
-          if self.server_host
-            print_info "Listening on #{self.server_host}:#{self.server_port} ..."
-          else
-            print_info "Listening on #{self.server_port} ..."
-          end
+          print_info "Listening on #{server_host_port} ..."
 
-          return ::Net.udp_server(self.server_port,self.server_host,&block)
+          return super(self.server_port,self.server_host,&block)
         end
 
         #
@@ -205,21 +194,28 @@ module Ronin
         # @api public
         #
         def udp_server_session(&block)
-          if self.server_host
-            print_info "Listening on #{self.server_host}:#{self.server_port} ..."
-          else
-            print_info "Listening on #{self.server_port} ..."
-          end
+          print_info "Listening on #{self.server_host_port} ..."
 
-          ::Net.udp_server_session(&block)
+          super(self.server_port,self.server_host,&block)
 
-          if self.server_host
-            print_info "Closed #{self.server_host}:#{self.server_port}"
-          else
-            print_info "Closed #{self.server_port}"
-          end
-
+          print_info "Closed #{self.server_host_port}"
           return nil
+        end
+
+        private
+
+        #
+        # The server host/port parameters.
+        #
+        # @return [String]
+        #   The server host/port parameters in String form.
+        #
+        # @since 0.4.0
+        #
+        # @api private
+        #
+        def server_host_port
+          "#{self.server_host}:#{self.server_port}"
         end
       end
     end
