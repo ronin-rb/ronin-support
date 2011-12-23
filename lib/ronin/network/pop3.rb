@@ -17,7 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/network/extensions/pop3'
+require 'net/pop'
 
 module Ronin
   module Network
@@ -48,6 +48,76 @@ module Ronin
       #
       def POP3.default_port=(port)
         @default_port = port
+      end
+
+      #
+      # Creates a connection to the POP3 server.
+      #
+      # @param [String] host
+      #   The host to connect to.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @option options [Integer] :port (POP3.default_port)
+      #   The port the POP3 server is running on.
+      #
+      # @option options [String] :user
+      #   The user to authenticate with when connecting to the POP3 server.
+      #
+      # @option options [String] :password
+      #   The password to authenticate with when connecting to the POP3 server.
+      #
+      # @yield [session]
+      #   If a block is given, it will be passed the newly created POP3 session.
+      #
+      # @yieldparam [Net::POP3] session
+      #   The newly created POP3 session.
+      #
+      # @return [Net::POP3]
+      #   The newly created POP3 session.
+      #
+      # @api public
+      #
+      def pop3_connect(host,options={})
+        host = host.to_s
+        port = (options[:port] || POP3.default_port)
+        user = options[:user]
+        password = options[:password]
+
+        session = Net::POP3.start(host,port,user,password)
+
+        yield session if block_given?
+        return session
+      end
+
+      #
+      # Starts a session with the POP3 server.
+      #
+      # @param [String] host
+      #   The host to connect to.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @yield [session]
+      #   If a block is given, it will be passed the newly created POP3 session.
+      #   After the block has returned, the session will be closed.
+      #
+      # @yieldparam [Net::POP3] session
+      #   The newly created POP3 session.
+      #
+      # @return [nil]
+      #
+      # @api public
+      #
+      def pop3_session(host,options={})
+        session = pop3_connect(host,options)
+
+        yield session if block_given?
+
+        session.finish
+        return nil
       end
     end
   end
