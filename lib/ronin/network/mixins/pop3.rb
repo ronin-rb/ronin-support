@@ -115,7 +115,7 @@ module Ronin
             print_info "Logging out ..."
           end
 
-          print_info "Disconnecting to #{host_port}"
+          print_info "Disconnected to #{host_port}"
         end
 
         private

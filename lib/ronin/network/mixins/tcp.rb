@@ -290,7 +290,7 @@ module Ronin
 
             yield client if block_given?
 
-            print_info "Disconnecting client #{client_host}:#{client_port}"
+            print_info "Disconnected client #{client_host}:#{client_port}"
           end
 
           print_info "Closed #{server_host_port}"
