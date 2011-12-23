@@ -122,14 +122,18 @@ module Ronin
         #
         # @api public
         #
-        def http_session(options={})
+        def http_session(options={},&block)
           options = http_merge_options(options)
           host_port = "#{options[:host]}:#{options[:port]}"
 
-          Net.http_session(options) do |http|
+          Net.http_session(options) do |http,expanded_options|
             print_info "Starting HTTP Session with #{host_port}"
 
-            yield http
+            if block.arity == 2
+              block.call(sess,expanded_options)
+            else
+              block.call(sess)
+            end
 
             print_info "Closing HTTP Session with #{host_port}"
           end
