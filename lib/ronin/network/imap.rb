@@ -24,7 +24,7 @@ require 'net/imap'
 module Ronin
   module Network
     #
-    # Global settings for accessing IMAP.
+    # Provides helper methods for communicating with IMAP services.
     #
     module IMAP
       # Default IMAP port

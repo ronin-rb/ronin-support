@@ -21,6 +21,9 @@ require 'ronin/network/smtp'
 
 module Ronin
   module Network
+    #
+    # Provides helper methods for communicating with ESMTP services.
+    #
     module ESMTP
       include SMTP
 

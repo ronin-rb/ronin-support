@@ -22,7 +22,7 @@ require 'net/telnet'
 module Ronin
   module Network
     #
-    # Global settings for accessing Telnet.
+    # Provides helper methods for communicating with Telnet services.
     #
     module Telnet
       # Default telnet port

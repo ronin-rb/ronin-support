@@ -22,7 +22,7 @@ require 'net/pop'
 module Ronin
   module Network
     #
-    # Global settings for accessing POP3.
+    # Provides helper methods for communicating with POP3 services.
     #
     module POP3
       # Default POP3 port

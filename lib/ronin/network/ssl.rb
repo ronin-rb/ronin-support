@@ -27,7 +27,7 @@ end
 module Ronin
   module Network
     #
-    # SSL helper methods.
+    # Provides helper methods for communicating with SSL-enabled services.
     #
     module SSL
       extend TCP

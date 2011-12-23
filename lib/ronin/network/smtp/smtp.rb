@@ -24,7 +24,7 @@ require 'net/smtp'
 module Ronin
   module Network
     #
-    # Global settings for accessing STMP.
+    # Provides helper methods for communicating with SMTP services.
     #
     module SMTP
       # Default SMTP port

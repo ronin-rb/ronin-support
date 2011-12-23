@@ -21,6 +21,9 @@ require 'socket'
 
 module Ronin
   module Network
+    #
+    # Provides helper methods for using the UDP protocol.
+    #
     module UDP
       #
       # Creates a new UDPSocket object connected to a given host and port.

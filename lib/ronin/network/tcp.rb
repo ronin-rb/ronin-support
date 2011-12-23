@@ -21,6 +21,9 @@ require 'socket'
 
 module Ronin
   module Network
+    #
+    # Provides helper methods for using the TCP protocol.
+    #
     module TCP
       #
       # Creates a new TCPSocket object connected to a given host and port.

@@ -32,7 +32,7 @@ end
 module Ronin
   module Network
     #
-    # Settings and helper methods for HTTP.
+    # Provides helper methods for communicating with HTTP Servers.
     #
     module HTTP
       #
