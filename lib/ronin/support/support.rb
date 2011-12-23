@@ -18,9 +18,18 @@
 #
 
 require 'ronin/ui/output'
+require 'ronin/network'
 
 module Ronin
   module Support
     include UI::Output::Helpers
+    include Network::TCP
+    include Network::UDP
+    include Network::SMTP
+    include Network::ESMTP
+    include Network::POP3
+    include Network::IMAP
+    include Network::Telnet
+    include Network::HTTP
   end
 end
