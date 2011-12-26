@@ -66,10 +66,12 @@ module Ronin
                        local_host.to_s
                      end
 
-        sock = UDPSocket.new(host,port,local_host,local_port)
+        socket = UDPSocket.new
+        socket.bind(local_host,local_port) if (local_host && local_port)
+        socket.connect(host,port)
 
-        yield sock if block_given?
-        return sock
+        yield socket if block_given?
+        return socket
       end
 
       #
@@ -201,8 +203,10 @@ module Ronin
       # @api public
       #
       def udp_server(port,host='0.0.0.0')
-        host = host.to_s
-        server = UDPServer.new(host,port)
+        host   = host.to_s
+        server = UDPSocket.new
+
+        server.bind(host,port)
 
         yield server if block_given?
         return server
@@ -235,6 +239,7 @@ module Ronin
       #
       def udp_server_session(port,host='0.0.0.0',&block)
         server = udp_server(port,host,&block)
+
         server.close()
         return nil
       end
