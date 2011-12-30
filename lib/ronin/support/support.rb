@@ -17,8 +17,22 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/network/ssl'
+require 'ronin/ui/output'
+require 'ronin/network'
 
-module Net
-  extend Ronin::Network::SSL
+module Ronin
+  #
+  # The main namespace for `ronin-support`.
+  #
+  module Support
+    include UI::Output::Helpers
+    include Network::TCP
+    include Network::UDP
+    include Network::SMTP
+    include Network::ESMTP
+    include Network::POP3
+    include Network::IMAP
+    include Network::Telnet
+    include Network::HTTP
+  end
 end

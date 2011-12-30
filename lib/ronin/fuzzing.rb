@@ -17,8 +17,5 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/network/ssl'
-
-module Net
-  extend Ronin::Network::SSL
-end
+require 'ronin/fuzzing/extensions'
+require 'ronin/fuzzing/fuzzing'

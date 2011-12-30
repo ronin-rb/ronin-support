@@ -17,8 +17,42 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/network/ssl'
+require 'ronin/ui/output/helpers'
 
-module Net
-  extend Ronin::Network::SSL
+require 'parameters'
+
+module Ronin
+  module Network
+    module Mixins
+      #
+      # @since 0.4.0
+      #
+      module Mixin
+        include Parameters,
+                UI::Output::Helpers
+
+        parameter :host, :type => String
+
+        parameter :port, :type => Integer
+
+        protected
+
+        #
+        # The host/port parameters.
+        #
+        # @return [String]
+        #   The host/port parameters in String form.
+        #
+        # @api semipublic
+        #
+        def host_port
+          if self.port
+            "#{self.host}:#{self.port}"
+          else
+            "#{self.host}"
+          end
+        end
+      end
+    end
+  end
 end

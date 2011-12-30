@@ -52,13 +52,13 @@
 * Added {String#js_escape}.
 * Added {String#js_unescape}.
 * Added {String#format_js}.
-* Added {Net.smtp_send_message}.
-* Added {Net.http_status}.
-* Added {Net.http_get_headers}.
-* Added {Net.http_post_headers}.
+* Added `Net.smtp_send_message`.
+* Added `Net.http_status`.
+* Added `Net.http_get_headers`.
+* Added `Net.http_post_headers`.
 * Added YARD `@api` tags to define the public, semi-public and private APIs.
 * Renamed `Kernel#attempt` to {Kernel#try}.
-* Allow `:method` to be used with {Net.http_ok?}.
+* Allow `:method` to be used with `Net.http_ok?`.
 * Fixed a bug in {Ronin::Network::HTTP.expand_url} where `:host` and `:port`
   options were being overridden.
 * Improved the performance of {Integer#bytes}.
@@ -68,8 +68,8 @@
   for unicode characters.
 * Deprecated {String#common_postfix}, in favor of {String#common_suffix}.
   {String#common_postfix} will be removed in ronin-support 1.0.0.
-* {Net.http_get_body} no longer accepts a block.
-* {Net.http_post_body} no longer accepts a block.
+* `Net.http_get_body` no longer accepts a block.
+* `Net.http_post_body` no longer accepts a block.
 
 ### 0.1.0 / 2011-03-20
 

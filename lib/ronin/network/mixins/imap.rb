@@ -17,11 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/network/mixins/mixin'
 require 'ronin/network/imap'
-require 'ronin/ui/output/helpers'
-require 'ronin/mixin'
-
-require 'parameters'
 
 module Ronin
   module Network
@@ -38,31 +35,27 @@ module Ronin
       # * `imap_password` (`String`) - IMAP password to login with.
       #
       module IMAP
-        include Mixin
+        include Mixin, Network::IMAP
 
-        mixin UI::Output::Helpers, Parameters
+        # IMAP host
+        parameter :host, :type => String,
+                         :description => 'IMAP host'
 
-        mixin do
-          # IMAP host
-          parameter :host, :type => String,
-                           :description => 'IMAP host'
+        # IMAP port
+        parameter :port, :type => Integer,
+                         :description => 'IMAP port'
 
-          # IMAP port
-          parameter :port, :type => Integer,
-                           :description => 'IMAP port'
+        # IMAP auth
+        parameter :imap_auth, :type => String,
+                              :description => 'IMAP authentication method'
 
-          # IMAP auth
-          parameter :imap_auth, :type => String,
-                                :description => 'IMAP authentication method'
+        # IMAP user to login as
+        parameter :imap_user, :type => String,
+                              :description => 'IMAP user to login as'
 
-          # IMAP user to login as
-          parameter :imap_user, :type => String,
-                                :description => 'IMAP user to login as'
-
-          # IMAP password to login with
-          parameter :imap_password, :type => String,
-                                    :description => 'IMAP password to login with'
-        end
+        # IMAP password to login with
+        parameter :imap_password, :type => String,
+                                  :description => 'IMAP password to login with'
 
         protected
 
@@ -98,18 +91,9 @@ module Ronin
         # @api public
         #
         def imap_connect(options={},&block)
-          options[:port] ||= self.port
-          options[:auth] ||= self.imap_auth
-          options[:user] ||= self.imap_user
-          options[:password] ||= self.imap_password
+          print_info "Connecting to #{host_port} ..."
 
-          if self.port
-            print_info "Connecting to #{self.host}:#{self.port} ..."
-          else
-            print_info "Connecting to #{self.host} ..."
-          end
-
-          return ::Net.imap_connect(self.host,options,&block)
+          return super(self.host,imap_merge_options(options),&block)
         end
 
         #
@@ -130,20 +114,39 @@ module Ronin
         # @api public
         #
         def imap_session(options={})
-          imap_connect(options) do |sess|
+          super(imap_merge_options(options)) do |sess|
             yield sess if block_given?
 
             print_info "Logging out ..."
-
-            sess.close
-            sess.logout
-
-            if self.port
-              print_info "Disconnecting from #{self.host}:#{self.port}"
-            else
-              print_info "Disconnecting from #{self.host}"
-            end
           end
+
+          print_info "Disconnected from #{host_port}"
+          return il
+        end
+
+        private
+
+        #
+        # Merges the IMAP parameters into the options for {Network::IMAP}
+        # methods.
+        #
+        # @param [Hash] options
+        #   The original options.
+        #
+        # @return [Hash]
+        #   The merged options.
+        #
+        # @since 0.4.0
+        #
+        # @api private
+        #   
+        def imap_merge_options(options={})
+          options[:port]     ||= self.port
+          options[:auth]     ||= self.imap_auth
+          options[:user]     ||= self.imap_user
+          options[:password] ||= self.imap_password
+
+          return options
         end
       end
     end

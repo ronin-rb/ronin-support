@@ -232,6 +232,13 @@ class String
   #
   # Base64 encodes a string.
   #
+  # @param [Symbol, nil] mode
+  #   The base64 mode to use. May be either:
+  #
+  #   * `:normal`
+  #   * `:strict`
+  #   * `:url` / `:urlsafe`
+  #
   # @return [String]
   #   The base64 encoded form of the string.
   #
@@ -241,15 +248,42 @@ class String
   #
   # @api public
   #
-  def base64_encode
-    Base64.encode64(self)
+  def base64_encode(mode=nil)
+    case mode
+    when :strict
+      if RUBY_VERSION < '1.9'
+        # backported from Ruby 1.9.2
+        [self].pack("m")
+      else
+        Base64.strict_encode64(self)
+      end
+    when :url, :urlsafe
+      if RUBY_VERSION < '1.9'
+        # backported from Ruby 1.9.2
+        [self].pack("m").tr("+/", "-_")
+      else
+        Base64.urlsafe_encode64(self)
+      end
+    else
+      Base64.encode64(self)
+    end
   end
 
   #
   # Base64 decodes a string.
   #
+  # @param [Symbol, nil] mode
+  #   The base64 mode to use. May be either:
+  #
+  #   * `nil`
+  #   * `:strict`
+  #   * `:url` / `:urlsafe`
+  #
   # @return [String]
   #   The base64 decoded form of the string.
+  #
+  # @note
+  #   `mode` argument is only availabe on Ruby >= 1.9.
   #
   # @example
   #   "aGVsbG8=\n".base64_decode
@@ -257,8 +291,25 @@ class String
   #
   # @api public
   #
-  def base64_decode
-    Base64.decode64(self)
+  def base64_decode(mode=nil)
+    case mode
+    when :strict
+      if RUBY_VERSION < '1.9'
+        # backported from Ruby 1.9.2
+        unpack("m0").first
+      else
+        Base64.strict_decode64(self)
+      end
+    when :url, :urlsafe
+      if RUBY_VERSION < '1.9'
+        # backported from Ruby 1.9.2
+        tr("-_", "+/").unpack("m0").first
+      else
+        Base64.urlsafe_decode64(self)
+      end
+    else
+      Base64.decode64(self)
+    end
   end
 
   #

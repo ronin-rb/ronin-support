@@ -27,6 +27,7 @@ module Ronin
   # Network helper methods.
   #
   module Network
+    # The URL used for determining the external IP Address.
     IP_URL = URI.parse('http://checkip.dyndns.org/')
 
     #

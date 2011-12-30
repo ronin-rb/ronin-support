@@ -17,11 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/network/mixins/mixin'
 require 'ronin/network/smtp'
-require 'ronin/ui/output/helpers'
-require 'ronin/mixin'
-
-require 'parameters'
 
 module Ronin
   module Network
@@ -38,42 +35,29 @@ module Ronin
       # * `smtp_password` (`String`) - SMTP password to login with.
       #
       module SMTP
-        include Mixin
+        include Mixin, Network::SMTP
 
-        mixin UI::Output::Helpers, Parameters
+        # SMTP host
+        parameter :host, :type => String,
+                         :description => 'SMTP host'
 
-        mixin do
-          # SMTP host
-          parameter :host, :type => String,
-                           :description => 'SMTP host'
+        # SMTP port
+        parameter :port, :type => Integer,
+                         :description => 'SMTP port'
 
-          # SMTP port
-          parameter :port, :type => Integer,
-                           :description => 'SMTP port'
+        # SMTP authentication method
+        parameter :smtp_login, :type => String,
+                               :description => 'SMTP authentication method'
 
-          # SMTP authentication method
-          parameter :smtp_login, :type => String,
-                                 :description => 'SMTP authentication method'
+        # SMTP user to login as
+        parameter :smtp_user, :type => String,
+                              :description => 'SMTP user to login as'
 
-          # SMTP user to login as
-          parameter :smtp_user, :type => String,
-                                :description => 'SMTP user to login as'
-
-          # SMTP user to login with
-          parameter :smtp_password, :type => String,
-                                    :description => 'SMTP password to login with'
-        end
+        # SMTP user to login with
+        parameter :smtp_password, :type => String,
+                                  :description => 'SMTP password to login with'
 
         protected
-
-        #
-        # @see Ronin::Network::SMTP.message
-        #
-        # @api public
-        #
-        def smtp_message(options={},&block)
-          Network::SMTP.message(options,&block)
-        end
 
         #
         # Creates a connection to the SMTP server. The `host`, `port`,
@@ -111,18 +95,9 @@ module Ronin
         # @api public
         #
         def smtp_connect(options={},&block)
-          options[:port] ||= self.port
-          options[:login] ||= self.smtp_login
-          options[:user] ||= self.smtp_user
-          options[:password] ||= self.smtp_password
+          print_info "Connecting to #{host_port} ..."
 
-          if self.port
-            print_info "Connecting to #{self.host}:#{self.port} ..."
-          else
-            print_info "Connecting to #{self.host} ..."
-          end
-
-          return ::Net.smtp_connect(self.host,options,&block)
+          return super(self.host,smtp_merge_options(options),&block)
         end
 
         #
@@ -142,16 +117,39 @@ module Ronin
         # @api public
         #
         def smtp_session(options={},&block)
-          smtp_connect(options) do |sess|
+          super(smtp_merge_options(options)) do |sess|
             yield sess if block_given?
-            sess.close
 
-            if self.port
-              print_info "Disconnecting to #{self.host}:#{self.port}"
-            else
-              print_info "Disconnecting to #{self.host}"
-            end
+            print_info "Logging out ..."
           end
+
+          print_info "Disconnected to #{host_port}"
+          return nil
+        end
+
+        private
+
+        #
+        # Merges the SMTP parameters into the options for {Network::SMTP}
+        # methods.
+        #
+        # @param [Hash] options
+        #   The original options.
+        #
+        # @return [Hash]
+        #   The merged options.
+        #
+        # @since 0.4.0
+        #
+        # @api private
+        #   
+        def smtp_merge_options(options={})
+          options[:port]     ||= self.port
+          options[:login]    ||= self.smtp_login
+          options[:user]     ||= self.smtp_user
+          options[:password] ||= self.smtp_password
+
+          return options
         end
       end
     end

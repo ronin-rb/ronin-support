@@ -17,11 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/network/mixins/mixin'
 require 'ronin/network/esmtp'
-require 'ronin/ui/output/helpers'
-require 'ronin/mixin'
-
-require 'parameters'
 
 module Ronin
   module Network
@@ -38,42 +35,29 @@ module Ronin
       # * `esmtp_password` (`String`) - ESMTP password to login with.
       #
       module ESMTP
-        include Mixin
+        include Mixin, Network::ESMTP
 
-        mixin UI::Output::Helpers, Parameters
+        # ESMTP host
+        parameter :host, :type => String,
+                         :description => 'ESMTP host'
 
-        mixin do
-          # ESMTP host
-          parameter :host, :type => String,
-                           :description => 'ESMTP host'
+        # ESMTP port
+        parameter :port, :type => Integer,
+                         :description => 'ESMTP port'
 
-          # ESMTP port
-          parameter :port, :type => Integer,
-                           :description => 'ESMTP port'
+        # ESMTP authentication method to use
+        parameter :esmtp_login, :type => String,
+                                :description => 'ESMTP authentication method to use'
 
-          # ESMTP authentication method to use
-          parameter :esmtp_login, :type => String,
-                                  :description => 'ESMTP authentication method to use'
+        # ESMTP user to login as
+        parameter :esmtp_user, :type => String,
+                               :description => 'ESMTP user to login as'
 
-          # ESMTP user to login as
-          parameter :esmtp_user, :type => String,
-                                 :description => 'ESMTP user to login as'
-
-          # ESMTP password to login with
-          parameter :esmtp_password, :type => String,
-                                     :description => 'ESMTP password to login with'
-        end
+        # ESMTP password to login with
+        parameter :esmtp_password, :type => String,
+                                   :description => 'ESMTP password to login with'
 
         protected
-
-        #
-        # @see Ronin::Network::SMTP.message.
-        #
-        # @api public
-        #
-        def esmtp_message(options={},&block)
-          Network::SMTP.message(options,&block)
-        end
 
         #
         # Creates a connection to the ESMTP server. The `host`, `port`,
@@ -112,18 +96,9 @@ module Ronin
         # @api public
         #
         def esmtp_connect(options={},&block)
-          options[:port] ||= self.port
-          options[:login] ||= self.esmtp_login
-          options[:user] ||= self.esmtp_user
-          options[:password] ||= self.esmtp_password
+          print_info "Connecting to #{host_port} ..."
 
-          if self.port
-            print_info "Connecting to #{self.host}:#{self.port} ..."
-          else
-            print_info "Connecting to #{self.host} ..."
-          end
-
-          return ::Net.esmtp_connect(self.host,options,&block)
+          return super(self.host,esmtp_merge_options(options),&block)
         end
 
         #
@@ -147,17 +122,39 @@ module Ronin
         # @api public
         #
         def esmtp_session(options={})
-          esmtp_connect(options) do |sess|
+          super(esmtp_merge_options(options)) do |sess|
             yield sess if block_given?
 
-            sess.close
-
-            if self.port
-              print_info "Disconnecting from #{self.host}:#{self.port}"
-            else
-              print_info "Disconnecting from #{self.host}"
-            end
+            print_info "Logging out ..."
           end
+
+          print_info "Disconnected from #{host_port}"
+          return nil
+        end
+
+        private
+
+        #
+        # Merges the ESMTP parameters into the options for {Network::ESMTP}
+        # methods.
+        #
+        # @param [Hash] options
+        #   The original options.
+        #
+        # @return [Hash]
+        #   The merged options.
+        #
+        # @since 0.4.0
+        #
+        # @api private
+        #   
+        def esmtp_merge_options(options={})
+          options[:port]     ||= self.port
+          options[:login]    ||= self.esmtp_login
+          options[:user]     ||= self.esmtp_user
+          options[:password] ||= self.esmtp_password
+
+          return options
         end
       end
     end
