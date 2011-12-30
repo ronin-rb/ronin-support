@@ -1,8 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'parameters', '~> 0.4', :git => 'http://github.com/postmodern/parameters.git',
-                            :branch => '0.4.0'
-
 gemspec
 
 platforms :jruby do
