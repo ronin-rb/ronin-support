@@ -197,7 +197,7 @@ class String
     end
 
     n.each do |length|
-      yield (self * length)
+      yield(self * length)
     end
 
     return self
