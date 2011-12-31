@@ -283,7 +283,7 @@ class String
   #   The base64 decoded form of the string.
   #
   # @note
-  #   `mode` argument is only availabe on Ruby >= 1.9.
+  #   `mode` argument is only available on Ruby >= 1.9.
   #
   # @example
   #   "aGVsbG8=\n".base64_decode
