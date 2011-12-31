@@ -30,7 +30,7 @@ class String
   #
   # Generate permutations of Strings from a format template.
   #
-  # @param [Array(<String, Symbol, Enumerable>, <Integer, Enumerable>)] template
+  # @param [Array(<String,Symbol,Enumerable>, <Integer,Array,Range>)] template
   #   The template which defines the string or character sets which will
   #   make up parts of the String.
   #
@@ -113,7 +113,7 @@ class String
       case length
       when Integer
         length.times { sets << set.dup }
-      when Enumerable
+      when Array, Range
         sets << Combinatorics::Generator.new do |g|
           length.each do |sublength|
             superset = Array.new(sublength) { set.dup }
@@ -124,7 +124,7 @@ class String
       when nil
         sets << set
       else
-        raise(TypeError,"length must be an Integer or Enumerable")
+        raise(TypeError,"length must be an Integer, Range or Array")
       end
     end
 
