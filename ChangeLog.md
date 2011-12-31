@@ -1,3 +1,73 @@
+### 0.4.0 / 2012-01-01
+
+* Require uri-query_params ~> 0.6.
+* Require parameters ~> 0.4.
+* Added {Regexp::DELIM}.
+* Added {Regexp::IDENTIFIER}.
+* Added {Regexp::OCTET}.
+* Added {Regexp::FILE_EXT}.
+* Added {Regexp::FILE_NAME}.
+* Added {Regexp::FILE}.
+* Added {Regexp::DIRECTORY}.
+* Added {Regexp::LOCAL_UNIX_PATH}.
+* Added {Regexp::ABSOLUTE_UNIX_PATH}.
+* Added {Regexp::UNIX_PATH}.
+* Added {Regexp::LOCAL_WINDOWS_PATH}.
+* Added {Regexp::ABSOLUTE_WINDOWS_PATH}.
+* Added {Regexp::WINDOWS_PATH}.
+* Added {Regexp::LOCAL_PATH}.
+* Added {Regexp::ABSOLUTE_PATH}.
+* Added {Regexp::PATH}.
+* Added {String#repeating}.
+* Added {String#sql_inject}.
+* Added {String#mutate}.
+* Added {Ronin::Fuzzing}.
+  * Added {Ronin::Fuzzing.[]}.
+  * Added {Ronin::Fuzzing.bad_strings}.
+  * Added {Ronin::Fuzzing.format_strings}.
+  * Added {Ronin::Fuzzing.bad_paths}.
+  * Added {Ronin::Fuzzing.bit_fields}.
+  * Added {Ronin::Fuzzing.signed_bit_fields}.
+  * Added {Ronin::Fuzzing.uint8}.
+  * Added {Ronin::Fuzzing.uint16}.
+  * Added {Ronin::Fuzzing.uint32}.
+  * Added {Ronin::Fuzzing.uint64}.
+  * Added {Ronin::Fuzzing.int8}.
+  * Added {Ronin::Fuzzing.int16}.
+  * Added {Ronin::Fuzzing.int32}.
+  * Added {Ronin::Fuzzing.int64}.
+  * Added {Ronin::Fuzzing.sint8}.
+  * Added {Ronin::Fuzzing.sint16}.
+  * Added {Ronin::Fuzzing.sint32}.
+  * Added {Ronin::Fuzzing.sint64}.
+* Added {Ronin::Wordlist}.
+* Added {Ronin::Network::Mixins::Mixin}.
+* Added {Ronin::UI::Output::Helpers#print_exception}.
+* Made {Regexp::HOST_NAME} case-insensitive.
+* Refactored {Regexp::IPv4} to not match invalid IPv4 addresses.
+* Require `ronin/formatting/html` in `ronin/formatting`.
+* Allow {String#base64_encode} and {String#base64_decode} to accept a formatting
+  argument.
+  * `:normal`
+  * `:strict`
+  * `:url` / `:urlsafe`
+* Fixed a bug in {String#js_unescape}, where `%uXX` chars were not being
+  unescaped (thanks isis!).
+* Have {String#fuzz} only accept `Regexp` and `String` objects.
+* Moved {String#fuzz} and {String.generate} into `ronin/fuzzing`.
+* Moved `Net.*` methods into the {Ronin::Network} modules.
+* Fixed bugs in {Ronin::Network::UDP#udp_connect} and
+  {Ronin::Network::UDP#udp_server}.
+* Fixed a bug in {Ronin::Network::Mixins::HTTP#http_session}, where
+  normalized options were not being yielded.
+* Allow {Ronin::Templates::Erb} to use `<%- -%>` syntax.
+* Alias `<<` to `write` in {Ronin::UI::Output::Helpers}.
+* Fixed bugs in {Ronin::UI::Shell}.
+* Warning messages are printed by {Ronin::UI::Output::Helpers}, unless output
+  is silenced.
+* {Ronin::UI::Output::Helpers} and {Ronin::Network} modules are included into
+  {Ronin::Support}.
+
 ### 0.3.0 / 2011-10-16
 
 * Require combinatorics ~> 0.4.
