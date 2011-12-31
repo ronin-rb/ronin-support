@@ -7,10 +7,10 @@ describe Wordlist do
   let(:words) { %w[foo bar baz] }
 
   before(:all) do
-    @path = Tempfile.open('ronin-support-wordlist') do |file|
+    Tempfile.open('ronin-support-wordlist') do |file|
       words.each { |word| file.puts word }
 
-      file.path
+      @path = file.path
     end
   end
 
