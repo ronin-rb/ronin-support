@@ -372,11 +372,11 @@ module Ronin
       # @option :ssl [Symbol] :verify
       #   Specifies the SSL certificate verification mode.
       #   
-      # @yield [session]
+      # @yield [http]
       #   If a block is given, it will be passed the newly created HTTP
       #   session object.
       #
-      # @yieldparam [Net::HTTP] session
+      # @yieldparam [Net::HTTP] http
       #   The newly created HTTP session.
       #
       # @return [Net::HTTP]
@@ -394,7 +394,7 @@ module Ronin
                        proxy[:host].to_s
                      end
 
-        sess = Net::HTTP::Proxy(
+        http = Net::HTTP::Proxy(
           proxy_host,
           proxy[:port],
           proxy[:user],
@@ -402,21 +402,21 @@ module Ronin
         ).new(host.to_s,port)
 
         if options[:ssl]
-          sess.use_ssl     = true
-          sess.verify_mode = SSL::VERIFY[options[:ssl][:verify]]
+          http.use_ssl     = true
+          http.verify_mode = SSL::VERIFY[options[:ssl][:verify]]
         end
 
-        sess.start()
+        http.start()
 
         if block
           if block.arity == 2
-            block.call(sess,options)
+            block.call(http,options)
           else
-            block.call(sess)
+            block.call(http)
           end
         end
 
-        return sess
+        return http
       end
 
       #
@@ -449,11 +449,11 @@ module Ronin
       # @option :ssl [Symbol] :verify
       #   Specifies the SSL certificate verification mode.
       #   
-      # @yield [session]
+      # @yield [http]
       #   If a block is given, it will be passed the newly created HTTP
       #   session object.
       #
-      # @yieldparam [Net::HTTP] session
+      # @yieldparam [Net::HTTP] http
       #   The newly created HTTP session.
       #
       # @return [nil]
@@ -463,16 +463,16 @@ module Ronin
       # @api public
       #
       def http_session(options={},&block)
-        http_connect(options) do |sess,expanded_options|
+        http_connect(options) do |http,expanded_options|
           if block
             if block.arity == 2
-              block.call(sess,expanded_options)
+              block.call(http,expanded_options)
             else
-              block.call(sess)
+              block.call(http)
             end
           end
 
-          sess.finish
+          http.finish
         end
 
         return nil
