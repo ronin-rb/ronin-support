@@ -305,7 +305,7 @@ module Ronin
         headers = HTTP.headers(options[:headers])
         path    = (options[:path] || '/').to_s
         query   = if options[:query]
-                    options[:query]
+                    URI.encode(options[:query])
                   elsif options[:query_params]
                     URI::QueryParams.dump(options[:query_params])
                   end
