@@ -399,7 +399,7 @@ module Ronin
           proxy[:port],
           proxy[:user],
           proxy[:password]
-        ).new(host.to_s,port)
+        ).new(host,port)
 
         if options[:ssl]
           http.use_ssl     = true
