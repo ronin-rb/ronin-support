@@ -519,7 +519,7 @@ module Ronin
       # @api public
       #
       def http_request(options={},&block)
-        resp = nil
+        response = nil
 
         http_session(options) do |http,expanded_options|
           req = HTTP.request(expanded_options)
@@ -532,10 +532,10 @@ module Ronin
             end
           end
 
-          resp = http.request(req)
+          response = http.request(req)
         end
 
-        return resp
+        return response
       end
 
       #
@@ -647,10 +647,10 @@ module Ronin
       # @api public
       #
       def http_copy(options={})
-        resp = http_request(options.merge(:method => :copy))
+        response = http_request(options.merge(:method => :copy))
 
-        yield resp if block_given?
-        return resp
+        yield response if block_given?
+        return response
       end
 
       #
@@ -683,10 +683,10 @@ module Ronin
           options[:header].merge!(original_headers)
         end
 
-        resp = http_request(options.merge(:method => :delete))
+        response = http_request(options.merge(:method => :delete))
 
-        yield resp if block_given?
-        return resp
+        yield response if block_given?
+        return response
       end
 
       #
@@ -710,10 +710,10 @@ module Ronin
       # @api public
       #
       def http_get(options={},&block)
-        resp = http_request(options.merge(:method => :get))
+        response = http_request(options.merge(:method => :get))
 
-        yield resp if block_given?
-        return resp
+        yield response if block_given?
+        return response
       end
 
       #
@@ -773,10 +773,10 @@ module Ronin
       # @api public
       #
       def http_head(options={},&block)
-        resp = http_request(options.merge(:method => :head))
+        response = http_request(options.merge(:method => :head))
 
-        yield resp if block_given?
-        return resp
+        yield response if block_given?
+        return response
       end
 
       #
@@ -800,10 +800,10 @@ module Ronin
       # @api public
       #
       def http_lock(options={},&block)
-        resp = http_request(options.merge(:method => :lock))
+        response = http_request(options.merge(:method => :lock))
 
-        yield resp if block_given?
-        return resp
+        yield response if block_given?
+        return response
       end
 
       #
@@ -827,10 +827,10 @@ module Ronin
       # @api public
       #
       def http_mkcol(options={},&block)
-        resp = http_request(options.merge(:method => :mkcol))
+        response = http_request(options.merge(:method => :mkcol))
 
-        yield resp if block_given?
-        return resp
+        yield response if block_given?
+        return response
       end
 
       #
@@ -854,10 +854,10 @@ module Ronin
       # @api public
       #
       def http_move(options={},&block)
-        resp = http_request(options.merge(:method => :move))
+        response = http_request(options.merge(:method => :move))
 
-        yield resp if block_given?
-        return resp
+        yield response if block_given?
+        return response
       end
 
       #
@@ -881,10 +881,10 @@ module Ronin
       # @api public
       #
       def http_options(options={},&block)
-        resp = http_request(options.merge(:method => :options))
+        response = http_request(options.merge(:method => :options))
 
-        yield resp if block_given?
-        return resp
+        yield response if block_given?
+        return response
       end
 
       #
@@ -911,10 +911,10 @@ module Ronin
       # @api public
       #
       def http_post(options={},&block)
-        resp = http_request(options.merge(:method => :post))
+        response = http_request(options.merge(:method => :post))
 
-        yield resp if block_given?
-        return resp
+        yield response if block_given?
+        return response
       end
 
       #
@@ -989,10 +989,10 @@ module Ronin
           options[:header].merge!(original_headers)
         end
 
-        resp = http_request(options.merge(:method => :propfind))
+        response = http_request(options.merge(:method => :propfind))
 
-        yield resp if block_given?
-        return resp
+        yield response if block_given?
+        return response
       end
 
       #
@@ -1016,10 +1016,10 @@ module Ronin
       # @api public
       #
       def http_prop_patch(options={},&block)
-        resp = http_request(options.merge(:method => :proppatch))
+        response = http_request(options.merge(:method => :proppatch))
 
-        yield resp if block_given?
-        return resp
+        yield response if block_given?
+        return response
       end
 
       #
@@ -1043,10 +1043,10 @@ module Ronin
       # @api public
       #
       def http_trace(options={},&block)
-        resp = http_request(options.merge(:method => :trace))
+        response = http_request(options.merge(:method => :trace))
 
-        yield resp if block_given?
-        return resp
+        yield response if block_given?
+        return response
       end
 
       #
@@ -1070,10 +1070,10 @@ module Ronin
       # @api public
       #
       def http_unlock(options={},&block)
-        resp = http_request(options.merge(:method => :unlock))
+        response = http_request(options.merge(:method => :unlock))
 
-        yield resp if block_given?
-        return resp
+        yield response if block_given?
+        return response
       end
     end
   end
