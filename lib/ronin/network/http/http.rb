@@ -129,7 +129,7 @@ module Ronin
         new_options[:host] = url.host
         new_options[:port] = url.port
 
-        new_options[:user] = url.user if url.user
+        new_options[:user]     = url.user     if url.user
         new_options[:password] = url.password if url.password
 
         new_options[:path] = unless url.path.empty?
@@ -303,13 +303,12 @@ module Ronin
         end
 
         headers = HTTP.headers(options[:headers])
-        path = (options[:path] || '/').to_s
-
-        query = if options[:query]
-                  options[:query]
-                elsif options[:query_params]
-                  URI::QueryParams.dump(options[:query_params])
-                end
+        path    = (options[:path] || '/').to_s
+        query   = if options[:query]
+                    options[:query]
+                  elsif options[:query_params]
+                    URI::QueryParams.dump(options[:query_params])
+                  end
 
         if query
           # append the query-string onto the path
@@ -388,8 +387,8 @@ module Ronin
       def http_connect(options={},&block)
         options = HTTP.expand_options(options)
 
-        host = options[:host].to_s
-        port = options[:port]
+        host  = options[:host].to_s
+        port  = options[:port]
         proxy = options[:proxy]
         proxy_host = if (proxy && proxy[:host])
                        proxy[:host].to_s
@@ -403,7 +402,7 @@ module Ronin
         ).new(host.to_s,port)
 
         if options[:ssl]
-          sess.use_ssl = true
+          sess.use_ssl     = true
           sess.verify_mode = SSL::VERIFY[options[:ssl][:verify]]
         end
 
