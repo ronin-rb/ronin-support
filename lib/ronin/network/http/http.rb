@@ -329,12 +329,11 @@ module Ronin
           end
         end
 
-        if (user = options.delete(:user))
-          user = user.to_s
-
-          if (password = options.delete(:password))
-            password = password.to_s
-          end
+        if options[:user]
+          user     = options[:user].to_s
+          password = if options[:password]
+                       options[:password].to_s
+                     end
 
           request.basic_auth(user,password)
         end
