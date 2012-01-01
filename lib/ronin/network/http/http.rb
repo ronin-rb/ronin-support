@@ -137,7 +137,7 @@ module Ronin
                              else
                                '/'
                              end
-        new_options[:path] += "?#{url.query}" if url.query
+        new_options[:path] += "?#{URI.escape(url.query)}" if url.query
 
         return new_options
       end
@@ -256,6 +256,12 @@ module Ronin
       # @option options [String] :path ('/')
       #   The path to request.
       #
+      # @option options [String] :query
+      #   The query-string to append to the request path.
+      #
+      # @option options [String] :query_params
+      #   The query-params to append to the request path.
+      #
       # @option options [String] :body
       #   The body of the request.
       #
@@ -298,6 +304,21 @@ module Ronin
 
         headers = HTTP.headers(options[:headers])
         path = (options[:path] || '/').to_s
+
+        query = if options[:query]
+                  options[:query]
+                elsif options[:query_params]
+                  URI::QueryParams.dump(options[:query_params])
+                end
+
+        if query
+          # append the query-string onto the path
+          path += if path.include?('?')
+                    "&#{query}"
+                  else
+                    "?#{query}"
+                  end
+        end
 
         request = Net::HTTP.const_get(name).new(path,headers)
 
