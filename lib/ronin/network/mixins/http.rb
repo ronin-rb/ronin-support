@@ -122,9 +122,9 @@ module Ronin
             print_info "Starting HTTP Session with #{host_port}"
 
             if block.arity == 2
-              block.call(sess,expanded_options)
+              block.call(http,expanded_options)
             else
-              block.call(sess)
+              block.call(http)
             end
 
             print_info "Closing HTTP Session with #{host_port}"
