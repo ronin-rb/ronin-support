@@ -73,12 +73,12 @@ module Ronin
         @name     = options.fetch(:name,'')
         @prompt   = options.fetch(:prompt,DEFAULT_PROMPT)
 
-        @commands = Set[:help, :exit]
+        @commands = Set['help', 'exit']
 
         self.class.ancestors.each do |subclass|
           if subclass < Shell
             subclass.protected_instance_methods(false).each do |name|
-              @commands << name.to_sym
+              @commands << name.to_s
             end
           end
         end
@@ -163,10 +163,8 @@ module Ronin
           # ignore empty lines
           return false unless command
 
-          command = command.to_sym
-
           # no explicitly calling handler
-          return false if command == :handler
+          return false if command == 'handler'
 
           unless @commands.include?(command)
             print_error "Invalid command: #{command}"
