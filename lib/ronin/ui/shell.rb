@@ -26,6 +26,68 @@ module Ronin
     #
     # Spawns a ReadLine powered interactive Shell.
     #
+    # ## Simple Shell
+    #
+    #     require 'ronin/ui/shell'
+    #     require 'ronin/network/tcp'
+    #
+    #     include Ronin::Network::TCP
+    #
+    #     tcp_session('victim.com',1337) do |socket|
+    #       UI::Shell.new(:name => 'bind_shell') do |shell,line|
+    #         socket.puts "#{line}; echo 'EOC'"
+    #
+    #         socket.each_line do |output|
+    #           puts output
+    #
+    #           break if output.chomp == 'EOC'
+    #         end
+    #       end
+    #     end
+    #
+    # ## Shell with Commands
+    #
+    #     require 'ronin/ui/shell'
+    #     require 'ronin/network/http'
+    #
+    #     class HTTPShell < Ronin::UI::Shell
+    #
+    #       include Ronin::Network::HTTP
+    #
+    #       def initialize(host)
+    #         super(:name => host)
+    #
+    #         @host = host
+    #       end
+    #
+    #       protected
+    #
+    #       def get(path)
+    #         print_response http_get(:host => @host, :path => path)
+    #       end
+    #
+    #       def post(path,*params)
+    #         print_response http_post(
+    #           :host      => @host,
+    #           :path      => path,
+    #           :post_data => Hash[params.map { |param| param.split('=') }]
+    #         )
+    #       end
+    #
+    #       private
+    #
+    #       def print_response(response)
+    #         response.canonical_each do |name,value|
+    #           puts "#{name}: #{value}"
+    #         end
+    #
+    #         puts
+    #
+    #         puts response.body
+    #       end
+    #
+    #     end
+    #
     # @api semipublic
     #
     class Shell
