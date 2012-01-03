@@ -70,7 +70,7 @@ module Ronin
       # @since 0.3.0
       #
       def initialize(options={},&block)
-        @name     = options.fetch(:name,'')
+        @name     = options[:name]
         @prompt   = options.fetch(:prompt,DEFAULT_PROMPT)
 
         @commands = Set['help', 'exit']
