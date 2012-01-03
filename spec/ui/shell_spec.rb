@@ -22,15 +22,19 @@ describe UI::Shell do
 
     describe "#commands" do
       it "should include builtin methods" do
-        subject.commands.should include(:help, :exit)
+        subject.commands.should include('help', 'exit')
       end
 
       it "should include protected methods" do
-        subject.commands.should include(:command1, :command_with_arg, :command_with_args)
+        subject.commands.should include(
+          'command1',
+          'command_with_arg',
+          'command_with_args'
+        )
       end
 
       it "should not include public methods" do
-        subject.commands.should_not include(:a_public_method)
+        subject.commands.should_not include('a_public_method')
       end
     end
 
