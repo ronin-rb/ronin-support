@@ -42,6 +42,7 @@
   * Added {Ronin::Fuzzing.sint64}.
 * Added {Ronin::Wordlist}.
 * Added {Ronin::Network::Mixins::Mixin}.
+* Added {Ronin::Network::Mixins::SSL}.
 * Added {Ronin::UI::Output::Helpers#print_exception}.
 * Made {Regexp::HOST_NAME} case-insensitive.
 * Refactored {Regexp::IPv4} to not match invalid IPv4 addresses.
