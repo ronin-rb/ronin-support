@@ -33,7 +33,7 @@ module Ronin
       # * `local_host` (`String`) - SSL local host.
       # * `local_port` (`Integer`) - SSL local port.
       #
-      module TCP
+      module SSL
         include Mixin, Network::SSL
 
         # SSL host
