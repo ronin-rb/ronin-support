@@ -1,1 +1,2 @@
 --markup markdown --title 'Ronin Support Documentation' --protected
+--plugin yard-parameters
