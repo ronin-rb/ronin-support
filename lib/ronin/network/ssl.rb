@@ -173,8 +173,8 @@ module Ronin
     #
     # @api public
     #
-    def ssl_session(host,port)
-      ssl_socket = ssl_connect(host,port)
+    def ssl_session(host,port,options={})
+      ssl_socket = ssl_connect(host,port,options)
 
       yield ssl_socket if block_given?
 
