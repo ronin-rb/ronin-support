@@ -84,8 +84,8 @@ module Ronin
         #   # => UDPSocket
         #
         # @example
-        #   udp_connect do |sock|
-        #     puts sock.readlines
+        #   udp_connect do |socket|
+        #     puts socket.readlines
         #   end
         #
         # @api public

@@ -54,8 +54,8 @@ module Ronin
       #   # => UDPSocket
       #
       # @example
-      #   udp_connect('www.wired.com',80) do |sock|
-      #     puts sock.readlines
+      #   udp_connect('www.wired.com',80) do |socket|
+      #     puts socket.readlines
       #   end
       #
       # @api public
@@ -105,8 +105,8 @@ module Ronin
       # @api public
       #
       def udp_connect_and_send(data,host,port,local_host=nil,local_port=nil)
-        sock = udp_connect(host,port,local_host,local_port)
-        sock.write(data)
+        socket = udp_connect(host,port,local_host,local_port)
+        socket.write(data)
 
         yield sock if block_given?
         return sock
@@ -140,11 +140,11 @@ module Ronin
       # @api public
       #
       def udp_session(host,port,local_host=nil,local_port=nil)
-        sock = udp_connect(host,port,local_host,local_port)
+        socket = udp_connect(host,port,local_host,local_port)
 
-        yield sock if block_given?
+        yield socket if block_given?
 
-        sock.close
+        socket.close
         return nil
       end
 
@@ -177,8 +177,8 @@ module Ronin
       def udp_banner(host,port,local_host=nil,local_port=nil)
         banner = nil
 
-        udp_session(host,port,local_host,local_port) do |sock|
-          banner = sock.readline
+        udp_session(host,port,local_host,local_port) do |socket|
+          banner = socket.readline
         end
 
         yield banner if block_given?

@@ -125,10 +125,10 @@ module Ronin
         # @return [nil]
         #
         # @example
-        #   ssl_session do |sock|
-        #     sock.write("GET /\n\n")
+        #   ssl_session do |socket|
+        #     socket.write("GET /\n\n")
         #
-        #     sock.each_line { |line| puts line }
+        #     socket.each_line { |line| puts line }
         #   end
         #
         # @api public

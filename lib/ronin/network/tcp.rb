@@ -53,10 +53,11 @@ module Ronin
       #   tcp_connect('www.hackety.org',80) # => TCPSocket
       #
       # @example
-      #   tcp_connect('www.wired.com',80) do |sock|
-      #     sock.write("GET /\n\n")
-      #     puts sock.readlines
-      #     sock.close
+      #   tcp_connect('www.wired.com',80) do |socket|
+      #     socket.write("GET /\n\n")
+      #
+      #     puts socket.readlines
+      #     socket.close
       #   end
       #
       # @api public
@@ -101,8 +102,8 @@ module Ronin
       # @api public
       #
       def tcp_connect_and_send(data,host,port,local_host=nil,local_port=nil)
-        sock = tcp_connect(host,port,local_host,local_port)
-        sock.write(data)
+        socket = tcp_connect(host,port,local_host,local_port)
+        socket.write(data)
 
         yield sock if block_given?
         return sock
@@ -136,11 +137,11 @@ module Ronin
       # @api public
       #
       def tcp_session(host,port,local_host=nil,local_port=nil)
-        sock = tcp_connect(host,port,local_host,local_port)
+        socket = tcp_connect(host,port,local_host,local_port)
 
-        yield sock if block_given?
+        yield socket if block_given?
 
-        sock.close
+        socket.close
         return nil
       end
 
@@ -177,8 +178,8 @@ module Ronin
       def tcp_banner(host,port,local_host=nil,local_port=nil)
         banner = nil
 
-        tcp_session(host,port,local_host,local_port) do |sock|
-          banner = sock.readline.strip
+        tcp_session(host,port,local_host,local_port) do |socket|
+          banner = socket.readline.strip
         end
 
         yield banner if block_given?
@@ -215,8 +216,8 @@ module Ronin
       # @api public
       #
       def tcp_send(data,host,port,local_host=nil,local_port=nil)
-        tcp_session(host,port,local_host,local_port) do |sock|
-          sock.write(data)
+        tcp_session(host,port,local_host,local_port) do |socket|
+          socket.write(data)
         end
 
         return true

@@ -83,10 +83,11 @@ module Ronin
         #   tcp_connect # => TCPSocket
         #
         # @example
-        #   tcp_connect do |sock|
-        #     sock.write("GET /\n\n")
-        #     puts sock.readlines
-        #     sock.close
+        #   tcp_connect do |socket|
+        #     socket.write("GET /\n\n")
+        #
+        #     puts socket.readlines
+        #     socket.close
         #   end
         #
         # @api public
