@@ -731,7 +731,13 @@ module Ronin
       # @api public
       #
       def http_get_headers(options={})
-        http_get(options).to_hash
+        headers = {}
+
+        http_get(options).each_header do |name,value|
+          headers[HTTP.header_name(name)] = value
+        end
+
+        return headers
       end
 
       #
@@ -935,7 +941,13 @@ module Ronin
       # @api public
       #
       def http_post_headers(options={})
-        http_post(options).to_hash
+        headers = {}
+
+        http_post(options).each_header do |name,value|
+          headers[HTTP.header_name(name)] = value
+        end
+
+        return headers
       end
 
       #
