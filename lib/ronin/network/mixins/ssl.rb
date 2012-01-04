@@ -133,7 +133,7 @@ module Ronin
         #
         # @api public
         #
-        def ssl_session(options,&block)
+        def ssl_session(options={},&block)
           super(self.host,self.port,options,&block)
         end
       end
