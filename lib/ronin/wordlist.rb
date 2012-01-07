@@ -19,6 +19,8 @@
 
 require 'ronin/fuzzing/extensions'
 
+require 'set'
+
 module Ronin
   #
   # An Enumerable class for iterating over wordlist files or lists of words.
@@ -69,6 +71,54 @@ module Ronin
       @mutations.merge!(mutations)
 
       yield self if block_given?
+    end
+
+    #
+    # Parses the text into a unique Set of words.
+    #
+    # @param [#each_line] text
+    #   The text to parse.
+    #
+    # @yield [word]
+    #   If a block is given, it will be passed every unique word,
+    #   the first time it is seen.
+    #
+    # @yieldparam [String] word
+    #   A unique word from the text.
+    #
+    # @return [SortedSet]
+    #   The unique set of words from the text.
+    #
+    def self.parse(text)
+      words_seen = SortedSet[]
+
+      text.each_line do |line|
+        line.split.each do |word|
+          if block_given?
+            yield word unless words_seen.include?(word)
+          end
+
+          words_seen << word
+        end
+      end
+
+      return words_seen
+    end
+
+    #
+    # Builds a new wordlist from the text.
+    #
+    # @param [#each_line] text
+    #   The text to parse.
+    #
+    # @param [Hash{Regexp,String,Symbol => Symbol,#each}] mutations
+    #   Additional mutations for the wordlist.
+    #
+    # @return [Wordlist]
+    #   The newly build wordlist.
+    #
+    def self.build(text,mutations={})
+      new(parse(text),mutations)
     end
 
     #

@@ -16,6 +16,31 @@ describe Wordlist do
 
   subject { described_class.new(words) }
 
+  describe "parse" do
+    subject { described_class }
+
+    let(:words) { ('aa'..'zz').to_a }
+    let(:text)  {
+      words.each_slice(100).map { |w| w.shuffle.join(' ') }.join("\n")
+    }
+
+    it "should parse unique words" do
+      subject.parse(text).to_a =~ words
+    end
+
+    it "should sort the unique words" do
+      subject.parse(text).to_a == words.sort
+    end
+
+    it "should yield unique words when they are seen" do
+      seen = []
+
+      subject.parse(text) { |word| seen << word }
+
+      seen.should =~ words
+    end
+  end
+
   describe "#initialize" do
     it "should accept a list of words" do
       subject.to_a.should == words
