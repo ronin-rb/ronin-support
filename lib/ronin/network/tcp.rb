@@ -34,7 +34,7 @@ module Ronin
       # @param [Integer] port
       #   The port to connect to.
       #
-      # @param [String] local_host (nil)
+      # @param [String] local_host ('0.0.0.0')
       #   The local host to bind to.
       #
       # @param [Integer] local_port (nil)
@@ -238,8 +238,8 @@ module Ronin
       #
       # @api public
       #
-      def tcp_server(port,host='0.0.0.0')
-        host = host.to_s
+      def tcp_server(port,host=nil)
+        host = (host || '0.0.0.0').to_s
 
         server = TCPServer.new(host,port)
         server.listen(3)
@@ -279,7 +279,7 @@ module Ronin
       #
       # @api public
       #
-      def tcp_server_session(port,host='0.0.0.0',&block)
+      def tcp_server_session(port,host=nil,&block)
         server = tcp_server(port,host,&block)
         server.close()
         return nil
@@ -305,7 +305,7 @@ module Ronin
       #
       # @api public
       #
-      def tcp_single_server(port,host='0.0.0.0')
+      def tcp_single_server(port,host=nil)
         host = host.to_s
 
         server = TCPServer.new(host,port)
