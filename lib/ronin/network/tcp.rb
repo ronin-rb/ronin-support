@@ -105,8 +105,8 @@ module Ronin
         socket = tcp_connect(host,port,local_host,local_port)
         socket.write(data)
 
-        yield sock if block_given?
-        return sock
+        yield socket if block_given?
+        return socket
       end
 
       #
