@@ -68,10 +68,10 @@ module Ronin
                        local_host.to_s
                      end
 
-        sock = TCPSocket.new(host,port,local_host,local_port)
+        socket = TCPSocket.new(host,port,local_host,local_port)
 
-        yield sock if block_given?
-        return sock
+        yield socket if block_given?
+        return socket
       end
 
       #
