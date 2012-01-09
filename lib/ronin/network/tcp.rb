@@ -63,10 +63,8 @@ module Ronin
       # @api public
       #
       def tcp_connect(host,port,local_host=nil,local_port=nil)
-        host = host.to_s
-        local_host = if local_host
-                       local_host.to_s
-                     end
+        host       = host.to_s
+        local_host = (local_host || '0.0.0.0').to_s
 
         socket = TCPSocket.new(host,port,local_host,local_port)
 
