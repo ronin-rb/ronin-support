@@ -270,4 +270,197 @@ describe Network::HTTP do
       }.should raise_error(ArgumentError)
     end
   end
+
+  describe "helper methods" do
+    let(:host) { 'www.google.com' }
+    let(:port) { 80 }
+    let(:path) { '/' }
+    let(:uri)  { URI::HTTP.build(:host => host, :port => 80, :path => path) }
+
+    subject do
+      obj = Object.new
+      obj.extend described_class
+      obj
+    end
+
+    describe "#http_connect" do
+      it "should create a Net::HTTP session" do
+        http = subject.http_connect(:host => host, :port => port)
+        
+        http.should be_kind_of(Net::HTTP)
+        http.should be_started
+
+        http.finish
+      end
+
+      it "should yield the new Net::HTTP session" do
+        http = nil
+
+        subject.http_connect(:url => uri) do |session|
+          http = session
+        end
+
+        http.should be_kind_of(Net::HTTP)
+      end
+
+      it "should allow yielding the expanded options" do
+        expanded_options = nil
+
+        subject.http_connect(:url => uri) do |session,options|
+          expanded_options = options
+        end
+
+        expanded_options[:host].should == host
+        expanded_options[:port].should == port
+        expanded_options[:path].should == path
+      end
+    end
+
+    describe "#http_session" do
+      it "should start and then finish a Net::HTTP session" do
+        http = nil
+        
+        subject.http_session(:host => host, :port => port) do |session|
+          http = session
+        end
+        
+        http.should be_kind_of(Net::HTTP)
+        http.should_not be_started
+      end
+
+      it "should allow yielding the Net::HTTP session" do
+        http = nil
+
+        subject.http_session(:url => uri) do |session|
+          http = session
+        end
+        
+        http.should be_kind_of(Net::HTTP)
+      end
+
+      it "should allow yielding the expanded options" do
+        expanded_options = nil
+
+        subject.http_session(:url => uri) do |session,options|
+          expanded_options = options
+        end
+
+        expanded_options[:host].should == host
+        expanded_options[:port].should == port
+        expanded_options[:path].should == path
+      end
+    end
+
+    describe "#http_request" do
+      it "should send an arbitrary request and return the response" do
+        response = subject.http_request(:url => uri, :method => :options)
+
+        response.should be_kind_of(Net::HTTPMethodNotAllowed)
+      end
+
+      it "should allow yielding the request" do
+        request = nil
+
+        subject.http_request(:url => uri, :method => :options) do |req|
+          request = req
+        end
+
+        request.should be_kind_of(Net::HTTP::Options)
+      end
+
+      it "should allow yielding the expanded options" do
+        expanded_options = nil
+
+        subject.http_request(:url => uri, :method => :options) do |req,options|
+          expanded_options = options
+        end
+        
+        expanded_options[:host].should == host
+        expanded_options[:port].should == port
+        expanded_options[:path].should == path
+      end
+    end
+
+    describe "#http_status" do
+      it "should return an Integer" do
+        subject.http_status(:url => uri).should be_kind_of(Integer)
+      end
+
+      it "should return the status-code of the Response" do
+        subject.http_status(:url => uri).should == 200
+      end
+    end
+
+    describe "#http_ok?" do
+      it "should check if the Response has code 200" do
+        subject.http_ok?(:url => uri).should == true
+      end
+    end
+
+    describe "#http_server" do
+      let(:url)     { "http://www.php.net/" }
+      let(:headers) { subject.http_get_headers(:url => url) }
+
+      it "should return the 'Server' header" do
+        subject.http_server(:url => url).should == headers['Server']
+      end
+    end
+
+    describe "#http_powered_by" do
+      let(:url)     { "http://www.php.net/" }
+      let(:headers) { subject.http_get_headers(:url => url) }
+
+      it "should return the 'X-Powered-By' header" do
+        subject.http_powered_by(:url => url).should == headers['X-Powered-By']
+      end
+    end
+
+    describe "#http_get_headers" do
+      let(:headers) { subject.http_get_headers(:url => uri) }
+
+      it "should return HTTP Headers" do
+        headers.should_not be_empty
+      end
+
+      it "should format the HTTP Headers accordingly" do
+        format = /^[A-Z][a-z0-9]*(-[A-Z][a-z0-9]*)*$/
+        bad_headers = headers.keys.reject { |name| name =~ format }
+
+        bad_headers.should == []
+      end
+    end
+
+    describe "#http_get_body" do
+      it "should return the response body" do
+        body = subject.http_get_body(:url => uri)
+
+        body.should be_kind_of(String)
+        body.should_not be_empty
+      end
+    end
+
+    describe "#http_post_headers" do
+      let(:headers) { subject.http_post_headers(:url => uri) }
+
+      it "should return HTTP Headers" do
+        headers.should_not be_empty
+      end
+
+      it "should format the HTTP Headers accordingly" do
+        format = /^[A-Z][a-z0-9]*(-[A-Z][a-z0-9]*)*$/
+        bad_headers = headers.keys.reject { |name| name =~ format }
+
+        bad_headers.should == []
+      end
+    end
+
+    describe "#http_post_body" do
+      it "should return the response body" do
+        body = subject.http_post_body(:url => uri)
+
+        body.should be_kind_of(String)
+        body.should_not be_empty
+      end
+    end
+  end
 end
