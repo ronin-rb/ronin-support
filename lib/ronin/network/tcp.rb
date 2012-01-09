@@ -238,7 +238,7 @@ module Ronin
       #
       # @api public
       #
-      def tcp_server(port,host=nil)
+      def tcp_server(port=nil,host=nil)
         host = (host || '0.0.0.0').to_s
 
         server = TCPServer.new(host,port)
@@ -279,7 +279,7 @@ module Ronin
       #
       # @api public
       #
-      def tcp_server_session(port,host=nil,&block)
+      def tcp_server_session(port=nil,host=nil,&block)
         server = tcp_server(port,host,&block)
         server.close()
         return nil
@@ -305,7 +305,7 @@ module Ronin
       #
       # @api public
       #
-      def tcp_single_server(port,host=nil)
+      def tcp_single_server(port=nil,host=nil)
         host = host.to_s
 
         server = TCPServer.new(host,port)

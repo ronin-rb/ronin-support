@@ -200,7 +200,7 @@ module Ronin
       #
       # @api public
       #
-      def udp_server(port,host=nil)
+      def udp_server(port=nil,host=nil)
         host   = (host || '0.0.0.0').to_s
         server = UDPSocket.new
 
@@ -235,7 +235,7 @@ module Ronin
       #
       # @api public
       #
-      def udp_server_session(port,host=nil,&block)
+      def udp_server_session(port=nil,host=nil,&block)
         server = udp_server(port,host,&block)
 
         server.close()
