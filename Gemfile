@@ -10,7 +10,7 @@ group :development do
   gem 'rake',		        '~> 0.8'
 
   gem 'ore-tasks',	    '~> 0.4'
-  gem 'rspec',          '~> 2.4'
+  gem 'rspec',          '~> 2.8'
 
   gem 'kramdown',       '~> 0.12'
 end
