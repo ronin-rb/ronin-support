@@ -4,7 +4,7 @@ require 'ronin/network/tcp'
 require 'resolv'
 
 describe Network::TCP do
-  describe "helper methods" do
+  describe "helper methods", :network do
     let(:host) { 'smtp.gmail.com' }
     let(:port) { 25 }
 

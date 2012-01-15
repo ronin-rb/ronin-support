@@ -271,7 +271,7 @@ describe Network::HTTP do
     end
   end
 
-  describe "helper methods" do
+  describe "helper methods", :network do
     let(:host) { 'www.google.com' }
     let(:port) { 80 }
     let(:path) { '/' }

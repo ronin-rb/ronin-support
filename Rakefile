@@ -23,6 +23,14 @@ Ore::Tasks.new
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new
+
+namespace :spec do
+  RSpec::Core::RakeTask.new(:network) do |t|
+    t.pattern    = 'spec/network/{**/}*_spec.rb'
+    t.rspec_opts = '--tag network'
+  end
+end
+
 task :test => :spec
 task :default => :spec
 

@@ -4,7 +4,7 @@ require 'ronin/network/udp'
 require 'resolv'
 
 describe Network::UDP do
-  describe "helper methods" do
+  describe "helper methods", :network do
     let(:host) { 'scanme.nmap.org' }
     let(:port) { 123 }
 
