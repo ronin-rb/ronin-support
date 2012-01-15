@@ -43,6 +43,8 @@
 * Added {Ronin::Wordlist}.
 * Added {Ronin::Network::Mixins::Mixin}.
 * Added {Ronin::Network::Mixins::SSL}.
+* Added missing {Ronin::Network::UDP#udp_send} and
+  {Ronin::Network::Mixins::UDP#udp_send} methods.
 * Added {Ronin::UI::Output::Helpers#print_exception}.
 * Made {Regexp::HOST_NAME} case-insensitive.
 * Refactored {Regexp::IPv4} to not match invalid IPv4 addresses.

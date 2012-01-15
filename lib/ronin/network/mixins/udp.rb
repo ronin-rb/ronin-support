@@ -150,6 +150,30 @@ module Ronin
         end
 
         #
+        # Connects to the host and port specified by the `host` and `port`
+        # parameters, sends the given data and then disconnects.
+        #
+        # @return [true]
+        #   The data was successfully sent.
+        #
+        # @example
+        #   buffer = "GET /" + ('A' * 4096) + "\n\r"
+        #   Net.udp_send(buffer)
+        #   # => true
+        #
+        # @api public
+        #
+        def udp_send(data)
+          print_info "Connecting to #{host_port} ..."
+          print_debug "Sending data: #{data.inspect}"
+
+          super(data,self.host,self.port,self.local_host,self.local_port)
+
+          print_info "Disconnected from #{host_port}"
+          return true
+        end
+
+        #
         # Creates a new UDPServer object listening on `server_host` and
         # `server_port` parameters.
         #

@@ -147,6 +147,43 @@ module Ronin
       end
 
       #
+      # Connects to a specified host and port, sends the given data and then
+      # closes the connection.
+      #
+      # @param [String] data
+      #   The data to send through the connection.
+      #
+      # @param [String] host
+      #   The host to connect to.
+      #
+      # @param [Integer] port
+      #   The port to connect to.
+      #
+      # @param [String] local_host (nil)
+      #   The local host to bind to.
+      #
+      # @param [Integer] local_port (nil)
+      #   The local port to bind to.
+      #
+      # @return [true]
+      #   The data was successfully sent.
+      #
+      # @example
+      #   buffer = "GET /" + ('A' * 4096) + "\n\r"
+      #   udp_send(buffer,'victim.com',80)
+      #   # => true
+      #
+      # @api public
+      #
+      def udp_send(data,host,port,local_host=nil,local_port=nil)
+        udp_session(host,port,local_host,local_port) do |socket|
+          socket.write(data)
+        end
+
+        return true
+      end
+
+      #
       # Reads the banner from the service running on the given host and port.
       #
       # @param [String] host
