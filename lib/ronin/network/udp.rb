@@ -175,6 +175,8 @@ module Ronin
       #
       # @api public
       #
+      # @since 0.4.0
+      #
       def udp_send(data,host,port,local_host=nil,local_port=nil)
         udp_session(host,port,local_host,local_port) do |socket|
           socket.write(data)

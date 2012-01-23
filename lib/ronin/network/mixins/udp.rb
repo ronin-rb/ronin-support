@@ -163,6 +163,8 @@ module Ronin
         #
         # @api public
         #
+        # @since 0.4.0
+        #
         def udp_send(data)
           print_info "Connecting to #{host_port} ..."
           print_debug "Sending data: #{data.inspect}"
