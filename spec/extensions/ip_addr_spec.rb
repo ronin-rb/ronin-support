@@ -159,7 +159,7 @@ describe IPAddr do
   let(:ip) { IPAddr.new('127.0.0.1') }
   let(:bad_ip) { IPAddr.new('0.0.0.0') }
 
-  describe "#lookup" do
+  describe "#lookup", :network do
     let(:nameserver) { '4.2.2.1' }
 
     it "should lookup the host-name for an IP" do
