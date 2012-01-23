@@ -61,8 +61,15 @@
 * Moved `Net.*` methods into the {Ronin::Network} modules.
 * Fixed bugs in {Ronin::Network::UDP#udp_connect} and
   {Ronin::Network::UDP#udp_server}.
+* Fixed a bug in {Ronin::Network::HTTP.expand_url}, where the URI query-string
+  was not being escaped.
+* Allow {Ronin::Network::HTTP.request} to accept `:query` and `:query_params`
+  options.
 * Fixed a bug in {Ronin::Network::Mixins::HTTP#http_session}, where
   normalized options were not being yielded.
+* {Ronin::Network::HTTP#http_get_headers} and
+  {Ronin::Network::HTTP#http_post_headers} now return a Hash of Capitalized
+  Header names and String values.
 * Allow {Ronin::Templates::Erb} to use `<%- -%>` syntax.
 * Alias `<<` to `write` in {Ronin::UI::Output::Helpers}.
 * Fixed bugs in {Ronin::UI::Shell}.
