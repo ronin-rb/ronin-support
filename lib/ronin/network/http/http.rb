@@ -971,6 +971,39 @@ module Ronin
       end
 
       #
+      # Performs an HTTP PUT request.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @option options [String] :body
+      #   The body for the request.
+      #
+      # @option options [Hash, String] :form_data
+      #   The form data to send with the HTTP PUT request.
+      #
+      # @yield [response]
+      #   If a block is given, it will be passed the response received from
+      #   the request.
+      #
+      # @yieldparam [Net::HTTP::Response] response
+      #   The HTTP response object.
+      #
+      # @return [Net::HTTP::Response]
+      #   The response of the HTTP request.
+      #
+      # @see http_request
+      #
+      # @api public
+      #
+      def http_put(options={})
+        response = http_request(options.merge(:method => :put))
+
+        yield response if block_given?
+        return response
+      end
+
+      #
       # Performs an HTTP Propfind request.
       #
       # @param [Hash] options
