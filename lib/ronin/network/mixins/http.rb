@@ -573,6 +573,8 @@ module Ronin
         #
         # @see #http_request
         #
+        # @since 0.4.0
+        #
         # @api public
         #
         def http_put(options={},&block)
