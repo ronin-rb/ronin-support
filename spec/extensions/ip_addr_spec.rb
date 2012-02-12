@@ -67,7 +67,7 @@ describe IPAddr do
 
       it "should extract collapsed IPv6 addresses" do
         addr = 'fe80::0204:61ff:fe9d:f156'
-        text = ":: #{addr} ::"
+        text = "ipv6: #{addr}"
 
         IPAddr.extract(text,:ipv6).should == [addr]
       end
@@ -80,7 +80,7 @@ describe IPAddr do
       end
 
       it "should extract trailing IPv4 suffixes" do
-        addr = 'fe80:0000:0000:0000:0204:61ff:fe9d:f156:222.1.1.1'
+        addr = '::ffff:192.0.2.128'
         text = "#{addr} 1.1.1.1"
 
         IPAddr.extract(text,:ipv6).should == [addr]
@@ -103,7 +103,7 @@ describe IPAddr do
     end
 
     it "should ignore non-IP addresses" do
-      text = 'one :: two.three.'
+      text = 'one: two.three.'
 
       IPAddr.extract(text).should be_empty
     end
