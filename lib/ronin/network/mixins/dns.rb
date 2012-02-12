@@ -30,6 +30,8 @@ module Ronin
       #
       # * `nameserver` (`String`) - DNS nameserver to query.
       #
+      # @since 0.4.0
+      #
       module DNS
         include Mixin, Network::DNS
 
