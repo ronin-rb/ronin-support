@@ -76,7 +76,7 @@ class Regexp
   RELATIVE_WINDOWS_PATH = /(?:#{DIRECTORY}\\)+#{DIRECTORY}\\?/
 
   # Regular expression to find absolute Windows Paths in text
-  ABSOLUTE_WINDOWS_PATH = /[A-Za-z]:(?:\\#{DIRECTORY})+\\?/
+  ABSOLUTE_WINDOWS_PATH = /[A-Za-z]:(?:\\#{FILE})+\\?/
 
   # Regular expression to find Windows Paths in text
   WINDOWS_PATH = /#{ABSOLUTE_WINDOWS_PATH}|#{RELATIVE_WINDOWS_PATH}/
