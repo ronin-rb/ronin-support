@@ -51,7 +51,7 @@ module Ronin
       # @api public
       #
       def self.nameserver=(address)
-        @nameserver = unless address.nil?
+        @nameserver = if address
                         address.to_s
                       end
       end
