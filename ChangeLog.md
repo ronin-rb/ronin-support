@@ -9,13 +9,13 @@
 * Added {Regexp::FILE_NAME}.
 * Added {Regexp::FILE}.
 * Added {Regexp::DIRECTORY}.
-* Added {Regexp::LOCAL_UNIX_PATH}.
+* Added {Regexp::RELATIVE_UNIX_PATH}.
 * Added {Regexp::ABSOLUTE_UNIX_PATH}.
 * Added {Regexp::UNIX_PATH}.
-* Added {Regexp::LOCAL_WINDOWS_PATH}.
+* Added {Regexp::RELATIVE_WINDOWS_PATH}.
 * Added {Regexp::ABSOLUTE_WINDOWS_PATH}.
 * Added {Regexp::WINDOWS_PATH}.
-* Added {Regexp::LOCAL_PATH}.
+* Added {Regexp::RELATIVE_PATH}.
 * Added {Regexp::ABSOLUTE_PATH}.
 * Added {Regexp::PATH}.
 * Added {String#repeating}.

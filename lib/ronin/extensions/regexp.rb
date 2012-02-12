@@ -64,25 +64,25 @@ class Regexp
   DIRECTORY = /(?:\.\.|\.|#{FILE})/
 
   # Regular expression to find local UNIX Paths in text
-  LOCAL_UNIX_PATH = /(?:#{DIRECTORY}\/)+#{DIRECTORY}\/?/
+  RELATIVE_UNIX_PATH = /(?:#{DIRECTORY}\/)+#{DIRECTORY}\/?/
 
   # Regular expression to find absolute UNIX Paths in text
   ABSOLUTE_UNIX_PATH = /(?:\/#{FILE})+\/?/
 
   # Regular expression to find UNIX Paths in text
-  UNIX_PATH = /#{ABSOLUTE_UNIX_PATH}|#{LOCAL_UNIX_PATH}/
+  UNIX_PATH = /#{ABSOLUTE_UNIX_PATH}|#{RELATIVE_UNIX_PATH}/
 
   # Regular expression to find local Windows Paths in text
-  LOCAL_WINDOWS_PATH = /(?:#{DIRECTORY}\\)+#{DIRECTORY}\\?/
+  RELATIVE_WINDOWS_PATH = /(?:#{DIRECTORY}\\)+#{DIRECTORY}\\?/
 
   # Regular expression to find absolute Windows Paths in text
   ABSOLUTE_WINDOWS_PATH = /[A-Za-z]:(?:\\#{DIRECTORY})+\\?/
 
   # Regular expression to find Windows Paths in text
-  WINDOWS_PATH = /#{ABSOLUTE_WINDOWS_PATH}|#{LOCAL_WINDOWS_PATH}/
+  WINDOWS_PATH = /#{ABSOLUTE_WINDOWS_PATH}|#{RELATIVE_WINDOWS_PATH}/
 
   # Regular expression to find local Paths in text
-  LOCAL_PATH = /#{LOCAL_UNIX_PATH}|#{LOCAL_WINDOWS_PATH}/
+  RELATIVE_PATH = /#{RELATIVE_UNIX_PATH}|#{RELATIVE_WINDOWS_PATH}/
 
   # Regular expression to find absolute Paths in text
   ABSOLUTE_PATH = /#{ABSOLUTE_UNIX_PATH}|#{ABSOLUTE_WINDOWS_PATH}/
