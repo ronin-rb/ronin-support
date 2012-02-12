@@ -20,6 +20,6 @@
 module Ronin
   module Support
     # ronin-support version
-    VERSION = '0.4.0.rc2'
+    VERSION = '0.4.0'
   end
 end
