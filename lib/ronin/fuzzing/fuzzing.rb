@@ -20,9 +20,18 @@
 require 'set'
 
 module Ronin
+  #
+  # Contains class-methods which generate malicious data for fuzzing.
+  #
+  # @see Fuzzing.[]
+  #
+  # @since 0.4.0
+  #
   module Fuzzing
+    # Short String lengths
     SHORT_LENGTHS = SortedSet[1, 100, 500, 1_000, 10_000]
 
+    # Long String lengths
     LONG_LENGTHS = SortedSet[
       128, 255, 256, 257, 511, 512, 513, 1023, 1024, 2048, 2049, 4095,
       4096, 4097, 5_000, 10_000, 20_000, 32762, 32763, 32764, 32765, 32766,
@@ -51,14 +60,23 @@ module Ronin
     #
     # @api semipublic
     #
-    # @since 0.4.0
-    #
     def self.[](name)
       if (!Object.respond_to?(name) && respond_to?(name))
         enum_for(name)
       end
     end
 
+    #
+    # Various bad-strings.
+    #
+    # @yield [string]
+    #   The given block will be passed each bad-string.
+    #
+    # @yieldparam [String] string
+    #   A bad-string containing known control characters, deliminators
+    #   or null-bytes (see {NULL_BYTES}), of varying length
+    #   (see {SHORT_LENGTHS} and {LONG_LENGTHS}).
+    #
     def self.bad_strings(&block)
       yield ''
 
@@ -91,6 +109,15 @@ module Ronin
       yield "<>"   * 500
     end
 
+    #
+    # Various format-strings.
+    #
+    # @yield [fmt_string]
+    #   The given block will be passed each format-string.
+    #
+    # @yieldparam [String] fmt_string
+    #   A format-string containing format operators (see {FORMAT_STRINGS}).
+    #
     def self.format_strings(&block)
       FORMAT_STRINGS.each do |fmt|
         yield fmt
@@ -100,6 +127,15 @@ module Ronin
       end
     end
 
+    #
+    # Various bad paths and directory traversals.
+    #
+    # @yield [path]
+    #   The given block will be passed each path.
+    #
+    # @yieldparam [String] path
+    #   A known bad path.
+    #
     def self.bad_paths(&block)
       padding = 'A' * 5_000
 
@@ -121,6 +157,15 @@ module Ronin
       end
     end
 
+    #
+    # The range of bit-fields.
+    #
+    # @yield [bitfield]
+    #   The given block will be passed each bit-field.
+    #
+    # @yieldparam [String] bitfield
+    #   A bit-field (8bit - 64bit).
+    #
     def self.bit_fields(&block)
       ("\x00".."\xff").each do |c|
         yield c
@@ -130,6 +175,15 @@ module Ronin
       end
     end
 
+    #
+    # The range of signed bit-fields.
+    #
+    # @yield [bitfield]
+    #   The given block will be passed each bit-field.
+    #
+    # @yieldparam [String] bitfield
+    #   A signed bit-field (8bit - 64bit).
+    #
     def self.signed_bit_fields(&block)
       ("\x80".."\xff").each do |c|
         yield c
@@ -139,50 +193,158 @@ module Ronin
       end
     end
 
+    #
+    # The range of unsigned 8bit integers.
+    #
+    # @yield [int]
+    #   The given block will be passed each integer.
+    #
+    # @yieldparam [String] int
+    #   A unsigned 8bit integer.
+    #
     def self.uint8(&block)
       ("\x00".."\xff").each(&block)
     end
 
+    #
+    # The range of unsigned 16bit integers.
+    #
+    # @yield [int]
+    #   The given block will be passed each integer.
+    #
+    # @yieldparam [String] int
+    #   A unsigned 16bit integer.
+    #
     def self.uint16
       uint8 { |c| yield c * 2 }
     end
 
+    #
+    # The range of unsigned 32bit integers.
+    #
+    # @yield [int]
+    #   The given block will be passed each integer.
+    #
+    # @yieldparam [String] int
+    #   A unsigned 32bit integer.
+    #
     def self.uint32
       uint8 { |c| yield c * 4 }
     end
 
+    #
+    # The range of unsigned 64bit integers.
+    #
+    # @yield [int]
+    #   The given block will be passed each integer.
+    #
+    # @yieldparam [String] int
+    #   A unsigned 64bit integer.
+    #
     def self.uint64
       uint8 { |c| yield c * 8 }
     end
 
+    #
+    # The range of signed 8bit integers.
+    #
+    # @yield [int]
+    #   The given block will be passed each integer.
+    #
+    # @yieldparam [String] int
+    #   A signed 8bit integer.
+    #
     def self.int8(&block)
       ("\x00".."\x70").each(&block)
     end
 
+    #
+    # The range of signed 16bit integers.
+    #
+    # @yield [int]
+    #   The given block will be passed each integer.
+    #
+    # @yieldparam [String] int
+    #   A signed 16bit integer.
+    #
     def self.int16
       int8 { |c| yield c * 2 }
     end
 
+    #
+    # The range of signed 32bit integers.
+    #
+    # @yield [int]
+    #   The given block will be passed each integer.
+    #
+    # @yieldparam [String] int
+    #   A signed 32bit integer.
+    #
     def self.int32
       int8 { |c| yield c * 4 }
     end
 
+    #
+    # The range of signed 64bit integers.
+    #
+    # @yield [int]
+    #   The given block will be passed each integer.
+    #
+    # @yieldparam [String] int
+    #   A signed 64bit integer.
+    #
     def self.int64
       int8 { |c| yield c * 8 }
     end
 
+    #
+    # The range of negative-signed 8bit integers.
+    #
+    # @yield [int]
+    #   The given block will be passed each integer.
+    #
+    # @yieldparam [String] int
+    #   A negative-signed 8bit integer.
+    #
     def self.sint8(&block)
       ("\x80".."\xff").each(&block)
     end
 
+    #
+    # The range of negative-signed 16bit integers.
+    #
+    # @yield [int]
+    #   The given block will be passed each integer.
+    #
+    # @yieldparam [String] int
+    #   A negative-signed 16bit integer.
+    #
     def self.sint16
       sint8 { |c| yield c * 2 }
     end
 
+    #
+    # The range of negative-signed 32bit integers.
+    #
+    # @yield [int]
+    #   The given block will be passed each integer.
+    #
+    # @yieldparam [String] int
+    #   A negative-signed 32bit integer.
+    #
     def self.sint32
       sint8 { |c| yield c * 4 }
     end
 
+    #
+    # The range of negative-signed 64bit integers.
+    #
+    # @yield [int]
+    #   The given block will be passed each integer.
+    #
+    # @yieldparam [String] int
+    #   A negative-signed 64bit integer.
+    #
     def self.sint64
       sint8 { |c| yield c * 8 }
     end
