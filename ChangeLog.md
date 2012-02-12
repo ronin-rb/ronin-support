@@ -41,7 +41,9 @@
   * Added {Ronin::Fuzzing.sint32}.
   * Added {Ronin::Fuzzing.sint64}.
 * Added {Ronin::Wordlist}.
+* Added {Ronin::Network::DNS}.
 * Added {Ronin::Network::Mixins::Mixin}.
+* Added {Ronin::Network::Mixins::DNS}.
 * Added {Ronin::Network::Mixins::SSL}.
 * Added missing {Ronin::Network::UDP#udp_send} and
   {Ronin::Network::Mixins::UDP#udp_send} methods.
