@@ -28,10 +28,10 @@ class Regexp
   MAC = /[0-9a-fA-F]{2}(?::[0-9a-fA-F]{2}){5}/
 
   # A regular expression for matching IPv4 Addresses.
-  IPv4 = /#{OCTET}(?:\.#{OCTET}){3}/
+  IPv4 = /#{OCTET}(?:\.#{OCTET}){3}(?:\/\d{1,2})?/
 
   # A regular expression for matching IPv6 Addresses.
-  IPv6 = /::ffff:#{IPv4}|(?:::)?[0-9a-f]{1,4}(::?[0-9a-f]{1,4}){,7}(?:::)?/
+  IPv6 = /::ffff:#{IPv4}|(?:::)?[0-9a-f]{1,4}(::?[0-9a-f]{1,4}){,7}(?:::)?(?:\/\d{1,3})?/
 
   # A regular expression for matching IP Addresses.
   IP = /#{IPv4}|#{IPv6}/
