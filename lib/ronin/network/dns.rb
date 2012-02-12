@@ -51,26 +51,28 @@ module Ronin
       # @api public
       #
       def self.nameserver=(address)
-        @resolver   = nil
         @nameserver = unless address.nil?
                         address.to_s
                       end
       end
 
       #
-      # The DNS Resolver to be used.
+      # Creates a DNS Resolver for the nameserver.
+      #
+      # @param [String, nil] nameserver
+      #   Optional DNS nameserver to query.
       #
       # @return [Resolv, Resolv::DNS]
       #   The DNS Resolver.
       #
-      # @api private
+      # @api public
       #
-      def self.resolver
-        @resolver ||= if nameserver
-                        Resolv::DNS.new(:nameserver => nameserver)
-                      else
-                        Resolv
-                      end
+      def dns_resolver(nameserver=DNS.nameserver)
+        if nameserver
+          Resolv::DNS.new(:nameserver => nameserver)
+        else
+          Resolv
+        end
       end
 
       #
@@ -79,14 +81,19 @@ module Ronin
       # @param [String] hostname
       #   The hostname to lookup.
       #
+      # @param [String, nil] nameserver
+      #   Optional DNS nameserver to query.
+      #
       # @return [String, nil]
       #   The address of the hostname.
       #
       # @api public
       #
-      def dns_lookup(hostname)
+      def dns_lookup(hostname,nameserver=DNS.nameserver)
+        resolv = dns_resolver(nameserver)
+
         begin
-          DNS.resolver.getaddress(hostname.to_s)
+          resolv.getaddress(hostname.to_s).to_s
         rescue Resolv::ResolvError
         end
       end
@@ -97,13 +104,16 @@ module Ronin
       # @param [String] hostname
       #   The hostname to lookup.
       #
+      # @param [String, nil] nameserver
+      #   Optional DNS nameserver to query.
+      #
       # @return [Array<String>]
       #   The addresses of the hostname.
       #
       # @api public
       #
-      def dns_lookup_all(hostname)
-        DNS.resolver.getaddresses(hostname.to_s)
+      def dns_lookup_all(hostname,nameserver=DNS.nameserver)
+        dns_resolver(nameserver).getaddresses(hostname.to_s).map(&:to_s)
       end
 
       #
@@ -112,14 +122,19 @@ module Ronin
       # @param [String] address
       #   The address to lookup.
       #
+      # @param [String, nil] nameserver
+      #   Optional DNS nameserver to query.
+      #
       # @return [String, nil]
       #   The hostname of the address.
       #
       # @api public
       #
-      def dns_reverse_lookup(address)
+      def dns_reverse_lookup(address,nameserver=DNS.nameserver)
+        resolv = dns_resolver(nameserver)
+
         begin
-          DNS.resolver.getname(address.to_s)
+          resolv.getname(address.to_s).to_s
         rescue Resolv::ResolvError
         end
       end
@@ -130,13 +145,16 @@ module Ronin
       # @param [String] address
       #   The address to lookup.
       #
+      # @param [String, nil] nameserver
+      #   Optional DNS nameserver to query.
+      #
       # @return [Array<String>]
       #   The hostnames of the address.
       #
       # @api public
       #
-      def dns_reverse_lookup_all(address)
-        DNS.resolver.getnames(address.to_s)
+      def dns_reverse_lookup_all(address,nameserver=DNS.nameserver)
+        dns_resolver(nameserver).getnames(address.to_s).map(&:to_s)
       end
     end
   end

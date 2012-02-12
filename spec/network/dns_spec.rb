@@ -33,19 +33,19 @@ describe Network::DNS do
     end
   end
 
-  describe "resolver" do
-    subject { described_class.resolver }
-
-    context "with no nameserver" do
-      before { described_class.nameserver = nil }
-
-      it { should == Resolv }
+  describe "#dns_resolver" do
+    subject do
+      obj = Object.new
+      obj.extend described_class
+      obj
     end
 
-    context "with nameserver" do
-      before { described_class.nameserver = server }
+    it "should return Resolv when passed no nameserver" do
+      subject.dns_resolver(nil).should == Resolv
+    end
 
-      it { should be_kind_of(Resolv::DNS) }
+    it "should return Resolv::DNS when passed a nameserver" do
+      subject.dns_resolver(server).should be_kind_of(Resolv::DNS)
     end
   end
 
@@ -74,6 +74,10 @@ describe Network::DNS do
       it "should accept non-String hostnames" do
         subject.dns_lookup(hostname.to_sym).should == address
       end
+
+      it "should accept an additional nameserver argument" do
+        subject.dns_lookup(hostname,server).should == address
+      end
     end
 
     describe "#dns_lookup_all" do
@@ -87,6 +91,10 @@ describe Network::DNS do
 
       it "should accept non-String hostnames" do
         subject.dns_lookup_all(hostname.to_sym).should == [address]
+      end
+
+      it "should accept an additional nameserver argument" do
+        subject.dns_lookup_all(hostname,server).should == [address]
       end
     end
 
@@ -102,6 +110,10 @@ describe Network::DNS do
       it "should accept non-String addresses" do
         subject.dns_reverse_lookup(IPAddr.new(address)).should == reverse_hostname
       end
+
+      it "should accept an additional nameserver argument" do
+        subject.dns_reverse_lookup(address,server).should == reverse_hostname
+      end
     end
 
     describe "#dns_reverse_lookup_all" do
@@ -115,6 +127,10 @@ describe Network::DNS do
 
       it "should accept non-String addresses" do
         subject.dns_reverse_lookup_all(IPAddr.new(address)).should == [reverse_hostname]
+      end
+
+      it "should accept an additional nameserver argument" do
+        subject.dns_reverse_lookup_all(address,server).should == [reverse_hostname]
       end
     end
   end
