@@ -31,7 +31,7 @@ class Regexp
   IPv4 = /#{OCTET}(?:\.#{OCTET}){3}/
 
   # A regular expression for matching IPv6 Addresses.
-  IPv6 = /:(:[0-9a-f]{1,4}){1,7}|([0-9a-f]{1,4}::?){1,7}[0-9a-f]{1,4}(:#{IPv4})?/
+  IPv6 = /::ffff:#{IPv4}|(?:::)?[0-9a-f]{1,4}(::?[0-9a-f]{1,4}){,7}(?:::)?/
 
   # A regular expression for matching IP Addresses.
   IP = /#{IPv4}|#{IPv6}/
