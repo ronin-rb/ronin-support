@@ -17,12 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/network/extensions/dns'
-require 'ronin/network/extensions/tcp'
-require 'ronin/network/extensions/udp'
-require 'ronin/network/extensions/smtp'
-require 'ronin/network/extensions/esmtp'
-require 'ronin/network/extensions/pop3'
-require 'ronin/network/extensions/imap'
-require 'ronin/network/extensions/telnet'
-require 'ronin/network/extensions/http'
+require 'ronin/network/dns'
+
+module Net
+  extend Ronin::Network::DNS
+end
