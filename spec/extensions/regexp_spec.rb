@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'ronin/extensions/regexp'
 
 describe Regexp do
-  describe Regexp::IPv4 do
+  describe "IPv4" do
     subject { Regexp::IPv4 }
 
     it "should match valid addresses" do
