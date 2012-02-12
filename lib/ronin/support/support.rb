@@ -26,6 +26,7 @@ module Ronin
   #
   module Support
     include UI::Output::Helpers
+    include Network::DNS
     include Network::TCP
     include Network::UDP
     include Network::SMTP

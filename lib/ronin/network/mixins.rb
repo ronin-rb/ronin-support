@@ -17,6 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/network/mixins/dns'
 require 'ronin/network/mixins/tcp'
 require 'ronin/network/mixins/udp'
 require 'ronin/network/mixins/smtp'
