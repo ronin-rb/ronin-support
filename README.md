@@ -28,6 +28,7 @@ or payloads over many common Source-Code-Management (SCM) systems.
     * SQL
   * Fuzzing
   * Networking:
+    * DNS
     * TCP
     * UDP
     * SMTP / ESMTP
