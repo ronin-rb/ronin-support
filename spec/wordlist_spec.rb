@@ -74,7 +74,7 @@ describe Wordlist do
       wordlist = described_class.new(words)
       wordlist.mutations['o'] = ['0']
 
-      wordlist.to_a.should == %w[foo f0o fo0 f00 bar baz]
+      wordlist.to_a.should =~ %w[foo f0o fo0 f00 bar baz]
     end
   end
 
