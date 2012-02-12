@@ -52,7 +52,7 @@ class Regexp
   IDENTIFIER = /[_]*[a-zA-Z]+[a-zA-Z0-9_-]*/
 
   # Regular expression to find File extensions in text
-  FILE_EXT = /(?:\.[A-Za-z0-9_-]+)+/
+  FILE_EXT = /(?:\.[A-Za-z0-9]+)+/
 
   # Regular expression to find File names in text
   FILE_NAME = /(?:[^\/\\\. ]|\\[\/\\ ])+/
