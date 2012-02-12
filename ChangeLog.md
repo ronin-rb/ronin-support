@@ -1,4 +1,4 @@
-### 0.4.0 / 2012-01-01
+### 0.4.0 / 2012-02-12
 
 * Require uri-query_params ~> 0.6.
 * Require parameters ~> 0.4.
