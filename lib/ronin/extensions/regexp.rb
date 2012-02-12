@@ -40,7 +40,7 @@ class Regexp
   HOST_NAME = /(?:[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*\.)+(?:#{union(Resolv::TLDS)})/i
 
   # Regular expression to match a word in the username of an email address
-  USER_NAME = /[A-Za-z](?:[A-Za-z0-9]+[\._-])*[A-Za-z0-9]+/
+  USER_NAME = /[A-Za-z](?:[A-Za-z0-9]*[\._-])*[A-Za-z0-9]+/
 
   # Regular expression to find email addresses in text
   EMAIL_ADDR = /#{USER_NAME}(?:\.#{USER_NAME})*\@#{HOST_NAME}/
