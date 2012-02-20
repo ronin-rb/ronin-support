@@ -37,7 +37,7 @@ module Ronin
           # @api private
           #
           def self.write(data)
-            STDOUT.write(data)
+            $stdout.write(data)
           end
 
           #
@@ -51,7 +51,7 @@ module Ronin
           # @api private
           #
           def self.print_info(message)
-            puts "[-] #{message}"
+            $stdout.puts "[-] #{message}"
           end
 
           #
@@ -65,7 +65,7 @@ module Ronin
           # @api private
           #
           def self.print_debug(message)
-            puts "[=] #{message}"
+            $stdout.puts "[=] #{message}"
           end
 
           #
@@ -79,7 +79,7 @@ module Ronin
           # @api private
           #
           def self.print_warning(message)
-            puts "[*] #{message}"
+            $stdout.puts "[*] #{message}"
           end
 
           #
@@ -93,7 +93,7 @@ module Ronin
           # @api private
           #
           def self.print_error(message)
-            puts "[!] #{message}"
+            $stdout.puts "[!] #{message}"
           end
 
         end
