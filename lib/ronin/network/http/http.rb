@@ -137,7 +137,7 @@ module Ronin
                              else
                                '/'
                              end
-        new_options[:path] += "?#{URI.escape(url.query)}" if url.query
+        new_options[:path] += "?#{url.query}" if url.query
 
         return new_options
       end
