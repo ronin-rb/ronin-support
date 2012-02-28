@@ -285,7 +285,7 @@ class String
   #
   # Permutes over every possible mutation of the String.
   #
-  # @param [Hash{Regexp,String,Symbol => Symbol,#each}] mutations
+  # @param [Hash{Regexp,String,Symbol => Symbol,Enumerable}] mutations
   #   The patterns and substitutions to mutate the String with.
   #
   # @yield [mutant]
@@ -296,6 +296,10 @@ class String
   #
   # @return [Enumerator]
   #   If no block is given, an Enumerator will be returned.
+  #
+  # @raise [TypeError]
+  #   A mutation pattern was not a Regexp, String or Symbol.
+  #   A mutation substitution was not a Symbol or Enumerable.
   #
   # @example
   #   "hello old dog".mutate('e' => ['3'], 'l' => ['1'], 'o' => ['0']) do |str|
@@ -322,6 +326,15 @@ class String
                 else
                   raise(TypeError,"cannot convert #{pattern.inspect} to a Regexp")
                 end
+
+      mutation = case mutation
+                 when Symbol
+                   Ronin::Fuzzing[mutation]
+                 when Enumerable
+                   mutation
+                 else
+                   raise(TypeError,"mutation #{mutation.inspect} must be a Symbol or Enumerable")
+                 end
 
       scanner = StringScanner.new(self)
 
