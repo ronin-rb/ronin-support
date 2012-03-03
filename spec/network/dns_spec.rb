@@ -78,6 +78,28 @@ describe Network::DNS do
       it "should accept an additional nameserver argument" do
         subject.dns_lookup(hostname,server).should == address
       end
+
+      context "when given a block" do
+        it "should yield the resolved address" do
+          resolved_address = nil
+
+          subject.dns_lookup(hostname) do |address|
+            resolved_address = address
+          end
+
+          resolved_address.should == address
+        end
+
+        it "should not yield unresolved addresses" do
+          resolved_address = nil
+
+          subject.dns_lookup(bad_hostname) do |address|
+            resolved_address = address
+          end
+
+          resolved_address.should be_nil
+        end
+      end
     end
 
     describe "#dns_lookup_all" do
@@ -95,6 +117,16 @@ describe Network::DNS do
 
       it "should accept an additional nameserver argument" do
         subject.dns_lookup_all(hostname,server).should == [address]
+      end
+
+      context "when given a block" do
+        it "should yield the resolved address" do
+          subject.enum_for(:dns_lookup,hostname).to_a.should == [address]
+        end
+
+        it "should not yield unresolved addresses" do
+          subject.enum_for(:dns_lookup,bad_hostname).to_a.should == []
+        end
       end
     end
 
@@ -114,6 +146,28 @@ describe Network::DNS do
       it "should accept an additional nameserver argument" do
         subject.dns_reverse_lookup(address,server).should == reverse_hostname
       end
+
+      context "when given a block" do
+        it "should yield the resolved hostname" do
+          resolved_hostname = nil
+
+          subject.dns_reverse_lookup(address) do |hostname|
+            resolved_hostname = hostname
+          end
+
+          resolved_hostname.should == reverse_hostname
+        end
+
+        it "should not yield unresolved hostnames" do
+          resolved_hostname = nil
+
+          subject.dns_reverse_lookup(bad_address) do |hostname|
+            resolved_hostname = hostname
+          end
+
+          resolved_hostname.should be_nil
+        end
+      end
     end
 
     describe "#dns_reverse_lookup_all" do
@@ -131,6 +185,16 @@ describe Network::DNS do
 
       it "should accept an additional nameserver argument" do
         subject.dns_reverse_lookup_all(address,server).should == [reverse_hostname]
+      end
+
+      context "when given a block" do
+        it "should yield the resolved hostnames" do
+          subject.enum_for(:dns_reverse_lookup_all,address).to_a.should == [reverse_hostname]
+        end
+
+        it "should not yield unresolved hostnames" do
+          subject.enum_for(:dns_reverse_lookup_all,bad_address).to_a.should == []
+        end
       end
     end
   end
