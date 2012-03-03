@@ -84,18 +84,28 @@ module Ronin
       # @param [String, nil] nameserver
       #   Optional DNS nameserver to query.
       #
+      # @yield [address]
+      #   If a block is given and the hostname was resolved, the address will
+      #   be passed to the block.
+      #
+      # @yieldparam [String] address
+      #   The address of the hostname.
+      #
       # @return [String, nil]
       #   The address of the hostname.
       #
       # @api public
       #
       def dns_lookup(hostname,nameserver=DNS.nameserver)
-        resolv = dns_resolver(nameserver)
+        hostname = hostname.to_s
+        resolv   = dns_resolver(nameserver)
+        address  = begin
+                     resolv.getaddress(hostname).to_s
+                   rescue Resolv::ResolvError
+                   end
 
-        begin
-          resolv.getaddress(hostname.to_s).to_s
-        rescue Resolv::ResolvError
-        end
+        yield(address) if (block_given? && address)
+        return address
       end
 
       #
@@ -107,13 +117,24 @@ module Ronin
       # @param [String, nil] nameserver
       #   Optional DNS nameserver to query.
       #
+      # @yield [address]
+      #   If a block is given, each resolved address will be passed to the
+      #   block.
+      #
+      # @yieldparam [String] address
+      #   A address of the hostname.
+      #
       # @return [Array<String>]
       #   The addresses of the hostname.
       #
       # @api public
       #
-      def dns_lookup_all(hostname,nameserver=DNS.nameserver)
-        dns_resolver(nameserver).getaddresses(hostname.to_s).map(&:to_s)
+      def dns_lookup_all(hostname,nameserver=DNS.nameserver,&block)
+        hostname  = hostname.to_s
+        addresses = dns_resolver(nameserver).getaddresses(hostname).map(&:to_s)
+
+        addresses.each(&block) if block
+        return addresses
       end
 
       #
@@ -125,18 +146,28 @@ module Ronin
       # @param [String, nil] nameserver
       #   Optional DNS nameserver to query.
       #
+      # @yield [hostname]
+      #   If a block is given and a hostname was found for the address,
+      #   the resolved hostname will be passed to the block.
+      #
+      # @yieldparam [String] hostname
+      #   The hostname of the address.
+      #
       # @return [String, nil]
       #   The hostname of the address.
       #
       # @api public
       #
       def dns_reverse_lookup(address,nameserver=DNS.nameserver)
-        resolv = dns_resolver(nameserver)
+        address  = address.to_s
+        resolv   = dns_resolver(nameserver)
+        hostname = begin
+                     resolv.getname(address).to_s
+                   rescue Resolv::ResolvError
+                   end
 
-        begin
-          resolv.getname(address.to_s).to_s
-        rescue Resolv::ResolvError
-        end
+        yield(hostname) if (block_given? && hostname)
+        return hostname
       end
 
       #
@@ -148,13 +179,24 @@ module Ronin
       # @param [String, nil] nameserver
       #   Optional DNS nameserver to query.
       #
+      # @yield [hostname]
+      #   If a block is given and hostnames were found for the address,
+      #   each hostname will be passed to the block.
+      #
+      # @yieldparam [String] hostname
+      #   A hostname of the address.
+      #
       # @return [Array<String>]
       #   The hostnames of the address.
       #
       # @api public
       #
-      def dns_reverse_lookup_all(address,nameserver=DNS.nameserver)
-        dns_resolver(nameserver).getnames(address.to_s).map(&:to_s)
+      def dns_reverse_lookup_all(address,nameserver=DNS.nameserver,&block)
+        address   = address.to_s
+        hostnames = dns_resolver(nameserver).getnames(address).map(&:to_s)
+
+        hostnames.each(&block) if block
+        return hostnames
       end
     end
   end
