@@ -25,7 +25,7 @@ module URI
   class HTTP < Generic
 
     #
-    # @see Net.http_request
+    # @see Ronin::Network::HTTP#http_request
     #
     # @since 0.3.0
     #
@@ -34,7 +34,7 @@ module URI
     end
 
     #
-    # @see Net.http_status
+    # @see Ronin::Network::HTTP#http_status
     #
     # @since 0.3.0
     #
@@ -43,7 +43,7 @@ module URI
     end
 
     #
-    # @see Net.http_ok?
+    # @see Ronin::Network::HTTP#http_ok?
     #
     # @since 0.3.0
     #
@@ -52,7 +52,7 @@ module URI
     end
 
     #
-    # @see Net.http_server
+    # @see Ronin::Network::HTTP#http_server
     #
     # @since 0.3.0
     #
@@ -61,7 +61,7 @@ module URI
     end
 
     #
-    # @see Net.http_powered_by
+    # @see Ronin::Network::HTTP#http_powered_by
     #
     # @since 0.3.0
     #
@@ -70,7 +70,7 @@ module URI
     end
 
     #
-    # @see Net.http_copy
+    # @see Ronin::Network::HTTP#http_copy
     #
     # @since 0.3.0
     #
@@ -79,7 +79,7 @@ module URI
     end
 
     #
-    # @see Net.http_delete
+    # @see Ronin::Network::HTTP#http_delete
     #
     # @since 0.3.0
     #
@@ -88,7 +88,7 @@ module URI
     end
 
     #
-    # @see Net.http_get
+    # @see Ronin::Network::HTTP#http_get
     #
     # @since 0.3.0
     #
@@ -97,7 +97,7 @@ module URI
     end
 
     #
-    # @see Net.http_get_headers
+    # @see Ronin::Network::HTTP#http_get_headers
     #
     # @since 0.3.0
     #
@@ -106,7 +106,7 @@ module URI
     end
 
     #
-    # @see Net.http_get_body
+    # @see Ronin::Network::HTTP#http_get_body
     #
     # @since 0.3.0
     #
@@ -115,7 +115,7 @@ module URI
     end
 
     #
-    # @see Net.http_head
+    # @see Ronin::Network::HTTP#http_head
     #
     # @since 0.3.0
     #
@@ -124,7 +124,7 @@ module URI
     end
 
     #
-    # @see Net.http_lock
+    # @see Ronin::Network::HTTP#http_lock
     #
     # @since 0.3.0
     #
@@ -133,7 +133,7 @@ module URI
     end
 
     #
-    # @see Net.http_mkcol
+    # @see Ronin::Network::HTTP#http_mkcol
     #
     # @since 0.3.0
     #
@@ -142,7 +142,7 @@ module URI
     end
 
     #
-    # @see Net.http_move
+    # @see Ronin::Network::HTTP#http_move
     #
     # @since 0.3.0
     #
@@ -151,7 +151,7 @@ module URI
     end
 
     #
-    # @see Net.http_options
+    # @see Ronin::Network::HTTP#http_options
     #
     # @since 0.3.0
     #
@@ -160,7 +160,7 @@ module URI
     end
 
     #
-    # @see Net.http_post
+    # @see Ronin::Network::HTTP#http_post
     #
     # @since 0.3.0
     #
@@ -169,7 +169,7 @@ module URI
     end
 
     #
-    # @see Net.http_post_headers
+    # @see Ronin::Network::HTTP#http_post_headers
     #
     # @since 0.3.0
     #
@@ -178,7 +178,7 @@ module URI
     end
 
     #
-    # @see Net.http_post_body
+    # @see Ronin::Network::HTTP#http_post_body
     #
     # @since 0.3.0
     #
@@ -187,7 +187,7 @@ module URI
     end
 
     #
-    # @see Net.http_prop_find
+    # @see Ronin::Network::HTTP#http_prop_find
     #
     # @since 0.3.0
     #
@@ -196,7 +196,7 @@ module URI
     end
 
     #
-    # @see Net.http_prop_match
+    # @see Ronin::Network::HTTP#http_prop_match
     #
     # @since 0.3.0
     #
@@ -205,7 +205,7 @@ module URI
     end
 
     #
-    # @see Net.http_trace
+    # @see Ronin::Network::HTTP#http_trace
     #
     # @since 0.3.0
     #
@@ -214,7 +214,7 @@ module URI
     end
 
     #
-    # @see Net.http_unlock
+    # @see Ronin::Network::HTTP#http_unlock
     #
     # @since 0.3.0
     #
