@@ -243,7 +243,7 @@ module Ronin
       #     movie.each_line { |line| puts line }
       #   end
       #
-      # @see telnet_session
+      # @see #telnet_connect
       #
       # @api public
       #

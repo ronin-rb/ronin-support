@@ -169,7 +169,7 @@ module Ronin
       #     # ...
       #   end
       #
-      # @see smtp_connect
+      # @see #smtp_connect
       #
       # @api public
       #
@@ -197,7 +197,7 @@ module Ronin
       # @yieldparam [SMTP::Email] email
       #   The new email to be sent.
       #
-      # @see smtp_session
+      # @see #smtp_session
       #
       # @example
       #   smtp_send_message 'www.example.com', :to => 'joe@example.com',
