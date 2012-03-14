@@ -17,12 +17,14 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/network/extensions/http/net'
+require 'ronin/network/http'
 
 require 'uri/http'
 
 module URI
   class HTTP < Generic
+
+    include Ronin::Network::HTTP
 
     #
     # @see Ronin::Network::HTTP#http_request
@@ -30,7 +32,7 @@ module URI
     # @since 0.3.0
     #
     def request(options={},&block)
-      Net.http_request(options.merge(:url => self),&block)
+      http_request(options.merge(:url => self),&block)
     end
 
     #
@@ -39,7 +41,7 @@ module URI
     # @since 0.3.0
     #
     def status(options={})
-      Net.http_status(options.merge(:url => self))
+      http_status(options.merge(:url => self))
     end
 
     #
@@ -48,7 +50,7 @@ module URI
     # @since 0.3.0
     #
     def ok?(options={})
-      Net.http_ok?(options.merge(:url => self))
+      http_ok?(options.merge(:url => self))
     end
 
     #
@@ -57,7 +59,7 @@ module URI
     # @since 0.3.0
     #
     def server(options={})
-      Net.http_server(options.merge(:url => self))
+      http_server(options.merge(:url => self))
     end
 
     #
@@ -66,7 +68,7 @@ module URI
     # @since 0.3.0
     #
     def powered_by(options={})
-      Net.http_powered_by(options.merge(:url => self))
+      http_powered_by(options.merge(:url => self))
     end
 
     #
@@ -75,7 +77,7 @@ module URI
     # @since 0.3.0
     #
     def copy(options={},&block)
-      Net.http_copy(options.merge(:url => self),&block)
+      http_copy(options.merge(:url => self),&block)
     end
 
     #
@@ -84,7 +86,7 @@ module URI
     # @since 0.3.0
     #
     def delete(options={},&block)
-      Net.http_delete(options.merge(:url => self),&block)
+      http_delete(options.merge(:url => self),&block)
     end
 
     #
@@ -93,7 +95,7 @@ module URI
     # @since 0.3.0
     #
     def get(options={},&block)
-      Net.http_get(options.merge(:url => self),&block)
+      http_get(options.merge(:url => self),&block)
     end
 
     #
@@ -102,7 +104,7 @@ module URI
     # @since 0.3.0
     #
     def get_headers(options={},&block)
-      Net.http_get_headers(options.merge(:url => self),&block)
+      http_get_headers(options.merge(:url => self),&block)
     end
 
     #
@@ -111,7 +113,7 @@ module URI
     # @since 0.3.0
     #
     def get_body(options={},&block)
-      Net.http_get_body(options.merge(:url => self),&block)
+      http_get_body(options.merge(:url => self),&block)
     end
 
     #
@@ -120,7 +122,7 @@ module URI
     # @since 0.3.0
     #
     def head(options={},&block)
-      Net.http_head(options.merge(:url => self),&block)
+      http_head(options.merge(:url => self),&block)
     end
 
     #
@@ -129,7 +131,7 @@ module URI
     # @since 0.3.0
     #
     def lock(options={},&block)
-      Net.http_lock(options.merge(:url => self),&block)
+      http_lock(options.merge(:url => self),&block)
     end
 
     #
@@ -138,7 +140,7 @@ module URI
     # @since 0.3.0
     #
     def mkcol(options={},&block)
-      Net.http_mkcol(options.merge(:url => self),&block)
+      http_mkcol(options.merge(:url => self),&block)
     end
 
     #
@@ -147,7 +149,7 @@ module URI
     # @since 0.3.0
     #
     def move(options={},&block)
-      Net.http_move(options.merge(:url => self),&block)
+      http_move(options.merge(:url => self),&block)
     end
 
     #
@@ -156,7 +158,7 @@ module URI
     # @since 0.3.0
     #
     def options(options={},&block)
-      Net.http_options(options.merge(:url => self),&block)
+      http_options(options.merge(:url => self),&block)
     end
 
     #
@@ -165,7 +167,7 @@ module URI
     # @since 0.3.0
     #
     def post(options={},&block)
-      Net.http_post(options.merge(:url => self),&block)
+      http_post(options.merge(:url => self),&block)
     end
 
     #
@@ -174,7 +176,7 @@ module URI
     # @since 0.3.0
     #
     def post_headers(options={},&block)
-      Net.http_post_headers(options.merge(:url => self),&block)
+      http_post_headers(options.merge(:url => self),&block)
     end
 
     #
@@ -183,7 +185,7 @@ module URI
     # @since 0.3.0
     #
     def post_body(options={},&block)
-      Net.http_post_body(options.merge(:url => self),&block)
+      http_post_body(options.merge(:url => self),&block)
     end
 
     #
@@ -192,7 +194,7 @@ module URI
     # @since 0.3.0
     #
     def prop_find(options={},&block)
-      Net.http_prop_find(options.merge(:url => self),&block)
+      http_prop_find(options.merge(:url => self),&block)
     end
 
     #
@@ -201,7 +203,7 @@ module URI
     # @since 0.3.0
     #
     def prop_match(options={},&block)
-      Net.http_prop_match(options.merge(:url => self),&block)
+      http_prop_match(options.merge(:url => self),&block)
     end
 
     #
@@ -210,7 +212,7 @@ module URI
     # @since 0.3.0
     #
     def trace(options={},&block)
-      Net.http_trace(options.merge(:url => self),&block)
+      http_trace(options.merge(:url => self),&block)
     end
 
     #
@@ -219,7 +221,7 @@ module URI
     # @since 0.3.0
     #
     def unlock(options={},&block)
-      Net.http_unlock(options.merge(:url => self),&block)
+      http_unlock(options.merge(:url => self),&block)
     end
 
   end
