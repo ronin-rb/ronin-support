@@ -90,6 +90,8 @@ module Ronin
         #     socket.close
         #   end
         #
+        # @see Network::TCP#tcp_connect
+        #
         # @api public
         #
         def tcp_connect(&block)
@@ -114,6 +116,8 @@ module Ronin
         # @return [TCPSocket]
         #   The newly created TCPSocket object.
         #
+        # @see Network::TCP#tcp_connect_and_send
+        #
         # @api public
         #
         def tcp_connect_and_send(data,&block)
@@ -135,6 +139,8 @@ module Ronin
         #   The newly created TCPSocket object.
         #
         # @return [nil]
+        #
+        # @see Network::TCP#tcp_session
         #
         # @api public
         #
@@ -164,6 +170,8 @@ module Ronin
         #   tcp_banner
         #   # => "220 mx.google.com ESMTP c20sm3096959rvf.1"
         #
+        # @see Network::TCP#tcp_banner
+        #
         # @api public
         #
         def tcp_banner(&block)
@@ -183,6 +191,8 @@ module Ronin
         #   buffer = "GET /" + ('A' * 4096) + "\n\r"
         #   Net.tcp_send(buffer)
         #   # => true
+        #
+        # @see Network::TCP#tcp_send
         #
         # @api public
         #
@@ -211,6 +221,8 @@ module Ronin
         #
         # @example
         #   tcp_server
+        #
+        # @see Network::TCP#tcp_server
         #
         # @api public
         #
@@ -244,6 +256,8 @@ module Ronin
         #     client2.close
         #   end
         #
+        # @see Network::TCP#tcp_server_session
+        #
         # @api public
         #
         def tcp_server_session(&block)
@@ -276,6 +290,8 @@ module Ronin
         #   tcp_single_server do |client|
         #     client.puts 'lol'
         #   end
+        #
+        # @see Network::TCP#tcp_server_single_server
         #
         # @api public
         #

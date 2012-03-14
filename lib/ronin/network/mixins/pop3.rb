@@ -83,6 +83,8 @@ module Ronin
         # @return [Net::POP3]
         #   The newly created POP3 session.
         #
+        # @see Network::POP3#pop3_connect
+        #
         # @api public
         #
         def pop3_connect(options={},&block)
@@ -104,7 +106,7 @@ module Ronin
         # @yieldparam [Net::POP3] session
         #   The newly created POP3 session.
         #
-        # @see pop3_connect
+        # @see Network::POP3#pop3_session
         #
         # @api public
         #

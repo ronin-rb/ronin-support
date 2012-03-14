@@ -43,7 +43,7 @@ module Ronin
         #
         # The DNS Resolver to use.
         #
-        # @see DNS#dns_resolver
+        # @see Network::DNS#dns_resolver
         #
         def dns_resolver(nameserver=self.nameserver)
           super(nameserver)

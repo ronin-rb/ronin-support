@@ -92,6 +92,8 @@ module Ronin
         # @return [Net::SMTP]
         #   The SMTP session.
         #
+        # @see Network::SMTP#smtp_connect
+        #
         # @api public
         #
         def smtp_connect(options={},&block)
@@ -112,7 +114,7 @@ module Ronin
         # @yieldparam [Net::SMTP] session
         #   The SMTP session.
         #
-        # @see smtp_connect
+        # @see Network::SMTP#smtp_session
         #
         # @api public
         #

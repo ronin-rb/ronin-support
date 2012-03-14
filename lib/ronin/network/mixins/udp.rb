@@ -88,6 +88,8 @@ module Ronin
         #     puts socket.readlines
         #   end
         #
+        # @see Network::UDP#udp_connect
+        #
         # @api public
         #
         def udp_connect(&block)
@@ -114,6 +116,8 @@ module Ronin
         # @return [UDPSocket]
         #   The newly created UDPSocket object.
         #
+        # @see Network::UDP#udp_connect_and_send
+        #
         # @api public
         #
         def udp_connect_and_send(data,&block)
@@ -138,6 +142,8 @@ module Ronin
         #
         # @return [nil]
         #
+        # @see Network::UDP#udp_session
+        #
         # @api public
         #
         def udp_session(&block)
@@ -160,6 +166,8 @@ module Ronin
         #   buffer = "GET /" + ('A' * 4096) + "\n\r"
         #   Net.udp_send(buffer)
         #   # => true
+        #
+        # @see Network::UDP#udp_send
         #
         # @api public
         #
@@ -191,6 +199,8 @@ module Ronin
         # @example
         #   udp_server
         #
+        # @see Network::UDP#udp_server
+        #
         # @api public
         #
         def udp_server(&block)
@@ -216,6 +226,8 @@ module Ronin
         #   udp_server_session do |server|
         #     data, sender = server.recvfrom(1024)
         #   end
+        #
+        # @see Network::UDP#udp_server_session
         #
         # @api public
         #

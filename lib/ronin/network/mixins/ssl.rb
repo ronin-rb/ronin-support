@@ -86,6 +86,8 @@ module Ronin
         # @example
         #   socket = ssl_connect
         #
+        # @see Network::SSL#ssl_connect
+        #
         # @api public
         #
         def ssl_connect(host,port,options={},&block)
@@ -132,6 +134,8 @@ module Ronin
         #
         #     socket.each_line { |line| puts line }
         #   end
+        #
+        # @see Network::SSL#ssl_session
         #
         # @api public
         #

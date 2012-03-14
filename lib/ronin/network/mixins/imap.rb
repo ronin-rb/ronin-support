@@ -88,6 +88,8 @@ module Ronin
         #   Indicates wether or not to use SSL when connecting to the
         #   server.
         #
+        # @see Network::IMAP#imap_connect
+        #
         # @api public
         #
         def imap_connect(options={},&block)
@@ -109,7 +111,7 @@ module Ronin
         # @yieldparam [Net::IMAP] session
         #   The newly created IMAP session object.
         #
-        # @see imap_connect
+        # @see Network::IMAP#imap_session
         #
         # @api public
         #

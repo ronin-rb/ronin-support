@@ -93,6 +93,8 @@ module Ronin
         # @return [Net::SMTP]
         #   The ESMTP enabled session.
         #
+        # @see Network::ESMTP#esmtp_connect
+        #
         # @api public
         #
         def esmtp_connect(options={},&block)
@@ -117,7 +119,7 @@ module Ronin
         # @yieldparam [Net::SMTP] session
         #   The ESMTP session.
         #
-        # @see esmtp_connect
+        # @see Network::ESMTP#esmtp_session
         #
         # @api public
         #

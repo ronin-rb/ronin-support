@@ -113,6 +113,8 @@ module Ronin
         # @return [Net::HTTP]
         #   The HTTP session object.
         #
+        # @see Network::HTTP#http_session
+        #
         # @api public
         #
         def http_session(options={},&block)
@@ -156,7 +158,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_session
+        # @see Network::HTTP#http_request
         #
         # @api public
         #
@@ -179,7 +181,7 @@ module Ronin
         # @return [Integer]
         #   The HTTP Response Status.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_status
         #
         # @since 1.1.0
         #
@@ -207,7 +209,7 @@ module Ronin
         # @return [Boolean]
         #   Specifies whether the response had an HTTP OK status code or not.
         #
-        # @see #http_status
+        # @see Network::HTTP#http_ok?
         #
         # @since 1.1.0
         #
@@ -235,7 +237,7 @@ module Ronin
         # @return [String]
         #   The HTTP `Server` header.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_server
         #
         # @since 1.1.0
         #
@@ -263,7 +265,7 @@ module Ronin
         # @return [String]
         #   The HTTP `X-Powered-By` header.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_powered_by
         #
         # @since 1.1.0
         #
@@ -292,7 +294,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_copy
         #
         # @api public
         #
@@ -316,7 +318,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_delete
         #
         # @api public
         #
@@ -340,7 +342,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_get
         #
         # @api public
         #
@@ -364,7 +366,7 @@ module Ronin
         # @return [String]
         #   The body of the HTTP Get request.
         #
-        # @see #http_get
+        # @see Network::HTTP#http_get_body
         #
         # @api public
         #
@@ -388,7 +390,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_head
         #
         # @api public
         #
@@ -412,7 +414,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_lock
         #
         # @api public
         #
@@ -436,7 +438,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_mkcol
         #
         # @api public
         #
@@ -460,7 +462,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_move
         #
         # @api public
         #
@@ -484,7 +486,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_options
         #
         # @api public
         #
@@ -514,7 +516,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_post
         #
         # @api public
         #
@@ -538,7 +540,7 @@ module Ronin
         # @return [String]
         #   The body of the Post request.
         #
-        # @see #http_post
+        # @see Network::HTTP#http_post_body
         #
         # @api public
         #
@@ -571,7 +573,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_put
         #
         # @since 0.4.0
         #
@@ -597,7 +599,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_prop_find
         #
         # @api public
         #
@@ -621,7 +623,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_prop_patch
         #
         # @api public
         #
@@ -645,7 +647,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_trace
         #
         # @api public
         #
@@ -669,7 +671,7 @@ module Ronin
         # @return [Net::HTTP::Response]
         #   The response of the HTTP request.
         #
-        # @see #http_request
+        # @see Network::HTTP#http_unlock
         #
         # @api public
         #

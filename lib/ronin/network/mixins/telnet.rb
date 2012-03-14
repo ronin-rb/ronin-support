@@ -132,6 +132,8 @@ module Ronin
         #   telnet_connect
         #   # => Net::Telnet
         #
+        # @see Network::Telnet#telnet_connect
+        #
         # @api public
         #
         def telnet_connect(options={},&block)
@@ -159,7 +161,7 @@ module Ronin
         #     movie.each_line { |line| puts line }
         #   end
         #
-        # @see telnet_connect
+        # @see Network::Telnet#telnet_session
         #
         # @api public
         #
