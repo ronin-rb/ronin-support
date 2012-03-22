@@ -122,6 +122,29 @@ module Ronin
     end
 
     #
+    # Creates a new wordlist file.
+    #
+    # @param [String] path
+    #   The path to the wordlist file.
+    #
+    # @param [String] text
+    #   The text to parse.
+    #
+    # @param [Hash{Regexp,String,Symbol => Symbol,#each}] mutations
+    #   Additional mutations for the wordlist.
+    #
+    # @return [Wordlist]
+    #   The newly built wordlist.
+    #
+    # @since 0.5.0
+    #
+    def self.create(path,text,mutations={})
+      wordlist = build(text,mutations)
+
+      return wordlist.save(path)
+    end
+
+    #
     # Iterates over each word in the list.
     #
     # @yield [word]
@@ -201,6 +224,29 @@ module Ronin
     #
     def each_n_words(n,&block)
       String.generate([each, n],&block)
+    end
+
+    #
+    # Saves the words to a new file.
+    #
+    # @param [String] path
+    #   The path to the new wordlist file.
+    #
+    # @return [Wordlist]
+    #   The wordlist object.
+    #
+    # @see #each
+    #
+    # @since 0.5.0
+    #
+    # @api public
+    #
+    def save(path)
+      File.open(path,'w') do |file|
+        each { |word| file.puts word }
+      end
+
+      return self
     end
 
   end
