@@ -41,6 +41,33 @@ describe Wordlist do
     end
   end
 
+  describe "create" do
+    let(:path) { Tempfile.new('ronin-support-saved-wordlist').path }
+    let(:text) { words.join(' ') }
+
+    it "should return the new Wordlist object" do
+      wordlist = described_class.create(path,text)
+
+      wordlist.to_a.should =~ words
+    end
+
+    it "should create a wordlist file from text" do
+      described_class.create(path,text)
+
+      saved_words = File.open(path).each_line.map { |line| line.chomp }
+
+      saved_words.should =~ words
+    end
+
+    it "should apply mutations to the created wordlist" do
+      described_class.create(path,text, 'o' => ['0'])
+
+      saved_words = File.open(path).each_line.map { |line| line.chomp }
+
+      saved_words.should =~ %w[foo f0o fo0 f00 bar baz]
+    end
+  end
+
   describe "#initialize" do
     it "should accept a list of words" do
       subject.to_a.should == words
@@ -85,6 +112,19 @@ describe Wordlist do
         barfoo barbar barbaz
         bazfoo bazbar bazbaz
       ]
+    end
+  end
+
+  describe "#save" do
+    let(:path) { Tempfile.new('ronin-support-saved-wordlist').path }
+
+    it "should save the words with mutations to a file" do
+      subject.save(path)
+
+      saved_words    = File.open(path).each_line.map { |line| line.chomp }
+      expected_words = subject.to_a
+
+      saved_words.should == expected_words
     end
   end
 end
