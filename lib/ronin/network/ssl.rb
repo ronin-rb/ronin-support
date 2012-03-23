@@ -30,7 +30,7 @@ module Ronin
     # Provides helper methods for communicating with SSL-enabled services.
     #
     module SSL
-      extend TCP
+      include TCP
 
       # Maps SSL verify modes to `OpenSSL::SSL::VERIFY_*` constants.
       #
