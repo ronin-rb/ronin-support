@@ -197,47 +197,6 @@ module Ronin
           end
         end
 
-        protected
-
-        #
-        # Creates a new connection to the server.
-        #
-        # @return [TCPSocket]
-        #   A new connection.
-        #
-        def new_server_connection
-          TCPSocket.new(@server_host,@server_port)
-        end
-
-        #
-        # Closes a connection from the client.
-        #
-        # @param [TCPSocket] socket
-        #   The connection from the client.
-        #
-        def close_client_connection(socket)
-          socket.close
-        end
-
-        #
-        # Closes a connection to the server.
-        #
-        # @param [TCPSocket] socket
-        #   The connection to the server.
-        #
-        def close_server_connection(socket)
-          socket.close
-        end
-
-        #
-        # Closes the TCP proxy.
-        #
-        def close_proxy
-          @proxy_socket.close
-        end
-
-        private
-
         #
         # Triggers the `client_connect` event.
         #
@@ -292,6 +251,45 @@ module Ronin
           callback(:server_disconnect,client_connection,server_connection) do
             close_connection(client_connection)
           end
+        end
+
+        protected
+
+        #
+        # Creates a new connection to the server.
+        #
+        # @return [TCPSocket]
+        #   A new connection.
+        #
+        def new_server_connection
+          TCPSocket.new(@server_host,@server_port)
+        end
+
+        #
+        # Closes a connection from the client.
+        #
+        # @param [TCPSocket] socket
+        #   The connection from the client.
+        #
+        def close_client_connection(socket)
+          socket.close
+        end
+
+        #
+        # Closes a connection to the server.
+        #
+        # @param [TCPSocket] socket
+        #   The connection to the server.
+        #
+        def close_server_connection(socket)
+          socket.close
+        end
+
+        #
+        # Closes the TCP proxy.
+        #
+        def close_proxy
+          @proxy_socket.close
         end
 
       end

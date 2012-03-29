@@ -248,6 +248,42 @@ module Ronin
       end
 
       #
+      # Triggers the `client_data` event.
+      #
+      # @param [connection] client_connection
+      #   The connection from a client to the proxy.
+      #
+      # @param [connection] server_connection
+      #   The connection from the proxy to the server.
+      #
+      # @param [String] data
+      #   The data sent by the client.
+      #
+      def client_data(client_connection,server_connection,data)
+        callback(:client_data,client_connection,server_connection,data) do
+          send(server_connection,data)
+        end
+      end
+
+      #
+      # Triggers the `server_data` event.
+      #
+      # @param [connection] client_connection
+      #   The connection from a client to the proxy.
+      #
+      # @param [connection] server_connection
+      #   The connection from the proxy to the server.
+      #
+      # @param [String] data
+      #   The data sent from the server.
+      #
+      def server_data(client_connection,server_connection,data)
+        callback(:server_data,client_connection,server_connection,data) do
+          send(client_connection,data)
+        end
+      end
+
+      #
       # Causes the proxy to drop a message.
       #
       # @api public
@@ -301,6 +337,51 @@ module Ronin
       protected
 
       #
+      # Triggers the callbacks registered for an event.
+      #
+      # @param [Symbol] event
+      #   The event being triggered.
+      #
+      # @param [connection] client_connection
+      #   The connection from the client to the proxy.
+      #
+      # @param [connection] server_connection
+      #   The connection from the proxy to the server.
+      #
+      # @param [String] data
+      #   The data being sent.
+      #
+      # @yield []
+      #   If none of the callbacks interrupted the event, the given block
+      #   will be called.
+      #
+      def callback(event,client_connection,server_connection=nil,data=nil)
+        action = catch(:action) do
+          @callbacks[event].each do |block|
+            case block.arity
+            when 1
+              block.call(client_connection)
+            when 2
+              block.call(client_connection,server_connection)
+            when 3, -1
+              block.call(client_connection,server_connection,data)
+            end
+          end
+        end
+
+        case action
+        when :drop
+          # no-op
+        when :reset
+          reset_connection(client_connection,server_connection)
+        when :close
+          close_connection(client_connection,server_connection)
+        else
+          yield if block_given?
+        end
+      end
+
+      #
       # Creates a new connection to the server.
       #
       # @return [connection]
@@ -347,87 +428,6 @@ module Ronin
       # @abstract
       #
       def close_proxy
-      end
-
-      #
-      # Triggers the callbacks registered for an event.
-      #
-      # @param [Symbol] event
-      #   The event being triggered.
-      #
-      # @param [connection] client_connection
-      #   The connection from the client to the proxy.
-      #
-      # @param [connection] server_connection
-      #   The connection from the proxy to the server.
-      #
-      # @param [String] data
-      #   The data being sent.
-      #
-      # @yield []
-      #   If none of the callbacks interrupted the event, the given block
-      #   will be called.
-      #
-      def callback(event,client_connection,server_connection=nil,data=nil)
-        action = catch(:action) do
-          @callbacks[event].each do |block|
-            case block.arity
-            when 1
-              block.call(client_connection)
-            when 2
-              block.call(client_connection,server_connection)
-            when 3, -1
-              block.call(client_connection,server_connection,data)
-            end
-          end
-        end
-
-        case action
-        when :drop
-          # no-op
-        when :reset
-          reset_connection(client_connection,server_connection)
-        when :close
-          close_connection(client_connection,server_connection)
-        else
-          yield if block_given?
-        end
-      end
-
-      #
-      # Triggers the `client_data` event.
-      #
-      # @param [connection] client_connection
-      #   The connection from a client to the proxy.
-      #
-      # @param [connection] server_connection
-      #   The connection from the proxy to the server.
-      #
-      # @param [String] data
-      #   The data sent by the client.
-      #
-      def client_data(client_connection,server_connection,data)
-        callback(:client_data,client_connection,server_connection,data) do
-          send(server_connection,data)
-        end
-      end
-
-      #
-      # Triggers the `server_data` event.
-      #
-      # @param [connection] client_connection
-      #   The connection from a client to the proxy.
-      #
-      # @param [connection] server_connection
-      #   The connection from the proxy to the server.
-      #
-      # @param [String] data
-      #   The data sent from the server.
-      #
-      def server_data(client_connection,server_connection,data)
-        callback(:server_data,client_connection,server_connection,data) do
-          send(client_connection,data)
-        end
       end
 
       #
