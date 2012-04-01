@@ -168,7 +168,7 @@ module Ronin
       #
       # @example
       #   ssl_session('twitter.com',443) do |sock|
-      #     sock.write("GET /\n\n")
+      #     sock.write("GET / HTTP/1.1\n\r\n\r")
       #
       #     sock.each_line { |line| puts line }
       #   end

@@ -84,7 +84,7 @@ module Ronin
         #
         # @example
         #   tcp_connect do |socket|
-        #     socket.write("GET /\n\n")
+        #     socket.write("GET / HTTP/1.1\n\r\n\r")
         #
         #     puts socket.readlines
         #     socket.close

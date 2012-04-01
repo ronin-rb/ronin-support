@@ -54,7 +54,7 @@ module Ronin
       #
       # @example
       #   tcp_connect('www.wired.com',80) do |socket|
-      #     socket.write("GET /\n\n")
+      #     socket.write("GET / HTTP/1.1\n\r\n\r")
       #
       #     puts socket.readlines
       #     socket.close

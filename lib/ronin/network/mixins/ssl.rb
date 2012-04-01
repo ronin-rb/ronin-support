@@ -130,7 +130,7 @@ module Ronin
         #
         # @example
         #   ssl_session do |socket|
-        #     socket.write("GET /\n\n")
+        #     socket.write("GET / HTTP/1.1\n\r\n\r")
         #
         #     socket.each_line { |line| puts line }
         #   end
