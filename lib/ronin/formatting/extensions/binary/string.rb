@@ -25,9 +25,8 @@ require 'enumerator'
 
 begin
   require 'zlib'
-rescue Gem::LoadError => e
-  raise(e)
 rescue ::LoadError
+  $stderr.puts "WARNING: Ruby was not compiled with zlib support"
 end
 
 class String
