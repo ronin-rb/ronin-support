@@ -32,7 +32,7 @@ module Ronin
                 :quiet
               end
 
-      @handler = if STDOUT.tty?
+      @handler = if $stdout.tty?
                    Terminal::Color
                  else
                    Terminal::Raw
