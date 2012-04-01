@@ -1,6 +1,8 @@
 ### 0.4.1 / 2012-03-31
 
+* Added "WARNING" messages for when we cannot load `openssl` or `zlib`.
 * Added YARD `@see` tags to all methods defined in {Ronin::Network::Mixins}.
+* Use `$stdout`, `$stderr` instead of `STDOUT`, `STDERR`, respectively.
 * Included {Ronin::Network::DNS} into {Net} as well.
 * Included {Ronin::Network::TCP} into {Ronin::Network::SSL}.
 * Require `ronin/network/ssl` in `ronin/network`.
