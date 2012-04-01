@@ -53,10 +53,10 @@ describe Network::TCP do
       end
 
       it "should bind to a local host and port" do
-        socket        = subject.tcp_connect(host,port,nil,local_port)
+        socket     = subject.tcp_connect(host,port,nil,local_port)
+        bound_port = socket.addr[1]
 
-        local_address = socket.local_address
-        local_address.ip_port.should == local_port
+        bound_port.should == local_port
 
         socket.close
       end
@@ -88,10 +88,10 @@ describe Network::TCP do
        end
 
       it "should bind to a local host and port" do
-        socket = subject.tcp_connect_and_send(data,host,port,nil,local_port)
+        socket     = subject.tcp_connect_and_send(data,host,port,nil,local_port)
+        bound_port = socket.addr[1]
 
-        local_address = socket.local_address
-        local_address.ip_port.should == local_port
+        bound_port.should == local_port
 
         socket.close
       end
@@ -125,13 +125,13 @@ describe Network::TCP do
       end
 
       it "should bind to a local host and port" do
-        local_address = nil
+        bound_port = nil
 
         subject.tcp_session(host,port,nil,local_port) do |socket|
-          local_address = socket.local_address
+          bound_port = socket.addr[1]
         end
 
-        local_address.ip_port.should == local_port
+        bound_port.should == local_port
       end
     end
 
@@ -165,8 +165,8 @@ describe Network::TCP do
     end
 
     describe "#tcp_send" do
-      let(:server)      { TCPServer.new(server_host,nil) }
-      let(:server_port) { server.local_address.ip_port }
+      let(:server)      { TCPServer.new(server_host,0) }
+      let(:server_port) { server.addr[1] }
 
       let(:data)       { "hello\n" }
       let(:local_port) { 1024 + rand(65535 - 1024) }
@@ -187,10 +187,10 @@ describe Network::TCP do
       it "should bind to a local host and port" do
         subject.tcp_send(data,server_host,server_port,nil,local_port)
 
-        client = server.accept
+        client      = server.accept
+        client_port = client.peeraddr[1]
 
-        client_address = client.remote_address
-        client_address.ip_port.should == local_port
+        client_port.should == local_port
 
         client.close
       end
@@ -209,11 +209,12 @@ describe Network::TCP do
       end
 
       it "should bind to a specific port and host" do
-        server = subject.tcp_server(server_port,server_host)
+        server     = subject.tcp_server(server_port,server_host)
+        bound_host = server.addr[3]
+        bound_port = server.addr[1]
 
-        local_address = server.local_address
-        local_address.ip_address.should == server_ip
-        local_address.ip_port.should    == server_port
+        bound_host.should == server_ip
+        bound_port.should == server_port
 
         server.close
       end
@@ -247,14 +248,16 @@ describe Network::TCP do
       end
 
       it "should bind to a specific port and host" do
-        local_address = nil
+        bound_host = nil
+        bound_port = nil
         
         subject.tcp_server_session(server_port,server_host) do |yielded_server|
-          local_address = yielded_server.local_address
+          bound_host = yielded_server.addr[3]
+          bound_port = yielded_server.addr[1]
         end
 
-        local_address.ip_address.should == server_ip
-        local_address.ip_port.should    == server_port
+        bound_host.should == server_ip
+        bound_port.should == server_port
       end
     end
 
