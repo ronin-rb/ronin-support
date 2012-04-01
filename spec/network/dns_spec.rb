@@ -104,7 +104,7 @@ describe Network::DNS do
 
     describe "#dns_lookup_all" do
       it "should lookup all addresses for a hostname" do
-        subject.dns_lookup_all(hostname).should == [address]
+        subject.dns_lookup_all(hostname).should include(address)
       end
 
       it "should return an empty Array for unknown hostnames" do
@@ -112,11 +112,11 @@ describe Network::DNS do
       end
 
       it "should accept non-String hostnames" do
-        subject.dns_lookup_all(hostname.to_sym).should == [address]
+        subject.dns_lookup_all(hostname.to_sym).should include(address)
       end
 
       it "should accept an additional nameserver argument" do
-        subject.dns_lookup_all(hostname,server).should == [address]
+        subject.dns_lookup_all(hostname,server).should include(address)
       end
 
       context "when given a block" do
@@ -172,7 +172,7 @@ describe Network::DNS do
 
     describe "#dns_reverse_lookup_all" do
       it "should lookup all addresses for a hostname" do
-        subject.dns_reverse_lookup_all(address).should == [reverse_hostname]
+        subject.dns_reverse_lookup_all(address).should include(reverse_hostname)
       end
 
       it "should return an empty Array for unknown hostnames" do
@@ -180,11 +180,11 @@ describe Network::DNS do
       end
 
       it "should accept non-String addresses" do
-        subject.dns_reverse_lookup_all(IPAddr.new(address)).should == [reverse_hostname]
+        subject.dns_reverse_lookup_all(IPAddr.new(address)).should include(reverse_hostname)
       end
 
       it "should accept an additional nameserver argument" do
-        subject.dns_reverse_lookup_all(address,server).should == [reverse_hostname]
+        subject.dns_reverse_lookup_all(address,server).should include(reverse_hostname)
       end
 
       context "when given a block" do
