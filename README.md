@@ -31,6 +31,7 @@ or payloads over many common Source-Code-Management (SCM) systems.
     * DNS
     * TCP
     * UDP
+    * SSL
     * SMTP / ESMTP
     * POP3
     * Imap
