@@ -1,4 +1,4 @@
-### 0.4.1 / 2012-03-31
+### 0.4.1 / 2012-04-01
 
 * Added "WARNING" messages for when we cannot load `openssl` or `zlib`.
 * Added YARD `@see` tags to all methods defined in {Ronin::Network::Mixins}.
