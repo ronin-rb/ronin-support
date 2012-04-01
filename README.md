@@ -1,7 +1,7 @@
 # Ronin Support
 
-* [Source](http://github.com/ronin-ruby/ronin-support)
-* [Issues](http://github.com/ronin-ruby/ronin-support/issues)
+* [Source](https://github.com/ronin-ruby/ronin-support)
+* [Issues](https://github.com/ronin-ruby/ronin-support/issues)
 * [Documentation](http://rubydoc.info/gems/ronin-support/frames)
 * [Mailing List](http://groups.google.com/group/ronin-ruby)
 * [irc.freenode.net #ronin](http://webchat.freenode.net/?channels=ronin&uio=Mj10cnVldd)
@@ -58,17 +58,17 @@ please see [Everyday Ronin](http://ronin-ruby.github.com/guides/everyday_ronin.h
 ## Requirements
 
 * [Ruby](http://www.ruby-lang.org/) >= 1.8.7
-* [chars](http://github.com/postmodern/chars#readme)
+* [chars](https://github.com/postmodern/chars#readme)
   ~> 0.2
-* [hexdump](http://github.com/postmodern/hexdump#readme)
+* [hexdump](https://github.com/postmodern/hexdump#readme)
   ~> 0.1
-* [combinatorics](http://github.com/postmodern/combinatorics#readme)
+* [combinatorics](https://github.com/postmodern/combinatorics#readme)
   ~> 0.4
-* [uri-query_params](http://github.com/postmodern/uri-query_params#readme)
+* [uri-query_params](https://github.com/postmodern/uri-query_params#readme)
   ~> 0.6
-* [data_paths](http://github.com/postmodern/data_paths#readme)
+* [data_paths](https://github.com/postmodern/data_paths#readme)
   ~> 0.3
-* [parameters](http://github.com/postmodern/parameters#readme)
+* [parameters](https://github.com/postmodern/parameters#readme)
   ~> 0.4
 
 ## Install
