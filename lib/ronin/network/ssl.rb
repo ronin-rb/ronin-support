@@ -99,6 +99,8 @@ module Ronin
       # @example
       #   socket = ssl_connect('twitter.com',443)
       #
+      # @see http://rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLSocket
+      #
       # @api public
       #
       def ssl_connect(host,port,options={})
@@ -169,6 +171,8 @@ module Ronin
       #
       #     sock.each_line { |line| puts line }
       #   end
+      #
+      # @see http://rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLSocket
       #
       # @api public
       #
