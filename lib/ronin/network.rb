@@ -20,6 +20,7 @@
 require 'ronin/network/dns'
 require 'ronin/network/tcp'
 require 'ronin/network/udp'
+require 'ronin/network/ssl'
 require 'ronin/network/smtp'
 require 'ronin/network/esmtp'
 require 'ronin/network/pop3'
