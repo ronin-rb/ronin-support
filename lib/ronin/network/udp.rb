@@ -60,7 +60,7 @@ module Ronin
       #
       # @api public
       #
-      def udp_connect(host,port,local_host=nil,local_port=nil)
+      def udp_connect(host,port,local_host=nil,local_port=0)
         host       = host.to_s
         local_host = (local_host || '0.0.0.0').to_s
 
@@ -102,7 +102,7 @@ module Ronin
       #
       # @api public
       #
-      def udp_connect_and_send(data,host,port,local_host=nil,local_port=nil)
+      def udp_connect_and_send(data,host,port,local_host=nil,local_port=0)
         socket = udp_connect(host,port,local_host,local_port)
         socket.write(data)
 
@@ -137,7 +137,7 @@ module Ronin
       #
       # @api public
       #
-      def udp_session(host,port,local_host=nil,local_port=nil)
+      def udp_session(host,port,local_host=nil,local_port=0)
         socket = udp_connect(host,port,local_host,local_port)
 
         yield socket if block_given?
@@ -177,7 +177,7 @@ module Ronin
       #
       # @since 0.4.0
       #
-      def udp_send(data,host,port,local_host=nil,local_port=nil)
+      def udp_send(data,host,port,local_host=nil,local_port=0)
         udp_session(host,port,local_host,local_port) do |socket|
           socket.write(data)
         end
@@ -211,7 +211,7 @@ module Ronin
       #
       # @api public
       #
-      def udp_banner(host,port,local_host=nil,local_port=nil)
+      def udp_banner(host,port,local_host=nil,local_port=0)
         banner = nil
 
         udp_session(host,port,local_host,local_port) do |socket|
@@ -239,7 +239,7 @@ module Ronin
       #
       # @api public
       #
-      def udp_server(port=nil,host=nil)
+      def udp_server(port=0,host=nil)
         host   = (host || '0.0.0.0').to_s
         server = UDPSocket.new
 
@@ -274,7 +274,7 @@ module Ronin
       #
       # @api public
       #
-      def udp_server_session(port=nil,host=nil,&block)
+      def udp_server_session(port=0,host=nil,&block)
         server = udp_server(port,host,&block)
 
         server.close()
