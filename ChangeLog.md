@@ -1,3 +1,12 @@
+### 0.4.1 / 2012-03-31
+
+* Added YARD `@see` tags to all methods defined in {Ronin::Network::Mixins}.
+* Included {Ronin::Network::DNS} into {Net} as well.
+* Included {Ronin::Network::TCP} into {Ronin::Network::SSL}.
+* Fixed a major syntax error in `ronin/network/ssl`, that caused the `ssl_*`
+  methods to not be defined in {Ronin::Network::SSL}.
+* Fixed YARD `@see` tags in the {Ronin::Network} modules.
+
 ### 0.4.0 / 2012-02-12
 
 * Require uri-query_params ~> 0.6.
