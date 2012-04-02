@@ -8,6 +8,8 @@
 * Require `ronin/network/ssl` in `ronin/network`.
 * Require `ronin/network/extensions/ssl` in `ronin/network/extensions`.
 * Included {Ronin::Network::SSL} into {Ronin::Support}.
+* Default all `local_port` variables to `0` and not `nil`. Fixes a JRuby
+  specific bug.
 * Fixed a major syntax error in `ronin/network/ssl`, that caused the `ssl_*`
   methods to not be defined in {Ronin::Network::SSL}.
 * Fixed YARD `@see` tags in the {Ronin::Network} modules.
