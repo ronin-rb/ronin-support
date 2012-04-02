@@ -1,6 +1,7 @@
 ### 0.4.1 / 2012-04-01
 
-* Added "WARNING" messages for when we cannot load `openssl` or `zlib`.
+* Added "WARNING" messages for when ronin-support cannot load `openssl` or
+  `zlib`.
 * Added YARD `@see` tags to all methods defined in {Ronin::Network::Mixins}.
 * Use `$stdout`, `$stderr` instead of `STDOUT`, `STDERR`, respectively.
 * Included {Ronin::Network::DNS} into {Net} as well.
@@ -8,7 +9,7 @@
 * Require `ronin/network/ssl` in `ronin/network`.
 * Require `ronin/network/extensions/ssl` in `ronin/network/extensions`.
 * Included {Ronin::Network::SSL} into {Ronin::Support}.
-* Default all `local_port` variables to `0` and not `nil`. Workaround
+* Default all `local_port` variables to `0` instead of `nil`. Workaround
   for JRuby bug [#6574](http://jira.codehaus.org/browse/JRUBY-6574).
 * Fixed a major syntax error in `ronin/network/ssl`, that caused the `ssl_*`
   methods to not be defined in {Ronin::Network::SSL}.
