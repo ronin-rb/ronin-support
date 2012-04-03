@@ -36,23 +36,23 @@ module Ronin
       #
       # When a client connects to the proxy:
       #
-      #     on(:client_connect) do |client|
-      #       puts "[connected] #{client.remote_address.ip_address}:#{client.remote_address.ip_port}"
+      #     on_client_connect do |client|
+      #       puts "[connected] #{client.remote_address.ip_address}:#{client.remote_addre
       #     end
       #
       # ### client_disconnect
       #
       # When a client disconnects from the proxy:
       #
-      #     on(:client_disconnect) do |client,server|
-      #       puts "[disconnected] #{client.remote_address.ip_address}:#{client.remote_address.ip_port}"
+      #     on_client_disconnect do |client,server|
+      #       puts "[disconnected] #{client.remote_address.ip_address}:#{client.remote_ad
       #     end
       #
       # ### server_connect
       #
       # When the server accetps a connection from the proxy:
       #
-      #     proxy.on(:server_connect) do |client,server|
+      #     on_server_connect do |client,server|
       #       puts "[connected] #{proxy}"
       #     end
       #
@@ -60,17 +60,17 @@ module Ronin
       #
       # When the server closes a connection from the proxy.
       #
-      #     on(:server_disconnect) do |client,server|
+      #     on_server_disconnect do |client,server|
       #       puts "[disconnected] #{proxy}"
       #     end
       #
       # ### connect
       #
-      # Alias for `server_connect`.
+      # Alias for {#on_server_connect}.
       #
       # ### disconnect
       #
-      # Alias for `client_disconnect`.
+      # Alias for {#on_client_disconnect}.
       #
       class Proxy < Network::Proxy
 
@@ -163,14 +163,26 @@ module Ronin
         end
 
         #
-        # Registers a callback for an event.
+        # Registers a callback for when a client connects.
         #
-        # @param [Symbol] event
-        #   The event to attach the callback to.
+        # @yield [client]
         #
-        # @yield [(client), (client,server), (client,server,data)]
-        #   The callback will be passed the client connection, the server
-        #   connection and the data.
+        # @yieldparam [TCPSocket] client
+        #   The connection from the client to the proxy.
+        #
+        # @example
+        #   on_client_connect do |client|
+        #     puts "[connected] #{client.remote_address.ip_address}:#{client.remote_address.ip_port}"
+        #   end
+        #
+        def on_client_connect(&block)
+          @callbacks[:client_connect] << block
+        end
+
+        #
+        # Registers a callback for when a client disconnects.
+        #
+        # @yield [client, server]
         #
         # @yieldparam [TCPSocket] client
         #   The connection from the client to the proxy.
@@ -178,25 +190,60 @@ module Ronin
         # @yieldparam [TCPSocket] server
         #   The connection from the proxy to the server.
         #
-        # @yieldparam [String] data
-        #   The data being sent through the proxy.
-        #
-        # @example Registers a callback for `client_connect`:
-        #   proxy.on(:client_connect) do |client|
-        #     proxy.send(client,"HELLO")
+        # @example
+        #   on_client_disconnect do |client,server|
+        #     puts "[disconnected] #{client.remote_address.ip_address}:#{client.remote_address.ip_port}"
         #   end
         #
-        def on(event,&block)
-          case event
-          when :connect
-            @callbacks[:server_connect] << block
-          when :disconnect
-            @callbacks[:client_disconnect] << block
-          else
-            super(event,&block)
-          end
+        def on_client_disconnect(&block)
+          @callbacks[:client_disconnect] << block
         end
 
+        alias on_client_disconnect on_disconnect
+
+        #
+        # Registers a callback for when the server accepts a connection.
+        #
+        # @yield [client, server]
+        #
+        # @yieldparam [TCPSocket] client
+        #   The connection from the client to the proxy.
+        #
+        # @yieldparam [TCPSocket] server
+        #   The connection from the proxy to the server.
+        #
+        # @example
+        #   on_server_connect do |client,server|
+        #     puts "[connected] #{proxy}"
+        #   end
+        #
+        def on_server_connect(&block)
+          @callbacks[:server_connect] << block
+        end
+
+        alias on_server_connect on_connect
+
+        #
+        # Registers a callback for when the server closes a connection.
+        #
+        # @yield [client, server]
+        #
+        # @yieldparam [TCPSocket] client
+        #   The connection from the client to the proxy.
+        #
+        # @yieldparam [TCPSocket] server
+        #   The connection from the proxy to the server.
+        #
+        # @example
+        #   on_server_disconnect do |client,server|
+        #     puts "[disconnected] #{proxy}"
+        #   end
+        #
+        def on_server_disconnect(&block)
+          @callbacks[:server_disconnect] << block
+        end
+
+        #
         #
         # Triggers the `client_connect` event.
         #
