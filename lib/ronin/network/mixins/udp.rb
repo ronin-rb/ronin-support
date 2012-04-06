@@ -163,8 +163,7 @@ module Ronin
         #   The data was successfully sent.
         #
         # @example
-        #   buffer = "GET /" + ('A' * 4096) + "\n\r"
-        #   Net.udp_send(buffer)
+        #   udp_send("GET /" + ('A' * 4096) + "\n\r")
         #   # => true
         #
         # @see Network::UDP#udp_send

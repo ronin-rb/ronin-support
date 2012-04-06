@@ -147,7 +147,7 @@ module Ronin
         def tcp_session(&block)
           print_info "Connecting to #{host_port} ..."
 
-          Net.tcp_session(self.host,self.port,self.local_host,self.local_port,&block)
+          super(self.host,self.port,self.local_host,self.local_port,&block)
 
           print_info "Disconnected from #{host_port}"
           return nil
@@ -188,8 +188,7 @@ module Ronin
         #   The data was successfully sent.
         #
         # @example
-        #   buffer = "GET /" + ('A' * 4096) + "\n\r"
-        #   Net.tcp_send(buffer)
+        #   tcp_send("GET /" + ('A' * 4096) + "\n\r")
         #   # => true
         #
         # @see Network::TCP#tcp_send
