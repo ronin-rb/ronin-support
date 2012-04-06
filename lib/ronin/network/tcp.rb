@@ -62,9 +62,11 @@ module Ronin
       #
       # @api public
       #
-      def tcp_connect(host,port,local_host=nil,local_port=0)
+      def tcp_connect(host,port,local_host=nil,local_port=nil)
         host       = host.to_s
+        port       = port.to_i
         local_host = (local_host || '0.0.0.0').to_s
+        local_port = (local_port || 0).to_i
 
         socket = TCPSocket.new(host,port,local_host,local_port)
 
@@ -99,7 +101,7 @@ module Ronin
       #
       # @api public
       #
-      def tcp_connect_and_send(data,host,port,local_host=nil,local_port=0)
+      def tcp_connect_and_send(data,host,port,local_host=nil,local_port=nil)
         socket = tcp_connect(host,port,local_host,local_port)
         socket.write(data)
 
@@ -134,7 +136,7 @@ module Ronin
       #
       # @api public
       #
-      def tcp_session(host,port,local_host=nil,local_port=0)
+      def tcp_session(host,port,local_host=nil,local_port=nil)
         socket = tcp_connect(host,port,local_host,local_port)
 
         yield socket if block_given?
@@ -173,7 +175,7 @@ module Ronin
       #
       # @api public
       #
-      def tcp_banner(host,port,local_host=nil,local_port=0)
+      def tcp_banner(host,port,local_host=nil,local_port=nil)
         banner = nil
 
         tcp_session(host,port,local_host,local_port) do |socket|
@@ -213,7 +215,7 @@ module Ronin
       #
       # @api public
       #
-      def tcp_send(data,host,port,local_host=nil,local_port=0)
+      def tcp_send(data,host,port,local_host=nil,local_port=nil)
         tcp_session(host,port,local_host,local_port) do |socket|
           socket.write(data)
         end
@@ -238,7 +240,8 @@ module Ronin
       #
       # @api public
       #
-      def tcp_server(port=0,host=nil)
+      def tcp_server(port=nil,host=nil)
+        port = (port || 0).to_i
         host = (host || '0.0.0.0').to_s
 
         server = TCPServer.new(host,port)
@@ -279,7 +282,7 @@ module Ronin
       #
       # @api public
       #
-      def tcp_server_session(port=0,host=nil,&block)
+      def tcp_server_session(port=nil,host=nil,&block)
         server = tcp_server(port,host,&block)
         server.close()
         return nil
@@ -305,7 +308,8 @@ module Ronin
       #
       # @api public
       #
-      def tcp_single_server(port=0,host=nil)
+      def tcp_single_server(port=nil,host=nil)
+        port = (port || 0).to_i
         host = host.to_s
 
         server = TCPServer.new(host,port)
