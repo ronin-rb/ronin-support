@@ -144,6 +144,43 @@ module Ronin
       end
 
       #
+      # Tests whether a remote TCP port is open.
+      #
+      # @param [String] host
+      #   The host to connect to.
+      #
+      # @param [Integer] port
+      #   The port to connect to.
+      #
+      # @param [String] local_host (nil)
+      #   The local host to bind to.
+      #
+      # @param [Integer] local_port (nil)
+      #   The local port to bind to.
+      #
+      # @param [Integer] timeout (5)
+      #   The maximum time to attempt connecting.
+      #
+      # @return [Boolean]
+      #   Specifies whether the remote TCP port is open.
+      #
+      # @since 0.5.0
+      #
+      def tcp_open?(host,port,local_host=nil,local_port=nil,timeout=nil)
+        timeout ||= 5
+
+        begin
+          Timeout.timeout(timeout) do
+            tcp_session(host,port,local_host,local_port)
+          end
+
+          return true
+        rescue Timeout::Error, SocketError, SystemCallError
+          return false
+        end
+      end
+
+      #
       # Reads the banner from the service running on the given host and port.
       #
       # @param [String] host

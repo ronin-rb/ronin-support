@@ -112,6 +112,29 @@ describe Network::TCP do
       end
     end
 
+    describe "#tcp_open?" do
+      let(:host) { 'example.com' }
+      let(:port) { 80 }
+
+      it "should return true for open ports" do
+        subject.tcp_open?(host,port).should == true
+      end
+
+      it "should return false for closed ports" do
+        subject.tcp_open?('localhost',rand(1024) + 1).should == false
+      end
+
+      it "should have a timeout for firewalled ports" do
+        timeout = 2
+
+        t1 = Time.now
+        subject.tcp_open?(host,1337,nil,nil,timeout)
+        t2 = Time.now
+
+        (t2 - t1).to_i.should <= timeout
+      end
+    end
+
     describe "#tcp_banner" do
       let(:host) { 'smtp.gmail.com' }
       let(:port) { 25 }
