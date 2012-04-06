@@ -107,12 +107,7 @@ class IPAddr
   #   end
   #
   # @example Enumerate through a globbed IP range
-  #   IPAddr.each('10.1.1-5.*') do |ip|
-  #     puts ip
-  #   end
-  #
-  # @example Enumerate through a nmap-style IP range
-  #   IPAddr.each('10.1.1-5.10,20,25-28') do |ip|
+  #   IPAddr.each('10.1.1-5,10-20.*') do |ip|
   #     puts ip
   #   end
   #
