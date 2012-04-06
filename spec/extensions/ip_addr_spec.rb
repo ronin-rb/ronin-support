@@ -138,6 +138,30 @@ describe IPAddr do
       let(:ipv4_range) { '10.1.1-5.1' }
       let(:ipv6_range) { '::ff::02-0a::c3' }
 
+      it "should expand '*' ranges" do
+        octets = IPAddr.each("10.1.1.*").map { |ip| ip.split('.',4).last }
+
+        octets.should == ('1'..'254').to_a
+      end
+
+      it "should expend 'i-j' ranges" do
+        octets = IPAddr.each("10.1.1.10-20").map { |ip| ip.split('.',4).last }
+
+        octets.should == ('10'..'20').to_a
+      end
+
+      it "should expand 'i,j,k' ranges" do
+        octets = IPAddr.each("10.1.1.1,2,3").map { |ip| ip.split('.',4).last }
+
+        octets.should == ['1', '2', '3']
+      end
+
+      it "should expand combination 'i,j-k' ranges" do
+        octets = IPAddr.each("10.1.1.1,3-4").map { |ip| ip.split('.',4).last }
+
+        octets.should == ['1', '3', '4']
+      end
+
       it "should iterate over all IP addresses in an IPv4 range" do
         IPAddr.each(ipv4_range) do |ip|
           ip.should =~ /^10\.1\.[1-5]\.1$/

@@ -111,6 +111,11 @@ class IPAddr
   #     puts ip
   #   end
   #
+  # @example Enumerate through a nmap-style IP range
+  #   IPAddr.each('10.1.1-5.10,20,25-28') do |ip|
+  #     puts ip
+  #   end
+  #
   # @example Enumerate through a globbed IPv6 range
   #   IPAddr.each('::ff::02-0a::c3') do |ip|
   #     puts ip
@@ -119,7 +124,9 @@ class IPAddr
   # @api public
   #
   def IPAddr.each(cidr_or_glob,&block)
-    unless (cidr_or_glob.include?('*') || cidr_or_glob.include?('-'))
+    unless (cidr_or_glob.include?('*') ||
+            cidr_or_glob.include?(',') ||
+            cidr_or_glob.include?('-'))
       return IPAddr.new(cidr_or_glob).each(&block)
     end
 
@@ -154,12 +161,17 @@ class IPAddr
 
       ranges << if segment == '*'
                   (1..254)
-                elsif segment.include?('-')
-                  start, stop = segment.split('-',2)
-
-                  (start.to_i(base)..stop.to_i(base))
                 else
-                  segment.to_i(base)
+                  segment.split(',').map { |octet|
+                    if octet.include?('-')
+                      start, stop = octet.split('-',2)
+                      start, stop = start.to_i(base), stop.to_i(base)
+
+                      (start..stop).to_a
+                    else
+                      octet.to_i(base)
+                    end
+                  }.flatten
                 end
     end
 
