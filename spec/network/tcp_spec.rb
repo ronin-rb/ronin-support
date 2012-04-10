@@ -113,13 +113,13 @@ describe Network::TCP do
     end
 
     describe "#tcp_banner" do
-      let(:host) { 'smtp.gmail.com' }
-      let(:port) { 25 }
+      let(:host)       { 'smtp.gmail.com' }
+      let(:port)       { 25 }
       let(:local_port) { 1024 + rand(65535 - 1024) }
 
       let(:expected_banner) { /^220 mx\.google\.com ESMTP/ }
 
-      it "should read the service banner" do
+      it "should return the read service banner" do
         banner = subject.tcp_banner(host,port)
 
         banner.should =~ expected_banner
@@ -139,6 +139,25 @@ describe Network::TCP do
         end
 
         banner.should =~ expected_banner
+      end
+
+      context "when no banner could be read" do
+        let(:bad_host) { 'localhost' }
+        let(:bad_port) { 1337        }
+
+        it "should return nil" do
+          subject.tcp_banner(bad_host,bad_port).should == nil
+        end
+
+        it "should not yield anything" do
+          yielded = false
+
+          subject.tcp_banner(bad_host,bad_port) do |banner|
+            yielded = true
+          end
+
+          yielded.should == false
+        end
       end
     end
 
