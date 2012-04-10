@@ -115,19 +115,20 @@ describe Network::TCP do
     describe "#tcp_banner" do
       let(:host) { 'smtp.gmail.com' }
       let(:port) { 25 }
-
       let(:local_port) { 1024 + rand(65535 - 1024) }
+
+      let(:expected_banner) { /^220 mx\.google\.com ESMTP/ }
 
       it "should read the service banner" do
         banner = subject.tcp_banner(host,port)
 
-        banner.start_with?('220').should be_true
+        banner.should =~ expected_banner
       end
 
       it "should bind to a local host and port" do
         banner = subject.tcp_banner(host,port,nil,local_port)
 
-        banner.start_with?('220').should be_true
+        banner.should =~ expected_banner
       end
 
       it "should yield the banner" do
@@ -137,7 +138,7 @@ describe Network::TCP do
           banner = yielded_banner
         end
 
-        banner.start_with?('220').should be_true
+        banner.should =~ expected_banner
       end
     end
 
