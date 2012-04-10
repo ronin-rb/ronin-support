@@ -54,12 +54,14 @@ describe Network::TCP do
       let(:data) { "HELO ronin\n" }
       let(:local_port) { 1024 + rand(65535 - 1024) }
 
+      let(:expected_response) { "250 mx.google.com at your service\r\n" }
+
       it "should connect and then send data" do
         socket   = subject.tcp_connect_and_send(data,host,port)
         banner   = socket.readline
         response = socket.readline
 
-        response.start_with?('250').should be_true
+        response.should == expected_response
 
         socket.close
        end
@@ -81,7 +83,7 @@ describe Network::TCP do
           response = socket.readline
         end
 
-        response.start_with?('250').should be_true
+        response.should == expected_response
 
         socket.close
       end
