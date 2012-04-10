@@ -182,7 +182,7 @@ module Ronin
           banner = socket.readline.strip
         end
 
-        yield banner if block_given?
+        yield banner if (block_given? && banner)
         return banner
       end
 
