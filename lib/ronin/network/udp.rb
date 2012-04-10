@@ -216,8 +216,11 @@ module Ronin
       def udp_banner(host,port,local_host=nil,local_port=nil)
         banner = nil
 
-        udp_session(host,port,local_host,local_port) do |socket|
-          banner = socket.readline
+        begin
+          udp_session(host,port,local_host,local_port) do |socket|
+            banner = socket.readline
+          end
+        rescue SocketError, SystemCallError
         end
 
         yield banner if (block_given? && banner)

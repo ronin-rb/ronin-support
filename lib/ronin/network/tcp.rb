@@ -178,8 +178,11 @@ module Ronin
       def tcp_banner(host,port,local_host=nil,local_port=nil)
         banner = nil
 
-        tcp_session(host,port,local_host,local_port) do |socket|
-          banner = socket.readline.strip
+        begin
+          tcp_session(host,port,local_host,local_port) do |socket|
+            banner = socket.readline.strip
+          end
+        rescue SocketError, SystemCallError
         end
 
         yield banner if (block_given? && banner)
