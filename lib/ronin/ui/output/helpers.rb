@@ -71,7 +71,7 @@ module Ronin
         #
         # Prints one or more messages.
         #
-        # @param [Array] messages
+        # @param [Array] argument
         #   The messages to print.
         #
         # @example
@@ -81,9 +81,9 @@ module Ronin
         #
         # @api public
         #
-        def puts(*messages)
-          unless messages.empty?
-            messages.each { |message| write("#{message}#{$/}") }
+        def puts(*arguments)
+          unless arguments.empty?
+            arguments.each { |argument| write("#{argument}#{$/}") }
           else
             write($/)
           end
@@ -97,7 +97,7 @@ module Ronin
         # @param [String] format
         #   The format string.
         #
-        # @param [Array] data
+        # @param [Array] arguments
         #   The data to format.
         #
         # @return [nil]
@@ -106,8 +106,8 @@ module Ronin
         #
         # @api public
         #
-        def printf(format,*data)
-          write(format % data)
+        def printf(format,*arguments)
+          write(format % arguments)
           return nil
         end
 
