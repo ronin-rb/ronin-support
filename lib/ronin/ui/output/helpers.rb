@@ -82,10 +82,28 @@ module Ronin
         # @api public
         #
         def puts(*arguments)
-          unless arguments.empty?
-            arguments.each { |argument| write("#{argument}#{$/}") }
-          else
+          if arguments.empty?
             write($/)
+            return nil
+          end
+
+          arguments.each do |argument|
+            if argument.kind_of?(Array)
+              argument.each { |element| puts(element) }
+            else
+              str = case argument
+                    when nil
+                      if RUBY_VERSION > '1.9'
+                        ''
+                      else
+                        'nil'
+                      end
+                    else
+                      argument.to_s
+                    end
+
+              write("#{str}#{$/}")
+            end
           end
 
           return nil
