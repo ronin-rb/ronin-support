@@ -34,6 +34,7 @@ module Ronin
     include Network::POP3
     include Network::IMAP
     include Network::Telnet
+    include Network::FTP
     include Network::HTTP
   end
 end
