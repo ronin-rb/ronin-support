@@ -29,6 +29,7 @@ module Ronin
     include Network::DNS
     include Network::TCP
     include Network::UDP
+    include Network::UNIX
     include Network::SMTP
     include Network::ESMTP
     include Network::POP3
