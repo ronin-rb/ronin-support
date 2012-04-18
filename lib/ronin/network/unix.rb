@@ -29,7 +29,7 @@ module Ronin
     module UNIX
 
       #
-      # Opens a UNIX socket.
+      # Connects to a UNIX socket.
       #
       # @param [String] path
       #   The path to the UNIX socket.
@@ -56,7 +56,7 @@ module Ronin
       end
 
       #
-      # Opens a temporary UNIX socket.
+      # Connects temporarily to a UNIX socket.
       #
       # @param [String] path
       #   The path to the UNIX socket.
@@ -84,6 +84,87 @@ module Ronin
 
         socket.close
         return nil
+      end
+
+      #
+      # Opens a UNIX socket.
+      #
+      # @param [String] path
+      #   The path for the new UNIX socket.
+      #
+      # @yield [server]
+      #   If a block is given, it will be passed an UNIX socket object.
+      #
+      # @yieldparam [UNIXServer] server
+      #   The new UNIX socket.
+      #
+      # @return [UNIXServer]
+      #   The new UNIX socket.
+      #
+      # @example
+      #   unix_server('/tmp/test.socket')
+      #
+      # @api public
+      #
+      def unix_server(path)
+        socket = UNIXServer.new(path)
+
+        yield socket if block_given?
+        return socket
+      end
+
+      #
+      # Opens a UNIX socket temporarily.
+      #
+      # @param [String] path
+      #   The path for the new UNIX socket.
+      #
+      # @yield [server]
+      #   If a block is given, it will be passed an UNIX socket object.
+      #
+      # @yieldparam [UNIXServer] server
+      #   The new UNIX socket.
+      #
+      # @example
+      #   unix_server_session('/tmp/test.socket') do |server|
+      #     # ...
+      #   end
+      #
+      # @api public
+      #
+      def unix_server_session(path)
+        socket = unix_server(path,&block)
+        socket.close
+        return nil
+      end
+
+      #
+      # Opens a UNIX socket, accepts a connection, then closes the socket.
+      #
+      # @param [String] path
+      #   The path for the new UNIX socket.
+      #
+      # @yield [client]
+      #   If a block is given, it will be passed the accepted connection.
+      #
+      # @yieldparam [UNIXSocket] client
+      #   The accepted connection to UNIX socket.
+      #
+      # @example
+      #   unix_single_server('/tmp/test.socket') do |client|
+      #     # ...
+      #   end
+      #
+      # @api public
+      #
+      def unix_single_server(path)
+        unix_server_session(path) do |server|
+          client = server.accept
+
+          yield client if block_given?
+
+          client.close
+        end
       end
 
     end
