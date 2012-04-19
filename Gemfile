@@ -7,12 +7,14 @@ platforms :jruby do
 end
 
 group :development do
-  gem 'rake',		        '~> 0.8'
-
-  gem 'ore-tasks',	    '~> 0.4'
-  gem 'rspec',          '~> 2.8'
-
-  gem 'kramdown',       '~> 0.12'
+  gem 'rake',               '~> 0.8'
+  gem 'rubygems-tasks',     '0.1.0.pre1'
+  gem 'ripl',               '~> 0.3'
+  gem 'ripl-multi_line',    '~> 0.2'
+  gem 'ripl-auto_indent',   '~> 0.1'
+  gem 'ripl-color_result',  '~> 0.3'
+  gem 'rspec',              '~> 2.8'
+  gem 'kramdown',           '~> 0.12'
 end
 
 group :test do
