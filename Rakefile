@@ -20,7 +20,7 @@ require 'rake'
 
 require 'rubygems/tasks'
 Gem::Tasks.new(:sign => {:checksum => true, :pgp => true}) do |tasks|
-  tasks.scm.tag.format = 'v%s'
+  tasks.scm.tag.format  = 'v%s'
   tasks.console.command = 'ripl'
 end
 
