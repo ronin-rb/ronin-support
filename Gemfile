@@ -8,7 +8,7 @@ end
 
 group :development do
   gem 'rake',               '~> 0.8'
-  gem 'rubygems-tasks',     '~> 0.1.0.pre1'
+  gem 'rubygems-tasks',     '~> 0.1'
   gem 'ripl',               '~> 0.3'
   gem 'ripl-multi_line',    '~> 0.2'
   gem 'ripl-auto_indent',   '~> 0.1'
