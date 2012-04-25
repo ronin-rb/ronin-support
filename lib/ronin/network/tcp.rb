@@ -43,8 +43,9 @@ module Ronin
       # @param [Integer] timeout (5)
       #   The maximum time to attempt connecting.
       #
-      # @return [Boolean]
+      # @return [Boolean, nil]
       #   Specifies whether the remote TCP port is open.
+      #   If the connection was not accepted, `nil` will be returned.
       #
       # @since 0.5.0
       #
@@ -57,7 +58,9 @@ module Ronin
           end
 
           return true
-        rescue Timeout::Error, SocketError, SystemCallError
+        rescue Timeout::Error
+          return nil
+        rescue SocketError, SystemCallError
           return false
         end
       end
