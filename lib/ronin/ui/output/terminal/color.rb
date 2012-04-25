@@ -38,6 +38,12 @@ module Ronin
           # ANSI Red code
           RED = "\e[31m"
 
+          # ANSI Bright code
+          BRIGHT = "\e[1m"
+
+          # ANSI Bright-Off code
+          BRIGHT_OFF = "\e[21m"
+
           # ANSI Clear code
           CLEAR = "\e[0m"
 
@@ -66,7 +72,7 @@ module Ronin
           # @api private
           #
           def self.print_info(message)
-            $stdout.puts "#{GREEN}[-] #{message}#{CLEAR}"
+            $stdout.puts "#{GREEN}#{BRIGHT}[-]#{BRIGHT_OFF} #{message}#{CLEAR}"
           end
 
           #
@@ -80,7 +86,7 @@ module Ronin
           # @api private
           #
           def self.print_debug(message)
-            $stdout.puts "#{CYAN}[=] #{message}#{CLEAR}"
+            $stdout.puts "#{CYAN}#{BRIGHT}[=]#{BRIGHT_OFF} #{message}#{CLEAR}"
           end
 
           #
@@ -94,7 +100,7 @@ module Ronin
           # @api private
           #
           def self.print_warning(message)
-            $stdout.puts "#{YELLOW}[*] #{message}#{CLEAR}"
+            $stdout.puts "#{YELLOW}#{BRIGHT}[*]#{BRIGHT_OFF} #{message}#{CLEAR}"
           end
 
           #
@@ -108,7 +114,7 @@ module Ronin
           # @api private
           #
           def self.print_error(message)
-            $stdout.puts "#{RED}[!] #{message}#{CLEAR}"
+            $stdout.puts "#{RED}#{BRIGHT}[!]#{BRIGHT_OFF} #{message}#{CLEAR}"
           end
 
         end
