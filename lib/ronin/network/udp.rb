@@ -18,6 +18,7 @@
 #
 
 require 'socket'
+require 'timeout'
 
 module Ronin
   module Network
@@ -25,6 +26,55 @@ module Ronin
     # Provides helper methods for using the UDP protocol.
     #
     module UDP
+      #
+      # Tests whether a remote UDP port is open.
+      #
+      # @param [String] host
+      #   The host to connect to.
+      #
+      # @param [Integer] port
+      #   The port to connect to.
+      #
+      # @param [String] local_host (nil)
+      #   The local host to bind to.
+      #
+      # @param [Integer] local_port (nil)
+      #   The local port to bind to.
+      #
+      # @param [Integer] timeout (5)
+      #   The maximum time to attempt connecting.
+      #
+      # @return [Boolean, nil]
+      #   Specifies whether the remote UDP port is open.
+      #   If no data or ICMP error were received, `nil` will be returned.
+      #
+      # @since 0.5.0
+      #
+      def udp_open?(host,port,local_host=nil,local_port=nil,timeout=nil)
+        timeout ||= 5
+
+        begin
+          Timeout.timeout(timeout) do
+            udp_session(host,port,local_host,local_port) do |socket|
+              # send an empty UDP packet, just like nmap
+              socket.syswrite('')
+
+              # send junk data, to elicit an error message
+              socket.syswrite("\0" * 64)
+
+              # test if we've received any data
+              socket.sysread(1)
+            end
+          end
+
+          return true
+        rescue Timeout::Error
+          return nil
+        rescue SocketError, SystemCallError
+          return false
+        end
+      end
+
       #
       # Creates a new UDPSocket object connected to a given host and port.
       #
