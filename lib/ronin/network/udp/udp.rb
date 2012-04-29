@@ -364,6 +364,8 @@ module Ronin
       #
       # @see #udp_server_session
       #
+      # @since 0.5.0
+      #
       def udp_single_server(port=nil,host=nil)
         udp_server_session(port,host) do |server|
           mesg, addrinfo = server.recvfrom(4096)
