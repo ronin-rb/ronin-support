@@ -109,7 +109,7 @@ module Ronin
         host       = host.to_s
         port       = port.to_i
         local_host = (local_host || '0.0.0.0').to_s
-        local_port = (local_port || 0).to_i
+        local_port = local_port.to_i
 
         socket = TCPSocket.new(host,port,local_host,local_port)
 
@@ -294,7 +294,7 @@ module Ronin
       # @api public
       #
       def tcp_server(port=nil,host=nil,backlog=5)
-        port = (port || 0).to_i
+        port = port.to_i
         host = (host || '0.0.0.0').to_s
 
         server = TCPServer.new(host,port)

@@ -116,7 +116,7 @@ module Ronin
         host       = host.to_s
         port       = port.to_i
         local_host = (local_host || '0.0.0.0').to_s
-        local_port = (local_port || 0).to_i
+        local_port = local_port.to_i
 
         socket = UDPSocket.new
         socket.bind(local_host,local_port) if (local_host && local_port)
@@ -295,7 +295,7 @@ module Ronin
       # @api public
       #
       def udp_server(port=nil,host=nil)
-        port   = (port || 0).to_i
+        port   = port.to_i
         host   = (host || '0.0.0.0').to_s
 
         server = UDPSocket.new
