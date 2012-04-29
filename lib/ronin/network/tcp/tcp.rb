@@ -343,7 +343,14 @@ module Ronin
       # accepts only one client and then stops listening.
       #
       # @param [Integer] port
-      #   After the block has finished, the client and the server will be
+      #   The local port to bind to.
+      #
+      # @param [String] host ('0.0.0.0')
+      #   The host to bind to.
+      #
+      # @yield [client]
+      #   The given block will be passed the newly connected client.
+      #   After the block has finished, both the client and the server will be
       #   closed.
       #
       # @yieldparam [TCPSocket] client
