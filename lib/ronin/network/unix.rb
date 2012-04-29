@@ -186,7 +186,7 @@ module Ronin
       #
       # @api public
       #
-      def unix_server_session(path)
+      def unix_server_session(path,&block)
         socket = unix_server(path,&block)
         socket.close
         return nil
