@@ -271,6 +271,9 @@ module Ronin
       # @param [String] host ('0.0.0.0')
       #   The host to bind to.
       #
+      # @param [Integer] backlog (5)
+      #   The maximum backlog of pending connections.
+      #
       # @return [TCPServer]
       #   The new TCP server.
       #
@@ -279,11 +282,11 @@ module Ronin
       #
       # @api public
       #
-      def tcp_server(port=nil,host=nil)
+      def tcp_server(port=nil,host=nil,backlog=5)
         host = (host || '0.0.0.0').to_s
 
         server = TCPServer.new(host,port)
-        server.listen(3)
+        server.listen(backlog)
 
         yield server if block_given?
         return server
@@ -297,6 +300,9 @@ module Ronin
       #
       # @param [String] host ('0.0.0.0')
       #   The host to bind to.
+      #
+      # @param [Integer] backlog (5)
+      #   The maximum backlog of pending connections.
       #
       # @yield [server]
       #   The block which will be called after the server has been created.
@@ -320,8 +326,8 @@ module Ronin
       #
       # @api public
       #
-      def tcp_server_session(port=nil,host=nil,&block)
-        server = tcp_server(port,host,&block)
+      def tcp_server_session(port=nil,host=nil,backlog=5,&block)
+        server = tcp_server(port,host,backlog,&block)
         server.close()
         return nil
       end
@@ -347,18 +353,12 @@ module Ronin
       # @api public
       #
       def tcp_single_server(port=nil,host=nil)
-        host = (host || '0.0.0.0').to_s
+        tcp_server_session(port,host,1) do |server|
+          client = server.accept
 
-        server = TCPServer.new(host,port)
-        server.listen(1)
-
-        client = server.accept
-
-        yield client if block_given?
-
-        client.close
-        server.close
-        return nil
+          yield client if block_given?
+          client.close
+        end
       end
     end
   end
