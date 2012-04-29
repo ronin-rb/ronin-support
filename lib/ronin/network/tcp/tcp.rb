@@ -347,7 +347,7 @@ module Ronin
       # @api public
       #
       def tcp_single_server(port=nil,host=nil)
-        host = host.to_s
+        host = (host || '0.0.0.0').to_s
 
         server = TCPServer.new(host,port)
         server.listen(1)
