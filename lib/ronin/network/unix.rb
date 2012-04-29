@@ -27,7 +27,6 @@ module Ronin
     # @since 0.5.0
     #
     module UNIX
-
       #
       # Connects to a UNIX socket.
       #
@@ -166,7 +165,6 @@ module Ronin
           client.close
         end
       end
-
     end
   end
 end
