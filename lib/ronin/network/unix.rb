@@ -18,6 +18,7 @@
 #
 
 require 'socket'
+require 'timeout'
 
 module Ronin
   module Network
@@ -27,6 +28,34 @@ module Ronin
     # @since 0.5.0
     #
     module UNIX
+      #
+      # Tests whether a UNIX socket is open.
+      #
+      # @param [String] path
+      #   The path to the socket.
+      #
+      # @param [Integer] timeout (5)
+      #   The maximum time to attempt connecting.
+      #
+      # @return [Boolean, nil]
+      #   Specifies whether the UNIX socket is open.
+      #   If the connection was not accepted, `nil` will be returned.
+      #
+      # @since 0.5.0
+      #
+      def unix_open?(path,timeout=nil)
+        timeout ||= 5
+
+        begin
+          Timeout.timeout(timeout) { unix_session(path) }
+          return true
+        rescue Timeout::Error
+          return nil
+        rescue SocketError, SystemCallError
+          return false
+        end
+      end
+
       #
       # Connects to a UNIX socket.
       #
