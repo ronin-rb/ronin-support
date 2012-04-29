@@ -135,7 +135,7 @@ module Ronin
       # @yield [socket]
       #   If a block is given, it will be passed the newly created socket.
       #
-      # @yieldparam [TCPsocket] socket
+      # @yieldparam [TCPSocket] socket
       #   The newly created TCPSocket object.
       #
       # @api public
