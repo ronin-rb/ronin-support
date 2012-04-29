@@ -246,6 +246,36 @@ module Ronin
           client.close
         end
       end
+
+      #
+      # Opens a UNIX socket, accepts connections in a loop.
+      #
+      # @param [String] path
+      #   The path for the new UNIX socket.
+      #
+      # @yield [client]
+      #   If a block is given, it will be passed each accepted connection.
+      #
+      # @yieldparam [UNIXSocket] client
+      #   An accepted connection to UNIX socket.
+      #
+      # @example
+      #   unix_server_loop('/tmp/test.socket') do |client|
+      #     # ...
+      #   end
+      #
+      # @api public
+      #
+      def unix_server_loop(path)
+        unix_server_session(path) do |server|
+          loop do
+            client = server.accept
+
+            yield client if block_given?
+            client.close
+          end
+        end
+      end
     end
   end
 end
