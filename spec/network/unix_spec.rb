@@ -135,5 +135,21 @@ describe Network::UNIX do
       after(:each) { FileUtils.rm(server_path) }
     end
 
+    describe "#unix_server_session" do
+      let(:server_path) { File.join(Dir.tmpdir,'ronin_unix_server') }
+
+      it "should create a temporary UNIXServer" do
+        server = nil
+        
+        subject.unix_server_session(server_path) do |yielded_server|
+          server = yielded_server
+        end
+
+        server.should be_kind_of(UNIXServer)
+        server.should be_closed
+      end
+
+      after(:each) { FileUtils.rm(server_path) }
+    end
   end
 end
