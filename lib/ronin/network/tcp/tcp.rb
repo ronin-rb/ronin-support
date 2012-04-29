@@ -274,6 +274,12 @@ module Ronin
       # @param [Integer] backlog (5)
       #   The maximum backlog of pending connections.
       #
+      # @yield [server]
+      #   The block which will be called after the server has been created.
+      #
+      # @yieldparam [TCPServer] server
+      #   The newly created TCP server.
+      #
       # @return [TCPServer]
       #   The new TCP server.
       #
