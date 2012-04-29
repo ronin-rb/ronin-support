@@ -199,7 +199,7 @@ module Ronin
           @callbacks[:client_disconnect] << block
         end
 
-        alias on_client_disconnect on_disconnect
+        alias on_disconnect on_client_disconnect
 
         #
         # Registers a callback for when the server accepts a connection.
@@ -221,7 +221,7 @@ module Ronin
           @callbacks[:server_connect] << block
         end
 
-        alias on_server_connect on_connect
+        alias on_connect on_server_connect
 
         #
         # Registers a callback for when the server closes a connection.
