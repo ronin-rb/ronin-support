@@ -151,5 +151,9 @@ describe Network::UNIX do
 
       after(:each) { FileUtils.rm(server_path) }
     end
+
+    describe "#unix_single_server" do
+      pending "need to automate connecting to the UNIXServer"
+    end
   end
 end
