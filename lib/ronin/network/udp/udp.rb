@@ -326,7 +326,6 @@ module Ronin
       #
       def udp_server_session(port=nil,host=nil,&block)
         server = udp_server(port,host,&block)
-
         server.close()
         return nil
       end
