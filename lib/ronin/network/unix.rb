@@ -141,6 +141,34 @@ module Ronin
       end
 
       #
+      # Connects to a UNIX socket, sends the given data and then closes the
+      # socket.
+      #
+      # @param [String] data
+      #   The data to send to the UNIX socket.
+      #
+      # @param [String] path
+      #   The UNIX socket to connect to.
+      #
+      # @return [true]
+      #   The data was successfully sent.
+      #
+      # @example
+      #   buffer = "GET /" + ('A' * 4096) + "\n\r"
+      #   unix_send(buffer,'/tmp/thin.socket')
+      #   # => true
+      #
+      # @api public
+      #
+      def unix_send(data,path)
+        unix_session(path) do |socket|
+          socket.write(data)
+        end
+
+        return true
+      end
+
+      #
       # Opens a UNIX socket.
       #
       # @param [String] path

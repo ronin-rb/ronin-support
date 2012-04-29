@@ -107,6 +107,30 @@ describe Network::UNIX do
       end
     end
 
+    describe "#unix_send" do
+      let(:server_path) { File.join(Dir.tmpdir,'ronin_unix_server') }
+      let(:data)        { "hello\n" }
+
+      before(:each) { @server = UNIXServer.new(server_path) }
+
+      it "should send data to a service" do
+        subject.unix_send(data,server_path)
+
+        client = @server.accept
+        sent   = client.readline
+
+        client.close
+
+        sent.should == data
+      end
+
+      after(:each) do
+        @server.close
+
+        FileUtils.rm(server_path)
+      end
+    end
+
     describe "#unix_server" do
       let(:server_path) { File.join(Dir.tmpdir,'ronin_unix_server') }
 
