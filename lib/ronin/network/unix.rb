@@ -84,6 +84,32 @@ module Ronin
       end
 
       #
+      # Creates a new UNIXSocket object, connected to the given path.
+      # The given data will then be written to the newly created UNIXSocket.
+      #
+      # @param [String] data
+      #   The data to send to the socket.
+      #
+      # @param [String] path
+      #   The path to the socket.
+      #
+      # @yield [socket]
+      #   If a block is given, it will be passed the newly created socket.
+      #
+      # @yieldparam [UNIXSocket] socket
+      #   The newly created UNIXSocket object.
+      #
+      # @api public
+      #
+      def unix_connect_and_send(data,path)
+        socket = unix_connect(path)
+        socket.write(data)
+
+        yield socket if block_given?
+        return socket
+      end
+
+      #
       # Connects temporarily to a UNIX socket.
       #
       # @param [String] path
