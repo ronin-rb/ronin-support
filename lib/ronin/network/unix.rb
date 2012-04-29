@@ -135,7 +135,6 @@ module Ronin
         socket = unix_connect(path)
 
         yield socket if block_given?
-
         socket.close
         return nil
       end
@@ -244,7 +243,6 @@ module Ronin
           client = server.accept
 
           yield client if block_given?
-
           client.close
         end
       end

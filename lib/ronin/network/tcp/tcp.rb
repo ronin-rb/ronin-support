@@ -179,7 +179,6 @@ module Ronin
         socket = tcp_connect(host,port,local_host,local_port)
 
         yield socket if block_given?
-
         socket.close
         return nil
       end

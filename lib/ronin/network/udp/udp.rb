@@ -191,7 +191,6 @@ module Ronin
         socket = udp_connect(host,port,local_host,local_port)
 
         yield socket if block_given?
-
         socket.close
         return nil
       end
@@ -291,8 +290,8 @@ module Ronin
       #
       def udp_server(port=nil,host=nil)
         host   = (host || '0.0.0.0').to_s
-        server = UDPSocket.new
 
+        server = UDPSocket.new
         server.bind(host,port)
 
         yield server if block_given?
