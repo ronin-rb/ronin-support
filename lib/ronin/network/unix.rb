@@ -74,6 +74,8 @@ module Ronin
       # @example
       #   unix_connect('/tmp/haproxy.stats.socket')
       #
+      # @see http://rubydoc.info/stdlib/socket/UNIXSocket
+      #
       # @api public
       #
       def unix_connect(path)
@@ -184,6 +186,8 @@ module Ronin
       #
       # @example
       #   unix_server('/tmp/test.socket')
+      #
+      # @see http://rubydoc.info/stdlib/socket/UNIXServer
       #
       # @api public
       #

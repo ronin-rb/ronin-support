@@ -101,6 +101,8 @@ module Ronin
       #     socket.close
       #   end
       #
+      # @see http://rubydoc.info/stdlib/socket/TCPSocket
+      #
       # @api public
       #
       def tcp_connect(host,port,local_host=nil,local_port=nil)
@@ -284,6 +286,8 @@ module Ronin
       #
       # @example
       #   tcp_server(1337)
+      #
+      # @see http://rubydoc.info/stdlib/socket/TCPServer
       #
       # @api public
       #
