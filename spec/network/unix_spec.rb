@@ -106,5 +106,34 @@ describe Network::UNIX do
         socket.should be_closed
       end
     end
+
+    describe "#unix_server" do
+      let(:server_path) { File.join(Dir.tmpdir,'ronin_unix_server') }
+
+      it "should create a new UNIXServer" do
+        server = subject.unix_server(server_path)
+
+        server.should be_kind_of(UNIXServer)
+        server.should_not be_closed
+
+        server.close
+      end
+
+      it "should yield the new UNIXServer" do
+        server = nil
+        
+        subject.unix_server(server_path) do |yielded_server|
+          server = yielded_server
+        end
+
+        server.should be_kind_of(UNIXServer)
+        server.should_not be_closed
+
+        server.close
+      end
+
+      after(:each) { FileUtils.rm(server_path) }
+    end
+
   end
 end
