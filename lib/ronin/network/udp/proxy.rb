@@ -32,6 +32,8 @@ module Ronin
         #
         # Opens the UDP Proxy.
         #
+        # @api public
+        #
         def open
           @proxy_socket = UDPSocket.new
           @proxy_socket.bind(@proxy_host,@proxy_port)
@@ -40,6 +42,8 @@ module Ronin
         #
         # Polls the connections for data/errors and the proxy socket for
         # new client connections.
+        #
+        # @api public
         #
         def poll
           server_sockets = @connections.values
@@ -80,6 +84,8 @@ module Ronin
         # @param [String] data
         #   The data to be sent.
         #
+        # @api public
+        #
         def send(connection,data)
           case connection
           when Array
@@ -100,6 +106,8 @@ module Ronin
         #
         # @return [String, (String, Array)]
         #   The data received.
+        #
+        # @api public
         #
         def recv(connection)
           case connection

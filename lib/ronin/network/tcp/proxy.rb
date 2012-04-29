@@ -93,12 +93,16 @@ module Ronin
         #
         # Opens the proxy.
         #
+        # @api public
+        #
         def open
           @proxy_socket = TCPServer.new(@proxy_host,@proxy_port)
         end
 
         #
         # Polls the connections for data.
+        #
+        # @api public
         #
         def poll
           client_sockets = @connections.keys
@@ -148,6 +152,8 @@ module Ronin
         # 
         # @param [String] data
         #
+        # @api public
+        #
         def send(connection,data)
           connection.send(data,0)
         end
@@ -159,6 +165,8 @@ module Ronin
         #
         # @return [String, nil]
         #   The received data.
+        #
+        # @api public
         #
         def recv(connection)
           connection.recv(@buffer_size)
@@ -176,6 +184,8 @@ module Ronin
         #   on_client_connect do |client|
         #     puts "[connected] #{client.remote_address.ip_address}:#{client.remote_address.ip_port}"
         #   end
+        #
+        # @api public
         #
         def on_client_connect(&block)
           @callbacks[:client_connect] << block
@@ -196,6 +206,8 @@ module Ronin
         #   on_client_disconnect do |client,server|
         #     puts "[disconnected] #{client.remote_address.ip_address}:#{client.remote_address.ip_port}"
         #   end
+        #
+        # @api public
         #
         def on_client_disconnect(&block)
           @callbacks[:client_disconnect] << block
@@ -219,6 +231,8 @@ module Ronin
         #     puts "[connected] #{proxy}"
         #   end
         #
+        # @api public
+        #
         def on_server_connect(&block)
           @callbacks[:server_connect] << block
         end
@@ -241,8 +255,49 @@ module Ronin
         #     puts "[disconnected] #{proxy}"
         #   end
         #
+        # @api public
+        #
         def on_server_disconnect(&block)
           @callbacks[:server_disconnect] << block
+        end
+
+        protected
+
+        #
+        # Creates a new connection to the server.
+        #
+        # @return [TCPSocket]
+        #   A new connection.
+        #
+        def new_server_connection
+          TCPSocket.new(@server_host,@server_port)
+        end
+
+        #
+        # Closes a connection from the client.
+        #
+        # @param [TCPSocket] socket
+        #   The connection from the client.
+        #
+        def close_client_connection(socket)
+          socket.close
+        end
+
+        #
+        # Closes a connection to the server.
+        #
+        # @param [TCPSocket] socket
+        #   The connection to the server.
+        #
+        def close_server_connection(socket)
+          socket.close
+        end
+
+        #
+        # Closes the TCP proxy.
+        #
+        def close_proxy
+          @proxy_socket.close
         end
 
         #
@@ -300,45 +355,6 @@ module Ronin
           callback(:server_disconnect,client_connection,server_connection) do
             close_connection(client_connection)
           end
-        end
-
-        protected
-
-        #
-        # Creates a new connection to the server.
-        #
-        # @return [TCPSocket]
-        #   A new connection.
-        #
-        def new_server_connection
-          TCPSocket.new(@server_host,@server_port)
-        end
-
-        #
-        # Closes a connection from the client.
-        #
-        # @param [TCPSocket] socket
-        #   The connection from the client.
-        #
-        def close_client_connection(socket)
-          socket.close
-        end
-
-        #
-        # Closes a connection to the server.
-        #
-        # @param [TCPSocket] socket
-        #   The connection to the server.
-        #
-        def close_server_connection(socket)
-          socket.close
-        end
-
-        #
-        # Closes the TCP proxy.
-        #
-        def close_proxy
-          @proxy_socket.close
         end
 
       end

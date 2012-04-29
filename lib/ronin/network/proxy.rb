@@ -143,6 +143,8 @@ module Ronin
       #
       # Opens the proxy.
       #
+      # @api public
+      #
       # @abstract
       #
       def open
@@ -151,6 +153,8 @@ module Ronin
       #
       # Polls the connections for data or errors.
       #
+      # @api public
+      #
       # @abstract
       #
       def poll
@@ -158,6 +162,8 @@ module Ronin
 
       #
       # Polls the connections for data.
+      #
+      # @api public
       #
       def listen
         loop do
@@ -200,9 +206,9 @@ module Ronin
 
       #
       # Closes the proxy.
-      # 
-      # @api semipublic
       #
+      # @api public
+      # 
       # @abstract
       #
       def close
@@ -217,6 +223,8 @@ module Ronin
       #
       # @yieldparam [String] data
       #
+      # @api public
+      #
       def on_client_data(&block)
         @callbacks[:client_data] << block
       end
@@ -227,6 +235,8 @@ module Ronin
       # @yield [client, server, data]
       #
       # @yieldparam [String] data
+      #
+      # @api public
       #
       def on_server_data(&block)
         @callbacks[:server_data] << block
@@ -240,45 +250,11 @@ module Ronin
       #
       # @yieldparam [String] data
       #
+      # @api public
+      #
       def on_data(&block)
         on_client_data(&block)
         on_server_data(&block)
-      end
-
-      #
-      # Triggers the `client_data` event.
-      #
-      # @param [connection] client_connection
-      #   The connection from a client to the proxy.
-      #
-      # @param [connection] server_connection
-      #   The connection from the proxy to the server.
-      #
-      # @param [String] data
-      #   The data sent by the client.
-      #
-      def client_data(client_connection,server_connection,data)
-        callback(:client_data,client_connection,server_connection,data) do
-          send(server_connection,data)
-        end
-      end
-
-      #
-      # Triggers the `server_data` event.
-      #
-      # @param [connection] client_connection
-      #   The connection from a client to the proxy.
-      #
-      # @param [connection] server_connection
-      #   The connection from the proxy to the server.
-      #
-      # @param [String] data
-      #   The data sent from the server.
-      #
-      def server_data(client_connection,server_connection,data)
-        callback(:server_data,client_connection,server_connection,data) do
-          send(client_connection,data)
-        end
       end
 
       #
@@ -314,8 +290,6 @@ module Ronin
       # @return [String]
       #   The String form of the proxy.
       #
-      # @api public
-      #
       def to_s
         "#{@proxy_host}:#{@proxy_port} <-> #{@server_host}:#{@server_port}"
       end
@@ -326,13 +300,95 @@ module Ronin
       # @return [String]
       #   The inspected proxy.
       #
-      # @api semipublic
-      #
       def inspect
         "#<#{self.class}:#{self.object_id}: #{self}>"
       end
 
       protected
+
+      #
+      # Creates a new connection to the server.
+      #
+      # @return [connection]
+      #   The new connection.
+      #
+      # @abstract
+      #
+      def new_server_connection
+      end
+
+      #
+      # Closes a client connection to the proxy.
+      #
+      # @param [connection] connection
+      #   The client connection.
+      #
+      # @abstract
+      #
+      def close_client_connection(connection)
+      end
+
+      #
+      # Closes a connection to the server.
+      #
+      # @param [connection] connection
+      #   The server connection.
+      #
+      # @abstract
+      #
+      def close_server_connection(connection)
+      end
+
+      #
+      # Closes the proxy.
+      #
+      # @abstract
+      #
+      def close_proxy
+      end
+
+      #
+      # Resets a server connection.
+      #
+      # @param [connection] client_connection
+      #   The connection from the client to the proxy.
+      #
+      # @param [connection] server_connection
+      #   The connection from the proxy to the server.
+      #
+      def reset_connection(client_connection,server_connection)
+        close_server_connection(server_connection) if server_connection
+
+        @connections[client_connection] = new_server_connection
+      end
+
+      #
+      # Closes both the client and server connections.
+      #
+      # @param [connection] client_connection
+      #   The connection from the client to the proxy.
+      #
+      # @param [connection] server_connection
+      #   The connection from the proxy to the server.
+      #
+      def close_connection(client_connection,server_connection=nil)
+        close_server_connection(server_connection) if server_connection
+        close_client_connection(client_connection)
+
+        @connections.delete(client_connection)
+      end
+
+      #
+      # Closes all active connections.
+      #
+      def close_connections
+        @connections.each do |client_connection,server_connection|
+          close_server_connection(server_connection)
+          close_client_connection(client_connection)
+        end
+
+        @connections.clear
+      end
 
       #
       # Triggers the callbacks registered for an event.
@@ -380,101 +436,39 @@ module Ronin
       end
 
       #
-      # Creates a new connection to the server.
-      #
-      # @return [connection]
-      #   The new connection.
-      #
-      # @api semipublic
-      #
-      # @abstract
-      #
-      def new_server_connection
-      end
-
-      #
-      # Closes a client connection to the proxy.
-      #
-      # @param [connection] connection
-      #   The client connection.
-      #
-      # @api semipublic
-      #
-      # @abstract
-      #
-      def close_client_connection(connection)
-      end
-
-      #
-      # Closes a connection to the server.
-      #
-      # @param [connection] connection
-      #   The server connection.
-      #
-      # @api semipublic
-      #
-      # @abstract
-      #
-      def close_server_connection(connection)
-      end
-
-      #
-      # Closes the proxy.
-      #
-      # @api semipublic
-      #
-      # @abstract
-      #
-      def close_proxy
-      end
-
-      #
-      # Resets a server connection.
+      # Triggers the `client_data` event.
       #
       # @param [connection] client_connection
-      #   The connection from the client to the proxy.
+      #   The connection from a client to the proxy.
       #
       # @param [connection] server_connection
       #   The connection from the proxy to the server.
       #
-      # @api semipublic
+      # @param [String] data
+      #   The data sent by the client.
       #
-      def reset_connection(client_connection,server_connection)
-        close_server_connection(server_connection) if server_connection
-
-        @connections[client_connection] = new_server_connection
-      end
-
-      #
-      # Closes both the client and server connections.
-      #
-      # @param [connection] client_connection
-      #   The connection from the client to the proxy.
-      #
-      # @param [connection] server_connection
-      #   The connection from the proxy to the server.
-      #
-      # @api semipublic
-      #
-      def close_connection(client_connection,server_connection=nil)
-        close_server_connection(server_connection) if server_connection
-        close_client_connection(client_connection)
-
-        @connections.delete(client_connection)
-      end
-
-      #
-      # Closes all active connections.
-      #
-      # @api semipublic
-      #
-      def close_connections
-        @connections.each do |client_connection,server_connection|
-          close_server_connection(server_connection)
-          close_client_connection(client_connection)
+      def client_data(client_connection,server_connection,data)
+        callback(:client_data,client_connection,server_connection,data) do
+          send(server_connection,data)
         end
+      end
 
-        @connections.clear
+      #
+      # Triggers the `server_data` event.
+      #
+      # @param [connection] client_connection
+      #   The connection from a client to the proxy.
+      #
+      # @param [connection] server_connection
+      #   The connection from the proxy to the server.
+      #
+      # @param [String] data
+      #   The data sent from the server.
+      #
+      def server_data(client_connection,server_connection,data)
+        callback(:server_data,client_connection,server_connection,data) do
+          send(client_connection,data)
+        end
       end
 
     end
