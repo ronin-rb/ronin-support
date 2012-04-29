@@ -55,6 +55,8 @@ module Ronin
     # * {#close!}
     # * {#reset!}
     #
+    # @since 0.5.0
+    #
     class Proxy
 
       # The port the proxy will listen on

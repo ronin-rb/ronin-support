@@ -72,6 +72,8 @@ module Ronin
       #
       # Alias for {#on_client_disconnect}.
       #
+      # @since 0.5.0
+      #
       class Proxy < Network::Proxy
 
         #

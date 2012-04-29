@@ -24,6 +24,9 @@ require 'socket'
 module Ronin
   module Network
     module UDP
+      #
+      # @since 0.5.0
+      #
       class Proxy < Network::Proxy
 
         #
