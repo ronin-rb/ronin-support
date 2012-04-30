@@ -79,6 +79,18 @@ module Ronin
         #
         # Creates a new TCP Proxy.
         #
+        # @param [(host, port)] proxy
+        #   The host and port the proxy will listen on.
+        #
+        # @param [(host, port)] server
+        #   The server the proxy will connect to.
+        #
+        # @yield [proxy]
+        #   The given block will be passed the newly created proxy.
+        #
+        # @yieldparam [Proxy] proxy
+        #   The new Proxy object.
+        #
         def initialize(proxy,server)
           super(proxy,server)
 
@@ -149,8 +161,10 @@ module Ronin
         # Sends data to a connection.
         #
         # @param [TCPSocket] connection
+        #   A TCP connection to write data to.
         # 
         # @param [String] data
+        #   The data to write.
         #
         # @api public
         #
@@ -162,6 +176,7 @@ module Ronin
         # Receives data from a connection.
         #
         # @param [TCPSocket] connection
+        #   The TCP connection to receive data from.
         #
         # @return [String, nil]
         #   The received data.
@@ -176,6 +191,7 @@ module Ronin
         # Registers a callback for when a client connects.
         #
         # @yield [client]
+        #   The block will be passed each newly connected client.
         #
         # @yieldparam [TCPSocket] client
         #   The connection from the client to the proxy.
@@ -195,6 +211,8 @@ module Ronin
         # Registers a callback for when a client disconnects.
         #
         # @yield [client, server]
+        #   The block will be passed each disconnected client and their
+        #   connection to the server.
         #
         # @yieldparam [TCPSocket] client
         #   The connection from the client to the proxy.
@@ -219,6 +237,8 @@ module Ronin
         # Registers a callback for when the server accepts a connection.
         #
         # @yield [client, server]
+        #   The block will be passed each connected client and their newly
+        #   formed connection to the server.
         #
         # @yieldparam [TCPSocket] client
         #   The connection from the client to the proxy.
@@ -243,6 +263,8 @@ module Ronin
         # Registers a callback for when the server closes a connection.
         #
         # @yield [client, server]
+        #   The block will be passed the each client connection and the
+        #   recently disconnected server connection.
         #
         # @yieldparam [TCPSocket] client
         #   The connection from the client to the proxy.
@@ -300,7 +322,6 @@ module Ronin
           @proxy_socket.close
         end
 
-        #
         #
         # Triggers the `client_connect` event.
         #
