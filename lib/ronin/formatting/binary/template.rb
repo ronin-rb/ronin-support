@@ -230,7 +230,7 @@ module Ronin
         #   * `:long_long_be`
         #
         # @example
-        #   Packer.new(:uint32, [:char, 100])
+        #   Template.new(:uint32, [:char, 100])
         #
         def initialize(*types)
           @types    = types
