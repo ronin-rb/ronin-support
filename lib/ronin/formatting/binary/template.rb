@@ -21,7 +21,7 @@ module Ronin
   module Formatting
     module Binary
       #
-      # Provides a translation layer between C types and Ruby [Array#pack]
+      # Provides a translation layer between C types and Ruby `Array#pack`
       # codes.
       #
       # ## Types
@@ -90,7 +90,7 @@ module Ronin
       # * `:long_be` (`l>`) - signed long integer, little endian.
       # * `:long_long_be` (`q>`) - signed quad integer, little endian.
       #
-      # [Array#pack]: http://rubydoc.info/stdlib/core/Array:pack
+      # @see http://rubydoc.info/stdlib/core/Array:pack
       #
       # @api semipbulic
       #
