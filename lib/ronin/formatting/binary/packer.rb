@@ -185,11 +185,14 @@ module Ronin
           )
         end
 
+        # The types
+        attr_reader :types
+
         #
         # Creates a new Binary Packer.
         #
-        # @param [Array<type, (type, length)>] template
-        #   The template for the packer.
+        # @param [Array<type, (type, length)>] types
+        #   The types which the packer will use.
         #
         # @raise [ArgumentError]
         #   A given type is not known.
@@ -229,14 +232,15 @@ module Ronin
         # @example
         #   Packer.new(:uint32, [:char, 100])
         #
-        def initialize(*template)
+        def initialize(*types)
+          @types    = types
           @template = ''
 
-          template.each do |format|
-            type, length = format
+          types.each do |type|
+            type, length = type
 
             unless (code = TYPES[type])
-              raise(ArgumentError,"#{code.inspect} not supported")
+              raise(ArgumentError,"#{type.inspect} not supported")
             end
 
             @template << code << length.to_s
