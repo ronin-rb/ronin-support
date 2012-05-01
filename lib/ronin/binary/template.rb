@@ -110,7 +110,7 @@ module Ronin
         :int64  => 'q',
 
         :uint16_le => 'v',
-        :uint16_le => 'V',
+        :uint32_le => 'V',
         :uint16_be => 'n',
         :uint32_be => 'N',
 
@@ -120,11 +120,11 @@ module Ronin
         :ulong      => 'L!',
         :ulong_long => 'Q',
 
-        :char      => 'C',
-        :short     => 'S!',
-        :int       => 'I!',
-        :long      => 'L!',
-        :long_long => 'Q',
+        :char      => 'c',
+        :short     => 's!',
+        :int       => 'i!',
+        :long      => 'l!',
+        :long_long => 'q',
 
         :pointer => 'L!',
 
