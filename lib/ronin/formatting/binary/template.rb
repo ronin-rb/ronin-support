@@ -273,6 +273,18 @@ module Ronin
           string.unpack(@template)
         end
 
+        #
+        # Converts the template to a `Array#pack` template String.
+        #
+        # @return [String]
+        #   The template String.
+        #
+        # @see http://rubydoc.info/stdlib/core/Array:pack
+        #
+        def to_s
+          @template
+        end
+
       end
     end
   end
