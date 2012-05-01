@@ -18,3 +18,4 @@
 #
 
 require 'ronin/formatting/extensions/binary'
+require 'ronin/formatting/binary/packer'
