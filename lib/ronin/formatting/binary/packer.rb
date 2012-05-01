@@ -56,6 +56,7 @@ module Ronin
       # * `:double_le` (`E`) - double-percision float, little endian.
       # * `:float_be` (`g`) - single-percision float, big endian.
       # * `:double_be` (`G`) - double-percision float, big endian.
+      # * `:buffer` (`Z`) - binary buffer, `\0` padded.
       # * `:string` (`Z*`) - binary String, `\0` terminated.
       #
       # ### Ruby 1.9 specific types
@@ -139,6 +140,7 @@ module Ronin
           :float_be  => 'g',
           :double_be => 'G',
 
+          :buffer => 'Z',
           :string => 'Z*'
         }
 
