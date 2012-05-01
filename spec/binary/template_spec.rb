@@ -91,10 +91,89 @@ describe Binary::Template do
     end
   end
 
+  ENDIANNESS = if [0x1234].pack('S') == "\x34\x12"
+                 :little
+               else
+                 :big
+               end
+
+  let(:byte) { 0x41 }
+  let(:char) { 'A' }
+
+  let(:bytes) { [104, 101, 108, 108, 111] }
+  let(:chars) { ["h", "e", "l", "l", "o"] }
+  let(:string) { "hello" }
+
   describe "#pack" do
+    context ":char" do
+      subject { described_class.new(:char) }
+
+      it "should pack a signed character" do
+        subject.pack(byte).should == char
+      end
+    end
+
+    context "[:char, n]" do
+      let(:n) { string.length }
+      subject { described_class.new([:char, n]) }
+
+      it "should pack multiple signed characters" do
+        subject.pack(*bytes).should == string
+      end
+    end
+
+    context "[:buffer, n]" do
+      let(:n) { 20 }
+      subject { described_class.new([:buffer, n]) }
+
+      it "should pack a buffer" do
+        subject.pack(string).should == string.ljust(n,"\0")
+      end
+    end
+
+    context ":string" do
+      subject { described_class.new(:string) }
+
+      it "should pack a string" do
+        subject.pack(string).should == "#{string}\0"
+      end
+    end
   end
 
   describe "#unpack" do
+    context ":char" do
+      subject { described_class.new(:char) }
+
+      it "should unpack a signed character" do
+        subject.unpack(char).should == [byte]
+      end
+    end
+
+    context "[:char, n]" do
+      let(:n) { string.length }
+      subject { described_class.new([:char, n]) }
+
+      it "should unpack multiple signed characters" do
+        subject.unpack(string).should == bytes
+      end
+    end
+
+    context "[:buffer, n]" do
+      let(:n) { 20 }
+      subject { described_class.new([:buffer, n]) }
+
+      it "should unpack a buffer" do
+        subject.unpack(string.ljust(n,"\0")).should == [string]
+      end
+    end
+
+    context ":string" do
+      subject { described_class.new(:string) }
+
+      it "should unpack a string" do
+        subject.unpack("#{string}\0").should == [string]
+      end
+    end
   end
 
   describe "#to_s" do
