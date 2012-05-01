@@ -96,7 +96,7 @@ module Ronin
       #
       # @since 0.5.0
       #
-      class Packer
+      class Template
 
         # Supported types and corresponding `Array#pack` codes.
         TYPES = {
@@ -189,7 +189,7 @@ module Ronin
         attr_reader :types
 
         #
-        # Creates a new Binary Packer.
+        # Creates a new Binary Template.
         #
         # @param [Array<type, (type, length)>] types
         #   The types which the packer will use.
