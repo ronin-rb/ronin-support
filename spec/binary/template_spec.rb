@@ -41,6 +41,7 @@ describe Binary::Template do
     it("double_ge  => G") { subject[:double_be].should   == 'G' }
     it("buffer     => Z") { subject[:buffer].should      == 'Z' }
     it("string     => Z*") { subject[:string].should     == 'Z*'}
+    it("struct     => a*") { subject[:struct].should     == 'a*'}
 
     if RUBY_VERSION > '1.9'
       context "Ruby 1.9" do

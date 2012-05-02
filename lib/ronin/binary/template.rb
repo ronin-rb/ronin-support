@@ -140,7 +140,9 @@ module Ronin
         :double_be => 'G',
 
         :buffer => 'Z',
-        :string => 'Z*'
+        :string => 'Z*',
+
+        :struct => 'a*'
       }
 
       # Additional types, not available on Ruby 1.8:
