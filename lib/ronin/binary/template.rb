@@ -47,7 +47,6 @@ module Ronin
     # * `:int` (`i!`) - signed integer, native endian.
     # * `:long` (`l!`) - signed long integer, native endian.
     # * `:long_long` (`q`) - signed quad integer, native endian.
-    # * `:pointer` (`L!`) - pointer, native endian.
     # * `:wchar` (`U`) - UTF8 character.
     # * `:float` (`F`) - single-percision float, native format.
     # * `:double` (`D`) - double-percision float, native format.
@@ -125,8 +124,6 @@ module Ronin
         :int       => 'i!',
         :long      => 'l!',
         :long_long => 'q',
-
-        :pointer => 'L!',
 
         :utf8 => 'U',
 

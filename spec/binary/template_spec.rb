@@ -31,7 +31,6 @@ describe Binary::Template do
     it("int        => i!") { subject[:int].should        == 'i!'}
     it("long       => l!") { subject[:long].should       == 'l!'}
     it("long_long  => q")  { subject[:long_long].should  == 'q' }
-    it("pointer    => L!") { subject[:pointer].should    == 'L!'}
     it("utf8       => U")  { subject[:utf8].should       == 'U' }
     it("float      => F") { subject[:float].should       == 'F' }
     it("double     => D") { subject[:double].should      == 'D' }
