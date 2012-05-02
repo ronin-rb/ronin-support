@@ -32,7 +32,7 @@ describe Binary::Template do
     it("long       => l!") { subject[:long].should       == 'l!'}
     it("long_long  => q")  { subject[:long_long].should  == 'q' }
     it("pointer    => L!") { subject[:pointer].should    == 'L!'}
-    it("wchar      => U")  { subject[:wchar].should      == 'U' }
+    it("utf8       => U")  { subject[:utf8].should       == 'U' }
     it("float      => F") { subject[:float].should       == 'F' }
     it("double     => D") { subject[:double].should      == 'D' }
     it("float_le   => e") { subject[:float_le].should    == 'e' }

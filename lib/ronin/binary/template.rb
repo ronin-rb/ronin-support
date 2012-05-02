@@ -128,7 +128,7 @@ module Ronin
 
         :pointer => 'L!',
 
-        :wchar => 'U',
+        :utf8 => 'U',
 
         :float     => 'F',
         :double    => 'D',
