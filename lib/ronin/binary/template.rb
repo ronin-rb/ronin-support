@@ -47,7 +47,7 @@ module Ronin
     # * `:int` (`i!`) - signed integer, native endian.
     # * `:long` (`l!`) - signed long integer, native endian.
     # * `:long_long` (`q`) - signed quad integer, native endian.
-    # * `:wchar` (`U`) - UTF8 character.
+    # * `:utf8` (`U`) - UTF8 character.
     # * `:float` (`F`) - single-percision float, native format.
     # * `:double` (`D`) - double-percision float, native format.
     # * `:float_le` (`e`) - single-percision float, little endian.
@@ -56,6 +56,7 @@ module Ronin
     # * `:double_be` (`G`) - double-percision float, big endian.
     # * `:buffer` (`Z`) - binary buffer, `\0` padded.
     # * `:string` (`Z*`) - binary String, `\0` terminated.
+    # * `:struct` (`a*`) - arbitrary binary structure.
     #
     # ### Ruby 1.9 specific types
     #
