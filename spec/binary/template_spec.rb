@@ -38,9 +38,7 @@ describe Binary::Template do
     it("double_le  => E") { subject[:double_le].should   == 'E' }
     it("float_be   => g") { subject[:float_be].should    == 'g' }
     it("double_ge  => G") { subject[:double_be].should   == 'G' }
-    it("buffer     => Z") { subject[:buffer].should      == 'Z' }
     it("string     => Z*") { subject[:string].should     == 'Z*'}
-    it("struct     => a*") { subject[:struct].should     == 'a*'}
 
     if RUBY_VERSION > '1.9'
       context "Ruby 1.9" do
@@ -122,15 +120,6 @@ describe Binary::Template do
       end
     end
 
-    context "[:buffer, n]" do
-      let(:n) { 20 }
-      subject { described_class.new([:buffer, n]) }
-
-      it "should pack a buffer" do
-        subject.pack(string).should == string.ljust(n,"\0")
-      end
-    end
-
     context ":string" do
       subject { described_class.new(:string) }
 
@@ -155,15 +144,6 @@ describe Binary::Template do
 
       it "should unpack multiple signed characters" do
         subject.unpack(string).should == bytes
-      end
-    end
-
-    context "[:buffer, n]" do
-      let(:n) { 20 }
-      subject { described_class.new([:buffer, n]) }
-
-      it "should unpack a buffer" do
-        subject.unpack(string.ljust(n,"\0")).should == [string]
       end
     end
 

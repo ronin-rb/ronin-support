@@ -137,10 +137,7 @@ module Ronin
         :float_be  => 'g',
         :double_be => 'G',
 
-        :buffer => 'Z',
-        :string => 'Z*',
-
-        :struct => 'a*'
+        :string => 'Z*'
       }
 
       # Additional types, not available on Ruby 1.8:
@@ -237,12 +234,13 @@ module Ronin
 
         types.each do |type|
           type, length = type
+          length ||= 1
 
           unless (code = TYPES[type])
             raise(ArgumentError,"#{type.inspect} not supported")
           end
 
-          @template << code << length.to_s
+          @template << (code * length)
         end
       end
 
