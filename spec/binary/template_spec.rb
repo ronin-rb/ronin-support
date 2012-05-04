@@ -189,7 +189,7 @@ describe Binary::Template do
     context ":uint32" do
       subject { described_class.new(:uint32) }
 
-      it "should pack an unsigned 16bit integer" do
+      it "should pack an unsigned 32bit integer" do
         subject.pack(uint32).should == "\xff\xff\xff\xff"
       end
     end
@@ -197,7 +197,7 @@ describe Binary::Template do
     context ":uint64" do
       subject { described_class.new(:uint64) }
 
-      it "should pack an unsigned 16bit integer" do
+      it "should pack an unsigned 64bit integer" do
         subject.pack(uint64).should == "\xff\xff\xff\xff\xff\xff\xff\xff"
       end
     end
@@ -221,7 +221,7 @@ describe Binary::Template do
     context ":int32" do
       subject { described_class.new(:int32) }
 
-      it "should pack an unsigned 16bit integer" do
+      it "should pack an unsigned 32bit integer" do
         subject.pack(int32).should == "\xff\xff\xff\xff"
       end
     end
@@ -229,7 +229,7 @@ describe Binary::Template do
     context ":int64" do
       subject { described_class.new(:int64) }
 
-      it "should pack an unsigned 16bit integer" do
+      it "should pack an unsigned 64bit integer" do
         subject.pack(int64).should == "\xff\xff\xff\xff\xff\xff\xff\xff"
       end
     end
@@ -306,7 +306,7 @@ describe Binary::Template do
     context ":uint32" do
       subject { described_class.new(:uint32) }
 
-      it "should unpack an unsigned 16bit integer" do
+      it "should unpack an unsigned 32bit integer" do
         subject.unpack("\xff\xff\xff\xff").should == [uint32]
       end
     end
@@ -314,7 +314,7 @@ describe Binary::Template do
     context ":uint64" do
       subject { described_class.new(:uint64) }
 
-      it "should unpack an unsigned 16bit integer" do
+      it "should unpack an unsigned 64bit integer" do
         subject.unpack("\xff\xff\xff\xff\xff\xff\xff\xff").should == [uint64]
       end
     end
@@ -338,7 +338,7 @@ describe Binary::Template do
     context ":int32" do
       subject { described_class.new(:int32) }
 
-      it "should unpack an unsigned 16bit integer" do
+      it "should unpack an unsigned 32bit integer" do
         subject.unpack("\xff\xff\xff\xff").should == [int32]
       end
     end
@@ -346,7 +346,7 @@ describe Binary::Template do
     context ":int64" do
       subject { described_class.new(:int64) }
 
-      it "should unpack an unsigned 16bit integer" do
+      it "should unpack an unsigned 64bit integer" do
         subject.unpack("\xff\xff\xff\xff\xff\xff\xff\xff").should == [int64]
       end
     end
