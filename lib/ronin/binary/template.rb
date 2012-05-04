@@ -37,12 +37,12 @@ module Ronin
     # * `:uint32_le` (`V`) - unsigned 32-bit integer, little endian.
     # * `:uint16_be` (`n`) - unsigned 16-bit integer, big endian.
     # * `:uint32_be` (`N`) - unsigned 32-bit integer, big endian.
-    # * `:uchar` (`C`) - unsigned character.
+    # * `:uchar` (`Z`) - unsigned character.
     # * `:ushort` (`S!`) - unsigned short integer, native endian.
     # * `:uint` (`I!`) - unsigned integer, native endian.
     # * `:ulong` (`L!`) - unsigned long integer, native endian.
     # * `:ulong_long` (`Q`) - unsigned quad integer, native endian.
-    # * `:char` (`c`) - signed character.
+    # * `:char` (`Z`) - signed character.
     # * `:short` (`s!`) - signed short integer, native endian.
     # * `:int` (`i!`) - signed integer, native endian.
     # * `:long` (`l!`) - signed long integer, native endian.
@@ -54,9 +54,9 @@ module Ronin
     # * `:double_le` (`E`) - double-percision float, little endian.
     # * `:float_be` (`g`) - single-percision float, big endian.
     # * `:double_be` (`G`) - double-percision float, big endian.
-    # * `:buffer` (`Z`) - binary buffer, `\0` padded.
+    # * `:ubyte` (`C`) - unsigned byte.
+    # * `:byte` (`c`) - signed byte.
     # * `:string` (`Z*`) - binary String, `\0` terminated.
-    # * `:struct` (`a*`) - arbitrary binary structure.
     #
     # ### Ruby 1.9 specific types
     #
@@ -114,13 +114,13 @@ module Ronin
         :uint16_be => 'n',
         :uint32_be => 'N',
 
-        :uchar      => 'C',
+        :uchar      => 'Z',
         :ushort     => 'S!',
         :uint       => 'I!',
         :ulong      => 'L!',
         :ulong_long => 'Q',
 
-        :char      => 'c',
+        :char      => 'Z',
         :short     => 's!',
         :int       => 'i!',
         :long      => 'l!',
@@ -137,6 +137,8 @@ module Ronin
         :float_be  => 'g',
         :double_be => 'G',
 
+        :ubyte  => 'C',
+        :byte   => 'c',
         :string => 'Z*'
       }
 
@@ -181,8 +183,8 @@ module Ronin
         )
       end
 
-      # The types
-      attr_reader :types
+      # The fields of the template
+      attr_reader :fields
 
       #
       # Creates a new Binary Template.
@@ -228,20 +230,35 @@ module Ronin
       # @example
       #   Template.new(:uint32, [:char, 100])
       #
-      def initialize(*types)
-        @types    = types
+      def initialize(*fields)
+        @fields   = []
         @template = ''
 
-        types.each do |type|
-          type, length = type
-          length ||= 1
+        fields.each { |field| self << field }
+      end
 
-          unless (code = TYPES[type])
-            raise(ArgumentError,"#{type.inspect} not supported")
-          end
+      #
+      # Appends a field to the template.
+      #
+      # @param [type, (type, length)] types
+      #   The types which the packer will use.
+      #
+      # @return [Template]
+      #   The modified template.
+      #
+      # @raise [ArgumentError]
+      #   A given type is not known.
+      #
+      def <<(field)
+        type, length = field
 
-          @template << (code * length)
+        unless (code = TYPES[type])
+          raise(ArgumentError,"#{type.inspect} not supported")
         end
+
+        @fields << field
+        @template << code << length.to_s
+        return self
       end
 
       #
