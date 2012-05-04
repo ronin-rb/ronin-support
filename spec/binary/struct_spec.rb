@@ -308,4 +308,117 @@ describe Binary::Struct do
       subject.z.int.should == 0
     end
   end
+
+  describe "template" do
+    subject do
+      struct = Class.new(described_class)
+      struct.class_eval do
+        layout :x, :uint16,
+               :y, :uint32
+      end
+
+      struct
+    end
+
+    it "should create a template for the fields" do
+      subject.template.fields.should == [
+        [:uint16, nil],
+        [:uint32, nil]
+      ]
+    end
+
+    it "should map fields to little/big endian types" do
+      subject.template(:little).fields.should == [
+        [:uint16_le, nil],
+        [:uint32_le, nil]
+      ]
+    end
+
+    context "nested structs" do
+      subject do
+        struct = Class.new(described_class)
+        struct.class_eval do
+          nested_struct = Class.new(Ronin::Binary::Struct)
+          nested_struct.class_eval do
+            layout :int, :uint32
+          end
+
+          layout :int,    :uint16,
+                 :struct, nested_struct
+        end
+
+        struct
+      end
+
+      it "should flatten the fields" do
+        subject.template.fields.should == [
+          [:uint16, nil],
+          [:uint32, nil]
+        ]
+      end
+    end
+
+    context "arrays of structs" do
+      subject do
+        struct = Class.new(described_class)
+        struct.class_eval do
+          nested_struct = Class.new(Ronin::Binary::Struct)
+          nested_struct.class_eval do
+            layout :int, :uint32
+          end
+
+          layout :int,    :uint16,
+                 :struct, [nested_struct, 2]
+        end
+
+        struct
+      end
+
+      it "should repeat the fields" do
+        subject.template.fields.should == [
+          [:uint16, nil],
+          [:uint32, nil],
+          [:uint32, nil]
+        ]
+      end
+    end
+  end
+
+  describe "templates" do
+    subject do
+      struct = Class.new(described_class)
+      struct.class_eval do
+        layout :x, :uint16,
+               :y, :uint32
+      end
+
+      struct
+    end
+
+    it "should have a :little endian template" do
+      subject.templates[:little].fields.should == [
+        [:uint16_le, nil],
+        [:uint32_le, nil]
+      ]
+    end
+
+    it "should have a :big endian template" do
+      subject.templates[:big].fields.should == [
+        [:uint16_be, nil],
+        [:uint32_be, nil]
+      ]
+    end
+
+    it "should alias :network to :big" do
+      big_endian_template = subject.templates[:big]
+
+      subject.templates[:network].fields.should == big_endian_template.fields
+    end
+  end
+
+  describe "#pack" do
+  end
+
+  describe "#unpack" do
+  end
 end
