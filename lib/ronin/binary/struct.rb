@@ -407,7 +407,14 @@ module Ronin
       ]
 
       # Float types
-      FLOAT_TYPES = Set[:float_le, :double_le, :float_be, :double_be]
+      FLOAT_TYPES = Set[
+        :float,
+        :double,
+        :float_le,
+        :double_le,
+        :float_be,
+        :double_be
+      ]
 
       # Character types
       CHAR_TYPES = Set[:uchar, :char]
@@ -529,14 +536,16 @@ module Ronin
             Array.new(length) { |index| default(type) }
           end
         else
-          if INT_TYPES.include?(type)
-            0
-          elsif FLOAT_TYPES.include?(type)
-            0.0
-          elsif CHAR_TYPES.include?(type)
-            "\0"
-          elsif STRING_TYPES.include?(type)
-            ''
+          if type.kind_of?(Symbol)
+            if INT_TYPES.include?(type)
+              0
+            elsif FLOAT_TYPES.include?(type)
+              0.0
+            elsif CHAR_TYPES.include?(type)
+              "\0"
+            elsif STRING_TYPES.include?(type)
+              ''
+            end
           elsif type < Struct
             type.new
           end
