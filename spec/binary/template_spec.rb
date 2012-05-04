@@ -83,10 +83,21 @@ describe Binary::Template do
         :string
       ]
     end
+  end
+
+  describe "#<<" do
+    subject { described_class.new(:uint) }
+
+    it "should append fields to the template" do
+      field = [:uchar, 32]
+
+      subject << field
+      subject.fields.last.should == field
+    end
 
     it "should raise ArgumentError for unknown types" do
       lambda {
-        described_class.new(:uint, :foo)
+        subject << :foo
       }.should raise_error(ArgumentError)
     end
   end
