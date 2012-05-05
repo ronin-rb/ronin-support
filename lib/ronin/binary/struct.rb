@@ -43,6 +43,8 @@ module Ronin
     #     new_pkt = Packet.unpack(buffer)
     #     # => #<Packet: length: 5, data: "hello">
     #
+    # @api public
+    #
     class Struct
 
       #
@@ -60,6 +62,8 @@ module Ronin
       #
       # @return [Hash{Symbol => type, (type, length)}]
       #   The field names and types.
+      #
+      # @api private
       #
       def self.fields
         @fields ||= {}
@@ -119,6 +123,8 @@ module Ronin
       # @return [Hash{Symbol => Template}]
       #   The templates for each endianness.
       #
+      # @api semipublic
+      #
       def self.templates
         @templates ||= Hash.new do |hash,endian|
           hash[endian] = template(endian)
@@ -133,6 +139,8 @@ module Ronin
       #
       # @return [Template]
       #   The new template.
+      #
+      # @api semipublic
       #
       def self.template(endian=self.endian)
         template = Template.new
@@ -167,6 +175,7 @@ module Ronin
       #
       # @return [Struct]
       #   The newly unpacked structure.
+      #
       def self.unpack(data,endian=self.endian)
         new().unpack(data,endian)
       end
@@ -460,6 +469,8 @@ module Ronin
       # @return [Hash{Symbol => Symbol}]
       #   The typedef aliases.
       #
+      # @api private
+      #
       def self.typedefs
         @@typedefs ||= {}
       end
@@ -553,6 +564,8 @@ module Ronin
       # @return [Integer, Float, String, Struct]
       #   The default value for the type.
       #
+      # @api private
+      #
       def self.default(type)
         type, length = type
 
@@ -597,6 +610,8 @@ module Ronin
       # @yieldparam [type, (type, length)] type
       #   The type of the field.
       #
+      # @api private
+      #
       def self.each_field(&block)
         layout.each do |name|
           type, length = field = fields[name]
@@ -625,6 +640,8 @@ module Ronin
       #
       # @yieldparam [type, (type, length)] type
       #   The type of the field.
+      #
+      # @api private
       #
       def each_field(&block)
         self.class.layout.each do |name|
