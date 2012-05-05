@@ -172,6 +172,19 @@ class String
     format_bytes(options) { |b| b.hex_escape }
   end
 
+  # Common escaped characters.
+  UNESCAPE_CHARS = {
+    '\0' => "\0",
+    '\a' => "\a",
+    '\b' => "\b",
+    '\t' => "\t",
+    '\n' => "\n",
+    '\v' => "\v",
+    '\f' => "\f",
+    '\r' => "\r"
+  }
+  UNESCAPE_CHARS.default = proc { |key| key[1,1] }
+
   #
   # Unescapes the hex-escaped String.
   #
@@ -201,28 +214,7 @@ class String
           hex_index += (2 + hex_byte.length)
         end
       elsif hex_substring =~ /^\\./
-        escaped_char = hex_substring[1..1]
-
-        buffer << case escaped_char
-                  when '0'
-                    "\0"
-                  when 'a'
-                    "\a"
-                  when 'b'
-                    "\b"
-                  when 't'
-                    "\t"
-                  when 'n'
-                    "\n"
-                  when 'v'
-                    "\v"
-                  when 'f'
-                    "\f"
-                  when 'r'
-                    "\r"
-                  else
-                    escaped_char
-                  end
+        buffer << UNESCAPE_CHARS[hex_substring[0,2]]
         hex_index += 2
       else
         buffer << hex_substring[0]
