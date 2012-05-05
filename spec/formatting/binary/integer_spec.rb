@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/formatting/binary'
+require 'ronin/formatting/extensions/binary/integer'
 
 require 'ostruct'
 
