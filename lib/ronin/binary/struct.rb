@@ -228,12 +228,21 @@ module Ronin
       #   The values of the fields.
       #
       def values
-        self.class.layout.map do |name|
-          case (value = self[name])
+        normalize = lambda { |value|
+          case value
           when Struct
             value.values
           else
             value
+          end
+        }
+
+        self.class.layout.map do |name|
+          case (value = self[name])
+          when Array
+            value.map(&normalize)
+          else
+            normalize[value]
           end
         end
       end
