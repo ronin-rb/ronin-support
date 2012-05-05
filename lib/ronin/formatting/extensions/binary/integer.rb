@@ -29,9 +29,9 @@ class Integer
   #   The endianness to use while decoding the bytes of the Integer.
   #   May be one of:
   #
-  #   * `:big` / `"big"`
-  #   * `:little` / `"little"`
-  #   * `:net` / `"net"`
+  #   * `big`
+  #   * `little`
+  #   * `net`
   #
   # @return [Array]
   #   The bytes decoded from the Integer.
@@ -39,9 +39,9 @@ class Integer
   # @raise [ArgumentError]
   #   The given `endian` was not one of:
   #
-  #   * `:little` / `"little"`
-  #   * `:net` / `"net"`
-  #   * `:big` / `"big"`
+  #   * `little`
+  #   * `net`
+  #   * `big`
   #
   # @example
   #   0xff41.bytes(2)
