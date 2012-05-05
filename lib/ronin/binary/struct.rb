@@ -28,14 +28,20 @@ module Ronin
     #
     #     class Packet < Binary::Struct
     #     
-    #       layout :length, :uint32,
-    #              :data, [:uchar, 256]
+    #       layout :length, :uint32_net,
+    #              :data, [:uchar, 48]
     #
-    #       def length
-    #         @length || data.length
-    #       end
-    #     
     #     end
+    #
+    #     pkt = Packet.new
+    #     pkt.length = 5
+    #     pkt.data = 'hello'
+    #
+    #     buffer = pkt.pack
+    #     # => "\x00\x00\x00\x05hello\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+    #
+    #     new_pkt = Packet.unpack(buffer)
+    #     # => #<Packet: length: 5, data: "hello">
     #
     class Struct
 
