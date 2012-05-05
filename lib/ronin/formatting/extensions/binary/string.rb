@@ -61,6 +61,8 @@ class String
   #
   # @see http://ruby-doc.org/core/classes/String.html#M000760
   #
+  # @since 0.5.0
+  #
   # @api public
   #
   def unpack(*arguments)
