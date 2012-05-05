@@ -17,6 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/binary/template'
+
 class Integer
 
   #
@@ -86,14 +88,9 @@ class Integer
   end
 
   #
-  # Packs the Integer into a String, for a specific architecture and
-  # address-length.
+  # Packs the Integer into a String.
   #
-  # @param [Ronin::Arch, #endian, #address_length, String] arch
-  #   The architecture to pack the Integer for.
-  #
-  # @param [Integer] address_length
-  #   The number of bytes to pack.
+  # @param [Array] arguments
   #
   # @return [String]
   #   The packed Integer.
@@ -102,47 +99,55 @@ class Integer
   #   The given `arch` does not respond to the `endian` or
   #   `address_length` methods.
   #
-  # @example using archs other than `Ronin::Arch`.
+  # @example using a `Array#pack` template String for the arch:
+  #   0x41.pack('L')
+  #   # => "A\0\0\0"
+  #
+  # @example using {Binary::Template} types:
+  #   0x41.pack(:uint32_le)
+  #
+  # @example using archs other than `Ronin::Arch` (**deprecated**):
   #   arch = OpenStruct.new(:endian => :little, :address_length => 4)
-  #   
   #   0x41.pack(arch)
   #   # => "A\0\0\0"
   #
-  # @example using a `Ronin::Arch` arch.
+  # @example using a `Ronin::Arch` arch (**deprecated**):
   #   0x41.pack(Arch.i686)
   #   # => "A\0\0\0"
   #
-  # @example specifying a custom address-length.
+  # @example specifying a custom address-length (**deprecated**):
   #   0x41.pack(Arch.ppc,2)
   #   # => "\0A"
-  #
-  # @example using a `Array#pack` template String for the arch.
-  #   0x41.pack('L')
-  #   # => "A\0\0\0"
   #
   # @see http://ruby-doc.org/core/classes/Array.html#M002222
   #
   # @api public
   #
-  def pack(arch,address_length=nil)
-    if arch.kind_of?(String)
-      return [self].pack(arch)
+  def pack(*arguments)
+    case arguments[0]
+    when String
+      [self].pack(arguments[0])
+    when Symbol
+      Ronin::Binary::Template.new(arguments[0]).pack(self)
+    else
+      # TODO: deprecate this calling convention
+      arch, address_length = arguments
+
+      unless arch.respond_to?(:address_length)
+        raise(ArgumentError,"first argument to Ineger#pack must respond to address_length")
+      end
+
+      unless arch.respond_to?(:endian)
+        raise(ArgumentError,"first argument to Ineger#pack must respond to endian")
+      end
+
+      address_length ||= arch.address_length
+
+      integer_bytes = bytes(address_length,arch.endian)
+      integer_bytes.map! { |b| b.chr }
+
+      return integer_bytes.join
     end
-
-    unless arch.respond_to?(:address_length)
-      raise(ArgumentError,"first argument to Ineger#pack must respond to address_length")
-    end
-
-    unless arch.respond_to?(:endian)
-      raise(ArgumentError,"first argument to Ineger#pack must respond to endian")
-    end
-
-    address_length ||= arch.address_length
-
-    integer_bytes = bytes(address_length,arch.endian)
-    integer_bytes.map! { |b| b.chr }
-
-    return integer_bytes.join
   end
 
   #
