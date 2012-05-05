@@ -58,7 +58,7 @@ class Integer
     buffer = []
 
     case endian
-    when :little, :net
+    when :little
       mask  = 0xff
       shift = 0
 
@@ -68,7 +68,7 @@ class Integer
         mask <<= 8
         shift += 8
       end
-    when :big
+    when :big, :net
       shift = ((address_length - 1) * 8)
       mask  = (0xff << shift)
 
