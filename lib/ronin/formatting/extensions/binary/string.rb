@@ -39,7 +39,7 @@ class String
   # Unpacks the String.
   #
   # @param [String, Array<Symbol>] arguments
-  #   The `String#unpack` template or a list of {Binary::Template} types.
+  #   The `String#unpack` template or a list of {Ronin::Binary::Template} types.
   #
   # @param [Integer] address_length
   #   The number of bytes to depack.
@@ -50,7 +50,7 @@ class String
   # @raise [ArgumentError]
   #   The arguments were not a String or a list of Symbols.
   #
-  # @example using {Binary::Template} types:
+  # @example using {Ronin::Binary::Template} types:
   #   "A\0\0\0hello\0".unpack(:uint32_le, :string)
   #   # => [10, "hello"]
   #

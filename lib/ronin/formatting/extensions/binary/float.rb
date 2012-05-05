@@ -25,7 +25,7 @@ class Float
   # Packs the Float into a String.
   #
   # @param [String, Symbol] argument
-  #   The `Array#pack` String code or {Binary::Template} type.
+  #   The `Array#pack` String code or {Ronin::Binary::Template} type.
   #
   # @return [String]
   #   The packed float.
@@ -37,7 +37,7 @@ class Float
   #   0.42.pack('F')
   #   # => =\n\xD7>"
   #
-  # @example using {Binary::Template} types:
+  # @example using {Ronin::Binary::Template} types:
   #   0x42.pack(:float_be)
   #   # => ">\xD7\n="
   #

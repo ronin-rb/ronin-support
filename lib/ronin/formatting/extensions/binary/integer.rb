@@ -91,8 +91,8 @@ class Integer
   # Packs the Integer into a String.
   #
   # @param [String, Symbol, arch] arguments
-  #   The `Array#pack` code, {Binary::Template} type or Architecture object
-  #   with `#endian` and `#address_length` methods.
+  #   The `Array#pack` code, {Ronin::Binary::Template} type or Architecture
+  #   object with `#endian` and `#address_length` methods.
   #
   # @return [String]
   #   The packed Integer.
@@ -104,7 +104,7 @@ class Integer
   #   0x41.pack('L')
   #   # => "A\0\0\0"
   #
-  # @example using {Binary::Template} types:
+  # @example using {Ronin::Binary::Template} types:
   #   0x41.pack(:uint32_le)
   #
   # @example using archs other than `Ronin::Arch` (**deprecated**):
