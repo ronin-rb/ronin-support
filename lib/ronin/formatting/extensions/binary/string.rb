@@ -173,17 +173,21 @@ class String
   end
 
   # Common escaped characters.
-  UNESCAPE_CHARS = {
-    '\0' => "\0",
-    '\a' => "\a",
-    '\b' => "\b",
-    '\t' => "\t",
-    '\n' => "\n",
-    '\v' => "\v",
-    '\f' => "\f",
-    '\r' => "\r"
-  }
-  UNESCAPE_CHARS.default = proc { |key| key[1,1] }
+  UNESCAPE_CHARS = Hash.new do |hash,char|
+    if char[0,1] == '\\'
+      char[1,1]
+    else
+      char
+    end
+  end
+  UNESCAPE_CHARS['\0'] = "\0"
+  UNESCAPE_CHARS['\a'] = "\a"
+  UNESCAPE_CHARS['\b'] = "\b"
+  UNESCAPE_CHARS['\t'] = "\t"
+  UNESCAPE_CHARS['\n'] = "\n"
+  UNESCAPE_CHARS['\v'] = "\v"
+  UNESCAPE_CHARS['\f'] = "\f"
+  UNESCAPE_CHARS['\r'] = "\r"
 
   #
   # Unescapes the hex-escaped String.
