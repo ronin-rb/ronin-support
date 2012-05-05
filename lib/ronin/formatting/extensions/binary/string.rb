@@ -206,7 +206,7 @@ class String
       hex_substring = self[hex_index..-1]
 
       if hex_substring =~ /^\\[0-7]{3}/
-        buffer << hex_substring[0..3].to_i(8)
+        buffer << hex_substring[0,4].to_i(8)
         hex_index += 3
       elsif hex_substring =~ /^\\x[0-9a-fA-F]{1,2}/
         hex_substring[2..-1].scan(/^[0-9a-fA-F]{1,2}/) do |hex_byte|
@@ -217,7 +217,7 @@ class String
         buffer << UNESCAPE_CHARS[hex_substring[0,2]]
         hex_index += 2
       else
-        buffer << hex_substring[0]
+        buffer << hex_substring[0,1]
         hex_index += 1
       end
     end
