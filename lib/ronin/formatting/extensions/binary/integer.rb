@@ -90,14 +90,15 @@ class Integer
   #
   # Packs the Integer into a String.
   #
-  # @param [Array] arguments
+  # @param [String, Symbol, arch] arguments
+  #   The `Array#pack` code, {Binary::Template} type or Architecture object
+  #   with `#endian` and `#address_length` methods.
   #
   # @return [String]
   #   The packed Integer.
   #
   # @raise [ArgumentError]
-  #   The given `arch` does not respond to the `endian` or
-  #   `address_length` methods.
+  #   The arguments were not a String, Symbol or Architecture object.
   #
   # @example using a `Array#pack` template String for the arch:
   #   0x41.pack('L')
@@ -108,6 +109,7 @@ class Integer
   #
   # @example using archs other than `Ronin::Arch` (**deprecated**):
   #   arch = OpenStruct.new(:endian => :little, :address_length => 4)
+  #
   #   0x41.pack(arch)
   #   # => "A\0\0\0"
   #

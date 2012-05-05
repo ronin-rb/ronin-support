@@ -38,8 +38,8 @@ class String
   #
   # Unpacks the String.
   #
-  # @param [Ronin::Arch, #endian, #address_length, String] arch
-  #   The architecture that the Integer was originally packed with.
+  # @param [String, Array<Symbol>] arguments
+  #   The `String#unpack` template or a list of {Binary::Template} types.
   #
   # @param [Integer] address_length
   #   The number of bytes to depack.
@@ -48,8 +48,7 @@ class String
   #   The depacked Integer.
   #
   # @raise [ArgumentError]
-  #   The given `arch` does not respond to the `endian` or
-  #   `address_length` methods.
+  #   The arguments were not a String or a list of Symbols.
   #
   # @example using {Binary::Template} types:
   #   "A\0\0\0hello\0".unpack(:uint32_le, :string)

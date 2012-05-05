@@ -31,8 +31,7 @@ class Float
   #   The packed float.
   #
   # @raise [ArgumentError]
-  #   The argument was not an `Array#pack` String code or {Binary::Template}
-  #   type.
+  #   The argument was not a String code or a Symbol.
   #
   # @example using `Array#pack` codes:
   #   0.42.pack('F')
