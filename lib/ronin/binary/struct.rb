@@ -491,6 +491,20 @@ module Ronin
       typedef :int32, :int32_t
       typedef :int64, :int64_t
 
+      typedef :uint16_be,     :uint16_net
+      typedef :uint32_be,     :uint32_net
+      typedef :uint64_be,     :uint64_net
+      typedef :int16_be,      :int16_net
+      typedef :int32_be,      :int32_net
+      typedef :int64_be,      :int64_net
+      typedef :ushort_be,     :ushort_net
+      typedef :uint_be,       :uint_net
+      typedef :ulong_be,      :ulong_net
+      typedef :ulong_long_be, :ulong_long_net
+      typedef :int_be,        :int_net
+      typedef :long_be,       :long_net
+      typedef :long_long_be,  :long_long_net
+
       # libc typedefs
       typedef :long,  :blkcnt_t
       typedef :pointer, :caddr_t
