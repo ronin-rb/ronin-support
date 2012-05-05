@@ -246,7 +246,7 @@ module Ronin
       #
       def clear
         each_field do |struct,name,field|
-          struct[name] = struct.class.default(field)
+          struct[name] = self.class.default(field)
         end
 
         return self
@@ -601,13 +601,16 @@ module Ronin
         self.class.layout.each do |name|
           type, length = field = self.class.fields[name]
 
-          case (value = self[name])
-          when Struct
-            (length || 1).times do
-              value.each_field(&block)
-            end
-          else
+          if type.kind_of?(Symbol)
             yield self, name, field
+          elsif type < Struct
+            if length
+              self[name].each do |struct|
+                struct.each_field(&block)
+              end
+            else
+              self[name].each_field(&block)
+            end
           end
         end
       end

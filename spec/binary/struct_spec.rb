@@ -280,7 +280,7 @@ describe Binary::Struct do
       struct.class_eval do
         nested_struct = Class.new(Ronin::Binary::Struct)
         nested_struct.class_eval do
-          layout :int, :uint
+          layout :int, :int
         end
 
         layout :x, :uint,
@@ -294,7 +294,7 @@ describe Binary::Struct do
     before(:all) do
       subject.x = 100
       subject.y = 15.0
-      subject.z = nil
+      subject.z.int = -1
 
       subject.clear
     end
