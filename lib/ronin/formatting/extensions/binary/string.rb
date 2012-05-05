@@ -17,11 +17,11 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/formatting/extensions/binary/base64'
 require 'ronin/formatting/extensions/binary/integer'
 require 'ronin/formatting/extensions/text'
 require 'ronin/binary/template'
 
-require 'base64'
 require 'enumerator'
 
 begin
@@ -294,19 +294,9 @@ class String
   def base64_encode(mode=nil)
     case mode
     when :strict
-      if RUBY_VERSION < '1.9'
-        # backported from Ruby 1.9.2
-        [self].pack("m")
-      else
-        Base64.strict_encode64(self)
-      end
+      Base64.strict_encode64(self)
     when :url, :urlsafe
-      if RUBY_VERSION < '1.9'
-        # backported from Ruby 1.9.2
-        [self].pack("m").tr("+/", "-_")
-      else
-        Base64.urlsafe_encode64(self)
-      end
+      Base64.urlsafe_encode64(self)
     else
       Base64.encode64(self)
     end
@@ -337,19 +327,9 @@ class String
   def base64_decode(mode=nil)
     case mode
     when :strict
-      if RUBY_VERSION < '1.9'
-        # backported from Ruby 1.9.2
-        unpack("m0").first
-      else
-        Base64.strict_decode64(self)
-      end
+      Base64.strict_decode64(self)
     when :url, :urlsafe
-      if RUBY_VERSION < '1.9'
-        # backported from Ruby 1.9.2
-        tr("-_", "+/").unpack("m0").first
-      else
-        Base64.urlsafe_decode64(self)
-      end
+      Base64.urlsafe_decode64(self)
     else
       Base64.decode64(self)
     end
