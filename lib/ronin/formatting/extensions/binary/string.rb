@@ -19,6 +19,7 @@
 
 require 'ronin/formatting/extensions/binary/integer'
 require 'ronin/formatting/extensions/text'
+require 'ronin/binary/template'
 
 require 'base64'
 require 'enumerator'
@@ -32,9 +33,10 @@ end
 
 class String
 
+  alias unpack_original unpack
+
   #
-  # Packs an Integer from a String, which was originally packed for
-  # a specific architecture and address-length.
+  # Unpacks the String.
   #
   # @param [Ronin::Arch, #endian, #address_length, String] arch
   #   The architecture that the Integer was originally packed with.
@@ -48,6 +50,45 @@ class String
   # @raise [ArgumentError]
   #   The given `arch` does not respond to the `endian` or
   #   `address_length` methods.
+  #
+  # @example using {Binary::Template} types:
+  #   "A\0\0\0hello\0".unpack(:uint32_le, :string)
+  #   # => [10, "hello"]
+  #
+  # @example using a `String#unpack` template String as the arch.
+  #   "A\0\0\0".unpack('L')
+  #   # => 65
+  #
+  # @see http://ruby-doc.org/core/classes/String.html#M000760
+  #
+  # @api public
+  #
+  def unpack(*arguments)
+    case arguments[0]
+    when String
+      unpack_original(arguments[0])
+    when Symbol
+      Ronin::Binary::Template.new(*arguments).unpack(self)
+    else
+      raise(ArgumentError,"first argument to String#unpack must be a String or Symbol")
+    end
+  end
+
+  #
+  # Unpacks the String into an Integer.
+  #
+  # @param [Ronin::Arch, #endian, #address_length, String] arch
+  #   The architecture that the Integer was originally packed with.
+  #
+  # @param [Integer] address_length
+  #   The number of bytes to depack.
+  #
+  # @return [Integer]
+  #   The depacked Integer.
+  #
+  # @raise [ArgumentError]
+  #   The given `arch` does not respond to the `endian` or `address_length`
+  #   methods.
   #
   # @example using archs other than `Ronin::Arch`.
   #   arch = OpenStruct.new(:endian => :little, :address_length => 4)
@@ -67,13 +108,14 @@ class String
   #   "A\0\0\0".depack('L')
   #   # => 65
   #
-  # @see http://ruby-doc.org/core/classes/String.html#M000760
+  # @deprecated
+  #   Deprecated as of 0.5.0, use {#unpack} instead.
   #
   # @api public
-  #
+  #   
   def depack(arch,address_length=nil)
     if arch.kind_of?(String)
-      return self.unpack(arch)
+      return unpack(arch)
     end
 
     unless arch.respond_to?(:address_length)
@@ -87,7 +129,7 @@ class String
     endian           = arch.endian.to_sym
     address_length ||= arch.address_length
 
-    integer = 0x0
+    integer    = 0x0
     byte_index = 0
 
     case endian
