@@ -58,7 +58,7 @@ class String
   #   "A\0\0\0".unpack('L')
   #   # => 65
   #
-  # @see http://ruby-doc.org/core/classes/String.html#M000760
+  # @see http://rubydoc.info/stdlib/core/String:unpack
   #
   # @since 0.5.0
   #

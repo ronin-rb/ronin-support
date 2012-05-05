@@ -121,7 +121,7 @@ class Integer
   #   0x41.pack(Arch.ppc,2)
   #   # => "\0A"
   #
-  # @see http://ruby-doc.org/core/classes/Array.html#M002222
+  # @see http://rubydoc.info/stdlib/core/Array:pack
   #
   # @api public
   #

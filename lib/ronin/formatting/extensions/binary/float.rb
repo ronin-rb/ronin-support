@@ -41,7 +41,7 @@ class Float
   #   0x42.pack(:float_be)
   #   # => ">\xD7\n="
   #
-  # @see http://ruby-doc.org/core/classes/Array.html#M002222
+  # @see http://rubydoc.info/stdlib/core/Array:pack
   #
   # @since 0.5.0
   #
