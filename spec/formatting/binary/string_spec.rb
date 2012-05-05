@@ -171,6 +171,10 @@ describe String do
     it "should unescape control characters" do
       "hello\\n".hex_unescape.should == "hello\n"
     end
+
+    it "should unescape normal characters" do
+      "hell\\o".hex_unescape.should == "hello"
+    end
   end
 
   describe "#xor" do
