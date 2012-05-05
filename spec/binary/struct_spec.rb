@@ -272,6 +272,35 @@ describe Binary::Struct do
         subject.values.should == [x, y, [z]]
       end
     end
+
+    context "arrays of nested structs" do
+      let(:z) { 30 }
+
+      subject do
+        struct = Class.new(described_class)
+        struct.class_eval do
+          nested_struct = Class.new(Ronin::Binary::Struct)
+          nested_struct.class_eval do
+            layout :int, :uint
+          end
+
+          layout :x, :uint,
+                 :y, :uint,
+                 :z, [nested_struct, 2]
+        end
+
+        struct.new
+      end
+
+      before(:each) do
+        subject.z[0].int = z
+        subject.z[1].int = z
+      end
+
+      it "should nest the values of nested structs" do
+        subject.values.should == [x, y, [[z], [z]]]
+      end
+    end
   end
 
   describe "#clear" do
@@ -417,8 +446,158 @@ describe Binary::Struct do
   end
 
   describe "#pack" do
+    context "arrays of chars" do
+      let(:string) { "hello" }
+      let(:packed) { string.ljust(10,"\0") }
+
+      subject do
+        struct = Class.new(described_class)
+        struct.class_eval do
+          layout :chars, [:char, 10]
+        end
+
+        struct.new
+      end
+
+      before(:each) do
+        subject.chars = string
+      end
+
+      it "should pack arrays of chars into a String" do
+        subject.pack.should == packed
+      end
+    end
+
+    context "structs" do
+      let(:packed) { "\x0a\x00\x14\x00\x00\x00" }
+
+      subject do
+        struct = Class.new(described_class)
+        struct.class_eval do
+          nested_struct = Class.new(Ronin::Binary::Struct)
+          nested_struct.class_eval do
+            layout :int, :uint32_le
+          end
+
+          layout :int,    :uint16_le,
+                 :struct, nested_struct
+        end
+
+        struct.new
+      end
+
+      before(:each) do
+        subject.int = 10
+        subject.struct.int = 20
+      end
+
+      it "should pack the nested struct fields" do
+        subject.pack.should == packed
+      end
+    end
+
+    context "arrays of structs" do
+      let(:packed) { "\x0a\x00\x14\x00\x00\x00\x1e\x00\x00\x00" }
+
+      subject do
+        struct = Class.new(described_class)
+        struct.class_eval do
+          nested_struct = Class.new(Ronin::Binary::Struct)
+          nested_struct.class_eval do
+            layout :int, :uint32_le
+          end
+
+          layout :int,    :uint16_le,
+                 :struct, [nested_struct, 2]
+        end
+
+        struct.new
+      end
+
+      before(:each) do
+        subject.int = 10
+        subject.struct[0].int = 20
+        subject.struct[1].int = 30
+      end
+
+      it "should pack the nested fields" do
+        subject.pack.should == packed
+      end
+    end
   end
 
   describe "#unpack" do
+    context "arrays of chars" do
+      let(:string) { "hello" }
+      let(:packed) { string.ljust(10,"\0") }
+
+      subject do
+        struct = Class.new(described_class)
+        struct.class_eval do
+          layout :chars, [:char, 10]
+        end
+
+        struct.new
+      end
+
+      it "should unpack arrays of chars into a String" do
+        subject.unpack(packed)
+
+        subject.chars.should == string
+      end
+    end
+
+    context "structs" do
+      let(:packed) { "\x0a\x00\x14\x00\x00\x00" }
+
+      subject do
+        struct = Class.new(described_class)
+        struct.class_eval do
+          nested_struct = Class.new(Ronin::Binary::Struct)
+          nested_struct.class_eval do
+            layout :int, :uint32_le
+          end
+
+          layout :int,    :uint16_le,
+                 :struct, nested_struct
+        end
+
+        struct.new
+      end
+
+      it "should unpack the nested struct fields" do
+        subject.unpack(packed)
+
+        subject.int.should        == 10
+        subject.struct.int.should == 20
+      end
+    end
+
+    context "arrays of structs" do
+      let(:packed) { "\x0a\x00\x14\x00\x00\x00\x1e\x00\x00\x00" }
+
+      subject do
+        struct = Class.new(described_class)
+        struct.class_eval do
+          nested_struct = Class.new(Ronin::Binary::Struct)
+          nested_struct.class_eval do
+            layout :int, :uint32_le
+          end
+
+          layout :int,    :uint16_le,
+                 :struct, [nested_struct, 2]
+        end
+
+        struct.new
+      end
+
+      it "should unpack the nested fields" do
+        subject.unpack(packed)
+        
+        subject.int.should           == 10
+        subject.struct[0].int.should == 20
+        subject.struct[1].int.should == 30
+      end
+    end
   end
 end
