@@ -185,7 +185,7 @@ describe Binary::Hexdump::Parser do
 
     context "named chars" do
       subject do
-        described_class.new(:format => :od, :encoding => :hex_bytes)
+        described_class.new(:format => :od, :encoding => :named_chars)
       end
 
       let(:mask)  { ~(1 << 7) }

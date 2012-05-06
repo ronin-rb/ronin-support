@@ -44,41 +44,43 @@ module Ronin
         CHARS['\r'] = 0x0d
 
         # od named characters
-        CHARS['nul'] = 0x00
-        CHARS['soh'] = 0x01
-        CHARS['stx'] = 0x02
-        CHARS['etx'] = 0x03
-        CHARS['eot'] = 0x04
-        CHARS['enq'] = 0x05
-        CHARS['ack'] = 0x06
-        CHARS['bel'] = 0x07
-        CHARS['bs']  = 0x08
-        CHARS['ht']  = 0x09
-        CHARS['lf']  = 0x0a
-        CHARS['nl']  = 0x0a
-        CHARS['vt']  = 0x0b
-        CHARS['ff']  = 0x0c
-        CHARS['cr']  = 0x0d
-        CHARS['so']  = 0x0e
-        CHARS['si']  = 0x0f
-        CHARS['dle'] = 0x10
-        CHARS['dc1'] = 0x11
-        CHARS['dc2'] = 0x12
-        CHARS['dc3'] = 0x13
-        CHARS['dc4'] = 0x14
-        CHARS['nak'] = 0x15
-        CHARS['syn'] = 0x16
-        CHARS['etb'] = 0x17
-        CHARS['can'] = 0x18
-        CHARS['em']  = 0x19
-        CHARS['sub'] = 0x1a
-        CHARS['esc'] = 0x1b
-        CHARS['fs']  = 0x1c
-        CHARS['gs']  = 0x1d
-        CHARS['rs']  = 0x1e
-        CHARS['us']  = 0x1f
-        CHARS['sp']  = 0x20
-        CHARS['del'] = 0x7f
+        NAMED_CHARS = {
+          'nul' => 0x00,
+          'soh' => 0x01,
+          'stx' => 0x02,
+          'etx' => 0x03,
+          'eot' => 0x04,
+          'enq' => 0x05,
+          'ack' => 0x06,
+          'bel' => 0x07,
+          'bs'  => 0x08,
+          'ht'  => 0x09,
+          'lf'  => 0x0a,
+          'nl'  => 0x0a,
+          'vt'  => 0x0b,
+          'ff'  => 0x0c,
+          'cr'  => 0x0d,
+          'so'  => 0x0e,
+          'si'  => 0x0f,
+          'dle' => 0x10,
+          'dc1' => 0x11,
+          'dc2' => 0x12,
+          'dc3' => 0x13,
+          'dc4' => 0x14,
+          'nak' => 0x15,
+          'syn' => 0x16,
+          'etb' => 0x17,
+          'can' => 0x18,
+          'em'  => 0x19,
+          'sub' => 0x1a,
+          'esc' => 0x1b,
+          'fs'  => 0x1c,
+          'gs'  => 0x1d,
+          'rs'  => 0x1e,
+          'us'  => 0x1f,
+          'sp'  => 0x20,
+          'del' => 0x7f
+        }
 
         #
         # Initializes the hexdump parser.
@@ -106,10 +108,12 @@ module Ronin
         #   * `:decimal_ints`
         #   * `:decimal_quads`
         #   * `:hex`
+        #   * `:hex_chars`
         #   * `:hex_bytes`
         #   * `:hex_shorts`
         #   * `:hex_ints`
         #   * `:hex_quads`
+        #   * `:named_chars`
         #
         # @option options [Integer] :segment (16)
         #   The length in bytes of each segment in the hexdump.
@@ -133,16 +137,33 @@ module Ronin
           case options[:encoding]
           when :binary
             @base = 2
-          when :octal, :octal_bytes, :octal_shorts, :octal_ints, :octal_quads
+          when :octal,
+               :octal_bytes,
+               :octal_shorts,
+               :octal_ints,
+               :octal_quads
             @base = 8
-          when :decimal, :decimal_bytes, :decimal_shorts, :decimal_ints, :decimal_quads
+          when :decimal,
+               :decimal_bytes,
+               :decimal_shorts,
+               :decimal_ints,
+               :decimal_quads
             @base = 10
-          when :hex, :hex_bytes, :hex_shorts, :hex_ints, :hex_quads
+          when :hex,
+               :hex_bytes,
+               :hex_shorts,
+               :hex_ints,
+               :hex_quads
             @base = 16
           end
 
           case options[:encoding]
-          when :binary, :octal_bytes, :decimal_bytes, :hex_bytes
+          when :binary,
+               :octal_bytes,
+               :decimal_bytes,
+               :hex_bytes,
+               :hex_chars,
+               :named_chars
             @word_size = 1
           when :octal_shorts, :decimal_shorts, :hex_shorts
             @word_size = 2
@@ -150,6 +171,13 @@ module Ronin
             @word_size = 4
           when :octal_quads, :decimal_quads, :hex_quads
             @word_size = 8
+          end
+
+          case options[:encoding]
+          when :hex_chars
+            @chars = CHARS
+          when :named_chars
+            @chars = CHARS.merge(NAMED_CHARS)
           end
 
           @segment_length = options.fetch(:segment,16)
@@ -195,8 +223,8 @@ module Ronin
               segment.clear
 
               words.each do |word|
-                if (@base != 10 && CHARS.has_key?(word))
-                  segment << CHARS[word]
+                if (@chars && @chars.has_key?(word))
+                  segment << @chars[word]
                 else
                   segment += word.to_i(@base).bytes(@word_size)
                 end
