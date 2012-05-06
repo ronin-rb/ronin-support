@@ -336,7 +336,7 @@ module Ronin
             shift = 0
 
             @word_size.times do
-              yield (word & mask) >> shift
+              yield((word & mask) >> shift)
 
               mask <<= 8
               shift += 8
@@ -346,7 +346,7 @@ module Ronin
             shift = (@word_size - 1)
 
             @word_size.times do
-              yield (word & mask) >> shift
+              yield((word & mask) >> shift)
 
               mask >>= 8
               shift -= 8
