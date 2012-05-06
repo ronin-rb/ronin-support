@@ -17,6 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/formatting/extensions/binary/integer'
+
 module Ronin
   module Binary
     module Hexdump
