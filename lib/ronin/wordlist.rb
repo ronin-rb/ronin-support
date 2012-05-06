@@ -87,8 +87,7 @@ module Ronin
         raise(TypeError,"wordlist must be a path or Enumerable")
       end
 
-      @mutations = {}
-      @mutations.merge!(mutations)
+      @mutations = mutations
 
       yield self if block_given?
     end
