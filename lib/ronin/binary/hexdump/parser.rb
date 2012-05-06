@@ -168,6 +168,9 @@ module Ronin
         #   * `:hex_quads`
         #   * `:named_chars`
         #
+        # @option options [:little, :big, :network] :endian (:little)
+        #   The endianness of the words.
+        #
         # @option options [Integer] :segment (16)
         #   The length in bytes of each segment in the hexdump.
         #
@@ -191,6 +194,8 @@ module Ronin
             @base      = BASES.fetch(options[:encoding])
             @word_size = WORD_SIZES.fetch(options[:encoding])
           end
+
+          @endian = options.fetch(:endian,:little)
 
           case options[:encoding]
           when :hex_chars
@@ -271,14 +276,29 @@ module Ronin
         end
 
         def parse_bytes(word,&block)
-          mask = 0xff
-          shift = 0
+          case @endian
+          when :little
+            mask = 0xff
+            shift = 0
 
-          @word_size.times do
-            yield (word & mask) >> shift
+            @word_size.times do
+              yield (word & mask) >> shift
 
-            mask <<= 8
-            shift += 8
+              mask <<= 8
+              shift += 8
+            end
+          when :big, :network
+            mask = 0xff << (8 * (@word_size - 1))
+            shift = (@word_size - 1)
+
+            @word_size.times do
+              yield (word & mask) >> shift
+
+              mask >>= 8
+              shift -= 8
+            end
+          else
+            raise(StandardError,"invalid endianness: #{@endian}")
           end
         end
 
