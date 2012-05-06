@@ -20,6 +20,7 @@
 require 'ronin/formatting/extensions/binary/base64'
 require 'ronin/formatting/extensions/binary/integer'
 require 'ronin/formatting/extensions/text'
+require 'ronin/binary/hexdump/parser'
 require 'ronin/binary/template'
 
 require 'enumerator'
@@ -402,88 +403,7 @@ class String
   # @api public
   #
   def unhexdump(options={})
-    case (format = options[:format])
-    when :od
-      address_base = 8
-      base         = 8
-      word_size    = 2
-    when :hexdump
-      address_base = 16
-      base         = 16
-      word_size    = 2
-    else
-      address_base = 16
-      base         = 16
-      word_size    = 1
-    end
-
-    case options[:encoding]
-    when :binary
-      base = 2
-    when :octal, :octal_bytes, :octal_shorts, :octal_ints, :octal_quads
-      base = 8
-    when :decimal, :decimal_bytes, :decimal_shorts, :decimal_ints, :decimal_quads
-      base = 10
-    when :hex, :hex_bytes, :hex_shorts, :hex_ints, :hex_quads
-      base = 16
-    end
-
-    case options[:encoding]
-    when :binary, :octal_bytes, :decimal_bytes, :hex_bytes
-      word_size = 1
-    when :octal_shorts, :decimal_shorts, :hex_shorts
-      word_size = 2
-    when :octal_ints, :decimal_ints, :hex_ints
-      word_size = 4
-    when :octal_quads, :decimal_quads, :hex_quads
-      word_size = 8
-    end
-
-    current_addr = last_addr = first_addr = nil
-    repeated = false
-
-    segment_length = (options[:segment] || 16)
-    segment = []
-    buffer = []
-
-    each_line do |line|
-      if format == :hexdump
-        line = line.gsub(/\s+\|.+\|\s*$/,'')
-      end
-
-      words = line.split
-
-      if words.first == '*'
-        repeated = true
-      elsif words.length > 0
-        current_addr = words.shift.to_i(address_base)
-        first_addr ||= current_addr
-
-        if repeated
-          (((current_addr - last_addr) / segment.length) - 1).times do
-            buffer += segment
-          end
-
-          repeated = false
-        end
-
-        segment.clear
-
-        words.each do |word|
-          if (base != 10 && word =~ /^(\\[0abtnvfr\\]|.)$/)
-            word.hex_unescape.each_byte { |b| segment << b }
-          else
-            segment += word.to_i(base).bytes(word_size)
-          end
-        end
-
-        segment = segment[0,segment_length]
-        buffer += segment
-        last_addr = current_addr
-      end
-    end
-
-    return buffer[0,(last_addr - first_addr)]
+    Ronin::Binary::Hexdump::Parser.new(options).parse(self)
   end
 
 end
