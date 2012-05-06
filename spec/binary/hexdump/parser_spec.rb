@@ -183,6 +183,20 @@ describe Binary::Hexdump::Parser do
       end
     end
 
+    context "named chars" do
+      subject do
+        described_class.new(:format => :od, :encoding => :hex_bytes)
+      end
+
+      let(:mask)  { ~(1 << 7) }
+      let(:bytes)   { ascii.map { |b| b & mask } }
+      let(:hexdump) { load_hexdump('od_named_chars') }
+
+      it "should unhexdump named characters" do
+        subject.parse(hexdump).should == bytes
+      end
+    end
+
     context "hex bytes" do
       subject do
         described_class.new(:format => :od, :encoding => :hex_bytes)

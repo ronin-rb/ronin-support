@@ -31,20 +31,54 @@ module Ronin
       #
       class Parser
 
-        CHARS = {}
+        include Chars
 
-        Chars::PRINTABLE.each_char do |c|
-          CHARS[c] = c
-        end
+        CHARS = Hash[PRINTABLE.chars.sort.zip(PRINTABLE.bytes.sort)]
+        CHARS['\0'] = 0x00
+        CHARS['\a'] = 0x07
+        CHARS['\b'] = 0x08
+        CHARS['\t'] = 0x09
+        CHARS['\n'] = 0x0a
+        CHARS['\v'] = 0x0b
+        CHARS['\f'] = 0x0c
+        CHARS['\r'] = 0x0d
 
-        CHARS['\0'] = "\0"
-        CHARS['\a'] = "\a"
-        CHARS['\b'] = "\b"
-        CHARS['\t'] = "\t"
-        CHARS['\n'] = "\n"
-        CHARS['\v'] = "\v"
-        CHARS['\f'] = "\f"
-        CHARS['\r'] = "\r"
+        # od named characters
+        CHARS['nul'] = 0x00
+        CHARS['soh'] = 0x01
+        CHARS['stx'] = 0x02
+        CHARS['etx'] = 0x03
+        CHARS['eot'] = 0x04
+        CHARS['enq'] = 0x05
+        CHARS['ack'] = 0x06
+        CHARS['bel'] = 0x07
+        CHARS['bs']  = 0x08
+        CHARS['ht']  = 0x09
+        CHARS['lf']  = 0x0a
+        CHARS['nl']  = 0x0a
+        CHARS['vt']  = 0x0b
+        CHARS['ff']  = 0x0c
+        CHARS['cr']  = 0x0d
+        CHARS['so']  = 0x0e
+        CHARS['si']  = 0x0f
+        CHARS['dle'] = 0x10
+        CHARS['dc1'] = 0x11
+        CHARS['dc2'] = 0x12
+        CHARS['dc3'] = 0x13
+        CHARS['dc4'] = 0x14
+        CHARS['nak'] = 0x15
+        CHARS['syn'] = 0x16
+        CHARS['etb'] = 0x17
+        CHARS['can'] = 0x18
+        CHARS['em']  = 0x19
+        CHARS['sub'] = 0x1a
+        CHARS['esc'] = 0x1b
+        CHARS['fs']  = 0x1c
+        CHARS['gs']  = 0x1d
+        CHARS['rs']  = 0x1e
+        CHARS['us']  = 0x1f
+        CHARS['sp']  = 0x20
+        CHARS['del'] = 0x7f
 
         #
         # Initializes the hexdump parser.
@@ -162,7 +196,7 @@ module Ronin
 
               words.each do |word|
                 if (@base != 10 && CHARS.has_key?(word))
-                  CHARS[word].each_byte { |b| segment << b }
+                  segment << CHARS[word]
                 else
                   segment += word.to_i(@base).bytes(@word_size)
                 end
