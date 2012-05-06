@@ -124,6 +124,18 @@ module Ronin
         # Default segment length
         SEGMENT_LENGTH = 16
 
+        # The base of all addresses to parse
+        attr_accessor :address_base
+
+        # The base of all words to parse
+        attr_accessor :base
+
+        # The size of words to parse
+        attr_accessor :word_size
+
+        # The length of the segment to parse
+        attr_accessor :segment_length
+
         #
         # Initializes the hexdump parser.
         #
@@ -238,8 +250,8 @@ module Ronin
                 end
               end
 
-              segment = segment[0,@segment_length]
-              buffer += segment
+              segment   = segment[0,@segment_length]
+              buffer   += segment
               last_addr = current_addr
             end
           end
