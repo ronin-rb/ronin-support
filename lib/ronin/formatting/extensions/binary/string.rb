@@ -398,7 +398,8 @@ class String
   # @option options [Integer] :segment (16)
   #   The length in bytes of each segment in the hexdump.
   #
-  # @return [String] The raw-data from the hexdump.
+  # @return [Array<Integer>]
+  #   The raw-data from the hexdump.
   #
   # @api public
   #

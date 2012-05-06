@@ -110,7 +110,7 @@ module Ronin
         # @param [#each_line] hexdump
         #   The hexdump output.
         #
-        # @return [String]
+        # @return [Array<Integer>]
         #   The raw-data from the hexdump.
         #
         def parse(hexdump)
