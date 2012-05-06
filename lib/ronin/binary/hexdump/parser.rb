@@ -230,7 +230,7 @@ module Ronin
             if words.first == '*'
               repeated = true
             elsif words.length > 0
-              current_addr = words.shift.to_i(@address_base)
+              current_addr = parse_address(words.shift)
               first_addr ||= current_addr
 
               if repeated
@@ -244,10 +244,8 @@ module Ronin
               segment.clear
 
               words.each do |word|
-                if (@chars && @chars.has_key?(word))
-                  segment << @chars[word]
-                else
-                  segment += word.to_i(@base).bytes(@word_size)
+                parse_bytes(parse_word(word)) do |byte|
+                  segment << byte
                 end
               end
 
@@ -258,6 +256,24 @@ module Ronin
           end
 
           return buffer[0,(last_addr - first_addr)]
+        end
+
+        protected
+
+        def parse_address(address)
+          address.to_i(@address_base)
+        end
+
+        def parse_word(word)
+          if (@chars && @chars.has_key?(word))
+            @chars[word]
+          else
+            word.to_i(@base)
+          end
+        end
+
+        def parse_bytes(word,&block)
+          word.bytes(@word_size).each(&block)
         end
 
       end
