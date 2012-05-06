@@ -78,15 +78,29 @@ describe Wordlist do
 
       file.to_a.should == words
     end
+
+    it "should raise a TypeError for non-String / non-Enumerable objects" do
+      lambda {
+        described_class.new(Object.new)
+      }.should raise_error(TypeError)
+    end
   end
 
   describe "#each_word" do
-    it "should raise a TypeError for non-String / non-Enumerable objects" do
-      wordlist = described_class.new(Object.new)
+    context "with wordlist file" do
+      subject { described_class.new(@path) }
 
-      lambda {
-        wordlist.each_word { |word| }
-      }.should raise_error(TypeError)
+      it "should enumerate over the words" do
+        subject.each_word.to_a.should == words
+      end
+    end
+
+    context "with words" do
+      subject { described_class.new(words) }
+
+      it "should enumerate over the words" do
+        subject.each_word.to_a.should == words
+      end
     end
   end
 

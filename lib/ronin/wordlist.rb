@@ -31,8 +31,15 @@ module Ronin
 
     include Enumerable
 
-    # The path to the wordlist file or a list of words
-    attr_accessor :list
+    # The path to the wordlist file
+    #
+    # @since 0.5.0
+    attr_reader :path
+
+    # The words for the list
+    #
+    # @since 0.5.0
+    attr_reader :words
 
     # Mutation rules to apply to every word in the list
     attr_reader :mutations
@@ -40,7 +47,7 @@ module Ronin
     #
     # Initializes the wordlist.
     #
-    # @param [String, Enumerable] list
+    # @param [String, Enumerable] wordlist
     #   The path of the wordlist or list of words.
     #
     # @param [Hash{Regexp,String,Symbol => Symbol,#each}] mutations
@@ -51,6 +58,9 @@ module Ronin
     #
     # @yieldparam [Wordlist] wordlist
     #   The new wordlist object.
+    #
+    # @raise [TypeError]
+    #   The list was not a path to a wordlist file, nor a list of words.
     #
     # @example Use a file wordlist
     #   wordlist = Wordlist.new('passwords.txt')
@@ -65,8 +75,18 @@ module Ronin
     #
     # @api public
     #
-    def initialize(list,mutations={})
-      @list      = list
+    def initialize(wordlist,mutations={})
+      case wordlist
+      when String
+        @path  = wordlist
+        @words = nil
+      when Enumerable
+        @path  = nil
+        @words = wordlist
+      else
+        raise(TypeError,"wordlist must be a path or Enumerable")
+      end
+
       @mutations = {}
       @mutations.merge!(mutations)
 
@@ -145,6 +165,18 @@ module Ronin
     end
 
     #
+    # The wordlist file or list of words.
+    #
+    # @return [String, Enumerable]
+    #   The path to the wordlist file or list of words.
+    #
+    # @semipublic
+    #
+    def list
+      @path || @words
+    end
+
+    #
     # Iterates over each word in the list.
     #
     # @yield [word]
@@ -156,25 +188,22 @@ module Ronin
     # @return [Enumerator]
     #   If no block is given, an Enumerator will be returned.
     #
-    # @raise [TypeError]
-    #   The list was not a path to a wordlist file, nor a list of words.
+    # @raise [RuntimeError]
+    #   {#path} or {#words} must be set.
     #
     # @api public
     #
     def each_word(&block)
       return enum_for(:each_word) unless block
 
-      case @list
-      when String
-        File.open(@list) do |file|
+      if @path
+        File.open(@path) do |file|
           file.each_line do |line|
             yield line.chomp
           end
         end
-      when Enumerable
-        @list.each(&block)
-      else
-        raise(TypeError,"list must be a path or Enumerable")
+      elsif @words
+        @words.each(&block)
       end
     end
 
