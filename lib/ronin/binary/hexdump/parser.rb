@@ -17,8 +17,6 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/formatting/extensions/binary/string'
-
 require 'chars'
 
 module Ronin
@@ -273,7 +271,15 @@ module Ronin
         end
 
         def parse_bytes(word,&block)
-          word.bytes(@word_size).each(&block)
+          mask = 0xff
+          shift = 0
+
+          @word_size.times do
+            yield (word & mask) >> shift
+
+            mask <<= 8
+            shift += 8
+          end
         end
 
       end
