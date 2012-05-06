@@ -263,10 +263,32 @@ module Ronin
 
         protected
 
+        #
+        # Parses an address.
+        #
+        # @param [String] address
+        #   The text of the address.
+        #
+        # @return [Integer]
+        #   The parsed address.
+        #
+        # @api private
+        #   
         def parse_address(address)
           address.to_i(@address_base)
         end
 
+        #
+        # Parses a word.
+        #
+        # @param [String] word
+        #   The text of the word.
+        #
+        # @return [Integer]
+        #   The parsed word.
+        #
+        # @api private
+        #   
         def parse_word(word)
           if (@chars && @chars.has_key?(word))
             @chars[word]
@@ -275,6 +297,23 @@ module Ronin
           end
         end
 
+        #
+        # Parses the bytes from a word.
+        #
+        # @param [Integer] word
+        #   The word to parse.
+        #
+        # @yield [byte]
+        #   Each byte will be yielded to the given block.
+        #
+        # @yieldparam [Integer] byte
+        #   A byte from the word.
+        #
+        # @raise [StandardError]
+        #   Unknown endianness.
+        #
+        # @api private
+        #   
         def parse_bytes(word,&block)
           case @endian
           when :little
