@@ -390,10 +390,12 @@ class String
   #   * `:decimal_ints`
   #   * `:decimal_quads`
   #   * `:hex`
+  #   * `:hex_chars`
   #   * `:hex_bytes`
   #   * `:hex_shorts`
   #   * `:hex_ints`
   #   * `:hex_quads`
+  #   * `:named_chars`
   #
   # @option options [Integer] :segment (16)
   #   The length in bytes of each segment in the hexdump.
