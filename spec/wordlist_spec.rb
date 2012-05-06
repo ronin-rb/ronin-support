@@ -1,16 +1,15 @@
 require 'spec_helper'
 require 'ronin/wordlist'
 
-require 'tempfile'
+require 'tmpdir'
 
 describe Wordlist do
   let(:words) { %w[foo bar baz] }
+  let(:path)  { File.join(Dir.tmpdir,'ronin-support-wordlist') }
 
   before(:all) do
-    Tempfile.open('ronin-support-wordlist') do |file|
-      words.each { |word| file.puts word }
-
-      @path = file.path
+    File.open(path,'w') do |file|
+      file.puts(*words)
     end
   end
 
@@ -42,41 +41,45 @@ describe Wordlist do
   end
 
   describe "create" do
-    let(:path) { Tempfile.new('ronin-support-saved-wordlist').path }
+    let(:created_path) { File.join(Dir.tmpdir,'ronin-support-created-wordlist') }
     let(:text) { words.join(' ') }
 
     it "should return the new Wordlist object" do
-      wordlist = described_class.create(path,text)
+      wordlist = described_class.create(created_path,text)
 
       wordlist.to_a.should =~ words
     end
 
     it "should create a wordlist file from text" do
-      described_class.create(path,text)
+      described_class.create(created_path,text)
 
-      saved_words = File.open(path).each_line.map { |line| line.chomp }
+      saved_words = File.open(created_path).each_line.map(&:chomp)
 
       saved_words.should =~ words
     end
 
     it "should apply mutations to the created wordlist" do
-      described_class.create(path,text, 'o' => ['0'])
+      described_class.create(created_path,text, 'o' => ['0'])
 
-      saved_words = File.open(path).each_line.map { |line| line.chomp }
+      saved_words = File.open(created_path).each_line.map(&:chomp)
 
       saved_words.should =~ %w[foo f0o fo0 f00 bar baz]
     end
+
+    after(:all) { FileUtils.rm(created_path) }
   end
 
   describe "#initialize" do
     it "should accept a list of words" do
-      subject.to_a.should == words
+      wordlist = described_class.new(path)
+
+      wordlist.to_a.should == words
     end
 
     it "should accept a path to a wordlist file" do
-      file = described_class.new(@path)
+      wordlist = described_class.new(path)
 
-      file.to_a.should == words
+      wordlist.to_a.should == words
     end
 
     it "should raise a TypeError for non-String / non-Enumerable objects" do
@@ -88,7 +91,7 @@ describe Wordlist do
 
   describe "#each_word" do
     context "with wordlist file" do
-      subject { described_class.new(@path) }
+      subject { described_class.new(path) }
 
       it "should enumerate over the words" do
         subject.each_word.to_a.should == words
@@ -130,15 +133,19 @@ describe Wordlist do
   end
 
   describe "#save" do
-    let(:path) { Tempfile.new('ronin-support-saved-wordlist').path }
+    let(:saved_path) { File.join(Dir.tmpdir,'ronin-support-saved-wordlist') }
 
     it "should save the words with mutations to a file" do
-      subject.save(path)
+      subject.save(saved_path)
 
-      saved_words    = File.open(path).each_line.map { |line| line.chomp }
+      saved_words    = File.open(saved_path).each_line.map(&:chomp)
       expected_words = subject.to_a
 
       saved_words.should == expected_words
     end
+
+    after(:all) { FileUtils.rm(saved_path) }
   end
+
+  after(:all) { FileUtils.rm(path) }
 end
