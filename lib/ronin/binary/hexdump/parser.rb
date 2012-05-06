@@ -71,15 +71,18 @@ module Ronin
           :hex_quads      => 8
         }
 
-        CHARS = Hash[PRINTABLE.chars.sort.zip(PRINTABLE.bytes.sort)]
-        CHARS['\0'] = 0x00
-        CHARS['\a'] = 0x07
-        CHARS['\b'] = 0x08
-        CHARS['\t'] = 0x09
-        CHARS['\n'] = 0x0a
-        CHARS['\v'] = 0x0b
-        CHARS['\f'] = 0x0c
-        CHARS['\r'] = 0x0d
+        CHARS = Hash[VISIBLE.chars.sort.zip(VISIBLE.bytes.sort)]
+
+        ESCAPED_CHARS = {
+          '\0' => 0x00,
+          '\a' => 0x07,
+          '\b' => 0x08,
+          '\t' => 0x09,
+          '\n' => 0x0a,
+          '\v' => 0x0b,
+          '\f' => 0x0c,
+          '\r' => 0x0d
+        }
 
         # od named characters
         NAMED_CHARS = {
@@ -199,7 +202,7 @@ module Ronin
 
           case options[:encoding]
           when :hex_chars
-            @chars = CHARS
+            @chars = CHARS.merge(ESCAPED_CHARS)
           when :named_chars
             @chars = CHARS.merge(NAMED_CHARS)
           end
