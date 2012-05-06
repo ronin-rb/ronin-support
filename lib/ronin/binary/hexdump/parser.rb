@@ -33,6 +33,45 @@ module Ronin
 
         include Chars
 
+        # Bases for various encodings
+        BASES = {
+          :binary         => 2,
+          :octal          => 8,
+          :octal_bytes    => 8,
+          :octal_shorts   => 8,
+          :octal_ints     => 8,
+          :octal_quads    => 8,
+          :decimal        => 10,
+          :decimal_bytes  => 10,
+          :decimal_shorts => 10,
+          :decimal_ints   => 10,
+          :decimal_quads  => 10,
+          :hex            => 16,
+          :hex_bytes      => 16,
+          :hex_shorts     => 16,
+          :hex_ints       => 16,
+          :hex_quads      => 16
+        }
+
+        # Wordsizes for various encodings
+        WORD_SIZES = {
+          :binary         => 1,
+          :octal_bytes    => 1,
+          :decimal_bytes  => 1,
+          :hex_bytes      => 1,
+          :hex_chars      => 1,
+          :named_chars    => 1,
+          :octal_shorts   => 2,
+          :decimal_shorts => 2,
+          :hex_shorts     => 2,
+          :octal_ints     => 4,
+          :decimal_ints   => 4,
+          :hex_ints       => 4,
+          :octal_quads    => 8,
+          :decimal_quads  => 8,
+          :hex_quads      => 8
+        }
+
         CHARS = Hash[PRINTABLE.chars.sort.zip(PRINTABLE.bytes.sort)]
         CHARS['\0'] = 0x00
         CHARS['\a'] = 0x07
@@ -81,6 +120,9 @@ module Ronin
           'sp'  => 0x20,
           'del' => 0x7f
         }
+
+        # Default segment length
+        SEGMENT_LENGTH = 16
 
         #
         # Initializes the hexdump parser.
@@ -134,43 +176,9 @@ module Ronin
             @word_size    = 1
           end
 
-          case options[:encoding]
-          when :binary
-            @base = 2
-          when :octal,
-               :octal_bytes,
-               :octal_shorts,
-               :octal_ints,
-               :octal_quads
-            @base = 8
-          when :decimal,
-               :decimal_bytes,
-               :decimal_shorts,
-               :decimal_ints,
-               :decimal_quads
-            @base = 10
-          when :hex,
-               :hex_bytes,
-               :hex_shorts,
-               :hex_ints,
-               :hex_quads
-            @base = 16
-          end
-
-          case options[:encoding]
-          when :binary,
-               :octal_bytes,
-               :decimal_bytes,
-               :hex_bytes,
-               :hex_chars,
-               :named_chars
-            @word_size = 1
-          when :octal_shorts, :decimal_shorts, :hex_shorts
-            @word_size = 2
-          when :octal_ints, :decimal_ints, :hex_ints
-            @word_size = 4
-          when :octal_quads, :decimal_quads, :hex_quads
-            @word_size = 8
+          if options[:encoding]
+            @base      = BASES[options[:encoding]]
+            @word_size = WORD_SIZES[options[:encoding]]
           end
 
           case options[:encoding]
@@ -180,7 +188,7 @@ module Ronin
             @chars = CHARS.merge(NAMED_CHARS)
           end
 
-          @segment_length = options.fetch(:segment,16)
+          @segment_length = options.fetch(:segment,SEGMENT_LENGTH)
         end
 
         #
