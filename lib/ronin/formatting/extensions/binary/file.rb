@@ -17,7 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/formatting/extensions/binary/string'
+require 'ronin/binary/hexdump/parser'
 
 class File
 
@@ -38,7 +38,7 @@ class File
   # @api public
   #
   def File.unhexdump(path,options={})
-    File.read(path).unhexdump(options)
+    Ronin::Binary::Hexdump::Parser.new(options).parse(File.new(path))
   end
 
 end
