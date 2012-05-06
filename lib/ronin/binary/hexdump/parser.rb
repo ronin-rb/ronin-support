@@ -17,7 +17,9 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/formatting/extensions/binary/integer'
+require 'ronin/formatting/extensions/binary/string'
+
+require 'chars'
 
 module Ronin
   module Binary
@@ -28,6 +30,21 @@ module Ronin
       # @api semipublic
       #
       class Parser
+
+        CHARS = {}
+
+        Chars::PRINTABLE.each_char do |c|
+          CHARS[c] = c
+        end
+
+        CHARS['\0'] = "\0"
+        CHARS['\a'] = "\a"
+        CHARS['\b'] = "\b"
+        CHARS['\t'] = "\t"
+        CHARS['\n'] = "\n"
+        CHARS['\v'] = "\v"
+        CHARS['\f'] = "\f"
+        CHARS['\r'] = "\r"
 
         #
         # Initializes the hexdump parser.
@@ -144,8 +161,8 @@ module Ronin
               segment.clear
 
               words.each do |word|
-                if (@base != 10 && word =~ /^(\\[0abtnvfr\\]|.)$/)
-                  word.hex_unescape.each_byte { |b| segment << b }
+                if (@base != 10 && CHARS.has_key?(word))
+                  CHARS[word].each_byte { |b| segment << b }
                 else
                   segment += word.to_i(@base).bytes(@word_size)
                 end
