@@ -28,12 +28,45 @@ class File
   #   The path of the hexdump file.
   #
   # @param [Hash] options
-  #   Hexdump options.
+  #   Additional options.
+  #
+  # @option options [Symbol] :format
+  #   The expected format of the hexdump. Must be either `:od` or
+  #   `:hexdump`.
+  #
+  # @option options [Symbol] :encoding
+  #   Denotes the encoding used for the bytes within the hexdump.
+  #   Must be one of the following:
+  #
+  #   * `:binary`
+  #   * `:octal`
+  #   * `:octal_bytes`
+  #   * `:octal_shorts`
+  #   * `:octal_ints`
+  #   * `:octal_quads` (Ruby 1.9 only)
+  #   * `:decimal`
+  #   * `:decimal_bytes`
+  #   * `:decimal_shorts`
+  #   * `:decimal_ints`
+  #   * `:decimal_quads` (Ruby 1.9 only)
+  #   * `:hex`
+  #   * `:hex_chars`
+  #   * `:hex_bytes`
+  #   * `:hex_shorts`
+  #   * `:hex_ints`
+  #   * `:hex_quads`
+  #   * `:named_chars` (Ruby 1.9 only)
+  #   * `:floats`
+  #   * `:doubles`
+  #
+  # @option options [:little, :big, :network] :endian (:little)
+  #   The endianness of the words.
+  #
+  # @option options [Integer] :segment (16)
+  #   The length in bytes of each segment in the hexdump.
   #
   # @return [String]
-  #   The original binary data.
-  #
-  # @see String#unhexdump.
+  #   The raw-data from the hexdump.
   #
   # @api public
   #
