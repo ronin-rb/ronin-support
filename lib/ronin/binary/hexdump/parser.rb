@@ -330,6 +330,11 @@ module Ronin
         # @api private
         #   
         def parse_bytes(word,&block)
+          if @word_size == 1
+            yield word
+            return
+          end
+
           case @endian
           when :little
             mask = 0xff
