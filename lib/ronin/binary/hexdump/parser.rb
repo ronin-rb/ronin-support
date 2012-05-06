@@ -247,7 +247,7 @@ module Ronin
               segment.clear
 
               words.each do |word|
-                parse_bytes(parse_word(word)) do |byte|
+                parse_bytes(parse_int(word)) do |byte|
                   segment << byte
                 end
               end
@@ -294,21 +294,21 @@ module Ronin
         end
 
         #
-        # Parses a word.
+        # Parses an Integer.
         #
-        # @param [String] word
-        #   The text of the word.
+        # @param [String] int
+        #   The text of the Integer.
         #
         # @return [Integer]
         #   The parsed word.
         #
         # @api private
         #   
-        def parse_word(word)
+        def parse_int(int)
           if @chars
-            parse_char(word)
+            parse_char(int)
           else
-            word.to_i(@base)
+            int.to_i(@base)
           end
         end
 
