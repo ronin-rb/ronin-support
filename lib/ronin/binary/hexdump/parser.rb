@@ -279,6 +279,21 @@ module Ronin
         end
 
         #
+        # Parses a character or hex-byte.
+        #
+        # @param [String] char
+        #   The character to parse.
+        #
+        # @return [Integer]
+        #   The parsed byte.
+        #
+        def parse_char(char)
+          @chars.fetch(char) do |hex_byte|
+            hex_byte.to_i(16)
+          end
+        end
+
+        #
         # Parses a word.
         #
         # @param [String] word
@@ -290,8 +305,8 @@ module Ronin
         # @api private
         #   
         def parse_word(word)
-          if (@chars && @chars.has_key?(word))
-            @chars[word]
+          if @chars
+            parse_char(word)
           else
             word.to_i(@base)
           end
