@@ -50,7 +50,8 @@ module Ronin
           :hex_bytes      => 16,
           :hex_shorts     => 16,
           :hex_ints       => 16,
-          :hex_quads      => 16
+          :hex_quads      => 16,
+          :named_chars    => 16
         }
 
         # Wordsizes for various encodings
@@ -189,8 +190,8 @@ module Ronin
           end
 
           if options[:encoding]
-            @base      = BASES[options[:encoding]]
-            @word_size = WORD_SIZES[options[:encoding]]
+            @base      = BASES.fetch(options[:encoding])
+            @word_size = WORD_SIZES.fetch(options[:encoding])
           end
 
           case options[:encoding]
