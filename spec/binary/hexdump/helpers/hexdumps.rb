@@ -1,16 +1,13 @@
 module Helpers
+  DIRECTORY = File.join(File.dirname(__FILE__),'hexdumps')
+
   def load_binary_data(name)
-    path = File.join(File.dirname(__FILE__),'hexdumps',"#{name}.bin")
-    buffer = []
-
-    File.open(path) do |file|
-      file.each_byte { |b| buffer << b }
+    File.open(File.join(DIRECTORY,"#{name}.bin"),'rb') do |file|
+      file.read
     end
-
-    return buffer
   end
 
   def load_hexdump(name)
-    File.read(File.join(File.dirname(__FILE__),'hexdumps',"#{name}.txt"))
+    File.read(File.join(DIRECTORY,"#{name}.txt"))
   end
 end

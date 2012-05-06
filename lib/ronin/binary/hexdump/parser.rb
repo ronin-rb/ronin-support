@@ -29,8 +29,6 @@ module Ronin
       #
       class Parser
 
-        include Chars
-
         # Bases for various encodings
         BASES = {
           :binary         => 2,
@@ -49,7 +47,9 @@ module Ronin
           :hex_shorts     => 16,
           :hex_ints       => 16,
           :hex_quads      => 16,
-          :named_chars    => 16
+          :named_chars    => 16,
+          :floats         => 10,
+          :doubles        => 10
         }
 
         # Wordsizes for various encodings
@@ -68,10 +68,12 @@ module Ronin
           :hex_ints       => 4,
           :octal_quads    => 8,
           :decimal_quads  => 8,
-          :hex_quads      => 8
+          :hex_quads      => 8,
+          :floats         => 4,
+          :doubles        => 8
         }
 
-        CHARS = Hash[VISIBLE.chars.sort.zip(VISIBLE.bytes.sort)]
+        CHARS = Hash[Chars::VISIBLE.chars.sort.zip(Chars::VISIBLE.bytes.sort)]
 
         ESCAPED_CHARS = {
           '\0' => 0x00,
@@ -126,6 +128,12 @@ module Ronin
         # Default segment length
         SEGMENT_LENGTH = 16
 
+        # The type of data to parse (`:integer` / `:float`)
+        attr_accessor :type
+
+        # The endianness of data to parse (`:little`, `:big`, `:network`)
+        attr_accessor :endian
+
         # The base of all addresses to parse
         attr_accessor :address_base
 
@@ -157,19 +165,21 @@ module Ronin
         #   * `:octal_bytes`
         #   * `:octal_shorts`
         #   * `:octal_ints`
-        #   * `:octal_quads`
+        #   * `:octal_quads` (Ruby 1.9 only)
         #   * `:decimal`
         #   * `:decimal_bytes`
         #   * `:decimal_shorts`
         #   * `:decimal_ints`
-        #   * `:decimal_quads`
+        #   * `:decimal_quads` (Ruby 1.9 only)
         #   * `:hex`
         #   * `:hex_chars`
         #   * `:hex_bytes`
         #   * `:hex_shorts`
         #   * `:hex_ints`
-        #   * `:hex_quads`
+        #   * `:hex_quads` (Ruby 1.9 only)
         #   * `:named_chars`
+        #   * `:floats`
+        #   * `:doubles`
         #
         # @option options [:little, :big, :network] :endian (:little)
         #   The endianness of the words.
@@ -178,6 +188,9 @@ module Ronin
         #   The length in bytes of each segment in the hexdump.
         #
         def initialize(options={})
+          @type   = :integer
+          @endian = options.fetch(:endian,:little)
+
           case (@format = options[:format])
           when :od
             @address_base = 8
@@ -194,11 +207,14 @@ module Ronin
           end
 
           if options[:encoding]
+            case options[:encoding]
+            when :floats, :doubles
+              @type = :float
+            end
+
             @base      = BASES.fetch(options[:encoding])
             @word_size = WORD_SIZES.fetch(options[:encoding])
           end
-
-          @endian = options.fetch(:endian,:little)
 
           case options[:encoding]
           when :hex_chars
@@ -216,15 +232,15 @@ module Ronin
         # @param [#each_line] hexdump
         #   The hexdump output.
         #
-        # @return [Array<Integer>]
+        # @return [String]
         #   The raw-data from the hexdump.
         #
         def parse(hexdump)
           current_addr = last_addr = first_addr = nil
           repeated = false
 
-          segment = []
-          buffer  = []
+          segment = ''
+          buffer  = ''
 
           hexdump.each_line do |line|
             if @format == :hexdump
@@ -241,22 +257,15 @@ module Ronin
 
               if repeated
                 (((current_addr - last_addr) / segment.length) - 1).times do
-                  buffer += segment
+                  buffer << segment
                 end
 
                 repeated = false
               end
 
-              segment.clear
+              segment = pack(words.map { |word| parse_word(word) })
 
-              words.each do |word|
-                parse_bytes(parse_int(word)) do |byte|
-                  segment << byte
-                end
-              end
-
-              segment   = segment[0,@segment_length]
-              buffer   += segment
+              buffer   << segment
               last_addr = current_addr
             end
           end
@@ -265,6 +274,41 @@ module Ronin
         end
 
         protected
+
+        # `Array#pack` codes for various types/endianness/word-sizes
+        FORMATS = {
+          :integer => {
+            :little => {
+              1 => 'C',
+              2 => (RUBY_VERSION > '1.9' ? 'S<' : 'v'),
+              4 => (RUBY_VERSION > '1.9' ? 'L<' : 'V'),
+              8 => 'Q<'
+            },
+
+            :big => {
+              1 => 'C',
+              2 => (RUBY_VERSION > '1.9' ? 'S>' : 'n'),
+              4 => (RUBY_VERSION > '1.9' ? 'L>' : 'N'),
+              8 => 'Q>'
+            }
+          },
+
+          :float => {
+            :little => {
+              4 => 'e',
+              8 => 'E'
+            },
+
+            :big => {
+              4 => 'g',
+              8 => 'G'
+            }
+          }
+        }
+
+        # alias network endianness to big endian
+        FORMATS[:integer][:network] = FORMATS[:integer][:big]
+        FORMATS[:float][:network]   = FORMATS[:float][:big]
 
         #
         # Parses an address.
@@ -316,52 +360,49 @@ module Ronin
         end
 
         #
-        # Parses the bytes from a word.
+        # Parses a float.
         #
-        # @param [Integer] word
+        # @param [String] float
+        #   The text of the float.
+        #
+        # @return [Float]
+        #   The parsed float.
+        #
+        def parse_float(float)
+          float.to_f
+        end
+
+        #
+        # Parses a word within a segment.
+        #
+        # @param [String] word
         #   The word to parse.
         #
-        # @yield [byte]
-        #   Each byte will be yielded to the given block.
+        # @return [Integer, Float]
+        #   The value of the word.
+        #  
+        def parse_word(word)
+          case @type
+          when :integer
+            parse_int(word)
+          when :float
+            parse_float(word)
+          end
+        end
+
         #
-        # @yieldparam [Integer] byte
-        #   A byte from the word.
+        # Packs a segment back into bytes.
         #
-        # @raise [StandardError]
-        #   Unknown endianness.
+        # @param [Array<Integer, Float>] segment
+        #   A segment of words.
+        #
+        # @return [String]
+        #   The packed segment.
         #
         # @api private
         #   
-        def parse_bytes(word,&block)
-          if @word_size == 1
-            yield word
-            return
-          end
-
-          case @endian
-          when :little
-            mask = 0xff
-            shift = 0
-
-            @word_size.times do
-              yield((word & mask) >> shift)
-
-              mask <<= 8
-              shift += 8
-            end
-          when :big, :network
-            mask = 0xff << (8 * (@word_size - 1))
-            shift = (@word_size - 1)
-
-            @word_size.times do
-              yield((word & mask) >> shift)
-
-              mask >>= 8
-              shift -= 8
-            end
-          else
-            raise(StandardError,"invalid endianness: #{@endian}")
-          end
+        def pack(values)
+          values.pack(FORMATS[@type][@endian][@word_size] * values.length)
         end
 
       end

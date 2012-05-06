@@ -123,15 +123,17 @@ describe Binary::Hexdump::Parser do
       end
     end
 
-    context "octal quads" do
-      subject do
-        described_class.new(:format => :od, :encoding => :octal_quads)
-      end
+    if RUBY_VERSION > '1.9'
+      context "octal quads" do
+        subject do
+          described_class.new(:format => :od, :encoding => :octal_quads)
+        end
 
-      let(:hexdump) { load_hexdump('od_octal_quads') }
+        let(:hexdump) { load_hexdump('od_octal_quads') }
 
-      it "should unhexdump octal-quads hexdump output" do
-        subject.parse(hexdump).should == ascii
+        it "should unhexdump octal-quads hexdump output" do
+          subject.parse(hexdump).should == ascii
+        end
       end
     end
 
@@ -171,15 +173,17 @@ describe Binary::Hexdump::Parser do
       end
     end
 
-    context "decimal quads" do
-      subject do
-        described_class.new(:format => :od, :encoding => :decimal_quads)
-      end
+    if RUBY_VERSION > '1.9'
+      context "decimal quads" do
+        subject do
+          described_class.new(:format => :od, :encoding => :decimal_quads)
+        end
 
-      let(:hexdump) { load_hexdump('od_decimal_quads') }
+        let(:hexdump) { load_hexdump('od_decimal_quads') }
 
-      it "should unhexdump decimal-quads hexdump output" do
-        subject.parse(hexdump).should == ascii
+        it "should unhexdump decimal-quads hexdump output" do
+          subject.parse(hexdump).should == ascii
+        end
       end
     end
 
@@ -188,12 +192,12 @@ describe Binary::Hexdump::Parser do
         described_class.new(:format => :od, :encoding => :named_chars)
       end
 
-      let(:mask)  { ~(1 << 7) }
-      let(:bytes)   { ascii.map { |b| b & mask } }
+      let(:mask)    { ~(1 << 7) }
+      let(:data)    { ascii.bytes.map { |b| (b & mask).chr }.join }
       let(:hexdump) { load_hexdump('od_named_chars') }
 
       it "should unhexdump named characters" do
-        subject.parse(hexdump).should == bytes
+        subject.parse(hexdump).should == data
       end
     end
 
@@ -233,15 +237,53 @@ describe Binary::Hexdump::Parser do
       end
     end
 
-    context "hex quads" do
+    if RUBY_VERSION > '1.9'
+      context "hex quads" do
+        subject do
+          described_class.new(:format => :od, :encoding => :hex_quads)
+        end
+
+        let(:hexdump) { load_hexdump('od_hex_quads') }
+
+        it "should unhexdump hex-quads hexdump output" do
+          subject.parse(hexdump).should == ascii
+        end
+      end
+    end
+
+    context "floats" do
       subject do
-        described_class.new(:format => :od, :encoding => :hex_quads)
+        described_class.new(:format => :od, :encoding => :floats)
       end
 
-      let(:hexdump) { load_hexdump('od_hex_quads') }
+      let(:data) do
+        data = ascii.dup
+        data[-4..-1] = ("\0" * 4)
+        data
+      end
 
-      it "should unhexdump hex-quads hexdump output" do
-        subject.parse(hexdump).should == ascii
+      let(:hexdump) { load_hexdump('od_floats') }
+
+      it "should unhexdump floats" do
+        subject.parse(hexdump).should == data
+      end
+    end
+
+    context "doubles" do
+      subject do
+        described_class.new(:format => :od, :encoding => :doubles)
+      end
+
+      let(:data) do
+        data = ascii.dup
+        data[-8..-1] = ("\0" * 8)
+        data
+      end
+
+      let(:hexdump) { load_hexdump('od_doubles') }
+
+      it "should unhexdump doubles" do
+        subject.parse(hexdump).should == data
       end
     end
 
