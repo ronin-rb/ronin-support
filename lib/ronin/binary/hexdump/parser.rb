@@ -258,7 +258,7 @@ module Ronin
             end
           end
 
-          return buffer[0,(last_addr - first_addr)]
+          return buffer[0,last_addr - first_addr]
         end
 
         protected
