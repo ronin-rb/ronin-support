@@ -23,8 +23,6 @@ require 'ronin/formatting/extensions/text'
 require 'ronin/binary/hexdump/parser'
 require 'ronin/binary/template'
 
-require 'enumerator'
-
 begin
   require 'zlib'
 rescue Gem::LoadError => e
