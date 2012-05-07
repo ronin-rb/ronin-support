@@ -129,22 +129,22 @@ module Ronin
         SEGMENT_LENGTH = 16
 
         # The type of data to parse (`:integer` / `:float`)
-        attr_accessor :type
+        attr_reader :type
 
         # The endianness of data to parse (`:little`, `:big`, `:network`)
-        attr_accessor :endian
+        attr_reader :endian
 
         # The base of all addresses to parse
-        attr_accessor :address_base
+        attr_reader :address_base
 
         # The base of all words to parse
-        attr_accessor :base
+        attr_reader :base
 
         # The size of words to parse
-        attr_accessor :word_size
+        attr_reader :word_size
 
         # The length of the segment to parse
-        attr_accessor :segment_length
+        attr_reader :segment_length
 
         #
         # Initializes the hexdump parser.
