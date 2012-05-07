@@ -39,7 +39,7 @@ describe String do
   end
 
   describe "#unpack" do
-    subject { "4\x12\x00\x00hello\0" }
+    subject { "\x34\x12\x00\x00hello\0" }
 
     let(:data) { [0x1234, "hello"] }
 
@@ -107,7 +107,7 @@ describe String do
       end
 
       it "should accept String#unpack template strings" do
-        i386_packed_long.depack('L').should == [subject]
+        i386_packed_long.depack('V').should == [subject]
       end
     end
   end
