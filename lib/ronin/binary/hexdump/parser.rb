@@ -73,6 +73,12 @@ module Ronin
           :doubles        => 8
         }
 
+        # The format to parse (`:hexdump` / `:od`)
+        attr_reader :format
+
+        # The encoding of the hexdump data
+        attr_reader :encoding
+
         # The type of data to parse (`:integer` / `:float`)
         attr_reader :type
 
@@ -127,10 +133,18 @@ module Ronin
         #   The endianness of the words.
         #
         def initialize(options={})
-          @type   = :integer
+          @format   = options[:format]
+          @encoding = options[:encoding]
+
+          @type = case @encoding
+                  when :floats, :doubles
+                    :float
+                  else
+                    :integer
+                  end
           @endian = options.fetch(:endian,:little)
 
-          case (@format = options[:format])
+          case @format
           when :od
             @address_base = 8
             @base         = 8
@@ -145,17 +159,12 @@ module Ronin
             @word_size    = 1
           end
 
-          if options[:encoding]
-            case options[:encoding]
-            when :floats, :doubles
-              @type = :float
-            end
-
+          if @encoding
             @base      = BASES.fetch(options[:encoding])
             @word_size = WORD_SIZES.fetch(options[:encoding])
           end
 
-          case options[:encoding]
+          case @encoding
           when :hex_chars
             @chars = CHARS.merge(ESCAPED_CHARS)
           when :named_chars
