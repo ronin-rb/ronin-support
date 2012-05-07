@@ -206,10 +206,10 @@ describe String do
   describe "#unhexdump" do
     subject { "00000000  23 20 52 6f 6e 69 6e 20  53 75 70 70 6f 72 74 0a  |# Ronin Support.|\n00000010\n" }
 
-    let(:bytes) { [35, 32, 82, 111, 110, 105, 110, 32, 83, 117, 112, 112, 111, 114, 116, 10] }
+    let(:raw) { "# Ronin Support\n" }
 
     it "should unhexdump a String" do
-      subject.unhexdump.should == bytes
+      subject.unhexdump.should == raw
     end
   end
 end
