@@ -73,9 +73,6 @@ module Ronin
           :doubles        => 8
         }
 
-        # Default segment length
-        SEGMENT_LENGTH = 16
-
         # The type of data to parse (`:integer` / `:float`)
         attr_reader :type
 
@@ -90,9 +87,6 @@ module Ronin
 
         # The base of all words to parse
         attr_reader :base
-
-        # The length of the segment to parse
-        attr_reader :segment_length
 
         #
         # Initializes the hexdump parser.
@@ -132,9 +126,6 @@ module Ronin
         # @option options [:little, :big, :network] :endian (:little)
         #   The endianness of the words.
         #
-        # @option options [Integer] :segment (16)
-        #   The length in bytes of each segment in the hexdump.
-        #
         def initialize(options={})
           @type   = :integer
           @endian = options.fetch(:endian,:little)
@@ -170,8 +161,6 @@ module Ronin
           when :named_chars
             @chars = CHARS.merge(NAMED_CHARS)
           end
-
-          @segment_length = options.fetch(:segment,SEGMENT_LENGTH)
         end
 
         #
