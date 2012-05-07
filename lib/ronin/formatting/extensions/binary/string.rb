@@ -90,17 +90,17 @@ class String
   #   The given `arch` does not respond to the `endian` or `address_length`
   #   methods.
   #
-  # @example using archs other than `Ronin::Arch`.
+  # @example using archs other than `Ronin::Arch`:
   #   arch = OpenStruct.new(:endian => :little, :address_length => 4)
   #   
   #   "A\0\0\0".depack(arch)
   #   # => 65
   #
-  # @example using a `Ronin::Arch` arch.
+  # @example using a `Ronin::Arch` arch:
   #   "A\0\0\0".depack(Arch.i386)
   #   # => 65
   #
-  # @example specifying a custom address-length.
+  # @example specifying a custom address-length:
   #   "A\0".depack(Arch.ppc,2)
   #   # => 65
   #

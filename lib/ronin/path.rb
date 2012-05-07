@@ -62,11 +62,11 @@ module Ronin
     # @raise [ArgumentError]
     #   A negative number was given as the first argument.
     #
-    # @example Generate a relative path that goes up 7 directories.
+    # @example Generate a relative path that goes up 7 directories:
     #   Path.up(7)
     #   # => #<Ronin::Path:../../../../../../..>
     #
-    # @example Generate multiple relative paths, going up 1 to 3 directories.
+    # @example Generate multiple relative paths, going up 1 to 3 directories:
     #   Path.up(1..3)
     #   # => [#<Ronin::Path:..>, #<Ronin::Path:../..>,
     #   #<Ronin::Path:../../..>]

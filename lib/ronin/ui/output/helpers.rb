@@ -123,7 +123,7 @@ module Ronin
         # @example
         #   print_info "Connecting ..."
         #
-        # @example Print a formatted message.
+        # @example Print a formatted message:
         #   print_info "Connected to %s", host
         #
         # @since 0.3.0
@@ -148,7 +148,7 @@ module Ronin
         # @return [Boolean]
         #   Specifies whether the messages were successfully printed.
         #
-        # @example Print a formatted message.
+        # @example Print a formatted message:
         #   print_debug "vars: %p %p", vars[0], vars[1]
         #
         # @since 0.3.0
@@ -176,7 +176,7 @@ module Ronin
         # @example
         #   print_warning "Detecting a restricted character in the buffer"
         #
-        # @example Print a formatted message.
+        # @example Print a formatted message:
         #   print_warning "Malformed input detected: %p", user_input
         #
         # @since 0.3.0
@@ -204,7 +204,7 @@ module Ronin
         # @example
         #   print_error "Could not connect!"
         #
-        # @example Print a formatted message.
+        # @example Print a formatted message:
         #   print_error "%p: %s", error.class, error.message
         #
         # @since 0.3.0

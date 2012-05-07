@@ -206,7 +206,7 @@ module Ronin
       #                                        :message_id => 'XXXX',
       #                                        :body => 'Hello'
       #
-      # @example Using the block.
+      # @example Using the block:
       #   smtp_send_message('www.example.com') do |email|
       #     email.to = 'joe@example.com'
       #     email.from 'eve@example.com'

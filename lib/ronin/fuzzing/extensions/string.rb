@@ -50,34 +50,34 @@ class String
   #   A given string set was not a String, Symbol or Enumerable.
   #   A given string set length was not an Integer or Enumerable.
   #
-  # @example Generate Strings with ranges of repeating sub-strings.
+  # @example Generate Strings with ranges of repeating sub-strings:
   #
-  # @example Generate Strings with three alpha chars and one numeric chars.
+  # @example Generate Strings with three alpha chars and one numeric chars:
   #   String.generate([:alpha, 3], :numeric) do |password|
   #     puts password
   #   end
   #
-  # @example Generate Strings with two to four alpha chars.
+  # @example Generate Strings with two to four alpha chars:
   #   String.generate([:alpha, 2..4]) do |password|
   #     puts password
   #   end
   #
-  # @example Generate Strings using alpha and punctuation chars.
+  # @example Generate Strings using alpha and punctuation chars:
   #   String.generate([Chars.alpha + Chars.punctuation, 4]) do |password|
   #     puts password
   #   end
   #
-  # @example Generate Strings from a custom char set.
+  # @example Generate Strings from a custom char set:
   #   String.generate([['a', 'b', 'c'], 3], [['1', '2', '3'], 3]) do |password|
   #     puts password
   #   end
   #
-  # @example Generate Strings containing known Strings.
+  # @example Generate Strings containing known Strings:
   #   String.generate("rock", [:numeric, 4]) do |password|
   #     puts password
   #   end
   #
-  # @example Generate Strings with ranges of repeating sub-strings.
+  # @example Generate Strings with ranges of repeating sub-strings:
   #   String.generate(['/AA', (1..100).step(5)]) do |path|
   #     puts path
   #   end
