@@ -24,7 +24,7 @@ class Integer
   #
   # Extracts a sequence of bytes which represent the Integer.
   #
-  # @param [Integer] address_length
+  # @param [Integer] length
   #   The number of bytes to decode from the Integer.
   #
   # @param [Symbol, String] endian
@@ -55,7 +55,7 @@ class Integer
   #
   # @api public
   #
-  def bytes(address_length,endian=:little)
+  def bytes(length,endian=:little)
     endian = endian.to_sym
     buffer = []
 
@@ -64,17 +64,17 @@ class Integer
       mask  = 0xff
       shift = 0
 
-      address_length.times do |i|
+      length.times do |i|
         buffer << ((self & mask) >> shift)
 
         mask <<= 8
         shift += 8
       end
     when :big
-      shift = ((address_length - 1) * 8)
+      shift = ((length - 1) * 8)
       mask  = (0xff << shift)
 
-      address_length.times do |i|
+      length.times do |i|
         buffer << ((self & mask) >> shift)
 
         mask >>= 8
