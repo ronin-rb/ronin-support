@@ -86,7 +86,7 @@ describe Integer do
     let(:packed) { "7\023\000\000" }
 
     it "should pack Integers using Array#pack codes" do
-      subject.pack('L').should == packed
+      subject.pack('V').should == packed
     end
 
     it "should pack Integers using Binary::Template types" do
