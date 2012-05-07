@@ -45,8 +45,8 @@ class String
   # @param [Integer] address_length
   #   The number of bytes to depack.
   #
-  # @return [Integer]
-  #   The depacked Integer.
+  # @return [Array]
+  #   The values unpacked from the String.
   #
   # @raise [ArgumentError]
   #   The arguments were not a String or a list of Symbols.
