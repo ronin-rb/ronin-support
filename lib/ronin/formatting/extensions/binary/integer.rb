@@ -100,8 +100,8 @@ class Integer
   # @raise [ArgumentError]
   #   The arguments were not a String, Symbol or Architecture object.
   #
-  # @example using a `Array#pack` template String for the arch:
-  #   0x41.pack('L')
+  # @example using a `Array#pack` template:
+  #   0x41.pack('V')
   #   # => "A\0\0\0"
   #
   # @example using {Ronin::Binary::Template} types:

@@ -33,7 +33,7 @@ class Float
   # @raise [ArgumentError]
   #   The argument was not a String code or a Symbol.
   #
-  # @example using `Array#pack` codes:
+  # @example using `Array#pack` template:
   #   0.42.pack('F')
   #   # => =\n\xD7>"
   #

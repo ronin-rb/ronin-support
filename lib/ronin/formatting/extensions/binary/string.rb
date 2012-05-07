@@ -53,8 +53,8 @@ class String
   #   "A\0\0\0hello\0".unpack(:uint32_le, :string)
   #   # => [10, "hello"]
   #
-  # @example using a `String#unpack` template String as the arch.
-  #   "A\0\0\0".unpack('L')
+  # @example using a `String#unpack` template:
+  #   "A\0\0\0".unpack('V')
   #   # => 65
   #
   # @see http://rubydoc.info/stdlib/core/String:unpack
@@ -104,8 +104,8 @@ class String
   #   "A\0".depack(Arch.ppc,2)
   #   # => 65
   #
-  # @example using a `String#unpack` template String as the arch.
-  #   "A\0\0\0".depack('L')
+  # @example using a `String#unpack` template:
+  #   "A\0\0\0".depack('V')
   #   # => 65
   #
   # @deprecated
