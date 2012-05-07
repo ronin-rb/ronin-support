@@ -282,14 +282,14 @@ module Ronin
               1 => 'C',
               2 => (RUBY_VERSION > '1.9' ? 'S<' : 'v'),
               4 => (RUBY_VERSION > '1.9' ? 'L<' : 'V'),
-              8 => 'Q<'
+              8 => 'Q<' # Ruby 1.9 only
             },
 
             :big => {
               1 => 'C',
               2 => (RUBY_VERSION > '1.9' ? 'S>' : 'n'),
               4 => (RUBY_VERSION > '1.9' ? 'L>' : 'N'),
-              8 => 'Q>'
+              8 => 'Q>' # Ruby 1.9 only
             }
           },
 
