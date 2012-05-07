@@ -73,58 +73,6 @@ module Ronin
           :doubles        => 8
         }
 
-        CHARS = Hash[Chars::VISIBLE.chars.sort.zip(Chars::VISIBLE.bytes.sort)]
-
-        ESCAPED_CHARS = {
-          '\0' => 0x00,
-          '\a' => 0x07,
-          '\b' => 0x08,
-          '\t' => 0x09,
-          '\n' => 0x0a,
-          '\v' => 0x0b,
-          '\f' => 0x0c,
-          '\r' => 0x0d
-        }
-
-        # od named characters
-        NAMED_CHARS = {
-          'nul' => 0x00,
-          'soh' => 0x01,
-          'stx' => 0x02,
-          'etx' => 0x03,
-          'eot' => 0x04,
-          'enq' => 0x05,
-          'ack' => 0x06,
-          'bel' => 0x07,
-          'bs'  => 0x08,
-          'ht'  => 0x09,
-          'lf'  => 0x0a,
-          'nl'  => 0x0a,
-          'vt'  => 0x0b,
-          'ff'  => 0x0c,
-          'cr'  => 0x0d,
-          'so'  => 0x0e,
-          'si'  => 0x0f,
-          'dle' => 0x10,
-          'dc1' => 0x11,
-          'dc2' => 0x12,
-          'dc3' => 0x13,
-          'dc4' => 0x14,
-          'nak' => 0x15,
-          'syn' => 0x16,
-          'etb' => 0x17,
-          'can' => 0x18,
-          'em'  => 0x19,
-          'sub' => 0x1a,
-          'esc' => 0x1b,
-          'fs'  => 0x1c,
-          'gs'  => 0x1d,
-          'rs'  => 0x1e,
-          'us'  => 0x1f,
-          'sp'  => 0x20,
-          'del' => 0x7f
-        }
-
         # Default segment length
         SEGMENT_LENGTH = 16
 
@@ -134,14 +82,14 @@ module Ronin
         # The endianness of data to parse (`:little`, `:big`, `:network`)
         attr_reader :endian
 
+        # The size of words to parse
+        attr_reader :word_size
+
         # The base of all addresses to parse
         attr_reader :address_base
 
         # The base of all words to parse
         attr_reader :base
-
-        # The size of words to parse
-        attr_reader :word_size
 
         # The length of the segment to parse
         attr_reader :segment_length
@@ -274,6 +222,60 @@ module Ronin
         end
 
         protected
+
+        # Visible characters
+        CHARS = Hash[Chars::VISIBLE.chars.sort.zip(Chars::VISIBLE.bytes.sort)]
+
+        # Escaped characters
+        ESCAPED_CHARS = {
+          '\0' => 0x00,
+          '\a' => 0x07,
+          '\b' => 0x08,
+          '\t' => 0x09,
+          '\n' => 0x0a,
+          '\v' => 0x0b,
+          '\f' => 0x0c,
+          '\r' => 0x0d
+        }
+
+        # od named characters
+        NAMED_CHARS = {
+          'nul' => 0x00,
+          'soh' => 0x01,
+          'stx' => 0x02,
+          'etx' => 0x03,
+          'eot' => 0x04,
+          'enq' => 0x05,
+          'ack' => 0x06,
+          'bel' => 0x07,
+          'bs'  => 0x08,
+          'ht'  => 0x09,
+          'lf'  => 0x0a,
+          'nl'  => 0x0a,
+          'vt'  => 0x0b,
+          'ff'  => 0x0c,
+          'cr'  => 0x0d,
+          'so'  => 0x0e,
+          'si'  => 0x0f,
+          'dle' => 0x10,
+          'dc1' => 0x11,
+          'dc2' => 0x12,
+          'dc3' => 0x13,
+          'dc4' => 0x14,
+          'nak' => 0x15,
+          'syn' => 0x16,
+          'etb' => 0x17,
+          'can' => 0x18,
+          'em'  => 0x19,
+          'sub' => 0x1a,
+          'esc' => 0x1b,
+          'fs'  => 0x1c,
+          'gs'  => 0x1d,
+          'rs'  => 0x1e,
+          'us'  => 0x1f,
+          'sp'  => 0x20,
+          'del' => 0x7f
+        }
 
         # `Array#pack` codes for various types/endianness/word-sizes
         FORMATS = {
