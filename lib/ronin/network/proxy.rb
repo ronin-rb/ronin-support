@@ -166,10 +166,13 @@ module Ronin
       # @api public
       #
       def listen
-        loop do
+        @listening = true
+
+        while @listening
           begin
             poll
           rescue Interrupt
+            @listening = false
             break
           end
         end
@@ -214,6 +217,16 @@ module Ronin
       def close
         close_connections
         close_proxy
+      end
+
+      #
+      # Stops the proxy from listening.
+      #
+      # @api public
+      #
+      def stop
+        @listening = false
+        return self
       end
 
       #
