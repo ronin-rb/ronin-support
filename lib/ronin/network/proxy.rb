@@ -212,8 +212,6 @@ module Ronin
       #
       # @api public
       # 
-      # @abstract
-      #
       def close
         close_connections
         close_proxy
