@@ -298,6 +298,15 @@ module Ronin
       end
 
       #
+      # Causes the proxy to stop processing data entirely.
+      #
+      # @api public
+      #
+      def stop!
+        throw(:action,:stop)
+      end
+
+      #
       # Converts the proxy to a String.
       #
       # @return [String]
@@ -443,6 +452,8 @@ module Ronin
           reset_connection(client_connection,server_connection)
         when :close
           close_connection(client_connection,server_connection)
+        when :stop
+          stop
         else
           yield if block_given?
         end
