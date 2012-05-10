@@ -79,20 +79,10 @@ module Ronin
         #
         # Creates a new TCP Proxy.
         #
-        # @param [(host, port)] proxy
-        #   The host and port the proxy will listen on.
+        # @see Network::Proxy#initialize
         #
-        # @param [(host, port)] server
-        #   The server the proxy will connect to.
-        #
-        # @yield [proxy]
-        #   The given block will be passed the newly created proxy.
-        #
-        # @yieldparam [Proxy] proxy
-        #   The new Proxy object.
-        #
-        def initialize(proxy,server)
-          super(proxy,server)
+        def initialize(options={})
+          super(options)
 
           @callbacks[:client_connect]    = []
           @callbacks[:client_disconnect] = []

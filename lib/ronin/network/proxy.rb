@@ -80,11 +80,17 @@ module Ronin
       #
       # Creates a new Proxy.
       #
-      # @param [(Integer, (String))] proxy
-      #   The port and optional address to listen on.
+      # @param [Hash] options
+      #   Options for the proxy.
       #
-      # @param [(String, Integer)] server
-      #   The address and port of the remote server.
+      # @option options [String] :host ('0.0.0.0')
+      #   The host to listen on.
+      #
+      # @option options [Integer] :port
+      #   The port to listen on.
+      #
+      # @option options [String, (host, port)] :server
+      #   The server to forward connections to.
       #
       # @yield [proxy]
       #   If a block is given, it will be passed the new Proxy, before it
@@ -94,14 +100,17 @@ module Ronin
       #   The new Proxy object.
       #
       # @example Proxies `0.0.0.0:1337` to `victim.com:80`:
-      #   Proxy.new(1337, ['victim.com', 80])
+      #   Proxy.new(:port => 1337, :server => ['victim.com', 80])
       #
-      # @example Proxies `localhost:1337` to `victim.com:80`:
-      #   Proxy.new([1337, 'localhost'], ['victim.com', 80])
+      # @example Proxies `localhost:25` to `victim.com:25`:
+      #   Proxy.new(:port => 25, :host => 'localhost', :server => 'victim.com')
       #
-      def initialize(proxy,server)
-        @port, @host   = proxy
-        @server_host, @server_port = server
+      def initialize(options={})
+        @host = options.fetch(:host,'0.0.0.0')
+        @port = options.fetch(:port)
+
+        @server_host, @server_port = options.fetch(:server)
+        @server_port ||= @port
 
         @callbacks = {
           :client_data => [],
