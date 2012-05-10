@@ -59,11 +59,11 @@ module Ronin
     #
     class Proxy
 
-      # The port the proxy will listen on
-      attr_reader :proxy_port
-
       # The host the proxy will listen on
-      attr_reader :proxy_host
+      attr_reader :host
+
+      # The port the proxy will listen on
+      attr_reader :port
 
       # The remote port the proxy will relay data to
       attr_reader :server_host
@@ -100,7 +100,7 @@ module Ronin
       #   Proxy.new([1337, 'localhost'], ['victim.com', 80])
       #
       def initialize(proxy,server)
-        @proxy_port, @proxy_host   = proxy
+        @port, @host   = proxy
         @server_host, @server_port = server
 
         @callbacks = {
@@ -311,7 +311,7 @@ module Ronin
       #   The String form of the proxy.
       #
       def to_s
-        "#{@proxy_host}:#{@proxy_port} <-> #{@server_host}:#{@server_port}"
+        "#{@host}:#{@port} <-> #{@server_host}:#{@server_port}"
       end
 
       #
