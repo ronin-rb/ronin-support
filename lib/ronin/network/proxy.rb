@@ -130,8 +130,8 @@ module Ronin
       #
       # @api public
       #
-      def self.start(proxy,server,&block)
-        new(proxy,server,&block).start
+      def self.start(options={},&block)
+        new(options,&block).start
       end
 
       #
