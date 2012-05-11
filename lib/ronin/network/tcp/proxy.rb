@@ -130,7 +130,7 @@ module Ronin
             server_socket = @connections[client_socket]
             data = recv(client_socket)
 
-            unless (data.empty? || client_socket.eof?)
+            unless data.empty?
               client_data(client_socket,server_socket,data)
             else
               client_disconnect(client_socket,server_socket)
@@ -141,7 +141,7 @@ module Ronin
             client_socket = @connections.key(server_socket)
             data = recv(server_socket)
 
-            unless (data.empty? || server_socket.eof?)
+            unless data.empty?
               server_data(client_socket,server_socket,data)
             else
               server_disconnect(client_socket,server_socket)
