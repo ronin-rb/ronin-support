@@ -35,8 +35,8 @@ module Ronin
         # @api public
         #
         def open
-          @proxy_socket = UDPSocket.new
-          @proxy_socket.bind(@proxy_host,@proxy_port)
+          @socket = UDPSocket.new
+          @socket.bind(@host,@port)
         end
 
         #
@@ -47,7 +47,7 @@ module Ronin
         #
         def poll
           server_sockets = @connections.values
-          sockets = [@proxy_socket] + server_sockets
+          sockets = [@socket] + server_sockets
 
           readable, writtable, errors = IO.select(sockets,nil,sockets)
 
@@ -64,10 +64,10 @@ module Ronin
             server_data(client_socket,server_socket,data)
           end
 
-          if readable.include?(@proxy_socket)
-            data, addrinfo = recv(@proxy_socket)
+          if readable.include?(@socket)
+            data, addrinfo = recv(@socket)
 
-            client_socket = [@proxy_socket, [addrinfo[3], addrinfo[1]]]
+            client_socket = [@socket, [addrinfo[3], addrinfo[1]]]
             server_socket = (@connections[client_socket] ||= new_server_connection)
 
             client_data(client_socket,server_socket,data)
@@ -161,7 +161,7 @@ module Ronin
         # Closes the UDP proxy socket.
         #
         def close_proxy
-          @proxy_socket.close
+          @socket.close
         end
 
       end

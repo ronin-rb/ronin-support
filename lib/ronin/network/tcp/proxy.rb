@@ -98,7 +98,7 @@ module Ronin
         # @api public
         #
         def open
-          @proxy_socket = TCPServer.new(@proxy_host,@proxy_port)
+          @socket = TCPServer.new(@host,@port)
         end
 
         #
@@ -110,7 +110,7 @@ module Ronin
           client_sockets = @connections.keys
           server_sockets = @connections.values
 
-          sockets = [@proxy_socket] + client_sockets + server_sockets
+          sockets = [@socket] + client_sockets + server_sockets
 
           readable, writtable, errors = IO.select(sockets,nil,sockets)
 
@@ -140,8 +140,8 @@ module Ronin
             server_data(client_socket,server_socket,data)
           end
 
-          if readable.include?(@proxy_socket)
-            client_socket = @proxy_socket.accept
+          if readable.include?(@socket)
+            client_socket = @socket.accept
 
             client_connect(client_socket)
           end
@@ -309,7 +309,7 @@ module Ronin
         # Closes the TCP proxy.
         #
         def close_proxy
-          @proxy_socket.close
+          @socket.close
         end
 
         #
