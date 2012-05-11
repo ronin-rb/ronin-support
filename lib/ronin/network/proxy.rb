@@ -59,6 +59,11 @@ module Ronin
     #
     class Proxy
 
+      # Default host to bind to
+      DEFAULT_HOST = '0.0.0.0'
+
+      DEFAULT_BUFFER_SIZE = 4096
+
       # The host the proxy will listen on
       attr_reader :host
 
@@ -83,7 +88,7 @@ module Ronin
       # @param [Hash] options
       #   Options for the proxy.
       #
-      # @option options [String] :host ('0.0.0.0')
+      # @option options [String] :host (DEFAULT_HOST)
       #   The host to listen on.
       #
       # @option options [Integer] :port
@@ -91,6 +96,9 @@ module Ronin
       #
       # @option options [String, (host, port)] :server
       #   The server to forward connections to.
+      #
+      # @option options [Integer] :buffer_size (DEFAULT_BUFFER_SIZE)
+      #   The maximum amount of data to read in.
       #
       # @yield [proxy]
       #   If a block is given, it will be passed the new Proxy, before it
@@ -106,7 +114,7 @@ module Ronin
       #   Proxy.new(:port => 25, :host => 'localhost', :server => 'victim.com')
       #
       def initialize(options={})
-        @host = options.fetch(:host,'0.0.0.0')
+        @host = options.fetch(:host,DEFAULT_HOST)
         @port = options.fetch(:port)
 
         @server_host, @server_port = options.fetch(:server)
@@ -117,7 +125,7 @@ module Ronin
           :server_data => []
         }
 
-        @buffer_size = 4096
+        @buffer_size = options.fetch(:buffer_size,DEFAULT_BUFFER_SIZE)
         @connections = {}
 
         yield self if block_given?
