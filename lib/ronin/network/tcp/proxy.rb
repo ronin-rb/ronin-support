@@ -82,14 +82,14 @@ module Ronin
         # @see Network::Proxy#initialize
         #
         def initialize(options={})
-          super(options)
+          super(options) do |proxy|
+            @callbacks[:client_connect]    = []
+            @callbacks[:client_disconnect] = []
+            @callbacks[:server_connect]    = []
+            @callbacks[:server_disconnect] = []
 
-          @callbacks[:client_connect]    = []
-          @callbacks[:client_disconnect] = []
-          @callbacks[:server_connect]    = []
-          @callbacks[:server_disconnect] = []
-
-          yield self if block_given?
+            yield proxy if block_given?
+          end
         end
 
         #
