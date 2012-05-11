@@ -130,14 +130,22 @@ module Ronin
             server_socket = @connections[client_socket]
             data = recv(client_socket)
 
-            client_data(client_socket,server_socket,data)
+            unless (data.empty? || client_socket.eof?)
+              client_data(client_socket,server_socket,data)
+            else
+              client_disconnect(client_socket,server_socket)
+            end
           end
 
           (readable & server_sockets).each do |server_socket|
             client_socket = @connections.key(server_socket)
             data = recv(server_socket)
 
-            server_data(client_socket,server_socket,data)
+            unless (data.empty? || server_socket.eof?)
+              server_data(client_socket,server_socket,data)
+            else
+              server_disconnect(client_socket,server_socket)
+            end
           end
 
           if readable.include?(@socket)
