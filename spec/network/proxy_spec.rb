@@ -66,11 +66,11 @@ describe Network::Proxy do
   end
 
   describe "actions" do
-    describe "#drop!" do
-      it "should throw the :drop action" do
+    describe "#ignore!" do
+      it "should throw the :ignore action" do
         lambda {
-          subject.drop!
-        }.should throw_symbol(:action, :drop)
+          subject.ignore!
+        }.should throw_symbol(:action, :ignore)
       end
     end
 

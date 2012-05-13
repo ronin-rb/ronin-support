@@ -51,7 +51,7 @@ module Ronin
     # The Proxy base class also provides methods to change how events are
     # handled.
     #
-    # * {#drop!}
+    # * {#ignore!}
     # * {#close!}
     # * {#reset!}
     #
@@ -286,12 +286,12 @@ module Ronin
       end
 
       #
-      # Causes the proxy to drop a message.
+      # Causes the proxy to ignore a message.
       #
       # @api public
       #
-      def drop!
-        throw(:action,:drop)
+      def ignore!
+        throw(:action,:ignore)
       end
 
       #
@@ -461,7 +461,7 @@ module Ronin
         end
 
         case action
-        when :drop
+        when :ignore
           # no-op
         when :reset
           reset_connection(client_connection,server_connection)
