@@ -10,7 +10,11 @@ describe Network::TCP::Proxy, :network => true do
   end
 
   before(:each) do
-    @proxy  = described_class.new(:port => port, :host => host, :server => server)
+    @proxy  = described_class.new(
+      :port => port,
+      :host => host,
+      :server => server
+    )
     @thread = Thread.new { @proxy.start }
 
     sleep 0.1
