@@ -17,36 +17,36 @@ describe Network::TCP::Proxy, :network => true do
   end
 
   describe "#on_client_connect" do
+    let(:injection) { "Client connected\r\n" }
+
     before do
       @proxy.on_client_connect do |client|
-        client.puts "Client connected"
+        client.write(injection)
       end
 
       @socket = TCPSocket.new(host,port)
     end
 
     it "should trigger when a new client connects" do
-      response = @socket.readline.chomp
-
-      response.should == 'Client connected'
+      @socket.readline.should == injection
     end
 
     after { @socket.close }
   end
 
   describe "#on_server_connect" do
+    let(:injection) { "Server connected\r\n" }
+
     before do
       @proxy.on_server_connect do |client,server|
-        client.puts "Server connected"
+        client.write(injection)
       end
 
       @socket = TCPSocket.new(host,port)
     end
 
     it "should trigger after a new client connects" do
-      response = @socket.readline.chomp
-
-      response.should == 'Server connected'
+      @socket.readline.should == injection
     end
 
     after { @socket.close }
