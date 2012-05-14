@@ -88,6 +88,26 @@ describe Network::TCP::Proxy, :network => true do
     after { @socket.close }
   end
 
+  describe "#on_server_disconnect" do
+    let(:injection) { "Haha Internet!\r\n" }
+
+    before do
+      @proxy.on_server_disconnect do |client,server|
+        client.write(injection)
+      end
+
+      @socket = TCPSocket.new(host,port)
+    end
+
+    it "should trigger when the server closes the connection" do
+      @socket.write("GET / HTTP/1.0\r\n\r\n")
+
+      @socket.read.end_with?(injection).should be_true
+    end
+
+    after { @socket.close }
+  end
+
   after(:each) do
     @thread.kill
     @proxy.close
