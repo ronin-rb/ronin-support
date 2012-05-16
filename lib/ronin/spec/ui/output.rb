@@ -19,10 +19,4 @@
 
 require 'ronin/ui/output'
 
-require 'rspec'
-
-RSpec.configure do |spec|
-  spec.before(:suite) do
-    Ronin::UI::Output.silent! unless ENV['DEBUG']
-  end
-end
+Ronin::UI::Output.silent! unless ENV['DEBUG']
