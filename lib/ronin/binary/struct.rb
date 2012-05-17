@@ -147,7 +147,7 @@ module Ronin
 
         each_field do |struct,name,(type,length)|
           if type.kind_of?(Symbol)
-            if (endian && ENDIAN_TYPES.include?(type))
+            if (endian && Template::ENDIAN_TYPES.include?(type))
               # translate types to a specific endianness
               type = case endian
                      when :little
@@ -348,26 +348,6 @@ module Ronin
       end
 
       protected
-
-      # Types which have little/big endian forms
-      ENDIAN_TYPES = Set[
-        :uint16,
-        :uint32,
-        :uint64,
-        :int16,
-        :int32,
-        :int64,
-        :ushort,
-        :uint,
-        :ulong,
-        :ulong_long,
-        :short,
-        :int,
-        :long,
-        :long_long,
-        :float,
-        :double
-      ]
 
       # Integer types
       INT_TYPES = Set[

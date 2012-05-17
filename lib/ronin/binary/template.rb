@@ -17,6 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'set'
+
 module Ronin
   module Binary
     #
@@ -182,6 +184,15 @@ module Ronin
           :long_long_be => 'q>'
         )
       end
+
+      # Types which have little and big endian forms
+      ENDIAN_TYPES = Set[
+        :uint16, :uint32, :uint64,
+        :int16, :int32, :int64,
+        :ushort, :uint, :ulong, :ulong_long,
+        :short, :int, :long, :long_long,
+        :float, :double
+      ]
 
       # The fields of the template
       attr_reader :fields
