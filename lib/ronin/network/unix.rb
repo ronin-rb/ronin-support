@@ -126,9 +126,6 @@ module Ronin
       # @yieldparam [UNIXSocket] socket
       #   The UNIX socket.
       #
-      # @return [UNIXSocket]
-      #   The UNIX socket.
-      #
       # @example
       #   unix_session('/tmp/haproxy.stats.socket') do |socket|
       #     # ...
