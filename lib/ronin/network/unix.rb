@@ -101,6 +101,9 @@ module Ronin
       # @yieldparam [UNIXSocket] socket
       #   The newly created UNIXSocket object.
       #
+      # @return [UNIXSocket]
+      #   The newly created UNIXSocket object.
+      #
       # @api public
       #
       def unix_connect_and_send(data,path)
