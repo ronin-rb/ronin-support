@@ -169,7 +169,7 @@ module Ronin
     # @return [String, Enumerable]
     #   The path to the wordlist file or list of words.
     #
-    # @semipublic
+    # @api semipublic
     #
     def list
       @path || @words
