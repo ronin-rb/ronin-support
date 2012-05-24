@@ -164,7 +164,7 @@ module Ronin
         #
         # @example
         #   buffer = "GET /" + ('A' * 4096) + "\n\r"
-        #   Net.udp_send(buffer)
+        #   udp_send(buffer)
         #   # => true
         #
         # @see Network::UDP#udp_send
