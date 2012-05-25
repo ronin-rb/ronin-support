@@ -240,6 +240,98 @@ module Ronin
           return nil
         end
 
+        #
+        # Creates a new UDPServer listening on the `server_host` and
+        # `server_port` parameters, accepting messages from clients in a loop.
+        #
+        # @yield [server, (client_host, client_port), mesg]
+        #   The given block will be passed the client host/port and the received
+        #   message.
+        #
+        # @yieldparam [UDPServer] server
+        #   The UDPServer.
+        #
+        # @yieldparam [String] client_host
+        #   The source host of the mesg.
+        #
+        # @yieldparam [Integer] client_port
+        #   The source port of the mesg.
+        #
+        # @yieldparam [String] mesg
+        #   The received message.
+        #
+        # @return [nil]
+        #
+        # @example
+        #   udp_server_loop do |server,(host,port),mesg|
+        #     server.send('hello',host,port)
+        #   end
+        #
+        # @see Network::UDP#udp_server_loop
+        #
+        # @api public
+        #
+        # @since 0.5.0
+        #
+        def udp_server_loop(&block)
+          print_info "Listening on #{self.server_host_port} ..."
+
+          super(self.server_port,self.server_host,&block)
+
+          print_info "Closed #{self.server_host_port}"
+          return nil
+        end
+
+        #
+        # Creates a new UDPServer listening on the `server_host` and
+        # `server_port` parameters, accepts only one message from a client.
+        #
+        # @yield [server, (client_host, client_port), mesg]
+        #   The given block will be passed the client host/port and the received
+        #   message.
+        #
+        # @yieldparam [UDPServer] server
+        #   The UDPServer.
+        #
+        # @yieldparam [String] client_host
+        #   The source host of the mesg.
+        #
+        # @yieldparam [Integer] client_port
+        #   The source port of the mesg.
+        #
+        # @yieldparam [String] mesg
+        #   The received message.
+        #
+        # @return [nil]
+        #
+        # @example
+        #   udp_recv do |server,(host,port),mesg|
+        #     server.send('hello',host,port)
+        #   end
+        #
+        # @see Network::UDP#udp_recv
+        #
+        # @api public
+        #
+        # @since 0.5.0
+        #
+        def udp_recv(&block)
+          print_info "Listening on #{self.server_host_port} ..."
+
+          super(self.server_port,self.server_host,&block)
+
+          print_info "Closed #{self.server_host_port}"
+          return nil
+        end
+
+        #
+        # @deprecated
+        #   Deprecated as of 0.5.0. Use {#udp_recv} instead.
+        #
+        def udp_single_server(&block)
+          udp_recv(&block)
+        end
+
         private
 
         #
