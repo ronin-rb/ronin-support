@@ -136,10 +136,9 @@ module Ronin
         host = host.to_s
         port = (options[:port] || SMTP.default_port)
 
-        helo = options[:helo]
-
-        auth = options[:auth]
-        user = options[:user]
+        helo     = options[:helo]
+        auth     = options[:auth]
+        user     = options[:user]
         password = options[:password]
 
         session = Net::SMTP.start(host,port,helo,user,password,auth)

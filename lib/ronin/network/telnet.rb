@@ -191,29 +191,22 @@ module Ronin
       # @api public
       #
       def telnet_connect(host,options={})
-        host = host.to_s
-        telnet_options = {}
+        session = Net::Telnet.new(
+          'Host'       => host.to_s,
+          'Port'       => (options[:port] || Telnet.default_port),
+          'Binmode'    => options[:binmode],
+          'Output_log' => options[:output_log],
+          'Dump_log'   => options[:dump_log],
+          'Prompt'     => (options[:prompt] || Telnet.default_prompt),
+          'Telnetmode' => (options[:telnet] && !options[:plain]),
+          'Timeout'    => (options[:timeout] || Telnet.default_timeout),
+          'Waittime'   => options[:wait_time],
+          'Proxy'      => (options[:proxy] || Telnet.proxy)
+        )
 
-        telnet_options['Host'] = host
-        telnet_options['Port'] = (options[:port] || Telnet.default_port)
-        telnet_options['Binmode'] = options[:binmode]
-        telnet_options['Output_log'] = options[:output_log]
-        telnet_options['Dump_log'] = options[:dump_log]
-        telnet_options['Prompt'] = (options[:prompt] || Telnet.default_prompt)
-
-        if (options[:telnet] && !options[:plain])
-          telnet_options['Telnetmode'] = true
+        if options[:user]
+          session.login(options[:user],options[:password])
         end
-
-        telnet_options['Timeout'] = (options[:timeout] || Telnet.default_timeout)
-        telnet_options['Waittime'] = options[:wait_time]
-        telnet_options['Proxy'] = (options[:proxy] || Telnet.proxy)
-
-        user = options[:user]
-        passwd = options[:passwd]
-
-        session = Net::Telnet.new(telnet_options)
-        session.login(user,passwd) if user
 
         yield session if block_given?
         return session

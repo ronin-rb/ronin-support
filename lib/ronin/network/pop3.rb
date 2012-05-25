@@ -80,9 +80,9 @@ module Ronin
       # @api public
       #
       def pop3_connect(host,options={})
-        host = host.to_s
-        port = (options[:port] || POP3.default_port)
-        user = options[:user]
+        host     = host.to_s
+        port     = (options[:port] || POP3.default_port)
+        user     = options[:user]
         password = options[:password]
 
         session = Net::POP3.start(host,port,user,password)
