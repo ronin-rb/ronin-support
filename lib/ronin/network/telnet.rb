@@ -191,22 +191,33 @@ module Ronin
       # @api public
       #
       def telnet_connect(host,options={})
-        session = Net::Telnet.new(
+        telnet_options = {
           'Host'       => host.to_s,
-          'Port'       => (options[:port] || Telnet.default_port),
-          'Binmode'    => options[:binmode],
-          'Output_log' => options[:output_log],
-          'Dump_log'   => options[:dump_log],
-          'Prompt'     => (options[:prompt] || Telnet.default_prompt),
-          'Telnetmode' => (options[:telnet] && !options[:plain]),
-          'Timeout'    => (options[:timeout] || Telnet.default_timeout),
-          'Waittime'   => options[:wait_time],
-          'Proxy'      => (options[:proxy] || Telnet.proxy)
-        )
+          'Port'       => (options[:port]      || Telnet.default_port),
+          'Binmode'    => (options[:binmode]   || false),
+          'Waittime'   => (options[:wait_time] || 0),
+          'Prompt'     => (options[:prompt]    || Telnet.default_prompt),
+          'Timeout'    => (options[:timeout]   || Telnet.default_timeout)
+        }
 
-        if options[:user]
-          session.login(options[:user],options[:password])
+        if (options[:telnet] && !options[:plain])
+          telnet_options['Telnetmode'] = true
         end
+
+        if options[:output_log]
+          telnet_options['Output_log'] = options[:output_log]
+        end
+
+        if options[:dump_log]
+          telnet_options['Dump_log'] = options[:dump_log]
+        end
+
+        if (proxy = (options[:proxy] || Telnet.proxy))
+          telnet_options['Proxy'] = proxy
+        end
+
+        session = Net::Telnet.new(telnet_options)
+        session.login(options[:user],options[:password]) if options[:user]
 
         yield session if block_given?
         return session
