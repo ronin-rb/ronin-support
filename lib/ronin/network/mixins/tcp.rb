@@ -287,15 +287,15 @@ module Ronin
         # @return [nil]
         #
         # @example
-        #   tcp_single_server do |client|
+        #   tcp_accept do |client|
         #     client.puts 'lol'
         #   end
         #
-        # @see Network::TCP#tcp_server_single_server
+        # @see Network::TCP#tcp_accept
         #
         # @api public
         #
-        def tcp_single_server(&block)
+        def tcp_accept(&block)
           print_info "Listening on #{server_host_port} ..."
 
           super(self.server_port,self.server_host) do |client|
@@ -312,6 +312,14 @@ module Ronin
 
           print_info "Closed #{server_host_port}"
           return nil
+        end
+
+        #
+        # @deprecated
+        #   Deprecated as of 0.5.0. Use {#tcp_accept} instead.
+        #
+        def tcp_single_server(&block)
+          tcp_accept(&block)
         end
 
         private

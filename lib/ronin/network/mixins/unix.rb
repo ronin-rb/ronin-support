@@ -220,15 +220,15 @@ module Ronin
         #   The accepted connection to UNIX socket.
         #
         # @example
-        #   unix_single_server do |client|
+        #   unix_accept do |client|
         #     # ...
         #   end
         #
-        # @see Network::UNIX#unix_single_server
+        # @see Network::UNIX#unix_accept
         #
         # @api public
         #
-        def unix_single_server
+        def unix_accept
           print_info "Listening on #{self.path} ..."
 
           super(self.path) do |client|
