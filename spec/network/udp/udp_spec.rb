@@ -264,7 +264,7 @@ describe Network::UDP do
       end
     end
 
-    describe "#udp_single_server" do
+    describe "#udp_recv" do
       let(:server_port) { 1024 + rand(65535 - 1024) }
     end
   end
