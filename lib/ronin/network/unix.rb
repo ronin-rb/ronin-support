@@ -41,6 +41,8 @@ module Ronin
       #   Specifies whether the UNIX socket is open.
       #   If the connection was not accepted, `nil` will be returned.
       #
+      # @api public
+      #
       # @since 0.5.0
       #
       def unix_open?(path,timeout=nil)

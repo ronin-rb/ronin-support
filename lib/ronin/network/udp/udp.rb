@@ -48,6 +48,8 @@ module Ronin
       #   Specifies whether the remote UDP port is open.
       #   If no data or ICMP error were received, `nil` will be returned.
       #
+      # @api public
+      #
       # @since 0.5.0
       #
       def udp_open?(host,port,local_host=nil,local_port=nil,timeout=nil)
@@ -369,7 +371,7 @@ module Ronin
       #     server.send('hello',host,port)
       #   end
       #
-      # @see #udp_server_session
+      # @api public
       #
       # @since 0.5.0
       #

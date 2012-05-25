@@ -48,6 +48,8 @@ module Ronin
       #   Specifies whether the remote TCP port is open.
       #   If the connection was not accepted, `nil` will be returned.
       #
+      # @api public
+      #
       # @since 0.5.0
       #
       def tcp_open?(host,port,local_host=nil,local_port=nil,timeout=nil)
