@@ -295,6 +295,8 @@ module Ronin
         #
         # @api public
         #
+        # @since 0.5.0
+        #
         def tcp_accept(&block)
           print_info "Listening on #{server_host_port} ..."
 
