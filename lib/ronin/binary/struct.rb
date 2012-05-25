@@ -520,7 +520,9 @@ module Ronin
           if type.kind_of?(Symbol)
             yield self, name, field
           elsif type < Struct
-            (length || 1).times do
+            if length
+              length.times { type.each_field(&block) }
+            else
               type.each_field(&block)
             end
           end
@@ -552,9 +554,7 @@ module Ronin
             yield self, name, field
           elsif type < Struct
             if length
-              self[name].each do |struct|
-                struct.each_field(&block)
-              end
+              self[name].each { |struct| struct.each_field(&block) }
             else
               self[name].each_field(&block)
             end
