@@ -272,7 +272,7 @@ module Ronin
       #
       # @api public
       #
-      def unix_single_server(path)
+      def unix_accept(path)
         unix_server_session(path) do |server|
           client = server.accept
 
