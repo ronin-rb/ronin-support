@@ -50,7 +50,7 @@ module Ronin
       #
       # @api public
       #
-      def HTTP.proxy
+      def self.proxy
         @proxy ||= if ENV['HTTP_PROXY']
                      Proxy.parse(ENV['HTTP_PROXY'])
                    else
@@ -73,7 +73,7 @@ module Ronin
       #
       # @api public
       #
-      def HTTP.proxy=(new_proxy)
+      def self.proxy=(new_proxy)
         @proxy = Proxy.create(new_proxy)
       end
 
@@ -85,7 +85,7 @@ module Ronin
       #
       # @api public
       #
-      def HTTP.user_agent
+      def self.user_agent
         @user_agent ||= nil
       end
 
@@ -97,7 +97,7 @@ module Ronin
       #
       # @api public
       #
-      def HTTP.user_agent=(agent)
+      def self.user_agent=(agent)
         @user_agent = agent
       end
 
@@ -112,7 +112,7 @@ module Ronin
       #
       # @api private
       #
-      def HTTP.expand_url(url)
+      def self.expand_url(url)
         new_options = {}
 
         url = case url
@@ -154,7 +154,7 @@ module Ronin
       # @option options [String] :host
       #   The host to connect to.
       #
-      # @option options [String] :port (::Net::HTTP.default_port)
+      # @option options [String] :port (Net::HTTP.default_port)
       #   The port to connect to.
       #
       # @option options [String] :user
@@ -174,7 +174,7 @@ module Ronin
       #
       # @api private
       #
-      def HTTP.expand_options(options={})
+      def self.expand_options(options={})
         new_options = options.dup
 
         new_options[:port] ||= Net::HTTP.default_port
@@ -209,7 +209,7 @@ module Ronin
       #
       # @api private
       #
-      def HTTP.header_name(name)
+      def self.header_name(name)
         words = name.to_s.split(/[\s+_-]/)
 
         words.each { |word| word.capitalize! }
@@ -228,11 +228,11 @@ module Ronin
       #
       # @api private
       #
-      def HTTP.headers(options={})
+      def self.headers(options={})
         headers = {}
 
-        if HTTP.user_agent
-          headers['User-Agent'] = HTTP.user_agent
+        if user_agent
+          headers['User-Agent'] = user_agent
         end
 
         if options
@@ -291,7 +291,7 @@ module Ronin
       #
       # @api private
       #
-      def HTTP.request(options={})
+      def self.request(options={})
         unless options[:method]
           raise(ArgumentError,"the :method option must be specified")
         end
@@ -302,7 +302,7 @@ module Ronin
           raise(UnknownRequest,"unknown HTTP request type #{name.dump}")
         end
 
-        headers = HTTP.headers(options[:headers])
+        headers = headers(options[:headers])
         path    = (options[:path] || '/').to_s
         query   = if options[:query]
                     URI.escape(options[:query])

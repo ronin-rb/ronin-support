@@ -40,7 +40,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.default_port
+      def self.default_port
         @default_port ||= DEFAULT_PORT
       end
 
@@ -52,7 +52,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.default_port=(port)
+      def self.default_port=(port)
         @default_port = port
       end
 
@@ -62,7 +62,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.default_prompt
+      def self.default_prompt
         @default_prompt ||= DEFAULT_PROMPT
       end
 
@@ -74,7 +74,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.default_prompt=(prompt)
+      def self.default_prompt=(prompt)
         @default_prompt = prompt
       end
 
@@ -84,7 +84,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.default_timeout
+      def self.default_timeout
         @default_timeout ||= DEFAULT_TIMEOUT
       end
 
@@ -96,7 +96,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.default_timeout=(timeout)
+      def self.default_timeout=(timeout)
         @default_timeout = timeout
       end
 
@@ -106,7 +106,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.proxy
+      def self.proxy
         @proxy ||= nil
       end
 
@@ -118,7 +118,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.proxy=(new_proxy)
+      def self.proxy=(new_proxy)
         @proxy = new_proxy
       end
 

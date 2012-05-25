@@ -36,7 +36,7 @@ module Ronin
       #
       # @api public
       #
-      def SMTP.default_port
+      def self.default_port
         @default_port ||= DEFAULT_PORT
       end
 
@@ -48,7 +48,7 @@ module Ronin
       #
       # @api public
       #
-      def SMTP.default_port=(port)
+      def self.default_port=(port)
         @default_port = port
       end
 
@@ -69,7 +69,7 @@ module Ronin
       #
       # @api public
       #
-      def SMTP.message(options={},&block)
+      def self.message(options={},&block)
         Email.new(options,&block).to_s
       end
 

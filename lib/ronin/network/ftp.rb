@@ -41,7 +41,7 @@ module Ronin
       #
       # @api public
       #
-      def FTP.default_port
+      def self.default_port
         @default_port ||= DEFAULT_PORT
       end
 
@@ -53,7 +53,7 @@ module Ronin
       #
       # @api public
       #
-      def FTP.default_port=(new_port)
+      def self.default_port=(new_port)
         @default_port = new_port
       end
 
