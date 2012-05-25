@@ -52,7 +52,11 @@ class Float
     when String
       [self].pack(argument)
     when Symbol
-      Ronin::Binary::Template.new(argument).pack(self)
+      unless Ronin::Binary::Template::FLOAT_TYPES.include?(argument)
+        raise(ArgumentError,"unsupported integer type: #{argument}")
+      end
+
+      [self].pack(Ronin::Binary::Template::TYPES[argument])
     else
       raise(ArgumentError,"argument must be a String or a Symbol")
     end

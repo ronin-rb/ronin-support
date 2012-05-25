@@ -18,5 +18,13 @@ describe Float do
     it "should unpack Strings using a Binary::Template" do
       subject.pack(:double_le).should == packed
     end
+
+    context "when given non-Float Binary::Template types" do
+      it "should raise an ArgumentError" do
+        lambda {
+          subject.pack(:int)
+        }.should raise_error(ArgumentError)
+      end
+    end
   end
 end

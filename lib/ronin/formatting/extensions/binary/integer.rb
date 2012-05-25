@@ -126,11 +126,17 @@ class Integer
   # @api public
   #
   def pack(*arguments)
-    case arguments[0]
+    argument = arguments.first
+
+    case argument
     when String
-      [self].pack(arguments[0])
+      [self].pack(argument)
     when Symbol
-      Ronin::Binary::Template.new(arguments[0]).pack(self)
+      unless Ronin::Binary::Template::INT_TYPES.include?(argument)
+        raise(ArgumentError,"unsupported integer type: #{argument}")
+      end
+
+      [self].pack(Ronin::Binary::Template::TYPES[argument])
     else
       # TODO: deprecate this calling convention
       arch, address_length = arguments

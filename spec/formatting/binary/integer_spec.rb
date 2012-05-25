@@ -93,6 +93,14 @@ describe Integer do
       subject.pack(:uint32_le).should == packed
     end
 
+    context "when given non-Integer Binary::Template types" do
+      it "should raise an ArgumentError" do
+        lambda {
+          subject.pack(:float)
+        }.should raise_error(ArgumentError)
+      end
+    end
+
     context "deprecated" do
       let(:uint16_le) { "7\023" }
       let(:uint32_le) { "7\023\000\000" }
