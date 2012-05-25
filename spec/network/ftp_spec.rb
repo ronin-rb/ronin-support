@@ -49,7 +49,7 @@ describe Network::FTP do
       end
 
       it "should close the FTP session after yielding it" do
-        session    = nil
+        session  = nil
         was_open = nil
 
         subject.ftp_session(host) do |ftp|
