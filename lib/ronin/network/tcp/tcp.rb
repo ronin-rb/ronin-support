@@ -346,6 +346,45 @@ module Ronin
 
       #
       # Creates a new TCPServer listening on a given host and port,
+      # accepting clients in a loop.
+      #
+      # @param [Integer] port
+      #   The local port to bind to.
+      #
+      # @param [String] host ('0.0.0.0')
+      #   The host to bind to.
+      #
+      # @yield [client]
+      #   The given block will be passed the newly connected client.
+      #   After the block has finished, the client will be closed.
+      #
+      # @yieldparam [TCPSocket] client
+      #   A newly connected client.
+      #
+      # @return [nil]
+      #
+      # @example
+      #   tcp_server_loop(1337) do |client|
+      #     client.puts 'lol'
+      #   end
+      #
+      # @api public
+      #
+      # @since 0.5.0
+      #
+      def tcp_server_loop(port=nil,host=nil)
+        tcp_server_session(port,host) do |server|
+          loop do
+            client = server.accept
+
+            yield client if block_given?
+            client.close
+          end
+        end
+      end
+
+      #
+      # Creates a new TCPServer listening on a given host and port,
       # accepts only one client and then stops listening.
       #
       # @param [Integer] port
@@ -388,45 +427,6 @@ module Ronin
       #
       def tcp_single_server(port=nil,host=nil)
         tcp_accept(port,host)
-      end
-
-      #
-      # Creates a new TCPServer listening on a given host and port,
-      # accepting clients in a loop.
-      #
-      # @param [Integer] port
-      #   The local port to bind to.
-      #
-      # @param [String] host ('0.0.0.0')
-      #   The host to bind to.
-      #
-      # @yield [client]
-      #   The given block will be passed the newly connected client.
-      #   After the block has finished, the client will be closed.
-      #
-      # @yieldparam [TCPSocket] client
-      #   A newly connected client.
-      #
-      # @return [nil]
-      #
-      # @example
-      #   tcp_server_loop(1337) do |client|
-      #     client.puts 'lol'
-      #   end
-      #
-      # @api public
-      #
-      # @since 0.5.0
-      #
-      def tcp_server_loop(port=nil,host=nil)
-        tcp_server_session(port,host) do |server|
-          loop do
-            client = server.accept
-
-            yield client if block_given?
-            client.close
-          end
-        end
       end
     end
   end
