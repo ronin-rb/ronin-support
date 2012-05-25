@@ -318,7 +318,12 @@ module Ronin
         def udp_recv(&block)
           print_info "Listening on #{self.server_host_port} ..."
 
-          super(self.server_port,self.server_host,&block)
+          super(self.server_port,self.server_host) do |server,(host,port),mesg|
+            print_info "Received message from #{host}:#{port}"
+            print_debug mesg
+
+            yield server, [host, port], mesg if block_given?
+          end
 
           print_info "Closed #{self.server_host_port}"
           return nil
