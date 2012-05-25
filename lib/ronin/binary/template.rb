@@ -321,6 +321,12 @@ module Ronin
       # @example
       #   Template.new(:uint32, [:char, 100])
       #
+      # @example
+      #   Template.new do |template|
+      #     template << :uint32
+      #     template << [:char, 100]
+      #   end
+      #
       def initialize(*fields)
         @fields   = []
         @template = ''
