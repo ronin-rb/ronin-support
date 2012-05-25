@@ -143,25 +143,23 @@ module Ronin
       # @api semipublic
       #
       def self.template(endian=self.endian)
-        template = Template.new
-
-        each_field do |struct,name,(type,length)|
-          if type.kind_of?(Symbol)
-            if (endian && Template::ENDIAN_TYPES.include?(type))
-              # translate types to a specific endianness
-              type = case endian
-                     when :little
-                       :"#{type}_le"
-                     when :big, :network
-                       :"#{type}_be"
-                     end
+        Template.new do |template|
+          each_field do |struct,name,(type,length)|
+            if type.kind_of?(Symbol)
+              if (endian && Template::ENDIAN_TYPES.include?(type))
+                # translate types to a specific endianness
+                type = case endian
+                       when :little
+                         :"#{type}_le"
+                       when :big, :network
+                         :"#{type}_be"
+                       end
+              end
             end
+
+            template << [type, length]
           end
-
-          template << [type, length]
         end
-
-        return template
       end
 
       #

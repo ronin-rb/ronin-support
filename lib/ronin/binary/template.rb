@@ -277,6 +277,12 @@ module Ronin
       # @param [Array<type, (type, length)>] types
       #   The types which the packer will use.
       #
+      # @yield [template]
+      #   If a block is given, the new template will be yielded.
+      #
+      # @yieldparam [Template] template
+      #   The new template.
+      #
       # @raise [ArgumentError]
       #   A given type is not known.
       #
@@ -320,6 +326,8 @@ module Ronin
         @template = ''
 
         fields.each { |field| self << field }
+
+        yield self if block_given?
       end
 
       #
