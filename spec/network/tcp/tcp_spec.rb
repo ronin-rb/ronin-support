@@ -261,7 +261,7 @@ describe Network::TCP do
       end
     end
 
-    describe "#tcp_single_server" do
+    describe "#tcp_accept" do
       let(:server_port) { 1024 + rand(65535 - 1024) }
 
       pending "need to automate connecting to the TCPServer"
