@@ -306,7 +306,7 @@ module Ronin
 
         each_field do |struct,name,(type,length)|
           struct[name] = if length
-                           if STRING_TYPES.include?(type)
+                           if Template::STRING_TYPES.include?(type)
                              # string types are combined into a single String
                              values.shift
                            else
@@ -348,83 +348,6 @@ module Ronin
       end
 
       protected
-
-      # Integer types
-      INT_TYPES = Set[
-        :uint8,
-        :uint16,
-        :uint32,
-        :uint64,
-
-        :int8,
-        :int16,
-        :int32,
-        :int64,
-
-        :ubyte,
-        :ushort,
-        :uint,
-        :ulong,
-        :ulong_long,
-
-        :byte,
-        :short,
-        :int,
-        :long,
-        :long_long,
-
-        :uint16_le,
-        :uint32_le,
-        :uint64_le,
-
-        :int16_le,
-        :int32_le,
-        :int64_le,
-
-        :ushort_le,
-        :uint_le,
-        :ulong_le,
-        :ulong_long_le,
-
-        :short_le,
-        :int_le,
-        :long_le,
-        :long_long_le,
-
-        :uint16_be,
-        :uint32_be,
-        :uint64_be,
-
-        :int16_be,
-        :int32_be,
-        :int64_be,
-
-        :ushort_be,
-        :uint_be,
-        :ulong_be,
-        :ulong_long_be,
-
-        :short_be,
-        :int_be,
-        :long_be,
-        :long_long_be
-      ]
-
-      # Float types
-      FLOAT_TYPES = Set[
-        :float,
-        :double,
-        :float_le,
-        :double_le,
-        :float_be,
-        :double_be
-      ]
-
-      # Character types
-      CHAR_TYPES = Set[:uchar, :char]
-
-      # String types
-      STRING_TYPES = CHAR_TYPES + Set[:string]
 
       #
       # Sets or gets the endianness of the structure.
@@ -550,7 +473,7 @@ module Ronin
         type, length = type
 
         if length
-          if STRING_TYPES.include?(type)
+          if Template::STRING_TYPES.include?(type)
             # arrays of chars should be Strings
             String.new
           else
@@ -559,13 +482,13 @@ module Ronin
           end
         else
           if type.kind_of?(Symbol)
-            if INT_TYPES.include?(type)
+            if Template::INT_TYPES.include?(type)
               0
-            elsif FLOAT_TYPES.include?(type)
+            elsif Template::FLOAT_TYPES.include?(type)
               0.0
-            elsif CHAR_TYPES.include?(type)
+            elsif Template::CHAR_TYPES.include?(type)
               "\0"
-            elsif STRING_TYPES.include?(type)
+            elsif Template::STRING_TYPES.include?(type)
               ''
             end
           elsif type < Struct
