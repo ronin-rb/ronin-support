@@ -27,9 +27,11 @@ module Ronin
     # Generic Binary Struct class.
     #
     #     class Packet < Binary::Struct
+    #
+    #       endian :network
     #     
-    #       layout :length, :uint32_net,
-    #              :data, [:uchar, 48]
+    #       layout :length, :uint32,
+    #              :data,   [:uchar, 48]
     #
     #     end
     #
