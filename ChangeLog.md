@@ -1,3 +1,55 @@
+### 0.5.0 / 2012-05-28
+
+* Added {Float#pack}.
+* Added {Ronin::Binary::Template}.
+* Added {Ronin::Binary::Struct}.
+* Added {Ronin::Binary::Hexdump::Parser}.
+* Added {Ronin::Wordlist.create}.
+* Added {Ronin::Wordlist#path} and {Ronin::Wordlist#words}.
+* Added {Ronin::Wordlist#save}.
+* Added {Ronin::Network::Proxy}, {Ronin::Network::TCP::Proxy} and
+  {Ronin::Network::UDP::Proxy}.
+* Added {Ronin::Network::TCP#tcp_open?}.
+* Added {Ronin::Network::TCP#tcp_server_loop}.
+* Added {Ronin::Network::UDP#udp_open?}.
+* Added {Ronin::Network::UDP#udp_server_loop}.
+* Added {Ronin::Network::Mixins::UDP#udp_server_loop}.
+* Added {Ronin::Network::Mixins::UDP#udp_recv}.
+* Added {Ronin::Network::FTP}.
+* Added {Ronin::Network::UNIX}.
+* Added {Ronin::Network::Mixins::FTP}.
+* Added {Ronin::Network::Mixins::UNIX}.
+* Renamed {Ronin::Network::TCP#tcp_single_server} to
+  {Ronin::Network::TCP#tcp_accept}.
+* Renamed {Ronin::Network::UDP#udp_single_server} to
+  {Ronin::Network::UDP#udp_recv}.
+* Deprecated {Ronin::Network::TCP#tcp_single_server}.
+* Deprecated {Ronin::Network::UDP#udp_single_server}.
+* Backported Ruby 1.9 only {Base64} methods.
+* Allow {Integer#pack} to accept a type from {Ronin::Binary::Template::TYPES}.
+* Allow {Array#pack} to accept types from {Ronin::Binary::Template::TYPES}.
+* Allow {String#unpack} to accept types from {Ronin::Binary::Template::TYPES}.
+* Support nmap-style `i,j-k` globbed IP address ranges in {IPAddr.each}.
+* Moved {String#unhexdump} logic into {Ronin::Binary::Hexdump::Parser}.
+  * Added the `:named_chars` option.
+  * Improved the parsing of `od` hexdumps.
+  * Support unhexdumping specific endianness.
+  * Support unhexdumping floats / doubles.
+* Allow {String#mutate} to accept Symbols that map to {Ronin::Fuzzing}
+  generator methods.
+* Use `module_function` in {Ronin::Fuzzing}, so the generator methods can be
+  included into other Classes/Modules.
+* Require uri-query_params ~> 0.6.
+* Use `$stdout` instead of calling `Kernel.puts` or `STDOUT`.
+  Prevents infinite recursion if another library overrides `Kernel.puts`.
+* Allow {Ronin::Network::DNS} methods to yield resolved addresses.
+* Inject {Ronin::Network::DNS} into {Net} for backwards compatibility.
+* Allow {Ronin::Network::TCP#tcp_server} to accept a `backlog` argument.
+* Default the server host to `0.0.0.0` in
+  {Ronin::Network::TCP#tcp_accept}.
+* No longer honor the `VERBOSE` environment variable for enabling verbose output
+  in {Ronin::UI::Output}.
+
 ### 0.4.0 / 2012-02-12
 
 * Require uri-query_params ~> 0.6.
@@ -23,23 +75,23 @@
 * Added {String#mutate}.
 * Added {Ronin::Fuzzing}.
   * Added {Ronin::Fuzzing.[]}.
-  * Added {Ronin::Fuzzing.bad_strings}.
-  * Added {Ronin::Fuzzing.format_strings}.
-  * Added {Ronin::Fuzzing.bad_paths}.
-  * Added {Ronin::Fuzzing.bit_fields}.
-  * Added {Ronin::Fuzzing.signed_bit_fields}.
-  * Added {Ronin::Fuzzing.uint8}.
-  * Added {Ronin::Fuzzing.uint16}.
-  * Added {Ronin::Fuzzing.uint32}.
-  * Added {Ronin::Fuzzing.uint64}.
-  * Added {Ronin::Fuzzing.int8}.
-  * Added {Ronin::Fuzzing.int16}.
-  * Added {Ronin::Fuzzing.int32}.
-  * Added {Ronin::Fuzzing.int64}.
-  * Added {Ronin::Fuzzing.sint8}.
-  * Added {Ronin::Fuzzing.sint16}.
-  * Added {Ronin::Fuzzing.sint32}.
-  * Added {Ronin::Fuzzing.sint64}.
+  * Added `Ronin::Fuzzing.bad_strings`.
+  * Added `Ronin::Fuzzing.format_strings`.
+  * Added `Ronin::Fuzzing.bad_paths`.
+  * Added `Ronin::Fuzzing.bit_fields`.
+  * Added `Ronin::Fuzzing.signed_bit_fields`.
+  * Added `Ronin::Fuzzing.uint8`.
+  * Added `Ronin::Fuzzing.uint16`.
+  * Added `Ronin::Fuzzing.uint32`.
+  * Added `Ronin::Fuzzing.uint64`.
+  * Added `Ronin::Fuzzing.int8`.
+  * Added `Ronin::Fuzzing.int16`.
+  * Added `Ronin::Fuzzing.int32`.
+  * Added `Ronin::Fuzzing.int64`.
+  * Added `Ronin::Fuzzing.sint8`.
+  * Added `Ronin::Fuzzing.sint16`.
+  * Added `Ronin::Fuzzing.sint32`.
+  * Added `Ronin::Fuzzing.sint64`.
 * Added {Ronin::Wordlist}.
 * Added {Ronin::Network::DNS}.
 * Added {Ronin::Network::Mixins::Mixin}.
