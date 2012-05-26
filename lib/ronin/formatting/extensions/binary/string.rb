@@ -68,7 +68,7 @@ class String
     when String
       unpack_original(arguments[0])
     when Symbol
-      Ronin::Binary::Template.new(*arguments).unpack(self)
+      unpack_original(Ronin::Binary::Template.compile(arguments))
     else
       raise(ArgumentError,"first argument to String#unpack must be a String or Symbol")
     end

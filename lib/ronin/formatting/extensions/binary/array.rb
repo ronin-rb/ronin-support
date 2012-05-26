@@ -54,7 +54,7 @@ class Array
     when String
       pack_original(*arguments)
     when Symbol
-      Ronin::Binary::Template.new(*arguments).pack(*self)
+      pack_original(Ronin::Binary::Template.compile(arguments))
     else
       raise(ArgumentError,"first argument to Array#pack must be a String or Symbol")
     end

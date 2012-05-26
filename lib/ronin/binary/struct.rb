@@ -83,86 +83,6 @@ module Ronin
       end
 
       #
-      # The layout of the structure.
-      #
-      # @param [Array<(name, type)>] fields
-      #   The new fields for the structure.
-      #
-      # @return [Array<Symbol>]
-      #   The field names in order.
-      #
-      # @example
-      #   layout :length, :uint32,
-      #          :data,   [:uchar, 256]
-      #
-      def self.layout(*fields)
-        unless fields.empty?
-          @layout = []
-          @fields = {}
-
-          fields.each_slice(2) do |name,(type,length)|
-            type = typedefs.fetch(type,type)
-
-            unless (type.kind_of?(Symbol) || type < Struct)
-              raise(TypeError,"#{type.inspect} is not a Symbol or #{Struct}")
-            end
-
-            @layout      << name
-            @fields[name] = [type, length]
-
-            attr_accessor name
-          end
-        end
-
-        return (@layout ||= [])
-      end
-
-      #
-      # The templates for the structure.
-      #
-      # @return [Hash{Symbol => Template}]
-      #   The templates for each endianness.
-      #
-      # @api semipublic
-      #
-      def self.templates
-        @templates ||= Hash.new do |hash,endian|
-          hash[endian] = template(endian)
-        end
-      end
-
-      #
-      # Creates a new template for the structure.
-      #
-      # @param [Symbol] endian
-      #   The endianness for the template.
-      #
-      # @return [Template]
-      #   The new template.
-      #
-      # @api semipublic
-      #
-      def self.template(endian=self.endian)
-        Template.new do |template|
-          each_field do |struct,name,(type,length)|
-            if type.kind_of?(Symbol)
-              if (endian && Template::ENDIAN_TYPES.include?(type))
-                # translate types to a specific endianness
-                type = case endian
-                       when :little
-                         :"#{type}_le"
-                       when :big, :network
-                         :"#{type}_be"
-                       end
-              end
-            end
-
-            template << [type, length]
-          end
-        end
-      end
-
-      #
       # Unpacks data into the structure.
       #
       # @param [String] data
@@ -174,8 +94,8 @@ module Ronin
       # @return [Struct]
       #   The newly unpacked structure.
       #
-      def self.unpack(data,endian=self.endian)
-        new().unpack(data,endian)
+      def self.unpack(data,options={})
+        new().unpack(data,options)
       end
 
       #
@@ -283,8 +203,8 @@ module Ronin
       # @return [String]
       #   The packed structure.
       #
-      def pack(endian=self.class.endian)
-        self.class.template(endian).pack(*values.flatten)
+      def pack(options={})
+        self.class.templates[options].pack(*values.flatten)
       end
 
       #
@@ -299,8 +219,8 @@ module Ronin
       # @return [Struct]
       #   The unpacked structure.
       #
-      def unpack(data,endian=self.class.endian)
-        values = self.class.template(endian).unpack(data)
+      def unpack(data,options={})
+        values = self.class.templates[options].unpack(data)
 
         each_field do |struct,name,(type,length)|
           struct[name] = if length
@@ -346,23 +266,6 @@ module Ronin
       end
 
       protected
-
-      #
-      # Sets or gets the endianness of the structure.
-      #
-      # @param [:little, :big, :network, nil] type
-      #   The new endianness.
-      #
-      # @return [:little, :big, :network, nil]
-      #   The endianness of the structure.
-      #
-      def self.endian(type=nil)
-        if type
-          @endian = type.to_sym
-        else
-          @endian
-        end
-      end
 
       #
       # Typedefs.
@@ -457,6 +360,93 @@ module Ronin
       typedef :uint32, :uid_t
 
       #
+      # Sets or gets the endianness of the structure.
+      #
+      # @param [:little, :big, :network, nil] type
+      #   The new endianness.
+      #
+      # @return [:little, :big, :network, nil]
+      #   The endianness of the structure.
+      #
+      def self.endian(type=nil)
+        if type
+          @endian = type.to_sym
+        else
+          @endian
+        end
+      end
+
+      #
+      # The layout of the structure.
+      #
+      # @param [Array<(name, type)>] fields
+      #   The new fields for the structure.
+      #
+      # @return [Array<Symbol>]
+      #   The field names in order.
+      #
+      # @example
+      #   layout :length, :uint32,
+      #          :data,   [:uchar, 256]
+      #
+      def self.layout(*fields)
+        unless fields.empty?
+          @layout = []
+          @fields = {}
+
+          fields.each_slice(2) do |name,(type,length)|
+            type = typedefs.fetch(type,type)
+
+            unless (type.kind_of?(Symbol) || type < Struct)
+              raise(TypeError,"#{type.inspect} is not a Symbol or #{Struct}")
+            end
+
+            @layout      << name
+            @fields[name] = [type, length]
+
+            attr_accessor name
+          end
+        end
+
+        return (@layout ||= [])
+      end
+
+      #
+      # The templates for the structure.
+      #
+      # @return [Hash{Hash => Template}]
+      #   The templates and their options.
+      #
+      # @api semipublic
+      #
+      def self.templates
+        @templates ||= Hash.new do |hash,options|
+          fields  = each_field.map { |struct,name,field| field }
+          options = {:endian => self.endian}.merge(options)
+
+          hash[options] = template(fields,options)
+        end
+      end
+
+      #
+      # Creates a new template for the structure.
+      #
+      # @param [Array<type, (type, length)>] fields
+      #   The fields of the structure.
+      #
+      # @param [Hash] options
+      #   Template options.
+      #
+      # @return [Template]
+      #   The new template.
+      #
+      # @api semipublic
+      #
+      def self.template(fields,options={})
+        Template.new(fields,options)
+      end
+
+      #
       # Default value for a field.
       #
       # @param [type, (type, length)] type
@@ -511,9 +501,14 @@ module Ronin
       # @yieldparam [type, (type, length)] type
       #   The type of the field.
       #
+      # @return [Enumerator]
+      #   If no block is given, an Enumerator will be returned.
+      #
       # @api private
       #
       def self.each_field(&block)
+        return enum_for(__method__) unless block
+
         layout.each do |name|
           type, length = field = fields[name]
 
@@ -544,9 +539,14 @@ module Ronin
       # @yieldparam [type, (type, length)] type
       #   The type of the field.
       #
+      # @return [Enumerator]
+      #   If no block is given, an Enumerator will be returned.
+      #
       # @api private
       #
       def each_field(&block)
+        return enum_for(__method__) unless block
+
         self.class.layout.each do |name|
           type, length = field = self.class.fields[name]
 

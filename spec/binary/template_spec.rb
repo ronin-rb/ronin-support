@@ -74,8 +74,49 @@ describe Binary::Template do
     end
   end
 
+  describe "translate" do
+    subject { described_class }
+
+    context "when given :endian" do
+      it "should translate endian-types" do
+        subject.translate(:uint, :endian => :little).should == :uint_le
+      end
+
+      it "should not translate non-endian-types" do
+        subject.translate(:string, :endian => :little).should == :string
+      end
+
+      it "should raise an ArgumentError for unknown endianness" do
+        lambda {
+          subject.translate(:uint, :endian => :foo)
+        }.should raise_error(ArgumentError)
+      end
+    end
+  end
+
+  describe "compile" do
+    let(:type) { :uint }
+    let(:code) { subject::TYPES[type] }
+
+    subject { described_class }
+
+    it "should translate types to their pack codes" do
+      subject.compile([type]).should == code
+    end
+
+    it "should support specifying the length of a field" do
+      subject.compile([[type, 10]]).should == "#{code}10"
+    end
+
+    it "should raise ArgumentError for unknown types" do
+      lambda {
+        subject.compile([:foo])
+      }.should raise_error(ArgumentError)
+    end
+  end
+
   describe "#initialize" do
-    subject { described_class.new(:uint32, :string) }
+    subject { described_class.new [:uint32, :string] }
 
     it "should store the types" do
       subject.fields.should == [
@@ -83,21 +124,10 @@ describe Binary::Template do
         :string
       ]
     end
-  end
-
-  describe "#<<" do
-    subject { described_class.new(:uint) }
-
-    it "should append fields to the template" do
-      field = [:uchar, 32]
-
-      subject << field
-      subject.fields.last.should == field
-    end
 
     it "should raise ArgumentError for unknown types" do
       lambda {
-        subject << :foo
+        described_class.new [:foo]
       }.should raise_error(ArgumentError)
     end
   end
@@ -128,7 +158,7 @@ describe Binary::Template do
 
   describe "#pack" do
     context ":byte" do
-      subject { described_class.new(:byte) }
+      subject { described_class.new [:byte] }
 
       it "should pack a signed byte" do
         subject.pack(byte).should == char
@@ -137,7 +167,7 @@ describe Binary::Template do
 
     context "[:byte, n]" do
       let(:n) { string.length }
-      subject { described_class.new([:byte, n]) }
+      subject { described_class.new [[:byte, n]] }
 
       it "should pack multiple signed characters" do
         subject.pack(*bytes).should == chars
@@ -145,7 +175,7 @@ describe Binary::Template do
     end
 
     context ":char" do
-      subject { described_class.new(:char) }
+      subject { described_class.new [:char] }
 
       it "should pack a signed character" do
         subject.pack(char).should == char
@@ -154,7 +184,7 @@ describe Binary::Template do
 
     context "[:char, n]" do
       let(:n) { string.length }
-      subject { described_class.new([:char, n]) }
+      subject { described_class.new [[:char, n]] }
 
       it "should pack multiple signed characters" do
         subject.pack(*chars).should == string
@@ -162,7 +192,7 @@ describe Binary::Template do
 
       context "padding" do
         let(:padding) { 10 }
-        subject { described_class.new([:char, n + padding]) }
+        subject { described_class.new [[:char, n + padding]] }
 
         it "should pad the string with '\\0' characters" do
           subject.pack(*chars).should == (string + ("\0" * padding))
@@ -171,7 +201,7 @@ describe Binary::Template do
     end
 
     context ":uint8" do
-      subject { described_class.new(:uint8) }
+      subject { described_class.new [:uint8] }
 
       it "should pack an unsigned 8bit integer" do
         subject.pack(uint8).should == "\xff"
@@ -179,7 +209,7 @@ describe Binary::Template do
     end
 
     context ":uint16" do
-      subject { described_class.new(:uint16) }
+      subject { described_class.new [:uint16] }
 
       it "should pack an unsigned 16bit integer" do
         subject.pack(uint16).should == "\xff\xff"
@@ -187,7 +217,7 @@ describe Binary::Template do
     end
 
     context ":uint32" do
-      subject { described_class.new(:uint32) }
+      subject { described_class.new [:uint32] }
 
       it "should pack an unsigned 32bit integer" do
         subject.pack(uint32).should == "\xff\xff\xff\xff"
@@ -195,7 +225,7 @@ describe Binary::Template do
     end
 
     context ":uint64" do
-      subject { described_class.new(:uint64) }
+      subject { described_class.new [:uint64] }
 
       it "should pack an unsigned 64bit integer" do
         subject.pack(uint64).should == "\xff\xff\xff\xff\xff\xff\xff\xff"
@@ -203,7 +233,7 @@ describe Binary::Template do
     end
 
     context ":int8" do
-      subject { described_class.new(:int8) }
+      subject { described_class.new [:int8] }
 
       it "should pack an signed 8bit integer" do
         subject.pack(int8).should == "\xff"
@@ -211,7 +241,7 @@ describe Binary::Template do
     end
 
     context ":int16" do
-      subject { described_class.new(:int16) }
+      subject { described_class.new [:int16] }
 
       it "should pack an unsigned 16bit integer" do
         subject.pack(int16).should == "\xff\xff"
@@ -219,7 +249,7 @@ describe Binary::Template do
     end
 
     context ":int32" do
-      subject { described_class.new(:int32) }
+      subject { described_class.new [:int32] }
 
       it "should pack an unsigned 32bit integer" do
         subject.pack(int32).should == "\xff\xff\xff\xff"
@@ -227,7 +257,7 @@ describe Binary::Template do
     end
 
     context ":int64" do
-      subject { described_class.new(:int64) }
+      subject { described_class.new [:int64] }
 
       it "should pack an unsigned 64bit integer" do
         subject.pack(int64).should == "\xff\xff\xff\xff\xff\xff\xff\xff"
@@ -235,7 +265,7 @@ describe Binary::Template do
     end
 
     context ":string" do
-      subject { described_class.new(:string) }
+      subject { described_class.new [:string] }
 
       it "should pack a string" do
         subject.pack(string).should == "#{string}\0"
@@ -245,7 +275,7 @@ describe Binary::Template do
 
   describe "#unpack" do
     context ":byte" do
-      subject { described_class.new(:byte) }
+      subject { described_class.new [:byte] }
 
       it "should unpack a signed byte" do
         subject.unpack(char).should == [byte]
@@ -254,7 +284,7 @@ describe Binary::Template do
 
     context "[:byte, n]" do
       let(:n) { string.length }
-      subject { described_class.new([:byte, n]) }
+      subject { described_class.new [[:byte, n]] }
 
       it "should pack multiple signed characters" do
         subject.unpack(chars).should == bytes
@@ -262,7 +292,7 @@ describe Binary::Template do
     end
 
     context ":char" do
-      subject { described_class.new(:char) }
+      subject { described_class.new [:char] }
 
       it "should unpack a signed character" do
         subject.unpack(char).should == [char]
@@ -271,7 +301,7 @@ describe Binary::Template do
 
     context "[:char, n]" do
       let(:n) { string.length }
-      subject { described_class.new([:char, n]) }
+      subject { described_class.new [[:char, n]] }
 
       it "should unpack multiple signed characters" do
         subject.unpack(string).should == [chars]
@@ -279,7 +309,7 @@ describe Binary::Template do
 
       context "padding" do
         let(:padding) { 10 }
-        subject { described_class.new([:char, n + padding]) }
+        subject { described_class.new [[:char, n + padding]] }
 
         it "should strip '\\0' padding characters" do
           subject.unpack(string + ("\0" * padding)).should == [chars]
@@ -288,7 +318,7 @@ describe Binary::Template do
     end
 
     context ":uint8" do
-      subject { described_class.new(:uint8) }
+      subject { described_class.new [:uint8] }
 
       it "should unpack an unsigned 8bit integer" do
         subject.unpack("\xff").should == [uint8]
@@ -296,7 +326,7 @@ describe Binary::Template do
     end
 
     context ":uint16" do
-      subject { described_class.new(:uint16) }
+      subject { described_class.new [:uint16] }
 
       it "should unpack an unsigned 16bit integer" do
         subject.unpack("\xff\xff").should == [uint16]
@@ -304,7 +334,7 @@ describe Binary::Template do
     end
 
     context ":uint32" do
-      subject { described_class.new(:uint32) }
+      subject { described_class.new [:uint32] }
 
       it "should unpack an unsigned 32bit integer" do
         subject.unpack("\xff\xff\xff\xff").should == [uint32]
@@ -312,7 +342,7 @@ describe Binary::Template do
     end
 
     context ":uint64" do
-      subject { described_class.new(:uint64) }
+      subject { described_class.new [:uint64] }
 
       it "should unpack an unsigned 64bit integer" do
         subject.unpack("\xff\xff\xff\xff\xff\xff\xff\xff").should == [uint64]
@@ -320,7 +350,7 @@ describe Binary::Template do
     end
 
     context ":int8" do
-      subject { described_class.new(:int8) }
+      subject { described_class.new [:int8] }
 
       it "should unpack an signed 8bit integer" do
         subject.unpack("\xff").should == [int8]
@@ -328,7 +358,7 @@ describe Binary::Template do
     end
 
     context ":int16" do
-      subject { described_class.new(:int16) }
+      subject { described_class.new [:int16] }
 
       it "should unpack an unsigned 16bit integer" do
         subject.unpack("\xff\xff").should == [int16]
@@ -336,7 +366,7 @@ describe Binary::Template do
     end
 
     context ":int32" do
-      subject { described_class.new(:int32) }
+      subject { described_class.new [:int32] }
 
       it "should unpack an unsigned 32bit integer" do
         subject.unpack("\xff\xff\xff\xff").should == [int32]
@@ -344,7 +374,7 @@ describe Binary::Template do
     end
 
     context ":int64" do
-      subject { described_class.new(:int64) }
+      subject { described_class.new [:int64] }
 
       it "should unpack an unsigned 64bit integer" do
         subject.unpack("\xff\xff\xff\xff\xff\xff\xff\xff").should == [int64]
@@ -352,7 +382,7 @@ describe Binary::Template do
     end
 
     context ":string" do
-      subject { described_class.new(:string) }
+      subject { described_class.new [:string] }
 
       it "should unpack a string" do
         subject.unpack("#{string}\0").should == [string]
@@ -361,7 +391,7 @@ describe Binary::Template do
   end
 
   describe "#to_s" do
-    subject { described_class.new(:uint32, :string) }
+    subject { described_class.new [:uint32, :string] }
 
     it "should return the pack format String" do
       subject.to_s.should == "LZ*"

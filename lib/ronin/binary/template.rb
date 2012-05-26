@@ -277,11 +277,11 @@ module Ronin
       # @param [Array<type, (type, length)>] types
       #   The types which the packer will use.
       #
-      # @yield [template]
-      #   If a block is given, the new template will be yielded.
+      # @param [Hash] options
+      #   Template options.
       #
-      # @yieldparam [Template] template
-      #   The new template.
+      # @option options [:little, :big, :network] :endian
+      #   The endianness to apply to types.
       #
       # @raise [ArgumentError]
       #   A given type is not known.
@@ -321,43 +321,77 @@ module Ronin
       # @example
       #   Template.new(:uint32, [:char, 100])
       #
-      # @example
-      #   Template.new do |template|
-      #     template << :uint32
-      #     template << [:char, 100]
-      #   end
-      #
-      def initialize(*fields)
-        @fields   = []
-        @template = ''
-
-        fields.each { |field| self << field }
-
-        yield self if block_given?
+      def initialize(fields,options={})
+        @fields   = fields
+        @template = self.class.compile(@fields,options)
       end
 
       #
-      # Appends a field to the template.
+      # Translates the type of the field.
       #
-      # @param [type, (type, length)] types
-      #   The types which the packer will use.
+      # @param [Symbol] type
+      #   The type to translate.
       #
-      # @return [Template]
-      #   The modified template.
+      # @param [Hash] options
+      #   Translation options.
+      #
+      # @option options [:little, :big, :network] :endian
+      #   The endianness to apply to types.
+      #
+      # @return [Symbol]
+      #   The translated type.
+      #
+      # @raise [ArgumentError]
+      #   The value of `:endian` is unknown.
+      #
+      def self.translate(type,options={})
+        if (options[:endian] && ENDIAN_TYPES.include?(type))
+          type = case options[:endian]
+                 when :little
+                   :"#{type}_le"
+                 when :big, :network
+                   :"#{type}_be"
+                 else
+                   raise(ArgumentError,"unknown endianness: #{type}")
+                 end
+        end
+
+        return type
+      end
+
+      #
+      # Compiles Binary {types TYPES} into an `Array#pack` / `String#unpack`
+      # template.
+      #
+      # @param [Array<type, (type, length)>] types
+      #   The {types TYPES} which the packer will use.
+      #
+      # @param [Hash] options
+      #   Type options.
+      #
+      # @option options [:little, :big, :network] :endian
+      #   The endianness to apply to types.
+      #
+      # @return [String]
+      #   The `Array#pack` / `String#unpack` template.
       #
       # @raise [ArgumentError]
       #   A given type is not known.
       #
-      def <<(field)
-        type, length = field
+      def self.compile(types,options={})
+        string = ''
 
-        unless (code = TYPES[type])
-          raise(ArgumentError,"#{type.inspect} not supported")
+        types.each do |(type,length)|
+          type = translate(type,options)
+
+          unless (code = TYPES[type])
+            raise(ArgumentError,"#{type.inspect} not supported")
+          end
+
+          string << code << length.to_s
         end
 
-        @fields << field
-        @template << code << length.to_s
-        return self
+        return string
       end
 
       #
