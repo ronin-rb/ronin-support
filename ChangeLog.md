@@ -48,7 +48,7 @@
 * Default the server host to `0.0.0.0` in
   {Ronin::Network::TCP#tcp_accept}.
 * No longer honor the `VERBOSE` environment variable for enabling verbose output
-  in {Ronin::UI::Output}.
+  in {Ronin::UI::Output}. Use `ruby -w` or `ruby -d` instead.
 
 ### 0.4.0 / 2012-02-12
 
