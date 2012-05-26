@@ -302,16 +302,17 @@ module Ronin
       typedef :ulong, :pointer
       typedef :uchar, :bool
 
-      # _t typedefs
-      typedef :uint8, :uint8_t
+      # *_t typedefs
+      typedef :uint8,  :uint8_t
       typedef :uint16, :uint16_t
       typedef :uint32, :uint32_t
       typedef :uint64, :uint64_t
-      typedef :int8, :int8_t
-      typedef :int16, :int16_t
-      typedef :int32, :int32_t
-      typedef :int64, :int64_t
+      typedef :int8,   :int8_t
+      typedef :int16,  :int16_t
+      typedef :int32,  :int32_t
+      typedef :int64,  :int64_t
 
+      # network endian types
       typedef :uint16_be,     :uint16_net
       typedef :uint32_be,     :uint32_net
       typedef :uint64_be,     :uint64_net
@@ -327,37 +328,37 @@ module Ronin
       typedef :long_long_be,  :long_long_net
 
       # libc typedefs
-      typedef :long,  :blkcnt_t
+      typedef :long,    :blkcnt_t
       typedef :pointer, :caddr_t
-      typedef :int, :clockid_t
-      typedef :int, :daddr_t
-      typedef :ulong, :dev_t
-      typedef :long, :fd_mask
-      typedef :ulong, :fsblkcnt_t
-      typedef :ulong, :fsfilcnt_t
-      typedef :uint32, :git_t
-      typedef :uint32, :id_t
-      typedef :ulong, :ino_t
-      typedef :int32, :key_t
-      typedef :long, :loff_t
-      typedef :uint32, :mode_t
-      typedef :ulong, :nlink_t
-      typedef :long, :off_t
-      typedef :int32, :pid_t
-      typedef :uint32, :pthread_key_t
-      typedef :int32, :pthread_once_t
-      typedef :ulong, :pthread_t
-      typedef :long, :quad_t
-      typedef :long, :register_t
-      typedef :ulong, :rlim_t
-      typedef :uint16, :sa_family_t
-      typedef :ulong, :size_t
-      typedef :uint32, :socklen_t
-      typedef :long, :suseconds_t
-      typedef :long,  :ssize_t
-      typedef :long, :time_t
+      typedef :int,     :clockid_t
+      typedef :int,     :daddr_t
+      typedef :ulong,   :dev_t
+      typedef :long,    :fd_mask
+      typedef :ulong,   :fsblkcnt_t
+      typedef :ulong,   :fsfilcnt_t
+      typedef :uint32,  :git_t
+      typedef :uint32,  :id_t
+      typedef :ulong,   :ino_t
+      typedef :int32,   :key_t
+      typedef :long,    :loff_t
+      typedef :uint32,  :mode_t
+      typedef :ulong,   :nlink_t
+      typedef :long,    :off_t
+      typedef :int32,   :pid_t
+      typedef :uint32,  :pthread_key_t
+      typedef :int32,   :pthread_once_t
+      typedef :ulong,   :pthread_t
+      typedef :long,    :quad_t
+      typedef :long,    :register_t
+      typedef :ulong,   :rlim_t
+      typedef :uint16,  :sa_family_t
+      typedef :ulong,   :size_t
+      typedef :uint32,  :socklen_t
+      typedef :long,    :suseconds_t
+      typedef :long,    :ssize_t
+      typedef :long,    :time_t
       typedef :pointer, :timer_t
-      typedef :uint32, :uid_t
+      typedef :uint32,  :uid_t
 
       #
       # Sets or gets the endianness of the structure.
