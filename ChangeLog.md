@@ -54,6 +54,7 @@
   {Ronin::Network::TCP#tcp_accept}.
 * No longer honor the `VERBOSE` environment variable for enabling verbose output
   in {Ronin::UI::Output}. Use `ruby -w` or `ruby -d` instead.
+* No longer support loading `extlib` in `ronin/support/inflector`.
 
 ### 0.4.0 / 2012-02-12
 

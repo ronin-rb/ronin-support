@@ -28,10 +28,6 @@ module Ronin
       :active_support => {
         :path => 'active_support/inflector',
         :const => 'ActiveSupport::Inflector'
-      },
-      :extlib => {
-        :path => 'extlib/inflection',
-        :const => 'Extlib::Inflection'
       }
     }
 
@@ -41,7 +37,7 @@ module Ronin
     #
     # @param [Symbol, String] name
     #   The name of the Inflector library to load. May be either
-    #   `:datamapper`, `:active_support` or `:extlib`.
+    #   `:datamapper` or `:active_support`.
     #
     # @return [true]
     #   Specifies that the Inflector library was successfully loaded.
@@ -81,7 +77,7 @@ module Ronin
       return true
     end
 
-    [:datamapper, :active_support, :extlib].each do |name|
+    [:datamapper, :active_support].each do |name|
       begin
         Support.load_inflector!(name)
         break
