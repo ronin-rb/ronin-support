@@ -154,28 +154,6 @@ describe String do
     end
   end
 
-  describe "#hex_unescape" do
-    it "should unescape a normal String" do
-      "hello".hex_unescape.should == "hello"
-    end
-
-    it "should unescape a hex String" do
-      "\\x68\\x65\\x6c\\x6c\\x6f\\x4e".hex_unescape.should == "hello\x4e"
-    end
-
-    it "should unescape an octal String" do
-      "hello\012".hex_unescape.should == "hello\n"
-    end
-
-    it "should unescape control characters" do
-      "hello\\n".hex_unescape.should == "hello\n"
-    end
-
-    it "should unescape normal characters" do
-      "hell\\o".hex_unescape.should == "hello"
-    end
-  end
-
   describe "#xor" do
     subject { 'hello' }
 

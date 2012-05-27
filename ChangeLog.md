@@ -21,6 +21,9 @@
 * Added {Ronin::Network::UNIX}.
 * Added {Ronin::Network::Mixins::FTP}.
 * Added {Ronin::Network::Mixins::UNIX}.
+* Aliased {String#escape} to {String#dump}.
+* Renamed {String#hex_unescape} to {String#unescape}.
+  * Aliased {String#hex_unescape} to {String#unescape}.
 * Renamed {Ronin::Network::TCP#tcp_single_server} to
   {Ronin::Network::TCP#tcp_accept}.
 * Renamed {Ronin::Network::UDP#udp_single_server} to

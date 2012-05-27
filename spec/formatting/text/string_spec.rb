@@ -24,6 +24,14 @@ describe String do
     should respond_to(:insert_after)
   end
 
+  it "should provide String#escape" do
+    should respond_to(:escape)
+  end
+
+  it "should provide String#unescape" do
+    should respond_to(:unescape)
+  end
+
   describe "#format_bytes" do
     it "should format each byte in the String" do
       subject.format_bytes { |b|
@@ -127,6 +135,28 @@ describe String do
 
     it "should not inject data if no matches are found" do
       subject.insert_after(/x/,'x').should == subject
+    end
+  end
+
+  describe "#unescape" do
+    it "should not unescape a normal String" do
+      "hello".unescape.should == "hello"
+    end
+
+    it "should unescape a hex String" do
+      "\\x68\\x65\\x6c\\x6c\\x6f\\x4e".unescape.should == "hello\x4e"
+    end
+
+    it "should unescape an octal String" do
+      "hello\012".unescape.should == "hello\n"
+    end
+
+    it "should unescape control characters" do
+      "hello\\n".unescape.should == "hello\n"
+    end
+
+    it "should unescape normal characters" do
+      "hell\\o".unescape.should == "hello"
     end
   end
 end
