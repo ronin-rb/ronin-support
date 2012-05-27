@@ -19,7 +19,7 @@
 
 require 'ronin/formatting/extensions/binary/base64'
 require 'ronin/formatting/extensions/binary/integer'
-require 'ronin/formatting/extensions/text'
+require 'ronin/formatting/extensions/text/string'
 require 'ronin/binary/hexdump/parser'
 require 'ronin/binary/template'
 
