@@ -18,3 +18,4 @@
 #
 
 require 'ronin/binary/template'
+require 'ronin/binary/struct'
