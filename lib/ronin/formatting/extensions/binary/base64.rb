@@ -19,21 +19,46 @@
 
 require 'base64'
 
+#
+# Adds Ruby 1.9 specific methods when running on Ruby 1.8.7.
+#
 module Base64
   if RUBY_VERSION < '1.9'
     module_function
 
-    # Returns the Base64-encoded version of +bin+.
-    # This method complies with RFC 4648.
-    # No line feeds are added.
+    #
+    # Strictly encodes a base64 String.
+    #
+    # @param [String] bin
+    #   The String to encode.
+    #
+    # @return [String]
+    #   The strictly encoded base64 String.
+    #
+    # @note
+    #   This method complies with RFC 4648.
+    #   No line feeds are added.
+    #
     def strict_encode64(bin)
       encode64(bin).tr("\n",'')
     end
 
-    # Returns the Base64-decoded version of +str+.
-    # This method complies with RFC 4648.
-    # ArgumentError is raised if +str+ is incorrectly padded or contains
-    # non-alphabet characters.  Note that CR or LF are also rejected.
+    #
+    # Decodes a strictly base64 encoded String.
+    #
+    # @param [String] str
+    #   The strictly encoded base64 String.
+    #
+    # @return [String]
+    #   The decoded String.
+    #
+    # @raise [ArgumentError]
+    #   The String is incorrectly padded or contains non-alphabet characters.
+    #   Note: CR or LF are also rejected.
+    #
+    # @note
+    #   This method complies with RFC 4648.
+    #
     def strict_decode64(str)
       unless str.include?("\n")
         decode64(str)
@@ -42,23 +67,37 @@ module Base64
       end
     end
 
-    # Returns the Base64-encoded version of +bin+.
-    # This method complies with ``Base 64 Encoding with URL and Filename Safe
-    # Alphabet'' in RFC 4648.
-    # The alphabet uses '-' instead of '+' and '_' instead of '/'.
     #
-    # @note Backported from Ruby 1.9.3
+    # Encodes a URL-safe base64 String.
+    #
+    # @param [String] bin
+    #   The String to encode.
+    #
+    # @return [String]
+    #   The URL-safe encoded base64 String.
+    #
+    # @note
+    #   This method complies with ``Base 64 Encoding with URL and Filename Safe
+    #   Alphabet'' in RFC 4648.
+    #   The alphabet uses '-' instead of '+' and '_' instead of '/'.
     #
     def urlsafe_encode64(bin)
       strict_encode64(bin).tr("+/", "-_")
     end
 
-    # Returns the Base64-decoded version of +str+.
-    # This method complies with ``Base 64 Encoding with URL and Filename Safe
-    # Alphabet'' in RFC 4648.
-    # The alphabet uses '-' instead of '+' and '_' instead of '/'.
     #
-    # @note Backported from Ruby 1.9.3
+    # Decodes a URL-safe base64 encoded String.
+    #
+    # @param [String] str
+    #   The URL-safe encoded base64 String.
+    #
+    # @return [String]
+    #   The decoded String.
+    #
+    # @note
+    #   This method complies with ``Base 64 Encoding with URL and Filename Safe
+    #   Alphabet'' in RFC 4648.
+    #   The alphabet uses '-' instead of '+' and '_' instead of '/'.
     #
     def urlsafe_decode64(str)
       strict_decode64(str.tr("-_", "+/"))
