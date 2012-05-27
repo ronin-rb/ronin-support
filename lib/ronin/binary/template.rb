@@ -360,11 +360,11 @@ module Ronin
       end
 
       #
-      # Compiles Binary {types TYPES} into an `Array#pack` / `String#unpack`
+      # Compiles binary types into an `Array#pack` / `String#unpack`
       # template.
       #
       # @param [Array<type, (type, length)>] types
-      #   The {types TYPES} which the packer will use.
+      #   The types which the packer will use.
       #
       # @param [Hash] options
       #   Type options.
