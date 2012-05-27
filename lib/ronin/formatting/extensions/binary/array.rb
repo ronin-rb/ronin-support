@@ -50,9 +50,9 @@ class Array
   # @api public
   #
   def pack(*arguments)
-    case arguments[0]
+    case arguments.first
     when String
-      pack_original(*arguments)
+      pack_original(arguments.first)
     when Symbol
       pack_original(Ronin::Binary::Template.compile(arguments))
     else

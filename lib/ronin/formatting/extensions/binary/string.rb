@@ -64,9 +64,9 @@ class String
   # @api public
   #
   def unpack(*arguments)
-    case arguments[0]
+    case arguments.first
     when String
-      unpack_original(arguments[0])
+      unpack_original(arguments.first)
     when Symbol
       unpack_original(Ronin::Binary::Template.compile(arguments))
     else
