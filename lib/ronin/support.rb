@@ -20,6 +20,7 @@
 require 'ronin/extensions'
 require 'ronin/formatting'
 require 'ronin/fuzzing'
+require 'ronin/binary'
 require 'ronin/network'
 require 'ronin/path'
 require 'ronin/templates'
