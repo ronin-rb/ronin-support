@@ -50,12 +50,12 @@ module Ronin
     # * `:long` (`l!`) - signed long integer, native endian.
     # * `:long_long` (`q`) - signed quad integer, native endian.
     # * `:utf8` (`U`) - UTF8 character.
-    # * `:float` (`F`) - single-percision float, native format.
-    # * `:double` (`D`) - double-percision float, native format.
-    # * `:float_le` (`e`) - single-percision float, little endian.
-    # * `:double_le` (`E`) - double-percision float, little endian.
-    # * `:float_be` (`g`) - single-percision float, big endian.
-    # * `:double_be` (`G`) - double-percision float, big endian.
+    # * `:float` (`F`) - single-precision float, native format.
+    # * `:double` (`D`) - double-precision float, native format.
+    # * `:float_le` (`e`) - single-precision float, little endian.
+    # * `:double_le` (`E`) - double-precision float, little endian.
+    # * `:float_be` (`g`) - single-precision float, big endian.
+    # * `:double_be` (`G`) - double-precision float, big endian.
     # * `:ubyte` (`C`) - unsigned byte.
     # * `:byte` (`c`) - signed byte.
     # * `:string` (`Z*`) - binary String, `\0` terminated.

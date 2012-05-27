@@ -50,7 +50,7 @@ module Ronin
       #
       # ### server_connect
       #
-      # When the server accetps a connection from the proxy:
+      # When the server accepts a connection from the proxy:
       #
       #     on_server_connect do |client,server|
       #       puts "[connected] #{proxy}"
