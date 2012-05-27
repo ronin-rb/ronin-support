@@ -52,7 +52,7 @@ module Ronin
           :doubles        => 10
         }
 
-        # Wordsizes for various encodings
+        # Word-sizes for various encodings
         WORD_SIZES = {
           :binary         => 1,
           :octal_bytes    => 1,

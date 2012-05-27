@@ -77,7 +77,7 @@ module Base64
     #   The URL-safe encoded base64 String.
     #
     # @note
-    #   This method complies with ``Base 64 Encoding with URL and Filename Safe
+    #   This method complies with ``Base 64 Encoding with URL and filename Safe
     #   Alphabet'' in RFC 4648.
     #   The alphabet uses '-' instead of '+' and '_' instead of '/'.
     #
@@ -95,7 +95,7 @@ module Base64
     #   The decoded String.
     #
     # @note
-    #   This method complies with ``Base 64 Encoding with URL and Filename Safe
+    #   This method complies with ``Base 64 Encoding with URL and filename Safe
     #   Alphabet'' in RFC 4648.
     #   The alphabet uses '-' instead of '+' and '_' instead of '/'.
     #

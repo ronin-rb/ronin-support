@@ -356,10 +356,10 @@ module Ronin
       #   The UDPServer.
       #
       # @yieldparam [String] client_host
-      #   The source host of the mesg.
+      #   The source host of the message.
       #
       # @yieldparam [Integer] client_port
-      #   The source port of the mesg.
+      #   The source port of the message.
       #
       # @yieldparam [String] mesg
       #   The received message.
@@ -403,10 +403,10 @@ module Ronin
       #   The UDPServer.
       #
       # @yieldparam [String] client_host
-      #   The source host of the mesg.
+      #   The source host of the message.
       #
       # @yieldparam [Integer] client_port
-      #   The source port of the mesg.
+      #   The source port of the message.
       #
       # @yieldparam [String] mesg
       #   The received message.
