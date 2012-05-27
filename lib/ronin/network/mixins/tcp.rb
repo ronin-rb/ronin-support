@@ -65,6 +65,29 @@ module Ronin
         protected
 
         #
+        # Tests whether the TCP port, specified by the `host` and `port`
+        # parameters, is open.
+        #
+        # @param [Integer] timeout (5)
+        #   The maximum time to attempt connecting.
+        #
+        # @return [Boolean, nil]
+        #   Specifies whether the remote TCP port is open.
+        #   If the connection was not accepted, `nil` will be returned.
+        #
+        # @see Network::TCP#tcp_open?
+        #
+        # @api public
+        #
+        # @since 0.5.0
+        #
+        def tcp_open?(timeout=nil)
+          print_info "Testing if #{host_port} is open ..."
+
+          super(self.host,self.port,self.local_host,self.local_port,timeout)
+        end
+
+        #
         # Opens a TCP connection to the host and port specified by the
         # `host` and `port` parameters. If the `local_host` and
         # `local_port` parameters are set, they will be used for

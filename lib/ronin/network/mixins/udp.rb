@@ -65,6 +65,27 @@ module Ronin
         protected
 
         #
+        # Tests whether the UDP port, specified by the `host` and `port`
+        # parameters, is open.
+        #
+        # @param [Integer] timeout (5)
+        #   The maximum time to attempt connecting.
+        #
+        # @return [Boolean, nil]
+        #   Specifies whether the remote UDP port is open.
+        #   If no data or ICMP error were received, `nil` will be returned.
+        #
+        # @api public
+        #
+        # @since 0.5.0
+        #
+        def udp_open?(timeout=nil)
+          print_info "Testing if #{host_port} is open ..."
+
+          super(self.host,self.port,self.local_host,self.local_port,timeout)
+        end
+
+        #
         # Opens a UDP connection to the host and port specified by the
         # `host` and `port` parameters. If the `local_host` and
         # `local_port` parameters are set, they will be used for

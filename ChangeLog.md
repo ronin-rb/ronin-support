@@ -13,6 +13,8 @@
 * Added {Ronin::Network::TCP#tcp_server_loop}.
 * Added {Ronin::Network::UDP#udp_open?}.
 * Added {Ronin::Network::UDP#udp_server_loop}.
+* Added {Ronin::Network::Mixins::TCP#tcp_open?}.
+* Added {Ronin::Network::Mixins::UDP#udp_open?}.
 * Added {Ronin::Network::Mixins::UDP#udp_server_loop}.
 * Added {Ronin::Network::Mixins::UDP#udp_recv}.
 * Added {Ronin::Network::FTP}.
