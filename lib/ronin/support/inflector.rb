@@ -21,7 +21,7 @@ module Ronin
   module Support
     # The Inflectors supported by ronin-support
     INFLECTORS = {
-      :datamapper => {
+      :data_mapper => {
         :path => 'dm-core',
         :const => 'DataMapper::Inflector'
       },
@@ -77,7 +77,7 @@ module Ronin
       return true
     end
 
-    [:datamapper, :active_support].each do |name|
+    [:data_mapper, :active_support].each do |name|
       begin
         Support.load_inflector!(name)
         break
