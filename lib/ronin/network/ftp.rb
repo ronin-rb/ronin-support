@@ -48,7 +48,7 @@ module Ronin
       #
       # Sets the default port used by {FTP}.
       #
-      # @param [Integer] port
+      # @param [Integer] new_port
       #   The new default Ronin FTP port.
       #
       # @api public

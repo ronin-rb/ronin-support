@@ -137,7 +137,7 @@ class String
   #
   # Finds the common suffix of the string and the specified other string.
   #
-  # @param [String] pther
+  # @param [String] other
   #   The other String to compare against.
   #
   # @return [String]

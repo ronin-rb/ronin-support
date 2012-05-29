@@ -42,7 +42,7 @@ module Ronin
       #
       # Sets the DNS nameserver to be queried.
       #
-      # @param [IPAddr, String, nil]
+      # @param [IPAddr, String, nil] address
       #   The address of the nameserver.
       #
       # @return [String, nil]

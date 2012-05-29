@@ -90,8 +90,11 @@ module Ronin
       # @param [String] data
       #   The data to unpack.
       #
-      # @param [Symbol] endian
-      #   The endianness of the data.
+      # @param [Hash] options
+      #   Unpacking options.
+      #
+      # @option options [:little, :big, :network] :endian
+      #   The endianness to apply to types.
       #
       # @return [Struct]
       #   The newly unpacked structure.
@@ -199,8 +202,11 @@ module Ronin
       #
       # Packs the structure.
       #
-      # @param [:little, :big, :network] endian
-      #   Endianness.
+      # @param [Hash] options
+      #   Pack options.
+      #
+      # @option options [:little, :big, :network] :endian
+      #   The endianness to apply to types.
       #
       # @return [String]
       #   The packed structure.
@@ -215,8 +221,11 @@ module Ronin
       # @param [String] data
       #   The data to unpack.
       #
-      # @param [:little, :big, :network] endian
-      #   Endianness.
+      # @param [Hash] options
+      #   Unpack options.
+      #
+      # @option options [:little, :big, :network] :endian
+      #   The endianness to apply to types.
       #
       # @return [Struct]
       #   The unpacked structure.

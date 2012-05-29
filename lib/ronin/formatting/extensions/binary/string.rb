@@ -40,9 +40,6 @@ class String
   # @param [String, Array<Symbol>] arguments
   #   The `String#unpack` template or a list of {Ronin::Binary::Template} types.
   #
-  # @param [Integer] address_length
-  #   The number of bytes to depack.
-  #
   # @return [Array]
   #   The values unpacked from the String.
   #

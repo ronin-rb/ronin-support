@@ -74,9 +74,6 @@ module Ronin
         # @param [String] data
         #   The data to send to the socket.
         #
-        # @param [String] path
-        #   The path to the socket.
-        #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
         #

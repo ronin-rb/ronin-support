@@ -393,7 +393,7 @@ module Ronin
         #
         # Packs a segment back into bytes.
         #
-        # @param [Array<Integer, Float>] segment
+        # @param [Array<Integer, Float>] values
         #   A segment of words.
         #
         # @return [String]

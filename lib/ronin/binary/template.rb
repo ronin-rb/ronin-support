@@ -274,7 +274,7 @@ module Ronin
       #
       # Creates a new Binary Template.
       #
-      # @param [Array<type, (type, length)>] types
+      # @param [Array<type, (type, length)>] fields
       #   The types which the packer will use.
       #
       # @param [Hash] options
