@@ -18,14 +18,12 @@ group :development do
 end
 
 group :test do
-  gem 'i18n',           '~> 0.4'
-  gem 'tzinfo',         '~> 0.3.0'
-
-  INFLECTORS = {
-    'activesupport' => '~> 3.0.0',
-    'dm-core'       => '~> 1.0'
-  }
-
-  inflector = ENV.fetch('INFLECTOR','dm-core')
-  gem inflector, INFLECTORS[inflector]
+  case ENV['INFLECTOR']
+  when 'activesupport'
+    gem 'i18n',           '~> 0.4'
+    gem 'tzinfo',         '~> 0.3.0'
+    gem 'activesupport',  '~> 3.0.0'
+  else
+    gem 'dm-core'         '~> 1.0'
+  end
 end
