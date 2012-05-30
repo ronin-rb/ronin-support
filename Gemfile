@@ -2,9 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-platforms :jruby do
-  gem 'jruby-openssl',	'~> 0.7.0'
-end
+gem 'jruby-openssl',	'~> 0.7.0', :platforms => :jruby
 
 group :development do
   gem 'rake',               '~> 0.8'
@@ -29,5 +27,5 @@ group :test do
   }
 
   inflector = ENV.fetch('INFLECTOR','dm-core')
-  gem(inflector,INFLECTORS[inflector])
+  gem inflector, INFLECTORS[inflector]
 end
