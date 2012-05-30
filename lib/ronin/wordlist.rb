@@ -17,6 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/extensions/regexp'
 require 'ronin/fuzzing/extensions'
 
 require 'set'
@@ -112,7 +113,7 @@ module Ronin
       words_seen = SortedSet[]
 
       text.each_line do |line|
-        line.scan(/\w+/).each do |word|
+        line.scan(Regexp::WORD).each do |word|
           if block_given?
             yield word unless words_seen.include?(word)
           end
