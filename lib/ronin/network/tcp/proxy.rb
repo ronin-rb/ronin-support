@@ -107,27 +107,29 @@ module Ronin
         # @api public
         #
         def poll
-          client_sockets = @connections.keys
-          server_sockets = @connections.values
+          client_sockets     = @connections.keys
+          server_sockets     = @connections.values
+          client_connections = @connections
+          server_connections = @connections.invert
 
           sockets = [@socket] + client_sockets + server_sockets
 
           readable, writtable, errors = IO.select(sockets,nil,sockets)
 
           (errors & client_sockets).each do |client_socket|
-            server_socket = @connections[client_socket]
+            server_socket = client_connections[client_socket]
 
             client_disconnect(client_socket,server_socket)
           end
 
           (errors & server_sockets).each do |server_socket|
-            client_socket = @connections.key(server_socket)
+            client_socket = server_connections[server_socket]
 
             server_disconnect(client_socket,server_socket)
           end
 
           (readable & client_sockets).each do |client_socket|
-            server_socket = @connections[client_socket]
+            server_socket = client_connections[client_socket]
             data = recv(client_socket)
 
             unless data.empty?
@@ -138,7 +140,7 @@ module Ronin
           end
 
           (readable & server_sockets).each do |server_socket|
-            client_socket = @connections.key(server_socket)
+            client_socket = server_connections[server_socket]
             data = recv(server_socket)
 
             unless data.empty?
