@@ -19,12 +19,19 @@
 
 require 'ronin/extensions/resolv'
 
+#
+# @since 0.3.0
+#
 class Regexp
 
   # Regular expression for finding words
+  #
+  # @since 0.5.0
   WORD = /\w[\w'\-\.]*\w/
 
   # Regular expression for finding a decimal octet (0 - 255)
+  #
+  # @since 0.4.0
   OCTET = /25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9]/
 
   # Regular expression for finding MAC addresses in text
@@ -68,48 +75,78 @@ class Regexp
   EMAIL_ADDR = /#{USER_NAME}\@#{HOST_NAME}/
 
   # Regular expression to find deliminators in text
+  #
+  # @since 0.4.0
   DELIM = /[;&\n\r]/
 
   # Regular expression to find identifier in text
+  #
+  # @since 0.4.0
   IDENTIFIER = /[_]*[a-zA-Z]+[a-zA-Z0-9_-]*/
 
   # Regular expression to find File extensions in text
+  #
+  # @since 0.4.0
   FILE_EXT = /(?:\.[A-Za-z0-9]+)+/
 
   # Regular expression to find File names in text
+  #
+  # @since 0.4.0
   FILE_NAME = /(?:[^\/\\\. ]|\\[\/\\ ])+/
 
   # Regular expression to find Files in text
+  #
+  # @since 0.4.0
   FILE = /#{FILE_NAME}(?:#{FILE_EXT})?/
 
   # Regular expression to find Directory names in text
+  #
+  # @since 0.4.0
   DIRECTORY = /(?:\.\.|\.|#{FILE})/
 
   # Regular expression to find local UNIX Paths in text
+  #
+  # @since 0.4.0
   RELATIVE_UNIX_PATH = /(?:#{DIRECTORY}\/)+#{DIRECTORY}\/?/
 
   # Regular expression to find absolute UNIX Paths in text
+  #
+  # @since 0.4.0
   ABSOLUTE_UNIX_PATH = /(?:\/#{FILE})+\/?/
 
   # Regular expression to find UNIX Paths in text
+  #
+  # @since 0.4.0
   UNIX_PATH = /#{ABSOLUTE_UNIX_PATH}|#{RELATIVE_UNIX_PATH}/
 
   # Regular expression to find local Windows Paths in text
+  #
+  # @since 0.4.0
   RELATIVE_WINDOWS_PATH = /(?:#{DIRECTORY}\\)+#{DIRECTORY}\\?/
 
   # Regular expression to find absolute Windows Paths in text
+  #
+  # @since 0.4.0
   ABSOLUTE_WINDOWS_PATH = /[A-Za-z]:(?:\\#{FILE})+\\?/
 
   # Regular expression to find Windows Paths in text
+  #
+  # @since 0.4.0
   WINDOWS_PATH = /#{ABSOLUTE_WINDOWS_PATH}|#{RELATIVE_WINDOWS_PATH}/
 
   # Regular expression to find local Paths in text
+  #
+  # @since 0.4.0
   RELATIVE_PATH = /#{RELATIVE_UNIX_PATH}|#{RELATIVE_WINDOWS_PATH}/
 
   # Regular expression to find absolute Paths in text
+  #
+  # @since 0.4.0
   ABSOLUTE_PATH = /#{ABSOLUTE_UNIX_PATH}|#{ABSOLUTE_WINDOWS_PATH}/
 
   # Regular expression to find Paths in text
+  #
+  # @since 0.4.0
   PATH = /#{UNIX_PATH}|#{WINDOWS_PATH}/
 
 end
