@@ -21,6 +21,9 @@ require 'ronin/extensions/resolv'
 
 class Regexp
 
+  # Regular expression for finding words
+  WORD = /\w[\w'\-\.]*\w/
+
   # Regular expression for finding a decimal octet (0 - 255)
   OCTET = /25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9]/
 

@@ -1,6 +1,7 @@
 ### 0.5.0 / 2012-05-28
 
 * Added {Float#pack}.
+* Added {Regexp::WORD}.
 * Added {Ronin::Binary::Template}.
 * Added {Ronin::Binary::Struct}.
 * Added {Ronin::Binary::Hexdump::Parser}.
