@@ -322,6 +322,69 @@ module Ronin
       end
 
       #
+      # Connections from clients.
+      #
+      # @return [Array<connection>]
+      #   Client connections.
+      #
+      def client_connections
+        @connections.keys
+      end
+
+      #
+      # Connections to the server.
+      #
+      # @return [Array<connection>]
+      #   Server connections.
+      #
+      def server_connections
+        @connections.values
+      end
+
+      #
+      # Finds the connection to the server, associated with the client.
+      #
+      # @param [connection] client_connection
+      #   The connection from the client.
+      #
+      # @return [connection]
+      #   The connection to the server.
+      #
+      def server_connection_for(client_connection)
+        @connections[client_connection]
+      end
+
+      if RUBY_VERSION < '1.9'
+        #
+        # Finds the connection from the client, associated with the server
+        # connection.
+        #
+        # @param [connection] server_connection
+        #   The connection to the server.
+        #
+        # @return [connection]
+        #   The connection from the client.
+        #
+        def client_connection_for(server_connection)
+          @connections.index(server_connection)
+        end
+      else
+        #
+        # Finds the connection from the client, associated with the server
+        # connection.
+        #
+        # @param [connection] server_connection
+        #   The connection to the server.
+        #
+        # @return [connection]
+        #   The connection from the client.
+        #
+        def client_connection_for(server_connection)
+          @connections.key(server_connection)
+        end
+      end
+
+      #
       # Converts the proxy to a String.
       #
       # @return [String]
@@ -351,7 +414,7 @@ module Ronin
       #
       # @abstract
       #
-      def new_server_connection
+      def open_server_connection
       end
 
       #
@@ -396,7 +459,7 @@ module Ronin
       def reset_connection(client_connection,server_connection)
         close_server_connection(server_connection) if server_connection
 
-        @connections[client_connection] = new_server_connection
+        @connections[client_connection] = open_server_connection
       end
 
       #

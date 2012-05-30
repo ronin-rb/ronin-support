@@ -107,30 +107,25 @@ module Ronin
         # @api public
         #
         def poll
-          client_sockets     = @connections.keys
-          server_sockets     = @connections.values
-          client_connections = @connections
-          server_connections = @connections.invert
-
-          sockets = [@socket] + client_sockets + server_sockets
+          sockets = [@socket] + client_connections + server_connections
 
           readable, writtable, errors = IO.select(sockets,nil,sockets)
 
-          (errors & client_sockets).each do |client_socket|
-            server_socket = client_connections[client_socket]
+          (errors & client_connections).each do |client_socket|
+            server_socket = server_connection_for(client_socket)
 
             client_disconnect(client_socket,server_socket)
           end
 
-          (errors & server_sockets).each do |server_socket|
-            client_socket = server_connections[server_socket]
+          (errors & server_connections).each do |server_socket|
+            client_socket = client_connection_for(server_socket)
 
             server_disconnect(client_socket,server_socket)
           end
 
-          (readable & client_sockets).each do |client_socket|
-            server_socket = client_connections[client_socket]
-            data = recv(client_socket)
+          (readable & client_connections).each do |client_socket|
+            server_socket = server_connection_for(client_socket)
+            data          = recv(client_socket)
 
             unless data.empty?
               client_data(client_socket,server_socket,data)
@@ -139,9 +134,9 @@ module Ronin
             end
           end
 
-          (readable & server_sockets).each do |server_socket|
-            client_socket = server_connections[server_socket]
-            data = recv(server_socket)
+          (readable & server_connections).each do |server_socket|
+            client_socket = client_connection_for(server_socket)
+            data          = recv(server_socket)
 
             unless data.empty?
               server_data(client_socket,server_socket,data)
@@ -151,9 +146,7 @@ module Ronin
           end
 
           if readable.include?(@socket)
-            client_socket = @socket.accept
-
-            client_connect(client_socket)
+            client_connect(@socket.accept)
           end
         end
 
@@ -291,7 +284,7 @@ module Ronin
         # @return [TCPSocket]
         #   A new connection.
         #
-        def new_server_connection
+        def open_server_connection
           TCPSocket.new(@server_host,@server_port)
         end
 
@@ -356,7 +349,7 @@ module Ronin
         #   The connection from a client to the proxy.
         #
         def server_connect(client_connection)
-          server_connection = new_server_connection
+          server_connection = open_server_connection
 
           callback(:server_connect,client_connection,server_connection) do
             @connections[client_connection] = server_connection

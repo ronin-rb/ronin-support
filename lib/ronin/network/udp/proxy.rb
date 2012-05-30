@@ -46,19 +46,18 @@ module Ronin
         # @api public
         #
         def poll
-          server_sockets = @connections.values
-          sockets = [@socket] + server_sockets
+          sockets = [@socket] + server_connections
 
           readable, writtable, errors = IO.select(sockets,nil,sockets)
 
-          (errors & server_sockets).each do |server_socket|
-            client_socket = @connections.key(server_socket)
+          (errors & server_connections).each do |server_socket|
+            client_socket = client_for(server_socket)
 
             close_connection(client_socket,server_socket)
           end
 
-          (readable & server_sockets).each do |server_socket|
-            client_socket  = @connections.key(server_socket)
+          (readable & server_connections).each do |server_socket|
+            client_socket  = client_for(server_socket)
             data, addrinfo = recv(server_socket)
 
             server_data(client_socket,server_socket,data)
@@ -68,7 +67,7 @@ module Ronin
             data, addrinfo = recv(@socket)
 
             client_socket = [@socket, [addrinfo[3], addrinfo[1]]]
-            server_socket = (@connections[client_socket] ||= new_server_connection)
+            server_socket = (@connections[client_socket] ||= open_server_connection)
 
             client_data(client_socket,server_socket,data)
           end
@@ -128,7 +127,7 @@ module Ronin
         # @return [UDPSocket]
         #   The new UDPSocket to the server.
         #
-        def new_server_connection
+        def open_server_connection
           socket = UDPSocket.new
           socket.connect(@server_host,@server_port)
 
