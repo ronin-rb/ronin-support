@@ -112,7 +112,7 @@ module Ronin
       words_seen = SortedSet[]
 
       text.each_line do |line|
-        line.split.each do |word|
+        line.scan(/\w+/).each do |word|
           if block_given?
             yield word unless words_seen.include?(word)
           end
