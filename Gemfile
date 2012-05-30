@@ -25,8 +25,7 @@ group :test do
 
   INFLECTORS = {
     'activesupport' => '~> 3.0.0',
-    'dm-core' => '~> 1.0',
-    'extlib' => '~> 0.9.15'
+    'dm-core'       => '~> 1.0'
   }
 
   inflector = ENV.fetch('INFLECTOR','dm-core')
