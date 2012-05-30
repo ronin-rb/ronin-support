@@ -21,7 +21,6 @@ require 'ronin/extensions/resolv'
 require 'ronin/extensions/regexp'
 
 require 'ipaddr'
-require 'strscan'
 require 'combinatorics/list_comprehension'
 
 class IPAddr
@@ -75,10 +74,8 @@ class IPAddr
                Regexp::IP
              end
 
-    scanner = StringScanner.new(text)
-
-    while scanner.skip_until(regexp)
-      yield scanner.matched
+    text.scan(regexp) do |match|
+      yield match
     end
 
     return nil
