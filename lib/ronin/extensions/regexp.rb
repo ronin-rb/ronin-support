@@ -74,6 +74,11 @@ class Regexp
   # Regular expression to find email addresses in text
   EMAIL_ADDR = /#{USER_NAME}\@#{HOST_NAME}/
 
+  # Regular expression to find phone numbers in text
+  #
+  # @since 0.5.0
+  PHONE_NUMBER = /(?:\d[ \-\.]?)?(?:\d{3}[ \-\.]?)?\d{3}[ \-\.]?\d{4}(?:x\d+)?/
+
   # Regular expression to find deliminators in text
   #
   # @since 0.4.0

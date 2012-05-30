@@ -204,6 +204,34 @@ describe Regexp do
     end
   end
 
+  describe "PHONE_NUMBER" do
+    subject { Regexp::PHONE_NUMBER }
+
+    it "should match 111-2222" do
+      number = '111-2222'
+
+      subject.match(number)[0].should == number
+    end
+
+    it "should match 111-2222x9" do
+      number = '111-2222x9'
+
+      subject.match(number)[0].should == number
+    end
+
+    it "should match 800-111-2222" do
+      number = '800-111-2222'
+
+      subject.match(number)[0].should == number
+    end
+
+    it "should match 1-800-111-2222" do
+      number = '1-800-111-2222'
+
+      subject.match(number)[0].should == number
+    end
+  end
+
   describe "IDENTIFIER" do
     subject { Regexp::IDENTIFIER }
 

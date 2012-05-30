@@ -2,6 +2,7 @@
 
 * Added {Float#pack}.
 * Added {Regexp::WORD}.
+* Added {Regexp::PHONE_NUMBER}.
 * Added {Ronin::Binary::Template}.
 * Added {Ronin::Binary::Struct}.
 * Added {Ronin::Binary::Hexdump::Parser}.
