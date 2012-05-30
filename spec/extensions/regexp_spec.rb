@@ -11,6 +11,10 @@ describe Regexp do
       subject.match('A').should be_nil
     end
 
+    it "should not match numeric letters" do
+      subject.match("123#{word}123")[0].should == word
+    end
+
     it "should not include ending periods" do
       subject.match("#{word}.")[0].should == word
     end
@@ -21,12 +25,6 @@ describe Regexp do
 
     it "should not include tailing punctuation" do
       subject.match("#{word}'")[0].should == word
-    end
-
-    it "should include the periods in acronyms" do
-      acronym = 'M.A.S.H.'
-
-      subject.match(acronym)[0].should == acronym
     end
 
     it "should include punctuation in the middle of the word" do
