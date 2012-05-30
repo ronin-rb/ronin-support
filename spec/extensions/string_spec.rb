@@ -157,21 +157,23 @@ describe String do
     end
   end
 
-  describe "#dump" do
-    it "should dump printable strings" do
-      "hello".dump.should == '"hello"'
-    end
+  if RUBY_VERSION < '1.9.'
+    describe "#dump" do
+      it "should dump printable strings" do
+        "hello".dump.should == '"hello"'
+      end
 
-    it "should dump strings containing control characters" do
-      "hello\n\b\a".dump.should == '"hello\n\b\a"'
-    end
+      it "should dump strings containing control characters" do
+        "hello\n\b\a".dump.should == '"hello\n\b\a"'
+      end
 
-    it "should dump strings containing non-printable characters" do
-      "hello\x90\x05\xEF".dump.should == '"hello\x90\x05\xEF"'
-    end
+      it "should dump strings containing non-printable characters" do
+        "hello\x90\x05\xEF".dump.should == '"hello\x90\x05\xEF"'
+      end
 
-    it "should dump the string when calling the inspect method" do
-      "hello\x90\x05\xEF".inspect.should == '"hello\x90\x05\xEF"'
+      it "should dump the string when calling the inspect method" do
+        "hello\x90\x05\xEF".inspect.should == '"hello\x90\x05\xEF"'
+      end
     end
   end
 end
