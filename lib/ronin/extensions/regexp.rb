@@ -27,7 +27,7 @@ class Regexp
   # Regular expression for finding words
   #
   # @since 0.5.0
-  WORD = /\w[\w'\-\.]*\w/
+  WORD = /(?:(?:[A-Z]\.){2,}|\w[\w'\-\.]*\w)/
 
   # Regular expression for finding a decimal octet (0 - 255)
   #
