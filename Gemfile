@@ -24,6 +24,6 @@ group :test do
     gem 'tzinfo',         '~> 0.3.0'
     gem 'activesupport',  '~> 3.0.0'
   else
-    gem 'dm-core'         '~> 1.0'
+    gem 'dm-core',        '~> 1.0'
   end
 end
