@@ -259,7 +259,7 @@ module Ronin
         #
         # Formats a message to be printed.
         #
-        # @param [Array] message
+        # @param [Array] arguments
         #   The message and additional Objects to format.
         #
         # @return [String]
