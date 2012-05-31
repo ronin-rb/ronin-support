@@ -132,7 +132,7 @@ module Ronin
         #
         def print_info(*message)
           unless Output.silent?
-            Output.handler.print_info(format_message(message))
+            Output.handler.print_info(Helpers.format(message))
             return true
           end
 
@@ -157,7 +157,7 @@ module Ronin
         #
         def print_debug(*message)
           if (Output.verbose? && !(Output.silent?))
-            Output.handler.print_debug(format_message(message))
+            Output.handler.print_debug(Helpers.format(message))
             return true
           end
 
@@ -185,7 +185,7 @@ module Ronin
         #
         def print_warning(*message)
           unless Output.silent?
-            Output.handler.print_warning(format_message(message))
+            Output.handler.print_warning(Helpers.format(message))
             return true
           end
           
@@ -213,7 +213,7 @@ module Ronin
         #
         def print_error(*message)
           unless Output.silent?
-            Output.handler.print_error(format_message(message))
+            Output.handler.print_error(Helpers.format(message))
             return true
           end
 
@@ -265,15 +265,13 @@ module Ronin
         # @return [String]
         #   The formatted message.
         #
-        # @since 1.0.0
-        #
         # @api private
         #
-        def format_message(message)
-          unless message.length == 1
-            message.first % message[1..-1]
+        def Helpers.format(arguments)
+          unless arguments.length == 1
+            arguments.first % arguments[1..-1]
           else
-            message.first
+            arguments.first
           end
         end
       end
