@@ -4,7 +4,7 @@ require 'ronin/formatting/extensions/binary/base64'
 describe Base64 do
   subject { described_class }
 
-  if RUBY_VERSION < '1.9'
+  if RUBY_VERSION < '1.9.'
     let(:string) { '>' * 64 }
 
     let(:base64) { "Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+\nPj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pg==\n" }

@@ -145,7 +145,7 @@ module Ronin
       }
 
       # Additional types, not available on Ruby 1.8:
-      if RUBY_VERSION > '1.9'
+      if RUBY_VERSION > '1.9.'
         TYPES.merge!(
           :uint16_le => 'S<',
           :uint32_le => 'L<',

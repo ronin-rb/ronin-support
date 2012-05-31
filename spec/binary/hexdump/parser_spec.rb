@@ -123,7 +123,7 @@ describe Binary::Hexdump::Parser do
       end
     end
 
-    if RUBY_VERSION > '1.9'
+    if RUBY_VERSION > '1.9.'
       context "octal quads" do
         subject do
           described_class.new(:format => :od, :encoding => :octal_quads)
@@ -173,7 +173,7 @@ describe Binary::Hexdump::Parser do
       end
     end
 
-    if RUBY_VERSION > '1.9'
+    if RUBY_VERSION > '1.9.'
       context "decimal quads" do
         subject do
           described_class.new(:format => :od, :encoding => :decimal_quads)
@@ -237,7 +237,7 @@ describe Binary::Hexdump::Parser do
       end
     end
 
-    if RUBY_VERSION > '1.9'
+    if RUBY_VERSION > '1.9.'
       context "hex quads" do
         subject do
           described_class.new(:format => :od, :encoding => :hex_quads)

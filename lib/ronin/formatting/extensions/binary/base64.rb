@@ -23,7 +23,7 @@ require 'base64'
 # Adds Ruby 1.9 specific methods when running on Ruby 1.8.7.
 #
 module Base64
-  if RUBY_VERSION < '1.9'
+  if RUBY_VERSION < '1.9.'
     module_function
 
     #

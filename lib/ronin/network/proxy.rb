@@ -354,7 +354,7 @@ module Ronin
         @connections[client_connection]
       end
 
-      if RUBY_VERSION < '1.9'
+      if RUBY_VERSION < '1.9.'
         #
         # Finds the connection from the client, associated with the server
         # connection.

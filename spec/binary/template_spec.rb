@@ -13,7 +13,7 @@ describe Binary::Template do
     it("int16      => S") { subject[:int16].should       == 's' }
     it("int32      => L") { subject[:int32].should       == 'l' }
     it("int64      => Q") { subject[:int64].should       == 'q' }
-    if RUBY_VERSION < '1.9'
+    if RUBY_VERSION < '1.9.'
     it("uint16_le  => v") { subject[:uint16_le].should   == 'v' }
     it("uint32_le  => V") { subject[:uint32_le].should   == 'V' }
     it("uint16_be  => n") { subject[:uint16_be].should   == 'n' }
@@ -40,7 +40,7 @@ describe Binary::Template do
     it("byte       => c") { subject[:byte].should        == 'c' }
     it("string     => Z*") { subject[:string].should     == 'Z*'}
 
-    if RUBY_VERSION > '1.9'
+    if RUBY_VERSION > '1.9.'
       context "Ruby 1.9" do
         it("uint16_le     => S<") { subject[:uint16_le].should      == 'S<' }
         it("uint32_le     => L<") { subject[:uint32_le].should      == 'L<' }
