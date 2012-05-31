@@ -270,10 +270,10 @@ module Ronin
         # @api private
         #
         def format_message(message)
-          if message.length == 1
-            message[0]
+          unless message.length == 1
+            message.first % message[1..-1]
           else
-            message[0] % message[1..-1]
+            message.first
           end
         end
       end
