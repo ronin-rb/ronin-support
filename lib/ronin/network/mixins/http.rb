@@ -202,6 +202,8 @@ module Ronin
         # @api private
         #
         def http_merge_options(options={})
+          options = options.dup
+
           options[:proxy] ||= self.http_proxy if self.http_proxy
           options[:host]  ||= self.host       if self.host
           options[:port]  ||= self.port       if self.port
