@@ -186,58 +186,6 @@ module Ronin
           return response
         end
 
-        #
-        # Sends a HTTP Head request and returns the HTTP Server header.
-        #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Symbol, String] :method (:head)
-        #   The method to use for the request.
-        #
-        # @return [String]
-        #   The HTTP `Server` header.
-        #
-        # @see Network::HTTP#http_server
-        #
-        # @since 1.1.0
-        #
-        # @api public
-        #
-        def http_server(options={})
-          if (result = super(options))
-            print_debug "HTTP Server: #{result}"
-          end
-
-          return result
-        end
-
-        #
-        # Sends an HTTP Head request and returns the HTTP X-Powered-By header.
-        #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Symbol, String] :method (:get)
-        #   The method to use for the request.
-        #
-        # @return [String]
-        #   The HTTP `X-Powered-By` header.
-        #
-        # @see Network::HTTP#http_powered_by
-        #
-        # @since 1.1.0
-        #
-        # @api public
-        #
-        def http_powered_by(options={})
-          if (result = super(options))
-            print_debug "HTTP X-Powered-By: #{result}"
-          end
-
-          return result
-        end
-
         private
 
         #

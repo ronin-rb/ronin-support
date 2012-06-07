@@ -127,7 +127,7 @@
   was not being escaped.
 * Allow {Ronin::Network::HTTP.request} to accept `:query` and `:query_params`
   options.
-* Fixed a bug in {Ronin::Network::Mixins::HTTP#http_session}, where
+* Fixed a bug in `Ronin::Network::Mixins::HTTP#http_session`, where
   normalized options were not being yielded.
 * {Ronin::Network::HTTP#http_get_headers} and
   {Ronin::Network::HTTP#http_post_headers} now return a Hash of Capitalized
