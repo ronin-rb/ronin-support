@@ -129,60 +129,6 @@ module Ronin
         end
 
         #
-        # Connects to the HTTP server.
-        #
-        # @param [Hash] options
-        #   Additional options
-        #
-        # @option options [String, URI::HTTP] :url
-        #   The full URL to request.
-        #
-        # @option options [String] :user
-        #   The user to authenticate with when connecting to the HTTP
-        #   server.
-        #
-        # @option options [String] :password
-        #   The password to authenticate with when connecting to the HTTP
-        #   server.
-        #
-        # @option options [String] :host
-        #   The host the HTTP server is running on.
-        #
-        # @option options [Integer] :port (Net::HTTP.default_port)
-        #   The port the HTTP server is listening on.
-        #
-        # @option options [String] :path
-        #   The path to request from the HTTP server.
-        #
-        # @yield [session]
-        #   If a block is given, it will be passes the new HTTP session
-        #   object.
-        #
-        # @yieldparam [Net::HTTP] session
-        #   The newly created HTTP session.
-        #
-        # @return [Net::HTTP]
-        #   The HTTP session object.
-        #
-        # @see Network::HTTP#http_session
-        #
-        # @api public
-        #
-        def http_session(options={},&block)
-          super(options) do |http,expanded_options|
-            print_debug "Starting HTTP Session with #{host_port}"
-
-            if block.arity == 2
-              block.call(http,expanded_options)
-            else
-              block.call(http)
-            end
-
-            print_debug "Closing HTTP Session with #{host_port}"
-          end
-        end
-
-        #
         # Connects to the HTTP server and sends an HTTP Request.
         #
         # @param [Hash] options
@@ -231,67 +177,13 @@ module Ronin
             end
           end
 
-          print_debug "HTTP #{response.code} #{response.message}"
+          print_info "HTTP #{response.code} #{response.message}"
 
           response.each_capitalized do |name,value|
             print_debug "  #{name}: #{value}"
           end
 
           return response
-        end
-
-        #
-        # Returns the Status Code of the Response.
-        #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Symbol, String] :method (:head)
-        #   The method to use for the request.
-        #
-        # @return [Integer]
-        #   The HTTP Response Status.
-        #
-        # @see Network::HTTP#http_status
-        #
-        # @since 1.1.0
-        #
-        # @api public
-        #
-        def http_status(options={})
-          options = http_merge_options(options)
-
-          if (result = super(options))
-            print_debug "HTTP #{result}"
-          end
-
-          return result
-        end
-
-        #
-        # Checks if the response has an HTTP OK status code.
-        #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Symbol, String] :method (:head)
-        #   The method to use for the request.
-        #
-        # @return [Boolean]
-        #   Specifies whether the response had an HTTP OK status code or not.
-        #
-        # @see Network::HTTP#http_ok?
-        #
-        # @since 1.1.0
-        #
-        # @api public
-        #
-        def http_ok?(options={})
-          if (result = super(options))
-            print_debug "HTTP 200 OK"
-          end
-
-          return result
         end
 
         #
