@@ -17,8 +17,9 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/fuzzing/template'
+require 'ronin/fuzzing/mutator'
 require 'ronin/extensions/regexp'
-require 'ronin/fuzzing/extensions'
 
 require 'set'
 
@@ -224,12 +225,16 @@ module Ronin
     def each(&block)
       return enum_for(:each) unless block
 
+      mutator = unless @mutations.empty?
+                  Fuzzing::Mutator.new(@mutations)
+                end
+
       each_word do |word|
         yield word
 
-        unless @mutations.empty?
+        if mutator
           # perform additional mutations
-          word.mutate(@mutations,&block)
+          mutator.each(word,&block)
         end
       end
     end
@@ -252,7 +257,7 @@ module Ronin
     # @api public
     #
     def each_n_words(n,&block)
-      String.generate([each, n],&block)
+      Fuzzing::Template[[each, n]].each(&block)
     end
 
     #
