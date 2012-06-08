@@ -18,6 +18,7 @@
 #
 
 require 'ronin/fuzzing/template'
+require 'ronin/fuzzing/repeater'
 require 'ronin/fuzzing/fuzzing'
 require 'ronin/extensions/regexp'
 
@@ -127,26 +128,17 @@ class String
   #
   # @since 0.4.0
   #
-  def repeating(n)
-    if n.kind_of?(Integer)
-      # if n is an Integer, simply multiply the String and return
-      repeated = (self * n)
+  def repeating(lengths,&block)
+    case lengths
+    when Integer
+      # if lengths is an Integer, simply multiply the String and return
+      repeated = (self * lengths)
 
       yield repeated if block_given?
       return repeated
+    else
+      return Ronin::Fuzzing::Repeater.new(self,lengths).each(&block)
     end
-
-    return enum_for(:repeating,n) unless block_given?
-
-    unless n.kind_of?(Enumerable)
-      raise(TypeError,"argument must be Enumerable or an Integer")
-    end
-
-    n.each do |length|
-      yield(self * length)
-    end
-
-    return self
   end
 
   #
