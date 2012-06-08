@@ -26,19 +26,11 @@ module Ronin
     #
     class Repeater
 
-      include Enumerable
-
-      # The repeatable data
-      attr_reader :repeatable
-
       # The lengths to repeat the data by
       attr_reader :lengths
 
       #
       # Initializes a new Repeater.
-      #
-      # @param [#*] repeatable
-      #   The repeatable data.
       #
       # @param [Enumerable, Integer] lengths
       #   The lengths to repeat the data by.
@@ -46,20 +38,22 @@ module Ronin
       # @raise [TypeError]
       #   `lengths` must either be Enumerable or an Integer.
       #
-      def initialize(repeatable,lengths)
-        @repeatable = repeatable
-        @lengths    = case lengths
-                      when Integer
-                        [lengths]
-                      when Enumerable
-                        lengths
-                      else
-                        raise(TypeError,"argument must be Enumerable or an Integer")
-                      end
+      def initialize(lengths)
+        @lengths = case lengths
+                   when Integer
+                     [lengths]
+                   when Enumerable
+                     lengths
+                   else
+                     raise(TypeError,"argument must be Enumerable or an Integer")
+                   end
       end
 
       #
       # Enumerates through each length of repeated data.
+      #
+      # @param [#*] repeatable
+      #   The repeatable data.
       #
       # @yield [repeated]
       #   The given block will be passed every repeated String.
@@ -70,11 +64,11 @@ module Ronin
       # @return [Enumerator]
       #   If no block is given, an Enumerator will be returned.
       #
-      def each
-        return enum_for(__method__) unless block_given?
+      def each(repeatable)
+        return enum_for(__method__,repeatable) unless block_given?
 
         @lengths.each do |length|
-          yield(@repeatable * length)
+          yield(repeatable * length)
         end
 
         return nil

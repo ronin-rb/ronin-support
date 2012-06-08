@@ -19,13 +19,9 @@
 
 require 'ronin/fuzzing/template'
 require 'ronin/fuzzing/repeater'
+require 'ronin/fuzzing/mutator'
 require 'ronin/fuzzing/fuzzing'
 require 'ronin/extensions/regexp'
-
-require 'combinatorics/generator'
-require 'combinatorics/list_comprehension'
-require 'combinatorics/power_set'
-require 'chars'
 
 class String
 
@@ -137,7 +133,7 @@ class String
       yield repeated if block_given?
       return repeated
     else
-      return Ronin::Fuzzing::Repeater.new(self,lengths).each(&block)
+      return Ronin::Fuzzing::Repeater.new(lengths).each(self,&block)
     end
   end
 
@@ -249,83 +245,7 @@ class String
   # @api public
   #
   def mutate(mutations={})
-    return enum_for(:mutate,mutations) unless block_given?
-
-    matches = Set[]
-
-    mutations.each do |pattern,mutation|
-      pattern = case pattern
-                when Regexp
-                  pattern
-                when String
-                  Regexp.new(Regexp.escape(pattern))
-                when Symbol
-                  Regexp.const_get(pattern.to_s.upcase)
-                else
-                  raise(TypeError,"cannot convert #{pattern.inspect} to a Regexp")
-                end
-
-      mutation = case mutation
-                 when Symbol
-                   Ronin::Fuzzing[mutation]
-                 when Enumerable
-                   mutation
-                 else
-                   raise(TypeError,"mutation #{mutation.inspect} must be a Symbol or Enumerable")
-                 end
-
-      scanner = StringScanner.new(self)
-
-      while scanner.scan_until(pattern)
-        length   = scanner.matched_size
-        index    = scanner.pos - length
-        original = scanner.matched
-
-        mutator = Combinatorics::Generator.new do |g|
-                    mutation.each do |mutate|
-                      g.yield case mutate
-                              when Proc
-                                mutate.call(original)
-                              when Integer
-                                mutate.chr
-                              else
-                                mutate.to_s
-                              end
-                    end
-                  end
-
-        matches << [index, length, mutator]
-      end
-    end
-
-    matches.powerset do |submatches|
-      # ignore the empty Set
-      next if submatches.empty?
-
-      # sort the submatches by index
-      submatches = submatches.sort_by { |index,length,mutator| index }
-      sets       = []
-      prev_index = 0
-
-      submatches.each do |index,length,mutator|
-        # add the previous substring to the set of Strings
-        if index > prev_index
-          sets << [self[prev_index,index - prev_index]]
-        end
-
-        # add the mutator to the set of Strings
-        sets << mutator
-
-        prev_index = index + length
-      end
-
-      # add the remaining substring to the set of Strings
-      if prev_index < self.length
-        sets << [self[prev_index..-1]]
-      end
-
-      sets.comprehension { |strings| yield strings.join }
-    end
+    Ronin::Fuzzing::Mutator.new(mutations).each(self,&block)
   end
 
 end
