@@ -6,6 +6,7 @@
 * Added {Ronin::Binary::Template}.
 * Added {Ronin::Binary::Struct}.
 * Added {Ronin::Binary::Hexdump::Parser}.
+* Added {Ronin::Fuzzing::Template}.
 * Added {Ronin::Wordlist.create}.
 * Added {Ronin::Wordlist#path} and {Ronin::Wordlist#words}.
 * Added {Ronin::Wordlist#save}.

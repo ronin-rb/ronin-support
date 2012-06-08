@@ -17,8 +17,9 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/extensions/regexp'
+require 'ronin/fuzzing/template'
 require 'ronin/fuzzing/fuzzing'
+require 'ronin/extensions/regexp'
 
 require 'combinatorics/generator'
 require 'combinatorics/list_comprehension'
@@ -30,8 +31,8 @@ class String
   #
   # Generate permutations of Strings from a format template.
   #
-  # @param [Array(<String,Symbol,Enumerable>, <Integer,Array,Range>)] template
-  #   The template which defines the string or character sets which will
+  # @param [Array(<String,Symbol,Enumerable>, <Integer,Array,Range>)] fields
+  #   The fields which defines the string or character sets which will
   #   make up parts of the String.
   #
   # @yield [string]
@@ -86,63 +87,8 @@ class String
   #
   # @api public
   #
-  def self.generate(*template)
-    return enum_for(:generate,*template) unless block_given?
-
-    sets = []
-
-    template.each do |pattern|
-      set, length = pattern
-      set = case set
-            when String
-              [set].each
-            when Symbol
-              name = set.to_s.upcase
-
-              unless Chars.const_defined?(name)
-                raise(ArgumentError,"unknown charset #{set.inspect}")
-              end
-
-              Chars.const_get(name).each_char
-            when Enumerable
-              set
-            else
-              raise(TypeError,"set must be a String, Symbol or Enumerable")
-            end
-
-      case length
-      when Integer
-        length.times { sets << set.dup }
-      when Array, Range
-        sets << Combinatorics::Generator.new do |g|
-          length.each do |sublength|
-            superset = Array.new(sublength) { set.dup }
-
-            superset.comprehension { |strings| g.yield strings.join }
-          end
-        end
-      when nil
-        sets << set
-      else
-        raise(TypeError,"length must be an Integer, Range or Array")
-      end
-    end
-
-    sets.comprehension do |strings|
-      new_string = ''
-
-      strings.each do |string|
-        new_string << case string
-                      when Integer
-                        string.chr
-                      else
-                        string.to_s
-                      end
-      end
-
-      yield new_string
-    end
-    return nil
+  def self.generate(*fields,&block)
+    Ronin::Fuzzing::Template.new(fields).each(&block)
   end
 
   #
