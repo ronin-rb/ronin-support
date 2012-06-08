@@ -91,7 +91,7 @@ class String
   #
   # Repeats the String.
   #
-  # @param [Enumerable, Integer] n
+  # @param [Enumerable, Integer] lengths
   #   The number of times to repeat the String.
   #
   # @yield [repeated]
