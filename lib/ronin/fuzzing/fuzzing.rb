@@ -61,7 +61,7 @@ module Ronin
     # @api semipublic
     #
     def self.[](name)
-      if (!Object.respond_to?(name) && respond_to?(name))
+      if respond_to?(name,false)
         enum_for(name)
       end
     end
