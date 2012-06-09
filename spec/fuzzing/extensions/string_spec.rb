@@ -51,66 +51,21 @@ describe String do
   end
 
   describe "#fuzz" do
-    subject { 'GET /one/two/three' }
+    subject { "hello old dog" }
 
-    context "matching" do
-      it "should allow Regexps" do
-        fuzzed = subject.fuzz(/GET/ => ['get']).to_a
-
-        fuzzed.should == ['get /one/two/three']
-      end
-
-      it "should allow Strings" do
-        fuzzed = subject.fuzz('GET' => ['get']).to_a
-
-        fuzzed.should == ['get /one/two/three']
-      end
-
-      it "should match Symbols to Regexp constants" do
-        fuzzed = subject.fuzz(:absolute_path => ['../../../..']).to_a
-
-        fuzzed.should == ['GET ../../../..']
-      end
-    end
-
-    context "substitution" do
-      it "should allow Procs" do
-        fuzzed = subject.fuzz('GET' => [lambda { |s| s.downcase }]).to_a
-
-        fuzzed.should == ['get /one/two/three']
-      end
-
-      it "should allow Integers" do
-        fuzzed = subject.fuzz(' ' => [0x09]).to_a
-
-        fuzzed.should == ["GET\t/one/two/three"]
-      end
-
-      it "should map Symbols to Fuzzing methods" do
-        fuzzed = subject.fuzz(/\/.*/ => :format_strings).to_a
-
-        fuzzed.should_not == [subject]
-      end
-
-      it "should incrementally replace each occurrence" do
-        fuzzed = subject.fuzz('/' => ["\n\r"]).to_a
-
-        fuzzed.should == [
-          "GET \n\rone/two/three",
-          "GET /one\n\rtwo/three",
-          "GET /one/two\n\rthree"
-        ]
-      end
-
-      it "should replace each occurrence with each substitution" do
-        fuzzed = subject.fuzz('GET' => ["\n\rGET", "G\n\rET", "GET\n\r"]).to_a
-
-        fuzzed.should == [
-          "\n\rGET /one/two/three",
-          "G\n\rET /one/two/three",
-          "GET\n\r /one/two/three"
-        ]
-      end
+    it "should apply each fuzzing rule individually" do
+      strings = subject.fuzz(/o/ => ['O', '0'], /e/ => ['E', '3']).to_a
+      
+      strings.should =~ [
+        "hellO old dog",
+        "hell0 old dog",
+        "hello Old dog",
+        "hello 0ld dog",
+        "hello old dOg",
+        "hello old d0g",
+        "hEllo old dog",
+        "h3llo old dog"
+      ]
     end
   end
 end
