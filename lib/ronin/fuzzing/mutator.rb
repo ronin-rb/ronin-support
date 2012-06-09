@@ -43,7 +43,9 @@ module Ronin
       #   A mutation substitution was not a Symbol or Enumerable.
       #
       def initialize(mutations={})
-        @mutations = mutations.map do |pattern,mutation|
+        @mutations = {}
+        
+        mutations.each do |pattern,mutation|
           pattern = case pattern
                     when Regexp
                       pattern
@@ -64,7 +66,7 @@ module Ronin
                        raise(TypeError,"mutation #{mutation.inspect} must be a Symbol or Enumerable")
                      end
 
-          [pattern, mutation]
+          @mutations[pattern] = mutation
         end
       end
 
