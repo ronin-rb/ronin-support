@@ -34,6 +34,9 @@ module Ronin
     #
     class Mutator
 
+      # Mutation rules
+      attr_reader :mutations
+
       #
       # @param [Hash{Regexp,String,Symbol => Symbol,Enumerable}] mutations
       #   The patterns and substitutions to mutate the String with.
