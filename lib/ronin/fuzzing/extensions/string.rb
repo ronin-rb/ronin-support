@@ -199,7 +199,7 @@ class String
   #
   # @api public
   #
-  def mutate(mutations={})
+  def mutate(mutations={},&block)
     Ronin::Fuzzing::Mutator.new(mutations).each(self,&block)
   end
 

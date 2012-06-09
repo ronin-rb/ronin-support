@@ -51,20 +51,36 @@ describe String do
   end
 
   describe "#fuzz" do
-    subject { "hello old dog" }
+    subject { "foo bar" }
 
     it "should apply each fuzzing rule individually" do
-      strings = subject.fuzz(/o/ => ['O', '0'], /e/ => ['E', '3']).to_a
+      strings = subject.fuzz(/o/ => ['O', '0'], /a/ => ['A', '@']).to_a
       
       strings.should =~ [
-        "hellO old dog",
-        "hell0 old dog",
-        "hello Old dog",
-        "hello 0ld dog",
-        "hello old dOg",
-        "hello old d0g",
-        "hEllo old dog",
-        "h3llo old dog"
+        "fOo bar",
+        "f0o bar",
+        "foO bar",
+        "fo0 bar",
+        "foo bAr",
+        "foo b@r"
+      ]
+    end
+  end
+
+  describe "#mutate" do
+    subject { "foo bar" }
+
+    it "should apply every combination of mutation rules" do
+      strings = subject.mutate(/o/ => ['0'], /a/ => ['@']).to_a
+
+      strings.should =~ [
+        "f0o bar",
+        "fo0 bar",
+        "f00 bar",
+        "foo b@r",
+        "f0o b@r",
+        "fo0 b@r",
+        "f00 b@r"
       ]
     end
   end
