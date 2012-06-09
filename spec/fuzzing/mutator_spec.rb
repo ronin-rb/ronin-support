@@ -69,20 +69,44 @@ describe Fuzzing::Mutator do
   end
 
   describe "#each" do
-    let(:string) { "foo baz" }
+    let(:string) { "foo bar" }
 
     subject { described_class.new(/o/ => ['0'], /a/ => ['@']) }
 
     it "should apply every combination of mutation rules" do
       subject.each(string).to_a.should =~ [
-        "f0o baz",
-        "f00 baz",
-        "fo0 baz",
-        "foo b@z",
-        "f0o b@z",
-        "f00 b@z",
-        "fo0 b@z"
+        "f0o bar",
+        "fo0 bar",
+        "f00 bar",
+        "foo b@r",
+        "f0o b@r",
+        "fo0 b@r",
+        "f00 b@r"
       ]
+    end
+
+    context "when mutations contain Integers" do
+      subject { described_class.new(/o/ => [48]) }
+
+      it "should convert them to characters" do
+        subject.each(string).to_a.should =~ [
+          "f0o bar",
+          "fo0 bar",
+          "f00 bar"
+        ]
+      end
+    end
+
+    context "when mutations contain Procs" do
+      subject { described_class.new(/o/ => [lambda { |str| str.upcase }]) }
+
+      it "should call them with the matched String" do
+        subject.each(string).to_a.should =~ [
+          "fOo bar",
+          "foO bar",
+          "fOO bar"
+        ]
+      end
     end
   end
 end

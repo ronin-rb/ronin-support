@@ -69,21 +69,41 @@ describe Fuzzing::Fuzzer do
   end
 
   describe "#each" do
-    let(:string) { "hello old dog" }
+    let(:string) { "foo bar" }
 
-    subject { described_class.new(/o/ => ['O', '0'], /e/ => ['E', '3']) }
+    subject { described_class.new(/o/ => ['O', '0'], /a/ => ['A', '@']) }
 
     it "should apply each fuzzing rule individually" do
       subject.each(string).to_a.should =~ [
-        "hellO old dog",
-        "hell0 old dog",
-        "hello Old dog",
-        "hello 0ld dog",
-        "hello old dOg",
-        "hello old d0g",
-        "hEllo old dog",
-        "h3llo old dog"
+        "fOo bar",
+        "f0o bar",
+        "foO bar",
+        "fo0 bar",
+        "foo bAr",
+        "foo b@r"
       ]
+    end
+
+    context "when mutations contain Integers" do
+      subject { described_class.new(/o/ => [48]) }
+
+      it "should convert them to characters" do
+        subject.each(string).to_a.should =~ [
+          "f0o bar",
+          "fo0 bar"
+        ]
+      end
+    end
+
+    context "when mutations contain Procs" do
+      subject { described_class.new(/o/ => [lambda { |str| str.upcase }]) }
+
+      it "should call them with the matched String" do
+        subject.each(string).to_a.should =~ [
+          "fOo bar",
+          "foO bar"
+        ]
+      end
     end
   end
 end
