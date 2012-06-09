@@ -58,12 +58,17 @@ module Ronin
     # @return [Enumerator]
     #   An Enumerator for the fuzzer method.
     #
+    # @raise [NoMethodError]
+    #   The fuzzing method could not be found.
+    #
     # @api semipublic
     #
     def self.[](name)
-      if respond_to?(name,false)
-        enum_for(name)
+      if (!respond_to?(name) || Module.respond_to?(name))
+        raise(NoMethodError,"no such fuzzing method: #{name}")
       end
+
+      return enum_for(name)
     end
 
     module_function
