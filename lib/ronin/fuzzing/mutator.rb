@@ -20,8 +20,9 @@
 require 'ronin/fuzzing/fuzzing'
 require 'ronin/extensions/regexp'
 
-require 'combinatorics/generator'
+require 'combinatorics/list_comprehension'
 require 'combinatorics/power_set'
+require 'combinatorics/generator'
 require 'strscan'
 require 'set'
 
@@ -63,10 +64,10 @@ module Ronin
                     end
 
           mutation = case mutation
-                     when Symbol
-                       Ronin::Fuzzing[mutation]
                      when Enumerable
                        mutation
+                     when Symbol
+                       Ronin::Fuzzing[mutation]
                      else
                        raise(TypeError,"mutation #{mutation.inspect} must be a Symbol or Enumerable")
                      end
