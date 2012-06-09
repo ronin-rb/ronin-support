@@ -19,6 +19,7 @@
 
 require 'ronin/fuzzing/template'
 require 'ronin/fuzzing/repeater'
+require 'ronin/fuzzing/fuzzer'
 require 'ronin/fuzzing/mutator'
 require 'ronin/fuzzing/fuzzing'
 require 'ronin/extensions/regexp'
@@ -166,54 +167,8 @@ class String
   #
   # @api public
   #
-  def fuzz(substitutions={})
-    return enum_for(:fuzz,substitutions) unless block_given?
-
-    substitutions.each do |pattern,substitution|
-      pattern = case pattern
-                when Regexp
-                  pattern
-                when String
-                  Regexp.new(Regexp.escape(pattern))
-                when Symbol
-                  Regexp.const_get(pattern.to_s.upcase)
-                else
-                  raise(TypeError,"cannot convert #{pattern.inspect} to a Regexp")
-                end
-
-      substitution = case substitution
-                      when Enumerable
-                        substitution
-                      when Symbol
-                        Ronin::Fuzzing[substitution]
-                      else
-                        raise(TypeError,"substitutions must be Enumerable or a Symbol")
-                      end
-
-      scanner = StringScanner.new(self)
-      indices = []
-
-      while scanner.scan_until(pattern)
-        indices << [scanner.pos - scanner.matched_size, scanner.matched_size]
-      end
-
-      indices.each do |index,length|
-        substitution.each do |substitute|
-          substitute = case substitute
-                       when Proc
-                         substitute.call(self[index,length])
-                       when Integer
-                         substitute.chr
-                       else
-                         substitute.to_s
-                       end
-
-          fuzzed = dup
-          fuzzed[index,length] = substitute
-          yield fuzzed
-        end
-      end
-    end
+  def fuzz(substitutions={},&block)
+    Ronin::Fuzzing::Fuzzer.new(substitutions).each(self,&block)
   end
 
   #
