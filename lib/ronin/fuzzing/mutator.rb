@@ -38,6 +38,8 @@ module Ronin
       attr_reader :mutations
 
       #
+      # Initialize the Mutator.
+      #
       # @param [Hash{Regexp,String,Symbol => Symbol,Enumerable}] mutations
       #   The patterns and substitutions to mutate the String with.
       #
