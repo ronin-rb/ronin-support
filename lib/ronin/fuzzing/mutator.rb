@@ -35,22 +35,22 @@ module Ronin
     class Mutator
 
       # Mutation rules
-      attr_reader :mutations
+      attr_reader :rules
 
       #
       # Initialize the Mutator.
       #
-      # @param [Hash{Regexp,String,Symbol => Symbol,Enumerable}] mutations
+      # @param [Hash{Regexp,String,Symbol => Symbol,Enumerable}] rules
       #   The patterns and substitutions to mutate the String with.
       #
       # @raise [TypeError]
       #   A mutation pattern was not a Regexp, String or Symbol.
       #   A mutation substitution was not a Symbol or Enumerable.
       #
-      def initialize(mutations={})
-        @mutations = {}
+      def initialize(rules)
+        @rules = {}
         
-        mutations.each do |pattern,mutation|
+        rules.each do |pattern,mutation|
           pattern = case pattern
                     when Regexp
                       pattern
@@ -71,7 +71,7 @@ module Ronin
                        raise(TypeError,"mutation #{mutation.inspect} must be a Symbol or Enumerable")
                      end
 
-          @mutations[pattern] = mutation
+          @rules[pattern] = mutation
         end
       end
 
@@ -95,7 +95,7 @@ module Ronin
 
         matches = Set[]
 
-        @mutations.each do |pattern,mutation|
+        @rules.each do |pattern,mutation|
           scanner = StringScanner.new(string)
 
           while scanner.scan_until(pattern)

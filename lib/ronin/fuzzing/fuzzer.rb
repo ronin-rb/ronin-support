@@ -32,18 +32,18 @@ module Ronin
     class Fuzzer
 
       # Patterns and their substitutions
-      attr_reader :substitutions
+      attr_reader :rules
 
       #
       # Initializes a new Fuzzer.
       #
-      # @param [Hash{Regexp,String => #each}] substitutions
+      # @param [Hash{Regexp,String => #each}] rules
       #   Patterns and their substitutions.
       #
-      def initialize(substitutions={})
-        @substitutions = {}
+      def initialize(rules)
+        @rules = {}
         
-        substitutions.each do |pattern,substitution|
+        rules.each do |pattern,substitution|
           pattern = case pattern
                     when Regexp
                       pattern
@@ -64,7 +64,7 @@ module Ronin
                            raise(TypeError,"substitutions must be Enumerable or a Symbol")
                          end
 
-          @substitutions[pattern] = substitution
+          @rules[pattern] = substitution
         end
       end
 
@@ -83,7 +83,7 @@ module Ronin
       def each(string)
         return enum_for(__method__,string) unless block_given?
 
-        @substitutions.each do |pattern,substitution|
+        @rules.each do |pattern,substitution|
           scanner = StringScanner.new(string)
           indices = []
 
