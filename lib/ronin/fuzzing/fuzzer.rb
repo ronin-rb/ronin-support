@@ -40,7 +40,7 @@ module Ronin
       #
       # Initializes a new Fuzzer.
       #
-      # @param [Hash{Regexp,String => #each}] rules
+      # @param [Hash{Regexp,String,Symbol => Enumerable,Symbol}] rules
       #   Patterns and their substitutions.
       #
       def initialize(rules)
