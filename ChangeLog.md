@@ -48,6 +48,7 @@
   * Support unhexdumping floats / doubles.
 * Allow {String#mutate} to accept Symbols that map to {Ronin::Fuzzing}
   generator methods.
+* {Ronin::Fuzzing.[]} now raises a `NoMethodError` for unknown fuzzing methods.
 * Use `module_function` in {Ronin::Fuzzing}, so the generator methods can be
   included into other Classes/Modules.
 * Require uri-query_params ~> 0.6.
