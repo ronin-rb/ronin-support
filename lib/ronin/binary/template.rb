@@ -327,6 +327,13 @@ module Ronin
       end
 
       #
+      # @see #initialize
+      #
+      def self.[](*fields)
+        new(fields)
+      end
+
+      #
       # Translates the type of the field.
       #
       # @param [Symbol] type
