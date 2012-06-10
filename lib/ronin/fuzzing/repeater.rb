@@ -20,6 +20,8 @@
 module Ronin
   module Fuzzing
     #
+    # Fuzzing class that generates repeated data.
+    #
     # @api semipublic
     #
     # @since 0.5.0

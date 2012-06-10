@@ -29,6 +29,9 @@ require 'set'
 module Ronin
   module Fuzzing
     #
+    # Fuzzer class that permutates over every mutation of a String, given
+    # mutation rules.
+    #
     # @api semipublic
     #
     # @since 0.5.0

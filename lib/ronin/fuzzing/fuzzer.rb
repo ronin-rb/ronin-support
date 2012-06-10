@@ -25,6 +25,9 @@ require 'strscan'
 module Ronin
   module Fuzzing
     #
+    # Fuzzing class that incrementally fuzzes a String, given substitution
+    # rules.
+    #
     # @api semipublic
     #
     # @since 0.5.0

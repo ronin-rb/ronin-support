@@ -24,6 +24,8 @@ require 'combinatorics/list_comprehension'
 module Ronin
   module Fuzzing
     #
+    # Fuzzing class that generates Strings based on a template.
+    #
     # @api semipublic
     #
     # @since 0.5.0
