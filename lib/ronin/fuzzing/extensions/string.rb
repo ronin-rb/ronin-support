@@ -92,7 +92,7 @@ class String
   #
   # Repeats the String.
   #
-  # @param [Enumerable, Integer] lengths
+  # @param [Enumerable<Integer>, Integer] lengths
   #   The number of times to repeat the String.
   #
   # @yield [repeated]
@@ -141,7 +141,7 @@ class String
   #
   # Incrementally fuzzes the String.
   #
-  # @param [Hash{Regexp,String => #each}] substitutions
+  # @param [Hash{Regexp,String,Symbol => Enumerable,Symbol}] substitutions
   #   Patterns and their substitutions.
   #
   # @yield [fuzz]
@@ -177,7 +177,7 @@ class String
   #
   # Permutes over every possible mutation of the String.
   #
-  # @param [Hash{Regexp,String,Symbol => Symbol,Enumerable}] mutations
+  # @param [Hash{Regexp,String,Symbol => Enumerable,Symbol}] mutations
   #   The patterns and substitutions to mutate the String with.
   #
   # @yield [mutant]
