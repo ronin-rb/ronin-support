@@ -26,6 +26,8 @@ module Ronin
     #
     # Generic Binary Struct class.
     #
+    # ## Example
+    #
     #     class Packet < Binary::Struct
     #
     #       endian :network
