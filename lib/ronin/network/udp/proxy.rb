@@ -25,6 +25,28 @@ module Ronin
   module Network
     module UDP
       #
+      # A simple intercept/rewrite UDP proxy.
+      #
+      # ## Example
+      #
+      #     require 'ronin/network/udp/proxy'
+      #     require 'hexdump'
+      #
+      #     Ronin::Network::UDP::Proxy.start(:port => 1194, :server => ['orangutan.funnymonkey.com', 1194]) do |proxy|
+      #       hex = Hexdump::Dumper.new
+      #
+      #       proxy.on_client_data do |(client,(host,port)),server,data|
+      #         puts "#{host}:#{port} -> #{proxy}"
+      #         hex.dump(data)
+      #       end
+      #
+      #       proxy.on_server_data do |(client,(host,port)),server,data|
+      #         puts "#{host}:#{port} <- #{proxy}"
+      #         hex.dump(data)
+      #       end
+      #
+      #    end
+      #
       # @since 0.5.0
       #
       class Proxy < Network::Proxy
