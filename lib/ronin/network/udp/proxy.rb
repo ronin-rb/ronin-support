@@ -115,7 +115,7 @@ module Ronin
 
             socket.recvfrom(@buffer_size)
           when UDPSocket
-            connection.recv(@buffer_size)
+            connection.recvfrom(@buffer_size)
           end
         end
 
