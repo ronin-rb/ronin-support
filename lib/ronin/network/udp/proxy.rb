@@ -73,13 +73,13 @@ module Ronin
           readable, writtable, errors = IO.select(sockets,nil,sockets)
 
           (errors & server_connections).each do |server_socket|
-            client_socket = client_for(server_socket)
+            client_socket = client_connection_for(server_socket)
 
             close_connection(client_socket,server_socket)
           end
 
           (readable & server_connections).each do |server_socket|
-            client_socket  = client_for(server_socket)
+            client_socket  = client_connection_for(server_socket)
             data, addrinfo = recv(server_socket)
 
             server_data(client_socket,server_socket,data)
