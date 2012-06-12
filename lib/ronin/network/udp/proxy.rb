@@ -25,7 +25,7 @@ module Ronin
   module Network
     module UDP
       #
-      # A simple intercept/rewrite UDP proxy.
+      # The UDP Proxy allows for inspecting and manipulating UDP protocols.
       #
       # ## Example
       #
