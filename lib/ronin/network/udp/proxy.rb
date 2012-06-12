@@ -32,7 +32,7 @@ module Ronin
       #     require 'ronin/network/udp/proxy'
       #     require 'hexdump'
       #
-      #     Ronin::Network::UDP::Proxy.start(:port => 1194, :server => ['orangutan.funnymonkey.com', 1194]) do |proxy|
+      #     Ronin::Network::UDP::Proxy.start(:port => 1337, :server => ['4.2.2.1', 53]) do |proxy|
       #       hex = Hexdump::Dumper.new
       #
       #       proxy.on_client_data do |(client,(host,port)),server,data|
