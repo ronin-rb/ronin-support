@@ -40,7 +40,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.default_port
+      def self.default_port
         @default_port ||= DEFAULT_PORT
       end
 
@@ -52,7 +52,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.default_port=(port)
+      def self.default_port=(port)
         @default_port = port
       end
 
@@ -62,7 +62,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.default_prompt
+      def self.default_prompt
         @default_prompt ||= DEFAULT_PROMPT
       end
 
@@ -74,7 +74,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.default_prompt=(prompt)
+      def self.default_prompt=(prompt)
         @default_prompt = prompt
       end
 
@@ -84,7 +84,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.default_timeout
+      def self.default_timeout
         @default_timeout ||= DEFAULT_TIMEOUT
       end
 
@@ -96,7 +96,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.default_timeout=(timeout)
+      def self.default_timeout=(timeout)
         @default_timeout = timeout
       end
 
@@ -106,7 +106,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.proxy
+      def self.proxy
         @proxy ||= nil
       end
 
@@ -118,7 +118,7 @@ module Ronin
       #
       # @api public
       #
-      def Telnet.proxy=(new_proxy)
+      def self.proxy=(new_proxy)
         @proxy = new_proxy
       end
 
@@ -191,29 +191,33 @@ module Ronin
       # @api public
       #
       def telnet_connect(host,options={})
-        host = host.to_s
-        telnet_options = {}
-
-        telnet_options['Host'] = host
-        telnet_options['Port'] = (options[:port] || Telnet.default_port)
-        telnet_options['Binmode'] = options[:binmode]
-        telnet_options['Output_log'] = options[:output_log]
-        telnet_options['Dump_log'] = options[:dump_log]
-        telnet_options['Prompt'] = (options[:prompt] || Telnet.default_prompt)
+        telnet_options = {
+          'Host'       => host.to_s,
+          'Port'       => (options[:port]      || Telnet.default_port),
+          'Binmode'    => (options[:binmode]   || false),
+          'Waittime'   => (options[:wait_time] || 0),
+          'Prompt'     => (options[:prompt]    || Telnet.default_prompt),
+          'Timeout'    => (options[:timeout]   || Telnet.default_timeout)
+        }
 
         if (options[:telnet] && !options[:plain])
           telnet_options['Telnetmode'] = true
         end
 
-        telnet_options['Timeout'] = (options[:timeout] || Telnet.default_timeout)
-        telnet_options['Waittime'] = options[:wait_time]
-        telnet_options['Proxy'] = (options[:proxy] || Telnet.proxy)
+        if options[:output_log]
+          telnet_options['Output_log'] = options[:output_log]
+        end
 
-        user = options[:user]
-        passwd = options[:passwd]
+        if options[:dump_log]
+          telnet_options['Dump_log'] = options[:dump_log]
+        end
+
+        if (proxy = (options[:proxy] || Telnet.proxy))
+          telnet_options['Proxy'] = proxy
+        end
 
         session = Net::Telnet.new(telnet_options)
-        session.login(user,passwd) if user
+        session.login(options[:user],options[:password]) if options[:user]
 
         yield session if block_given?
         return session

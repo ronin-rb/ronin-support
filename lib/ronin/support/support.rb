@@ -30,11 +30,13 @@ module Ronin
     include Network::TCP
     include Network::UDP
     include Network::SSL
+    include Network::UNIX
     include Network::SMTP
     include Network::ESMTP
     include Network::POP3
     include Network::IMAP
     include Network::Telnet
+    include Network::FTP
     include Network::HTTP
   end
 end

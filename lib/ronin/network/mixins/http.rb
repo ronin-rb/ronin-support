@@ -78,7 +78,7 @@ module Ronin
         end
 
         #
-        # Connects to the HTTP server.
+        # Starts a HTTP connection with the server.
         #
         # @param [Hash] options
         #   Additional options
@@ -86,51 +86,46 @@ module Ronin
         # @option options [String, URI::HTTP] :url
         #   The full URL to request.
         #
-        # @option options [String] :user
-        #   The user to authenticate with when connecting to the HTTP
-        #   server.
-        #
-        # @option options [String] :password
-        #   The password to authenticate with when connecting to the HTTP
-        #   server.
-        #
         # @option options [String] :host
         #   The host the HTTP server is running on.
         #
         # @option options [Integer] :port (Net::HTTP.default_port)
         #   The port the HTTP server is listening on.
         #
-        # @option options [String] :path
-        #   The path to request from the HTTP server.
+        # @option options [String, Hash] :proxy (HTTP.proxy)
+        #   A Hash of proxy settings to use when connecting to the HTTP server.
         #
-        # @yield [session]
-        #   If a block is given, it will be passes the new HTTP session
-        #   object.
+        # @option options [String] :user
+        #   The user to authenticate with when connecting to the HTTP server.
         #
-        # @yieldparam [Net::HTTP] session
+        # @option options [String] :password
+        #   The password to authenticate with when connecting to the HTTP
+        #   server.
+        #
+        # @option options [Boolean, Hash] :ssl
+        #   Enables SSL for the HTTP connection.
+        #
+        # @option :ssl [Symbol] :verify
+        #   Specifies the SSL certificate verification mode.
+        #   
+        # @yield [http]
+        #   If a block is given, it will be passed the newly created HTTP
+        #   session object.
+        #
+        # @yieldparam [Net::HTTP] http
         #   The newly created HTTP session.
         #
         # @return [Net::HTTP]
         #   The HTTP session object.
         #
-        # @see Network::HTTP#http_session
+        # @see Network::HTTP#http_connect
         #
         # @api public
         #
-        def http_session(options={},&block)
-          options = http_merge_options(options)
-
-          super(options) do |http,expanded_options|
-            print_info "Starting HTTP Session with #{host_port}"
-
-            if block.arity == 2
-              block.call(http,expanded_options)
-            else
-              block.call(http)
-            end
-
-            print_info "Closing HTTP Session with #{host_port}"
-          end
+        # @since 0.5.0
+        #
+        def http_connect(options={},&block)
+          super(http_merge_options(options),&block)
         end
 
         #
@@ -163,523 +158,32 @@ module Ronin
         # @api public
         #
         def http_request(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP #{options[:method]} #{http_options_to_s(options)}"
+          response = super(options) do |request,expanded_options|
+            if block
+              if block.arity == 2
+                block.call(request,expanded_options)
+              else
+                block.call(request)
+              end
+            end
 
-          return super(options,&block)
-        end
+            host = options.fetch(:host,self.host)
+            port = options.fetch(:port,self.port)
 
-        #
-        # Returns the Status Code of the Response.
-        #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Symbol, String] :method (:head)
-        #   The method to use for the request.
-        #
-        # @return [Integer]
-        #   The HTTP Response Status.
-        #
-        # @see Network::HTTP#http_status
-        #
-        # @since 1.1.0
-        #
-        # @api public
-        #
-        def http_status(options={})
-          options = http_merge_options(options)
+            print_info "HTTP #{request.method} #{host}:#{port} #{request.path}"
 
-          if (result = super(options))
-            print_debug "HTTP #{result} #{http_options_to_s(options)}"
+            request.each_capitalized do |name,value|
+              print_debug "  #{name}: #{value}"
+            end
           end
 
-          return result
-        end
+          print_info "HTTP #{response.code} #{response.message}"
 
-        #
-        # Checks if the response has an HTTP OK status code.
-        #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Symbol, String] :method (:head)
-        #   The method to use for the request.
-        #
-        # @return [Boolean]
-        #   Specifies whether the response had an HTTP OK status code or not.
-        #
-        # @see Network::HTTP#http_ok?
-        #
-        # @since 1.1.0
-        #
-        # @api public
-        #
-        def http_ok?(options={})
-          options = http_merge_options(options)
-
-          if (result = super(options))
-            print_debug "HTTP 200 OK #{http_options_to_s(options)}"
+          response.each_capitalized do |name,value|
+            print_debug "  #{name}: #{value}"
           end
 
-          return result
-        end
-
-        #
-        # Sends a HTTP Head request and returns the HTTP Server header.
-        #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Symbol, String] :method (:head)
-        #   The method to use for the request.
-        #
-        # @return [String]
-        #   The HTTP `Server` header.
-        #
-        # @see Network::HTTP#http_server
-        #
-        # @since 1.1.0
-        #
-        # @api public
-        #
-        def http_server(options={})
-          options = http_merge_options(options)
-
-          if (result = super(options))
-            print_debug "HTTP Server: #{result}"
-          end
-
-          return result
-        end
-
-        #
-        # Sends an HTTP Head request and returns the HTTP X-Powered-By header.
-        #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Symbol, String] :method (:get)
-        #   The method to use for the request.
-        #
-        # @return [String]
-        #   The HTTP `X-Powered-By` header.
-        #
-        # @see Network::HTTP#http_powered_by
-        #
-        # @since 1.1.0
-        #
-        # @api public
-        #
-        def http_powered_by(options={})
-          options = http_merge_options(options)
-
-          if (result = super(options))
-            print_debug "HTTP X-Powered-By: #{result}"
-          end
-
-          return result
-        end
-
-        #
-        # Performs an HTTP Copy request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [Net::HTTP::Response]
-        #   The response of the HTTP request.
-        #
-        # @see Network::HTTP#http_copy
-        #
-        # @api public
-        #
-        def http_copy(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP COPY #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP Delete request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [Net::HTTP::Response]
-        #   The response of the HTTP request.
-        #
-        # @see Network::HTTP#http_delete
-        #
-        # @api public
-        #
-        def http_delete(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP DELETE #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP Get request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [Net::HTTP::Response]
-        #   The response of the HTTP request.
-        #
-        # @see Network::HTTP#http_get
-        #
-        # @api public
-        #
-        def http_get(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP GET #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP Get request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [String]
-        #   The body of the HTTP Get request.
-        #
-        # @see Network::HTTP#http_get_body
-        #
-        # @api public
-        #
-        def http_get_body(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP GET #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP Head request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [Net::HTTP::Response]
-        #   The response of the HTTP request.
-        #
-        # @see Network::HTTP#http_head
-        #
-        # @api public
-        #
-        def http_head(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP HEAD #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP Lock request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [Net::HTTP::Response]
-        #   The response of the HTTP request.
-        #
-        # @see Network::HTTP#http_lock
-        #
-        # @api public
-        #
-        def http_lock(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP LOCK #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP Mkcol request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [Net::HTTP::Response]
-        #   The response of the HTTP request.
-        #
-        # @see Network::HTTP#http_mkcol
-        #
-        # @api public
-        #
-        def http_mkcol(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP MKCOL #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP Move request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [Net::HTTP::Response]
-        #   The response of the HTTP request.
-        #
-        # @see Network::HTTP#http_move
-        #
-        # @api public
-        #
-        def http_move(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP MOVE #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP Options request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [Net::HTTP::Response]
-        #   The response of the HTTP request.
-        #
-        # @see Network::HTTP#http_options
-        #
-        # @api public
-        #
-        def http_options(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP OPTIONS #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP Post request.
-        #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [String] :post_data
-        #   The `POSTDATA` to send with the HTTP Post request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [Net::HTTP::Response]
-        #   The response of the HTTP request.
-        #
-        # @see Network::HTTP#http_post
-        #
-        # @api public
-        #
-        def http_post(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP POST #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP Post request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [String]
-        #   The body of the Post request.
-        #
-        # @see Network::HTTP#http_post_body
-        #
-        # @api public
-        #
-        def http_post_body(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP POST #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP PUT request.
-        #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [String] :body
-        #   The body for the request.
-        #
-        # @option options [String] :post_data
-        #   The `POSTDATA` to send with the HTTP PUT request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [Net::HTTP::Response]
-        #   The response of the HTTP request.
-        #
-        # @see Network::HTTP#http_put
-        #
-        # @since 0.4.0
-        #
-        # @api public
-        #
-        def http_put(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP PUT #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP Propfind request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [Net::HTTP::Response]
-        #   The response of the HTTP request.
-        #
-        # @see Network::HTTP#http_prop_find
-        #
-        # @api public
-        #
-        def http_prop_find(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP PROPFIND #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP Proppatch request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [Net::HTTP::Response]
-        #   The response of the HTTP request.
-        #
-        # @see Network::HTTP#http_prop_patch
-        #
-        # @api public
-        #
-        def http_prop_patch(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP PROPPATCH #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP Trace request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [Net::HTTP::Response]
-        #   The response of the HTTP request.
-        #
-        # @see Network::HTTP#http_trace
-        #
-        # @api public
-        #
-        def http_trace(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP TRACE #{http_options_to_s(options)}"
-
-          return super(options,&block)
-        end
-
-        #
-        # Performs an HTTP Unlock request.
-        #
-        # @yield [response]
-        #   If a block is given, it will be passed the response received
-        #   from the request.
-        #
-        # @yieldparam [Net::HTTP::Response] response
-        #   The HTTP response object.
-        #
-        # @return [Net::HTTP::Response]
-        #   The response of the HTTP request.
-        #
-        # @see Network::HTTP#http_unlock
-        #
-        # @api public
-        #
-        def http_unlock(options={},&block)
-          options = http_merge_options(options)
-          print_info "HTTP UNLOCK #{http_options_to_s(options)}"
-
-          return super(options,&block)
+          return response
         end
 
         private
@@ -698,56 +202,23 @@ module Ronin
         # @api private
         #
         def http_merge_options(options={})
-          options[:host] ||= self.host if self.host
-          options[:port] ||= self.port if self.port
-
-          if (self.http_vhost || self.http_user_agent)
-            headers = options.fetch(:headers,{})
-
-            headers[:host] ||= self.http_vhost if self.http_vhost
-            headers[:user_agent] ||= self.http_user_agent if self.http_user_agent
-
-            options[:headers] = headers
-          end
-
-          options[:user] ||= self.http_user if self.http_user
-          options[:password] ||= self.http_password if self.http_password
+          options = options.dup
 
           options[:proxy] ||= self.http_proxy if self.http_proxy
+          options[:host]  ||= self.host       if self.host
+          options[:port]  ||= self.port       if self.port
+
+          if (self.http_vhost || self.http_user_agent)
+            headers = (options[:headers] ||= {})
+
+            headers[:host]       ||= self.http_vhost      if self.http_vhost
+            headers[:user_agent] ||= self.http_user_agent if self.http_user_agent
+          end
+
+          options[:user]     ||= self.http_user     if self.http_user
+          options[:password] ||= self.http_password if self.http_password
 
           return options
-        end
-
-        #
-        # Converts the HTTP options to a printable String.
-        #
-        # @param [Hash] options
-        #   HTTP options.
-        #
-        # @return [String]
-        #   The printable String.
-        #
-        # @since 1.1.0
-        #
-        # @api private
-        #
-        def http_options_to_s(options)
-          fields = ["#{options[:host]}:#{options[:port]}"]
-
-          if (options[:user] || options[:password])
-            fields << "#{options[:user]}:#{options[:password]}"
-          end
-
-          path = options[:path]
-          path += "?#{options[:query]}" if options[:query]
-
-          fields << path
-
-          if options[:headers]
-            fields << ("%p" % options[:headers])
-          end
-
-          return fields.join(' ')
         end
 
       end

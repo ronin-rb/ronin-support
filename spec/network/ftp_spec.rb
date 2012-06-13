@@ -1,0 +1,65 @@
+require 'spec_helper'
+require 'ronin/network/ftp'
+
+describe Network::FTP do
+  describe "helpers", :network do
+    subject do
+      obj = Object.new
+      obj.extend described_class
+      obj
+    end
+
+    let(:host) { 'ftp.kernel.org' }
+
+    describe "#ftp_connect" do
+      it "should return a Net::FTP object" do
+        ftp = subject.ftp_connect(host)
+
+        ftp.should be_kind_of(Net::FTP)
+        ftp.close
+      end
+
+      it "should connect to an FTP service" do
+        ftp = subject.ftp_connect(host)
+
+        ftp.should_not be_closed
+        ftp.close
+      end
+
+      context "when given a block" do
+        it "should yield the new Net::FTP object" do
+          ftp = subject.ftp_connect(host) do |ftp|
+            ftp.should be_kind_of(Net::FTP)
+          end
+
+          ftp.close
+        end
+      end
+    end
+
+    describe "#ftp_session" do
+      it "should yield a new Net::FTP object" do
+        yielded_ftp = nil
+
+        subject.ftp_session(host) do |ftp|
+          yielded_ftp = ftp
+        end
+
+        yielded_ftp.should be_kind_of(Net::FTP)
+      end
+
+      it "should close the FTP session after yielding it" do
+        session  = nil
+        was_open = nil
+
+        subject.ftp_session(host) do |ftp|
+          session   = ftp
+          was_open  = !ftp.closed?
+        end
+
+        was_open.should == true
+        session.should be_closed
+      end
+    end
+  end
+end

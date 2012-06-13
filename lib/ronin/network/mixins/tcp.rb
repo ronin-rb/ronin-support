@@ -65,6 +65,29 @@ module Ronin
         protected
 
         #
+        # Tests whether the TCP port, specified by the `host` and `port`
+        # parameters, is open.
+        #
+        # @param [Integer] timeout (5)
+        #   The maximum time to attempt connecting.
+        #
+        # @return [Boolean, nil]
+        #   Specifies whether the remote TCP port is open.
+        #   If the connection was not accepted, `nil` will be returned.
+        #
+        # @see Network::TCP#tcp_open?
+        #
+        # @api public
+        #
+        # @since 0.5.0
+        #
+        def tcp_open?(timeout=nil)
+          print_info "Testing if #{host_port} is open ..."
+
+          super(self.host,self.port,self.local_host,self.local_port,timeout)
+        end
+
+        #
         # Opens a TCP connection to the host and port specified by the
         # `host` and `port` parameters. If the `local_host` and
         # `local_port` parameters are set, they will be used for
@@ -188,7 +211,8 @@ module Ronin
         #   The data was successfully sent.
         #
         # @example
-        #   tcp_send("GET /" + ('A' * 4096) + "\n\r")
+        #   buffer = "GET /" + ('A' * 4096) + "\n\r"
+        #   tcp_send(buffer)
         #   # => true
         #
         # @see Network::TCP#tcp_send
@@ -286,15 +310,17 @@ module Ronin
         # @return [nil]
         #
         # @example
-        #   tcp_single_server do |client|
+        #   tcp_accept do |client|
         #     client.puts 'lol'
         #   end
         #
-        # @see Network::TCP#tcp_server_single_server
+        # @see Network::TCP#tcp_accept
         #
         # @api public
         #
-        def tcp_single_server(&block)
+        # @since 0.5.0
+        #
+        def tcp_accept(&block)
           print_info "Listening on #{server_host_port} ..."
 
           super(self.server_port,self.server_host) do |client|
@@ -311,6 +337,14 @@ module Ronin
 
           print_info "Closed #{server_host_port}"
           return nil
+        end
+
+        #
+        # @deprecated
+        #   Deprecated as of 0.5.0. Use {#tcp_accept} instead.
+        #
+        def tcp_single_server(&block)
+          tcp_accept(&block)
         end
 
         private

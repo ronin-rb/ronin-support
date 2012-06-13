@@ -36,7 +36,7 @@ module Ronin
       #
       # @api public
       #
-      def SMTP.default_port
+      def self.default_port
         @default_port ||= DEFAULT_PORT
       end
 
@@ -48,7 +48,7 @@ module Ronin
       #
       # @api public
       #
-      def SMTP.default_port=(port)
+      def self.default_port=(port)
         @default_port = port
       end
 
@@ -69,7 +69,7 @@ module Ronin
       #
       # @api public
       #
-      def SMTP.message(options={},&block)
+      def self.message(options={},&block)
         Email.new(options,&block).to_s
       end
 
@@ -136,10 +136,9 @@ module Ronin
         host = host.to_s
         port = (options[:port] || SMTP.default_port)
 
-        helo = options[:helo]
-
-        auth = options[:auth]
-        user = options[:user]
+        helo     = options[:helo]
+        auth     = options[:auth]
+        user     = options[:user]
         password = options[:password]
 
         session = Net::SMTP.start(host,port,helo,user,password,auth)
@@ -206,7 +205,7 @@ module Ronin
       #                                        :message_id => 'XXXX',
       #                                        :body => 'Hello'
       #
-      # @example Using the block.
+      # @example Using the block:
       #   smtp_send_message('www.example.com') do |email|
       #     email.to = 'joe@example.com'
       #     email.from 'eve@example.com'

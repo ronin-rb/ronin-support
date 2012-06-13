@@ -36,7 +36,7 @@ module Ronin
       #
       # @api public
       #
-      def IMAP.default_port
+      def self.default_port
         @default_port ||= DEFAULT_PORT
       end
 
@@ -48,7 +48,7 @@ module Ronin
       #
       # @api public
       #
-      def IMAP.default_port=(port)
+      def self.default_port=(port)
         @default_port = port
       end
 
@@ -90,19 +90,20 @@ module Ronin
       # @api public
       #
       def imap_connect(host,options={})
-        host = host.to_s
-        port = (options[:port] || IMAP.default_port)
-        certs = options[:certs]
-        auth = options[:auth]
-        user = options[:user]
+        host   = host.to_s
+        port   = (options[:port] || IMAP.default_port)
+        certs  = options[:certs]
+        auth   = options[:auth]
+        user   = options[:user]
         passwd = options[:password]
 
         if options[:ssl]
-          ssl = true
-          ssl_certs = options[:ssl][:certs]
+          ssl        = true
+          ssl_certs  = options[:ssl][:certs]
           ssl_verify = SSL::VERIFY[options[:ssl][:verify]]
         else
-          ssl = false
+          ssl        = false
+          ssl_certs  = nil
           ssl_verify = false
         end
 

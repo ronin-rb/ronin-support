@@ -1,11 +1,18 @@
 require 'spec_helper'
-require 'ronin/formatting/binary'
+require 'ronin/formatting/extensions/binary/string'
 
-require 'formatting/binary/helpers/hexdumps'
 require 'ostruct'
 
 describe String do
   subject { "hello" }
+
+  it "should provide String#unpack_original" do
+    should respond_to(:unpack_original)
+  end
+
+  it "should provide String#unpack" do
+    should respond_to(:unpack)
+  end
 
   it "should provide String#depack" do
     should respond_to(:depack)
@@ -31,61 +38,77 @@ describe String do
     should respond_to(:unhexdump)
   end
 
-  describe "#depack" do
-    subject { 0x1337 }
+  describe "#unpack" do
+    subject { "\x34\x12\x00\x00hello\0" }
 
-    let(:i386) do
-      OpenStruct.new(:endian => :little, :address_length => 4)
+    let(:data) { [0x1234, "hello"] }
+
+    it "should unpack Strings using String#unpack template Strings" do
+      subject.unpack('VZ*').should == data
     end
 
-    let(:ppc) do
-      OpenStruct.new(:endian => :big, :address_length => 4)
+    it "should unpack Strings using a Binary::Template" do
+      subject.unpack(:uint32_le, :string).should == data
     end
+  end
 
-    let(:i386_packed_int)   { "7\023\000\000" }
-    let(:i386_packed_short) { "7\023" }
-    let(:i386_packed_long)  { "7\023\000\000" }
-    let(:i386_packed_quad)  { "7\023\000\000\000\000\000\000" }
+  context "deprecated" do
+    describe "#depack" do
+      subject { 0x1337 }
 
-    let(:ppc_packed_int)   { "\000\000\0237" }
-    let(:ppc_packed_short) { "\0237" }
-    let(:ppc_packed_long)  { "\000\000\0237" }
-    let(:ppc_packed_quad)  { "\000\000\000\000\000\000\0237" }
+      let(:i386) do
+        OpenStruct.new(:endian => :little, :address_length => 4)
+      end
 
-    it "should depack itself for a little-endian architecture" do
-      i386_packed_int.depack(i386).should == subject
-    end
+      let(:ppc) do
+        OpenStruct.new(:endian => :big, :address_length => 4)
+      end
 
-    it "should depack itself as a short for a little-endian architecture" do
-      i386_packed_short.depack(i386,2).should == subject
-    end
+      let(:i386_packed_int)   { "7\023\000\000" }
+      let(:i386_packed_short) { "7\023" }
+      let(:i386_packed_long)  { "7\023\000\000" }
+      let(:i386_packed_quad)  { "7\023\000\000\000\000\000\000" }
 
-    it "should depack itself as a long for a little-endian architecture" do
-      i386_packed_long.depack(i386,4).should == subject
-    end
+      let(:ppc_packed_int)   { "\000\000\0237" }
+      let(:ppc_packed_short) { "\0237" }
+      let(:ppc_packed_long)  { "\000\000\0237" }
+      let(:ppc_packed_quad)  { "\000\000\000\000\000\000\0237" }
 
-    it "should depack itself as a quad for a little-endian architecture" do
-      i386_packed_quad.depack(i386,8).should == subject
-    end
+      it "should depack itself for a little-endian architecture" do
+        i386_packed_int.depack(i386).should == subject
+      end
 
-    it "should depack itself for a big-endian architecture" do
-      ppc_packed_int.depack(ppc).should == subject
-    end
+      it "should depack itself as a short for a little-endian architecture" do
+        i386_packed_short.depack(i386,2).should == subject
+      end
 
-    it "should depack itself as a short for a big-endian architecture" do
-      ppc_packed_short.depack(ppc,2).should == subject
-    end
+      it "should depack itself as a long for a little-endian architecture" do
+        i386_packed_long.depack(i386,4).should == subject
+      end
 
-    it "should depack itself as a long for a big-endian architecture" do
-      ppc_packed_long.depack(ppc,4).should == subject
-    end
+      it "should depack itself as a quad for a little-endian architecture" do
+        i386_packed_quad.depack(i386,8).should == subject
+      end
 
-    it "should depack itself as a quad for a big-endian architecture" do
-      ppc_packed_quad.depack(ppc,8).should == subject
-    end
+      it "should depack itself for a big-endian architecture" do
+        ppc_packed_int.depack(ppc).should == subject
+      end
 
-    it "should accept String#unpack template strings" do
-      i386_packed_long.depack('L').should == [subject]
+      it "should depack itself as a short for a big-endian architecture" do
+        ppc_packed_short.depack(ppc,2).should == subject
+      end
+
+      it "should depack itself as a long for a big-endian architecture" do
+        ppc_packed_long.depack(ppc,4).should == subject
+      end
+
+      it "should depack itself as a quad for a big-endian architecture" do
+        ppc_packed_quad.depack(ppc,8).should == subject
+      end
+
+      it "should accept String#unpack template strings" do
+        i386_packed_long.depack('V').should == [subject]
+      end
     end
   end
 
@@ -131,24 +154,6 @@ describe String do
     end
   end
 
-  describe "#hex_unescape" do
-    it "should unescape a normal String" do
-      "hello".hex_unescape.should == "hello"
-    end
-
-    it "should unescape a hex String" do
-      "\\x68\\x65\\x6c\\x6c\\x6f\\x4e".hex_unescape.should == "hello\x4e"
-    end
-
-    it "should unescape an octal String" do
-      "hello\012".hex_unescape.should == "hello\n"
-    end
-
-    it "should unescape control characters" do
-      "hello\\n".hex_unescape.should == "hello\n"
-    end
-  end
-
   describe "#xor" do
     subject { 'hello' }
 
@@ -177,130 +182,12 @@ describe String do
   end
 
   describe "#unhexdump" do
-    include Helpers
+    subject { "00000000  23 20 52 6f 6e 69 6e 20  53 75 70 70 6f 72 74 0a  |# Ronin Support.|\n00000010\n" }
 
-    context "GNU hexdump" do
-      let(:ascii) { load_binary_data('ascii') }
-      let(:repeated) { load_binary_data('repeated') }
+    let(:raw) { "# Ronin Support\n" }
 
-      it "should unhexdump octal-byte hexdump output" do
-        hexdump = load_hexdump('hexdump_octal_bytes')
-
-        hexdump.unhexdump(:format => :hexdump, :encoding => :octal_bytes).should == ascii
-      end
-
-      it "should unhexdump hex-byte hexdump output" do
-        hexdump = load_hexdump('hexdump_hex_bytes')
-
-        hexdump.unhexdump(:format => :hexdump, :encoding => :hex_bytes).should == ascii
-      end
-
-      it "should unhexdump decimal-short hexdump output" do
-        hexdump = load_hexdump('hexdump_decimal_shorts')
-
-        hexdump.unhexdump(:format => :hexdump, :encoding => :decimal_shorts).should == ascii
-      end
-
-      it "should unhexdump octal-short hexdump output" do
-        hexdump = load_hexdump('hexdump_octal_shorts')
-
-        hexdump.unhexdump(:format => :hexdump, :encoding => :octal_shorts).should == ascii
-      end
-
-      it "should unhexdump hex-short hexdump output" do
-        hexdump = load_hexdump('hexdump_hex_shorts')
-
-        hexdump.unhexdump(:format => :hexdump, :encoding => :hex_shorts).should == ascii
-      end
-
-      it "should unhexdump repeated hexdump output" do
-        hexdump = load_hexdump('hexdump_repeated')
-
-        hexdump.unhexdump(:format => :hexdump, :encoding => :hex_bytes).should == repeated
-      end
-    end
-
-    context "od" do
-      let(:ascii) { load_binary_data('ascii') }
-      let(:repeated) { load_binary_data('repeated') }
-
-      it "should unhexdump octal-byte hexdump output" do
-        hexdump = load_hexdump('od_octal_bytes')
-
-        hexdump.unhexdump(:format => :od, :encoding => :octal_bytes).should == ascii
-      end
-
-      it "should unhexdump octal-shorts hexdump output" do
-        hexdump = load_hexdump('od_octal_shorts')
-
-        hexdump.unhexdump(:format => :od, :encoding => :octal_shorts).should == ascii
-      end
-
-      it "should unhexdump octal-ints hexdump output" do
-        hexdump = load_hexdump('od_octal_ints')
-
-        hexdump.unhexdump(:format => :od, :encoding => :octal_ints).should == ascii
-      end
-
-      it "should unhexdump octal-quads hexdump output" do
-        hexdump = load_hexdump('od_octal_quads')
-
-        hexdump.unhexdump(:format => :od, :encoding => :octal_quads).should == ascii
-      end
-
-      it "should unhexdump decimal-byte hexdump output" do
-        hexdump = load_hexdump('od_decimal_bytes')
-
-        hexdump.unhexdump(:format => :od, :encoding => :decimal_bytes).should == ascii
-      end
-
-      it "should unhexdump decimal-shorts hexdump output" do
-        hexdump = load_hexdump('od_decimal_shorts')
-
-        hexdump.unhexdump(:format => :od, :encoding => :decimal_shorts).should == ascii
-      end
-
-      it "should unhexdump decimal-ints hexdump output" do
-        hexdump = load_hexdump('od_decimal_ints')
-
-        hexdump.unhexdump(:format => :od, :encoding => :decimal_ints).should == ascii
-      end
-
-      it "should unhexdump decimal-quads hexdump output" do
-        hexdump = load_hexdump('od_decimal_quads')
-
-        hexdump.unhexdump(:format => :od, :encoding => :decimal_quads).should == ascii
-      end
-
-      it "should unhexdump hex-byte hexdump output" do
-        hexdump = load_hexdump('od_hex_bytes')
-
-        hexdump.unhexdump(:format => :od, :encoding => :hex_bytes).should == ascii
-      end
-
-      it "should unhexdump hex-shorts hexdump output" do
-        hexdump = load_hexdump('od_hex_shorts')
-
-        hexdump.unhexdump(:format => :od, :encoding => :hex_shorts).should == ascii
-      end
-
-      it "should unhexdump hex-ints hexdump output" do
-        hexdump = load_hexdump('od_hex_ints')
-
-        hexdump.unhexdump(:format => :od, :encoding => :hex_ints).should == ascii
-      end
-
-      it "should unhexdump hex-quads hexdump output" do
-        hexdump = load_hexdump('od_hex_quads')
-
-        hexdump.unhexdump(:format => :od, :encoding => :hex_quads).should == ascii
-      end
-
-      it "should unhexdump repeated hexdump output" do
-        hexdump = load_hexdump('od_repeated')
-
-        hexdump.unhexdump(:format => :od, :encoding => :octal_shorts).should == repeated
-      end
+    it "should unhexdump a String" do
+      subject.unhexdump.should == raw
     end
   end
 end

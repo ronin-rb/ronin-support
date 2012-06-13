@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/formatting/binary'
+require 'ronin/formatting/extensions/binary/integer'
 
 require 'ostruct'
 
@@ -81,60 +81,74 @@ describe Integer do
   end
 
   describe "#pack" do
-    let(:i386) do
-      OpenStruct.new(:endian => :little, :address_length => 4)
-    end
-
-    let(:ppc) do
-      OpenStruct.new(:endian => :big, :address_length => 4)
-    end
-
     subject { 0x1337 }
 
-    let(:i386_packed_int)   { "7\023\000\000" }
-    let(:i386_packed_short) { "7\023" }
-    let(:i386_packed_long)  { "7\023\000\000" }
-    let(:i386_packed_quad)  { "7\023\000\000\000\000\000\000" }
+    let(:packed) { "7\023\000\000" }
 
-    let(:ppc_packed_int)   { "\000\000\0237" }
-    let(:ppc_packed_short) { "\0237" }
-    let(:ppc_packed_long)  { "\000\000\0237" }
-    let(:ppc_packed_quad)  { "\000\000\000\000\000\000\0237" }
-
-    it "should pack itself for a little-endian architecture by default" do
-      subject.pack(i386).should == i386_packed_int
+    it "should pack Integers using Array#pack codes" do
+      subject.pack('V').should == packed
     end
 
-    it "should pack itself as a short for a little-endian architecture" do
-      subject.pack(i386,2).should == i386_packed_short
+    it "should pack Integers using Binary::Template types" do
+      subject.pack(:uint32_le).should == packed
     end
 
-    it "should pack itself as a long for a little-endian architecture" do
-      subject.pack(i386,4).should == i386_packed_long
+    context "when given non-Integer Binary::Template types" do
+      it "should raise an ArgumentError" do
+        lambda {
+          subject.pack(:float)
+        }.should raise_error(ArgumentError)
+      end
     end
 
-    it "should pack itself as a quad for a little-endian architecture" do
-      subject.pack(i386,8).should == i386_packed_quad
-    end
+    context "deprecated" do
+      let(:uint16_le) { "7\023" }
+      let(:uint32_le) { "7\023\000\000" }
+      let(:uint64_le) { "7\023\000\000\000\000\000\000" }
 
-    it "should pack itself for a big-endian architecture" do
-      subject.pack(ppc).should == ppc_packed_int
-    end
+      let(:uint16_be) { "\0237" }
+      let(:uint32_be) { "\000\000\0237" }
+      let(:uint64_be) { "\000\000\000\000\000\000\0237" }
 
-    it "should pack itself as a short for a big-endian architecture" do
-      subject.pack(ppc,2).should == ppc_packed_short
-    end
+      let(:i386) do
+        OpenStruct.new(:endian => :little, :address_length => 4)
+      end
 
-    it "should pack itself as a long for a big-endian architecture" do
-      subject.pack(ppc,4).should == ppc_packed_long
-    end
+      let(:ppc) do
+        OpenStruct.new(:endian => :big, :address_length => 4)
+      end
 
-    it "should pack itself as a quad for a big-endian architecture" do
-      subject.pack(ppc,8).should == ppc_packed_quad
-    end
+      it "should pack itself for a little-endian architecture by default" do
+        subject.pack(i386).should == uint32_le
+      end
 
-    it "should accept Array#pack template strings" do
-      subject.pack('L').should == i386_packed_long
+      it "should pack itself as a short for a little-endian architecture" do
+        subject.pack(i386,2).should == uint16_le
+      end
+
+      it "should pack itself as a long for a little-endian architecture" do
+        subject.pack(i386,4).should == uint32_le
+      end
+
+      it "should pack itself as a quad for a little-endian architecture" do
+        subject.pack(i386,8).should == uint64_le
+      end
+
+      it "should pack itself for a big-endian architecture" do
+        subject.pack(ppc).should == uint32_be
+      end
+
+      it "should pack itself as a short for a big-endian architecture" do
+        subject.pack(ppc,2).should == uint16_be
+      end
+
+      it "should pack itself as a long for a big-endian architecture" do
+        subject.pack(ppc,4).should == uint32_be
+      end
+
+      it "should pack itself as a quad for a big-endian architecture" do
+        subject.pack(ppc,8).should == uint64_be
+      end
     end
   end
 end

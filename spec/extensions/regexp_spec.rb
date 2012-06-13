@@ -2,6 +2,38 @@ require 'spec_helper'
 require 'ronin/extensions/regexp'
 
 describe Regexp do
+  describe "WORD" do
+    let(:word) { 'dog' }
+
+    subject { Regexp::WORD }
+
+    it "should not match single letters" do
+      subject.match('A').should be_nil
+    end
+
+    it "should not match numeric letters" do
+      subject.match("123#{word}123")[0].should == word
+    end
+
+    it "should not include ending periods" do
+      subject.match("#{word}.")[0].should == word
+    end
+
+    it "should not include leading punctuation" do
+      subject.match("'#{word}")[0].should == word
+    end
+
+    it "should not include tailing punctuation" do
+      subject.match("#{word}'")[0].should == word
+    end
+
+    it "should include punctuation in the middle of the word" do
+      name = "O'Brian"
+
+      subject.match(name)[0].should == name
+    end
+  end
+
   describe "OCTET" do
     subject { Regexp::OCTET }
 
@@ -169,6 +201,34 @@ describe Regexp do
       email = 'alice@example.com'
 
       subject.match(email)[0].should == email
+    end
+  end
+
+  describe "PHONE_NUMBER" do
+    subject { Regexp::PHONE_NUMBER }
+
+    it "should match 111-2222" do
+      number = '111-2222'
+
+      subject.match(number)[0].should == number
+    end
+
+    it "should match 111-2222x9" do
+      number = '111-2222x9'
+
+      subject.match(number)[0].should == number
+    end
+
+    it "should match 800-111-2222" do
+      number = '800-111-2222'
+
+      subject.match(number)[0].should == number
+    end
+
+    it "should match 1-800-111-2222" do
+      number = '1-800-111-2222'
+
+      subject.match(number)[0].should == number
     end
   end
 

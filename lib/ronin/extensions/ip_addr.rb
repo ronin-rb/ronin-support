@@ -21,7 +21,6 @@ require 'ronin/extensions/resolv'
 require 'ronin/extensions/regexp'
 
 require 'ipaddr'
-require 'strscan'
 require 'combinatorics/list_comprehension'
 
 class IPAddr
@@ -56,7 +55,7 @@ class IPAddr
   #   IPAddr.extract("Host: 127.0.0.1\n\rHost: 10.1.1.1\n\r")
   #   # => ["127.0.0.1", "10.1.1.1"]
   #
-  # @example Extract only IPv4 addresses from a large amount of text.
+  # @example Extract only IPv4 addresses from a large amount of text:
   #   IPAddr.extract(text,:v4) do |ip|
   #     puts ip
   #   end
@@ -75,10 +74,8 @@ class IPAddr
                Regexp::IP
              end
 
-    scanner = StringScanner.new(text)
-
-    while scanner.skip_until(regexp)
-      yield scanner.matched
+    text.scan(regexp) do |match|
+      yield match
     end
 
     return nil
@@ -107,7 +104,7 @@ class IPAddr
   #   end
   #
   # @example Enumerate through a globbed IP range
-  #   IPAddr.each('10.1.1-5.*') do |ip|
+  #   IPAddr.each('10.1.1-5,10-20.*') do |ip|
   #     puts ip
   #   end
   #
@@ -119,7 +116,9 @@ class IPAddr
   # @api public
   #
   def IPAddr.each(cidr_or_glob,&block)
-    unless (cidr_or_glob.include?('*') || cidr_or_glob.include?('-'))
+    unless (cidr_or_glob.include?('*') ||
+            cidr_or_glob.include?(',') ||
+            cidr_or_glob.include?('-'))
       return IPAddr.new(cidr_or_glob).each(&block)
     end
 
@@ -154,12 +153,17 @@ class IPAddr
 
       ranges << if segment == '*'
                   (1..254)
-                elsif segment.include?('-')
-                  start, stop = segment.split('-',2)
-
-                  (start.to_i(base)..stop.to_i(base))
                 else
-                  segment.to_i(base)
+                  segment.split(',').map { |octet|
+                    if octet.include?('-')
+                      start, stop = octet.split('-',2)
+                      start, stop = start.to_i(base), stop.to_i(base)
+
+                      (start..stop).to_a
+                    else
+                      octet.to_i(base)
+                    end
+                  }.flatten
                 end
     end
 

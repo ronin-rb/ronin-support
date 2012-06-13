@@ -18,6 +18,7 @@
 #
 
 require 'ronin/formatting/extensions/binary/integer'
+require 'ronin/formatting/extensions/binary/float'
 require 'ronin/formatting/extensions/binary/string'
 require 'ronin/formatting/extensions/binary/file'
 

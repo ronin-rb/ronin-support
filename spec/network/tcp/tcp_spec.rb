@@ -17,6 +17,29 @@ describe Network::TCP do
       obj
     end
 
+    describe "#tcp_open?" do
+      let(:host) { 'example.com' }
+      let(:port) { 80 }
+
+      it "should return true for open ports" do
+        subject.tcp_open?(host,port).should == true
+      end
+
+      it "should return false for closed ports" do
+        subject.tcp_open?('localhost',rand(1024) + 1).should == false
+      end
+
+      it "should have a timeout for firewalled ports" do
+        timeout = 2
+
+        t1 = Time.now
+        subject.tcp_open?(host,1337,nil,nil,timeout)
+        t2 = Time.now
+
+        (t2 - t1).to_i.should <= timeout
+      end
+    end
+
     describe "#tcp_connect" do
       let(:local_port) { 1024 + rand(65535 - 1024) }
 
@@ -142,25 +165,6 @@ describe Network::TCP do
 
         banner.should =~ expected_banner
       end
-
-      context "when no banner could be read" do
-        let(:bad_host) { 'localhost' }
-        let(:bad_port) { 1337        }
-
-        it "should return nil" do
-          subject.tcp_banner(bad_host,bad_port).should == nil
-        end
-
-        it "should not yield anything" do
-          yielded = false
-
-          subject.tcp_banner(bad_host,bad_port) do |banner|
-            yielded = true
-          end
-
-          yielded.should == false
-        end
-      end
     end
 
     describe "#tcp_send" do
@@ -260,7 +264,7 @@ describe Network::TCP do
       end
     end
 
-    describe "#tcp_single_server" do
+    describe "#tcp_accept" do
       let(:server_port) { 1024 + rand(65535 - 1024) }
 
       pending "need to automate connecting to the TCPServer"

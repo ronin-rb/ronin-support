@@ -34,7 +34,7 @@ module Ronin
       #
       # @api public
       #
-      def POP3.default_port
+      def self.default_port
         @default_port ||= DEFAULT_PORT
       end
 
@@ -46,7 +46,7 @@ module Ronin
       #
       # @api public
       #
-      def POP3.default_port=(port)
+      def self.default_port=(port)
         @default_port = port
       end
 
@@ -80,9 +80,9 @@ module Ronin
       # @api public
       #
       def pop3_connect(host,options={})
-        host = host.to_s
-        port = (options[:port] || POP3.default_port)
-        user = options[:user]
+        host     = host.to_s
+        port     = (options[:port] || POP3.default_port)
+        user     = options[:user]
         password = options[:password]
 
         session = Net::POP3.start(host,port,user,password)

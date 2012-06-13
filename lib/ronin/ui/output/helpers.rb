@@ -141,7 +141,7 @@ module Ronin
         # @example
         #   print_info "Connecting ..."
         #
-        # @example Print a formatted message.
+        # @example Print a formatted message:
         #   print_info "Connected to %s", host
         #
         # @since 0.3.0
@@ -150,7 +150,7 @@ module Ronin
         #
         def print_info(*message)
           unless Output.silent?
-            Output.handler.print_info(format_message(message))
+            Output.handler.print_info(Helpers.format(message))
             return true
           end
 
@@ -166,7 +166,7 @@ module Ronin
         # @return [Boolean]
         #   Specifies whether the messages were successfully printed.
         #
-        # @example Print a formatted message.
+        # @example Print a formatted message:
         #   print_debug "vars: %p %p", vars[0], vars[1]
         #
         # @since 0.3.0
@@ -175,7 +175,7 @@ module Ronin
         #
         def print_debug(*message)
           if (Output.verbose? && !(Output.silent?))
-            Output.handler.print_debug(format_message(message))
+            Output.handler.print_debug(Helpers.format(message))
             return true
           end
 
@@ -194,7 +194,7 @@ module Ronin
         # @example
         #   print_warning "Detecting a restricted character in the buffer"
         #
-        # @example Print a formatted message.
+        # @example Print a formatted message:
         #   print_warning "Malformed input detected: %p", user_input
         #
         # @since 0.3.0
@@ -203,7 +203,7 @@ module Ronin
         #
         def print_warning(*message)
           unless Output.silent?
-            Output.handler.print_warning(format_message(message))
+            Output.handler.print_warning(Helpers.format(message))
             return true
           end
           
@@ -222,7 +222,7 @@ module Ronin
         # @example
         #   print_error "Could not connect!"
         #
-        # @example Print a formatted message.
+        # @example Print a formatted message:
         #   print_error "%p: %s", error.class, error.message
         #
         # @since 0.3.0
@@ -231,7 +231,7 @@ module Ronin
         #
         def print_error(*message)
           unless Output.silent?
-            Output.handler.print_error(format_message(message))
+            Output.handler.print_error(Helpers.format(message))
             return true
           end
 
@@ -277,21 +277,19 @@ module Ronin
         #
         # Formats a message to be printed.
         #
-        # @param [Array] message
+        # @param [Array] arguments
         #   The message and additional Objects to format.
         #
         # @return [String]
         #   The formatted message.
         #
-        # @since 1.0.0
-        #
         # @api private
         #
-        def format_message(message)
-          if message.length == 1
-            message[0]
+        def Helpers.format(arguments)
+          unless arguments.length == 1
+            arguments.first % arguments[1..-1]
           else
-            message[0] % message[1..-1]
+            arguments.first
           end
         end
       end

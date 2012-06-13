@@ -1,19 +1,67 @@
-### 0.4.1 / 2012-04-01
+### 0.5.0 / 2012-05-28
 
-* Added "WARNING" messages for when ronin-support cannot load `openssl` or
-  `zlib`.
-* Added YARD `@see` tags to all methods defined in {Ronin::Network::Mixins}.
-* Use `$stdout`, `$stderr` instead of `STDOUT`, `STDERR`, respectively.
-* Included {Ronin::Network::DNS} into {Net} as well.
-* Included {Ronin::Network::TCP} into {Ronin::Network::SSL}.
-* Require `ronin/network/ssl` in `ronin/network`.
-* Require `ronin/network/extensions/ssl` in `ronin/network/extensions`.
-* Included {Ronin::Network::SSL} into {Ronin::Support}.
-* Default all `local_port` variables to `0` instead of `nil`. Workaround
-  for JRuby bug [#6574](http://jira.codehaus.org/browse/JRUBY-6574).
-* Fixed a major syntax error in `ronin/network/ssl`, that caused the `ssl_*`
-  methods to not be defined in {Ronin::Network::SSL}.
-* Fixed YARD `@see` tags in the {Ronin::Network} modules.
+* Added {Float#pack}.
+* Added {Regexp::WORD}.
+* Added {Regexp::PHONE_NUMBER}.
+* Added {Ronin::Binary::Template}.
+* Added {Ronin::Binary::Struct}.
+* Added {Ronin::Binary::Hexdump::Parser}.
+* Added {Ronin::Fuzzing::Template}.
+* Added {Ronin::Fuzzing::Repeater}.
+* Added {Ronin::Fuzzing::Fuzzer}.
+* Added {Ronin::Fuzzing::Mutator}.
+* Added {Ronin::Wordlist.create}.
+* Added {Ronin::Wordlist#path} and {Ronin::Wordlist#words}.
+* Added {Ronin::Wordlist#save}.
+* Added {Ronin::Network::Proxy}, {Ronin::Network::TCP::Proxy} and
+  {Ronin::Network::UDP::Proxy}.
+* Added {Ronin::Network::TCP#tcp_open?}.
+* Added {Ronin::Network::TCP#tcp_server_loop}.
+* Added {Ronin::Network::UDP#udp_open?}.
+* Added {Ronin::Network::UDP#udp_server_loop}.
+* Added {Ronin::Network::Mixins::TCP#tcp_open?}.
+* Added {Ronin::Network::Mixins::UDP#udp_open?}.
+* Added {Ronin::Network::Mixins::UDP#udp_server_loop}.
+* Added {Ronin::Network::Mixins::UDP#udp_recv}.
+* Added {Ronin::Network::FTP}.
+* Added {Ronin::Network::UNIX}.
+* Added {Ronin::Network::Mixins::FTP}.
+* Added {Ronin::Network::Mixins::UNIX}.
+* Aliased {String#escape} to {String#dump}.
+* Renamed {String#hex_unescape} to {String#unescape}.
+  * Aliased {String#hex_unescape} to {String#unescape}.
+* Renamed {Ronin::Network::TCP#tcp_single_server} to
+  {Ronin::Network::TCP#tcp_accept}.
+* Renamed {Ronin::Network::UDP#udp_single_server} to
+  {Ronin::Network::UDP#udp_recv}.
+* Deprecated {Ronin::Network::TCP#tcp_single_server}.
+* Deprecated {Ronin::Network::UDP#udp_single_server}.
+* Backported Ruby 1.9 only {Base64} methods.
+* Allow {Integer#pack} to accept a type from {Ronin::Binary::Template::TYPES}.
+* Allow {Array#pack} to accept types from {Ronin::Binary::Template::TYPES}.
+* Allow {String#unpack} to accept types from {Ronin::Binary::Template::TYPES}.
+* Support nmap-style `i,j-k` globbed IP address ranges in {IPAddr.each}.
+* Moved {String#unhexdump} logic into {Ronin::Binary::Hexdump::Parser}.
+  * Added the `:named_chars` option.
+  * Improved the parsing of `od` hexdumps.
+  * Support unhexdumping specific endianness.
+  * Support unhexdumping floats / doubles.
+* Allow {String#mutate} to accept Symbols that map to {Ronin::Fuzzing}
+  generator methods.
+* {Ronin::Fuzzing.[]} now raises a `NoMethodError` for unknown fuzzing methods.
+* Use `module_function` in {Ronin::Fuzzing}, so the generator methods can be
+  included into other Classes/Modules.
+* Require uri-query_params ~> 0.6.
+* Use `$stdout` instead of calling `Kernel.puts` or `STDOUT`.
+  Prevents infinite recursion if another library overrides `Kernel.puts`.
+* Allow {Ronin::Network::DNS} methods to yield resolved addresses.
+* Inject {Ronin::Network::DNS} into {Net} for backwards compatibility.
+* Allow {Ronin::Network::TCP#tcp_server} to accept a `backlog` argument.
+* Default the server host to `0.0.0.0` in
+  {Ronin::Network::TCP#tcp_accept}.
+* No longer honor the `VERBOSE` environment variable for enabling verbose output
+  in {Ronin::UI::Output}. Use `ruby -w` or `ruby -d` instead.
+* No longer support loading `extlib` in `ronin/support/inflector`.
 
 ### 0.4.0 / 2012-02-12
 
@@ -40,23 +88,23 @@
 * Added {String#mutate}.
 * Added {Ronin::Fuzzing}.
   * Added {Ronin::Fuzzing.[]}.
-  * Added {Ronin::Fuzzing.bad_strings}.
-  * Added {Ronin::Fuzzing.format_strings}.
-  * Added {Ronin::Fuzzing.bad_paths}.
-  * Added {Ronin::Fuzzing.bit_fields}.
-  * Added {Ronin::Fuzzing.signed_bit_fields}.
-  * Added {Ronin::Fuzzing.uint8}.
-  * Added {Ronin::Fuzzing.uint16}.
-  * Added {Ronin::Fuzzing.uint32}.
-  * Added {Ronin::Fuzzing.uint64}.
-  * Added {Ronin::Fuzzing.int8}.
-  * Added {Ronin::Fuzzing.int16}.
-  * Added {Ronin::Fuzzing.int32}.
-  * Added {Ronin::Fuzzing.int64}.
-  * Added {Ronin::Fuzzing.sint8}.
-  * Added {Ronin::Fuzzing.sint16}.
-  * Added {Ronin::Fuzzing.sint32}.
-  * Added {Ronin::Fuzzing.sint64}.
+  * Added `Ronin::Fuzzing.bad_strings`.
+  * Added `Ronin::Fuzzing.format_strings`.
+  * Added `Ronin::Fuzzing.bad_paths`.
+  * Added `Ronin::Fuzzing.bit_fields`.
+  * Added `Ronin::Fuzzing.signed_bit_fields`.
+  * Added `Ronin::Fuzzing.uint8`.
+  * Added `Ronin::Fuzzing.uint16`.
+  * Added `Ronin::Fuzzing.uint32`.
+  * Added `Ronin::Fuzzing.uint64`.
+  * Added `Ronin::Fuzzing.int8`.
+  * Added `Ronin::Fuzzing.int16`.
+  * Added `Ronin::Fuzzing.int32`.
+  * Added `Ronin::Fuzzing.int64`.
+  * Added `Ronin::Fuzzing.sint8`.
+  * Added `Ronin::Fuzzing.sint16`.
+  * Added `Ronin::Fuzzing.sint32`.
+  * Added `Ronin::Fuzzing.sint64`.
 * Added {Ronin::Wordlist}.
 * Added {Ronin::Network::DNS}.
 * Added {Ronin::Network::Mixins::Mixin}.
@@ -84,7 +132,7 @@
   was not being escaped.
 * Allow {Ronin::Network::HTTP.request} to accept `:query` and `:query_params`
   options.
-* Fixed a bug in {Ronin::Network::Mixins::HTTP#http_session}, where
+* Fixed a bug in `Ronin::Network::Mixins::HTTP#http_session`, where
   normalized options were not being yielded.
 * {Ronin::Network::HTTP#http_get_headers} and
   {Ronin::Network::HTTP#http_post_headers} now return a Hash of Capitalized

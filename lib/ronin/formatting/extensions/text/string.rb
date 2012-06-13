@@ -237,4 +237,65 @@ class String
     return padded
   end
 
+  alias escape dump
+
+  # Common escaped characters.
+  UNESCAPE_CHARS = Hash.new do |hash,char|
+    if char[0,1] == '\\'
+      char[1,1]
+    else
+      char
+    end
+  end
+  UNESCAPE_CHARS['\0'] = "\0"
+  UNESCAPE_CHARS['\a'] = "\a"
+  UNESCAPE_CHARS['\b'] = "\b"
+  UNESCAPE_CHARS['\t'] = "\t"
+  UNESCAPE_CHARS['\n'] = "\n"
+  UNESCAPE_CHARS['\v'] = "\v"
+  UNESCAPE_CHARS['\f'] = "\f"
+  UNESCAPE_CHARS['\r'] = "\r"
+
+  #
+  # Unescapes the escaped String.
+  #
+  # @return [String]
+  #   The unescaped version of the hex escaped String.
+  #
+  # @example
+  #   "\\x68\\x65\\x6c\\x6c\\x6f".unescape
+  #   # => "hello"
+  #
+  # @api public
+  #
+  # @since 0.5.0
+  #
+  def unescape
+    buffer     = ''
+    hex_index  = 0
+    hex_length = length
+
+    while (hex_index < hex_length)
+      hex_substring = self[hex_index..-1]
+
+      if hex_substring =~ /^\\[0-7]{3}/
+        buffer    << hex_substring[0,4].to_i(8)
+        hex_index += 3
+      elsif hex_substring =~ /^\\x[0-9a-fA-F]{1,2}/
+        hex_substring[2..-1].scan(/^[0-9a-fA-F]{1,2}/) do |hex_byte|
+          buffer    << hex_byte.to_i(16)
+          hex_index += (2 + hex_byte.length)
+        end
+      elsif hex_substring =~ /^\\./
+        buffer    << UNESCAPE_CHARS[hex_substring[0,2]]
+        hex_index += 2
+      else
+        buffer    << hex_substring[0,1]
+        hex_index += 1
+      end
+    end
+
+    return buffer
+  end
+
 end

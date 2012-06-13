@@ -17,6 +17,29 @@ describe Network::UDP do
       obj
     end
 
+    describe "#udp_open?" do
+      let(:host) { '4.2.2.1' }
+      let(:port) { 53 }
+
+      it "should return true for open ports" do
+        subject.udp_open?(host,port).should == true
+      end
+
+      it "should return false for closed ports" do
+        subject.udp_open?('localhost',rand(1024) + 1).should == false
+      end
+
+      it "should have a timeout for firewalled ports" do
+        timeout = 2
+
+        t1 = Time.now
+        subject.udp_open?(host,1337,nil,nil,timeout)
+        t2 = Time.now
+
+        (t2 - t1).to_i.should <= timeout
+      end
+    end
+
     describe "#udp_connect" do
       let(:local_port) { 1024 + rand(65535 - 1024) }
 
@@ -241,7 +264,7 @@ describe Network::UDP do
       end
     end
 
-    describe "#udp_single_server" do
+    describe "#udp_recv" do
       let(:server_port) { 1024 + rand(65535 - 1024) }
     end
   end

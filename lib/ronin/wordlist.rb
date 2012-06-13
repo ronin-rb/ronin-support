@@ -17,7 +17,9 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/fuzzing/extensions'
+require 'ronin/fuzzing/template'
+require 'ronin/fuzzing/mutator'
+require 'ronin/extensions/regexp'
 
 require 'set'
 
@@ -31,8 +33,15 @@ module Ronin
 
     include Enumerable
 
-    # The path to the wordlist file or a list of words
-    attr_accessor :list
+    # The path to the wordlist file
+    #
+    # @since 0.5.0
+    attr_reader :path
+
+    # The words for the list
+    #
+    # @since 0.5.0
+    attr_reader :words
 
     # Mutation rules to apply to every word in the list
     attr_reader :mutations
@@ -40,7 +49,7 @@ module Ronin
     #
     # Initializes the wordlist.
     #
-    # @param [String, Enumerable] list
+    # @param [String, Enumerable] wordlist
     #   The path of the wordlist or list of words.
     #
     # @param [Hash{Regexp,String,Symbol => Symbol,#each}] mutations
@@ -51,6 +60,9 @@ module Ronin
     #
     # @yieldparam [Wordlist] wordlist
     #   The new wordlist object.
+    #
+    # @raise [TypeError]
+    #   The list was not a path to a wordlist file, nor a list of words.
     #
     # @example Use a file wordlist
     #   wordlist = Wordlist.new('passwords.txt')
@@ -65,10 +77,19 @@ module Ronin
     #
     # @api public
     #
-    def initialize(list,mutations={})
-      @list      = list
-      @mutations = {}
-      @mutations.merge!(mutations)
+    def initialize(wordlist,mutations={})
+      case wordlist
+      when String
+        @path  = wordlist
+        @words = nil
+      when Enumerable
+        @path  = nil
+        @words = wordlist
+      else
+        raise(TypeError,"wordlist must be a path or Enumerable")
+      end
+
+      @mutations = mutations
 
       yield self if block_given?
     end
@@ -93,7 +114,7 @@ module Ronin
       words_seen = SortedSet[]
 
       text.each_line do |line|
-        line.split.each do |word|
+        line.scan(Regexp::WORD) do |word|
           if block_given?
             yield word unless words_seen.include?(word)
           end
@@ -122,6 +143,41 @@ module Ronin
     end
 
     #
+    # Creates a new wordlist file.
+    #
+    # @param [String] path
+    #   The path to the wordlist file.
+    #
+    # @param [String] text
+    #   The text to parse.
+    #
+    # @param [Hash{Regexp,String,Symbol => Symbol,#each}] mutations
+    #   Additional mutations for the wordlist.
+    #
+    # @return [Wordlist]
+    #   The newly built wordlist.
+    #
+    # @since 0.5.0
+    #
+    def self.create(path,text,mutations={})
+      wordlist = build(text,mutations)
+
+      return wordlist.save(path)
+    end
+
+    #
+    # The wordlist file or list of words.
+    #
+    # @return [String, Enumerable]
+    #   The path to the wordlist file or list of words.
+    #
+    # @api semipublic
+    #
+    def list
+      @path || @words
+    end
+
+    #
     # Iterates over each word in the list.
     #
     # @yield [word]
@@ -133,25 +189,22 @@ module Ronin
     # @return [Enumerator]
     #   If no block is given, an Enumerator will be returned.
     #
-    # @raise [TypeError]
-    #   The list was not a path to a wordlist file, nor a list of words.
+    # @raise [RuntimeError]
+    #   {#path} or {#words} must be set.
     #
     # @api public
     #
     def each_word(&block)
       return enum_for(:each_word) unless block
 
-      case @list
-      when String
-        File.open(@list) do |file|
+      if @path
+        File.open(@path) do |file|
           file.each_line do |line|
             yield line.chomp
           end
         end
-      when Enumerable
-        @list.each(&block)
-      else
-        raise(TypeError,"list must be a path or Enumerable")
+      elsif @words
+        @words.each(&block)
       end
     end
 
@@ -172,12 +225,16 @@ module Ronin
     def each(&block)
       return enum_for(:each) unless block
 
+      mutator = unless @mutations.empty?
+                  Fuzzing::Mutator.new(@mutations)
+                end
+
       each_word do |word|
         yield word
 
-        unless @mutations.empty?
+        if mutator
           # perform additional mutations
-          word.mutate(@mutations,&block)
+          mutator.each(word,&block)
         end
       end
     end
@@ -200,7 +257,30 @@ module Ronin
     # @api public
     #
     def each_n_words(n,&block)
-      String.generate([each, n],&block)
+      Fuzzing::Template[[each, n]].each(&block)
+    end
+
+    #
+    # Saves the words to a new file.
+    #
+    # @param [String] path
+    #   The path to the new wordlist file.
+    #
+    # @return [Wordlist]
+    #   The wordlist object.
+    #
+    # @see #each
+    #
+    # @since 0.5.0
+    #
+    # @api public
+    #
+    def save(path)
+      File.open(path,'w') do |file|
+        each { |word| file.puts word }
+      end
+
+      return self
     end
 
   end

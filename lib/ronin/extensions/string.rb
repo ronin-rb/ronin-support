@@ -137,7 +137,7 @@ class String
   #
   # Finds the common suffix of the string and the specified other string.
   #
-  # @param [String] pther
+  # @param [String] other
   #   The other String to compare against.
   #
   # @return [String]
@@ -175,14 +175,14 @@ class String
   end
 
   #
-  # Finds the uncommon substring within the specified other string,
+  # Finds the uncommon sub-string within the specified other string,
   # which does not occur within the string.
   #
   # @param [String] other
   #   The other String to compare against.
   #
   # @return [String]
-  #   The uncommon substring between the two Strings.
+  #   The uncommon sub-string between the two Strings.
   #
   # @api public
   #

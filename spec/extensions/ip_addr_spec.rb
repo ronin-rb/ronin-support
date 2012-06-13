@@ -109,50 +109,76 @@ describe IPAddr do
     end
   end
 
-  context "CIDR addresses" do
-    let(:fixed_addr) { IPAddr.new('10.1.1.2') }
-    let(:class_c) { IPAddr.new('10.1.1.2/24') }
+  describe "each" do
+    context "CIDR addresses" do
+      let(:fixed_addr) { IPAddr.new('10.1.1.2') }
+      let(:class_c) { IPAddr.new('10.1.1.2/24') }
 
-    it "should only iterate over one IP address for an address" do
-      addresses = fixed_addr.map { |ip| IPAddr.new(ip) }
+      it "should only iterate over one IP address for an address" do
+        addresses = fixed_addr.map { |ip| IPAddr.new(ip) }
 
-      addresses.length.should == 1
-      fixed_addr.should include(addresses.first)
-    end
+        addresses.length.should == 1
+        fixed_addr.should include(addresses.first)
+      end
 
-    it "should iterate over all IP addresses contained within the IP range" do
-      class_c.each do |ip|
-        class_c.should include(IPAddr.new(ip))
+      it "should iterate over all IP addresses contained within the IP range" do
+        class_c.each do |ip|
+          class_c.should include(IPAddr.new(ip))
+        end
+      end
+
+      it "should return an Enumerator when no block is given" do
+        class_c.each.all? { |ip|
+          class_c.include?(IPAddr.new(ip))
+        }.should == true
       end
     end
 
-    it "should return an Enumerator when no block is given" do
-      class_c.each.all? { |ip|
-        class_c.include?(IPAddr.new(ip))
-      }.should == true
-    end
-  end
+    context "globbed addresses" do
+      let(:ipv4_range) { '10.1.1-5.1' }
+      let(:ipv6_range) { '::ff::02-0a::c3' }
 
-  context "globbed addresses" do
-    let(:ipv4_range) { '10.1.1-5.1' }
-    let(:ipv6_range) { '::ff::02-0a::c3' }
+      it "should expand '*' ranges" do
+        octets = IPAddr.each("10.1.1.*").map { |ip| ip.split('.',4).last }
 
-    it "should iterate over all IP addresses in an IPv4 range" do
-      IPAddr.each(ipv4_range) do |ip|
-        ip.should =~ /^10\.1\.[1-5]\.1$/
+        octets.should == ('1'..'254').to_a
       end
-    end
 
-    it "should iterate over all IP addresses in an IPv6 range" do
-      IPAddr.each(ipv6_range) do |ip|
-        ip.should =~ /^::ff::0[2-9a]::c3$/
+      it "should expend 'i-j' ranges" do
+        octets = IPAddr.each("10.1.1.10-20").map { |ip| ip.split('.',4).last }
+
+        octets.should == ('10'..'20').to_a
       end
-    end
 
-    it "should return an Enumerator when no block is given" do
-      ips = IPAddr.each(ipv4_range)
-      
-      ips.all? { |ip| ip =~ /^10\.1\.[1-5]\.1$/ }.should == true
+      it "should expand 'i,j,k' ranges" do
+        octets = IPAddr.each("10.1.1.1,2,3").map { |ip| ip.split('.',4).last }
+
+        octets.should == ['1', '2', '3']
+      end
+
+      it "should expand combination 'i,j-k' ranges" do
+        octets = IPAddr.each("10.1.1.1,3-4").map { |ip| ip.split('.',4).last }
+
+        octets.should == ['1', '3', '4']
+      end
+
+      it "should iterate over all IP addresses in an IPv4 range" do
+        IPAddr.each(ipv4_range) do |ip|
+          ip.should =~ /^10\.1\.[1-5]\.1$/
+        end
+      end
+
+      it "should iterate over all IP addresses in an IPv6 range" do
+        IPAddr.each(ipv6_range) do |ip|
+          ip.should =~ /^::ff::0[2-9a]::c3$/
+        end
+      end
+
+      it "should return an Enumerator when no block is given" do
+        ips = IPAddr.each(ipv4_range)
+
+        ips.all? { |ip| ip =~ /^10\.1\.[1-5]\.1$/ }.should == true
+      end
     end
   end
 

@@ -58,13 +58,20 @@ module Ronin
     # @return [Enumerator]
     #   An Enumerator for the fuzzer method.
     #
+    # @raise [NoMethodError]
+    #   The fuzzing method could not be found.
+    #
     # @api semipublic
     #
     def self.[](name)
-      if (!Object.respond_to?(name) && respond_to?(name))
-        enum_for(name)
+      if (!respond_to?(name) || Module.respond_to?(name))
+        raise(NoMethodError,"no such fuzzing method: #{name}")
       end
+
+      return enum_for(name)
     end
+
+    module_function
 
     #
     # Various bad-strings.
@@ -77,7 +84,7 @@ module Ronin
     #   or null-bytes (see {NULL_BYTES}), of varying length
     #   (see {SHORT_LENGTHS} and {LONG_LENGTHS}).
     #
-    def self.bad_strings(&block)
+    def bad_strings(&block)
       yield ''
 
       chars = [
@@ -118,7 +125,7 @@ module Ronin
     # @yieldparam [String] fmt_string
     #   A format-string containing format operators (see {FORMAT_STRINGS}).
     #
-    def self.format_strings(&block)
+    def format_strings(&block)
       FORMAT_STRINGS.each do |fmt|
         yield fmt
         yield fmt * 100
@@ -136,7 +143,7 @@ module Ronin
     # @yieldparam [String] path
     #   A known bad path.
     #
-    def self.bad_paths(&block)
+    def bad_paths(&block)
       padding = 'A' * 5_000
 
       yield "/.:/#{padding}\x00\x00"
@@ -166,7 +173,7 @@ module Ronin
     # @yieldparam [String] bitfield
     #   A bit-field (8bit - 64bit).
     #
-    def self.bit_fields(&block)
+    def bit_fields(&block)
       ("\x00".."\xff").each do |c|
         yield c
         yield c << c # x2
@@ -184,7 +191,7 @@ module Ronin
     # @yieldparam [String] bitfield
     #   A signed bit-field (8bit - 64bit).
     #
-    def self.signed_bit_fields(&block)
+    def signed_bit_fields(&block)
       ("\x80".."\xff").each do |c|
         yield c
         yield c << c # x2
@@ -202,7 +209,7 @@ module Ronin
     # @yieldparam [String] int
     #   A unsigned 8bit integer.
     #
-    def self.uint8(&block)
+    def uint8(&block)
       ("\x00".."\xff").each(&block)
     end
 
@@ -215,7 +222,7 @@ module Ronin
     # @yieldparam [String] int
     #   A unsigned 16bit integer.
     #
-    def self.uint16
+    def uint16
       uint8 { |c| yield c * 2 }
     end
 
@@ -228,7 +235,7 @@ module Ronin
     # @yieldparam [String] int
     #   A unsigned 32bit integer.
     #
-    def self.uint32
+    def uint32
       uint8 { |c| yield c * 4 }
     end
 
@@ -241,7 +248,7 @@ module Ronin
     # @yieldparam [String] int
     #   A unsigned 64bit integer.
     #
-    def self.uint64
+    def uint64
       uint8 { |c| yield c * 8 }
     end
 
@@ -254,7 +261,7 @@ module Ronin
     # @yieldparam [String] int
     #   A signed 8bit integer.
     #
-    def self.int8(&block)
+    def int8(&block)
       ("\x00".."\x70").each(&block)
     end
 
@@ -267,7 +274,7 @@ module Ronin
     # @yieldparam [String] int
     #   A signed 16bit integer.
     #
-    def self.int16
+    def int16
       int8 { |c| yield c * 2 }
     end
 
@@ -280,7 +287,7 @@ module Ronin
     # @yieldparam [String] int
     #   A signed 32bit integer.
     #
-    def self.int32
+    def int32
       int8 { |c| yield c * 4 }
     end
 
@@ -293,7 +300,7 @@ module Ronin
     # @yieldparam [String] int
     #   A signed 64bit integer.
     #
-    def self.int64
+    def int64
       int8 { |c| yield c * 8 }
     end
 
@@ -306,7 +313,7 @@ module Ronin
     # @yieldparam [String] int
     #   A negative-signed 8bit integer.
     #
-    def self.sint8(&block)
+    def sint8(&block)
       ("\x80".."\xff").each(&block)
     end
 
@@ -319,7 +326,7 @@ module Ronin
     # @yieldparam [String] int
     #   A negative-signed 16bit integer.
     #
-    def self.sint16
+    def sint16
       sint8 { |c| yield c * 2 }
     end
 
@@ -332,7 +339,7 @@ module Ronin
     # @yieldparam [String] int
     #   A negative-signed 32bit integer.
     #
-    def self.sint32
+    def sint32
       sint8 { |c| yield c * 4 }
     end
 
@@ -345,7 +352,7 @@ module Ronin
     # @yieldparam [String] int
     #   A negative-signed 64bit integer.
     #
-    def self.sint64
+    def sint64
       sint8 { |c| yield c * 8 }
     end
 

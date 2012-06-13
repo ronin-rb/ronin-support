@@ -17,11 +17,11 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/formatting/extensions/binary/base64'
 require 'ronin/formatting/extensions/binary/integer'
-require 'ronin/formatting/extensions/text'
-
-require 'base64'
-require 'enumerator'
+require 'ronin/formatting/extensions/text/string'
+require 'ronin/binary/hexdump/parser'
+require 'ronin/binary/template'
 
 begin
   require 'zlib'
@@ -31,9 +31,47 @@ end
 
 class String
 
+  alias unpack_original unpack
+
   #
-  # Packs an Integer from a String, which was originally packed for
-  # a specific architecture and address-length.
+  # Unpacks the String.
+  #
+  # @param [String, Array<Symbol>] arguments
+  #   The `String#unpack` template or a list of {Ronin::Binary::Template} types.
+  #
+  # @return [Array]
+  #   The values unpacked from the String.
+  #
+  # @raise [ArgumentError]
+  #   The arguments were not a String or a list of Symbols.
+  #
+  # @example using {Ronin::Binary::Template} types:
+  #   "A\0\0\0hello\0".unpack(:uint32_le, :string)
+  #   # => [10, "hello"]
+  #
+  # @example using a `String#unpack` template:
+  #   "A\0\0\0".unpack('V')
+  #   # => 65
+  #
+  # @see http://rubydoc.info/stdlib/core/String:unpack
+  #
+  # @since 0.5.0
+  #
+  # @api public
+  #
+  def unpack(*arguments)
+    case arguments.first
+    when String
+      unpack_original(arguments.first)
+    when Symbol
+      unpack_original(Ronin::Binary::Template.compile(arguments))
+    else
+      raise(ArgumentError,"first argument to String#unpack must be a String or Symbol")
+    end
+  end
+
+  #
+  # Unpacks the String into an Integer.
   #
   # @param [Ronin::Arch, #endian, #address_length, String] arch
   #   The architecture that the Integer was originally packed with.
@@ -45,34 +83,35 @@ class String
   #   The depacked Integer.
   #
   # @raise [ArgumentError]
-  #   The given `arch` does not respond to the `endian` or
-  #   `address_length` methods.
+  #   The given `arch` does not respond to the `endian` or `address_length`
+  #   methods.
   #
-  # @example using archs other than `Ronin::Arch`.
+  # @example using archs other than `Ronin::Arch`:
   #   arch = OpenStruct.new(:endian => :little, :address_length => 4)
   #   
   #   "A\0\0\0".depack(arch)
   #   # => 65
   #
-  # @example using a `Ronin::Arch` arch.
+  # @example using a `Ronin::Arch` arch:
   #   "A\0\0\0".depack(Arch.i386)
   #   # => 65
   #
-  # @example specifying a custom address-length.
+  # @example specifying a custom address-length:
   #   "A\0".depack(Arch.ppc,2)
   #   # => 65
   #
-  # @example using a `String#unpack` template String as the arch.
-  #   "A\0\0\0".depack('L')
+  # @example using a `String#unpack` template:
+  #   "A\0\0\0".depack('V')
   #   # => 65
   #
-  # @see http://ruby-doc.org/core/classes/String.html#M000760
+  # @deprecated
+  #   Deprecated as of 0.5.0, use {#unpack} instead.
   #
   # @api public
-  #
+  #   
   def depack(arch,address_length=nil)
     if arch.kind_of?(String)
-      return self.unpack(arch)
+      return unpack(arch)
     end
 
     unless arch.respond_to?(:address_length)
@@ -86,7 +125,7 @@ class String
     endian           = arch.endian.to_sym
     address_length ||= arch.address_length
 
-    integer = 0x0
+    integer    = 0x0
     byte_index = 0
 
     case endian
@@ -128,66 +167,7 @@ class String
     format_bytes(options) { |b| b.hex_escape }
   end
 
-  #
-  # Unescapes the hex-escaped String.
-  #
-  # @return [String]
-  #   The unescaped version of the hex escaped String.
-  #
-  # @example
-  #   "\\x68\\x65\\x6c\\x6c\\x6f".hex_unescape
-  #   # => "hello"
-  #
-  # @api public
-  #
-  def hex_unescape
-    buffer = ''
-    hex_index = 0
-    hex_length = length
-
-    while (hex_index < hex_length)
-      hex_substring = self[hex_index..-1]
-
-      if hex_substring =~ /^\\[0-7]{3}/
-        buffer << hex_substring[0..3].to_i(8)
-        hex_index += 3
-      elsif hex_substring =~ /^\\x[0-9a-fA-F]{1,2}/
-        hex_substring[2..-1].scan(/^[0-9a-fA-F]{1,2}/) do |hex_byte|
-          buffer << hex_byte.to_i(16)
-          hex_index += (2 + hex_byte.length)
-        end
-      elsif hex_substring =~ /^\\./
-        escaped_char = hex_substring[1..1]
-
-        buffer << case escaped_char
-                  when '0'
-                    "\0"
-                  when 'a'
-                    "\a"
-                  when 'b'
-                    "\b"
-                  when 't'
-                    "\t"
-                  when 'n'
-                    "\n"
-                  when 'v'
-                    "\v"
-                  when 'f'
-                    "\f"
-                  when 'r'
-                    "\r"
-                  else
-                    escaped_char
-                  end
-        hex_index += 2
-      else
-        buffer << hex_substring[0]
-        hex_index += 1
-      end
-    end
-
-    return buffer
-  end
+  alias hex_unescape unescape
 
   #
   # XOR encodes the String.
@@ -250,19 +230,9 @@ class String
   def base64_encode(mode=nil)
     case mode
     when :strict
-      if RUBY_VERSION < '1.9'
-        # backported from Ruby 1.9.2
-        [self].pack("m")
-      else
-        Base64.strict_encode64(self)
-      end
+      Base64.strict_encode64(self)
     when :url, :urlsafe
-      if RUBY_VERSION < '1.9'
-        # backported from Ruby 1.9.2
-        [self].pack("m").tr("+/", "-_")
-      else
-        Base64.urlsafe_encode64(self)
-      end
+      Base64.urlsafe_encode64(self)
     else
       Base64.encode64(self)
     end
@@ -293,19 +263,9 @@ class String
   def base64_decode(mode=nil)
     case mode
     when :strict
-      if RUBY_VERSION < '1.9'
-        # backported from Ruby 1.9.2
-        unpack("m0").first
-      else
-        Base64.strict_decode64(self)
-      end
+      Base64.strict_decode64(self)
     when :url, :urlsafe
-      if RUBY_VERSION < '1.9'
-        # backported from Ruby 1.9.2
-        tr("-_", "+/").unpack("m0").first
-      else
-        Base64.urlsafe_decode64(self)
-      end
+      Base64.urlsafe_decode64(self)
     else
       Base64.decode64(self)
     end
@@ -362,108 +322,35 @@ class String
   #   * `:octal_bytes`
   #   * `:octal_shorts`
   #   * `:octal_ints`
-  #   * `:octal_quads`
+  #   * `:octal_quads` (Ruby 1.9 only)
   #   * `:decimal`
   #   * `:decimal_bytes`
   #   * `:decimal_shorts`
   #   * `:decimal_ints`
-  #   * `:decimal_quads`
+  #   * `:decimal_quads` (Ruby 1.9 only)
   #   * `:hex`
+  #   * `:hex_chars`
   #   * `:hex_bytes`
   #   * `:hex_shorts`
   #   * `:hex_ints`
   #   * `:hex_quads`
+  #   * `:named_chars` (Ruby 1.9 only)
+  #   * `:floats`
+  #   * `:doubles`
+  #
+  # @option options [:little, :big, :network] :endian (:little)
+  #   The endianness of the words.
   #
   # @option options [Integer] :segment (16)
   #   The length in bytes of each segment in the hexdump.
   #
-  # @return [String] The raw-data from the hexdump.
+  # @return [String]
+  #   The raw-data from the hexdump.
   #
   # @api public
   #
   def unhexdump(options={})
-    case (format = options[:format])
-    when :od
-      address_base = 8
-      base         = 8
-      word_size    = 2
-    when :hexdump
-      address_base = 16
-      base         = 16
-      word_size    = 2
-    else
-      address_base = 16
-      base         = 16
-      word_size    = 1
-    end
-
-    case options[:encoding]
-    when :binary
-      base = 2
-    when :octal, :octal_bytes, :octal_shorts, :octal_ints, :octal_quads
-      base = 8
-    when :decimal, :decimal_bytes, :decimal_shorts, :decimal_ints, :decimal_quads
-      base = 10
-    when :hex, :hex_bytes, :hex_shorts, :hex_ints, :hex_quads
-      base = 16
-    end
-
-    case options[:encoding]
-    when :binary, :octal_bytes, :decimal_bytes, :hex_bytes
-      word_size = 1
-    when :octal_shorts, :decimal_shorts, :hex_shorts
-      word_size = 2
-    when :octal_ints, :decimal_ints, :hex_ints
-      word_size = 4
-    when :octal_quads, :decimal_quads, :hex_quads
-      word_size = 8
-    end
-
-    current_addr = last_addr = first_addr = nil
-    repeated = false
-
-    segment_length = (options[:segment] || 16)
-    segment = []
-    buffer = []
-
-    each_line do |line|
-      if format == :hexdump
-        line = line.gsub(/\s+\|.+\|\s*$/,'')
-      end
-
-      words = line.split
-
-      if words.first == '*'
-        repeated = true
-      elsif words.length > 0
-        current_addr = words.shift.to_i(address_base)
-        first_addr ||= current_addr
-
-        if repeated
-          (((current_addr - last_addr) / segment.length) - 1).times do
-            buffer += segment
-          end
-
-          repeated = false
-        end
-
-        segment.clear
-
-        words.each do |word|
-          if (base != 10 && word =~ /^(\\[0abtnvfr\\]|.)$/)
-            word.hex_unescape.each_byte { |b| segment << b }
-          else
-            segment += word.to_i(base).bytes(word_size)
-          end
-        end
-
-        segment = segment[0,segment_length]
-        buffer += segment
-        last_addr = current_addr
-      end
-    end
-
-    return buffer[0,(last_addr - first_addr)]
+    Ronin::Binary::Hexdump::Parser.new(options).parse(self)
   end
 
 end

@@ -157,7 +157,7 @@ describe String do
     end
   end
 
-  if RUBY_VERSION < '1.9'
+  if RUBY_VERSION < '1.9.'
     describe "#dump" do
       it "should dump printable strings" do
         "hello".dump.should == '"hello"'

@@ -26,7 +26,7 @@ module Ronin
     # Controls {Output} from Ronin.
     #
     module Output
-      @mode = if ($VERBOSE || $DEBUG || ENV['VERBOSE'])
+      @mode = if ($VERBOSE || $DEBUG)
                 :verbose
               else
                 :quiet

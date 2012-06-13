@@ -117,7 +117,7 @@ module Ronin
         # @return [String]
         #   Properly formatted SMTP message.
         #
-        # @see http://www.ruby-doc.org/stdlib/libdoc/net/smtp/rdoc/classes/Net/SMTP.html
+        # @see http://rubydoc.info/stdlib/net/Net/SMTP
         #
         # @api public
         #
