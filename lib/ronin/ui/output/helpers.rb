@@ -71,7 +71,7 @@ module Ronin
         #
         # Prints one or more messages.
         #
-        # @param [Array] argument
+        # @param [Array] arguments
         #   The messages to print.
         #
         # @example
