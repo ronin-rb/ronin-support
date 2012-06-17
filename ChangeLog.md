@@ -1,4 +1,4 @@
-### 0.5.0 / 2012-05-28
+### 0.5.0 / 2012-06-16
 
 * Added {Float#pack}.
 * Added {Regexp::WORD}.
