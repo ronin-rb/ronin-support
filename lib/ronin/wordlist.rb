@@ -195,7 +195,7 @@ module Ronin
     # @api public
     #
     def each_word(&block)
-      return enum_for(:each_word) unless block
+      return enum_for(__method__) unless block
 
       if @path
         File.open(@path) do |file|
@@ -223,7 +223,7 @@ module Ronin
     # @api public
     #
     def each(&block)
-      return enum_for(:each) unless block
+      return enum_for(__method__) unless block
 
       mutator = unless @mutations.empty?
                   Fuzzing::Mutator.new(@mutations)

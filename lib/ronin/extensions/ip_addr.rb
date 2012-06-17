@@ -63,7 +63,7 @@ class IPAddr
   # @api public
   #
   def IPAddr.extract(text,version=nil,&block)
-    return enum_for(:extract,text,version).to_a unless block_given?
+    return enum_for(__method__,text,version).to_a unless block_given?
 
     regexp = case version
              when :ipv4, :v4, 4
@@ -122,7 +122,7 @@ class IPAddr
       return IPAddr.new(cidr_or_glob).each(&block)
     end
 
-    return enum_for(:each,cidr_or_glob) unless block
+    return enum_for(__method__,cidr_or_glob) unless block
 
     if cidr_or_glob.include?('::')
       separator = '::'
@@ -208,7 +208,7 @@ class IPAddr
   # @api public
   #
   def each
-    return enum_for(:each) unless block_given?
+    return enum_for(__method__) unless block_given?
 
     family_mask = MASKS[@family]
 

@@ -44,7 +44,7 @@ class File
   # @api public
   #
   def File.each_line(path)
-    return enum_for(:each_line,path) unless block_given?
+    return enum_for(__method__,path) unless block_given?
 
     File.open(path) do |file|
       file.each_line { |line| yield line.chomp }
@@ -79,7 +79,7 @@ class File
   # @api public
   #
   def File.each_row(path,separator=/\s+/)
-    return enum_for(:each_row,path,separator) unless block_given?
+    return enum_for(__method__,path,separator) unless block_given?
 
     File.each_line(path) { |line| yield line.split(separator) }
   end
