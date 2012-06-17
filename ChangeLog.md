@@ -1,5 +1,6 @@
 ### 0.5.0 / 2012-06-16
 
+* Require uri-query_params ~> 0.6.
 * Added {Float#pack}.
 * Added {Regexp::WORD}.
 * Added {Regexp::PHONE_NUMBER}.
@@ -51,7 +52,6 @@
 * {Ronin::Fuzzing.[]} now raises a `NoMethodError` for unknown fuzzing methods.
 * Use `module_function` in {Ronin::Fuzzing}, so the generator methods can be
   included into other Classes/Modules.
-* Require uri-query_params ~> 0.6.
 * Use `$stdout` instead of calling `Kernel.puts` or `STDOUT`.
   Prevents infinite recursion if another library overrides `Kernel.puts`.
 * Allow {Ronin::Network::DNS} methods to yield resolved addresses.
