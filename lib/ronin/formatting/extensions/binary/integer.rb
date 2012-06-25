@@ -98,7 +98,8 @@ class Integer
   #   The packed Integer.
   #
   # @raise [ArgumentError]
-  #   The arguments were not a String, Symbol or Architecture object.
+  #   The given Symbol could not be found in
+  #   {Ronin::Binary::Template::INT_TYPES}.
   #
   # @example using a `Array#pack` template:
   #   0x41.pack('V')
@@ -122,6 +123,7 @@ class Integer
   #   # => "\0A"
   #
   # @see http://rubydoc.info/stdlib/core/Array:pack
+  # @see Ronin::Binary::Template
   #
   # @api public
   #

@@ -11,12 +11,16 @@ describe Float do
   describe "#pack" do
     let(:packed) { "\xE1z\x14\xAEG\xE1\xDA?" }
 
-    it "should unpack Strings using String#unpack template Strings" do
-      subject.pack('E').should == packed
+    context "when only given a String" do
+      it "should unpack Strings using String#unpack template Strings" do
+        subject.pack('E').should == packed
+      end
     end
 
-    it "should unpack Strings using a Binary::Template" do
-      subject.pack(:double_le).should == packed
+    context "when given a Binary::Template Float type" do
+      it "should unpack Strings using Binary::Template" do
+        subject.pack(:double_le).should == packed
+      end
     end
 
     context "when given non-Float Binary::Template types" do

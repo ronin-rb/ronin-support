@@ -85,12 +85,16 @@ describe Integer do
 
     let(:packed) { "7\023\000\000" }
 
-    it "should pack Integers using Array#pack codes" do
-      subject.pack('V').should == packed
+    context "when only given a String" do
+      it "should pack Integers using Array#pack codes" do
+        subject.pack('V').should == packed
+      end
     end
 
-    it "should pack Integers using Binary::Template types" do
-      subject.pack(:uint32_le).should == packed
+    context "when given a Binary::Template Integer type" do
+      it "should pack Integers using Binary::Template" do
+        subject.pack(:uint32_le).should == packed
+      end
     end
 
     context "when given non-Integer Binary::Template types" do

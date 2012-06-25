@@ -43,12 +43,16 @@ describe String do
 
     let(:data) { [0x1234, "hello"] }
 
-    it "should unpack Strings using String#unpack template Strings" do
-      subject.unpack('VZ*').should == data
+    context "when given only a String" do
+      it "should unpack Strings using String#unpack template Strings" do
+        subject.unpack('VZ*').should == data
+      end
     end
 
-    it "should unpack Strings using a Binary::Template" do
-      subject.unpack(:uint32_le, :string).should == data
+    context "otherwise" do
+      it "should unpack Strings using Binary::Template" do
+        subject.unpack(:uint32_le, :string).should == data
+      end
     end
   end
 

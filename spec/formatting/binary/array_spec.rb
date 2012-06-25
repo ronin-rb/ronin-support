@@ -11,16 +11,16 @@ describe Array do
   describe "#pack" do
     let(:packed) { "\x34\x12hello\0" }
 
-    it "should pack elements using Array#pack codes" do
-      subject.pack('vZ*').should == packed
+    context "when only given a String" do
+      it "should pack elements using Array#pack codes" do
+        subject.pack('vZ*').should == packed
+      end
     end
 
-    it "should pack fields using Binary::Template types" do
-      subject.pack(:uint16_le, :string).should == packed
-    end
-
-    it "should pack length-qualified fields using Binary::Template types" do
-      subject.pack([:uint16_le, 1], :string).should == packed
+    context "otherwise" do
+      it "should pack fields using Binary::Template" do
+        subject.pack(:uint16_le, :string).should == packed
+      end
     end
   end
 end

@@ -33,7 +33,7 @@ class Array
   #   The packed Array.
   #
   # @raise [ArgumentError]
-  #   The arguments were not a String or a list of Symbols.
+  #   One of the arguments was not a known {Ronin::Binary::Template} type.
   #
   # @example using {Ronin::Binary::Template} types:
   #   [0x1234, "hello"].pack(:uint16_le, :string)
@@ -44,19 +44,17 @@ class Array
   #   # => "\x34\x12hello\0"
   #
   # @see http://rubydoc.info/stdlib/core/Array:pack
+  # @see Ronin::Binary::Template
   #
   # @since 0.5.0
   #
   # @api public
   #
   def pack(*arguments)
-    case arguments.first
-    when String
+    if (arguments.length == 1 && arguments.first.kind_of?(String))
       pack_original(arguments.first)
-    when Symbol, Array
-      pack_original(Ronin::Binary::Template.compile(arguments))
     else
-      raise(ArgumentError,"first argument to Array#pack must be a String, Symbol or Array")
+      pack_original(Ronin::Binary::Template.compile(arguments))
     end
   end
 

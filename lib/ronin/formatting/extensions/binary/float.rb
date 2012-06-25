@@ -31,7 +31,8 @@ class Float
   #   The packed float.
   #
   # @raise [ArgumentError]
-  #   The argument was not a String code or a Symbol.
+  #   The given Symbol could not be found in
+  #   {Ronin::Binary::Template::FLOAT_TYPES}.
   #
   # @example using `Array#pack` template:
   #   0.42.pack('F')
@@ -42,6 +43,7 @@ class Float
   #   # => ">\xD7\n="
   #
   # @see http://rubydoc.info/stdlib/core/Array:pack
+  # @see Ronin::Binary::Template
   #
   # @since 0.5.0
   #
@@ -51,14 +53,12 @@ class Float
     case argument
     when String
       [self].pack(argument)
-    when Symbol
+    else
       unless Ronin::Binary::Template::FLOAT_TYPES.include?(argument)
         raise(ArgumentError,"unsupported integer type: #{argument}")
       end
 
       [self].pack(Ronin::Binary::Template::TYPES[argument])
-    else
-      raise(ArgumentError,"argument must be a String or a Symbol")
     end
   end
 

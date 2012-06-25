@@ -36,14 +36,14 @@ class String
   #
   # Unpacks the String.
   #
-  # @param [String, Array<Symbol>] arguments
+  # @param [String, Array<Symbol, (Symbol, Integer)>] arguments
   #   The `String#unpack` template or a list of {Ronin::Binary::Template} types.
   #
   # @return [Array]
   #   The values unpacked from the String.
   #
   # @raise [ArgumentError]
-  #   The arguments were not a String or a list of Symbols.
+  #   One of the arguments was not a known {Ronin::Binary::Template} type.
   #
   # @example using {Ronin::Binary::Template} types:
   #   "A\0\0\0hello\0".unpack(:uint32_le, :string)
@@ -54,19 +54,17 @@ class String
   #   # => 65
   #
   # @see http://rubydoc.info/stdlib/core/String:unpack
+  # @see Ronin::Binary::Template
   #
   # @since 0.5.0
   #
   # @api public
   #
   def unpack(*arguments)
-    case arguments.first
-    when String
+    if (arguments.length == 1 && arguments.first.kind_of?(String))
       unpack_original(arguments.first)
-    when Symbol
-      unpack_original(Ronin::Binary::Template.compile(arguments))
     else
-      raise(ArgumentError,"first argument to String#unpack must be a String or Symbol")
+      unpack_original(Ronin::Binary::Template.compile(arguments))
     end
   end
 
