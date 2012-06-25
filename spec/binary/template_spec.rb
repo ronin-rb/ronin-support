@@ -397,4 +397,18 @@ describe Binary::Template do
       subject.to_s.should == "LZ*"
     end
   end
+
+  describe "#inspect" do
+    let(:template) { described_class.new [:uint32, :string] }
+
+    subject { template.inspect }
+
+    it "should inspect the class" do
+      subject.should include(described_class.name)
+    end
+
+    it "should inspect the template" do
+      subject.should include(template.fields.inspect)
+    end
+  end
 end

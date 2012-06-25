@@ -439,6 +439,18 @@ module Ronin
         @template
       end
 
+      #
+      # Inspects the template.
+      #
+      # @return [String]
+      #   The inspected template.
+      #
+      # @since 1.5.1
+      #
+      def inspect
+        "<#{self.class}: #{@fields.inspect}>"
+      end
+
     end
   end
 end
