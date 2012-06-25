@@ -26,7 +26,7 @@ class Array
   #
   # Packs the Array into a String.
   #
-  # @param [String, Array<Symbol>] arguments
+  # @param [String, Array<Symbol, (Symbol, Integer)>] arguments
   #   The `Array#pack` template or a list of {Ronin::Binary::Template} types.
   #
   # @return [String]
@@ -53,10 +53,10 @@ class Array
     case arguments.first
     when String
       pack_original(arguments.first)
-    when Symbol
+    when Symbol, Array
       pack_original(Ronin::Binary::Template.compile(arguments))
     else
-      raise(ArgumentError,"first argument to Array#pack must be a String or Symbol")
+      raise(ArgumentError,"first argument to Array#pack must be a String, Symbol or Array")
     end
   end
 

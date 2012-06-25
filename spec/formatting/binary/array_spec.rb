@@ -15,8 +15,12 @@ describe Array do
       subject.pack('vZ*').should == packed
     end
 
-    it "should pack elements using Binary::Template types" do
+    it "should pack fields using Binary::Template types" do
       subject.pack(:uint16_le, :string).should == packed
+    end
+
+    it "should pack length-qualified fields using Binary::Template types" do
+      subject.pack([:uint16_le, 1], :string).should == packed
     end
   end
 end
