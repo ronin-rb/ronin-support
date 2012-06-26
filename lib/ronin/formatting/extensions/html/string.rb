@@ -153,15 +153,15 @@ class String
     unescaped = ''
 
     scan(/[\\%]u[0-9a-fA-F]{1,4}|[\\%][0-9a-fA-F]{1,2}|\\[btnfr"\\]|./) do |c|
-      unescaped << if JS_BACKSLASHED_CHARS.has_key?(c)
-                     JS_BACKSLASHED_CHARS[c]
-                   elsif (c.start_with?("\\u") || c.start_with?("%u"))
-                     c[2..-1].to_i(16)
-                   elsif (c.start_with?("\\") || c.start_with?("%"))
-                     c[1..-1].to_i(16)
-                   else
-                     c
-                   end
+      unescaped << JS_BACKSLASHED_CHARS.fetch(c) do
+        if (c.start_with?("\\u") || c.start_with?("%u"))
+          c[2..-1].to_i(16)
+        elsif (c.start_with?("\\") || c.start_with?("%"))
+          c[1..-1].to_i(16)
+        else
+          c
+        end
+      end
     end
 
     return unescaped
