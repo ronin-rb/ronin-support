@@ -18,7 +18,7 @@ describe Network::SSL do
     end
   end
 
-  describe "#ssl_connect", :network do
+  describe "helpers", :network do
     let(:host) { 'github.com' }
     let(:port) { 443 }
 
@@ -28,27 +28,42 @@ describe Network::SSL do
       obj
     end
 
-    it "should connect to an SSL protected port" do
-      lambda {
-        subject.ssl_connect(host,port)
-      }.should_not raise_error(OpenSSL::SSL::SSLError)
+    describe "#ssl_connect" do
+      it "should connect to an SSL protected port" do
+        lambda {
+          subject.ssl_connect(host,port)
+        }.should_not raise_error(OpenSSL::SSL::SSLError)
+      end
+
+      it "should return an OpenSSL::SSL::SSLSocket" do
+        socket = subject.ssl_connect(host,port)
+
+        socket.should be_kind_of(OpenSSL::SSL::SSLSocket)
+      end
+
+      context "when a block is given" do
+        it "should yield the OpenSSL::SSL::SSLSocket" do
+          socket = nil
+
+          subject.ssl_connect(host,port) do |yielded_socket|
+            socket = yielded_socket
+          end
+
+          socket.should be_kind_of(OpenSSL::SSL::SSLSocket)
+        end
+      end
     end
 
-    it "should return an OpenSSL::SSL::SSLSocket" do
-      socket = subject.ssl_connect(host,port)
+    describe "#ssl_session" do
+      it "should open then close a OpenSSL::SSL::SSLSocket" do
+        socket = nil
 
-      socket.should be_kind_of(OpenSSL::SSL::SSLSocket)
-    end
-
-    context "when a block is given" do
-      it "should yield the OpenSSL::SSL::SSLSocket" do
-        yielded_socket = nil
-
-        subject.ssl_connect(host,port) do |socket|
-          yielded_socket = socket
+        subject.ssl_session(host,port) do |yielded_socket|
+          socket = yielded_socket
         end
 
-        yielded_socket.should be_kind_of(OpenSSL::SSL::SSLSocket)
+        socket.should be_kind_of(OpenSSL::SSL::SSLSocket)
+        socket.should be_closed
       end
     end
   end
