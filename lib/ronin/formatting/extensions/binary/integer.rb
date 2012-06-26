@@ -156,6 +156,8 @@ class Integer
       integer_bytes.map! { |b| b.chr }
 
       return integer_bytes.join
+    else
+      raise(ArgumentError,"wrong number of arguments (#{arguments.length} for 1..2)")
     end
   end
 
