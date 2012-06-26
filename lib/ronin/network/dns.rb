@@ -68,10 +68,8 @@ module Ronin
       # @api public
       #
       def dns_resolver(nameserver=DNS.nameserver)
-        if nameserver
-          Resolv::DNS.new(:nameserver => nameserver)
-        else
-          Resolv
+        if nameserver then Resolv::DNS.new(:nameserver => nameserver)
+        else               Resolv
         end
       end
 
