@@ -152,7 +152,7 @@ class String
   def js_unescape
     unescaped = ''
 
-    scan(/([\\%]u[0-9a-fA-F]{1,4}|[\\%][0-9a-fA-F]{1,2}|\\[btnfr"\\]|.)/).each do |match|
+    scan(/([\\%]u[0-9a-fA-F]{1,4}|[\\%][0-9a-fA-F]{1,2}|\\[btnfr"\\]|.)/) do |match|
       c = match[0]
 
       unescaped << if JS_BACKSLASHED_CHARS.has_key?(c)

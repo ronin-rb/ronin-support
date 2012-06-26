@@ -81,7 +81,7 @@ class String
     if (start_with?('0x') && (length % 2 == 0))
       raw = ''
 
-      self[2..-1].scan(/../).each do |hex_char|
+      self[2..-1].scan(/../) do |hex_char|
         raw << hex_char.to_i(16).chr
       end
 
