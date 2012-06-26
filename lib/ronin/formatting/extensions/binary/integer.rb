@@ -128,18 +128,17 @@ class Integer
   # @api public
   #
   def pack(*arguments)
-    argument = arguments.first
+    if (arguments.length == 1 && arguments.first.kind_of?(String))
+      [self].pack(arguments.first)
+    elsif (arguments.length == 1 && arguments.first.kind_of?(Symbol))
+      type = arguments.first
 
-    case argument
-    when String
-      [self].pack(argument)
-    when Symbol
-      unless Ronin::Binary::Template::INT_TYPES.include?(argument)
-        raise(ArgumentError,"unsupported integer type: #{argument}")
+      unless Ronin::Binary::Template::INT_TYPES.include?(type)
+        raise(ArgumentError,"unsupported integer type: #{type}")
       end
 
-      [self].pack(Ronin::Binary::Template::TYPES[argument])
-    else
+      [self].pack(Ronin::Binary::Template::TYPES[type])
+    elsif (arguments.length == 1 || arguments.length == 2)
       # TODO: deprecate this calling convention
       arch, address_length = arguments
 
