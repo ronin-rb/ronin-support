@@ -108,19 +108,20 @@ module Ronin
         local_host = options[:local_host]
         local_port = options[:local_port]
 
+        cert = options[:cert]
+        key  = options[:key]
+
         socket = tcp_connect(host,port,local_host,local_port)
 
         ssl_context = OpenSSL::SSL::SSLContext.new()
         ssl_context.verify_mode = SSL::VERIFY[options[:verify]]
 
-        if options[:cert]
-          cert_file = File.new(options[:cert])
-          ssl_context.cert = OpenSSL::X509::Certificate.new(cert_file)
+        if cert
+          ssl_context.cert = OpenSSL::X509::Certificate.new(File.new(cert))
         end
 
-        if options[:key]
-          key_file = File.new(options[:key])
-          ssl_context.key = OpenSSL::PKey::RSA.new(key_file)
+        if key
+          ssl_context.key = OpenSSL::PKey::RSA.new(File.new(key))
         end
 
         ssl_socket = OpenSSL::SSL::SSLSocket.new(socket,ssl_context)
