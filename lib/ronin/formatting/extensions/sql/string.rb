@@ -87,7 +87,7 @@ class String
 
       return raw
     elsif (start_with?("'") && end_with?("'"))
-      self[1..-2].gsub("\\'","'").gsub("''","'")
+      self[1..-2].gsub(/\\'|''/,"'")
     else
       return self
     end
