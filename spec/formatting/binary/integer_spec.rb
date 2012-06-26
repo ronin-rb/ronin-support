@@ -154,5 +154,13 @@ describe Integer do
         subject.pack(ppc,8).should == uint64_be
       end
     end
+
+    context "when given more than 1 or 2 arguments" do
+      it "should raise an ArgumentError" do
+        lambda {
+          subject.pack(1,2,3)
+        }.should raise_error(ArgumentError)
+      end
+    end
   end
 end
