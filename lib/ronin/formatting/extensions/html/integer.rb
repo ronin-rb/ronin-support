@@ -114,10 +114,8 @@ class Integer
   # @api public
   #
   def js_escape
-    if self > 0xff
-      format_js
-    else
-      JS_ESCAPE_BYTES.fetch(self,chr)
+    if self > 0xff then format_js
+    else                JS_ESCAPE_BYTES.fetch(self,chr)
     end
   end
 
@@ -137,7 +135,7 @@ class Integer
   #
   def format_js
     if self > 0xff
-      "\\u%.2X%.2X" % [(self & 0xff00) >> 8, (self & 0xff)]
+      "\\u%.4X" % self
     else
       "\\x%.2X" % self
     end
