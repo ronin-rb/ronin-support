@@ -42,10 +42,8 @@ module Ronin
       # @api private
       #
       VERIFY = Hash.new do |hash,key|
-        verify_const = if key
-                         "VERIFY_#{key.to_s.upcase}"
-                       else
-                         'VERIFY_NONE'
+        verify_const = if key then "VERIFY_#{key.to_s.upcase}"
+                       else        'VERIFY_NONE'
                        end
 
         unless OpenSSL::SSL.const_defined?(verify_const)
