@@ -131,10 +131,8 @@ module Ronin
       #   The structure does not contain the field.
       #
       def [](name)
-        if field?(name)
-          send(name)
-        else
-          raise(ArgumentError,"no such field '#{name}'")
+        if field?(name) then send(name)
+        else                 raise(ArgumentError,"no such field '#{name}'")
         end
       end
 
@@ -154,10 +152,8 @@ module Ronin
       #   The structure does not contain the field.
       #
       def []=(name,value)
-        if field?(name)
-          send("#{name}=",value)
-        else
-          raise(ArgumentError,"no such field '#{name}'")
+        if field?(name) then send("#{name}=",value)
+        else                 raise(ArgumentError,"no such field '#{name}'")
         end
       end
 
@@ -379,10 +375,8 @@ module Ronin
       #   The endianness of the structure.
       #
       def self.endian(type=nil)
-        if type
-          @endian = type.to_sym
-        else
-          @endian
+        if type then @endian = type.to_sym
+        else         @endian
         end
       end
 

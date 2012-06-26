@@ -117,10 +117,8 @@ class String
   #
   def sql_inject
     if (start_with?("'") || start_with?('"') || start_with?('`'))
-      if self[0,1] == self[-1,1]
-        self[1..-2]
-      else
-        "#{self[1..-1]}--"
+      if self[0,1] == self[-1,1] then self[1..-2]
+      else                            "#{self[1..-1]}--"
       end
     else
       self

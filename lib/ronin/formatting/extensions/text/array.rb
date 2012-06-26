@@ -40,10 +40,12 @@ class Array
     bytes = []
 
     each do |element|
-      if element.kind_of?(Integer)
-        bytes << element
+      case element
+      when Integer then bytes << element
       else
-        element.to_s.each_byte { |b| bytes << b }
+        element.to_s.each_byte do |b|
+          bytes << b
+        end
       end
     end
 
@@ -65,8 +67,8 @@ class Array
   #
   def chars
     array_bytes = bytes
-
     array_bytes.map! { |b| b.chr }
+
     return array_bytes
   end
 
@@ -103,8 +105,8 @@ class Array
   #
   def hex_chars
     array_bytes = bytes
-    
     array_bytes.map! { |b| '\x%x' % b }
+
     return array_bytes
   end
 
@@ -127,8 +129,8 @@ class Array
   #
   def hex_integers
     array_bytes = bytes
-    
     array_bytes.map! { |b| '0x%x' % b }
+
     return array_bytes
   end
 

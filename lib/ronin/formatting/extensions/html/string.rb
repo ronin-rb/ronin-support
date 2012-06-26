@@ -26,11 +26,11 @@ class String
 
   # JavaScript characters that must be back-slashed.
   JS_BACKSLASHED_CHARS = {
-    "\\b" => "\b",
-    "\\t" => "\t",
-    "\\n" => "\n",
-    "\\f" => "\f",
-    "\\r" => "\r",
+    "\\b"  => "\b",
+    "\\t"  => "\t",
+    "\\n"  => "\n",
+    "\\f"  => "\f",
+    "\\r"  => "\r",
     "\\\"" => "\"",
     "\\\\" => "\\"
   }
@@ -95,11 +95,9 @@ class String
   # @api public
   #
   def format_html(options={})
-    formatter = if RUBY_VERSION < '1.9.'
-                  # String#ord was not backported to Ruby 1.8.7
-                  lambda { |c| c[0].format_html }
-                else
-                  lambda { |c| c.ord.format_html }
+    # String#ord was not backported to Ruby 1.8.7
+    formatter = if RUBY_VERSION < '1.9.' then lambda { |c| c[0].format_html  }
+                else                          lambda { |c| c.ord.format_html }
                 end
 
     format_chars(options,&formatter)
@@ -125,11 +123,9 @@ class String
   # @api public
   #
   def js_escape(options={})
-    formatter = if RUBY_VERSION < '1.9.'
-                  # String#ord was not backported to Rub 1.8.7
-                  lambda { |c| c[0].js_escape }
-                else
-                  lambda { |c| c.ord.js_escape }
+    # String#ord was not backported to Rub 1.8.7
+    formatter = if RUBY_VERSION < '1.9.' then lambda { |c| c[0].js_escape  }
+                else                          lambda { |c| c.ord.js_escape }
                 end
 
     format_chars(options,&formatter)
@@ -187,11 +183,9 @@ class String
   # @api public
   #
   def format_js(options={})
-    formatter = if RUBY_VERSION < '1.9.'
-                  # String#ord was not backported to Rub 1.8.7
-                  lambda { |c| c[0].format_js }
-                else
-                  lambda { |c| c.ord.format_js }
+    # String#ord was not backported to Rub 1.8.7
+    formatter = if RUBY_VERSION < '1.9.' then lambda { |c| c[0].format_js  }
+                else                          lambda { |c| c.ord.format_js }
                 end
 
     format_chars(options,&formatter)

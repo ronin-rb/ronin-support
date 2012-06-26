@@ -125,10 +125,8 @@ class IPAddr
       separator = '::'
       base      = 16
 
-      prefix = if cidr_or_glob.start_with?('::')
-                 '::'
-               else
-                 ''
+      prefix = if cidr_or_glob.start_with?('::') then '::'
+               else                                   ''
                end
 
       format = lambda { |address|

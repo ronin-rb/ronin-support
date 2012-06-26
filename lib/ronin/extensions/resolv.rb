@@ -70,10 +70,8 @@ class Resolv
   # @api public
   #
   def Resolv.resolver(nameserver=nil)
-    if nameserver
-      DNS.new(:nameserver => nameserver)
-    else
-      self
+    if nameserver then DNS.new(:nameserver => nameserver)
+    else               self
     end
   end
 

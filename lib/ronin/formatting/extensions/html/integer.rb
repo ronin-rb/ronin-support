@@ -134,10 +134,8 @@ class Integer
   # @api public
   #
   def format_js
-    if self > 0xff
-      "\\u%.4X" % self
-    else
-      "\\x%.2X" % self
+    if self > 0xff then "\\u%.4X" % self
+    else                "\\x%.2X" % self
     end
   end
 
