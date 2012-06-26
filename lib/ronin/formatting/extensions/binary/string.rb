@@ -188,12 +188,9 @@ class String
   #
   def xor(key)
     key = case key
-          when Integer
-            [key]
-          when String
-            key.bytes
-          else
-            key
+          when Integer then [key]
+          when String  then key.bytes
+          else              key
           end
 
     key    = key.cycle

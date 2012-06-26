@@ -87,9 +87,9 @@ module Ronin
 
         dirs = (['..'] * (n-1))
 
-        return Path.new(path.join(*dirs))
+        Path.new(path.join(*dirs))
       when Enumerable
-        return n.map { |i| up(i) }
+        n.map { |i| up(i) }
       else
         raise(ArgumentError,"The first argument of Path.up must be either an Integer or Enumerable")
       end

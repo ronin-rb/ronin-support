@@ -170,19 +170,15 @@ module Ronin
       def values
         normalize = lambda { |value|
           case value
-          when Struct
-            value.values
-          else
-            value
+          when Struct then value.values
+          else             value
           end
         }
 
         self.class.layout.map do |name|
           case (value = self[name])
-          when Array
-            value.map(&normalize)
-          else
-            normalize[value]
+          when Array then value.map(&normalize)
+          else            normalize[value]
           end
         end
       end
@@ -484,14 +480,10 @@ module Ronin
           end
         else
           if type.kind_of?(Symbol)
-            if Template::INT_TYPES.include?(type)
-              0
-            elsif Template::FLOAT_TYPES.include?(type)
-              0.0
-            elsif Template::CHAR_TYPES.include?(type)
-              "\0"
-            elsif Template::STRING_TYPES.include?(type)
-              ''
+            if    Template::INT_TYPES.include?(type)    then 0
+            elsif Template::FLOAT_TYPES.include?(type)  then 0.0
+            elsif Template::CHAR_TYPES.include?(type)   then "\0"
+            elsif Template::STRING_TYPES.include?(type) then ''
             end
           elsif type < Struct
             type.new

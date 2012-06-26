@@ -93,10 +93,8 @@ module Ronin
             else
               str = case argument
                     when nil
-                      if RUBY_VERSION > '1.9'
-                        ''
-                      else
-                        'nil'
+                      if RUBY_VERSION > '1.9' then ''
+                      else                         'nil'
                       end
                     else
                       argument.to_s

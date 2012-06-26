@@ -48,21 +48,16 @@ module Ronin
         
         rules.each do |pattern,substitution|
           pattern = case pattern
-                    when Regexp
-                      pattern
-                    when String
-                      Regexp.new(Regexp.escape(pattern))
-                    when Symbol
-                      Regexp.const_get(pattern.to_s.upcase)
+                    when Regexp then pattern
+                    when String then Regexp.new(Regexp.escape(pattern))
+                    when Symbol then Regexp.const_get(pattern.to_s.upcase)
                     else
                       raise(TypeError,"cannot convert #{pattern.inspect} to a Regexp")
                     end
 
           substitution = case substitution
-                         when Enumerable
-                           substitution
-                         when Symbol
-                           Fuzzing[substitution]
+                         when Enumerable then substitution
+                         when Symbol     then Fuzzing[substitution]
                          else
                            raise(TypeError,"substitutions must be Enumerable or a Symbol")
                          end
@@ -97,12 +92,9 @@ module Ronin
           indices.each do |index,length|
             substitution.each do |substitute|
               substitute = case substitute
-                           when Proc
-                             substitute.call(string[index,length])
-                           when Integer
-                             substitute.chr
-                           else
-                             substitute.to_s
+                           when Proc    then substitute[string[index,length]]
+                           when Integer then substitute.chr
+                           else              substitute.to_s
                            end
 
               fuzzed = string.dup

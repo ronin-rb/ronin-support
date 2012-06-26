@@ -99,10 +99,8 @@ class String
     formatted = ''
 
     matches = lambda { |filter,c|
-      if filter.respond_to?(:include?)
-        filter.include?(c)
-      elsif filter.kind_of?(Regexp)
-        c =~ filter
+      if    filter.respond_to?(:include?) then filter.include?(c)
+      elsif filter.kind_of?(Regexp)       then c =~ filter
       end
     }
 
@@ -143,10 +141,8 @@ class String
     prob = (options[:probability] || 0.5)
 
     format_chars(options) do |c|
-      if rand <= prob
-        c.swapcase 
-      else
-        c
+      if rand <= prob then c.swapcase 
+      else                 c
       end
     end
   end

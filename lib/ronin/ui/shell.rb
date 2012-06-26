@@ -271,12 +271,9 @@ module Ronin
           command_method = method(name)
           arguments = command_method.parameters.map do |param|
             case param[0]
-            when :opt
-              "[#{param[1]}]"
-            when :rest
-              "[#{param[1]} ...]"
-            else
-              param[1]
+            when :opt  then "[#{param[1]}]"
+            when :rest then "[#{param[1]} ...]"
+            else                param[1]
             end
           end
 

@@ -354,10 +354,8 @@ module Ronin
       def self.translate(type,options={})
         if (options[:endian] && ENDIAN_TYPES.include?(type))
           type = case options[:endian]
-                 when :little
-                   :"#{type}_le"
-                 when :big, :network
-                   :"#{type}_be"
+                 when :little        then :"#{type}_le"
+                 when :big, :network then :"#{type}_be"
                  else
                    raise(ArgumentError,"unknown endianness: #{type}")
                  end

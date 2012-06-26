@@ -137,10 +137,8 @@ module Ronin
           @encoding = options[:encoding]
 
           @type = case @encoding
-                  when :floats, :doubles
-                    :float
-                  else
-                    :integer
+                  when :floats, :doubles then :float
+                  else                        :integer
                   end
           @endian = options.fetch(:endian,:little)
 
@@ -164,12 +162,10 @@ module Ronin
             @word_size = WORD_SIZES.fetch(options[:encoding])
           end
 
-          case @encoding
-          when :hex_chars
-            @chars = CHARS.merge(ESCAPED_CHARS)
-          when :named_chars
-            @chars = CHARS.merge(NAMED_CHARS)
-          end
+          @chars = case @encoding
+                   when :hex_chars   then CHARS.merge(ESCAPED_CHARS)
+                   when :named_chars then CHARS.merge(NAMED_CHARS)
+                   end
         end
 
         #
@@ -352,10 +348,8 @@ module Ronin
         # @api private
         #   
         def parse_int(int)
-          if @chars
-            parse_char(int)
-          else
-            int.to_i(@base)
+          if @chars then parse_char(int)
+          else           int.to_i(@base)
           end
         end
 
@@ -383,10 +377,8 @@ module Ronin
         #  
         def parse_word(word)
           case @type
-          when :integer
-            parse_int(word)
-          when :float
-            parse_float(word)
+          when :integer then parse_int(word)
+          when :float   then parse_float(word)
           end
         end
 

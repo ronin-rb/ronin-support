@@ -66,12 +66,9 @@ class IPAddr
     return enum_for(__method__,text,version).to_a unless block_given?
 
     regexp = case version
-             when :ipv4, :v4, 4
-               Regexp::IPv4
-             when :ipv6, :v6, 6
-               Regexp::IPv6
-             else
-               Regexp::IP
+             when :ipv4, :v4, 4 then Regexp::IPv4
+             when :ipv6, :v6, 6 then Regexp::IPv6
+             else                    Regexp::IP
              end
 
     text.scan(regexp) do |match|
