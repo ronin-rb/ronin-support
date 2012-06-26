@@ -17,4 +17,39 @@ describe Network::SSL do
       lambda { subject[:foo_bar] }.should raise_error
     end
   end
+
+  describe "#ssl_connect", :network do
+    let(:host) { 'github.com' }
+    let(:port) { 443 }
+
+    subject do
+      obj = Object.new
+      obj.extend described_class
+      obj
+    end
+
+    it "should connect to an SSL protected port" do
+      lambda {
+        subject.ssl_connect(host,port)
+      }.should_not raise_error(OpenSSL::SSL::SSLError)
+    end
+
+    it "should return an OpenSSL::SSL::SSLSocket" do
+      socket = subject.ssl_connect(host,port)
+
+      socket.should be_kind_of(OpenSSL::SSL::SSLSocket)
+    end
+
+    context "when a block is given" do
+      it "should yield the OpenSSL::SSL::SSLSocket" do
+        yielded_socket = nil
+
+        subject.ssl_connect(host,port) do |socket|
+          yielded_socket = socket
+        end
+
+        yielded_socket.should be_kind_of(OpenSSL::SSL::SSLSocket)
+      end
+    end
+  end
 end
