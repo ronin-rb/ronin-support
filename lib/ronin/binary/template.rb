@@ -22,7 +22,7 @@ require 'set'
 module Ronin
   module Binary
     #
-    # Provides a translation layer between C types and Ruby `Array#pack`
+    # Provides a translation layer between C-types and Ruby `Array#pack`
     # codes.
     #
     # ## Types
@@ -60,7 +60,7 @@ module Ronin
     # * `:byte` (`c`) - signed byte.
     # * `:string` (`Z*`) - binary String, `\0` terminated.
     #
-    # ### Ruby 1.9 specific types
+    # ### Ruby 1.9 specific C-types
     #
     # * `:uint16_le` (`S<`) - unsigned 16-bit integer, little endian.
     # * `:uint32_le` (`L<`) - unsigned 32-bit integer, little endian.
@@ -99,7 +99,7 @@ module Ronin
     #
     class Template
 
-      # Supported types and corresponding `Array#pack` codes.
+      # Supported C-types and corresponding `Array#pack` codes.
       TYPES = {
         :uint8  => 'C',
         :uint16 => 'S',
@@ -144,7 +144,7 @@ module Ronin
         :string => 'Z*'
       }
 
-      # Additional types, not available on Ruby 1.8:
+      # Additional C-types, not available on Ruby 1.8:
       if RUBY_VERSION > '1.9.'
         TYPES.merge!(
           :uint16_le => 'S<',
@@ -185,7 +185,7 @@ module Ronin
         )
       end
 
-      # Integer types
+      # Integer C-types
       INT_TYPES = Set[
         :uint8,
         :uint16,
@@ -246,17 +246,17 @@ module Ronin
         :long_long_be
       ]
 
-      # Float types
+      # Float C-types
       FLOAT_TYPES = Set[
         :float,    :double,
         :float_le, :double_le,
         :float_be, :double_be
       ]
 
-      # Character types
+      # Character C-types
       CHAR_TYPES = Set[:uchar, :char]
 
-      # String types
+      # String C-types
       STRING_TYPES = CHAR_TYPES + Set[:string]
 
       # Types which have little and big endian forms
@@ -275,19 +275,19 @@ module Ronin
       # Creates a new Binary Template.
       #
       # @param [Array<type, (type, length)>] fields
-      #   The types which the packer will use.
+      #   The C-types which the packer will use.
       #
       # @param [Hash] options
       #   Template options.
       #
       # @option options [:little, :big, :network] :endian
-      #   The endianness to apply to types.
+      #   The endianness to apply to the C-types.
       #
       # @raise [ArgumentError]
       #   A given type is not known.
       #
       # @note
-      #   The following types are **not supported** on Ruby 1.8:
+      #   The following C-types are **not supported** on Ruby 1.8:
       #
       #   * `:uint16_le`
       #   * `:uint32_le`
@@ -343,7 +343,7 @@ module Ronin
       #   Translation options.
       #
       # @option options [:little, :big, :network] :endian
-      #   The endianness to apply to types.
+      #   The endianness to apply to the C-types.
       #
       # @return [Symbol]
       #   The translated type.
@@ -365,17 +365,17 @@ module Ronin
       end
 
       #
-      # Compiles binary types into an `Array#pack` / `String#unpack`
+      # Compiles C-types into an `Array#pack` / `String#unpack`
       # template.
       #
       # @param [Array<type, (type, length)>] types
-      #   The types which the packer will use.
+      #   The C-types which the packer will use.
       #
       # @param [Hash] options
       #   Type options.
       #
       # @option options [:little, :big, :network] :endian
-      #   The endianness to apply to types.
+      #   The endianness to apply to the C-types.
       #
       # @return [String]
       #   The `Array#pack` / `String#unpack` template.
