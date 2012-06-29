@@ -26,6 +26,13 @@ describe Network::FTP do
         ftp.close
       end
 
+      it "should set passive to true" do
+        ftp = subject.ftp_connect(host)
+
+        ftp.passive.should be_true
+        ftp.close
+      end
+
       context "when given a block" do
         it "should yield the new Net::FTP object" do
           ftp = subject.ftp_connect(host) do |ftp|
