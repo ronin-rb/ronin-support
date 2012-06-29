@@ -96,7 +96,7 @@ module Ronin
       #   Unpacking options.
       #
       # @option options [:little, :big, :network] :endian
-      #   The endianness to apply to types.
+      #   The endianness to apply to the types.
       #
       # @return [Struct]
       #   The newly unpacked structure.
@@ -200,7 +200,7 @@ module Ronin
       #   Pack options.
       #
       # @option options [:little, :big, :network] :endian
-      #   The endianness to apply to types.
+      #   The endianness to apply to the types.
       #
       # @return [String]
       #   The packed structure.
@@ -219,7 +219,7 @@ module Ronin
       #   Unpack options.
       #
       # @option options [:little, :big, :network] :endian
-      #   The endianness to apply to types.
+      #   The endianness to apply to the types.
       #
       # @return [Struct]
       #   The unpacked structure.
