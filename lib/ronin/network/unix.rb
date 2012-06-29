@@ -268,7 +268,7 @@ module Ronin
       #   The accepted connection to UNIX socket.
       #
       # @example
-      #   unix_single_server('/tmp/test.socket') do |client|
+      #   unix_accept('/tmp/test.socket') do |client|
       #     # ...
       #   end
       #
