@@ -102,6 +102,7 @@ module Ronin
         session = Net::FTP.new
         session.connect(host,port)
         session.login(user,password,acct)
+        session.passive = true
 
         yield session if block_given?
         return session
