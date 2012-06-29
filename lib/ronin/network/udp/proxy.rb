@@ -44,8 +44,8 @@ module Ronin
       #         puts "#{host}:#{port} <- #{proxy}"
       #         hex.dump(data)
       #       end
-      #
-      #    end
+      #     
+      #     end
       #
       # @since 0.5.0
       #
