@@ -21,8 +21,8 @@ or payloads over many common Source-Code-Management (SCM) systems.
   * Formatting data:
     * Binary
     * Text
-    * HTTP
     * URIs
+    * HTTP
     * HTML
     * JavaScript
     * SQL
