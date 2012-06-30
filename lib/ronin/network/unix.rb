@@ -88,8 +88,7 @@ module Ronin
       end
 
       #
-      # Creates a new UNIXSocket object, connected to the given path.
-      # The given data will then be written to the newly created UNIXSocket.
+      # Connects to a UNIX Socket and sends the given data.
       #
       # @param [String] data
       #   The data to send to the socket.
@@ -117,7 +116,7 @@ module Ronin
       end
 
       #
-      # Connects temporarily to a UNIX socket.
+      # Temporarily connects to a UNIX socket.
       #
       # @param [String] path
       #   The path to the UNIX socket.
@@ -201,7 +200,7 @@ module Ronin
       end
 
       #
-      # Opens a UNIX socket temporarily.
+      # Temporarily opens a UNIX socket.
       #
       # @param [String] path
       #   The path for the new UNIX socket.

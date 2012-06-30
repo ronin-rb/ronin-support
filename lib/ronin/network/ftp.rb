@@ -22,7 +22,7 @@ require 'net/ftp'
 module Ronin
   module Network
     #
-    # Provides helper methods for communicating with FTP services.
+    # Provides helper methods for communicating with FTP servers.
     #
     # @since 0.5.0
     #
