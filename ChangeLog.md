@@ -1,3 +1,15 @@
+### 0.5.1 / 2012-06-29
+
+* Added {Ronin::Binary::Template#inspect}.
+* Added the `:passive` option to {Ronin::Network::FTP#ftp_connect}.
+* Forgot to require `ronin/formatting/extensions/binary/array`.
+* Fixed a bug where {Array#pack} would not accept tuples (ex: `[:uint8, 2]`).
+* Fixed a bug in {String#sql_decode} where `"\\'\\'"` would be incorrectly
+  converted to `'"'`.
+* Ensure that {Integer#pack} only accepts one argument.
+* Have {String#hex_unescape} to decode every two characters.
+* Enable passive-mode by default in {Ronin::Network::FTP#ftp_connect}.
+
 ### 0.5.0 / 2012-06-16
 
 * Require uri-query_params ~> 0.6.
