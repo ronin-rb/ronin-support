@@ -29,9 +29,11 @@ or payloads over many common Source-Code-Management (SCM) systems.
   * Fuzzing
   * Networking:
     * DNS
+    * UNIX
     * TCP
     * UDP
     * SSL
+    * FTP
     * SMTP / ESMTP
     * POP3
     * Imap
