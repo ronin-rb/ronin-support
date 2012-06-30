@@ -26,11 +26,20 @@ describe Network::FTP do
         ftp.close
       end
 
-      it "should set passive to true" do
-        ftp = subject.ftp_connect(host)
+      describe ":passive" do
+        it "should set passive mode by default" do
+          ftp = subject.ftp_connect(host)
 
-        ftp.passive.should be_true
-        ftp.close
+          ftp.passive.should be_true
+          ftp.close
+        end
+
+        it "should allow disabling passive mode" do
+          ftp = subject.ftp_connect(host, :passive => false)
+
+          ftp.passive.should be_false
+          ftp.close
+        end
       end
 
       context "when given a block" do

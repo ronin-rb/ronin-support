@@ -78,6 +78,9 @@ module Ronin
       # @option options [String] :account
       #   The FTP account information to send via the `ACCT` command.
       #
+      # @option options [Boolean] :passive (true)
+      #   Specifies whether the FTP session should use passive mode.
+      #
       # @yield [session]
       #   If a block is given, it will be passed an FTP session object.
       #
@@ -102,7 +105,7 @@ module Ronin
         session = Net::FTP.new
         session.connect(host,port)
         session.login(user,password,acct)
-        session.passive = true
+        session.passive = options.fetch(:passive,true)
 
         yield session if block_given?
         return session
