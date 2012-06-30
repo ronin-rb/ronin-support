@@ -48,6 +48,14 @@ module Ronin
       #   Specifies whether the remote UDP port is open.
       #   If no data or ICMP error were received, `nil` will be returned.
       #
+      # @example
+      #   udp_open?('4.2.2.1',53)
+      #   # => true
+      #
+      # @example Using a timeout:
+      #   udp_open?('example.com',1111,nil,nil,5)
+      #   # => nil
+      #
       # @api public
       #
       # @since 0.5.0

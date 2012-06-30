@@ -48,6 +48,14 @@ module Ronin
       #   Specifies whether the remote TCP port is open.
       #   If the connection was not accepted, `nil` will be returned.
       #
+      # @example
+      #   tcp_open?('example.com',80)
+      #   # => true
+      #
+      # @example Using a timeout:
+      #   tcp_open?('example.com',1111,nil,nil,5)
+      #   # => nil
+      #
       # @api public
       #
       # @since 0.5.0
