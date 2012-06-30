@@ -4,7 +4,7 @@
 * Added the `:passive` option to {Ronin::Network::FTP#ftp_connect}.
 * Forgot to require `ronin/formatting/extensions/binary/array`.
 * Fixed a bug where {Array#pack} would not accept tuples (ex: `[:uint8, 2]`).
-* Fixed a bug in {String#sql_decode} where `"\\'\\'"` would be incorrectly
+* Fixed a bug in {String#sql_decode} where `"\\'\\'"` would incorrectly be
   converted to `'"'`.
 * Ensure that {Integer#pack} only accepts one argument.
 * Have {String#hex_unescape} to decode every two characters.
