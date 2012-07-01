@@ -20,6 +20,6 @@
 module Ronin
   module Support
     # ronin-support version
-    VERSION = '0.5.1'
+    VERSION = '0.5.2'
   end
 end
