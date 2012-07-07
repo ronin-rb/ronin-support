@@ -24,6 +24,8 @@ module Ronin
   # The {Path} class extends `Pathname` to allow representing directory
   # traversal paths.
   #
+  # @api public
+  #
   class Path < Pathname
 
     # The separator to join paths together with
@@ -49,8 +51,6 @@ module Ronin
     #
     # @return [Path]
     #   The root path.
-    #
-    # @api public
     #
     def Path.root
       Path.new('/')
@@ -79,8 +79,6 @@ module Ronin
     #   Path.up(1..3)
     #   # => [#<Ronin::Path:..>, #<Ronin::Path:../..>,
     #   #<Ronin::Path:../../..>]
-    #
-    # @api public
     #
     def self.up(n,separator=File::SEPARATOR)
       case n
@@ -113,8 +111,6 @@ module Ronin
     # @example
     #   Path.up(7).join('etc/passwd')
     #   # => #<Ronin::Path:../../../../../../../etc/passwd>
-    #
-    # @api public
     #
     def join(*names)
       joined_path = if root? then ''
