@@ -80,10 +80,16 @@ describe Path do
       subject.join(traversal).to_s.should == expected
     end
 
-    it "should filter out extra directory separators" do
+    it "should filter out leading directory separators" do
       expected = [subject, 'sub'].join(File::SEPARATOR)
 
       subject.join('/','sub','/').to_s.should == expected
+    end
+
+    it "should filter out extra directory separators" do
+      expected = [subject, 'sub'].join(File::SEPARATOR)
+
+      subject.join('/sub').to_s.should == expected
     end
 
     it "should join with the root path" do
