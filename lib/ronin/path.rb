@@ -120,10 +120,8 @@ module Ronin
       names.each do |name|
         name = name.to_s
 
-        # filter out errant directory separators
-        next if name == @separator
-
-        joined_path << @separator << name
+        joined_path << @separator unless name.start_with?(@separator)
+        joined_path << name       unless name == @separator
       end
 
       return self.class.new(joined_path,@separator)
