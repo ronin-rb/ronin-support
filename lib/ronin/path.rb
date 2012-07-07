@@ -29,8 +29,17 @@ module Ronin
     # The separator to join paths together with
     attr_accessor :separator
 
-    def initialize(path)
-      @separator = File::SEPARATOR
+    #
+    # Initializes a new Path.
+    #
+    # @param [String] path
+    #   The path.
+    #
+    # @param [String] separator
+    #   The directory separator to use.
+    #
+    def initialize(path,separator=File::SEPARATOR)
+      @separator = separator
 
       super(path)
     end
@@ -82,12 +91,8 @@ module Ronin
           raise(ArgumentError,"negative argument")
         end
 
-        path = new('..')
-        path.separator = separator
-
-        dirs = (['..'] * (n-1))
-
-        path.join(*dirs)
+        path = new('..',separator)
+        path.join(*(['..'] * (n-1)))
       when Enumerable
         n.map { |i| up(i) }
       else
@@ -125,7 +130,7 @@ module Ronin
         joined_path << @separator << name
       end
 
-      return self.class.new(joined_path)
+      return self.class.new(joined_path,@separator)
     end
 
     alias / join

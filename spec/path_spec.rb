@@ -10,11 +10,18 @@ describe Path do
     subject.superclass.should == Pathname
   end
 
-  it "should provide the root path" do
-    path = subject.root
+  describe "#initialize" do
+    it "should accept a separator argument" do
+      path = described_class.new('foo',"\\")
 
-    path.should.class == Path
-    path.to_s.should == '/'
+      path.separator.should == "\\"
+    end
+
+    it "should default the separator to File::SEPARATOR" do
+      path = described_class.new('foo')
+
+      path.separator.should == File::SEPARATOR
+    end
   end
 
   describe "up" do
@@ -81,6 +88,18 @@ describe Path do
 
     it "should join with the root path" do
       Path.root.join('etc','passwd').to_s.should == '/etc/passwd'
+    end
+
+    context "with a custom path seperator" do
+      let(:separator) { "\\" }
+
+      subject { described_class.new('foo',separator) }
+
+      it "should pass the path separator to the new path" do
+        new_path = subject.join('bar','baz')
+
+        new_path.separator.should == separator
+      end
     end
   end
 end
