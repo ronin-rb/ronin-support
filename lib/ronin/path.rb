@@ -87,7 +87,7 @@ module Ronin
 
         dirs = (['..'] * (n-1))
 
-        Path.new(path.join(*dirs))
+        path.join(*dirs)
       when Enumerable
         n.map { |i| up(i) }
       else
@@ -112,23 +112,20 @@ module Ronin
     # @api public
     #
     def join(*names)
-      names.map! { |name| name.to_s }
+      joined_path = if root? then ''
+                    else          self.to_s
+                    end
 
-      # filter out errant directory separators
-      names.reject! { |dir| dir == @separator }
+      names.each do |name|
+        name = name.to_s
 
-      # join the path
-      sub_path = names.join(@separator)
+        # filter out errant directory separators
+        next if name == @separator
 
-      path = if root?
-               # prefix the root dir
-               self.to_s + sub_path
-             else
-               # join the path with the sub-path
-               [self.to_s, sub_path].join(@separator)
-             end
+        joined_path << @separator << name
+      end
 
-      return self.class.new(path)
+      return self.class.new(joined_path)
     end
 
     alias / join
