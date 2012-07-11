@@ -104,7 +104,12 @@ class String
   # @api public
   #
   def format_http(options={})
-    format_bytes(options) { |b| b.format_http }
+    # String#ord was not backported to Ruby 1.8.7
+    formatter = if RUBY_VERSION < '1.9.' then lambda { |c| c[0].format_http  }
+                else                          lambda { |c| c.ord.format_http }
+                end
+
+    format_chars(options,&formatter)
   end
 
 end
