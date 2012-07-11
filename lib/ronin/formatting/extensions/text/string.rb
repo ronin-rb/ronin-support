@@ -119,18 +119,14 @@ class String
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [Array, Range] :include (0x00..0xff)
-  #   The bytes to format.
-  #
-  # @option options [Array, Range] :exclude
-  #   The bytes not to format.
-  #
   # @option options [Float] :probability (0.5)
   #   The probability that a character will have it's case changed.
   #
   # @example
   #   "get out your checkbook".random_case
   #   # => "gEt Out YOur CHEckbook"
+  #
+  # @see #format_chars
   #
   # @api public
   #
