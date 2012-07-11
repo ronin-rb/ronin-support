@@ -56,8 +56,8 @@ class String
     formatted = ''
 
     each_byte do |b|
-      formatted << if (included.nil? || included.include?(b)) &&
-                      (excluded.nil? || !excluded.include?(b))
+      formatted << if (included.nil? || included.include_byte?(b)) &&
+                      (excluded.nil? || !excluded.include_byte?(b))
                      yield(b)
                    else
                      b
@@ -73,10 +73,10 @@ class String
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [#include?, Regexp] :include (/./m)
+  # @option options [Enumerable<Integer, String>] :include
   #   The bytes to format.
   #
-  # @option options [#include?, Regexp] :exclude
+  # @option options [Enumerable<Integer, String>] :exclude
   #   The bytes not to format.
   #
   # @yield [char]
@@ -96,18 +96,13 @@ class String
   # @api public
   #
   def format_chars(options={})
-    included  = (options[:include] || /./m)
-    excluded  = (options[:exclude] || Set[])
+    included  = (Chars::CharSet.new(*options[:include]) if options[:include])
+    excluded  = (Chars::CharSet.new(*options[:exclude]) if options[:exclude])
     formatted = ''
 
-    matches = lambda { |filter,c|
-      if    filter.respond_to?(:include?) then filter.include?(c)
-      elsif filter.kind_of?(Regexp)       then c =~ filter
-      end
-    }
-
     each_char do |c|
-      formatted << if (matches[included,c] && !matches[excluded,c])
+      formatted << if (included.nil? || included.include_char?(c)) &&
+                      (excluded.nil? || !excluded.include_char?(c))
                      yield(c)
                    else
                      c

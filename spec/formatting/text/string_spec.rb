@@ -84,13 +84,13 @@ describe String do
     end
 
     it "should format ranges of chars in a String" do
-      subject.format_chars(:include => /[h-l]/) { |c|
+      subject.format_chars(:include => ('h'..'l')) { |c|
         c.upcase
       }.should == 'HeLLo'
     end
 
     it "should not format ranges of chars in a String" do
-      subject.format_chars(:exclude => /[h-l]/) { |c|
+      subject.format_chars(:exclude => ('h'..'l')) { |c|
         c.upcase
       }.should == 'hEllO'
     end
