@@ -56,8 +56,8 @@ class String
     formatted = ''
 
     each_byte do |b|
-      formatted << if (included.nil? || included.include?(b)) &&
-                      (excluded.nil? || !excluded.include?(b))
+      formatted << if (included.nil? || included.include_byte?(b)) &&
+                      (excluded.nil? || !excluded.include_byte?(b))
                      yield(b)
                    else
                      b
