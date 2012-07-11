@@ -17,6 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'chars/char_set'
 require 'set'
 
 class String
@@ -27,10 +28,10 @@ class String
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [#include?] :include (0x00..0xff)
+  # @option options [Enumerable<Integer, String>] :include (0x00..0xff)
   #   The bytes to format.
   #
-  # @option options [#include?] :exclude
+  # @option options [Enumerable<Integer, String>] :exclude
   #   The bytes not to format.
   #
   # @yield [byte]
@@ -50,8 +51,8 @@ class String
   # @api public
   #
   def format_bytes(options={})
-    included  = (options[:include] || (0x00..0xff))
-    excluded  = (options[:exclude] || Set[])
+    included  = Chars::CharSet.new(*(options[:include] || (0x00..0xff)))
+    excluded  = Chars::CharSet.new(*(options[:exclude] || []))
     formatted = ''
 
     each_byte do |b|
