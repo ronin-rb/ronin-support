@@ -18,6 +18,7 @@
 #
 
 require 'chars/char_set'
+require 'set'
 
 class String
 
@@ -50,8 +51,8 @@ class String
   # @api public
   #
   def format_bytes(options={})
-    included  = (Chars::CharSet.new(*options[:include]) if options[:include])
-    excluded  = (Chars::CharSet.new(*options[:exclude]) if options[:exclude])
+    included  = Chars::CharSet.new(*(options[:include] || (0x00..0xff)))
+    excluded  = Chars::CharSet.new(*(options[:exclude] || []))
     formatted = ''
 
     each_byte do |b|
