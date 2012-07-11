@@ -26,11 +26,11 @@ describe Integer do
     context "when given unsafe characters" do
       let(:not_encoded) { ' ' }
 
-      it "should encode itself if listed as unsafe" do
+      it "should encode itself if listed" do
         subject.uri_encode(' ', "\n", "\r").should == uri_encoded
       end
 
-      it "should not encode itself if not listed as unsafe" do
+      it "should not encode itself if not listed" do
         subject.uri_encode('A', 'B', 'C').should == not_encoded
       end
     end
