@@ -51,12 +51,13 @@ class String
   # @api public
   #
   def format_bytes(options={})
-    included  = Chars::CharSet.new(*(options[:include] || (0x00..0xff)))
-    excluded  = Chars::CharSet.new(*(options[:exclude] || []))
+    included  = (Chars::CharSet.new(*options[:include]) if options[:include])
+    excluded  = (Chars::CharSet.new(*options[:exclude]) if options[:exclude])
     formatted = ''
 
     each_byte do |b|
-      formatted << if (included.include?(b) && !excluded.include?(b))
+      formatted << if (included.nil? || included.include?(b)) &&
+                      (excluded.nil? || !excluded.include?(b))
                      yield(b)
                    else
                      b
