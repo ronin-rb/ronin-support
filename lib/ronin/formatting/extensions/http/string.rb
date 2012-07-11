@@ -28,6 +28,9 @@ class String
   #
   # URI encodes the String.
   #
+  # @param [Array<String>] unsafe
+  #   The unsafe characters to encode.
+  #
   # @return [String]
   #   The URI encoded form of the String.
   #
@@ -37,8 +40,10 @@ class String
   #
   # @api public
   #
-  def uri_encode
-    URI.encode(self)
+  def uri_encode(*unsafe)
+    unless unsafe.empty? then URI.encode(self,unsafe.join)
+    else                      URI.encode(self)
+    end
   end
 
   #

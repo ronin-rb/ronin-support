@@ -22,6 +22,18 @@ describe Integer do
     it "should URI encode itself" do
       subject.uri_encode.should == uri_encoded
     end
+
+    context "when given unsafe characters" do
+      let(:not_encoded) { ' ' }
+
+      it "should encode itself if listed" do
+        subject.uri_encode(' ', "\n", "\r").should == uri_encoded
+      end
+
+      it "should not encode itself if not listed" do
+        subject.uri_encode('A', 'B', 'C').should == not_encoded
+      end
+    end
   end
 
   describe "#uri_escape" do

@@ -32,6 +32,14 @@ describe String do
     it "should URI encode itself" do
       subject.uri_encode.should == uri_encoded
     end
+
+    context "when given unsafe characters" do
+      let(:uri_unsafe_encoded) { "mod %25 3" }
+
+      it "should encode the characters listed as unsafe" do
+        subject.uri_encode('%').should == uri_unsafe_encoded
+      end
+    end
   end
 
   describe "#uri_decode" do

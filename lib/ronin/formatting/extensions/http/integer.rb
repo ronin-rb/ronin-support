@@ -25,13 +25,18 @@ class Integer
   #
   # URI encodes the byte.
   #
+  # @param [Array<String>] unsafe
+  #   The unsafe characters to encode.
+  #
   # @return [String]
   #   The URI encoded byte.
   #
   # @api public
   #
-  def uri_encode
-    URI.encode(chr)
+  def uri_encode(*unsafe)
+    unless unsafe.empty? then URI.encode(chr,unsafe.join)
+    else                      URI.encode(chr)
+    end
   end
 
   #
