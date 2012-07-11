@@ -92,6 +92,9 @@ class String
   #
   # Formats the bytes of the String.
   #
+  # @param [Hash] options
+  #   Additional formatting options.
+  #
   # @return [String]
   #   The HTTP hexadecimal encoded form of the String.
   #
@@ -99,7 +102,7 @@ class String
   #   "hello".format_http
   #   # => "%68%65%6c%6c%6f"
   #
-  # @see String#format_bytes
+  # @see String#format_chars
   #
   # @api public
   #
