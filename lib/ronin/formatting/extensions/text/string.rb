@@ -18,7 +18,6 @@
 #
 
 require 'chars/char_set'
-require 'set'
 
 class String
 
