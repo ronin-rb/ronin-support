@@ -84,13 +84,13 @@ module Ronin
       case n
       when Integer
         if n == 0
-          return separator
-        elsif n < 0
+          separator
+        elsif n > 0
+          path = new('..',separator)
+          path.join(*(['..'] * (n-1)))
+        else
           raise(ArgumentError,"negative argument")
         end
-
-        path = new('..',separator)
-        path.join(*(['..'] * (n-1)))
       when Enumerable
         n.map { |i| up(i) }
       else
