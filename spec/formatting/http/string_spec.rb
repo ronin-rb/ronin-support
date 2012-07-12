@@ -69,7 +69,7 @@ describe String do
 
     let(:http_formatted) { "%6D%6F%64%20%25%20%33" }
 
-    it "should format each char in a String" do
+    it "should format each byte of the String" do
       subject.format_http.should == http_formatted
     end
   end

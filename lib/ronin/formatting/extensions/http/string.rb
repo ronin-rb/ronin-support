@@ -92,9 +92,6 @@ class String
   #
   # Formats the bytes of the String.
   #
-  # @param [Hash] options
-  #   Additional formatting options.
-  #
   # @return [String]
   #   The HTTP hexadecimal encoded form of the String.
   #
@@ -102,17 +99,12 @@ class String
   #   "hello".format_http
   #   # => "%68%65%6c%6c%6f"
   #
-  # @see String#format_chars
+  # @see String#format_bytes
   #
   # @api public
   #
   def format_http(options={})
-    # String#ord was not backported to Ruby 1.8.7
-    formatter = if RUBY_VERSION < '1.9.' then lambda { |c| c[0].format_http  }
-                else                          lambda { |c| c.ord.format_http }
-                end
-
-    format_chars(options,&formatter)
+    format_bytes(options) { |b| b.format_http }
   end
 
 end
