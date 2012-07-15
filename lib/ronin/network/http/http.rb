@@ -311,7 +311,7 @@ module Ronin
                     URI::QueryParams.dump(options[:query_params])
                   end
 
-        if query
+        unless (query.nil? || query.empty?)
           # append the query-string onto the path
           path += if path.include?('?')
                     "&#{query}"

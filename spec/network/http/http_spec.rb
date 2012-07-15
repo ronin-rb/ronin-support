@@ -198,6 +198,30 @@ describe Network::HTTP do
 
           req.path.should == "#{path}?#{query}&#{additional_query}"
         end
+
+        context "when :query is empty" do
+          it "should not append the query string" do
+            req = subject.request(
+              :method => :get,
+              :path   => "#{path}?#{query}",
+              :query  => ''
+            )
+
+            req.path.should_not be_end_with('&')
+          end
+        end
+      end
+
+      context "when :query is empty" do
+        it "should not append the query string" do
+          req = subject.request(
+            :method => :get,
+            :path   => path,
+            :query  => ''
+          )
+
+          req.path.should_not be_end_with('?')
+        end
       end
     end
 
