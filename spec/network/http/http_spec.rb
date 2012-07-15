@@ -172,6 +172,35 @@ describe Network::HTTP do
       end
     end
 
+    context "with :query" do
+      let(:path)  { '/foo' }
+      let(:query) { 'q=1' }
+
+      it "should append the query-string to the path" do
+        req = subject.request(
+          :method => :get,
+          :path   => path,
+          :query  => query
+        )
+
+        req.path.should == "#{path}?#{query}"
+      end
+
+      context "when path already contains a query string" do
+        let(:additional_query) { 'x=2' }
+
+        it "should append the query using a '&' character" do
+          req = subject.request(
+            :method => :get,
+            :path   => "#{path}?#{query}",
+            :query  => additional_query
+          )
+
+          req.path.should == "#{path}?#{query}&#{additional_query}"
+        end
+      end
+    end
+
     context "with :user and :password" do
       it "should accept the :user option for Basic-Auth" do
         req = subject.request(:method => :get, :user => 'joe')
