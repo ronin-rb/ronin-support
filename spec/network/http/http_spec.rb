@@ -121,7 +121,7 @@ describe Network::HTTP do
 
       subject.headers(options).should == {
         'User-Agent' => 'bla',
-        'Location' => 'test'
+        'Location'   => 'test'
       }
     end
 
@@ -129,7 +129,7 @@ describe Network::HTTP do
       options = {'user_agent' => 'bla', 'x-powered-by' => 'PHP'}
 
       subject.headers(options).should == {
-        'User-Agent' => 'bla',
+        'User-Agent'   => 'bla',
         'X-Powered-By' => 'PHP'
       }
     end
@@ -140,7 +140,7 @@ describe Network::HTTP do
 
       subject.headers(options).should == {
         'Modified-By' => mtime.to_s,
-        'X-Accept' => 'gzip'
+        'X-Accept'    => 'gzip'
       }
     end
   end
@@ -158,110 +158,122 @@ describe Network::HTTP do
       ).class.should == Net::HTTP::Get
     end
 
-    it "should raise an UnknownRequest exception for invalid names" do
-      lambda {
-        subject.request(:method => :bla)
-      }.should raise_error(subject::UnknownRequest)
+    context "with :path" do
+      it "should use a default path" do
+        lambda {
+          subject.request(:method => :get)
+        }.should_not raise_error(ArgumentError)
+      end
+
+      it "should set the path" do
+        req = subject.request(:method => :get, :path => '/foo')
+
+        req.path.should == '/foo'
+      end
     end
 
-    it "should use a default path" do
-      lambda {
-        subject.request(:method => :get)
-      }.should_not raise_error(ArgumentError)
+    context "with :user and :password" do
+      it "should accept the :user option for Basic-Auth" do
+        req = subject.request(:method => :get, :user => 'joe')
+
+        req['authorization'].should == "Basic am9lOg=="
+      end
+
+      it "should also accept the :password options for Basic-Auth" do
+        req = subject.request(
+          :method => :get,
+          :user => 'joe',
+          :password => 'secret'
+        )
+
+        req['authorization'].should == "Basic am9lOnNlY3JldA=="
+      end
     end
 
-    it "should accept the :user option for Basic-Auth" do
-      req = subject.request(:method => :get, :user => 'joe')
+    context "with :method" do
+      it "should create HTTP Copy requests" do
+        req = subject.request(:method => :copy)
 
-      req['authorization'].should == "Basic am9lOg=="
-    end
+        req.class.should == Net::HTTP::Copy
+      end
 
-    it "should accept the :user and :password options for Basic-Auth" do
-      req = subject.request(
-        :method => :get,
-        :user => 'joe',
-        :password => 'secret'
-      )
+      it "should create HTTP Delete requests" do
+        req = subject.request(:method => :delete)
 
-      req['authorization'].should == "Basic am9lOnNlY3JldA=="
-    end
+        req.class.should == Net::HTTP::Delete
+      end
 
-    it "should create HTTP Copy requests" do
-      req = subject.request(:method => :copy)
+      it "should create HTTP Get requests" do
+        req = subject.request(:method => :get)
 
-      req.class.should == Net::HTTP::Copy
-    end
+        req.class.should == Net::HTTP::Get
+      end
 
-    it "should create HTTP Delete requests" do
-      req = subject.request(:method => :delete)
+      it "should create HTTP Head requests" do
+        req = subject.request(:method => :head)
 
-      req.class.should == Net::HTTP::Delete
-    end
+        req.class.should == Net::HTTP::Head
+      end
 
-    it "should create HTTP Get requests" do
-      req = subject.request(:method => :get)
+      it "should create HTTP Lock requests" do
+        req = subject.request(:method => :lock)
 
-      req.class.should == Net::HTTP::Get
-    end
+        req.class.should == Net::HTTP::Lock
+      end
 
-    it "should create HTTP Head requests" do
-      req = subject.request(:method => :head)
+      it "should create HTTP Mkcol requests" do
+        req = subject.request(:method => :mkcol)
 
-      req.class.should == Net::HTTP::Head
-    end
+        req.class.should == Net::HTTP::Mkcol
+      end
 
-    it "should create HTTP Lock requests" do
-      req = subject.request(:method => :lock)
+      it "should create HTTP Move requests" do
+        req = subject.request(:method => :move)
 
-      req.class.should == Net::HTTP::Lock
-    end
+        req.class.should == Net::HTTP::Move
+      end
 
-    it "should create HTTP Mkcol requests" do
-      req = subject.request(:method => :mkcol)
+      it "should create HTTP Options requests" do
+        req = subject.request(:method => :options)
 
-      req.class.should == Net::HTTP::Mkcol
-    end
+        req.class.should == Net::HTTP::Options
+      end
 
-    it "should create HTTP Move requests" do
-      req = subject.request(:method => :move)
+      it "should create HTTP Post requests" do
+        req = subject.request(:method => :post)
 
-      req.class.should == Net::HTTP::Move
-    end
+        req.class.should == Net::HTTP::Post
+      end
 
-    it "should create HTTP Options requests" do
-      req = subject.request(:method => :options)
+      it "should create HTTP Propfind requests" do
+        req = subject.request(:method => :propfind)
 
-      req.class.should == Net::HTTP::Options
-    end
+        req.class.should == Net::HTTP::Propfind
+      end
 
-    it "should create HTTP Post requests" do
-      req = subject.request(:method => :post)
+      it "should create HTTP Proppatch requests" do
+        req = subject.request(:method => :proppatch)
 
-      req.class.should == Net::HTTP::Post
-    end
+        req.class.should == Net::HTTP::Proppatch
+      end
 
-    it "should create HTTP Propfind requests" do
-      req = subject.request(:method => :propfind)
+      it "should create HTTP Trace requests" do
+        req = subject.request(:method => :trace)
 
-      req.class.should == Net::HTTP::Propfind
-    end
+        req.class.should == Net::HTTP::Trace
+      end
 
-    it "should create HTTP Proppatch requests" do
-      req = subject.request(:method => :proppatch)
+      it "should create HTTP Unlock requests" do
+        req = subject.request(:method => :unlock)
 
-      req.class.should == Net::HTTP::Proppatch
-    end
+        req.class.should == Net::HTTP::Unlock
+      end
 
-    it "should create HTTP Trace requests" do
-      req = subject.request(:method => :trace)
-
-      req.class.should == Net::HTTP::Trace
-    end
-
-    it "should create HTTP Unlock requests" do
-      req = subject.request(:method => :unlock)
-
-      req.class.should == Net::HTTP::Unlock
+      it "should raise an UnknownRequest exception for invalid methods" do
+        lambda {
+          subject.request(:method => :bla)
+        }.should raise_error(subject::UnknownRequest)
+      end
     end
 
     it "should raise an ArgumentError when :method is not specified" do
