@@ -35,16 +35,44 @@ describe Network::HTTP do
       options[:port].should == url.port
     end
 
-    it "should default :path to '/'" do
-      options = subject.expand_url(URI('http://example.com'))
+    describe ":path" do
+      it "should filter out empty URL paths" do
+        options = subject.expand_url(URI('http://example.com'))
 
-      options[:path].should == '/'
+        options[:path].should be_nil
+      end
+
+      context "when the path is empty" do
+        it "should not be set" do
+          options = subject.expand_url(URI('http://example.com'))
+
+          options.should_not have_key(:path)
+        end
+      end
     end
 
-    it "should set :query to the query string" do
-      options = subject.expand_url(url)
+    describe ":query" do
+      it "should set :query to the query string" do
+        options = subject.expand_url(url)
 
-      options[:query].should == url.query
+        options[:query].should == url.query
+      end
+
+      context "when query is nil" do
+        it "should not be set" do
+          options = subject.expand_url(URI('http://example.com/path'))
+
+          options.should_not have_key(:query)
+        end
+      end
+
+      context "when query is empty" do
+        it "should not be set" do
+          options = subject.expand_url(URI('http://example.com/path?'))
+
+          options.should_not have_key(:query)
+        end
+      end
     end
 
     it "should set :ssl if the URI scheme is 'https'" do
