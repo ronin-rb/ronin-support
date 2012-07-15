@@ -306,10 +306,8 @@ module Ronin
 
         if query
           # append the query-string onto the path
-          path += if path.include?('?')
-                    "&#{query}"
-                  else
-                    "?#{query}"
+          path += if path.include?('?') then "&#{query}"
+                  else                       "?#{query}"
                   end
         end
 
