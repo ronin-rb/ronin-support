@@ -299,7 +299,8 @@ module Ronin
         headers = headers(options[:headers])
         path    = (options[:path] || '/').to_s
         query   = if options[:query]
-                    URI.escape(options[:query])
+                    # XXX: workaround for net/http not escaping '\n'
+                    URI.escape(options[:query],"\n")
                   elsif options[:query_params]
                     URI::QueryParams.dump(options[:query_params])
                   end
