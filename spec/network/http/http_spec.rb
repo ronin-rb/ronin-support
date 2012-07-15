@@ -41,10 +41,10 @@ describe Network::HTTP do
       options[:path].should == '/'
     end
 
-    it "should append the query-string to the :path options" do
+    it "should set :query to the query string" do
       options = subject.expand_url(url)
 
-      options[:path].should == "#{url.path}?#{url.query}"
+      options[:query].should == url.query
     end
 
     it "should set :ssl if the URI scheme is 'https'" do
@@ -110,9 +110,9 @@ describe Network::HTTP do
       expanded_options[:port].should == 8080
       expanded_options[:user].should == 'joe'
       expanded_options[:password].should == 'secret'
-      expanded_options[:path].should == '/bla?var'
+      expanded_options[:path].should == '/bla'
+      expanded_options[:query].should == 'var'
     end
-
   end
 
   describe "headers" do
