@@ -67,10 +67,10 @@ describe Network::HTTP do
       end
 
       context "when query is empty" do
-        it "should not be set" do
+        it "should be set" do
           options = subject.expand_url(URI('http://example.com/path?'))
 
-          options.should_not have_key(:query)
+          options[:query].should be_empty
         end
       end
     end

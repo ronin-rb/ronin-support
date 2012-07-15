@@ -130,13 +130,8 @@ module Ronin
         new_options[:user]     = url.user     if url.user
         new_options[:password] = url.password if url.password
 
-        unless url.path.empty?
-          new_options[:path] = url.path
-        end
-
-        unless (url.query.nil? || url.query.empty?)
-          new_options[:query] = url.query
-        end
+        new_options[:path] = url.path  unless url.path.empty?
+        new_options[:query] = url.query unless url.query.nil?
 
         return new_options
       end
