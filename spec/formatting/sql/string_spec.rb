@@ -28,6 +28,10 @@ describe String do
     it "should be able to double-quote escape" do
       @string_with_quotes.sql_escape(:double).should == %{"""O'Brian"""}
     end
+
+    it "should be able to tick-mark escape" do
+      @string_with_quotes.sql_escape(:tick).should == %{`"O'Brian"`}
+    end
   end
 
   describe "#sql_encode" do

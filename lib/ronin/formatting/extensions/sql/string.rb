@@ -22,7 +22,7 @@ class String
   #
   # Escapes an String for SQL.
   #
-  # @param [:single, :double] quotes (:single)
+  # @param [:single, :double, :tick] quotes (:single)
   #   Specifies whether to create a single or double quoted string.
   #
   # @return [String]
@@ -41,6 +41,7 @@ class String
     char = case quotes
            when :single then "'"
            when :double then '"'
+           when :tick   then '`'
            else
              raise(ArgumentError,"invalid quoting style #{quotes.inspect}")
            end
