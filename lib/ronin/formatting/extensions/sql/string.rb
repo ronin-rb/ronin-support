@@ -39,12 +39,14 @@ class String
   # @since 0.3.0
   #
   def sql_escape(quotes=:single)
-    case quotes
-    when :single then "'#{gsub(/'/,"''")}'"
-    when :double then "\"#{gsub(/"/,'""')}\""
-    else
-      raise(ArgumentError,"invalid quoting style #{quotes.inspect}")
-    end
+    char = case quotes
+           when :single then "'"
+           when :double then '"'
+           else
+             raise(ArgumentError,"invalid quoting style #{quotes.inspect}")
+           end
+
+    return char + gsub(char,char * 2) + char
   end
 
   #
