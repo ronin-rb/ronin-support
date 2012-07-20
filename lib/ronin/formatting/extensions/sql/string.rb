@@ -22,9 +22,8 @@ class String
   #
   # Escapes an String for SQL.
   #
-  # @param [Symbol] quotes (:single)
+  # @param [:single, :double] quotes (:single)
   #   Specifies whether to create a single or double quoted string.
-  #   May be either `:single` or `:double`.
   #
   # @return [String]
   #   The escaped String.
