@@ -60,19 +60,13 @@ please see [Everyday Ronin].
 
 ## Requirements
 
-* [Ruby](http://www.ruby-lang.org/) >= 1.8.7
-* [chars](https://github.com/postmodern/chars#readme)
-  ~> 0.2
-* [hexdump](https://github.com/postmodern/hexdump#readme)
-  ~> 0.1
-* [combinatorics](https://github.com/postmodern/combinatorics#readme)
-  ~> 0.4
-* [uri-query_params](https://github.com/postmodern/uri-query_params#readme)
-  ~> 0.6
-* [data_paths](https://github.com/postmodern/data_paths#readme)
-  ~> 0.3
-* [parameters](https://github.com/postmodern/parameters#readme)
-  ~> 0.4
+* [Ruby] >= 1.8.7
+* [chars] ~> 0.2
+* [hexdump] ~> 0.1
+* [combinatorics] ~> 0.4
+* [uri-query_params] ~> 0.6
+* [data_paths] ~> 0.3
+* [parameters] ~> 0.4
 
 ## Install
 
@@ -108,3 +102,11 @@ along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 
 [Ronin]: http://ronin-ruby.github.com/
 [Everyday Ronin]: http://ronin-ruby.github.com/guides/everyday_ronin.html
+[Ruby]: http://www.ruby-lang.org/
+
+[chars]: https://github.com/postmodern/chars#readme
+[hexdump]: https://github.com/postmodern/hexdump#readme
+[combinatorics]: https://github.com/postmodern/combinatorics#readme
+[uri-query_params]: https://github.com/postmodern/uri-query_params#readme
+[data_paths]: https://github.com/postmodern/data_paths#readme
+[parameters]: https://github.com/postmodern/parameters#readme
