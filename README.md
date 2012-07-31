@@ -11,7 +11,7 @@
 Ronin Support is a support library for Ronin. Ronin Support contains many of
 the convenience methods used by Ronin and additional libraries.
 
-Ronin is a Ruby platform for exploit development and security research.
+[Ronin] is a Ruby platform for exploit development and security research.
 Ronin allows for the rapid development and distribution of code, exploits
 or payloads over many common Source-Code-Management (SCM) systems.
 
@@ -105,3 +105,5 @@ GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
+
+[Ronin]: http://ronin-ruby.github.com/
