@@ -56,7 +56,7 @@ or payloads over many common Source-Code-Management (SCM) systems.
 ## Examples
 
 For examples of the convenience methods provided by ronin-support,
-please see [Everyday Ronin](http://ronin-ruby.github.com/guides/everyday_ronin.html).
+please see [Everyday Ronin].
 
 ## Requirements
 
@@ -107,3 +107,4 @@ You should have received a copy of the GNU Lesser General Public License
 along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 
 [Ronin]: http://ronin-ruby.github.com/
+[Everyday Ronin]: http://ronin-ruby.github.com/guides/everyday_ronin.html
