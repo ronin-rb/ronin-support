@@ -84,24 +84,26 @@ class File
     File.each_line(path) { |line| yield line.split(separator) }
   end
 
-  #
-  # Writes the given data to a specified path.
-  #
-  # @param [String] path
-  #   The path of the file to write to.
-  #
-  # @param [String] data
-  #   The data to write to the file.
-  #
-  # @return [nil]
-  #
-  # @example
-  #   File.write('dump.txt',data)
-  #
-  # @api public
-  #
-  def File.write(path,data)
-    File.open(path,'w') { |file| file.write(data) }
+  if RUBY_VERSION < '1.9.'
+    #
+    # Writes the given data to a specified path.
+    #
+    # @param [String] path
+    #   The path of the file to write to.
+    #
+    # @param [String] data
+    #   The data to write to the file.
+    #
+    # @return [nil]
+    #
+    # @example
+    #   File.write('dump.txt',data)
+    #
+    # @api public
+    #
+    def File.write(path,data)
+      File.open(path,'w') { |file| file.write(data) }
+    end
   end
 
   #
