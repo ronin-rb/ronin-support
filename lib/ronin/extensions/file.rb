@@ -94,6 +94,9 @@ class File
     # @param [String] data
     #   The data to write to the file.
     #
+    # @param [Integer] offset
+    #   Optional offset to write the data to.
+    #
     # @return [nil]
     #
     # @example
@@ -101,8 +104,11 @@ class File
     #
     # @api public
     #
-    def File.write(path,data)
-      File.open(path,'w') { |file| file.write(data) }
+    def File.write(path,data,offset=0)
+      File.open(path,'w') do |file|
+        file.seek(offset)
+        file.write(data)
+      end
     end
   end
 
