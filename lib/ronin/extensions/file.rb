@@ -46,9 +46,7 @@ class File
   def File.each_line(path)
     return enum_for(__method__,path) unless block_given?
 
-    File.open(path) do |file|
-      file.each_line { |line| yield line.chomp }
-    end
+    File.foreach(path) { |line| yield line.chomp }
   end
 
   #
