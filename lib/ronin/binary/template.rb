@@ -281,38 +281,6 @@ module Ronin
       # @raise [ArgumentError]
       #   A given type is not known.
       #
-      # @note
-      #   The following C-types are **not supported** on Ruby 1.8:
-      #
-      #   * `:uint16_le`
-      #   * `:uint32_le`
-      #   * `:uint64_le`
-      #   * `:int16_le`
-      #   * `:int32_le`
-      #   * `:int64_le`
-      #   * `:uint16_be`
-      #   * `:uint32_be`
-      #   * `:uint64_be`
-      #   * `:int16_be`
-      #   * `:int32_be`
-      #   * `:int64_be`
-      #   * `:ushort_le`
-      #   * `:uint_le`
-      #   * `:ulong_le`
-      #   * `:ulong_long_le`
-      #   * `:short_le`
-      #   * `:int_le`
-      #   * `:long_le`
-      #   * `:long_long_le`
-      #   * `:ushort_be`
-      #   * `:uint_be`
-      #   * `:ulong_be`
-      #   * `:ulong_long_be`
-      #   * `:short_be`
-      #   * `:int_be`
-      #   * `:long_be`
-      #   * `:long_long_be`
-      #
       # @example
       #   Template.new(:uint32, [:char, 100])
       #
