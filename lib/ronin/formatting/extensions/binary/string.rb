@@ -203,6 +203,8 @@ class String
     return result
   end
 
+  alias ^ xor
+
   #
   # Base64 encodes a string.
   #
