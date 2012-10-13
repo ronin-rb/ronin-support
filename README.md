@@ -60,7 +60,7 @@ please see [Everyday Ronin].
 
 ## Requirements
 
-* [Ruby] >= 1.8.7
+* [Ruby] >= 1.9.1
 * [chars] ~> 0.2
 * [hexdump] ~> 0.1
 * [combinatorics] ~> 0.4
