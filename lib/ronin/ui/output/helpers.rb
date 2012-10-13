@@ -91,16 +91,7 @@ module Ronin
             if argument.kind_of?(Array)
               argument.each { |element| puts(element) }
             else
-              str = case argument
-                    when nil
-                      if RUBY_VERSION > '1.9' then ''
-                      else                         'nil'
-                      end
-                    else
-                      argument.to_s
-                    end
-
-              write("#{str}#{$/}")
+              write("#{argument}#{$/}")
             end
           end
 

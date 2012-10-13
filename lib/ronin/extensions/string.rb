@@ -193,48 +193,4 @@ class String
     return self[prefix.length...(length - postfix.length)]
   end
 
-  if RUBY_VERSION < '1.9.'
-    # Special ASCII bytes and their escaped character forms
-    ESCAPE_BYTES = Hash.new do |escape,byte|
-      escape[byte] = if (byte >= 0x20 && byte <= 0x7e)
-                       byte.chr
-                     else
-                       "\\x%.2X" % byte
-                     end
-    end
-
-    ESCAPE_BYTES[0x00] = '\0'
-    ESCAPE_BYTES[0x07] = '\a'
-    ESCAPE_BYTES[0x08] = '\b'
-    ESCAPE_BYTES[0x09] = '\t'
-    ESCAPE_BYTES[0x0a] = '\n'
-    ESCAPE_BYTES[0x0b] = '\v'
-    ESCAPE_BYTES[0x0c] = '\f'
-    ESCAPE_BYTES[0x0d] = '\r'
-
-    #
-    # Dumps the string as a C-style string.
-    #
-    # @return [String]
-    #   The C-style encoded version of the String.
-    #
-    # @example
-    #   "hello\x00\073\x90\r\n".dump
-    #   # => "hello\0;\x90\r\n"
-    #
-    # @note
-    #   This method is only defined on Ruby 1.8.x.
-    #
-    # @api public
-    #
-    def dump
-      dumped_string = ''
-
-      each_byte { |b| dumped_string << ESCAPE_BYTES[b] }
-      return "\"#{dumped_string}\""
-    end
-
-    alias inspect dump
-  end
-
 end

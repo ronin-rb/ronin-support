@@ -141,49 +141,44 @@ module Ronin
 
         :ubyte  => 'C',
         :byte   => 'c',
-        :string => 'Z*'
+        :string => 'Z*',
+
+        :uint16_le => 'S<',
+        :uint32_le => 'L<',
+        :uint64_le => 'Q<',
+
+        :int16_le => 's<',
+        :int32_le => 'l<',
+        :int64_le => 'q<',
+
+        :uint16_be => 'S>',
+        :uint32_be => 'L>',
+        :uint64_be => 'Q>',
+
+        :int16_be => 's>',
+        :int32_be => 'l>',
+        :int64_be => 'q>',
+
+        :ushort_le     => 'S!<',
+        :uint_le       => 'I!<',
+        :ulong_le      => 'L!<',
+        :ulong_long_le => 'Q<',
+
+        :short_le     => 's!<',
+        :int_le       => 'i!<',
+        :long_le      => 'l!<',
+        :long_long_le => 'q<',
+
+        :ushort_be     => 'S!>',
+        :uint_be       => 'I!>',
+        :ulong_be      => 'L!>',
+        :ulong_long_be => 'Q>',
+
+        :short_be     => 's!>',
+        :int_be       => 'i!>',
+        :long_be      => 'l!>',
+        :long_long_be => 'q>'
       }
-
-      # Additional C-types, not available on Ruby 1.8:
-      if RUBY_VERSION > '1.9.'
-        TYPES.merge!(
-          :uint16_le => 'S<',
-          :uint32_le => 'L<',
-          :uint64_le => 'Q<',
-
-          :int16_le => 's<',
-          :int32_le => 'l<',
-          :int64_le => 'q<',
-
-          :uint16_be => 'S>',
-          :uint32_be => 'L>',
-          :uint64_be => 'Q>',
-
-          :int16_be => 's>',
-          :int32_be => 'l>',
-          :int64_be => 'q>',
-
-          :ushort_le     => 'S!<',
-          :uint_le       => 'I!<',
-          :ulong_le      => 'L!<',
-          :ulong_long_le => 'Q<',
-
-          :short_le     => 's!<',
-          :int_le       => 'i!<',
-          :long_le      => 'l!<',
-          :long_long_le => 'q<',
-
-          :ushort_be     => 'S!>',
-          :uint_be       => 'I!>',
-          :ulong_be      => 'L!>',
-          :ulong_long_be => 'Q>',
-
-          :short_be     => 's!>',
-          :int_be       => 'i!>',
-          :long_be      => 'l!>',
-          :long_long_be => 'q>'
-        )
-      end
 
       # Integer C-types
       INT_TYPES = Set[

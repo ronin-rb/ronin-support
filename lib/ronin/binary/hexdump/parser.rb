@@ -276,16 +276,16 @@ module Ronin
           :integer => {
             :little => {
               1 => 'C',
-              2 => (RUBY_VERSION > '1.9.' ? 'S<' : 'v'),
-              4 => (RUBY_VERSION > '1.9.' ? 'L<' : 'V'),
-              8 => 'Q<' # Ruby 1.9 only
+              2 => 'S<',
+              4 => 'L<',
+              8 => 'Q<'
             },
 
             :big => {
               1 => 'C',
-              2 => (RUBY_VERSION > '1.9.' ? 'S>' : 'n'),
-              4 => (RUBY_VERSION > '1.9.' ? 'L>' : 'N'),
-              8 => 'Q>' # Ruby 1.9 only
+              2 => 'S>',
+              4 => 'L>',
+              8 => 'Q>'
             }
           },
 

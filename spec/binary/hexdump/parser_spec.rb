@@ -123,17 +123,15 @@ describe Binary::Hexdump::Parser do
       end
     end
 
-    if RUBY_VERSION > '1.9.'
-      context "octal quads" do
-        subject do
-          described_class.new(:format => :od, :encoding => :octal_quads)
-        end
+    context "octal quads" do
+      subject do
+        described_class.new(:format => :od, :encoding => :octal_quads)
+      end
 
-        let(:hexdump) { load_hexdump('od_octal_quads') }
+      let(:hexdump) { load_hexdump('od_octal_quads') }
 
-        it "should unhexdump octal-quads hexdump output" do
-          subject.parse(hexdump).should == ascii
-        end
+      it "should unhexdump octal-quads hexdump output" do
+        subject.parse(hexdump).should == ascii
       end
     end
 
@@ -173,17 +171,15 @@ describe Binary::Hexdump::Parser do
       end
     end
 
-    if RUBY_VERSION > '1.9.'
-      context "decimal quads" do
-        subject do
-          described_class.new(:format => :od, :encoding => :decimal_quads)
-        end
+    context "decimal quads" do
+      subject do
+        described_class.new(:format => :od, :encoding => :decimal_quads)
+      end
 
-        let(:hexdump) { load_hexdump('od_decimal_quads') }
+      let(:hexdump) { load_hexdump('od_decimal_quads') }
 
-        it "should unhexdump decimal-quads hexdump output" do
-          subject.parse(hexdump).should == ascii
-        end
+      it "should unhexdump decimal-quads hexdump output" do
+        subject.parse(hexdump).should == ascii
       end
     end
 
@@ -237,17 +233,15 @@ describe Binary::Hexdump::Parser do
       end
     end
 
-    if RUBY_VERSION > '1.9.'
-      context "hex quads" do
-        subject do
-          described_class.new(:format => :od, :encoding => :hex_quads)
-        end
+    context "hex quads" do
+      subject do
+        described_class.new(:format => :od, :encoding => :hex_quads)
+      end
 
-        let(:hexdump) { load_hexdump('od_hex_quads') }
+      let(:hexdump) { load_hexdump('od_hex_quads') }
 
-        it "should unhexdump hex-quads hexdump output" do
-          subject.parse(hexdump).should == ascii
-        end
+      it "should unhexdump hex-quads hexdump output" do
+        subject.parse(hexdump).should == ascii
       end
     end
 

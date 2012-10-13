@@ -17,11 +17,12 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/formatting/extensions/binary/base64'
 require 'ronin/formatting/extensions/binary/integer'
 require 'ronin/formatting/extensions/text/string'
 require 'ronin/binary/hexdump/parser'
 require 'ronin/binary/template'
+
+require 'base64'
 
 begin
   require 'zlib'

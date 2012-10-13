@@ -354,34 +354,18 @@ module Ronin
         @connections[client_connection]
       end
 
-      if RUBY_VERSION < '1.9.'
-        #
-        # Finds the connection from the client, associated with the server
-        # connection.
-        #
-        # @param [connection] server_connection
-        #   The connection to the server.
-        #
-        # @return [connection]
-        #   The connection from the client.
-        #
-        def client_connection_for(server_connection)
-          @connections.index(server_connection)
-        end
-      else
-        #
-        # Finds the connection from the client, associated with the server
-        # connection.
-        #
-        # @param [connection] server_connection
-        #   The connection to the server.
-        #
-        # @return [connection]
-        #   The connection from the client.
-        #
-        def client_connection_for(server_connection)
-          @connections.key(server_connection)
-        end
+      #
+      # Finds the connection from the client, associated with the server
+      # connection.
+      #
+      # @param [connection] server_connection
+      #   The connection to the server.
+      #
+      # @return [connection]
+      #   The connection from the client.
+      #
+      def client_connection_for(server_connection)
+        @connections.key(server_connection)
       end
 
       #

@@ -95,12 +95,7 @@ class String
   # @api public
   #
   def format_html(options={})
-    # String#ord was not backported to Ruby 1.8.7
-    formatter = if RUBY_VERSION < '1.9.' then lambda { |c| c[0].format_html  }
-                else                          lambda { |c| c.ord.format_html }
-                end
-
-    format_chars(options,&formatter)
+    format_chars(options) { |c| c.ord.format_html }
   end
 
   #
@@ -123,12 +118,7 @@ class String
   # @api public
   #
   def js_escape(options={})
-    # String#ord was not backported to Rub 1.8.7
-    formatter = if RUBY_VERSION < '1.9.' then lambda { |c| c[0].js_escape  }
-                else                          lambda { |c| c.ord.js_escape }
-                end
-
-    format_chars(options,&formatter)
+    format_chars(options) { |c| c.ord.js_escape }
   end
 
   #
@@ -183,12 +173,7 @@ class String
   # @api public
   #
   def format_js(options={})
-    # String#ord was not backported to Rub 1.8.7
-    formatter = if RUBY_VERSION < '1.9.' then lambda { |c| c[0].format_js  }
-                else                          lambda { |c| c.ord.format_js }
-                end
-
-    format_chars(options,&formatter)
+    format_chars(options) { |c| c.ord.format_js }
   end
 
 end
