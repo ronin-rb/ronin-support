@@ -26,16 +26,12 @@ module Ronin
     # Controls {Output} from Ronin.
     #
     module Output
-      @mode = if ($VERBOSE || $DEBUG)
-                :verbose
-              else
-                :quiet
+      @mode = if ($VERBOSE || $DEBUG) then :verbose
+              else                         :quiet
               end
 
-      @handler = if $stdout.tty?
-                   Terminal::Color
-                 else
-                   Terminal::Raw
+      @handler = if $stdout.tty? then Terminal::Color
+                 else                 Terminal::Raw
                  end
 
       #
@@ -46,7 +42,7 @@ module Ronin
       #
       # @api semipublic
       #
-      def Output.verbose?
+      def self.verbose?
         @mode == :verbose
       end
 
@@ -58,7 +54,7 @@ module Ronin
       #
       # @api semipublic
       #
-      def Output.quiet?
+      def self.quiet?
         @mode == :quiet
       end
 
@@ -70,7 +66,7 @@ module Ronin
       #
       # @api semipublic
       #
-      def Output.silent?
+      def self.silent?
         @mode == :silent
       end
 
@@ -83,7 +79,7 @@ module Ronin
       #
       # @api semipublic
       #
-      def Output.verbose!
+      def self.verbose!
         @mode = :verbose
         return self
       end
@@ -97,7 +93,7 @@ module Ronin
       #
       # @api semipublic
       #
-      def Output.quiet!
+      def self.quiet!
         @mode = :quiet
         return self
       end
@@ -109,7 +105,7 @@ module Ronin
       #
       # @since 1.0.0
       #
-      def Output.silent!
+      def self.silent!
         @mode = :silent
         return self
       end
@@ -122,7 +118,7 @@ module Ronin
       #
       # @api semipublic
       #
-      def Output.handler
+      def self.handler
         @handler
       end
 
@@ -138,7 +134,7 @@ module Ronin
       #
       # @api semipublic
       #
-      def Output.handler=(new_handler)
+      def self.handler=(new_handler)
         @handler = new_handler
       end
     end
