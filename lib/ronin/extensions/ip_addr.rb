@@ -152,9 +152,8 @@ class IPAddr
                   segment.split(',').map { |octet|
                     if octet.include?('-')
                       start, stop = octet.split('-',2)
-                      start, stop = start.to_i(base), stop.to_i(base)
 
-                      (start..stop).to_a
+                      (start.to_i(base)..stop.to_i(base)).to_a
                     else
                       octet.to_i(base)
                     end
