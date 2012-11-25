@@ -17,7 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/ui/output'
+require 'ronin/ui/printing'
 require 'ronin/network'
 
 module Ronin
@@ -25,7 +25,7 @@ module Ronin
   # The main namespace for `ronin-support`.
   #
   module Support
-    include UI::Output::Helpers
+    include UI::Printing
     include Network::DNS
     include Network::TCP
     include Network::UDP

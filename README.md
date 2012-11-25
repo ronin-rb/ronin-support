@@ -50,7 +50,7 @@ or payloads over many common Source-Code-Management (SCM) systems.
   * Wordlists
   * Erb Templates
   * UI:
-    * Terminal Output
+    * Printing
     * Custom Shells
 
 ## Examples

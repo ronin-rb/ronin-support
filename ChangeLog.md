@@ -72,7 +72,7 @@
 * Default the server host to `0.0.0.0` in
   {Ronin::Network::TCP#tcp_accept}.
 * No longer honor the `VERBOSE` environment variable for enabling verbose output
-  in {Ronin::UI::Output}. Use `ruby -w` or `ruby -d` instead.
+  in `Ronin::UI::Output`. Use `ruby -w` or `ruby -d` instead.
 * No longer support loading `extlib` in `ronin/support/inflector`.
 
 ### 0.4.0 / 2012-02-12
@@ -124,7 +124,7 @@
 * Added {Ronin::Network::Mixins::SSL}.
 * Added missing {Ronin::Network::UDP#udp_send} and
   {Ronin::Network::Mixins::UDP#udp_send} methods.
-* Added {Ronin::UI::Output::Helpers#print_exception}.
+* Added `Ronin::UI::Output::Helpers#print_exception`.
 * Made {Regexp::HOST_NAME} case-insensitive.
 * Refactored {Regexp::IPv4} to not match invalid IPv4 addresses.
 * Require `ronin/formatting/html` in `ronin/formatting`.
@@ -150,11 +150,11 @@
   {Ronin::Network::HTTP#http_post_headers} now return a Hash of Capitalized
   Header names and String values.
 * Allow {Ronin::Templates::Erb} to use `<%- -%>` syntax.
-* Alias `<<` to `write` in {Ronin::UI::Output::Helpers}.
+* Alias `<<` to `write` in `Ronin::UI::Output::Helpers`.
 * Fixed bugs in {Ronin::UI::Shell}.
-* Warning messages are printed by {Ronin::UI::Output::Helpers}, unless output
+* Warning messages are printed by `Ronin::UI::Output::Helpers`, unless output
   is silenced.
-* {Ronin::UI::Output::Helpers} and {Ronin::Network} modules are included into
+* `Ronin::UI::Output::Helpers` and {Ronin::Network} modules are included into
   {Ronin::Support}.
 
 ### 0.3.0 / 2011-10-16
@@ -193,7 +193,7 @@
 * Added {Regexp::HOST_NAME}.
 * Added {Regexp::USER_NAME}.
 * Added {Regexp::EMAIL_ADDR}.
-* Moved {Ronin::UI::Output}, {Ronin::UI::Shell} and {Ronin::Network::Mixins}
+* Moved `Ronin::UI::Output`, {Ronin::UI::Shell} and {Ronin::Network::Mixins}
   from ronin into ronin-support.
 * Refactored {Ronin::UI::Shell} into a Class where commands are defined as
   protected methods.

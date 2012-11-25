@@ -17,7 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/ui/output/helpers'
+require 'ronin/ui/printing'
 
 require 'set'
 
@@ -92,7 +92,7 @@ module Ronin
     #
     class Shell
 
-      include Output::Helpers
+      include Printing
 
       # Default shell prompt
       DEFAULT_PROMPT = '>'
@@ -235,6 +235,16 @@ module Ronin
 
           return send(command,*arguments)
         end
+      end
+
+      #
+      # Writes output to the shell.
+      #
+      # @param [String] message
+      #   The message to print.
+      #
+      def write(message)
+        $stdout.write(message)
       end
 
       alias << write

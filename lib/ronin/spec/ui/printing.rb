@@ -17,5 +17,6 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/ui/output/terminal/raw'
-require 'ronin/ui/output/terminal/color'
+require 'ronin/ui/printing'
+
+Ronin::UI::Printing.silent! unless ENV['DEBUG']
