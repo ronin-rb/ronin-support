@@ -4,6 +4,8 @@ require 'ronin/ui/printing'
 require 'tempfile'
 
 describe UI::Printing do
+  before { described_class.normal! }
+
   describe "mode" do
     it "should be normal by default" do
       should be_normal
@@ -273,4 +275,6 @@ describe UI::Printing do
       end
     end
   end
+
+  after { described_class.silent! }
 end

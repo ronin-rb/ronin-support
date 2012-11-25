@@ -1,4 +1,5 @@
 require 'rspec'
+require 'ronin/spec/ui/printing'
 require 'ronin/support/version'
 
 include Ronin
