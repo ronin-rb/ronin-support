@@ -21,6 +21,8 @@ require 'ronin/ui/printing'
 
 RSpec.configure do |specs|
   specs.before(:suite) do
-    Ronin::UI::Printing.silent! unless ENV['DEBUG']
+    if ENV['VERBOSE'] then Ronin::UI::Printing.verbose!
+    else                   Ronin::UI::Printing.silent!
+    end
   end
 end
