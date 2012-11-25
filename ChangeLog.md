@@ -40,7 +40,7 @@
 * Added {Ronin::Network::UNIX}.
 * Added {Ronin::Network::Mixins::FTP}.
 * Added {Ronin::Network::Mixins::UNIX}.
-* Aliased {String#escape} to {String#dump}.
+* Aliased {String#escape} to `String#dump`.
 * Renamed {String#hex_unescape} to {String#unescape}.
   * Aliased {String#hex_unescape} to {String#unescape}.
 * Renamed {Ronin::Network::TCP#tcp_single_server} to
@@ -49,7 +49,7 @@
   {Ronin::Network::UDP#udp_recv}.
 * Deprecated {Ronin::Network::TCP#tcp_single_server}.
 * Deprecated {Ronin::Network::UDP#udp_single_server}.
-* Backported Ruby 1.9 only {Base64} methods.
+* Backported Ruby 1.9 only `Base64` methods.
 * Allow {Integer#pack} to accept a type from {Ronin::Binary::Template::TYPES}.
 * Allow {Array#pack} to accept types from {Ronin::Binary::Template::TYPES}.
 * Allow {String#unpack} to accept types from {Ronin::Binary::Template::TYPES}.
@@ -221,7 +221,7 @@
 * Fixed a bug in {Ronin::Network::HTTP.expand_url} where `:host` and `:port`
   options were being overridden.
 * Improved the performance of {Integer#bytes}.
-* Only redefine {String#dump} for Ruby 1.8.x.
+* Only redefine `String#dump` for Ruby 1.8.x.
   * Ruby >= 1.9.1 correctly hex-escapes special characters.
 * Fixed a bug in {String#format_chars}, where it was not using `each_char`
   for unicode characters.
