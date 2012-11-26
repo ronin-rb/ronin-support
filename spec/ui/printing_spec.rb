@@ -108,7 +108,7 @@ describe UI::Printing do
 
         context "when $stdout is a TTY" do
           it "should print ANSI colour codes" do
-            $stdout.should_receive(:puts).with("#{cyan}#{bright}[=]#{bright_off} #{message}#{clear}")
+            $stdout.should_receive(:puts).with("#{cyan}#{bright}[?]#{bright_off} #{message}#{clear}")
 
             subject.print_debug(message).should be_true
           end
@@ -118,7 +118,7 @@ describe UI::Printing do
           before { $stdout = Tempfile.new('ronin-printing') }
 
           it "should print ANSI colour codes" do
-            $stdout.should_receive(:puts).with("[=] #{message}")
+            $stdout.should_receive(:puts).with("[?] #{message}")
 
             subject.print_debug(message).should be_true
           end

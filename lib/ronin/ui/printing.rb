@@ -200,9 +200,9 @@ module Ronin
         message = format(*arguments)
 
         if $stdout.tty?
-          $stdout.puts "#{CYAN}#{BRIGHT}[=]#{BRIGHT_OFF} #{message}#{CLEAR}"
+          $stdout.puts "#{CYAN}#{BRIGHT}[?]#{BRIGHT_OFF} #{message}#{CLEAR}"
         else
-          $stdout.puts "[=] #{message}"
+          $stdout.puts "[?] #{message}"
         end
 
         return true
