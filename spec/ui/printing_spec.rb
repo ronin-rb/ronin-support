@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ronin/ui/printing'
 
-require 'tempfile'
+require 'stringio'
 
 describe UI::Printing do
   before { described_class.normal! }
@@ -71,7 +71,7 @@ describe UI::Printing do
       end
 
       context "when $stdout is not a TTY" do
-        before { $stdout = Tempfile.new('ronin-printing') }
+        before { $stdout = StringIO.new }
 
         it "should print ANSI colour codes" do
           $stdout.should_receive(:puts).with("[-] #{message}")
@@ -116,7 +116,7 @@ describe UI::Printing do
         end
 
         context "when $stdout is not a TTY" do
-          before { $stdout = Tempfile.new('ronin-printing') }
+          before { $stdout = StringIO.new }
 
           it "should print ANSI colour codes" do
             $stdout.should_receive(:puts).with("[?] #{message}")
@@ -159,7 +159,7 @@ describe UI::Printing do
       end
 
       context "when $stdout is not a TTY" do
-        before { $stdout = Tempfile.new('ronin-printing') }
+        before { $stdout = StringIO.new }
 
         it "should print ANSI colour codes" do
           $stdout.should_receive(:puts).with("[*] #{message}")
@@ -201,7 +201,7 @@ describe UI::Printing do
       end
 
       context "when $stdout is not a TTY" do
-        before { $stdout = Tempfile.new('ronin-printing') }
+        before { $stdout = StringIO.new }
 
         it "should print ANSI colour codes" do
           $stdout.should_receive(:puts).with("[!] #{message}")
@@ -233,7 +233,7 @@ describe UI::Printing do
       end
 
       context "when $stdout is not a TTY" do
-        before { $stdout = Tempfile.new('ronin-printing') }
+        before { $stdout = StringIO.new }
 
         it "should print ANSI colour codes" do
           $stdout.should_receive(:puts).with("[+] #{message}")
