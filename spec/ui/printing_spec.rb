@@ -56,6 +56,7 @@ describe UI::Printing do
     let(:cyan)       { "\e[36m" }
     let(:yellow)     { "\e[33m" }
     let(:red)        { "\e[31m" }
+    let(:white)      { "\e[37m" }
     let(:bright)     { "\e[1m"  }
     let(:bright_off) { "\e[21m" }
     let(:clear)      { "\e[0m"  }
@@ -216,6 +217,38 @@ describe UI::Printing do
 
         it "should return false" do
           subject.print_error(message).should be_false
+        end
+
+        after { described_class.normal! }
+      end
+    end
+
+    describe "#print_success" do
+      context "when $stdout is a TTY" do
+        it "should print ANSI colour codes" do
+          $stdout.should_receive(:puts).with("#{white}#{bright}[+] #{message}#{clear}")
+
+          subject.print_success(message).should be_true
+        end
+      end
+
+      context "when $stdout is not a TTY" do
+        before { $stdout = Tempfile.new('ronin-printing') }
+
+        it "should print ANSI colour codes" do
+          $stdout.should_receive(:puts).with("[+] #{message}")
+
+          subject.print_success(message).should be_true
+        end
+
+        after { $stdout = STDOUT }
+      end
+
+      context "when silent" do
+        before { described_class.silent! }
+
+        it "should return false" do
+          subject.print_success(message).should be_false
         end
 
         after { described_class.normal! }

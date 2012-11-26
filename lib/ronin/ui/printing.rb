@@ -38,6 +38,9 @@ module Ronin
       # ANSI Red code
       RED = "\e[31m"
 
+      # ANSI White code
+      WHITE = "\e[37m"
+
       # ANSI Bright code
       BRIGHT = "\e[1m"
 
@@ -268,6 +271,39 @@ module Ronin
           $stdout.puts "#{RED}#{BRIGHT}[!]#{BRIGHT_OFF} #{message}#{CLEAR}"
         else
           $stdout.puts "[!] #{message}"
+        end
+
+        return true
+      end
+
+      #
+      # Prints a `success` message.
+      #
+      # @param [Array] arguments
+      #   The arguments to print.
+      #
+      # @return [Boolean]
+      #   Specifies whether the messages were successfully printed.
+      #
+      # @example
+      #   print_success "Password worked!"
+      #
+      # @example Print a formatted message:
+      #   print_success "Valid ID: 0x%x", id
+      #
+      # @api public
+      #
+      # @since 0.6.0
+      #
+      def print_success(*arguments)
+        return false if Printing.silent?
+
+        message = Printing.format(*arguments)
+
+        if $stdout.tty?
+          $stdout.puts "#{WHITE}#{BRIGHT}[+] #{message}#{CLEAR}"
+        else
+          $stdout.puts "[+] #{message}"
         end
 
         return true
