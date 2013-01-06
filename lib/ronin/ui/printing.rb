@@ -50,6 +50,8 @@ module Ronin
       # ANSI Clear code
       CLEAR = "\e[0m"
 
+      @mode = (($DEBUG || $VERBOSE) ? :verbose : nil)
+
       #
       # Determines if verbose printing is enabled.
       #
