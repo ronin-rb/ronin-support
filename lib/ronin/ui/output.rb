@@ -17,5 +17,12 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/ui/output/output'
-require 'ronin/ui/output/helpers'
+require 'ronin/ui/printing'
+
+module Ronin
+  module UI
+    module Output
+      Helpers = Printing
+    end
+  end
+end
