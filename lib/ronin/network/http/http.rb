@@ -319,7 +319,7 @@ module Ronin
             request.content_type = 'application/x-www-form-urlencoded'
             request.body         = options[:form_data]
           else
-            request.set_form_data(options[:form_data])
+            request.form_data = options[:form_data]
           end
         elsif options[:body]
           request.body = options[:body]
