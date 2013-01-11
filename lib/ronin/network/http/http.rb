@@ -314,7 +314,13 @@ module Ronin
         request = Net::HTTP.const_get(name).new(path,headers)
 
         if options[:form_data]
-          request.set_form_data(options[:form_data])
+          case options[:form_data]
+          when String
+            request.content_type = 'application/x-www-form-urlencoded'
+            request.body         = options[:form_data]
+          else
+            request.set_form_data(options[:form_data])
+          end
         elsif options[:body]
           request.body = options[:body]
         end
