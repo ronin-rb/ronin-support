@@ -313,12 +313,10 @@ module Ronin
 
         request = Net::HTTP.const_get(name).new(path,headers)
 
-        if request.request_body_permitted?
-          if options[:form_data]
-            request.set_form_data(options[:form_data])
-          elsif options[:body]
-            request.body = options[:body]
-          end
+        if options[:form_data]
+          request.set_form_data(options[:form_data])
+        elsif options[:body]
+          request.body = options[:body]
         end
 
         if options[:user]
