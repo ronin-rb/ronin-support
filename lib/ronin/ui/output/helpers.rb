@@ -18,4 +18,12 @@
 #
 
 require 'ronin/ui/output/output'
-require 'ronin/ui/output/helpers'
+require 'ronin/ui/printing'
+
+module Ronin
+  module UI
+    # Point Ronin::UI::Output::Helpers to Ronin::UI::Printing for backwards
+    # compatibility.
+    Output::Helpers = Printing
+  end
+end
