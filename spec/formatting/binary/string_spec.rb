@@ -14,10 +14,6 @@ describe String do
     should respond_to(:unpack)
   end
 
-  it "should provide String#depack" do
-    should respond_to(:depack)
-  end
-
   it "should provide String#zlib_inflate" do
     should respond_to(:zlib_inflate)
   end
