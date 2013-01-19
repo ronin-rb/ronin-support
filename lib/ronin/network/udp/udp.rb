@@ -437,14 +437,6 @@ module Ronin
           yield server, [addrinfo[3], addrinfo[1]], mesg if block_given?
         end
       end
-
-      #
-      # @deprecated
-      #   Deprecated as of 0.5.0. Use {#udp_recv} instead.
-      #
-      def udp_single_server(port=nil,host=nil)
-        udp_recv(port,host)
-      end
     end
   end
 end

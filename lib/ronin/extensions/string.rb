@@ -163,18 +163,6 @@ class String
   end
 
   #
-  # @deprecated
-  #   Deprecates as of 0.2.0, and will be removed in 1.0.0.
-  #   Please use {#common_suffix} instead.
-  #
-  def common_postfix(other)
-    warn 'DEPRECATED: String#common_postfix was deprecated in 0.2.0.'
-    warn 'DEPRECATED: Please use String#common_suffix instead.'
-
-    common_suffix(other)
-  end
-
-  #
   # Finds the uncommon sub-string within the specified other string,
   # which does not occur within the string.
   #

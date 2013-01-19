@@ -56,66 +56,6 @@ describe String do
     end
   end
 
-  context "deprecated" do
-    describe "#depack" do
-      subject { 0x1337 }
-
-      let(:i386) do
-        OpenStruct.new(:endian => :little, :address_length => 4)
-      end
-
-      let(:ppc) do
-        OpenStruct.new(:endian => :big, :address_length => 4)
-      end
-
-      let(:i386_packed_int)   { "7\023\000\000" }
-      let(:i386_packed_short) { "7\023" }
-      let(:i386_packed_long)  { "7\023\000\000" }
-      let(:i386_packed_quad)  { "7\023\000\000\000\000\000\000" }
-
-      let(:ppc_packed_int)   { "\000\000\0237" }
-      let(:ppc_packed_short) { "\0237" }
-      let(:ppc_packed_long)  { "\000\000\0237" }
-      let(:ppc_packed_quad)  { "\000\000\000\000\000\000\0237" }
-
-      it "should depack itself for a little-endian architecture" do
-        i386_packed_int.depack(i386).should == subject
-      end
-
-      it "should depack itself as a short for a little-endian architecture" do
-        i386_packed_short.depack(i386,2).should == subject
-      end
-
-      it "should depack itself as a long for a little-endian architecture" do
-        i386_packed_long.depack(i386,4).should == subject
-      end
-
-      it "should depack itself as a quad for a little-endian architecture" do
-        i386_packed_quad.depack(i386,8).should == subject
-      end
-
-      it "should depack itself for a big-endian architecture" do
-        ppc_packed_int.depack(ppc).should == subject
-      end
-
-      it "should depack itself as a short for a big-endian architecture" do
-        ppc_packed_short.depack(ppc,2).should == subject
-      end
-
-      it "should depack itself as a long for a big-endian architecture" do
-        ppc_packed_long.depack(ppc,4).should == subject
-      end
-
-      it "should depack itself as a quad for a big-endian architecture" do
-        ppc_packed_quad.depack(ppc,8).should == subject
-      end
-
-      it "should accept String#unpack template strings" do
-        i386_packed_long.depack('V').should == [subject]
-      end
-    end
-  end
-
   describe "#base64_encode" do
     subject { "hello\0" }
 
