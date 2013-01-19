@@ -105,56 +105,6 @@ describe Integer do
       end
     end
 
-    context "deprecated" do
-      let(:uint16_le) { "7\023" }
-      let(:uint32_le) { "7\023\000\000" }
-      let(:uint64_le) { "7\023\000\000\000\000\000\000" }
-
-      let(:uint16_be) { "\0237" }
-      let(:uint32_be) { "\000\000\0237" }
-      let(:uint64_be) { "\000\000\000\000\000\000\0237" }
-
-      let(:i386) do
-        OpenStruct.new(:endian => :little, :address_length => 4)
-      end
-
-      let(:ppc) do
-        OpenStruct.new(:endian => :big, :address_length => 4)
-      end
-
-      it "should pack itself for a little-endian architecture by default" do
-        subject.pack(i386).should == uint32_le
-      end
-
-      it "should pack itself as a short for a little-endian architecture" do
-        subject.pack(i386,2).should == uint16_le
-      end
-
-      it "should pack itself as a long for a little-endian architecture" do
-        subject.pack(i386,4).should == uint32_le
-      end
-
-      it "should pack itself as a quad for a little-endian architecture" do
-        subject.pack(i386,8).should == uint64_le
-      end
-
-      it "should pack itself for a big-endian architecture" do
-        subject.pack(ppc).should == uint32_be
-      end
-
-      it "should pack itself as a short for a big-endian architecture" do
-        subject.pack(ppc,2).should == uint16_be
-      end
-
-      it "should pack itself as a long for a big-endian architecture" do
-        subject.pack(ppc,4).should == uint32_be
-      end
-
-      it "should pack itself as a quad for a big-endian architecture" do
-        subject.pack(ppc,8).should == uint64_be
-      end
-    end
-
     context "when given more than 1 or 2 arguments" do
       it "should raise an ArgumentError" do
         lambda {

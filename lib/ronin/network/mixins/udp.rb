@@ -350,16 +350,6 @@ module Ronin
           return nil
         end
 
-        #
-        # @deprecated
-        #   Deprecated as of 0.5.0. Use {#udp_recv} instead.
-        #
-        # @since 0.5.0
-        #
-        def udp_single_server(&block)
-          udp_recv(&block)
-        end
-
         private
 
         #

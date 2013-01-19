@@ -339,14 +339,6 @@ module Ronin
           return nil
         end
 
-        #
-        # @deprecated
-        #   Deprecated as of 0.5.0. Use {#tcp_accept} instead.
-        #
-        def tcp_single_server(&block)
-          tcp_accept(&block)
-        end
-
         private
 
         #

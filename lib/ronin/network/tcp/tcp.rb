@@ -430,14 +430,6 @@ module Ronin
           client.close
         end
       end
-
-      #
-      # @deprecated
-      #   Deprecated as of 0.5.0. Use {#tcp_accept} instead.
-      #
-      def tcp_single_server(port=nil,host=nil)
-        tcp_accept(port,host)
-      end
     end
   end
 end
