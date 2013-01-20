@@ -33,25 +33,13 @@ module Ronin
     module SSL
       include TCP
 
-      # Maps SSL verify modes to `OpenSSL::SSL::VERIFY_*` constants.
-      #
-      # @return [Hash{Symbol => Integer}]
-      #
-      # @since 1.3.0
-      #
-      # @api private
-      #
-      VERIFY = Hash.new do |hash,key|
-        verify_const = if key then "VERIFY_#{key.to_s.upcase}"
-                       else        'VERIFY_NONE'
-                       end
-
-        unless OpenSSL::SSL.const_defined?(verify_const)
-          raise(RuntimeError,"unknown verify mode #{key}")
-        end
-
-        hash[key] = OpenSSL::SSL.const_get(verify_const)
-      end
+      # SSL verify modes
+      VERIFY = {
+        :client_once => OpenSSL::SSL::VERIFY_CLIENT_ONCE,
+        :fail_if_no_peer_cert => OpenSSL::SSL::VERIFY_FAIL_IF_NO_PEER_CERT,
+        :none => OpenSSL::SSL::VERIFY_NONE,
+        :peer => OpenSSL::SSL::VERIFY_PEER
+      }
 
       #
       # Establishes a SSL connection.
@@ -106,13 +94,18 @@ module Ronin
         local_host = options[:local_host]
         local_port = options[:local_port]
 
-        cert = options[:cert]
-        key  = options[:key]
+        verify = options.fetch(:verify,:none)
+        cert   = options[:cert]
+        key    = options[:key]
+
+        unless SSL::VERIFY.has_key?(verify)
+          raise("unknown verify mode #{verify}")
+        end
 
         socket = tcp_connect(host,port,local_host,local_port)
 
         ssl_context = OpenSSL::SSL::SSLContext.new()
-        ssl_context.verify_mode = SSL::VERIFY[options[:verify]]
+        ssl_context.verify_mode = SSL::VERIFY[verify]
 
         if cert
           ssl_context.cert = OpenSSL::X509::Certificate.new(File.new(cert))
