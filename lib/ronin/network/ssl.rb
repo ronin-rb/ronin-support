@@ -42,6 +42,73 @@ module Ronin
       }
 
       #
+      # Tests whether a remote SSLed TCP port is open.
+      #
+      # @param [String] host
+      #   The host to connect to.
+      #
+      # @param [Integer] port
+      #   The port to connect to.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @option options [String] :local_host
+      #   The local host to bind to.
+      #
+      # @option options [Integer] :local_port
+      #   The local port to bind to.
+      #
+      # @option options [Symbol] :verify
+      #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:client_once`
+      #   * `:fail_if_no_peer_cert`
+      #
+      # @option options [String] :cert
+      #   The path to the SSL certificate.
+      #
+      # @option options [String] :key
+      #   The path to the SSL key.
+      #
+      # @option options [Integer] :timeout (5)
+      #   The maximum time to attempt connecting.
+      #
+      # @return [Boolean, nil]
+      #   Specifies whether the remote SSLed TCP port is open.
+      #   If the connection was not accepted, `nil` will be returned.
+      #
+      # @example
+      #   ssl_open?('www.bankofamerica.com',443)
+      #
+      # @example Using a timeout:
+      #   ssl_open?('example.com',80,:timeout => 5)
+      #   # => nil
+      #
+      # @api public
+      #
+      # @since 0.6.0
+      #
+      def ssl_open?(host,port,options={})
+        timeout = options.fetch(:timeout,5)
+
+        begin
+          Timeout.timeout(timeout) do
+            ssl_session(host,port,options)
+          end
+
+          return true
+        rescue Timeout::Error
+          return nil
+        rescue SocketError, SystemCallError
+          return false
+        end
+      end
+
+      #
       # Establishes a SSL connection.
       #
       # @param [String] host
