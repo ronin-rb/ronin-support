@@ -112,4 +112,40 @@ class String
     format_bytes(options) { |b| b.format_http }
   end
 
+  #
+  # HTTP escapes the String.
+  #
+  # @return [String]
+  #   The HTTP escaped form of the String.
+  #
+  # @example
+  #   "x > y".http_escape
+  #   # => "x+%3E+y"
+  #
+  # @api public
+  #
+  # @since 0.6.0
+  #
+  def http_escape
+    CGI.escape(self)
+  end
+
+  #
+  # HTTP unescapes the String.
+  #
+  # @return [String]
+  #   The raw String.
+  #
+  # @example
+  #   "sweet+%26+sour".http_unescape
+  #   # => "sweet & sour"
+  #
+  # @api public
+  #
+  # @since 0.6.0
+  #
+  def http_unescape
+    CGI.unescape(self)
+  end
+
 end
