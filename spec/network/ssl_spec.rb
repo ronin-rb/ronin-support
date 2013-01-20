@@ -5,16 +5,20 @@ describe Network::SSL do
   describe 'VERIFY' do
     subject { Network::SSL::VERIFY }
 
-    it "should map verify mode names to OpenSSL VERIFY_* constants" do
+    it "should define :client_once" do
+      subject[:client_once].should == OpenSSL::SSL::VERIFY_CLIENT_ONCE
+    end
+
+    it "should define :fail_if_no_peer_cert" do
+      subject[:fail_if_no_peer_cert].should == OpenSSL::SSL::VERIFY_FAIL_IF_NO_PEER_CERT
+    end
+
+    it "should define :none" do
+      subject[:none].should == OpenSSL::SSL::VERIFY_NONE
+    end
+
+    it "should define :peer" do
       subject[:peer].should == OpenSSL::SSL::VERIFY_PEER
-    end
-
-    it "should default to VERIFY_NONE if no verify mode name is given" do
-      subject[nil].should == OpenSSL::SSL::VERIFY_NONE
-    end
-
-    it "should raise an exception for unknown verify modes" do
-      lambda { subject[:foo_bar] }.should raise_error
     end
   end
 
