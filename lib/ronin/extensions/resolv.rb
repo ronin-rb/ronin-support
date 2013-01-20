@@ -56,11 +56,28 @@ class Resolv
   #
   # Creates a new resolver.
   #
-  # @param [String, Array<String>, nil] nameserver
+  # @param [String, Array<String>] nameserver
   #   The nameserver(s) to query.
   #
   # @return [Resolv::DNS]
-  #   A new resolver for the given nameservers, or the default resolver.
+  #   A new resolver for the given nameservers.
+  #
+  # @since 0.6.0
+  #
+  # @api public
+  #
+  def Resolv.[](*nameserver)
+    DNS.new(:nameserver => nameserver)
+  end
+
+  #
+  # Creates a new resolver or uses the system's resolver.
+  #
+  # @param [String, Array<String>, nil] nameserver
+  #   The nameserver(s) to query.
+  #
+  # @return [Resolv::DNS, Resolv]
+  #   A new resolver for the given nameservers, or the system's resolver.
   #
   # @example
   #   Resolv.resolver('4.2.2.1')
@@ -70,7 +87,7 @@ class Resolv
   # @api public
   #
   def Resolv.resolver(nameserver=nil)
-    if nameserver then DNS.new(:nameserver => nameserver)
+    if nameserver then self[nameserver]
     else               self
     end
   end
