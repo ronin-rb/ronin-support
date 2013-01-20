@@ -18,20 +18,9 @@
 #
 
 require 'ronin/formatting/extensions/xml/string'
-require 'ronin/formatting/extensions/text/string'
+require 'ronin/formatting/extensions/js/string'
 
 class String
-
-  # JavaScript characters that must be back-slashed.
-  JS_BACKSLASHED_CHARS = {
-    "\\b"  => "\b",
-    "\\t"  => "\t",
-    "\\n"  => "\n",
-    "\\f"  => "\f",
-    "\\r"  => "\r",
-    "\\\"" => "\"",
-    "\\\\" => "\\"
-  }
 
   #
   # HTML escapes the String.
@@ -100,84 +89,6 @@ class String
   #
   def format_html(options={})
     format_xml(options)
-  end
-
-  #
-  # Escapes a String for JavaScript.
-  #
-  # @param [Hash] options
-  #   Additional options for {#format_chars}.
-  #
-  # @return [String]
-  #   The JavaScript escaped String.
-  #
-  # @example
-  #   "hello\nworld\n".js_escape
-  #   # => "hello\\nworld\\n"
-  #
-  # @see Integer#js_escape
-  #
-  # @since 0.2.0
-  #
-  # @api public
-  #
-  def js_escape(options={})
-    format_chars(options) { |c| c.ord.js_escape }
-  end
-
-  #
-  # Unescapes a JavaScript escaped String.
-  #
-  # @return [String]
-  #   The unescaped JavaScript String.
-  #
-  # @example
-  #   "\\u0068\\u0065\\u006C\\u006C\\u006F world".js_unescape
-  #   # => "hello world"
-  #
-  # @since 0.2.0
-  #
-  # @api public
-  #
-  def js_unescape
-    unescaped = ''
-
-    scan(/[\\%]u[0-9a-fA-F]{1,4}|[\\%][0-9a-fA-F]{1,2}|\\[btnfr"\\]|./) do |c|
-      unescaped << JS_BACKSLASHED_CHARS.fetch(c) do
-        if (c.start_with?("\\u") || c.start_with?("%u"))
-          c[2..-1].to_i(16)
-        elsif (c.start_with?("\\") || c.start_with?("%"))
-          c[1..-1].to_i(16)
-        else
-          c
-        end
-      end
-    end
-
-    return unescaped
-  end
-
-  #
-  # Escapes a String for JavaScript.
-  #
-  # @param [Hash] options
-  #   Additional options for {#format_chars}.
-  #
-  # @return [String]
-  #   The JavaScript escaped String.
-  #
-  # @example
-  #   "hello".js_escape
-  #   # => "\\u0068\\u0065\\u006C\\u006C\\u006F"
-  #
-  # @see Integer#js_escape
-  #
-  # @since 0.2.0
-  #
-  # @api public
-  #
-  def format_js(options={})
-    format_chars(options) { |c| c.ord.format_js }
   end
 
 end
