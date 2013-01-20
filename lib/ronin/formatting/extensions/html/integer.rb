@@ -17,6 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/formatting/extensions/xml/integer'
+
 require 'cgi'
 
 class Integer
@@ -71,10 +73,12 @@ class Integer
   #
   # @since 0.2.0
   #
+  # @see #xml_escape
+  #
   # @api public
   #
   def html_escape
-    CGI.escapeHTML(chr)
+    xml_escape
   end
 
   #
@@ -89,10 +93,12 @@ class Integer
   #
   # @since 0.2.0
   #
+  # @see #format_xml
+  #
   # @api public
   #
   def format_html
-    "&#%d;" % self
+    format_xml
   end
 
   #
