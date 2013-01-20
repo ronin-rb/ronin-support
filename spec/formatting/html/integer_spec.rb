@@ -21,18 +21,14 @@ describe Integer do
   end
 
   describe "#html_escape" do
-    let(:html_escaped) { "&amp;" }
-
-    it "should HTML escape itself" do
-      subject.html_escape.should == html_escaped
+    it "should behave like #xml_escape" do
+      subject.html_escape.should == subject.xml_escape
     end
   end
 
   describe "#format_html" do
-    let(:formatted_html) { "&#38;" }
-
-    it "should HTML format all chars" do
-      subject.format_html.should == formatted_html
+    it "should have like #format_xml" do
+      subject.format_html.should == subject.format_xml
     end
   end
 

@@ -29,28 +29,24 @@ describe String do
   end
 
   describe "#html_escape" do
-    let(:html_escaped) { "one &amp; two" }
+    subject { "one &amp; two" }
 
-    it "should HTML escape itself" do
-      subject.html_escape.should == html_escaped
+    it "should behave like #xml_escape" do
+      subject.html_escape.should == subject.xml_escape
     end
   end
 
   describe "#html_unescape" do
-    let(:html_escaped) { "one &amp; two" }
+    subject { "one &amp; two" }
 
-    it "should HTML unescape itself" do
-      html_escaped.html_unescape.should == subject
+    it "should behave like #xml_unescape" do
+      subject.html_unescape.should == subject.xml_unescape
     end
   end
 
   describe "#format_html" do
-    let(:formatted_html) do
-      "&#111;&#110;&#101;&#32;&#38;&#32;&#116;&#119;&#111;"
-    end
-
-    it "should HTML format all chars" do
-      subject.format_html.should == formatted_html
+    it "should behave like #format_xml" do
+      subject.format_html.should == subject.format_xml
     end
   end
 

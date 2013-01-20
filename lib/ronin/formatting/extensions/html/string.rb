@@ -17,10 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/formatting/extensions/html/integer'
+require 'ronin/formatting/extensions/xml/string'
 require 'ronin/formatting/extensions/text/string'
-
-require 'cgi'
 
 class String
 
@@ -49,10 +47,12 @@ class String
   #
   # @since 0.2.0
   #
+  # @see #xml_escape
+  #
   # @api public
   #
   def html_escape
-    CGI.escapeHTML(self)
+    xml_escape
   end
 
   #
@@ -69,10 +69,12 @@ class String
   #
   # @since 0.2.0
   #
+  # @see #xml_unescape
+  #
   # @api public
   #
   def html_unescape
-    CGI.unescapeHTML(self)
+    xml_unescape
   end
 
   #
@@ -92,10 +94,12 @@ class String
   #
   # @since 0.2.0
   #
+  # @see #format_xml
+  #
   # @api public
   #
   def format_html(options={})
-    format_chars(options) { |c| c.ord.format_html }
+    format_xml(options)
   end
 
   #
