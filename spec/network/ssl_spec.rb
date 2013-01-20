@@ -32,6 +32,29 @@ describe Network::SSL do
       obj
     end
 
+    describe "#ssl_open?" do
+      let(:host) { 'github.com' }
+      let(:port) { 443 }
+
+      it "should return true for open ports" do
+        subject.ssl_open?(host,port).should == true
+      end
+
+      it "should return false for closed ports" do
+        subject.ssl_open?('localhost',rand(1024) + 1).should == false
+      end
+
+      it "should have a timeout for firewalled ports" do
+        timeout = 2
+
+        t1 = Time.now
+        subject.ssl_open?(host,1337,:timeout => 5)
+        t2 = Time.now
+
+        (t2 - t1).to_i.should <= timeout
+      end
+    end
+
     describe "#ssl_connect" do
       it "should connect to an SSL protected port" do
         lambda {
