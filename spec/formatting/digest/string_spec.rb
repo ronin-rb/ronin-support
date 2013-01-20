@@ -24,6 +24,10 @@ describe String do
     should respond_to(:sha512)
   end
 
+  it "should provide String#rmd160" do
+    should respond_to(:rmd160)
+  end
+
   describe "#md5" do
     subject { "test" }
 
@@ -77,6 +81,16 @@ describe String do
 
     it "should return the SHA512 digest of itself" do
       subject.sha512.should == digest_sha512
+    end
+  end
+
+  describe "#rmd160" do
+    subject { "test" }
+
+    let(:digest_rmd160) { "5e52fee47e6b070565f74372468cdc699de89107" }
+
+    it "should return the RMD160 digest of itself" do
+      subject.rmd160.should == digest_rmd160
     end
   end
 end
