@@ -126,4 +126,25 @@ class File
     File.sha512(path)
   end
 
+  #
+  # Calculates the RMD160 checksum for the File.
+  #
+  # @param [String] path
+  #   The path to the file.
+  #
+  # @return [String]
+  #   The RMD160 checksum of the File.
+  #
+  # @example
+  #   File.rmd160('data.txt')
+  #   # => "108f07b8382412612c048d07d13f814118445acd"
+  #
+  # @api public
+  #
+  # @since 0.6.0
+  #
+  def File.rmd160(path)
+    Digest::RMD160.file(path).hexdigest
+  end
+
 end

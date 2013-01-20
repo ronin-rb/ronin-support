@@ -83,4 +83,22 @@ class String
     Digest::SHA512.hexdigest(self)
   end
 
+  #
+  # Calculates the RMD160 checksum for the String.
+  #
+  # @return [String]
+  #   The RMD160 checksum of the String.
+  #
+  # @example
+  #   "hello".rmd160
+  #   # => "108f07b8382412612c048d07d13f814118445acd"
+  #
+  # @api public
+  #
+  # @since 0.6.0
+  #
+  def rmd160
+    Digest::RMD160.hexdigest(self)
+  end
+
 end
