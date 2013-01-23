@@ -521,6 +521,7 @@ module Ronin
       #   class.
       #
       # @see #http_session
+      # @see http_request
       #
       # @api public
       #
