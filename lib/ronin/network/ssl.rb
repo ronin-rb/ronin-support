@@ -42,6 +42,66 @@ module Ronin
       }
 
       #
+      # Initiates an SSL session with an existing TCP socket.
+      #
+      # @param [TCPSocket] socket
+      #   The existing TCP socket.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @option options [String] :local_host
+      #   The local host to bind to.
+      #
+      # @option options [Integer] :local_port
+      #   The local port to bind to.
+      #
+      # @option options [Symbol] :verify
+      #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:client_once`
+      #   * `:fail_if_no_peer_cert`
+      #
+      # @option options [String] :cert
+      #   The path to the SSL `.crt` file.
+      #
+      # @option options [String] :key
+      #   The path to the SSL `.key` file.
+      #
+      # @return [OpenSSL::SSL::SSLSocket]
+      #   the new SSL Socket.
+      #
+      # @api public
+      #
+      def ssl_socket(socket,options={})
+        verify = options.fetch(:verify,:none)
+        cert   = options[:cert]
+        key    = options[:key]
+
+        unless SSL::VERIFY.has_key?(verify)
+          raise("unknown verify mode #{verify}")
+        end
+
+        ssl_context = OpenSSL::SSL::SSLContext.new()
+        ssl_context.verify_mode = SSL::VERIFY[verify]
+
+        if cert
+          ssl_context.cert = OpenSSL::X509::Certificate.new(File.new(cert))
+        end
+
+        if key
+          ssl_context.key = OpenSSL::PKey::RSA.new(File.new(key))
+        end
+
+        ssl_socket = OpenSSL::SSL::SSLSocket.new(socket,ssl_context)
+        ssl_socket.sync_close = true
+        return ssl_socket
+      end
+
+      #
       # Tests whether a remote SSLed TCP port is open.
       #
       # @param [String] host
@@ -69,10 +129,10 @@ module Ronin
       #   * `:fail_if_no_peer_cert`
       #
       # @option options [String] :cert
-      #   The path to the SSL certificate.
+      #   The path to the SSL `.crt` file.
       #
       # @option options [String] :key
-      #   The path to the SSL key.
+      #   The path to the SSL `.key` file.
       #
       # @option options [Integer] :timeout (5)
       #   The maximum time to attempt connecting.
@@ -136,10 +196,10 @@ module Ronin
       #   * `:fail_if_no_peer_cert`
       #
       # @option options [String] :cert
-      #   The path to the SSL certificate.
+      #   The path to the SSL `.crt` file.
       #
       # @option options [String] :key
-      #   The path to the SSL key.
+      #   The path to the SSL `.key` file.
       #
       # @yield [ssl_socket]
       #   The given block will be passed the new SSL Socket.
@@ -161,29 +221,8 @@ module Ronin
         local_host = options[:local_host]
         local_port = options[:local_port]
 
-        verify = options.fetch(:verify,:none)
-        cert   = options[:cert]
-        key    = options[:key]
-
-        unless SSL::VERIFY.has_key?(verify)
-          raise("unknown verify mode #{verify}")
-        end
-
-        socket = tcp_connect(host,port,local_host,local_port)
-
-        ssl_context = OpenSSL::SSL::SSLContext.new()
-        ssl_context.verify_mode = SSL::VERIFY[verify]
-
-        if cert
-          ssl_context.cert = OpenSSL::X509::Certificate.new(File.new(cert))
-        end
-
-        if key
-          ssl_context.key = OpenSSL::PKey::RSA.new(File.new(key))
-        end
-
-        ssl_socket = OpenSSL::SSL::SSLSocket.new(socket,ssl_context)
-        ssl_socket.sync_close = true
+        socket     = tcp_connect(host,port,local_host,local_port)
+        ssl_socket = ssl_socket(socket,options)
         ssl_socket.connect
 
         yield ssl_socket if block_given?
@@ -212,10 +251,10 @@ module Ronin
       #   Specifies whether to verify the SSL certificate.
       #
       # @option options [String] :cert
-      #   The path to the SSL certificate.
+      #   The path to the SSL `.crt` file.
       #
       # @option options [String] :key
-      #   The path to the SSL key.
+      #   The path to the SSL `.key` file.
       #
       # @yield [ssl_socket]
       #   The given block will be passed the temporary SSL Socket.
@@ -267,10 +306,10 @@ module Ronin
       #   Specifies whether to verify the SSL certificate.
       #
       # @option options [String] :cert
-      #   The path to the SSL certificate.
+      #   The path to the SSL `.crt` file.
       #
       # @option options [String] :key
-      #   The path to the SSL key.
+      #   The path to the SSL `.key` file.
       #
       # @yield [ssl_socket]
       #   The given block will be passed the newly created SSL Socket.
@@ -312,10 +351,10 @@ module Ronin
       #   Specifies whether to verify the SSL certificate.
       #
       # @option options [String] :cert
-      #   The path to the SSL certificate.
+      #   The path to the SSL `.crt` file.
       #
       # @option options [String] :key
-      #   The path to the SSL key.
+      #   The path to the SSL `.key` file.
       #
       # @yield [banner]
       #   If a block is given, it will be passed the grabbed banner.
@@ -371,10 +410,10 @@ module Ronin
       #   Specifies whether to verify the SSL certificate.
       #
       # @option options [String] :cert
-      #   The path to the SSL certificate.
+      #   The path to the SSL `.crt` file.
       #
       # @option options [String] :key
-      #   The path to the SSL key.
+      #   The path to the SSL `.key` file.
       #
       # @return [true]
       #   The data was successfully sent.
@@ -397,129 +436,6 @@ module Ronin
       end
 
       #
-      # Creates a new SSL socket listening on a given host and port.
-      #
-      # @param [Hash] options
-      #   Additional options.
-      #
-      # @option options [Integer] :port
-      #   The local port to listen on.
-      #
-      # @option options [String] :host ('0.0.0.0')
-      #   The host to bind to.
-      #
-      # @option options [Integer] :backlog (5)
-      #   The maximum backlog of pending connections.
-      #
-      # @option options [Symbol] :verify
-      #   Specifies whether to verify the SSL certificate.
-      #
-      # @option options [String] :cert
-      #   The path to the SSL certificate.
-      #
-      # @option options [String] :key
-      #   The path to the SSL key.
-      #
-      # @yield [server]
-      #   The block which will be called after the server has been created.
-      #
-      # @yieldparam [OpenSSL::SSL::SSLSocket] server
-      #   The newly created SSL server.
-      #
-      # @return [OpenSSL::SSL::SSLSocket]
-      #   The new SSL server.
-      #
-      # @example
-      #   ssl_server(1337)
-      #
-      # @api public
-      #
-      # @since 0.6.0
-      #
-      def ssl_server(options={})
-        port    = options[:port]
-        host    = options[:host]
-        backlog = options.fetch(:backlog,5)
-        verify  = options.fetch(:verify,:none)
-        cert    = options[:cert]
-        key     = options[:key]
-
-        unless SSL::VERIFY.has_key?(verify)
-          raise("unknown verify mode #{verify}")
-        end
-
-        ssl_context = OpenSSL::SSL::SSLContext.new()
-        ssl_context.verify_mode = SSL::VERIFY[verify]
-
-        if cert
-          ssl_context.cert = OpenSSL::X509::Certificate.new(File.new(cert))
-        end
-
-        if key
-          ssl_context.key = OpenSSL::PKey::RSA.new(File.new(key))
-        end
-
-        server = tcp_server(port,host,backlog)
-        ssl_server = OpenSSL::SSL::SSLSocket.new(server,ssl_context)
-
-        yield ssl_server if block_given?
-        return ssl_server
-      end
-
-      #
-      # Creates a new temporary SSL socket listening on a host and port.
-      #
-      # @param [Hash] options
-      #   Additional options.
-      #
-      # @option options [Integer] :port
-      #   The local port to listen on.
-      #
-      # @option options [String] :host ('0.0.0.0')
-      #   The host to bind to.
-      #
-      # @option options [Integer] :backlog (5)
-      #   The maximum backlog of pending connections.
-      #
-      # @option options [Symbol] :verify
-      #   Specifies whether to verify the SSL certificate.
-      #
-      # @option options [String] :cert
-      #   The path to the SSL certificate.
-      #
-      # @option options [String] :key
-      #   The path to the SSL key.
-      #
-      # @yield [server]
-      #   The block which will be called after the server has been created.
-      #
-      # @yieldparam [OpenSSL::SSL::SSLSocket] server
-      #   The newly created SSL server.
-      #
-      # @return [nil]
-      #
-      # @example
-      #   ssl_server_session(1337) do |server|
-      #     client1 = server.accept
-      #     client2 = server.accept
-      #
-      #     client2.write(server.read_line)
-      #
-      #     client1.close
-      #     client2.close
-      #   end
-      #
-      # @api public
-      #
-      # @since 0.6.0
-      #
-      def ssl_server_session(options={},&block)
-        server = ssl_server(options,&block)
-        server.close()
-        return nil
-      end
-
-      #
       # Creates a new SSL socket listening on a given host and port,
       # accepting clients in a loop.
       #
@@ -539,10 +455,10 @@ module Ronin
       #   Specifies whether to verify the SSL certificate.
       #
       # @option options [String] :cert
-      #   The path to the SSL certificate.
+      #   The path to the SSL `.crt` file.
       #
       # @option options [String] :key
-      #   The path to the SSL key.
+      #   The path to the SSL `.key` file.
       #
       # @yield [client]
       #   The given block will be passed the newly connected client.
@@ -563,12 +479,18 @@ module Ronin
       # @since 0.6.0
       #
       def ssl_server_loop(options={})
-        ssl_server_session(options) do |server|
-          loop do
-            client = server.accept
+        port    = options[:port]
+        host    = options[:host]
+        backlog = options.fetch(:backlog,5)
 
-            yield client if block_given?
-            client.close
+        tcp_server_session(port,host,backlog) do |server|
+          loop do
+            client     = server.accept
+            ssl_client = ssl_socket(client,options)
+            ssl_client.accept
+
+            yield ssl_client if block_given?
+            ssl_client.close
           end
         end
       end
@@ -593,10 +515,10 @@ module Ronin
       #   Specifies whether to verify the SSL certificate.
       #
       # @option options [String] :cert
-      #   The path to the SSL certificate.
+      #   The path to the SSL `.crt` file.
       #
       # @option options [String] :key
-      #   The path to the SSL key.
+      #   The path to the SSL `.key` file.
       #
       # @example
       #   ssl_accept(1337) do |client|
@@ -623,11 +545,16 @@ module Ronin
       # @since 0.6.0
       #
       def ssl_accept(options={})
-        ssl_server_session(options.merge(:backlog => 1)) do |server|
-          client = server.accept
+        port = options[:port]
+        host = options[:host]
 
-          yield client if block_given?
-          client.close
+        tcp_server_session(port,host,1) do |server|
+          client     = server.accept
+          ssl_client = ssl_socket(client,options)
+          ssl_client.accept
+
+          yield ssl_client if block_given?
+          ssl_client.close
         end
       end
     end
