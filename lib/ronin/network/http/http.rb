@@ -513,6 +513,13 @@ module Ronin
       # @return [Net::HTTPResponse]
       #   The response of the HTTP request.
       #
+      # @raise [ArgumentError]
+      #   The `:method` option must be specified.
+      #
+      # @raise [UnknownRequest]
+      #   The `:method` option did not match a known Net::HTTP request
+      #   class.
+      #
       # @see #http_session
       #
       # @api public
