@@ -13,14 +13,14 @@ describe Network::SMTP::Email do
 
     it "should accept a String body" do
       body = 'hello'
-      email = Network::SMTP::Email.new(:body => body)
+      email = Network::SMTP::Email.new(body: body)
 
       email.body.should == [body]
     end
 
     it "should accept an Array body" do
       body = ['hello', 'world']
-      email = Network::SMTP::Email.new(:body => body)
+      email = Network::SMTP::Email.new(body: body)
 
       email.body.should == body
     end

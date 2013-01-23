@@ -52,13 +52,13 @@ describe Network::HTTP::Proxy do
     let(:port) { 8080 }
 
     it "should accept Proxy objects" do
-      proxy = subject.new(:host => host, :port => port)
+      proxy = subject.new(host: host, port: port)
 
       subject.create(proxy).should == proxy
     end
 
     it "should accept URI::HTTP objects" do
-      url = URI::HTTP.build(:host => host, :port => port)
+      url = URI::HTTP.build(host: host, port: port)
       proxy = subject.create(url)
 
       proxy.host.should == host
@@ -66,7 +66,7 @@ describe Network::HTTP::Proxy do
     end
 
     it "should accept Hash objects" do
-      hash = {:host => host, :port => port}
+      hash = {host: host, port: port}
       proxy = subject.create(hash)
 
       proxy.host.should == host

@@ -94,10 +94,10 @@ module Ronin
           port = port.to_i if port
 
           return new(
-            :host => host,
-            :port => port,
-            :user => user,
-            :password => password
+            host:     host,
+            port:     port,
+            user:     user,
+            password: password
           )
         end
 
@@ -122,10 +122,10 @@ module Ronin
             proxy
           when URI::HTTP
             new(
-              :host => proxy.host,
-              :port => proxy.port,
-              :user => proxy.user,
-              :password => proxy.password
+              host:       proxy.host,
+              port:       proxy.port,
+              user:       proxy.user,
+              password:   proxy.password
             )
           when Hash
             new(proxy)
@@ -149,8 +149,8 @@ module Ronin
         def valid?
           begin
             Net.http_get_body(
-              :url => 'http://www.example.com/',
-              :proxy => self
+              url:   'http://www.example.com/',
+              proxy: self
             ).include?('Example Web Page')
           rescue Timeout::Error, StandardError
             return false
@@ -170,8 +170,8 @@ module Ronin
           time = lambda { |proxy|
             t1 = Time.now
             Net.http_head(
-              :url => 'http://www.example.com/',
-              :proxy => proxy
+              url:   'http://www.example.com/',
+              proxy: proxy
             )
             t2 = Time.now
 
@@ -197,8 +197,8 @@ module Ronin
         #
         def proxied_ip
           IPAddr.extract(Net.http_get_body(
-            :url => Network::IP_URL,
-            :proxy => self
+            url:   Network::IP_URL,
+            proxy: self
           )).first
         end
 
@@ -274,9 +274,9 @@ module Ronin
                      end
           
           return URI::HTTP.build(
-            :userinfo => userinfo,
-            :host => host,
-            :port => port
+            userinfo: userinfo,
+            host:     host,
+            port:     port
           )
         end
 

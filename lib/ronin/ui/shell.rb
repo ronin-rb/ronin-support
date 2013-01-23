@@ -34,7 +34,7 @@ module Ronin
     #     include Ronin::Network::TCP
     #
     #     tcp_session('victim.com',1337) do |socket|
-    #       UI::Shell.new(:name => 'bind_shell') do |shell,line|
+    #       UI::Shell.new(name: 'bind_shell') do |shell,line|
     #         socket.puts "#{line}; echo 'EOC'"
     #
     #         socket.each_line do |output|
@@ -55,7 +55,7 @@ module Ronin
     #       include Ronin::Network::HTTP
     #
     #       def initialize(host)
-    #         super(:name => host)
+    #         super(name: host)
     #
     #         @host = host
     #       end
@@ -63,14 +63,14 @@ module Ronin
     #       protected
     #
     #       def get(path)
-    #         print_response http_get(:host => @host, :path => path)
+    #         print_response http_get(host: @host, path: path)
     #       end
     #
     #       def post(path,*params)
     #         print_response http_post(
-    #           :host      => @host,
-    #           :path      => path,
-    #           :post_data => Hash[params.map { |param| param.split('=') }]
+    #           host:      @host,
+    #           path:      path,
+    #           post_data: Hash[params.map { |param| param.split('=') }]
     #         )
     #       end
     #
@@ -167,7 +167,7 @@ module Ronin
       # @return [nil]
       #
       # @example
-      #   Shell.start(:prompt => '$') { |shell,line| system(line) }
+      #   Shell.start(prompt: '$') { |shell,line| system(line) }
       #
       def self.start(*arguments,&block)
         new(*arguments,&block).start

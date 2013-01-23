@@ -24,7 +24,7 @@ describe Network::SSL do
     end
   end
 
-  describe "helpers", :network do
+  describe "helpers", network: true do
     let(:host) { 'smtp.gmail.com' }
     let(:port) { 465 }
 
@@ -58,7 +58,7 @@ describe Network::SSL do
         timeout = 2
 
         t1 = Time.now
-        subject.ssl_open?(host,1337,:timeout => timeout)
+        subject.ssl_open?(host,1337, timeout: timeout)
         t2 = Time.now
 
         (t2 - t1).to_i.should <= timeout

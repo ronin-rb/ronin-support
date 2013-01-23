@@ -567,7 +567,7 @@ module Ronin
       # @api public
       #
       def http_status(options={})
-        options = {:method => :head}.merge(options)
+        options = {method: :head}.merge(options)
 
         return http_request(options).code.to_i
       end
@@ -609,7 +609,7 @@ module Ronin
       # @api public
       #
       def http_server(options={})
-        options = {:method => :head}.merge(options)
+        options = {method: :head}.merge(options)
 
         return http_request(options)['server']
       end
@@ -631,7 +631,7 @@ module Ronin
       # @api public
       #
       def http_powered_by(options={})
-        options = {:method => :get}.merge(options)
+        options = {method: :get}.merge(options)
 
         return http_request(options)['x-powered-by']
       end
@@ -657,7 +657,7 @@ module Ronin
       # @api public
       #
       def http_copy(options={})
-        response = http_request(options.merge(:method => :copy))
+        response = http_request(options.merge(method: :copy))
 
         yield response if block_given?
         return response
@@ -687,13 +687,13 @@ module Ronin
         original_headers = options[:headers]
 
         # set the HTTP Depth header
-        options[:headers] = {:depth => 'Infinity'}
+        options[:headers] = {depth: 'Infinity'}
 
         if original_headers
           options[:header].merge!(original_headers)
         end
 
-        response = http_request(options.merge(:method => :delete))
+        response = http_request(options.merge(method: :delete))
 
         yield response if block_given?
         return response
@@ -720,7 +720,7 @@ module Ronin
       # @api public
       #
       def http_get(options={},&block)
-        response = http_request(options.merge(:method => :get))
+        response = http_request(options.merge(method: :get))
 
         yield response if block_given?
         return response
@@ -789,7 +789,7 @@ module Ronin
       # @api public
       #
       def http_head(options={},&block)
-        response = http_request(options.merge(:method => :head))
+        response = http_request(options.merge(method: :head))
 
         yield response if block_given?
         return response
@@ -816,7 +816,7 @@ module Ronin
       # @api public
       #
       def http_lock(options={},&block)
-        response = http_request(options.merge(:method => :lock))
+        response = http_request(options.merge(method: :lock))
 
         yield response if block_given?
         return response
@@ -843,7 +843,7 @@ module Ronin
       # @api public
       #
       def http_mkcol(options={},&block)
-        response = http_request(options.merge(:method => :mkcol))
+        response = http_request(options.merge(method: :mkcol))
 
         yield response if block_given?
         return response
@@ -870,7 +870,7 @@ module Ronin
       # @api public
       #
       def http_move(options={},&block)
-        response = http_request(options.merge(:method => :move))
+        response = http_request(options.merge(method: :move))
 
         yield response if block_given?
         return response
@@ -897,7 +897,7 @@ module Ronin
       # @api public
       #
       def http_options(options={},&block)
-        response = http_request(options.merge(:method => :options))
+        response = http_request(options.merge(method: :options))
 
         yield response if block_given?
         return response
@@ -927,7 +927,7 @@ module Ronin
       # @api public
       #
       def http_post(options={},&block)
-        response = http_request(options.merge(:method => :post))
+        response = http_request(options.merge(method: :post))
 
         yield response if block_given?
         return response
@@ -1010,7 +1010,7 @@ module Ronin
       # @api public
       #
       def http_put(options={})
-        response = http_request(options.merge(:method => :put))
+        response = http_request(options.merge(method: :put))
 
         yield response if block_given?
         return response
@@ -1040,13 +1040,13 @@ module Ronin
         original_headers = options[:headers]
 
         # set the HTTP Depth header
-        options[:headers] = {:depth => '0'}
+        options[:headers] = {depth: '0'}
 
         if original_headers
           options[:header].merge!(original_headers)
         end
 
-        response = http_request(options.merge(:method => :propfind))
+        response = http_request(options.merge(method: :propfind))
 
         yield response if block_given?
         return response
@@ -1073,7 +1073,7 @@ module Ronin
       # @api public
       #
       def http_prop_patch(options={},&block)
-        response = http_request(options.merge(:method => :proppatch))
+        response = http_request(options.merge(method: :proppatch))
 
         yield response if block_given?
         return response
@@ -1100,7 +1100,7 @@ module Ronin
       # @api public
       #
       def http_trace(options={},&block)
-        response = http_request(options.merge(:method => :trace))
+        response = http_request(options.merge(method: :trace))
 
         yield response if block_given?
         return response
@@ -1127,7 +1127,7 @@ module Ronin
       # @api public
       #
       def http_unlock(options={},&block)
-        response = http_request(options.merge(:method => :unlock))
+        response = http_request(options.merge(method: :unlock))
 
         yield response if block_given?
         return response

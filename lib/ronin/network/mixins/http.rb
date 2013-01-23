@@ -40,31 +40,31 @@ module Ronin
         include Mixin, Network::HTTP
 
         # HTTP host
-        parameter :host, :type => String,
-                         :description => 'HTTP host'
+        parameter :host, type:        String,
+                         description: 'HTTP host'
 
         # HTTP port
-        parameter :port, :default => Net::HTTP.default_port,
-                         :description => 'HTTP port'
+        parameter :port, default:     Net::HTTP.default_port,
+                         description: 'HTTP port'
 
         # HTTP `Host` header to send
-        parameter :http_vhost, :type => String,
-                               :description => 'HTTP Host header to send'
+        parameter :http_vhost, type:        String,
+                               description: 'HTTP Host header to send'
 
         # HTTP user to authenticate as
-        parameter :http_user, :type => String,
-                              :description => 'HTTP user to authenticate as'
+        parameter :http_user, type:        String,
+                              description: 'HTTP user to authenticate as'
 
         # HTTP password to authenticate with
-        parameter :http_password, :type => String,
-                                  :description => 'HTTP password to authenticate with'
+        parameter :http_password, type:        String,
+                                  description: 'HTTP password to authenticate with'
 
         # HTTP proxy information
-        parameter :http_proxy, :description => 'HTTP proxy information'
+        parameter :http_proxy, description: 'HTTP proxy information'
 
         # HTTP `User-Agent` header to send
-        parameter :http_user_agent, :type => String,
-                                    :description => 'HTTP User-Agent header to send'
+        parameter :http_user_agent, type:        String,
+                                    description: 'HTTP User-Agent header to send'
 
         protected
 

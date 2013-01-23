@@ -69,16 +69,16 @@ describe Binary::Template do
 
     context "when given :endian" do
       it "should translate endian-types" do
-        subject.translate(:uint, :endian => :little).should == :uint_le
+        subject.translate(:uint, endian: :little).should == :uint_le
       end
 
       it "should not translate non-endian-types" do
-        subject.translate(:string, :endian => :little).should == :string
+        subject.translate(:string, endian: :little).should == :string
       end
 
       it "should raise an ArgumentError for unknown endianness" do
         lambda {
-          subject.translate(:uint, :endian => :foo)
+          subject.translate(:uint, endian: :foo)
         }.should raise_error(ArgumentError)
       end
     end

@@ -39,20 +39,20 @@ module Ronin
         include Mixin, Network::SSL
 
         # SSL host
-        parameter :host, :type => String,
-                         :description => 'SSL host'
+        parameter :host, type:        String,
+                         description: 'SSL host'
 
         # SSL port
-        parameter :port, :type => Integer,
-                         :description => 'SSL port'
+        parameter :port, type:        Integer,
+                         description: 'SSL port'
 
         # SSL local host
-        parameter :local_host, :type => String,
-                               :description => 'SSL local host'
+        parameter :local_host, type:        String,
+                               description: 'SSL local host'
 
         # SSL local port
-        parameter :local_port, :type => Integer,
-                               :description => 'SSL local port'
+        parameter :local_port, type:        Integer,
+                               description: 'SSL local port'
 
         protected
 
@@ -92,8 +92,8 @@ module Ronin
         #
         def ssl_connect(host,port,options={},&block)
           options = options.merge(
-            :local_host => self.local_host,
-            :local_port => self.local_port
+            local_host: self.local_host,
+            local_port: self.local_port
           )
 
           super(self.host,self.port,options,&block)

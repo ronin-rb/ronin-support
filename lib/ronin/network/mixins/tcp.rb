@@ -39,28 +39,28 @@ module Ronin
         include Mixin, Network::TCP
 
         # TCP host
-        parameter :host, :type => String,
-                         :description => 'TCP host'
+        parameter :host, type:        String,
+                         description: 'TCP host'
 
         # TCP port
-        parameter :port, :type => Integer,
-                         :description => 'TCP port'
+        parameter :port, type:        Integer,
+                         description: 'TCP port'
 
         # TCP local host
-        parameter :local_host, :type => String,
-                               :description => 'TCP local host'
+        parameter :local_host, type:        String,
+                               description: 'TCP local host'
 
         # TCP local port
-        parameter :local_port, :type => Integer,
-                               :description => 'TCP local port'
+        parameter :local_port, type:        Integer,
+                               description: 'TCP local port'
 
         # TCP server host
-        parameter :server_host, :type => String,
-                                :description => 'TCP server host'
+        parameter :server_host, type:        String,
+                                description: 'TCP server host'
 
         # TCP server port
-        parameter :server_port, :type => Integer,
-                                :description => 'TCP server port'
+        parameter :server_port, type:        Integer,
+                                description: 'TCP server port'
 
         protected
 

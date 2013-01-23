@@ -128,7 +128,7 @@ module Ronin
       #   The SMTP session.
       #
       # @example
-      #   smtp_connect('www.example.com', :user => 'joe')
+      #   smtp_connect('www.example.com', user: 'joe')
       #
       # @api public
       #
@@ -164,7 +164,7 @@ module Ronin
       #   The SMTP session.
       #
       # @example
-      #   smtp_session('www.example.com', :user => 'joe') do |smtp|
+      #   smtp_session('www.example.com', user: 'joe') do |smtp|
       #     # ...
       #   end
       #
@@ -199,11 +199,11 @@ module Ronin
       # @see #smtp_session
       #
       # @example
-      #   smtp_send_message 'www.example.com', :to => 'joe@example.com',
-      #                                        :from => 'eve@example.com',
-      #                                        :subject => 'Hello',
-      #                                        :message_id => 'XXXX',
-      #                                        :body => 'Hello'
+      #   smtp_send_message 'www.example.com', to:         'joe@example.com',
+      #                                        from:       'eve@example.com',
+      #                                        subject:    'Hello',
+      #                                        message_id: 'XXXX',
+      #                                        body:       'Hello'
       #
       # @example Using the block:
       #   smtp_send_message('www.example.com') do |email|

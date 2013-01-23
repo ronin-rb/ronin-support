@@ -29,7 +29,7 @@ module Ronin
   #       mixin Paremters
   #
   #       mixin do
-  #         parameter :user, :default => 'admin'
+  #         parameter :user, default: 'admin'
   #       end
   #     end
   #

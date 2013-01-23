@@ -164,7 +164,7 @@ class String
   #   end
   #
   # @example Replace a {Regexp::UNIX_PATH} with {Ronin::Fuzzing#format_strings}:
-  #   "GET /downloads/".fuzz(:unix_path => :format_string)
+  #   "GET /downloads/".fuzz(unix_path: :format_string)
   #
   # @since 0.3.0
   #
