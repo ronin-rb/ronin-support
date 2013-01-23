@@ -45,7 +45,7 @@ describe Network::SSL do
         timeout = 2
 
         t1 = Time.now
-        subject.ssl_open?(host,1337,:timeout => 5)
+        subject.ssl_open?(host,1337,:timeout => timeout)
         t2 = Time.now
 
         (t2 - t1).to_i.should <= timeout
@@ -93,10 +93,7 @@ describe Network::SSL do
 
     describe "#ssl_connect_and_send" do
       let(:data) { "HELO ronin\n" }
-
-      let(:expected_response) do
-        /220 mx.google.com ESMTP \w+{15}\.\d{2}/
-      end
+      let(:expected_response) { "250 mx.google.com at your service\r\n" }
 
       it "should connect and then send data" do
         socket   = subject.ssl_connect_and_send(data,host,port)
@@ -116,7 +113,7 @@ describe Network::SSL do
           response = socket.readline
         end
 
-        response.should =~ expected_response
+        response.should == expected_response
 
         socket.close
       end
