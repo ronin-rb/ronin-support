@@ -114,7 +114,10 @@ module Ronin
       # @api private
       #
       def self.options_from(url)
-        url = URI(url)
+        url = case url
+              when Hash then URI::HTTP.build(url)
+              else           URI(url)
+              end
 
         new_options = {}
         new_options[:ssl] = {} if url.scheme == 'https'
