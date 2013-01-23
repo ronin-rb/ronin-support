@@ -508,6 +508,57 @@ module Ronin
         server.close()
         return nil
       end
+
+      #
+      # Creates a new SSL socket listening on a given host and port,
+      # accepting clients in a loop.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @option options [Integer] :port
+      #   The local port to listen on.
+      #
+      # @option options [String] :host ('0.0.0.0')
+      #   The host to bind to.
+      #
+      # @option options [Integer] :backlog (5)
+      #   The maximum backlog of pending connections.
+      #
+      # @option options [Symbol] :verify
+      #   Specifies whether to verify the SSL certificate.
+      #
+      # @option options [String] :cert
+      #   The path to the SSL certificate.
+      #
+      # @option options [String] :key
+      #   The path to the SSL key.
+      #
+      # @yield [server]
+      #   The block which will be called after the server has been created.
+      #
+      # @yieldparam [OpenSSL::SSL::SSLSocket] server
+      #   The newly created SSL server.
+      #
+      # @return [nil]
+      #
+      # @example
+      #   tcp_server_loop(1337) do |client|
+      #     client.puts 'lol'
+      #   end
+      #
+      # @api public
+      #
+      def ssl_server_loop(options={})
+        ssl_server_session(options) do |server|
+          loop do
+            client = server.accept
+
+            yield client if block_given?
+            client.close
+          end
+        end
+      end
     end
   end
 end
