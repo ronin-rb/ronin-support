@@ -50,7 +50,7 @@ module Ronin
           pattern = case pattern
                     when Regexp then pattern
                     when String then Regexp.new(Regexp.escape(pattern))
-                    when Symbol then Regexp.const_get(pattern.to_s.upcase)
+                    when Symbol then Regexp.const_get(pattern.upcase)
                     else
                       raise(TypeError,"cannot convert #{pattern.inspect} to a Regexp")
                     end

@@ -285,10 +285,10 @@ module Ronin
           raise(ArgumentError,"the :method option must be specified")
         end
 
-        name = options[:method].to_s.capitalize
+        name = options[:method].capitalize
 
         unless Net::HTTP.const_defined?(name)
-          raise(UnknownRequest,"unknown HTTP request type #{name.dump}")
+          raise(UnknownRequest,"unknown HTTP request type #{name}")
         end
 
         headers = headers(options[:headers])
