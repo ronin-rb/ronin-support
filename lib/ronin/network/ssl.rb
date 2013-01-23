@@ -340,6 +340,55 @@ module Ronin
         yield banner if block_given?
         return banner
       end
+
+      #
+      # Connects to a specified host and port, sends the given data and then
+      # closes the connection.
+      #
+      # @param [String] data
+      #   The data to send through the connection.
+      #
+      # @param [String] host
+      #   The host to connect to.
+      #
+      # @param [Integer] port
+      #   The port to connect to.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @option options [String] :local_host
+      #   The local host to bind to.
+      #
+      # @option options [Integer] :local_port
+      #   The local port to bind to.
+      #
+      # @option options [Symbol] :verify
+      #   Specifies whether to verify the SSL certificate.
+      #
+      # @option options [String] :cert
+      #   The path to the SSL certificate.
+      #
+      # @option options [String] :key
+      #   The path to the SSL key.
+      #
+      # @return [true]
+      #   The data was successfully sent.
+      #
+      # @example
+      #   buffer = "GET /" + ('A' * 4096) + "\n\r"
+      #   ssl_send(buffer,'victim.com',443)
+      #   # => true
+      #
+      # @api public
+      #
+      def ssl_send(data,host,port,options={})
+        ssl_session(host,port,options) do |ssl_socket|
+          ssl_socket.write(data)
+        end
+
+        return true
+      end
     end
   end
 end
