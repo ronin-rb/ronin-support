@@ -534,11 +534,12 @@ module Ronin
       # @option options [String] :key
       #   The path to the SSL key.
       #
-      # @yield [server]
-      #   The block which will be called after the server has been created.
+      # @yield [client]
+      #   The given block will be passed the newly connected client.
+      #   After the block has finished, the client will be closed.
       #
-      # @yieldparam [OpenSSL::SSL::SSLSocket] server
-      #   The newly created SSL server.
+      # @yieldparam [OpenSSL::SSL::SSLSocket] client
+      #   A newly connected client.
       #
       # @return [nil]
       #
@@ -557,6 +558,62 @@ module Ronin
             yield client if block_given?
             client.close
           end
+        end
+      end
+
+      #
+      # Creates a new SSL socket listening on a given host and port,
+      # accepts only one client and then stops listening.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @option options [Integer] :port
+      #   The local port to listen on.
+      #
+      # @option options [String] :host ('0.0.0.0')
+      #   The host to bind to.
+      #
+      # @option options [Integer] :backlog (5)
+      #   The maximum backlog of pending connections.
+      #
+      # @option options [Symbol] :verify
+      #   Specifies whether to verify the SSL certificate.
+      #
+      # @option options [String] :cert
+      #   The path to the SSL certificate.
+      #
+      # @option options [String] :key
+      #   The path to the SSL key.
+      #
+      # @example
+      #   ssl_accept(1337) do |client|
+      #     client.puts 'lol'
+      #   end
+      #
+      # @yield [client]
+      #   The given block will be passed the newly connected client.
+      #   After the block has finished, both the client and the server will be
+      #   closed.
+      #
+      # @yieldparam [OpenSSL::SSL::SSLSocket] client
+      #   The newly connected client.
+      #
+      # @return [nil]
+      #
+      # @example
+      #   ssl_accept(1337) do |client|
+      #     client.puts 'lol'
+      #   end
+      #
+      # @api public
+      #
+      def ssl_accept(options={})
+        ssl_server_session(options.merge(:backlog => 1)) do |server|
+          client = server.accept
+
+          yield client if block_given?
+          client.close
         end
       end
     end
