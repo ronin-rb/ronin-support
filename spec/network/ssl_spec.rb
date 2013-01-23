@@ -216,5 +216,13 @@ describe Network::SSL do
         bound_port.should == server_port
       end
     end
+
+    describe "#ssl_server_loop" do
+      pending "need to automate connecting to the SSL server"
+    end
+
+    describe "#ssl_accept" do
+      pending "need to automate connecting to the SSL server"
+    end
   end
 end
