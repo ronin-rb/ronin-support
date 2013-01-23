@@ -8,11 +8,11 @@ describe Network::HTTP do
     end
   end
 
-  describe "expand_url" do
+  describe "options_from" do
     let(:url) { URI('http://example.com:443/path?q=1') }
 
     it "should accept URI objects" do
-      options = subject.expand_url(url)
+      options = subject.options_from(url)
 
       options[:host].should == url.host
     end
@@ -22,14 +22,14 @@ describe Network::HTTP do
         :host => url.host,
         :port => url.port,
       }
-      options = subject.expand_url(hash)
+      options = subject.options_from(hash)
 
       options[:host].should == url.host
       options[:port].should == url.port
     end
 
     it "should accept Strings" do
-      options = subject.expand_url(url.to_s)
+      options = subject.options_from(url.to_s)
 
       options[:host].should == url.host
       options[:port].should == url.port
@@ -37,14 +37,14 @@ describe Network::HTTP do
 
     describe ":path" do
       it "should filter out empty URL paths" do
-        options = subject.expand_url(URI('http://example.com'))
+        options = subject.options_from(URI('http://example.com'))
 
         options[:path].should be_nil
       end
 
       context "when the path is empty" do
         it "should not be set" do
-          options = subject.expand_url(URI('http://example.com'))
+          options = subject.options_from(URI('http://example.com'))
 
           options.should_not have_key(:path)
         end
@@ -53,14 +53,14 @@ describe Network::HTTP do
 
     describe ":query" do
       it "should set :query to the query string" do
-        options = subject.expand_url(url)
+        options = subject.options_from(url)
 
         options[:query].should == url.query
       end
 
       context "when query is nil" do
         it "should not be set" do
-          options = subject.expand_url(URI('http://example.com/path'))
+          options = subject.options_from(URI('http://example.com/path'))
 
           options.should_not have_key(:query)
         end
@@ -68,7 +68,7 @@ describe Network::HTTP do
 
       context "when query is empty" do
         it "should be set" do
-          options = subject.expand_url(URI('http://example.com/path?'))
+          options = subject.options_from(URI('http://example.com/path?'))
 
           options[:query].should be_empty
         end
@@ -76,7 +76,7 @@ describe Network::HTTP do
     end
 
     it "should set :ssl if the URI scheme is 'https'" do
-      options = subject.expand_url(URI('https://example.com'))
+      options = subject.options_from(URI('https://example.com'))
 
       options[:ssl].should == {}
     end
