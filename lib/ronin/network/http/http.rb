@@ -27,7 +27,7 @@ require 'net/http'
 begin
   require 'net/https'
 rescue ::LoadError
-  $stderr.puts "WARNING: could not load 'net/https'"
+  warn "WARNING: could not load 'net/https'"
 end
 
 module Ronin

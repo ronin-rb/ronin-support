@@ -27,7 +27,7 @@ require 'base64'
 begin
   require 'zlib'
 rescue ::LoadError
-  $stderr.puts "WARNING: Ruby was not compiled with zlib support"
+  warn "WARNING: Ruby was not compiled with zlib support"
 end
 
 class String
