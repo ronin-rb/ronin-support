@@ -61,7 +61,7 @@ module Ronin
                     when String
                       Regexp.new(Regexp.escape(pattern))
                     when Symbol
-                      Regexp.const_get(pattern.to_s.upcase)
+                      Regexp.const_get(pattern.upcase)
                     else
                       raise(TypeError,"cannot convert #{pattern.inspect} to a Regexp")
                     end
