@@ -78,19 +78,6 @@ describe Network::SSL do
       end
     end
 
-    describe "#ssl_session" do
-      it "should open then close a OpenSSL::SSL::SSLSocket" do
-        socket = nil
-
-        subject.ssl_session(host,port) do |yielded_socket|
-          socket = yielded_socket
-        end
-
-        socket.should be_kind_of(OpenSSL::SSL::SSLSocket)
-        socket.should be_closed
-      end
-    end
-
     describe "#ssl_connect_and_send" do
       let(:data) { "HELO ronin\n" }
       let(:expected_response) { "250 mx.google.com at your service\r\n" }
@@ -116,6 +103,47 @@ describe Network::SSL do
         response.should == expected_response
 
         socket.close
+      end
+    end
+
+    describe "#ssl_session" do
+      it "should open then close a OpenSSL::SSL::SSLSocket" do
+        socket = nil
+
+        subject.ssl_session(host,port) do |yielded_socket|
+          socket = yielded_socket
+        end
+
+        socket.should be_kind_of(OpenSSL::SSL::SSLSocket)
+        socket.should be_closed
+      end
+    end
+
+    describe "#ssl_banner" do
+      let(:local_port) { 1024 + rand(65535 - 1024) }
+
+      let(:expected_banner) { /^220 mx\.google\.com ESMTP/ }
+
+      it "should return the read service banner" do
+        banner = subject.ssl_banner(host,port)
+
+        banner.should =~ expected_banner
+      end
+
+      it "should bind to a local host and port" do
+        banner = subject.ssl_banner(host,port, local_port: local_port)
+
+        banner.should =~ expected_banner
+      end
+
+      it "should yield the banner" do
+        banner = nil
+        
+        subject.ssl_banner(host,port) do |yielded_banner|
+          banner = yielded_banner
+        end
+
+        banner.should =~ expected_banner
       end
     end
   end
