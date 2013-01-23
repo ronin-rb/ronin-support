@@ -113,15 +113,10 @@ module Ronin
       #
       # @api private
       #
-      def self.expand_url(url)
+      def self.options_from(url)
+        url = URI(url)
+
         new_options = {}
-
-        url = case url
-              when URI  then url
-              when Hash then URI::HTTP.build(url)
-              else           URI(url.to_s)
-              end
-
         new_options[:ssl] = {} if url.scheme == 'https'
 
         new_options[:host] = url.host
@@ -179,7 +174,7 @@ module Ronin
         end
 
         if (url = new_options.delete(:url))
-          new_options.merge!(HTTP.expand_url(url))
+          new_options.merge!(HTTP.options_from(url))
         end
 
         new_options[:proxy] = if new_options.has_key?(:proxy)
