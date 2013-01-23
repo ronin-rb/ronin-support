@@ -477,8 +477,17 @@ module Ronin
       # @option options [Symbol, String] :method
       #   The HTTP method to use in the request.
       #
-      # @option options [String] :path
+      # @option options [String] :path ('/')
       #   The path to request from the HTTP server.
+      #
+      # @option options [String] :query
+      #   The query-string to append to the request path.
+      #
+      # @option options [String] :query_params
+      #   The query-params to append to the request path.
+      #
+      # @option options [String] :body
+      #   The body of the request.
       #
       # @option options [Hash] :headers
       #   The Hash of the HTTP headers to send with the request.
