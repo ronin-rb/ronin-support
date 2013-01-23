@@ -23,8 +23,8 @@ describe Network::SSL do
   end
 
   describe "helpers", :network do
-    let(:host) { 'github.com' }
-    let(:port) { 443 }
+    let(:host) { 'smtp.gmail.com' }
+    let(:port) { 465 }
 
     subject do
       obj = Object.new
@@ -33,9 +33,6 @@ describe Network::SSL do
     end
 
     describe "#ssl_open?" do
-      let(:host) { 'github.com' }
-      let(:port) { 443 }
-
       it "should return true for open ports" do
         subject.ssl_open?(host,port).should == true
       end
@@ -91,6 +88,37 @@ describe Network::SSL do
 
         socket.should be_kind_of(OpenSSL::SSL::SSLSocket)
         socket.should be_closed
+      end
+    end
+
+    describe "#ssl_connect_and_send" do
+      let(:data) { "HELO ronin\n" }
+
+      let(:expected_response) do
+        /220 mx.google.com ESMTP \w+{15}\.\d{2}/
+      end
+
+      it "should connect and then send data" do
+        socket   = subject.ssl_connect_and_send(data,host,port)
+        banner   = socket.readline
+        response = socket.readline
+
+        response.should == expected_response
+
+        socket.close
+       end
+
+      it "should yield the OpenSSL::SSL::SSLSocket" do
+        response = nil
+
+        socket = subject.ssl_connect_and_send(data,host,port) do |socket|
+          banner   = socket.readline
+          response = socket.readline
+        end
+
+        response.should =~ expected_response
+
+        socket.close
       end
     end
   end
