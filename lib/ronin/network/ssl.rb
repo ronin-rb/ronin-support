@@ -241,6 +241,52 @@ module Ronin
         ssl_socket.close
         return nil
       end
+
+      #
+      # Creates a new SSL connection and sends the given data.
+      #
+      # @param [String] data
+      #   The data to send through the connection.
+      #
+      # @param [String] host
+      #   The host to connect to.
+      #
+      # @param [Integer] port
+      #   The port to connect to.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @option options [String] :local_host
+      #   The local host to bind to.
+      #
+      # @option options [Integer] :local_port
+      #   The local port to bind to.
+      #
+      # @option options [Symbol] :verify
+      #   Specifies whether to verify the SSL certificate.
+      #
+      # @option options [String] :cert
+      #   The path to the SSL certificate.
+      #
+      # @option options [String] :key
+      #   The path to the SSL key.
+      #
+      # @yield [ssl_socket]
+      #   The given block will be passed the newly created SSL Socket.
+      #
+      # @yieldparam [OpenSSL::SSL::SSLSocket] ssl_socket
+      #   The newly created SSL Socket.
+      #
+      # @api public
+      #
+      def ssl_connect_and_send(data,host,port,options={})
+        ssl_socket = ssl_connect(host,port,options)
+        ssl_socket.write(data)
+
+        yield ssl_socket if block_given?
+        return ssl_socket
+      end
     end
   end
 end

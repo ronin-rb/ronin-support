@@ -140,7 +140,7 @@
 * Moved `Net.*` methods into the {Ronin::Network} modules.
 * Fixed bugs in {Ronin::Network::UDP#udp_connect} and
   {Ronin::Network::UDP#udp_server}.
-* Fixed a bug in {Ronin::Network::HTTP.expand_url}, where the URI query-string
+* Fixed a bug in `Ronin::Network::HTTP.expand_url`, where the URI query-string
   was not being escaped.
 * Allow {Ronin::Network::HTTP.request} to accept `:query` and `:query_params`
   options.
@@ -218,7 +218,7 @@
 * Added YARD `@api` tags to define the public, semi-public and private APIs.
 * Renamed `Kernel#attempt` to {Kernel#try}.
 * Allow `:method` to be used with `Net.http_ok?`.
-* Fixed a bug in {Ronin::Network::HTTP.expand_url} where `:host` and `:port`
+* Fixed a bug in `Ronin::Network::HTTP.expand_url` where `:host` and `:port`
   options were being overridden.
 * Improved the performance of {Integer#bytes}.
 * Only redefine `String#dump` for Ruby 1.8.x.
