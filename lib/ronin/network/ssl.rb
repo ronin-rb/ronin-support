@@ -35,10 +35,10 @@ module Ronin
 
       # SSL verify modes
       VERIFY = {
-        :client_once => OpenSSL::SSL::VERIFY_CLIENT_ONCE,
-        :fail_if_no_peer_cert => OpenSSL::SSL::VERIFY_FAIL_IF_NO_PEER_CERT,
-        :none => OpenSSL::SSL::VERIFY_NONE,
-        :peer => OpenSSL::SSL::VERIFY_PEER
+        client_once:          OpenSSL::SSL::VERIFY_CLIENT_ONCE,
+        fail_if_no_peer_cert: OpenSSL::SSL::VERIFY_FAIL_IF_NO_PEER_CERT,
+        none:                 OpenSSL::SSL::VERIFY_NONE,
+        peer:                 OpenSSL::SSL::VERIFY_PEER
       }
 
       #
