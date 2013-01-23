@@ -470,6 +470,10 @@ module Ronin
       # @return [nil]
       #
       # @example
+      #   # $ openssl genrsa -out ssl.key 1024
+      #   # $ openssl req -new -key ssl.key -x509 -days 3653 -out ssl.crt
+      #   # $ cat ssl.key ssl.crt > ssl.pem
+      #   # $ chmod 600 ssl.key ssl.pem
       #   tcp_server_loop(1337) do |client|
       #     client.puts 'lol'
       #   end
@@ -536,6 +540,10 @@ module Ronin
       # @return [nil]
       #
       # @example
+      #   # $ openssl genrsa -out ssl.key 1024
+      #   # $ openssl req -new -key ssl.key -x509 -days 3653 -out ssl.crt
+      #   # $ cat ssl.key ssl.crt > ssl.pem
+      #   # $ chmod 600 ssl.key ssl.pem
       #   ssl_accept(1337) do |client|
       #     client.puts 'lol'
       #   end
