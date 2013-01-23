@@ -237,8 +237,8 @@ module Ronin
       # @api public
       #
       def ssl_session(host,port,options={},&block)
-        ssl_socket = ssl_connect(host,port,options,&block)
-        ssl_socket.close
+        socket = ssl_connect(host,port,options,&block)
+        socket.close
         return nil
       end
 
@@ -283,11 +283,11 @@ module Ronin
       # @since 0.6.0
       #
       def ssl_connect_and_send(data,host,port,options={})
-        ssl_socket = ssl_connect(host,port,options)
-        ssl_socket.write(data)
+        socket = ssl_connect(host,port,options)
+        socket.write(data)
 
-        yield ssl_socket if block_given?
-        return ssl_socket
+        yield socket if block_given?
+        return socket
       end
 
       #
@@ -389,8 +389,8 @@ module Ronin
       # @since 0.6.0
       #
       def ssl_send(data,host,port,options={})
-        ssl_session(host,port,options) do |ssl_socket|
-          ssl_socket.write(data)
+        ssl_session(host,port,options) do |socket|
+          socket.write(data)
         end
 
         return true
