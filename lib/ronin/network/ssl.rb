@@ -389,6 +389,74 @@ module Ronin
 
         return true
       end
+
+      #
+      # Creates a new SSL socket listening on a given host and port.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @option options [Integer] :port
+      #   The local port to listen on.
+      #
+      # @option options [String] :host ('0.0.0.0')
+      #   The host to bind to.
+      #
+      # @option options [Integer] :backlog (5)
+      #   The maximum backlog of pending connections.
+      #
+      # @option options [Symbol] :verify
+      #   Specifies whether to verify the SSL certificate.
+      #
+      # @option options [String] :cert
+      #   The path to the SSL certificate.
+      #
+      # @option options [String] :key
+      #   The path to the SSL key.
+      #
+      # @yield [server]
+      #   The block which will be called after the server has been created.
+      #
+      # @yieldparam [OpenSSL::SSL::SSLSocket] server
+      #   The newly created SSL server.
+      #
+      # @return [OpenSSL::SSL::SSLSocket]
+      #   The new SSL server.
+      #
+      # @example
+      #   ssl_server(1337)
+      #
+      # @api public
+      #
+      def ssl_server(options={})
+        port    = options[:port]
+        host    = options[:host]
+        backlog = options.fetch(:backlog,5)
+        verify  = options.fetch(:verify,:none)
+        cert    = options[:cert]
+        key     = options[:key]
+
+        unless SSL::VERIFY.has_key?(verify)
+          raise("unknown verify mode #{verify}")
+        end
+
+        ssl_context = OpenSSL::SSL::SSLContext.new()
+        ssl_context.verify_mode = SSL::VERIFY[verify]
+
+        if cert
+          ssl_context.cert = OpenSSL::X509::Certificate.new(File.new(cert))
+        end
+
+        if key
+          ssl_context.key = OpenSSL::PKey::RSA.new(File.new(key))
+        end
+
+        server = tcp_server(port,host,backlog)
+        ssl_server = OpenSSL::SSL::SSLSocket.new(server,ssl_context)
+
+        yield ssl_server if block_given?
+        return ssl_server
+      end
     end
   end
 end

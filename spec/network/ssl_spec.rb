@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'ronin/network/ssl'
 
+require 'resolv'
+
 describe Network::SSL do
   describe 'VERIFY' do
     subject { Network::SSL::VERIFY }
@@ -25,6 +27,9 @@ describe Network::SSL do
   describe "helpers", :network do
     let(:host) { 'smtp.gmail.com' }
     let(:port) { 465 }
+
+    let(:server_host) { 'localhost' }
+    let(:server_ip)   { Resolv.getaddress(server_host) }
 
     subject do
       obj = Object.new
@@ -144,6 +149,43 @@ describe Network::SSL do
         end
 
         banner.should =~ expected_banner
+      end
+    end
+
+    describe "#ssl_server" do
+      let(:server_port) { 1024 + rand(65535 - 1024) }
+
+      it "should create a new OpenSSL::SSL::SSLSocket" do
+        server = subject.ssl_server
+
+        server.should be_kind_of(OpenSSL::SSL::SSLSocket)
+        server.should_not be_closed
+
+        server.close
+      end
+
+      it "should bind to a specific port and host" do
+        server     = subject.ssl_server(port: server_port, host: server_host)
+        bound_host = server.addr[3]
+        bound_port = server.addr[1]
+
+        bound_host.should == server_ip
+        bound_port.should == server_port
+
+        server.close
+      end
+
+      it "should yield the new OpenSSL::SSL::SSLSocket" do
+        server = nil
+        
+        subject.ssl_server do |yielded_server|
+          server = yielded_server
+        end
+
+        server.should be_kind_of(OpenSSL::SSL::SSLSocket)
+        server.should_not be_closed
+
+        server.close
       end
     end
   end
