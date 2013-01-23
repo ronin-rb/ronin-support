@@ -457,6 +457,57 @@ module Ronin
         yield ssl_server if block_given?
         return ssl_server
       end
+
+      #
+      # Creates a new temporary SSL socket listening on a host and port.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @option options [Integer] :port
+      #   The local port to listen on.
+      #
+      # @option options [String] :host ('0.0.0.0')
+      #   The host to bind to.
+      #
+      # @option options [Integer] :backlog (5)
+      #   The maximum backlog of pending connections.
+      #
+      # @option options [Symbol] :verify
+      #   Specifies whether to verify the SSL certificate.
+      #
+      # @option options [String] :cert
+      #   The path to the SSL certificate.
+      #
+      # @option options [String] :key
+      #   The path to the SSL key.
+      #
+      # @yield [server]
+      #   The block which will be called after the server has been created.
+      #
+      # @yieldparam [OpenSSL::SSL::SSLSocket] server
+      #   The newly created SSL server.
+      #
+      # @return [nil]
+      #
+      # @example
+      #   ssl_server_session(1337) do |server|
+      #     client1 = server.accept
+      #     client2 = server.accept
+      #
+      #     client2.write(server.read_line)
+      #
+      #     client1.close
+      #     client2.close
+      #   end
+      #
+      # @api public
+      #
+      def ssl_server_session(options={},&block)
+        server = ssl_server(options,&block)
+        server.close()
+        return nil
+      end
     end
   end
 end

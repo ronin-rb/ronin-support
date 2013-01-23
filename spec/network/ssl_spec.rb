@@ -188,5 +188,33 @@ describe Network::SSL do
         server.close
       end
     end
+
+    describe "#ssl_server_session" do
+      let(:server_port) { 1024 + rand(65535 - 1024) }
+
+      it "should create a temporary OpenSSL::SSL::SSLSocket" do
+        server = nil
+        
+        subject.ssl_server_session do |yielded_server|
+          server = yielded_server
+        end
+
+        server.should be_kind_of(OpenSSL::SSL::SSLSocket)
+        server.should be_closed
+      end
+
+      it "should bind to a specific port and host" do
+        bound_host = nil
+        bound_port = nil
+        
+        subject.ssl_server_session(port: server_port,host: server_host) do |server|
+          bound_host = server.addr[3]
+          bound_port = server.addr[1]
+        end
+
+        bound_host.should == server_ip
+        bound_port.should == server_port
+      end
+    end
   end
 end
