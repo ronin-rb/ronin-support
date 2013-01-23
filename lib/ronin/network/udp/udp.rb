@@ -86,7 +86,7 @@ module Ronin
       end
 
       #
-      # Creates a new UDPSocket object connected to a given host and port.
+      # Creates a new UDP sockeet connected to a given host and port.
       #
       # @param [String] host
       #   The host to connect to.
@@ -104,10 +104,10 @@ module Ronin
       #   If a block is given, it will be passed the newly created socket.
       #
       # @yieldparam [UDPsocket] socket
-      #   The newly created UDPSocket object.
+      #   The newly created UDP socket.
       #
       # @return [UDPSocket]
-      #   The newly created UDPSocket object.
+      #   The newly created UDP socket.
       #
       # @example
       #   udp_connect('www.hackety.org',80)
@@ -137,7 +137,7 @@ module Ronin
       end
 
       #
-      # Creates a new UDPSocket object, connected to a given host and port.
+      # Creates a new UDP socket, connected to a given host and port.
       # The given data will then be written to the newly created UDPSocket.
       #
       # @param [String] data
@@ -159,10 +159,10 @@ module Ronin
       #   If a block is given, it will be passed the newly created socket.
       #
       # @yieldparam [UDPsocket] socket
-      #   The newly created UDPSocket object.
+      #   The newly created UDP socket.
       #
       # @return [UDPSocket]
-      #   The newly created UDPSocket object.
+      #   The newly created UDP socket.
       #
       # @api public
       #
@@ -175,7 +175,7 @@ module Ronin
       end
 
       #
-      # Creates a new temporary UDPSocket object, connected to the given host
+      # Creates a new temporary UDP socket, connected to the given host
       # and port.
       #
       # @param [String] host
@@ -195,7 +195,7 @@ module Ronin
       #   After the block has returned, the socket will then be closed.
       #
       # @yieldparam [UDPsocket] socket
-      #   The newly created UDPSocket object.
+      #   The newly created UDP socket.
       #
       # @return [nil]
       #
@@ -286,7 +286,7 @@ module Ronin
       end
 
       #
-      # Creates a new UDPServer listening on a given host and port.
+      # Creates a new UDP server listening on a given host and port.
       #
       # @param [Integer] port
       #   The local port to listen on.
@@ -316,7 +316,7 @@ module Ronin
       end
 
       #
-      # Creates a new temporary UDPServer listening on a given host and port.
+      # Creates a new temporary UDP server listening on a given host and port.
       #
       # @param [Integer] port
       #   The local port to bind to.
@@ -347,21 +347,21 @@ module Ronin
       end
 
       #
-      # Creates a new UDPServer listening on a given host and port,
+      # Creates a new UDP server listening on a given host and port,
       # accepting messages from clients in a loop.
       #
       # @param [Integer] port
-      #   The port the UDPServer will listen on.
+      #   The port the UDP server will listen on.
       #
       # @param [String] host
-      #   The optional host the UDPServer will bind to.
+      #   The optional host the UDP server will bind to.
       #
       # @yield [server, (client_host, client_port), mesg]
       #   The given block will be passed the client host/port and the received
       #   message.
       #
       # @yieldparam [UDPServer] server
-      #   The UDPServer.
+      #   The UDP server.
       #
       # @yieldparam [String] client_host
       #   The source host of the message.
@@ -394,21 +394,21 @@ module Ronin
       end
 
       #
-      # Creates a new UDPServer listening on a given host and port,
+      # Creates a new UDP server listening on a given host and port,
       # accepts only one message from a client.
       #
       # @param [Integer] port
-      #   The port the UDPServer will listen on.
+      #   The port the UDP server will listen on.
       #
       # @param [String] host
-      #   The optional host the UDPServer will bind to.
+      #   The optional host the UDP server will bind to.
       #
       # @yield [server, (client_host, client_port), mesg]
       #   The given block will be passed the client host/port and the received
       #   message.
       #
       # @yieldparam [UDPServer] server
-      #   The UDPServer.
+      #   The UDP server.
       #
       # @yieldparam [String] client_host
       #   The source host of the message.
