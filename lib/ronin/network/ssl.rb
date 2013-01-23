@@ -280,6 +280,8 @@ module Ronin
       #
       # @api public
       #
+      # @since 0.6.0
+      #
       def ssl_connect_and_send(data,host,port,options={})
         ssl_socket = ssl_connect(host,port,options)
         ssl_socket.write(data)
@@ -329,6 +331,8 @@ module Ronin
       #   # => "220 mx.google.com ESMTP c20sm3096959rvf.1"
       #
       # @api public
+      #
+      # @since 0.6.0
       #
       def ssl_banner(host,port,options={})
         banner = nil
@@ -382,6 +386,8 @@ module Ronin
       #
       # @api public
       #
+      # @since 0.6.0
+      #
       def ssl_send(data,host,port,options={})
         ssl_session(host,port,options) do |ssl_socket|
           ssl_socket.write(data)
@@ -427,6 +433,8 @@ module Ronin
       #   ssl_server(1337)
       #
       # @api public
+      #
+      # @since 0.6.0
       #
       def ssl_server(options={})
         port    = options[:port]
@@ -503,6 +511,8 @@ module Ronin
       #
       # @api public
       #
+      # @since 0.6.0
+      #
       def ssl_server_session(options={},&block)
         server = ssl_server(options,&block)
         server.close()
@@ -549,6 +559,8 @@ module Ronin
       #   end
       #
       # @api public
+      #
+      # @since 0.6.0
       #
       def ssl_server_loop(options={})
         ssl_server_session(options) do |server|
@@ -607,6 +619,8 @@ module Ronin
       #   end
       #
       # @api public
+      #
+      # @since 0.6.0
       #
       def ssl_accept(options={})
         ssl_server_session(options.merge(:backlog => 1)) do |server|
