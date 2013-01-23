@@ -37,8 +37,8 @@ module Ronin
         include Mixin, Network::UNIX
 
         # UNIX path
-        parameter :path, :type        => String,
-                         :description => 'UNIX Socket path'
+        parameter :path, type:        String,
+                         description: 'UNIX Socket path'
 
         protected
 

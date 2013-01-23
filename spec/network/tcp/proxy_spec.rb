@@ -1,16 +1,16 @@
 require 'spec_helper'
 require 'ronin/network/tcp/proxy'
 
-describe Network::TCP::Proxy, :network => true do
+describe Network::TCP::Proxy, network: true do
   let(:port)   { 1337                    }
   let(:host)   { 'localhost'             }
   let(:server) { ['www.example.com', 80] }
 
   before(:each) do
     @proxy  = described_class.new(
-      :port   => port,
-      :host   => host,
-      :server => server
+      port:   port,
+      host:   host,
+      server: server
     )
     @thread = Thread.new { @proxy.start }
 

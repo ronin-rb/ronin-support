@@ -35,7 +35,7 @@ describe Behaviors::Buildable do
     end
 
     it "should accept parameters as options" do
-      subject.build!(:var => 'dave')
+      subject.build!(var: 'dave')
 
       subject.output.should == "hello dave"
       subject.var.should == 'dave'

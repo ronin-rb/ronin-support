@@ -67,7 +67,7 @@ class Resolv
   # @api public
   #
   def Resolv.[](*nameservers)
-    DNS.new(:nameserver => nameservers)
+    DNS.new(nameserver: nameservers)
   end
 
   #

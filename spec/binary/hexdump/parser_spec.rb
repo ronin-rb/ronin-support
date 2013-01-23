@@ -12,7 +12,7 @@ describe Binary::Hexdump::Parser do
 
     context "octal bytes" do
       subject do
-        described_class.new(:format => :hexdump, :encoding => :octal_bytes)
+        described_class.new(format: :hexdump, encoding: :octal_bytes)
       end
 
       let(:hexdump) { load_hexdump('hexdump_octal_bytes') }
@@ -24,7 +24,7 @@ describe Binary::Hexdump::Parser do
 
     context " hex bytes" do
       subject do
-        described_class.new(:format => :hexdump, :encoding => :hex_bytes)
+        described_class.new(format: :hexdump, encoding: :hex_bytes)
       end
 
       let(:hexdump) { load_hexdump('hexdump_hex_bytes') }
@@ -36,7 +36,7 @@ describe Binary::Hexdump::Parser do
 
     context "decimal shorts" do
       subject do
-        described_class.new(:format => :hexdump, :encoding => :decimal_shorts)
+        described_class.new(format: :hexdump, encoding: :decimal_shorts)
       end
 
       let(:hexdump) { load_hexdump('hexdump_decimal_shorts') }
@@ -48,7 +48,7 @@ describe Binary::Hexdump::Parser do
 
     context "octal shorts" do
       subject do
-        described_class.new(:format => :hexdump, :encoding => :octal_shorts)
+        described_class.new(format: :hexdump, encoding: :octal_shorts)
       end
 
       let(:hexdump) { load_hexdump('hexdump_octal_shorts') }
@@ -60,7 +60,7 @@ describe Binary::Hexdump::Parser do
 
     context "hex shorts" do
       subject do
-        described_class.new(:format => :hexdump, :encoding => :hex_shorts)
+        described_class.new(format: :hexdump, encoding: :hex_shorts)
       end
 
       let(:hexdump) { load_hexdump('hexdump_hex_shorts') }
@@ -72,7 +72,7 @@ describe Binary::Hexdump::Parser do
 
     context "repeated" do
       subject do
-        described_class.new(:format => :hexdump, :encoding => :hex_bytes)
+        described_class.new(format: :hexdump, encoding: :hex_bytes)
       end
 
       let(:hexdump) { load_hexdump('hexdump_repeated') }
@@ -89,7 +89,7 @@ describe Binary::Hexdump::Parser do
 
     context "octal bytes" do
       subject do
-        described_class.new(:format => :od, :encoding => :octal_bytes)
+        described_class.new(format: :od, encoding: :octal_bytes)
       end
 
       let(:hexdump) { load_hexdump('od_octal_bytes') }
@@ -101,7 +101,7 @@ describe Binary::Hexdump::Parser do
 
     context "octal shorts" do
       subject do
-        described_class.new(:format => :od, :encoding => :octal_shorts)
+        described_class.new(format: :od, encoding: :octal_shorts)
       end
 
       let(:hexdump) { load_hexdump('od_octal_shorts') }
@@ -113,7 +113,7 @@ describe Binary::Hexdump::Parser do
 
     context "octal ints" do
       subject do
-        described_class.new(:format => :od, :encoding => :octal_ints)
+        described_class.new(format: :od, encoding: :octal_ints)
       end
 
       let(:hexdump) { load_hexdump('od_octal_ints') }
@@ -125,7 +125,7 @@ describe Binary::Hexdump::Parser do
 
     context "octal quads" do
       subject do
-        described_class.new(:format => :od, :encoding => :octal_quads)
+        described_class.new(format: :od, encoding: :octal_quads)
       end
 
       let(:hexdump) { load_hexdump('od_octal_quads') }
@@ -137,7 +137,7 @@ describe Binary::Hexdump::Parser do
 
     context "decimal bytes" do
       subject do
-        described_class.new(:format => :od, :encoding => :decimal_bytes)
+        described_class.new(format: :od, encoding: :decimal_bytes)
       end
 
       let(:hexdump) { load_hexdump('od_decimal_bytes') }
@@ -149,7 +149,7 @@ describe Binary::Hexdump::Parser do
 
     context "decimal shorts" do
       subject do
-        described_class.new(:format => :od, :encoding => :decimal_shorts)
+        described_class.new(format: :od, encoding: :decimal_shorts)
       end
 
       let(:hexdump) { load_hexdump('od_decimal_shorts') }
@@ -161,7 +161,7 @@ describe Binary::Hexdump::Parser do
 
     context "decimal ints" do
       subject do
-        described_class.new(:format => :od, :encoding => :decimal_ints)
+        described_class.new(format: :od, encoding: :decimal_ints)
       end
 
       let(:hexdump) { load_hexdump('od_decimal_ints') }
@@ -173,7 +173,7 @@ describe Binary::Hexdump::Parser do
 
     context "decimal quads" do
       subject do
-        described_class.new(:format => :od, :encoding => :decimal_quads)
+        described_class.new(format: :od, encoding: :decimal_quads)
       end
 
       let(:hexdump) { load_hexdump('od_decimal_quads') }
@@ -185,7 +185,7 @@ describe Binary::Hexdump::Parser do
 
     context "named chars" do
       subject do
-        described_class.new(:format => :od, :encoding => :named_chars)
+        described_class.new(format: :od, encoding: :named_chars)
       end
 
       let(:mask)    { ~(1 << 7) }
@@ -199,7 +199,7 @@ describe Binary::Hexdump::Parser do
 
     context "hex bytes" do
       subject do
-        described_class.new(:format => :od, :encoding => :hex_bytes)
+        described_class.new(format: :od, encoding: :hex_bytes)
       end
 
       let(:hexdump) { load_hexdump('od_hex_bytes') }
@@ -211,7 +211,7 @@ describe Binary::Hexdump::Parser do
 
     context "hex shorts" do
       subject do
-        described_class.new(:format => :od, :encoding => :hex_shorts)
+        described_class.new(format: :od, encoding: :hex_shorts)
       end
 
       let(:hexdump) { load_hexdump('od_hex_shorts') }
@@ -223,7 +223,7 @@ describe Binary::Hexdump::Parser do
 
     context "hex ints" do
       subject do
-        described_class.new(:format => :od, :encoding => :hex_ints)
+        described_class.new(format: :od, encoding: :hex_ints)
       end
 
       let(:hexdump) { load_hexdump('od_hex_ints') }
@@ -235,7 +235,7 @@ describe Binary::Hexdump::Parser do
 
     context "hex quads" do
       subject do
-        described_class.new(:format => :od, :encoding => :hex_quads)
+        described_class.new(format: :od, encoding: :hex_quads)
       end
 
       let(:hexdump) { load_hexdump('od_hex_quads') }
@@ -247,7 +247,7 @@ describe Binary::Hexdump::Parser do
 
     context "floats" do
       subject do
-        described_class.new(:format => :od, :encoding => :floats)
+        described_class.new(format: :od, encoding: :floats)
       end
 
       let(:data) do
@@ -265,7 +265,7 @@ describe Binary::Hexdump::Parser do
 
     context "doubles" do
       subject do
-        described_class.new(:format => :od, :encoding => :doubles)
+        described_class.new(format: :od, encoding: :doubles)
       end
 
       let(:data) do
@@ -283,7 +283,7 @@ describe Binary::Hexdump::Parser do
 
     context "repeated" do
       subject do
-        described_class.new(:format => :od, :encoding => :octal_shorts)
+        described_class.new(format: :od, encoding: :octal_shorts)
       end
 
       let(:hexdump) { load_hexdump('od_repeated') }

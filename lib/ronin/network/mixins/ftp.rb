@@ -40,24 +40,24 @@ module Ronin
         include Mixin, Network::FTP
 
         # FTP host
-        parameter :host, :type => String,
-                         :description => 'FTP host'
+        parameter :host, type:        String,
+                         description: 'FTP host'
 
         # FTP port
-        parameter :port, :type => Integer,
-                         :description => 'FTP port'
+        parameter :port, type:        Integer,
+                         description: 'FTP port'
 
         # FTP user to login as
-        parameter :ftp_user, :type => String,
-                              :description => 'FTP user to login as'
+        parameter :ftp_user, type:        String,
+                             description: 'FTP user to login as'
 
         # FTP password to login with
-        parameter :ftp_password, :type => String,
-                                  :description => 'FTP password to login with'
+        parameter :ftp_password, type:        String,
+                                 description: 'FTP password to login with'
 
         # FTP account information to send
-        parameter :ftp_password, :type => String,
-                                  :description => 'FTP account information'
+        parameter :ftp_password, type:        String,
+                                 description: 'FTP account information'
 
         protected
 

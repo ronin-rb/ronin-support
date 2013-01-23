@@ -30,9 +30,9 @@ module Ronin
       module Mixin
         include Parameters, UI::Printing
 
-        parameter :host, :type => String
+        parameter :host, type: String
 
-        parameter :port, :type => Integer
+        parameter :port, type: Integer
 
         protected
 

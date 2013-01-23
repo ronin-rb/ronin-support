@@ -40,25 +40,25 @@ describe String do
     end
 
     it "should format specific bytes in a String" do
-      subject.format_bytes(:include => [104, 108]) { |b|
+      subject.format_bytes(include: [104, 108]) { |b|
         b - 32
       }.should == 'HeLLo'
     end
 
     it "should not format specific bytes in a String" do
-      subject.format_bytes(:exclude => [101, 111]) { |b|
+      subject.format_bytes(exclude: [101, 111]) { |b|
         b - 32
       }.should == 'HeLLo'
     end
 
     it "should format ranges of bytes in a String" do
-      subject.format_bytes(:include => (104..108)) { |b|
+      subject.format_bytes(include: (104..108)) { |b|
         b - 32
       }.should == 'HeLLo'
     end
 
     it "should not format ranges of bytes in a String" do
-      subject.format_bytes(:exclude => (104..108)) { |b|
+      subject.format_bytes(exclude: (104..108)) { |b|
         b - 32
       }.should == 'hEllO'
     end
@@ -72,25 +72,25 @@ describe String do
     end
 
     it "should format specific chars in a String" do
-      subject.format_chars(:include => ['h', 'l']) { |c|
+      subject.format_chars(include: ['h', 'l']) { |c|
         c.upcase
       }.should == 'HeLLo'
     end
 
     it "should not format specific chars in a String" do
-      subject.format_chars(:exclude => ['h', 'l']) { |c|
+      subject.format_chars(exclude: ['h', 'l']) { |c|
         c.upcase
       }.should == 'hEllO'
     end
 
     it "should format ranges of chars in a String" do
-      subject.format_chars(:include => ('h'..'l')) { |c|
+      subject.format_chars(include: ('h'..'l')) { |c|
         c.upcase
       }.should == 'HeLLo'
     end
 
     it "should not format ranges of chars in a String" do
-      subject.format_chars(:exclude => ('h'..'l')) { |c|
+      subject.format_chars(exclude: ('h'..'l')) { |c|
         c.upcase
       }.should == 'hEllO'
     end
@@ -98,13 +98,13 @@ describe String do
 
   describe "#random_case" do
     it "should capitalize each character when :probability is 1.0" do
-      new_string = subject.random_case(:probability => 1.0)
+      new_string = subject.random_case(probability: 1.0)
 
       subject.upcase.should == new_string
     end
 
     it "should not capitalize any characters when :probability is 0.0" do
-      new_string = subject.random_case(:probability => 0.0)
+      new_string = subject.random_case(probability: 0.0)
 
       subject.should == new_string
     end

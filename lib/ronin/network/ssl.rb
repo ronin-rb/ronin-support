@@ -145,7 +145,7 @@ module Ronin
       #   ssl_open?('www.bankofamerica.com',443)
       #
       # @example Using a timeout:
-      #   ssl_open?('example.com',80,:timeout => 5)
+      #   ssl_open?('example.com',80, timeout: 5)
       #   # => nil
       #
       # @api public

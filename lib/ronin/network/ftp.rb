@@ -91,7 +91,7 @@ module Ronin
       #   The FTP session.
       #
       # @example
-      #   ftp_connect('www.example.com', :user => 'joe', :password => 'secret')
+      #   ftp_connect('www.example.com', user: 'joe', password: 'secret')
       #
       # @api public
       #
@@ -128,7 +128,7 @@ module Ronin
       #   The FTP session.
       #
       # @example
-      #   ftp_session('www.example.com', :user => 'joe') do |ftp|
+      #   ftp_session('www.example.com', user: 'joe') do |ftp|
       #     # ...
       #   end
       #

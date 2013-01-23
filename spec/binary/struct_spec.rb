@@ -23,8 +23,8 @@ describe Binary::Struct do
     context "when given fields" do
       it "should populate fields" do
         subject.class.fields.should == {
-          :x => [:uint, nil],
-          :y => [:uint, nil]
+          x: [:uint, nil],
+          y: [:uint, nil]
         }
       end
 

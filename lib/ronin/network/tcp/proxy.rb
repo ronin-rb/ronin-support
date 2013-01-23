@@ -32,7 +32,7 @@ module Ronin
       #     require 'ronin/network/tcp/proxy'
       #     require 'hexdump'
       #
-      #     Ronin::Network::TCP::Proxy.start(:port => 1337, :server => ['www.wired.com', 80]) do |proxy|
+      #     Ronin::Network::TCP::Proxy.start(port: 1337, server: ['www.wired.com', 80]) do |proxy|
       #       address = lambda { |socket|
       #         addrinfo = socket.peeraddr
       #

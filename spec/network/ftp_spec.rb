@@ -35,7 +35,7 @@ describe Network::FTP do
         end
 
         it "should allow disabling passive mode" do
-          ftp = subject.ftp_connect(host, :passive => false)
+          ftp = subject.ftp_connect(host, passive: false)
 
           ftp.passive.should be_false
           ftp.close

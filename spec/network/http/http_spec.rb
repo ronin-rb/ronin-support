@@ -19,8 +19,8 @@ describe Network::HTTP do
 
     it "should accept Hashes" do
       hash = {
-        :host => url.host,
-        :port => url.port,
+        host: url.host,
+        port: url.port,
       }
       options = subject.options_from(hash)
 
@@ -84,14 +84,14 @@ describe Network::HTTP do
 
   describe "normalize_options" do
     it "should expand the :ssl option into a Hash" do
-      options = {:ssl => true}
+      options = {ssl: true}
       expanded_options = subject.normalize_options(options)
 
       expanded_options[:ssl].should == {}
     end
 
     it "should added a default port and path" do
-      options = {:host => 'example.com'}
+      options = {host: 'example.com'}
       expanded_options = subject.normalize_options(options)
 
       expanded_options[:port].should == 80
@@ -99,14 +99,14 @@ describe Network::HTTP do
     end
 
     it "should add the default proxy settings" do
-      options = {:host => 'example.com'}
+      options = {host: 'example.com'}
       expanded_options = subject.normalize_options(options)
 
       expanded_options[:proxy].should == subject.proxy
     end
 
     it "should disable the proxy settings if :proxy is nil" do
-      options = {:host => 'example.com', :proxy => nil}
+      options = {host: 'example.com', proxy: nil}
       expanded_options = subject.normalize_options(options)
 
       expanded_options[:proxy][:host].should be_nil
@@ -114,15 +114,15 @@ describe Network::HTTP do
     end
 
     it "should not modify :proxy if it is a HTTP::Proxy object" do
-      proxy = Network::HTTP::Proxy.new(:host => 'proxy.com', :port => 8181)
-      options = {:host => 'example.com', :proxy => proxy}
+      proxy = Network::HTTP::Proxy.new(host: 'proxy.com', port: 8181)
+      options = {host: 'example.com', proxy: proxy}
       expanded_options = subject.normalize_options(options)
 
       expanded_options[:proxy].should == proxy
     end
 
     it "should parse the :proxy option" do
-      options = {:host => 'example.com', :proxy => 'http://proxy.com:8181'}
+      options = {host: 'example.com', proxy: 'http://proxy.com:8181'}
       expanded_options = subject.normalize_options(options)
 
       expanded_options[:proxy][:host].should == 'proxy.com'
@@ -130,7 +130,7 @@ describe Network::HTTP do
     end
 
     it "should expand the :url option" do
-      options = {:url => 'http://joe:secret@example.com:8080/bla?var'}
+      options = {url: 'http://joe:secret@example.com:8080/bla?var'}
       expanded_options = subject.normalize_options(options)
 
       expanded_options[:url].should be_nil
@@ -145,7 +145,7 @@ describe Network::HTTP do
 
   describe "headers" do
     it "should convert Symbol options to HTTP Headers" do
-      options = {:user_agent => 'bla', :location => 'test'}
+      options = {user_agent: 'bla', location: 'test'}
 
       subject.headers(options).should == {
         'User-Agent' => 'bla',
@@ -164,7 +164,7 @@ describe Network::HTTP do
 
     it "should convert all values to Strings" do
       mtime = Time.now.to_i
-      options = {:modified_by => mtime, :x_accept => :gzip}
+      options = {modified_by: mtime, x_accept: :gzip}
 
       subject.headers(options).should == {
         'Modified-By' => mtime.to_s,
@@ -176,25 +176,25 @@ describe Network::HTTP do
   describe "request" do
     it "should handle Symbol names" do
       subject.request(
-        :method => :get, :path => '/'
+        method: :get, path: '/'
       ).class.should == Net::HTTP::Get
     end
 
     it "should handle String names" do
       subject.request(
-        :method => 'GET', :path => '/'
+        method: 'GET', path: '/'
       ).class.should == Net::HTTP::Get
     end
 
     context "with :path" do
       it "should use a default path" do
         lambda {
-          subject.request(:method => :get)
+          subject.request(method: :get)
         }.should_not raise_error(ArgumentError)
       end
 
       it "should set the path" do
-        req = subject.request(:method => :get, :path => '/foo')
+        req = subject.request(method: :get, path: '/foo')
 
         req.path.should == '/foo'
       end
@@ -206,9 +206,9 @@ describe Network::HTTP do
 
       it "should append the query-string to the path" do
         req = subject.request(
-          :method => :get,
-          :path   => path,
-          :query  => query
+          method: :get,
+          path:   path,
+          query:  query
         )
 
         req.path.should == "#{path}?#{query}"
@@ -219,9 +219,9 @@ describe Network::HTTP do
 
         it "should append the query using a '&' character" do
           req = subject.request(
-            :method => :get,
-            :path   => "#{path}?#{query}",
-            :query  => additional_query
+            method: :get,
+            path:   "#{path}?#{query}",
+            query:  additional_query
           )
 
           req.path.should == "#{path}?#{query}&#{additional_query}"
@@ -230,9 +230,9 @@ describe Network::HTTP do
         context "when :query is empty" do
           it "should append an extra '&'" do
             req = subject.request(
-              :method => :get,
-              :path   => "#{path}?#{query}",
-              :query  => ''
+              method: :get,
+              path:   "#{path}?#{query}",
+              query:  ''
             )
 
             req.path.should be_end_with('&')
@@ -243,9 +243,9 @@ describe Network::HTTP do
       context "when :query is empty" do
         it "should append an extra '?'" do
           req = subject.request(
-            :method => :get,
-            :path   => path,
-            :query  => ''
+            method: :get,
+            path:   path,
+            query:  ''
           )
 
           req.path.should be_end_with('?')
@@ -255,16 +255,16 @@ describe Network::HTTP do
 
     context "with :user and :password" do
       it "should accept the :user option for Basic-Auth" do
-        req = subject.request(:method => :get, :user => 'joe')
+        req = subject.request(method: :get, user: 'joe')
 
         req['authorization'].should == "Basic am9lOg=="
       end
 
       it "should also accept the :password options for Basic-Auth" do
         req = subject.request(
-          :method => :get,
-          :user => 'joe',
-          :password => 'secret'
+          method:   :get,
+          user:     'joe',
+          password: 'secret'
         )
 
         req['authorization'].should == "Basic am9lOnNlY3JldA=="
@@ -273,86 +273,86 @@ describe Network::HTTP do
 
     context "with :method" do
       it "should create HTTP Copy requests" do
-        req = subject.request(:method => :copy)
+        req = subject.request(method: :copy)
 
         req.class.should == Net::HTTP::Copy
       end
 
       it "should create HTTP Delete requests" do
-        req = subject.request(:method => :delete)
+        req = subject.request(method: :delete)
 
         req.class.should == Net::HTTP::Delete
       end
 
       it "should create HTTP Get requests" do
-        req = subject.request(:method => :get)
+        req = subject.request(method: :get)
 
         req.class.should == Net::HTTP::Get
       end
 
       it "should create HTTP Head requests" do
-        req = subject.request(:method => :head)
+        req = subject.request(method: :head)
 
         req.class.should == Net::HTTP::Head
       end
 
       it "should create HTTP Lock requests" do
-        req = subject.request(:method => :lock)
+        req = subject.request(method: :lock)
 
         req.class.should == Net::HTTP::Lock
       end
 
       it "should create HTTP Mkcol requests" do
-        req = subject.request(:method => :mkcol)
+        req = subject.request(method: :mkcol)
 
         req.class.should == Net::HTTP::Mkcol
       end
 
       it "should create HTTP Move requests" do
-        req = subject.request(:method => :move)
+        req = subject.request(method: :move)
 
         req.class.should == Net::HTTP::Move
       end
 
       it "should create HTTP Options requests" do
-        req = subject.request(:method => :options)
+        req = subject.request(method: :options)
 
         req.class.should == Net::HTTP::Options
       end
 
       it "should create HTTP Post requests" do
-        req = subject.request(:method => :post)
+        req = subject.request(method: :post)
 
         req.class.should == Net::HTTP::Post
       end
 
       it "should create HTTP Propfind requests" do
-        req = subject.request(:method => :propfind)
+        req = subject.request(method: :propfind)
 
         req.class.should == Net::HTTP::Propfind
       end
 
       it "should create HTTP Proppatch requests" do
-        req = subject.request(:method => :proppatch)
+        req = subject.request(method: :proppatch)
 
         req.class.should == Net::HTTP::Proppatch
       end
 
       it "should create HTTP Trace requests" do
-        req = subject.request(:method => :trace)
+        req = subject.request(method: :trace)
 
         req.class.should == Net::HTTP::Trace
       end
 
       it "should create HTTP Unlock requests" do
-        req = subject.request(:method => :unlock)
+        req = subject.request(method: :unlock)
 
         req.class.should == Net::HTTP::Unlock
       end
 
       it "should raise an UnknownRequest exception for invalid methods" do
         lambda {
-          subject.request(:method => :bla)
+          subject.request(method: :bla)
         }.should raise_error(subject::UnknownRequest)
       end
     end
@@ -368,7 +368,7 @@ describe Network::HTTP do
     let(:host) { 'www.google.com' }
     let(:port) { 80 }
     let(:path) { '/' }
-    let(:uri)  { URI::HTTP.build(:host => host, :port => 80, :path => path) }
+    let(:uri)  { URI::HTTP.build(host: host, port: 80, path: path) }
 
     subject do
       obj = Object.new
@@ -378,7 +378,7 @@ describe Network::HTTP do
 
     describe "#http_connect" do
       it "should create a Net::HTTP session" do
-        http = subject.http_connect(:host => host, :port => port)
+        http = subject.http_connect(host: host, port: port)
         
         http.should be_kind_of(Net::HTTP)
         http.should be_started
@@ -389,7 +389,7 @@ describe Network::HTTP do
       it "should yield the new Net::HTTP session" do
         http = nil
 
-        subject.http_connect(:url => uri) do |session|
+        subject.http_connect(url: uri) do |session|
           http = session
         end
 
@@ -399,7 +399,7 @@ describe Network::HTTP do
       it "should allow yielding the expanded options" do
         expanded_options = nil
 
-        subject.http_connect(:url => uri) do |session,options|
+        subject.http_connect(url: uri) do |session,options|
           expanded_options = options
         end
 
@@ -413,7 +413,7 @@ describe Network::HTTP do
       it "should start and then finish a Net::HTTP session" do
         http = nil
         
-        subject.http_session(:host => host, :port => port) do |session|
+        subject.http_session(host: host, port: port) do |session|
           http = session
         end
         
@@ -424,7 +424,7 @@ describe Network::HTTP do
       it "should allow yielding the Net::HTTP session" do
         http = nil
 
-        subject.http_session(:url => uri) do |session|
+        subject.http_session(url: uri) do |session|
           http = session
         end
         
@@ -434,7 +434,7 @@ describe Network::HTTP do
       it "should allow yielding the expanded options" do
         expanded_options = nil
 
-        subject.http_session(:url => uri) do |session,options|
+        subject.http_session(url: uri) do |session,options|
           expanded_options = options
         end
 
@@ -446,7 +446,7 @@ describe Network::HTTP do
 
     describe "#http_request" do
       it "should send an arbitrary request and return the response" do
-        response = subject.http_request(:url => uri, :method => :options)
+        response = subject.http_request(url: uri, method: :options)
 
         response.should be_kind_of(Net::HTTPMethodNotAllowed)
       end
@@ -454,7 +454,7 @@ describe Network::HTTP do
       it "should allow yielding the request" do
         request = nil
 
-        subject.http_request(:url => uri, :method => :options) do |req|
+        subject.http_request(url: uri, method: :options) do |req|
           request = req
         end
 
@@ -464,7 +464,7 @@ describe Network::HTTP do
       it "should allow yielding the expanded options" do
         expanded_options = nil
 
-        subject.http_request(:url => uri, :method => :options) do |req,options|
+        subject.http_request(url: uri, method: :options) do |req,options|
           expanded_options = options
         end
         
@@ -476,40 +476,40 @@ describe Network::HTTP do
 
     describe "#http_status" do
       it "should return an Integer" do
-        subject.http_status(:url => uri).should be_kind_of(Integer)
+        subject.http_status(url: uri).should be_kind_of(Integer)
       end
 
       it "should return the status-code of the Response" do
-        subject.http_status(:url => uri).should == 200
+        subject.http_status(url: uri).should == 200
       end
     end
 
     describe "#http_ok?" do
       it "should check if the Response has code 200" do
-        subject.http_ok?(:url => uri).should == true
+        subject.http_ok?(url: uri).should == true
       end
     end
 
     describe "#http_server" do
       let(:url)     { "http://www.php.net/" }
-      let(:headers) { subject.http_get_headers(:url => url) }
+      let(:headers) { subject.http_get_headers(url: url) }
 
       it "should return the 'Server' header" do
-        subject.http_server(:url => url).should == headers['Server']
+        subject.http_server(url: url).should == headers['Server']
       end
     end
 
     describe "#http_powered_by" do
       let(:url)     { "http://www.php.net/" }
-      let(:headers) { subject.http_get_headers(:url => url) }
+      let(:headers) { subject.http_get_headers(url: url) }
 
       it "should return the 'X-Powered-By' header" do
-        subject.http_powered_by(:url => url).should == headers['X-Powered-By']
+        subject.http_powered_by(url: url).should == headers['X-Powered-By']
       end
     end
 
     describe "#http_get_headers" do
-      let(:headers) { subject.http_get_headers(:url => uri) }
+      let(:headers) { subject.http_get_headers(url: uri) }
 
       it "should return HTTP Headers" do
         headers.should_not be_empty
@@ -525,7 +525,7 @@ describe Network::HTTP do
 
     describe "#http_get_body" do
       it "should return the response body" do
-        body = subject.http_get_body(:url => uri)
+        body = subject.http_get_body(url: uri)
 
         body.should be_kind_of(String)
         body.should_not be_empty
@@ -533,7 +533,7 @@ describe Network::HTTP do
     end
 
     describe "#http_post_headers" do
-      let(:headers) { subject.http_post_headers(:url => uri) }
+      let(:headers) { subject.http_post_headers(url: uri) }
 
       it "should return HTTP Headers" do
         headers.should_not be_empty
@@ -549,7 +549,7 @@ describe Network::HTTP do
 
     describe "#http_post_body" do
       it "should return the response body" do
-        body = subject.http_post_body(:url => uri)
+        body = subject.http_post_body(url: uri)
 
         body.should be_kind_of(String)
         body.should_not be_empty

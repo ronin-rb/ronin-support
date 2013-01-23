@@ -4,7 +4,7 @@ class BuildableClass
 
   include Ronin::Behaviors::Buildable
 
-  parameter :var, :default => 'world'
+  parameter :var, default: 'world'
 
   attr_reader :output
 

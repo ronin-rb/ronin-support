@@ -35,8 +35,8 @@ module Ronin
       module DNS
         include Mixin, Network::DNS
 
-        parameter :nameserver, :type => String,
-                               :description => 'DNS nameserver'
+        parameter :nameserver, type:        String,
+                               description: 'DNS nameserver'
 
         protected
 
