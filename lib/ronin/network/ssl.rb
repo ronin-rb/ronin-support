@@ -474,7 +474,7 @@ module Ronin
       #   # $ openssl req -new -key ssl.key -x509 -days 3653 -out ssl.crt
       #   # $ cat ssl.key ssl.crt > ssl.pem
       #   # $ chmod 600 ssl.key ssl.pem
-      #   tcp_server_loop(1337) do |client|
+      #   ssl_server_loop(1337) do |client|
       #     client.puts 'lol'
       #   end
       #
