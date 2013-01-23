@@ -77,7 +77,7 @@ module Ronin
       end
 
       #
-      # Creates a new TCPSocket object connected to a given host and port.
+      # Creates a new TCP socket connected to a given host and port.
       #
       # @param [String] host
       #   The host to connect to.
@@ -95,13 +95,14 @@ module Ronin
       #   If a block is given, it will be passed the newly created socket.
       #
       # @yieldparam [TCPsocket] socket
-      #   The newly created TCPSocket object.
+      #   The newly created TCP socket.
       #
       # @return [TCPSocket]
-      #   The newly created TCPSocket object.
+      #   The newly created TCP socket.
       #
       # @example
-      #   tcp_connect('www.hackety.org',80) # => TCPSocket
+      #   tcp_connect('www.hackety.org',80)
+      #   # => TCPSocket
       #
       # @example
       #   tcp_connect('www.wired.com',80) do |socket|
@@ -128,8 +129,8 @@ module Ronin
       end
 
       #
-      # Creates a new TCPSocket object, connected to a given host and port.
-      # The given data will then be written to the newly created TCPSocket.
+      # Creates a new TCP socket, connected to a given host and port.
+      # The given data will then be written to the newly created socket.
       #
       # @param [String] data
       #   The data to send through the connection.
@@ -150,7 +151,7 @@ module Ronin
       #   If a block is given, it will be passed the newly created socket.
       #
       # @yieldparam [TCPSocket] socket
-      #   The newly created TCPSocket object.
+      #   The newly created TCP socket.
       #
       # @api public
       #
@@ -163,7 +164,7 @@ module Ronin
       end
 
       #
-      # Creates a new temporary TCPSocket object, connected to the given host
+      # Creates a new temporary TCP socket, connected to the given host
       # and port.
       #
       # @param [String] host
@@ -183,7 +184,7 @@ module Ronin
       #   After the block has returned, the socket will then be closed.
       #
       # @yieldparam [TCPsocket] socket
-      #   The newly created TCPSocket object.
+      #   The newly created TCP socket.
       #
       # @return [nil]
       #
@@ -276,7 +277,7 @@ module Ronin
       end
 
       #
-      # Creates a new TCPServer listening on a given host and port.
+      # Creates a new TCP socket listening on a given host and port.
       #
       # @param [Integer] port
       #   The local port to listen on.
@@ -315,7 +316,7 @@ module Ronin
       end
 
       #
-      # Creates a new temporary TCPServer listening on a host and port.
+      # Creates a new temporary TCP socket listening on a host and port.
       #
       # @param [Integer] port
       #   The local port to bind to.
@@ -355,7 +356,7 @@ module Ronin
       end
 
       #
-      # Creates a new TCPServer listening on a given host and port,
+      # Creates a new TCP socket listening on a given host and port,
       # accepting clients in a loop.
       #
       # @param [Integer] port
@@ -394,7 +395,7 @@ module Ronin
       end
 
       #
-      # Creates a new TCPServer listening on a given host and port,
+      # Creates a new TCP socket listening on a given host and port,
       # accepts only one client and then stops listening.
       #
       # @param [Integer] port
