@@ -168,7 +168,7 @@ module Ronin
       #
       # @api private
       #
-      def self.expand_options(options={})
+      def self.normalize_options(options={})
         new_options = options.dup
 
         new_options[:port] ||= Net::HTTP.default_port
@@ -281,7 +281,7 @@ module Ronin
       #   The `:method` option did not match a known Net::HTTP request
       #   class.
       #
-      # @see HTTP.expand_options
+      # @see HTTP.normalize_options
       #
       # @api private
       #
@@ -380,7 +380,7 @@ module Ronin
       # @api public
       #
       def http_connect(options={},&block)
-        options = HTTP.expand_options(options)
+        options = HTTP.normalize_options(options)
 
         host  = options[:host].to_s
         port  = options[:port]

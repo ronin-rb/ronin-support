@@ -82,17 +82,17 @@ describe Network::HTTP do
     end
   end
 
-  describe "expand_options" do
+  describe "normalize_options" do
     it "should expand the :ssl option into a Hash" do
       options = {:ssl => true}
-      expanded_options = subject.expand_options(options)
+      expanded_options = subject.normalize_options(options)
 
       expanded_options[:ssl].should == {}
     end
 
     it "should added a default port and path" do
       options = {:host => 'example.com'}
-      expanded_options = subject.expand_options(options)
+      expanded_options = subject.normalize_options(options)
 
       expanded_options[:port].should == 80
       expanded_options[:path].should == '/'
@@ -100,14 +100,14 @@ describe Network::HTTP do
 
     it "should add the default proxy settings" do
       options = {:host => 'example.com'}
-      expanded_options = subject.expand_options(options)
+      expanded_options = subject.normalize_options(options)
 
       expanded_options[:proxy].should == subject.proxy
     end
 
     it "should disable the proxy settings if :proxy is nil" do
       options = {:host => 'example.com', :proxy => nil}
-      expanded_options = subject.expand_options(options)
+      expanded_options = subject.normalize_options(options)
 
       expanded_options[:proxy][:host].should be_nil
       expanded_options[:proxy][:port].should be_nil
@@ -116,14 +116,14 @@ describe Network::HTTP do
     it "should not modify :proxy if it is a HTTP::Proxy object" do
       proxy = Network::HTTP::Proxy.new(:host => 'proxy.com', :port => 8181)
       options = {:host => 'example.com', :proxy => proxy}
-      expanded_options = subject.expand_options(options)
+      expanded_options = subject.normalize_options(options)
 
       expanded_options[:proxy].should == proxy
     end
 
     it "should parse the :proxy option" do
       options = {:host => 'example.com', :proxy => 'http://proxy.com:8181'}
-      expanded_options = subject.expand_options(options)
+      expanded_options = subject.normalize_options(options)
 
       expanded_options[:proxy][:host].should == 'proxy.com'
       expanded_options[:proxy][:port].should == 8181
@@ -131,7 +131,7 @@ describe Network::HTTP do
 
     it "should expand the :url option" do
       options = {:url => 'http://joe:secret@example.com:8080/bla?var'}
-      expanded_options = subject.expand_options(options)
+      expanded_options = subject.normalize_options(options)
 
       expanded_options[:url].should be_nil
       expanded_options[:host].should == 'example.com'
