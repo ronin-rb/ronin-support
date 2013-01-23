@@ -37,6 +37,14 @@ describe Network::SSL do
       obj
     end
 
+    describe "#ssl_socket" do
+      let(:socket) { TCPSocket.new(host,port) }
+
+      it "should create a new OpenSSL::SSL::SSLSocket" do
+        subject.ssl_socket(socket).should be_kind_of(OpenSSL::SSL::SSLSocket)
+      end
+    end
+
     describe "#ssl_open?" do
       it "should return true for open ports" do
         subject.ssl_open?(host,port).should == true
@@ -149,71 +157,6 @@ describe Network::SSL do
         end
 
         banner.should =~ expected_banner
-      end
-    end
-
-    describe "#ssl_server" do
-      let(:server_port) { 1024 + rand(65535 - 1024) }
-
-      it "should create a new OpenSSL::SSL::SSLSocket" do
-        server = subject.ssl_server
-
-        server.should be_kind_of(OpenSSL::SSL::SSLSocket)
-        server.should_not be_closed
-
-        server.close
-      end
-
-      it "should bind to a specific port and host" do
-        server     = subject.ssl_server(port: server_port, host: server_host)
-        bound_host = server.addr[3]
-        bound_port = server.addr[1]
-
-        bound_host.should == server_ip
-        bound_port.should == server_port
-
-        server.close
-      end
-
-      it "should yield the new OpenSSL::SSL::SSLSocket" do
-        server = nil
-        
-        subject.ssl_server do |yielded_server|
-          server = yielded_server
-        end
-
-        server.should be_kind_of(OpenSSL::SSL::SSLSocket)
-        server.should_not be_closed
-
-        server.close
-      end
-    end
-
-    describe "#ssl_server_session" do
-      let(:server_port) { 1024 + rand(65535 - 1024) }
-
-      it "should create a temporary OpenSSL::SSL::SSLSocket" do
-        server = nil
-        
-        subject.ssl_server_session do |yielded_server|
-          server = yielded_server
-        end
-
-        server.should be_kind_of(OpenSSL::SSL::SSLSocket)
-        server.should be_closed
-      end
-
-      it "should bind to a specific port and host" do
-        bound_host = nil
-        bound_port = nil
-        
-        subject.ssl_server_session(port: server_port,host: server_host) do |server|
-          bound_host = server.addr[3]
-          bound_port = server.addr[1]
-        end
-
-        bound_host.should == server_ip
-        bound_port.should == server_port
       end
     end
 
