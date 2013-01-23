@@ -287,6 +287,59 @@ module Ronin
         yield ssl_socket if block_given?
         return ssl_socket
       end
+
+      #
+      # Reads the banner from the service running on the given host and port.
+      #
+      # @param [String] host
+      #   The host to connect to.
+      #
+      # @param [Integer] port
+      #   The port to connect to.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @option options [String] :local_host
+      #   The local host to bind to.
+      #
+      # @option options [Integer] :local_port
+      #   The local port to bind to.
+      #
+      # @option options [Symbol] :verify
+      #   Specifies whether to verify the SSL certificate.
+      #
+      # @option options [String] :cert
+      #   The path to the SSL certificate.
+      #
+      # @option options [String] :key
+      #   The path to the SSL key.
+      #
+      # @yield [banner]
+      #   If a block is given, it will be passed the grabbed banner.
+      #
+      # @yieldparam [String] banner
+      #   The grabbed banner.
+      #
+      # @return [String]
+      #   The grabbed banner.
+      #
+      # @example
+      #   ssl_banner('smtp.gmail.com',465)
+      #   # => "220 mx.google.com ESMTP c20sm3096959rvf.1"
+      #
+      # @api public
+      #
+      def ssl_banner(host,port,options={})
+        banner = nil
+
+        ssl_session(host,port,options) do |ssl_socket|
+          banner = ssl_socket.readline.strip
+        end
+
+        yield banner if block_given?
+        return banner
+      end
     end
   end
 end
