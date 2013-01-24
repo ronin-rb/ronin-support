@@ -70,6 +70,8 @@ module Ronin
       #
       # @api public
       #
+      # @since 0.6.0
+      #
       def ssl_socket(socket,options={})
         verify = options.fetch(:verify,:none)
         cert   = options[:cert]
