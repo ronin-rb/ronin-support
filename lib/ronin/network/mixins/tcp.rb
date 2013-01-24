@@ -355,15 +355,11 @@ module Ronin
           print_info "Listening on #{server_host_port} ..."
 
           super(self.server_port,self.server_host) do |client|
-            client_addr = client.peeraddr
-            client_host = (client_addr[2] || client_addr[3])
-            client_port = client_addr[1]
-
-            print_info "Client connected #{client_host}:#{client_port}"
+            print_info "Client connected #{client_host_port(client)}"
 
             yield client if block_given?
 
-            print_info "Disconnected client #{client_host}:#{client_port}"
+            print_info "Disconnected client #{client_host_port(client)}"
           end
 
           print_info "Closed #{server_host_port}"
@@ -384,6 +380,27 @@ module Ronin
         #
         def server_host_port
           "#{self.server_host}:#{self.server_port}"
+        end
+
+        #
+        # The host/port of a client.
+        #
+        # @param [TCPSocket] client
+        #   The client socket.
+        #
+        # @return [String]
+        #   The host/port of the client socket.
+        #
+        # @api private
+        #
+        # @since 0.6.0
+        #
+        def client_host_port(client)
+          client_addr = client.peeraddr
+          client_host = (client_addr[2] || client_addr[3])
+          client_port = client_addr[1]
+
+          return "#{client_host}:#{client_port}"
         end
       end
     end
