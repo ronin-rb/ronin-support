@@ -4,7 +4,7 @@
 * Added the `:passive` option to {Ronin::Network::FTP#ftp_connect}.
 * Forgot to require `ronin/formatting/extensions/binary/array`.
 * Fixed a bug where {Array#pack} would not accept tuples (ex: `[:uint8, 2]`).
-* Fixed a bug in {String#sql_decode} where `"\\'\\'"` would incorrectly be
+* Fixed a bug in `String#sql_decode` where `"\\'\\'"` would incorrectly be
   converted to `'"'`.
 * Ensure that {Integer#pack} only accepts one argument.
 * Have {String#hex_unescape} to decode every two characters.
@@ -43,12 +43,12 @@
 * Aliased {String#escape} to `String#dump`.
 * Renamed {String#hex_unescape} to {String#unescape}.
   * Aliased {String#hex_unescape} to {String#unescape}.
-* Renamed {Ronin::Network::TCP#tcp_single_server} to
+* Renamed `Ronin::Network::TCP#tcp_single_server` to
   {Ronin::Network::TCP#tcp_accept}.
-* Renamed {Ronin::Network::UDP#udp_single_server} to
+* Renamed `Ronin::Network::UDP#udp_single_server` to
   {Ronin::Network::UDP#udp_recv}.
-* Deprecated {Ronin::Network::TCP#tcp_single_server}.
-* Deprecated {Ronin::Network::UDP#udp_single_server}.
+* Deprecated `Ronin::Network::TCP#tcp_single_server`.
+* Deprecated `Ronin::Network::UDP#udp_single_server`.
 * Backported Ruby 1.9 only `Base64` methods.
 * Allow {Integer#pack} to accept a type from {Ronin::Binary::Template::TYPES}.
 * Allow {Array#pack} to accept types from {Ronin::Binary::Template::TYPES}.
@@ -96,7 +96,7 @@
 * Added {Regexp::ABSOLUTE_PATH}.
 * Added {Regexp::PATH}.
 * Added {String#repeating}.
-* Added {String#sql_inject}.
+* Added `String#sql_inject`.
 * Added {String#mutate}.
 * Added {Ronin::Fuzzing}.
   * Added {Ronin::Fuzzing.[]}.
@@ -225,8 +225,8 @@
   * Ruby >= 1.9.1 correctly hex-escapes special characters.
 * Fixed a bug in {String#format_chars}, where it was not using `each_char`
   for unicode characters.
-* Deprecated {String#common_postfix}, in favor of {String#common_suffix}.
-  {String#common_postfix} will be removed in ronin-support 1.0.0.
+* Deprecated `String#common_postfix`, in favor of {String#common_suffix}.
+  `String#common_postfix` will be removed in ronin-support 1.0.0.
 * `Net.http_get_body` no longer accepts a block.
 * `Net.http_post_body` no longer accepts a block.
 
