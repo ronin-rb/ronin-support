@@ -95,10 +95,10 @@ module Ronin
         #   If a block is given, it will be passed the newly created socket.
         #
         # @yieldparam [UDPsocket] socket
-        #   The newly created UDPSocket object.
+        #   The newly created UDP socket.
         #
         # @return [UDPSocket]
-        #   The newly created UDPSocket object.
+        #   The newly created UDP socket.
         #
         # @example
         #   udp_connect
@@ -132,10 +132,10 @@ module Ronin
         #   If a block is given, it will be passed the newly created socket.
         #
         # @yieldparam [UDPsocket] socket
-        #   The newly created UDPSocket object.
+        #   The newly created UDP socket.
         #
         # @return [UDPSocket]
-        #   The newly created UDPSocket object.
+        #   The newly created UDP socket.
         #
         # @see Network::UDP#udp_connect_and_send
         #
@@ -159,7 +159,7 @@ module Ronin
         #   After the block has returned, the socket will then be closed.
         #
         # @yieldparam [UDPsocket] socket
-        #   The newly created UDPSocket object.
+        #   The newly created UDP socket.
         #
         # @return [nil]
         #

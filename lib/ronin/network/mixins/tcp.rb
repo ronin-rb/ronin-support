@@ -97,10 +97,10 @@ module Ronin
         #   If a block is given, it will be passed the newly created socket.
         #
         # @yieldparam [TCPsocket] socket
-        #   The newly created TCPSocket object.
+        #   The newly created TCP socket.
         #
         # @return [TCPSocket]
-        #   The newly created TCPSocket object.
+        #   The newly created TCP socket.
         #
         # @example
         #   tcp_connect # => TCPSocket
@@ -134,10 +134,10 @@ module Ronin
         #   If a block is given, it will be passed the newly created socket.
         #
         # @yieldparam [TCPsocket] socket
-        #   The newly created TCPSocket object.
+        #   The newly created TCP socket.
         #
         # @return [TCPSocket]
-        #   The newly created TCPSocket object.
+        #   The newly created TCP socket.
         #
         # @see Network::TCP#tcp_connect_and_send
         #
@@ -159,7 +159,7 @@ module Ronin
         #   After the block has returned, the socket will be closed.
         #
         # @yieldparam [TCPsocket] socket
-        #   The newly created TCPSocket object.
+        #   The newly created TCP socket.
         #
         # @return [nil]
         #
