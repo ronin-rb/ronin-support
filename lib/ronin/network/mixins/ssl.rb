@@ -476,7 +476,16 @@ module Ronin
             host: self.server_host
           )
 
-          return super(options,&block)
+          super(options) do |client|
+            print_info "Client connected #{client_host_port(client)}"
+
+            yield client if block_given?
+
+            print_info "Disconnected client #{client_host_port(client)}"
+          end
+
+          print_info "Closed #{server_host_port}"
+          return nil
         end
 
         #
@@ -536,7 +545,13 @@ module Ronin
             host: self.server_host
           )
 
-          super(options,&block)
+          super(options) do |client|
+            print_info "Client connected #{client_host_port(client)}"
+
+            yield client if block_given?
+
+            print_info "Disconnected client #{client_host_port(client)}"
+          end
 
           print_info "Closed #{server_host_port}"
           return nil
@@ -556,6 +571,27 @@ module Ronin
         #
         def server_host_port
           "#{self.server_host}:#{self.server_port}"
+        end
+
+        #
+        # The host/port of a SSL client.
+        #
+        # @param [OpenSSL::SSL::SSLSocket] client
+        #   The SSL client socket.
+        #
+        # @return [String]
+        #   The host/port of the SSL client socket.
+        #
+        # @api private
+        #
+        # @since 0.6.0
+        #
+        def client_host_port(client)
+          client_addr = client.peeraddr
+          client_host = (client_addr[2] || client_addr[3])
+          client_port = client_addr[1]
+
+          return "#{client_host}:#{client_port}"
         end
       end
     end
