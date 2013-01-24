@@ -293,6 +293,37 @@ module Ronin
         end
 
         #
+        # Creates a new TCP socket listening on a given host and port,
+        # accepting clients in a loop.
+        #
+        # @yield [client]
+        #   The given block will be passed the newly connected client.
+        #   After the block has finished, the client will be closed.
+        #
+        # @yieldparam [TCPSocket] client
+        #   A newly connected client.
+        #
+        # @return [nil]
+        #
+        # @example
+        #   tcp_server_loop do |client|
+        #     client.puts 'lol'
+        #   end
+        #
+        # @api public
+        #
+        # @since 0.6.0
+        #
+        def tcp_server_loop(&block)
+          print_info "Listening on #{server_host_port} ..."
+
+          super(self.server_port,self.server_host,&block)
+
+          print_info "Closed #{server_host_port}"
+          return nil
+        end
+
+        #
         # Creates a new temporary TCPServer object listening on
         # `server_host` and `server_port` parameters.
         # The TCPServer will accepting one client, pass the newly connected
