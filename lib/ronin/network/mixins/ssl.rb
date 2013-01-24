@@ -32,6 +32,10 @@ module Ronin
       # * `port` (`Integer`) - SSL port.
       # * `local_host` (`String`) - SSL local host.
       # * `local_port` (`Integer`) - SSL local port.
+      # * `ssl_verify` (`Symbol`) - SSL verify mode
+      #   (`client_once`, `fail_if_no_peer_cert`, `peer`, `none`).
+      # * `ssl_cert` (`String`) - Path to the `.crt` file.
+      # * `ssl_key` (`String`) - Path to the `.key` file.
       #
       # @since 0.4.0
       #
@@ -53,6 +57,19 @@ module Ronin
         # SSL local port
         parameter :local_port, type:        Integer,
                                description: 'SSL local port'
+
+        # SSL verify mode
+        parameter :ssl_verify, type:        Symbol,
+                               default:     :none,
+                               description: 'SSL verify mode (client_once, fail_if_no_peer_cert, peer, none)'
+
+        # SSL cert file
+        parameter :ssl_cert, type:        String,
+                             description: 'SSL cert file'
+
+        # SSL key file
+        parameter :ssl_key, type:        String,
+                            description: 'SSL key file'
 
         protected
 
@@ -93,7 +110,10 @@ module Ronin
         def ssl_connect(host,port,options={},&block)
           options = options.merge(
             local_host: self.local_host,
-            local_port: self.local_port
+            local_port: self.local_port,
+            verify:     self.ssl_verify,
+            cert:       self.ssl_cert,
+            key:        self.ssl_key
           )
 
           super(self.host,self.port,options,&block)
