@@ -310,6 +310,8 @@ module Ronin
         #     client.puts 'lol'
         #   end
         #
+        # @see Network::TCP#tcp_server_loop
+        #
         # @api public
         #
         # @since 0.6.0
