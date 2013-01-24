@@ -170,6 +170,8 @@ module Ronin
         # @since 0.6.0
         #
         def ssl_open?(host,port,options={})
+          print_info "Testing if #{host_port} is open ..."
+
           super(self.host,self.port,options)
         end
 
@@ -208,6 +210,8 @@ module Ronin
         # @api public
         #
         def ssl_connect(options={},&block)
+          print_info "Connecting to #{host_port} ..."
+
           options = options.merge(
             local_host: self.local_host,
             local_port: self.local_port
@@ -263,7 +267,12 @@ module Ronin
         # @api public
         #
         def ssl_session(options={},&block)
+          print_info "Connecting to #{host_port} ..."
+
           super(self.host,self.port,options,&block)
+
+          print_info "Disconnected from #{host_port}"
+          return nil
         end
 
         #
@@ -307,6 +316,9 @@ module Ronin
         # @since 0.6.0
         #
         def ssl_connect_and_send(data,options={},&block)
+          print_info "Connecting to #{host_port} ..."
+          print_debug "Sending data: #{data.inspect}"
+
           super(data,self.host,self.port,options,&block)
         end
 
@@ -355,6 +367,8 @@ module Ronin
         # @since 0.6.0
         #
         def ssl_banner(options={},&block)
+          print_debug "Grabbing banner from #{host_port}"
+
           super(self.host,self.port,&block)
         end
 
@@ -402,7 +416,13 @@ module Ronin
         # @since 0.6.0
         #
         def ssl_send(data,options={})
+          print_info "Connecting to #{host_port} ..."
+          print_debug "Sending data: #{data.inspect}"
+
           super(data,self.host,self.port,options)
+
+          print_info "Disconnected from #{host_port}"
+          return true
         end
 
         #
@@ -449,6 +469,8 @@ module Ronin
         # @since 0.6.0
         #
         def ssl_server_loop(options={},&block)
+          print_info "Listening on #{server_host_port} ..."
+
           options = options.merge(
             port: self.server_port,
             host: self.server_host
@@ -507,14 +529,34 @@ module Ronin
         # @since 0.6.0
         #
         def ssl_accept(options={},&block)
+          print_info "Listening on #{server_host_port} ..."
+
           options = options.merge(
             port: self.server_port,
             host: self.server_host
           )
 
-          return super(options,&block)
+          super(options,&block)
+
+          print_info "Closed #{server_host_port}"
+          return nil
         end
 
+        private
+
+        #
+        # The server host/port parameters.
+        #
+        # @return [String]
+        #   The server host/port parameters in String form.
+        #
+        # @since 0.6.0
+        #
+        # @api private
+        #
+        def server_host_port
+          "#{self.server_host}:#{self.server_port}"
+        end
       end
     end
   end
