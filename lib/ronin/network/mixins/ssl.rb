@@ -74,6 +74,45 @@ module Ronin
         protected
 
         #
+        # Initiates an SSL session with an existing TCP socket.
+        #
+        # @param [TCPSocket] socket
+        #   The existing TCP socket.
+        #
+        # @param [Hash] options
+        #   Additional options.
+        #
+        # @option options [Symbol] :verify (#ssl_verify)
+        #   Specifies whether to verify the SSL certificate.
+        #   May be one of the following:
+        #
+        #   * `:none`
+        #   * `:peer`
+        #   * `:client_once`
+        #   * `:fail_if_no_peer_cert`
+        #
+        # @option options [String] :cert (#ssl_cert)
+        #   The path to the SSL `.crt` file.
+        #
+        # @option options [String] :key (#ssl_key)
+        #   The path to the SSL `.key` file.
+        #
+        # @return [OpenSSL::SSL::SSLSocket]
+        #   the new SSL Socket.
+        #
+        # @api public
+        #
+        def ssl_socket(socket,options={})
+          options = {
+            verify: self.ssl_verify,
+            cert:   self.ssl_cert,
+            key:    self.ssl_key
+          }.merge(options)
+
+          return super(socket,options)
+        end
+
+        #
         # Establishes a SSL connection.
         #
         # @option options [Symbol] :verify
@@ -110,10 +149,7 @@ module Ronin
         def ssl_connect(host,port,options={},&block)
           options = options.merge(
             local_host: self.local_host,
-            local_port: self.local_port,
-            verify:     self.ssl_verify,
-            cert:       self.ssl_cert,
-            key:        self.ssl_key
+            local_port: self.local_port
           )
 
           super(self.host,self.port,options,&block)
