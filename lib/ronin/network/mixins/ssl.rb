@@ -110,6 +110,8 @@ module Ronin
         # @return [OpenSSL::SSL::SSLSocket]
         #   the new SSL Socket.
         #
+        # @see Network::SSL#ssl_socket
+        #
         # @api public
         #
         # @since 0.6.0
@@ -164,6 +166,8 @@ module Ronin
         # @example Using a timeout:
         #   ssl_open?(timeout: 5)
         #   # => nil
+        #
+        # @see Network::SSL#ssl_open?
         #
         # @api public
         #
@@ -255,6 +259,8 @@ module Ronin
         #
         # @yieldparam [OpenSSL::SSL::SSLSocket] ssl_socket
         #   The newly created SSL Socket.
+        #
+        # @see Network::SSL#ssl_connect_and_send
         #
         # @api public
         #
@@ -362,6 +368,8 @@ module Ronin
         #   ssl_banner
         #   # => "220 mx.google.com ESMTP c20sm3096959rvf.1"
         #
+        # @see Network::SSL#ssl_banner
+        #
         # @api public
         #
         # @since 0.6.0
@@ -410,6 +418,8 @@ module Ronin
         #   buffer = "GET /#{'A' * 4096}\n\r"
         #   ssl_send(buffer)
         #   # => true
+        #
+        # @see Network::SSL#ssl_send
         #
         # @api public
         #
@@ -463,6 +473,8 @@ module Ronin
         #   ssl_server_loop do |sock|
         #     sock.puts 'lol'
         #   end
+        #
+        # @see Network::SSL#ssl_server_loop
         #
         # @api public
         #
@@ -532,6 +544,8 @@ module Ronin
         #   ssl_accept do |client|
         #     client.puts 'lol'
         #   end
+        #
+        # @see Network::SSL#ssl_accept
         #
         # @api public
         #
