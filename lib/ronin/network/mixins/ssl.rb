@@ -102,6 +102,8 @@ module Ronin
         #
         # @api public
         #
+        # @since 0.6.0
+        #
         def ssl_socket(socket,options={})
           options = {
             verify: self.ssl_verify,
