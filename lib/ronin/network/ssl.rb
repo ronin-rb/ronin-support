@@ -50,12 +50,6 @@ module Ronin
       # @param [Hash] options
       #   Additional options.
       #
-      # @option options [String] :local_host
-      #   The local host to bind to.
-      #
-      # @option options [Integer] :local_port
-      #   The local port to bind to.
-      #
       # @option options [Symbol] :verify
       #   Specifies whether to verify the SSL certificate.
       #   May be one of the following:
