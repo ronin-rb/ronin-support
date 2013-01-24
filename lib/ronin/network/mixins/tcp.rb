@@ -317,7 +317,13 @@ module Ronin
         def tcp_server_loop(&block)
           print_info "Listening on #{server_host_port} ..."
 
-          super(self.server_port,self.server_host,&block)
+          super(self.server_port,self.server_host) do |client|
+            print_info "Client connected #{client_host_port(client)}"
+
+            yield client if block_given?
+
+            print_info "Disconnected client #{client_host_port(client)}"
+          end
 
           print_info "Closed #{server_host_port}"
           return nil
