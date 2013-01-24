@@ -90,7 +90,7 @@ class Integer
   #
   # Packs the Integer into a String.
   #
-  # @param [String, Symbol, arch] arguments
+  # @param [String, Symbol] type
   #   The `Array#pack` code, {Ronin::Binary::Template} type or Architecture
   #   object with `#endian` and `#address_length` methods.
   #
