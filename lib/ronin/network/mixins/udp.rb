@@ -184,7 +184,7 @@ module Ronin
         #   The data was successfully sent.
         #
         # @example
-        #   buffer = "GET /" + ('A' * 4096) + "\n\r"
+        #   buffer = "GET /#{'A' * 4096}\n\r"
         #   udp_send(buffer)
         #   # => true
         #
