@@ -33,7 +33,7 @@ module Ronin
       # * `local_host` (`String`) - SSL local host.
       # * `local_port` (`Integer`) - SSL local port.
       # * `ssl_verify` (`Symbol`) - SSL verify mode
-      #   (`client_once`, `fail_if_no_peer_cert`, `peer`, `none`).
+      #   (`none`, `peer`, `fail_if_no_peer_cert`, `client_once`).
       # * `ssl_cert` (`String`) - Path to the `.crt` file.
       # * `ssl_key` (`String`) - Path to the `.key` file.
       #
@@ -61,7 +61,7 @@ module Ronin
         # SSL verify mode
         parameter :ssl_verify, type:        Symbol,
                                default:     :none,
-                               description: 'SSL verify mode (client_once, fail_if_no_peer_cert, peer, none)'
+                               description: 'SSL verify mode (none, peer, fail_if_no_peer_cert, client_once)'
 
         # SSL cert file
         parameter :ssl_cert, type:        String,
@@ -88,8 +88,8 @@ module Ronin
         #
         #   * `:none`
         #   * `:peer`
-        #   * `:client_once`
         #   * `:fail_if_no_peer_cert`
+        #   * `:client_once`
         #
         # @option options [String] :cert (#ssl_cert)
         #   The path to the SSL `.crt` file.

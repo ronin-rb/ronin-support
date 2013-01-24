@@ -35,10 +35,10 @@ module Ronin
 
       # SSL verify modes
       VERIFY = {
-        client_once:          OpenSSL::SSL::VERIFY_CLIENT_ONCE,
-        fail_if_no_peer_cert: OpenSSL::SSL::VERIFY_FAIL_IF_NO_PEER_CERT,
         none:                 OpenSSL::SSL::VERIFY_NONE,
-        peer:                 OpenSSL::SSL::VERIFY_PEER
+        peer:                 OpenSSL::SSL::VERIFY_PEER,
+        fail_if_no_peer_cert: OpenSSL::SSL::VERIFY_FAIL_IF_NO_PEER_CERT,
+        client_once:          OpenSSL::SSL::VERIFY_CLIENT_ONCE
       }
 
       #
@@ -56,8 +56,8 @@ module Ronin
       #
       #   * `:none`
       #   * `:peer`
-      #   * `:client_once`
       #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -121,8 +121,8 @@ module Ronin
       #
       #   * `:none`
       #   * `:peer`
-      #   * `:client_once`
       #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -188,8 +188,8 @@ module Ronin
       #
       #   * `:none`
       #   * `:peer`
-      #   * `:client_once`
       #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
