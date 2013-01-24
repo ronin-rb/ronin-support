@@ -35,10 +35,10 @@ module Ronin
 
       # SSL verify modes
       VERIFY = {
-        client_once:          OpenSSL::SSL::VERIFY_CLIENT_ONCE,
-        fail_if_no_peer_cert: OpenSSL::SSL::VERIFY_FAIL_IF_NO_PEER_CERT,
         none:                 OpenSSL::SSL::VERIFY_NONE,
-        peer:                 OpenSSL::SSL::VERIFY_PEER
+        peer:                 OpenSSL::SSL::VERIFY_PEER,
+        fail_if_no_peer_cert: OpenSSL::SSL::VERIFY_FAIL_IF_NO_PEER_CERT,
+        client_once:          OpenSSL::SSL::VERIFY_CLIENT_ONCE
       }
 
       #
@@ -50,20 +50,14 @@ module Ronin
       # @param [Hash] options
       #   Additional options.
       #
-      # @option options [String] :local_host
-      #   The local host to bind to.
-      #
-      # @option options [Integer] :local_port
-      #   The local port to bind to.
-      #
       # @option options [Symbol] :verify
       #   Specifies whether to verify the SSL certificate.
       #   May be one of the following:
       #
       #   * `:none`
       #   * `:peer`
-      #   * `:client_once`
       #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -75,6 +69,8 @@ module Ronin
       #   the new SSL Socket.
       #
       # @api public
+      #
+      # @since 0.6.0
       #
       def ssl_socket(socket,options={})
         verify = options.fetch(:verify,:none)
@@ -125,8 +121,8 @@ module Ronin
       #
       #   * `:none`
       #   * `:peer`
-      #   * `:client_once`
       #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -192,8 +188,8 @@ module Ronin
       #
       #   * `:none`
       #   * `:peer`
-      #   * `:client_once`
       #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -249,6 +245,12 @@ module Ronin
       #
       # @option options [Symbol] :verify
       #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -304,6 +306,12 @@ module Ronin
       #
       # @option options [Symbol] :verify
       #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -349,6 +357,12 @@ module Ronin
       #
       # @option options [Symbol] :verify
       #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -408,6 +422,12 @@ module Ronin
       #
       # @option options [Symbol] :verify
       #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -453,6 +473,12 @@ module Ronin
       #
       # @option options [Symbol] :verify
       #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -517,6 +543,12 @@ module Ronin
       #
       # @option options [Symbol] :verify
       #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
