@@ -245,6 +245,12 @@ module Ronin
       #
       # @option options [Symbol] :verify
       #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -300,6 +306,12 @@ module Ronin
       #
       # @option options [Symbol] :verify
       #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -345,6 +357,12 @@ module Ronin
       #
       # @option options [Symbol] :verify
       #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -404,6 +422,12 @@ module Ronin
       #
       # @option options [Symbol] :verify
       #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -449,6 +473,12 @@ module Ronin
       #
       # @option options [Symbol] :verify
       #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
@@ -513,6 +543,12 @@ module Ronin
       #
       # @option options [Symbol] :verify
       #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
       #
       # @option options [String] :cert
       #   The path to the SSL `.crt` file.
