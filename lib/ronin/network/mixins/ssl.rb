@@ -207,7 +207,7 @@ module Ronin
         #
         # @api public
         #
-        def ssl_connect(host,port,options={},&block)
+        def ssl_connect(options={},&block)
           options = options.merge(
             local_host: self.local_host,
             local_port: self.local_port
