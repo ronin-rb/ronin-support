@@ -19,6 +19,7 @@
 
 require 'ronin/network/mixins/dns'
 require 'ronin/network/mixins/tcp'
+require 'ronin/network/mixins/ssl'
 require 'ronin/network/mixins/udp'
 require 'ronin/network/mixins/smtp'
 require 'ronin/network/mixins/esmtp'
