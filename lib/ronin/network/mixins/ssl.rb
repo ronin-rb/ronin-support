@@ -32,6 +32,8 @@ module Ronin
       # * `port` (`Integer`) - SSL port.
       # * `local_host` (`String`) - SSL local host.
       # * `local_port` (`Integer`) - SSL local port.
+      # * `server_host` (`String`) - SSL server host.
+      # * `server_port` (`Integer`) - SSL server port.
       # * `ssl_verify` (`Symbol`) - SSL verify mode
       #   (`none`, `peer`, `fail_if_no_peer_cert`, `client_once`).
       # * `ssl_cert` (`String`) - Path to the `.crt` file.
@@ -57,6 +59,14 @@ module Ronin
         # SSL local port
         parameter :local_port, type:        Integer,
                                description: 'SSL local port'
+
+        # SSL server host
+        parameter :server_host, type:        String,
+                                description: 'SSL server host'
+
+        # SSL server port
+        parameter :server_port, type:        Integer,
+                                description: 'SSL server port'
 
         # SSL verify mode
         parameter :ssl_verify, type:        Symbol,
@@ -298,6 +308,211 @@ module Ronin
         #
         def ssl_connect_and_send(data,options={},&block)
           super(data,self.host,self.port,options,&block)
+        end
+
+        #
+        # Reads the banner from the service running on the given host and port.
+        #
+        # @param [Hash] options
+        #   Additional options.
+        #
+        # @option options [String] :local_host
+        #   The local host to bind to.
+        #
+        # @option options [Integer] :local_port
+        #   The local port to bind to.
+        #
+        # @option options [Symbol] :verify
+        #   Specifies whether to verify the SSL certificate.
+        #   May be one of the following:
+        #
+        #   * `:none`
+        #   * `:peer`
+        #   * `:fail_if_no_peer_cert`
+        #   * `:client_once`
+        #
+        # @option options [String] :cert
+        #   The path to the SSL `.crt` file.
+        #
+        # @option options [String] :key
+        #   The path to the SSL `.key` file.
+        #
+        # @yield [banner]
+        #   If a block is given, it will be passed the grabbed banner.
+        #
+        # @yieldparam [String] banner
+        #   The grabbed banner.
+        #
+        # @return [String]
+        #   The grabbed banner.
+        #
+        # @example
+        #   ssl_banner
+        #   # => "220 mx.google.com ESMTP c20sm3096959rvf.1"
+        #
+        # @api public
+        #
+        # @since 0.6.0
+        #
+        def ssl_banner(options={},&block)
+          super(self.host,self.port,&block)
+        end
+
+        #
+        # Connects to a specified host and port, sends the given data and then
+        # closes the connection.
+        #
+        # @param [String] data
+        #   The data to send through the connection.
+        #
+        # @param [Hash] options
+        #   Additional options.
+        #
+        # @option options [String] :local_host
+        #   The local host to bind to.
+        #
+        # @option options [Integer] :local_port
+        #   The local port to bind to.
+        #
+        # @option options [Symbol] :verify
+        #   Specifies whether to verify the SSL certificate.
+        #   May be one of the following:
+        #
+        #   * `:none`
+        #   * `:peer`
+        #   * `:fail_if_no_peer_cert`
+        #   * `:client_once`
+        #
+        # @option options [String] :cert
+        #   The path to the SSL `.crt` file.
+        #
+        # @option options [String] :key
+        #   The path to the SSL `.key` file.
+        #
+        # @return [true]
+        #   The data was successfully sent.
+        #
+        # @example
+        #   buffer = "GET /#{'A' * 4096}\n\r"
+        #   ssl_send(buffer)
+        #   # => true
+        #
+        # @api public
+        #
+        # @since 0.6.0
+        #
+        def ssl_send(data,options={})
+          super(data,self.host,self.port,options)
+        end
+
+        #
+        # Creates a new SSL socket listening on a given host and port,
+        # accepting clients in a loop.
+        #
+        # @param [Hash] options
+        #   Additional options.
+        #
+        # @option options [Integer] :backlog (5)
+        #   The maximum backlog of pending connections.
+        #
+        # @option options [Symbol] :verify
+        #   Specifies whether to verify the SSL certificate.
+        #   May be one of the following:
+        #
+        #   * `:none`
+        #   * `:peer`
+        #   * `:fail_if_no_peer_cert`
+        #   * `:client_once`
+        #
+        # @option options [String] :cert
+        #   The path to the SSL `.crt` file.
+        #
+        # @option options [String] :key
+        #   The path to the SSL `.key` file.
+        #
+        # @yield [client]
+        #   The given block will be passed the newly connected client.
+        #   After the block has finished, the client will be closed.
+        #
+        # @yieldparam [OpenSSL::SSL::SSLSocket] client
+        #   A newly connected client.
+        #
+        # @return [nil]
+        #
+        # @example
+        #   ssl_server_loop do |sock|
+        #     sock.puts 'lol'
+        #   end
+        #
+        # @api public
+        #
+        # @since 0.6.0
+        #
+        def ssl_server_loop(options={},&block)
+          options = options.merge(
+            port: self.server_port,
+            host: self.server_host
+          )
+
+          return super(options,&block)
+        end
+
+        #
+        # Creates a new SSL socket listening on a given host and port,
+        # accepts only one client and then stops listening.
+        #
+        # @param [Hash] options
+        #   Additional options.
+        #
+        # @option options [Integer] :backlog (5)
+        #   The maximum backlog of pending connections.
+        #
+        # @option options [Symbol] :verify
+        #   Specifies whether to verify the SSL certificate.
+        #   May be one of the following:
+        #
+        #   * `:none`
+        #   * `:peer`
+        #   * `:fail_if_no_peer_cert`
+        #   * `:client_once`
+        #
+        # @option options [String] :cert
+        #   The path to the SSL `.crt` file.
+        #
+        # @option options [String] :key
+        #   The path to the SSL `.key` file.
+        #
+        # @example
+        #   ssl_accept(1337) do |client|
+        #     client.puts 'lol'
+        #   end
+        #
+        # @yield [client]
+        #   The given block will be passed the newly connected client.
+        #   After the block has finished, both the client and the server will be
+        #   closed.
+        #
+        # @yieldparam [OpenSSL::SSL::SSLSocket] client
+        #   The newly connected client.
+        #
+        # @return [nil]
+        #
+        # @example
+        #   ssl_accept do |client|
+        #     client.puts 'lol'
+        #   end
+        #
+        # @api public
+        #
+        # @since 0.6.0
+        #
+        def ssl_accept(options={},&block)
+          options = options.merge(
+            port: self.server_port,
+            host: self.server_host
+          )
+
+          return super(options,&block)
         end
 
       end
