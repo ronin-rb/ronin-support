@@ -73,7 +73,7 @@ class Resolv
   #
   # Creates a new resolver or uses the system's resolver.
   #
-  # @param [String, Array<String>, nil] nameservers
+  # @param [Array<String>, String, nil] nameservers
   #   The nameserver(s) to query.
   #
   # @return [Resolv::DNS, Resolv]
