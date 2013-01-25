@@ -365,6 +365,9 @@ module Ronin
       # @param [String] host ('0.0.0.0')
       #   The host to bind to.
       #
+      # @param [Integer] backlog (5)
+      #   The maximum backlog of pending connections.
+      #
       # @yield [client]
       #   The given block will be passed the newly connected client.
       #   After the block has finished, the client will be closed.
@@ -383,8 +386,8 @@ module Ronin
       #
       # @since 0.5.0
       #
-      def tcp_server_loop(port=nil,host=nil)
-        tcp_server_session(port,host) do |server|
+      def tcp_server_loop(port=nil,host=nil,backlog=5)
+        tcp_server_session(port,host,backlog) do |server|
           loop do
             client = server.accept
 
