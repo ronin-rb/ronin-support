@@ -98,7 +98,6 @@ module Ronin
       def imap_connect(host,options={})
         host   = host.to_s
         port   = (options[:port] || IMAP.default_port)
-        certs  = options[:certs]
         auth   = options[:auth]
         user   = options[:user]
         passwd = options[:password]
