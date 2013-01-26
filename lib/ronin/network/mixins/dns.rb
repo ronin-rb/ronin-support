@@ -39,8 +39,6 @@ module Ronin
         parameter :nameserver, type:        String,
                                description: 'DNS nameserver'
 
-        protected
-
         #
         # The DNS Resolver to use.
         #
