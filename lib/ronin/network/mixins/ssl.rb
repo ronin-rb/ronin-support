@@ -91,20 +91,20 @@ module Ronin
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Symbol] :verify (#ssl_verify)
+        # @option options [Symbol] :verify
         #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
+        #   Defaults to {#ssl_verify}. May be one of the following:
         #
         #   * `:none`
         #   * `:peer`
         #   * `:fail_if_no_peer_cert`
         #   * `:client_once`
         #
-        # @option options [String] :cert (#ssl_cert)
-        #   The path to the SSL `.crt` file.
+        # @option options [String] :cert
+        #   The path to the SSL `.crt` file. Defaults to {#ssl_cert}.
         #
-        # @option options [String] :key (#ssl_key)
-        #   The path to the SSL `.key` file.
+        # @option options [String] :key
+        #   The path to the SSL `.key` file. Defaults to {#ssl_key}.
         #
         # @return [OpenSSL::SSL::SSLSocket]
         #   the new SSL Socket.
@@ -129,23 +129,23 @@ module Ronin
         # Tests whether a remote SSLed TCP port is open.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Integer] port
-        #   The port to connect to.
+        #   The port to connect to. Defaults to {#port}.
         #
         # @param [String] local_host
-        #   The local host to bind to.
+        #   The local host to bind to. Defaults to {#local_host}.
         #
         # @param [Integer] local_port
-        #   The local port to bind to.
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @param [Hash] options
         #   Additional options.
         #
         # @option options [Symbol] :verify
         #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
+        #   Defaults to {#ssl_verify}. May be one of the following:
         #
         #   * `:none`
         #   * `:peer`
@@ -153,10 +153,10 @@ module Ronin
         #   * `:client_once`
         #
         # @option options [String] :cert
-        #   The path to the SSL `.crt` file.
+        #   The path to the SSL `.crt` file. Defaults to {#ssl_cert}.
         #
         # @option options [String] :key
-        #   The path to the SSL `.key` file.
+        #   The path to the SSL `.key` file. Defaults to {#ssl_key}.
         #
         # @option options [Integer] :timeout (5)
         #   The maximum time to attempt connecting.
@@ -193,34 +193,37 @@ module Ronin
         # Establishes a SSL connection.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Integer] port
-        #   The port to connect to.
+        #   The port to connect to. Defaults to {#port}.
         #
         # @param [String] local_host
-        #   The local host to bind to.
+        #   The local host to bind to. Defaults to {#local_host}.
         #
         # @param [Integer] local_port
-        #   The local port to bind to.
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @param [Hash] options
         #   Additional options.
         #
         # @option options [Symbol] :verify
         #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
+        #   Defaults to {#ssl_verify}. May be one of the following:
         #
         #   * `:none`
         #   * `:peer`
-        #   * `:client_once`
         #   * `:fail_if_no_peer_cert`
+        #   * `:client_once`
         #
         # @option options [String] :cert
-        #   The path to the SSL certificate.
+        #   The path to the SSL `.crt` file. Defaults to {#ssl_cert}.
         #
         # @option options [String] :key
-        #   The path to the SSL key.
+        #   The path to the SSL `.key` file. Defaults to {#ssl_key}.
+        #
+        # @option options [Integer] :timeout (5)
+        #   The maximum time to attempt connecting.
         #
         # @yield [ssl_socket]
         #   The given block will be passed the new SSL Socket.
@@ -251,27 +254,24 @@ module Ronin
         #
         # Creates a new SSL connection and sends the given data.
         #
-        # @param [String] data
-        #   The data to send through the connection.
-        #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Integer] port
-        #   The port to connect to.
+        #   The port to connect to. Defaults to {#port}.
         #
         # @param [String] local_host
-        #   The local host to bind to.
+        #   The local host to bind to. Defaults to {#local_host}.
         #
         # @param [Integer] local_port
-        #   The local port to bind to.
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @param [Hash] options
         #   Additional options.
         #
         # @option options [Symbol] :verify
         #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
+        #   Defaults to {#ssl_verify}. May be one of the following:
         #
         #   * `:none`
         #   * `:peer`
@@ -279,10 +279,13 @@ module Ronin
         #   * `:client_once`
         #
         # @option options [String] :cert
-        #   The path to the SSL `.crt` file.
+        #   The path to the SSL `.crt` file. Defaults to {#ssl_cert}.
         #
         # @option options [String] :key
-        #   The path to the SSL `.key` file.
+        #   The path to the SSL `.key` file. Defaults to {#ssl_key}.
+        #
+        # @option options [Integer] :timeout (5)
+        #   The maximum time to attempt connecting.
         #
         # @yield [ssl_socket]
         #   The given block will be passed the newly created SSL Socket.
@@ -306,23 +309,23 @@ module Ronin
         # Creates a new temporary SSL connection.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Integer] port
-        #   The port to connect to.
+        #   The port to connect to. Defaults to {#port}.
         #
         # @param [String] local_host
-        #   The local host to bind to.
+        #   The local host to bind to. Defaults to {#local_host}.
         #
         # @param [Integer] local_port
-        #   The local port to bind to.
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @param [Hash] options
         #   Additional options.
         #
         # @option options [Symbol] :verify
         #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
+        #   Defaults to {#ssl_verify}. May be one of the following:
         #
         #   * `:none`
         #   * `:peer`
@@ -330,10 +333,13 @@ module Ronin
         #   * `:client_once`
         #
         # @option options [String] :cert
-        #   The path to the SSL certificate.
+        #   The path to the SSL `.crt` file. Defaults to {#ssl_cert}.
         #
         # @option options [String] :key
-        #   The path to the SSL key.
+        #   The path to the SSL `.key` file. Defaults to {#ssl_key}.
+        #
+        # @option options [Integer] :timeout (5)
+        #   The maximum time to attempt connecting.
         #
         # @yield [ssl_socket]
         #   The given block will be passed the temporary SSL Socket.
@@ -368,23 +374,23 @@ module Ronin
         # Reads the banner from the service running on the given host and port.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Integer] port
-        #   The port to connect to.
+        #   The port to connect to. Defaults to {#port}.
         #
         # @param [String] local_host
-        #   The local host to bind to.
+        #   The local host to bind to. Defaults to {#local_host}.
         #
         # @param [Integer] local_port
-        #   The local port to bind to.
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @param [Hash] options
         #   Additional options.
         #
         # @option options [Symbol] :verify
         #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
+        #   Defaults to {#ssl_verify}. May be one of the following:
         #
         #   * `:none`
         #   * `:peer`
@@ -392,10 +398,13 @@ module Ronin
         #   * `:client_once`
         #
         # @option options [String] :cert
-        #   The path to the SSL `.crt` file.
+        #   The path to the SSL `.crt` file. Defaults to {#ssl_cert}.
         #
         # @option options [String] :key
-        #   The path to the SSL `.key` file.
+        #   The path to the SSL `.key` file. Defaults to {#ssl_key}.
+        #
+        # @option options [Integer] :timeout (5)
+        #   The maximum time to attempt connecting.
         #
         # @yield [banner]
         #   If a block is given, it will be passed the grabbed banner.
@@ -433,23 +442,23 @@ module Ronin
         #   The data to send through the connection.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Integer] port
-        #   The port to connect to.
+        #   The port to connect to. Defaults to {#port}.
         #
         # @param [String] local_host
-        #   The local host to bind to.
+        #   The local host to bind to. Defaults to {#local_host}.
         #
         # @param [Integer] local_port
-        #   The local port to bind to.
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @param [Hash] options
         #   Additional options.
         #
         # @option options [Symbol] :verify
         #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
+        #   Defaults to {#ssl_verify}. May be one of the following:
         #
         #   * `:none`
         #   * `:peer`
@@ -457,10 +466,13 @@ module Ronin
         #   * `:client_once`
         #
         # @option options [String] :cert
-        #   The path to the SSL `.crt` file.
+        #   The path to the SSL `.crt` file. Defaults to {#ssl_cert}.
         #
         # @option options [String] :key
-        #   The path to the SSL `.key` file.
+        #   The path to the SSL `.key` file. Defaults to {#ssl_key}.
+        #
+        # @option options [Integer] :timeout (5)
+        #   The maximum time to attempt connecting.
         #
         # @return [true]
         #   The data was successfully sent.
@@ -490,10 +502,10 @@ module Ronin
         # accepting clients in a loop.
         #
         # @param [Integer] port
-        #   The local port to listen on.
+        #   The local port to listen on. Defaults to {#server_port}.
         #
         # @param [String] host
-        #   The host to bind to.
+        #   The host to bind to. Defaults to {#server_host}.
         #
         # @param [Hash] options
         #   Additional options.
@@ -503,7 +515,7 @@ module Ronin
         #
         # @option options [Symbol] :verify
         #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
+        #   Defaults to {#ssl_verify}. May be one of the following:
         #
         #   * `:none`
         #   * `:peer`
@@ -511,10 +523,10 @@ module Ronin
         #   * `:client_once`
         #
         # @option options [String] :cert
-        #   The path to the SSL `.crt` file.
+        #   The path to the SSL `.crt` file. Defaults to {#ssl_cert}.
         #
         # @option options [String] :key
-        #   The path to the SSL `.key` file.
+        #   The path to the SSL `.key` file. Defaults to {#ssl_key}.
         #
         # @yield [client]
         #   The given block will be passed the newly connected client.
@@ -559,10 +571,10 @@ module Ronin
         # accepts only one client and then stops listening.
         #
         # @param [Integer] port
-        #   The local port to listen on.
+        #   The local port to listen on. Defaults to {#server_port}.
         #
         # @param [String] host
-        #   The host to bind to.
+        #   The host to bind to. Defaults to {#server_host}.
         #
         # @param [Hash] options
         #   Additional options.
@@ -572,7 +584,7 @@ module Ronin
         #
         # @option options [Symbol] :verify
         #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
+        #   Defaults to {#ssl_verify}. May be one of the following:
         #
         #   * `:none`
         #   * `:peer`
@@ -580,15 +592,10 @@ module Ronin
         #   * `:client_once`
         #
         # @option options [String] :cert
-        #   The path to the SSL `.crt` file.
+        #   The path to the SSL `.crt` file. Defaults to {#ssl_cert}.
         #
         # @option options [String] :key
-        #   The path to the SSL `.key` file.
-        #
-        # @example
-        #   ssl_accept(1337) do |client|
-        #     client.puts 'lol'
-        #   end
+        #   The path to the SSL `.key` file. Defaults to {#ssl_key}.
         #
         # @yield [client]
         #   The given block will be passed the newly connected client.

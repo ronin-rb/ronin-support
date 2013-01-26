@@ -72,7 +72,7 @@ module Ronin
         # Tests whether a UNIX socket is open.
         #
         # @param [String] socket
-        #   The socket to the socket.
+        #   The socket to the socket. Defaults to {#socket}.
         #
         # @param [Integer] timeout (5)
         #   The maximum time to attempt connecting.
@@ -94,10 +94,10 @@ module Ronin
         end
 
         #
-        # Connects to a UNIX socket specified by the `socket` parameter.
+        # Connects to a UNIX socket.
         #
         # @param [String] socket
-        #   The socket to the UNIX socket.
+        #   The socket to the socket. Defaults to {#socket}.
         #
         # @yield [socket]
         #   If a block is given, it will be passed an UNIX socket object.
@@ -124,14 +124,13 @@ module Ronin
         end
 
         #
-        # Creates a new UNIXSocket object, connected to the `socket` parameter.
-        # The given data will then be written to the newly created UNIXSocket.
+        # Connects to a UNIX Socket and sends the given data.
         #
         # @param [String] data
         #   The data to send to the socket.
         #
         # @param [String] socket
-        #   The socket to the UNIX socket.
+        #   The socket to the UNIX socket. Defaults to {#socket}.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
@@ -155,13 +154,10 @@ module Ronin
         end
 
         #
-        # Creates a UNIX session to the host and port specified by the
-        # `host` and `port` parameters. If the `local_host` and `local_port`
-        # parameters are set, they will be used for the local host and port
-        # of the UNIX connection.
+        # Temporarily connects to a UNIX socket.
         #
         # @param [String] socket
-        #   The socket to the UNIX socket.
+        #   The socket to the UNIX socket. Defaults to {#socket}.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
@@ -184,14 +180,14 @@ module Ronin
         end
 
         #
-        # Connects to the UNIX socket, specified by the `socket` parameter,
-        # sends the given data and then disconnects.
+        # Connects to a UNIX socket, sends the given data and then closes the
+        # socket.
         #
         # @param [String] data
         #   The data to send to the UNIX socket.
         #
         # @param [String] socket
-        #   The socket to the UNIX socket.
+        #   The socket to the UNIX socket. Defaults to {#socket}.
         #
         # @return [true]
         #   The data was successfully sent.
@@ -216,10 +212,10 @@ module Ronin
         end
 
         #
-        # Opens a UNIX socket, listening on the `socket` parameter.
+        # Opens a UNIX socket.
         #
         # @param [String] socket
-        #   The socket for the new UNIX socket.
+        #   The socket for the new UNIX socket. Defaults to {#server_socket}.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -246,10 +242,10 @@ module Ronin
         end
 
         #
-        # Opens a UNIX socket temporarily, listening on the `socket` parameter.
+        # Temporarily opens a UNIX socket.
         #
         # @param [String] socket
-        #   The socket for the new UNIX socket.
+        #   The socket for the new UNIX socket. Defaults to {#server_socket}.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -279,50 +275,10 @@ module Ronin
         end
 
         #
-        # Opens a UNIX socket specified by the `socket` parameter,
-        # accepts a connection, then closes the socket.
+        # Opens a UNIX socket, accepts connections in a loop.
         #
         # @param [String] socket
-        #   The socket for the new UNIX socket.
-        #
-        # @yield [client]
-        #   If a block is given, it will be passed the accepted connection.
-        #
-        # @yieldparam [UNIXSocket] client
-        #   The accepted connection to UNIX socket.
-        #
-        # @example
-        #   unix_accept do |client|
-        #     # ...
-        #   end
-        #
-        # @see Network::UNIX#unix_accept
-        #
-        # @api public
-        #
-        def unix_accept(socket=nil)
-          socket ||= self.server_socket
-
-          print_info "Listening on #{socket} ..."
-
-          super(socket) do |client|
-            print_info "Client connected to #{socket}"
-
-            yield client if block_given?
-
-            print_info "Client disconnecting from #{socket} ..."
-          end
-
-          print_info "Closed #{socket}"
-          return nil
-        end
-
-        #
-        # Opens a UNIX socket specified by the `socket` parameter,
-        # accepts connections in a loop.
-        #
-        # @param [String] socket
-        #   The socket for the new UNIX socket.
+        #   The socket for the new UNIX socket. Defaults to {#server_socket}.
         #
         # @yield [client]
         #   If a block is given, it will be passed each accepted connection.
@@ -350,6 +306,44 @@ module Ronin
             yield client if block_given?
 
             print_info "Client disconnecting: #{socket} ..."
+          end
+
+          print_info "Closed #{socket}"
+          return nil
+        end
+
+        #
+        # Opens a UNIX socket, accepts a connection, then closes the socket.
+        #
+        # @param [String] socket
+        #   The socket for the new UNIX socket. Defaults to {#server_socket}.
+        #
+        # @yield [client]
+        #   If a block is given, it will be passed the accepted connection.
+        #
+        # @yieldparam [UNIXSocket] client
+        #   The accepted connection to UNIX socket.
+        #
+        # @example
+        #   unix_accept do |client|
+        #     # ...
+        #   end
+        #
+        # @see Network::UNIX#unix_accept
+        #
+        # @api public
+        #
+        def unix_accept(socket=nil)
+          socket ||= self.server_socket
+
+          print_info "Listening on #{socket} ..."
+
+          super(socket) do |client|
+            print_info "Client connected to #{socket}"
+
+            yield client if block_given?
+
+            print_info "Client disconnecting from #{socket} ..."
           end
 
           print_info "Closed #{socket}"

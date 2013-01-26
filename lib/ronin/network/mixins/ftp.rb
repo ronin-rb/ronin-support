@@ -60,27 +60,26 @@ module Ronin
                                 description: 'FTP account information'
 
         #
-        # Creates a connection to the FTP server. The `host`, `port`,
-        # `ftp_user`, `ftp_password` and `ftp_account` parameters
-        # will also be used to connect to the server.
+        # Creates a connection to the FTP server.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (port)
-        #   The port to connect to.
+        # @option options [Integer] :port
+        #   The port to connect to. Defaults to {#port}.
         #
-        # @option options [String] :user (ftp_user)
-        #   The username to authenticate with.
+        # @option options [String] :user
+        #   The username to authenticate with. Defaults to {#ftp_user}.
         #
-        # @option options [String] :password (ftp_password)
-        #   The password to authenticate with.
+        # @option options [String] :password
+        #   The password to authenticate with. Defaults to {#ftp_password}.
         #
-        # @option options [String] :account (ftp_account)
+        # @option options [String] :account
         #   The account information to send via the FTP `ACCT` command.
+        #   Defaults to {#ftp_account}.
         #
         # @yield [session]
         #   If a block is given, it will be passed an FTP session object.
@@ -105,30 +104,26 @@ module Ronin
         end
 
         #
-        # Starts a session with the FTP server. The `host`, `port`,
-        # `ftp_login`, `ftp_user` and `ftp_password` parameters
-        # will also be used to connect to the server.
+        # Starts a session with the FTP server.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (FTP.default_port)
-        #   The port to connect to.
+        # @option options [Integer] :port
+        #   The port to connect to. Defaults to {#port}.
         #
-        # @option options [String] :user (DEFAULT_USER)
-        #   The user to authenticate with.
+        # @option options [String] :user
+        #   The username to authenticate with. Defaults to {#ftp_user}.
         #
         # @option options [String] :password
-        #   The password to authenticate with.
+        #   The password to authenticate with. Defaults to {#ftp_password}.
         #
         # @option options [String] :account
-        #   The FTP account information to send via the `ACCT` command.
-        #
-        # @option options [Boolean] :passive (true)
-        #   Specifies whether the FTP session should use passive mode.
+        #   The account information to send via the FTP `ACCT` command.
+        #   Defaults to {#ftp_account}.
         #
         # @yield [session]
         #   If a block is given, it will be passed an FTP session object.

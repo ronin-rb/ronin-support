@@ -60,7 +60,7 @@ module Ronin
 
         #
         # @deprecated
-        #   Use {#smtp_auth} instead.
+        #   Use {#esmtp_auth} instead.
         #
         def esmtp_login
           warn "DEPRECATED: #{SMTP}#esmtp_login. Use #esmtp_auth instead"
@@ -79,9 +79,7 @@ module Ronin
         end
 
         #
-        # Creates a connection to the ESMTP server. The `host`, `port`,
-        # `esmtp_login`, `esmtp_user` and `esmtp_password` parameters
-        # will also be used to connect to the ESMTP server.
+        # Creates a connection to the ESMTP server.
         #
         # @param [String] host
         #   The host to connect to. Defaults to {#host}.
@@ -133,9 +131,7 @@ module Ronin
         end
 
         #
-        # Starts a session with the ESMTP server. The `host`, `port`,
-        # `esmtp_login`, `esmtp_user` and `esmtp_password` parameters
-        # will also be used to connect to the ESMTP server.
+        # Starts a session with the ESMTP server.
         #
         # @param [String] host
         #   The host to connect to. Defaults to {#host}.

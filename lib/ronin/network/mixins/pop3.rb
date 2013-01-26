@@ -55,23 +55,21 @@ module Ronin
         protected
 
         #
-        # Creates a connection to the POP3 server. The `host}, `port`,
-        # `pop3_user` and `pop3_password` parameters will also be used
-        # to connect to the server.
+        # Creates a connection to the POP3 server.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (Ronin::Network::POP3.default_port)
-        #   The port the POP3 server is running on.
+        # @option options [Integer] :port
+        #   The port the POP3 server is running on. Defaults to {#port}.
         #
         # @option options [String] :user
         #   The user to authenticate with when connecting to the POP3
-        #   server.
+        #   server. Defaults to {#pop3_user}.
         #
         # @option options [String] :password
         #   The password to authenticate with when connecting to the POP3
-        #   server.
+        #   server. Defaults to {#pop3_password}.
         #
         # @yield [session]
         #   If a block is given, it will be passed the newly created
@@ -94,9 +92,7 @@ module Ronin
         end
 
         #
-        # Starts a session with the POP3 server. The `host`, `port`,
-        # `pop3_user` and `pop3_password` parameters will also be used
-        # to connect to the server.
+        # Starts a session with the POP3 server.
         #
         # @yield [session]
         #   If a block is given, it will be passed the newly created
