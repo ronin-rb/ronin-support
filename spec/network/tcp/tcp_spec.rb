@@ -41,8 +41,6 @@ describe Network::TCP do
     end
 
     describe "#tcp_connect" do
-      let(:local_port) { 1024 + rand(65535 - 1024) }
-
       it "should open a TCPSocket" do
         socket = subject.tcp_connect(host,port)
 
@@ -52,13 +50,17 @@ describe Network::TCP do
         socket.close
       end
 
-      it "should bind to a local host and port" do
-        socket     = subject.tcp_connect(host,port,nil,local_port)
-        bound_port = socket.addr[1]
+      context "when local_port is given" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        bound_port.should == local_port
+        it "should bind to a local host and port" do
+          socket     = subject.tcp_connect(host,port,nil,local_port)
+          bound_port = socket.addr[1]
 
-        socket.close
+          bound_port.should == local_port
+
+          socket.close
+        end
       end
 
       it "should yield the new TCPSocket" do
@@ -75,8 +77,6 @@ describe Network::TCP do
 
     describe "#tcp_connect_and_send" do
       let(:data) { "HELO ronin\n" }
-      let(:local_port) { 1024 + rand(65535 - 1024) }
-
       let(:expected_response) { "250 mx.google.com at your service\r\n" }
 
       it "should connect and then send data" do
@@ -89,13 +89,17 @@ describe Network::TCP do
         socket.close
        end
 
-      it "should bind to a local host and port" do
-        socket     = subject.tcp_connect_and_send(data,host,port,nil,local_port)
-        bound_port = socket.addr[1]
+      context "when local_port is given" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        bound_port.should == local_port
+        it "should bind to a local host and port" do
+          socket     = subject.tcp_connect_and_send(data,host,port,nil,local_port)
+          bound_port = socket.addr[1]
 
-        socket.close
+          bound_port.should == local_port
+
+          socket.close
+        end
       end
 
       it "should yield the TCPSocket" do
@@ -113,8 +117,6 @@ describe Network::TCP do
     end
 
     describe "#tcp_session" do
-      let(:local_port) { 1024 + rand(65535 - 1024) }
-
       it "should open then close a TCPSocket" do
         socket = nil
 
@@ -126,21 +128,24 @@ describe Network::TCP do
         socket.should be_closed
       end
 
-      it "should bind to a local host and port" do
-        bound_port = nil
+      context "when local_port is given" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        subject.tcp_session(host,port,nil,local_port) do |socket|
-          bound_port = socket.addr[1]
+        it "should bind to a local host and port" do
+          bound_port = nil
+
+          subject.tcp_session(host,port,nil,local_port) do |socket|
+            bound_port = socket.addr[1]
+          end
+
+          bound_port.should == local_port
         end
-
-        bound_port.should == local_port
       end
     end
 
     describe "#tcp_banner" do
       let(:host)       { 'smtp.gmail.com' }
       let(:port)       { 25 }
-      let(:local_port) { 1024 + rand(65535 - 1024) }
 
       let(:expected_banner) { /^220 mx\.google\.com ESMTP/ }
 
@@ -150,10 +155,14 @@ describe Network::TCP do
         banner.should =~ expected_banner
       end
 
-      it "should bind to a local host and port" do
-        banner = subject.tcp_banner(host,port,nil,local_port)
+      context "when local_port is given" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        banner.should =~ expected_banner
+        it "should bind to a local host and port" do
+          banner = subject.tcp_banner(host,port,nil,local_port)
+
+          banner.should =~ expected_banner
+        end
       end
 
       it "should yield the banner" do
@@ -172,7 +181,6 @@ describe Network::TCP do
       let(:server_port) { server.addr[1] }
 
       let(:data)       { "hello\n" }
-      let(:local_port) { 1024 + rand(65535 - 1024) }
 
       after(:all) { server.close }
 
@@ -187,15 +195,19 @@ describe Network::TCP do
         sent.should == data
       end
 
-      it "should bind to a local host and port" do
-        subject.tcp_send(data,server_host,server_port,nil,local_port)
+      context "when local_port is given" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        client      = server.accept
-        client_port = client.peeraddr[1]
+        it "should bind to a local host and port" do
+          subject.tcp_send(data,server_host,server_port,nil,local_port)
 
-        client_port.should == local_port
+          client      = server.accept
+          client_port = client.peeraddr[1]
 
-        client.close
+          client_port.should == local_port
+
+          client.close
+        end
       end
     end
 

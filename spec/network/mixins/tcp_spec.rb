@@ -62,15 +62,17 @@ describe Network::Mixins::TCP do
         socket.close
       end
 
-      it "should bind to a local host and port" do
-        subject.local_port = local_port
+      context "when local_port is set" do
+        before { subject.local_port = local_port }
 
-        socket     = subject.tcp_connect
-        bound_port = socket.addr[1]
+        it "should bind to a local host and port" do
+          socket     = subject.tcp_connect
+          bound_port = socket.addr[1]
 
-        bound_port.should == local_port
+          bound_port.should == local_port
 
-        socket.close
+          socket.close
+        end
       end
 
       it "should yield the new TCPSocket" do
@@ -101,15 +103,17 @@ describe Network::Mixins::TCP do
         socket.close
        end
 
-      it "should bind to a local host and port" do
-        subject.local_port = local_port
+      context "when local_port is set" do
+        before { subject.local_port = local_port }
 
-        socket     = subject.tcp_connect_and_send(data)
-        bound_port = socket.addr[1]
+        it "should bind to a local host and port" do
+          socket     = subject.tcp_connect_and_send(data)
+          bound_port = socket.addr[1]
 
-        bound_port.should == local_port
+          bound_port.should == local_port
 
-        socket.close
+          socket.close
+        end
       end
 
       it "should yield the TCPSocket" do
@@ -140,16 +144,18 @@ describe Network::Mixins::TCP do
         socket.should be_closed
       end
 
-      it "should bind to a local host and port" do
-        subject.local_port = local_port
+      context "when local_port is set" do
+        before { subject.local_port = local_port }
 
-        bound_port = nil
+        it "should bind to a local host and port" do
+          bound_port = nil
 
-        subject.tcp_session do |socket|
-          bound_port = socket.addr[1]
+          subject.tcp_session do |socket|
+            bound_port = socket.addr[1]
+          end
+
+          bound_port.should == local_port
         end
-
-        bound_port.should == local_port
       end
     end
 
@@ -166,12 +172,14 @@ describe Network::Mixins::TCP do
         banner.should =~ expected_banner
       end
 
-      it "should bind to a local host and port" do
-        subject.local_port = local_port
+      context "when local_port is set" do
+        before { subject.local_port = local_port }
 
-        banner = subject.tcp_banner
+        it "should bind to a local host and port" do
+          banner = subject.tcp_banner
 
-        banner.should =~ expected_banner
+          banner.should =~ expected_banner
+        end
       end
 
       it "should yield the banner" do
@@ -210,22 +218,29 @@ describe Network::Mixins::TCP do
         sent.should == data
       end
 
-      it "should bind to a local host and port" do
-        subject.local_port = local_port
+      context "when local_port is set" do
+        before { subject.local_port = local_port }
 
-        subject.tcp_send(data)
+        it "should bind to a local host and port" do
+          subject.tcp_send(data)
 
-        client      = server.accept
-        client_port = client.peeraddr[1]
+          client      = server.accept
+          client_port = client.peeraddr[1]
 
-        client_port.should == local_port
+          client_port.should == local_port
 
-        client.close
+          client.close
+        end
       end
     end
 
     describe "#tcp_server" do
       let(:server_port) { 1024 + rand(65535 - 1024) }
+
+      before do
+        subject.server_port = server_port
+        subject.server_host = server_host
+      end
 
       it "should create a new TCPServer" do
         server = subject.tcp_server
@@ -237,9 +252,6 @@ describe Network::Mixins::TCP do
       end
 
       it "should bind to a specific port and host" do
-        subject.server_port = server_port
-        subject.server_host = server_host
-
         server     = subject.tcp_server
         bound_host = server.addr[3]
         bound_port = server.addr[1]
@@ -267,6 +279,11 @@ describe Network::Mixins::TCP do
     describe "#tcp_server_session" do
       let(:server_port) { 1024 + rand(65535 - 1024) }
 
+      before do
+        subject.server_port = server_port
+        subject.server_host = server_host
+      end
+
       it "should create a temporary TCPServer" do
         server = nil
         
@@ -279,9 +296,6 @@ describe Network::Mixins::TCP do
       end
 
       it "should bind to a specific port and host" do
-        subject.server_port = server_port
-        subject.server_host = server_host
-
         bound_host = nil
         bound_port = nil
         
