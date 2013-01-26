@@ -51,8 +51,6 @@ describe Network::Mixins::TCP do
     end
 
     describe "#tcp_connect" do
-      let(:local_port) { 1024 + rand(65535 - 1024) }
-
       it "should open a TCPSocket" do
         socket = subject.tcp_connect
 
@@ -63,6 +61,8 @@ describe Network::Mixins::TCP do
       end
 
       context "when local_port is set" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
+
         before { subject.local_port = local_port }
 
         it "should bind to a local host and port" do
@@ -89,7 +89,6 @@ describe Network::Mixins::TCP do
 
     describe "#tcp_connect_and_send" do
       let(:data) { "HELO ronin\n" }
-      let(:local_port) { 1024 + rand(65535 - 1024) }
 
       let(:expected_response) { "250 mx.google.com at your service\r\n" }
 
@@ -104,6 +103,8 @@ describe Network::Mixins::TCP do
        end
 
       context "when local_port is set" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
+
         before { subject.local_port = local_port }
 
         it "should bind to a local host and port" do
@@ -131,8 +132,6 @@ describe Network::Mixins::TCP do
     end
 
     describe "#tcp_session" do
-      let(:local_port) { 1024 + rand(65535 - 1024) }
-
       it "should open then close a TCPSocket" do
         socket = nil
 
@@ -145,6 +144,8 @@ describe Network::Mixins::TCP do
       end
 
       context "when local_port is set" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
+
         before { subject.local_port = local_port }
 
         it "should bind to a local host and port" do
@@ -162,7 +163,6 @@ describe Network::Mixins::TCP do
     describe "#tcp_banner" do
       let(:host)       { 'smtp.gmail.com' }
       let(:port)       { 25 }
-      let(:local_port) { 1024 + rand(65535 - 1024) }
 
       let(:expected_banner) { /^220 mx\.google\.com ESMTP/ }
 
@@ -173,6 +173,8 @@ describe Network::Mixins::TCP do
       end
 
       context "when local_port is set" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
+
         before { subject.local_port = local_port }
 
         it "should bind to a local host and port" do
@@ -198,7 +200,6 @@ describe Network::Mixins::TCP do
       let(:server_port) { server.addr[1] }
 
       let(:data)       { "hello\n" }
-      let(:local_port) { 1024 + rand(65535 - 1024) }
 
       before do
         subject.host = server_host
@@ -219,6 +220,8 @@ describe Network::Mixins::TCP do
       end
 
       context "when local_port is set" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
+
         before { subject.local_port = local_port }
 
         it "should bind to a local host and port" do
