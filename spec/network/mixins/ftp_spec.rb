@@ -3,13 +3,15 @@ require 'ronin/network/mixins/ftp'
 
 describe Network::Mixins::FTP do
   describe "helpers", :network do
+    let(:host) { 'ftp.kernel.org' }
+
     subject do
       obj = Object.new
       obj.extend described_class
       obj
     end
 
-    before { subject.host = 'ftp.kernel.org' }
+    before { subject.host = host }
 
     describe "#ftp_connect" do
       it "should return a Net::FTP object" do
