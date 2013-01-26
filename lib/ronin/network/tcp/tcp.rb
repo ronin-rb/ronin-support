@@ -304,9 +304,10 @@ module Ronin
       #
       # @api public
       #
-      def tcp_server(port=nil,host=nil,backlog=5)
-        port = port.to_i
-        host = (host || '0.0.0.0').to_s
+      def tcp_server(port=nil,host=nil,backlog=nil)
+        port      = port.to_i
+        host    ||= (host || '0.0.0.0').to_s
+        backlog ||= 5
 
         server = TCPServer.new(host,port)
         server.listen(backlog)
@@ -349,7 +350,7 @@ module Ronin
       #
       # @api public
       #
-      def tcp_server_session(port=nil,host=nil,backlog=5,&block)
+      def tcp_server_session(port=nil,host=nil,backlog=nil,&block)
         server = tcp_server(port,host,backlog,&block)
         server.close()
         return nil
@@ -386,7 +387,7 @@ module Ronin
       #
       # @since 0.5.0
       #
-      def tcp_server_loop(port=nil,host=nil,backlog=5)
+      def tcp_server_loop(port=nil,host=nil,backlog=nil)
         tcp_server_session(port,host,backlog) do |server|
           loop do
             client = server.accept
