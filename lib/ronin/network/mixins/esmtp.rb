@@ -47,8 +47,8 @@ module Ronin
                          description: 'ESMTP port'
 
         # ESMTP authentication method to use
-        parameter :esmtp_login, type:        String,
-                                description: 'ESMTP authentication method to use'
+        parameter :esmtp_auth, type:        String,
+                               description: 'ESMTP authentication method to use'
 
         # ESMTP user to login as
         parameter :esmtp_user, type:        String,
@@ -57,6 +57,26 @@ module Ronin
         # ESMTP password to login with
         parameter :esmtp_password, type:        String,
                                    description: 'ESMTP password to login with'
+
+        #
+        # @deprecated
+        #   Use {#smtp_auth} instead.
+        #
+        def esmtp_login
+          warn "DEPRECATED: #{SMTP}#esmtp_login. Use #esmtp_auth instead"
+
+          return smtp_auth
+        end
+
+        #
+        # @deprecated
+        #   Use {#esmtp_auth=} instead.
+        #
+        def esmtp_login=(new_login)
+          warn "DEPRECATED: #{SMTP}#esmtp_login=. Use #esmtp_auth= instead"
+
+          self.esmtp_auth = new_login
+        end
 
         #
         # Creates a connection to the ESMTP server. The `host`, `port`,
@@ -76,7 +96,7 @@ module Ronin
         #   The HELO domain.
         #
         # @option options [Symbol] :auth
-        #   The type of authentication to use. Defaults to {#esmtp_login}.
+        #   The type of authentication to use. Defaults to {#esmtp_auth}.
         #   May be one of the following:
         #
         #   * `:login`
@@ -130,7 +150,7 @@ module Ronin
         #   The HELO domain.
         #
         # @option options [Symbol] :auth
-        #   The type of authentication to use. Defaults to {#esmtp_login}.
+        #   The type of authentication to use. Defaults to {#esmtp_auth}.
         #   May be one of the following:
         #
         #   * `:login`
@@ -187,7 +207,7 @@ module Ronin
         #   
         def esmtp_merge_options(options={})
           options[:port]     ||= self.port
-          options[:auth]     ||= self.esmtp_login
+          options[:auth]     ||= self.esmtp_auth
           options[:user]     ||= self.esmtp_user
           options[:password] ||= self.esmtp_password
 
