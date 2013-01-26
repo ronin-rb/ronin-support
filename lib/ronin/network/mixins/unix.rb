@@ -41,6 +41,31 @@ module Ronin
                          description: 'UNIX Socket path'
 
         #
+        # Tests whether a UNIX socket is open.
+        #
+        # @param [String] path
+        #   The path to the socket.
+        #
+        # @param [Integer] timeout (5)
+        #   The maximum time to attempt connecting.
+        #
+        # @return [Boolean, nil]
+        #   Specifies whether the UNIX socket is open.
+        #   If the connection was not accepted, `nil` will be returned.
+        #
+        # @api public
+        #
+        # @since 0.6.0
+        #
+        def unix_open?(path=nil,timeout=nil)
+          path ||= self.path
+
+          print_info "Testing if #{path} is open ..."
+
+          return super(path,timeout)
+        end
+
+        #
         # Connects to a UNIX socket specified by the `path` parameter.
         #
         # @param [String] path
