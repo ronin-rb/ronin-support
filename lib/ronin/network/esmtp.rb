@@ -94,6 +94,26 @@ module Ronin
       # @param [Hash] options
       #   Additional options.
       #
+      # @option options [Integer] :port (SMTP.default_port)
+      #   The port to connect to.
+      #
+      # @option options [String] :helo
+      #   The HELO domain.
+      #
+      # @option options [Symbol] :auth
+      #   The type of authentication to use.
+      #   May be one of the following:
+      #
+      #   * `:login`
+      #   * `:plain`
+      #   * `:cram_md5`
+      #
+      # @option options [String] :user
+      #   The user-name to authenticate with.
+      #
+      # @option options [String] :password
+      #   The password to authenticate with.
+      #
       # @yield [session]
       #   If a block is given, it will be passed an ESMTP enabled session
       #   object. After the block has returned, the session will be closed.
