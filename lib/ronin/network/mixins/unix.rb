@@ -269,7 +269,7 @@ module Ronin
         #
         # @api public
         #
-        def unix_server_session(&block)
+        def unix_server_session(socket=nil,&block)
           socket ||= self.server_socket
 
           super(socket,&block)
