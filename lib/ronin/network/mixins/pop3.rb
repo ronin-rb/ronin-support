@@ -56,6 +56,9 @@ module Ronin
         #
         # Creates a connection to the POP3 server.
         #
+        # @param [String] host
+        #   The host to connect to.
+        #
         # @param [Hash] options
         #   Additional options.
         #
@@ -105,6 +108,9 @@ module Ronin
         #
         # Starts a session with the POP3 server.
         #
+        # @param [String] host
+        #   The host to connect to.
+        #
         # @param [Hash] options
         #   Additional options.
         #
@@ -142,7 +148,7 @@ module Ronin
         #
         # @api public
         #
-        def pop3_session(options={})
+        def pop3_session(host=nil,options={})
           host  ||= self.host
           options = pop3_merge_options(options)
 
