@@ -41,8 +41,6 @@ describe Network::UDP do
     end
 
     describe "#udp_connect" do
-      let(:local_port) { 1024 + rand(65535 - 1024) }
-
       it "should open a UDPSocket" do
         socket = subject.udp_connect(host,port)
 
@@ -52,13 +50,17 @@ describe Network::UDP do
         socket.close
       end
 
-      it "should bind to a local port" do
-        socket      = subject.udp_connect(host,port,nil,local_port)
-        bound_port = socket.addr[1]
+      context "when local_port is given" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        bound_port.should == local_port
+        it "should bind to a local port" do
+          socket      = subject.udp_connect(host,port,nil,local_port)
+          bound_port = socket.addr[1]
 
-        socket.close
+          bound_port.should == local_port
+
+          socket.close
+        end
       end
 
       it "should yield the new UDPSocket" do
@@ -76,7 +78,6 @@ describe Network::UDP do
     describe "#udp_connect_and_send" do
       pending "need to find a UDP Service for these specs" do
         let(:data) { "HELO ronin\n" }
-        let(:local_port) { 1024 + rand(65535 - 1024) }
 
         it "should connect and then send data" do
           socket   = subject.udp_connect_and_send(data,host,port)
@@ -88,13 +89,17 @@ describe Network::UDP do
           socket.close
         end
 
-        it "should bind to a local port" do
-          socket      = subject.udp_connect_and_send(data,host,port,nil,local_port)
-          bound_port = socket.addr[1]
+        context "when local_port is given" do
+          let(:local_port) { 1024 + rand(65535 - 1024) }
 
-          bound_port.should == local_port
+          it "should bind to a local port" do
+            socket      = subject.udp_connect_and_send(data,host,port,nil,local_port)
+            bound_port = socket.addr[1]
 
-          socket.close
+            bound_port.should == local_port
+
+            socket.close
+          end
         end
 
         it "should yield the UDPSocket" do
@@ -113,8 +118,6 @@ describe Network::UDP do
     end
 
     describe "#udp_session" do
-      let(:local_port) { 1024 + rand(65535 - 1024) }
-
       it "should open then close a UDPSocket" do
         socket = nil
 
@@ -126,14 +129,18 @@ describe Network::UDP do
         socket.should be_closed
       end
 
-      it "should bind to a local host and port" do
-        bound_port = nil
+      context "when local_port is given" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        subject.udp_session(host,port,nil,local_port) do |socket|
-          bound_port = socket.addr[1]
+        it "should bind to a local host and port" do
+          bound_port = nil
+
+          subject.udp_session(host,port,nil,local_port) do |socket|
+            bound_port = socket.addr[1]
+          end
+
+          bound_port.should == local_port
         end
-
-        bound_port.should == local_port
       end
     end
 
@@ -142,18 +149,20 @@ describe Network::UDP do
         let(:host) { 'smtp.gmail.com' }
         let(:port) { 25 }
 
-        let(:local_port) { 1024 + rand(65535 - 1024) }
-
         it "should read the service banner" do
           banner = subject.udp_banner(host,port)
 
           banner.start_with?('220').should be_true
         end
 
-        it "should bind to a local host and port" do
-          banner = subject.udp_banner(host,port,nil,local_port)
+        context "when local_port is given" do
+          let(:local_port) { 1024 + rand(65535 - 1024) }
 
-          banner.start_with?('220').should be_true
+          it "should bind to a local host and port" do
+            banner = subject.udp_banner(host,port,nil,local_port)
+
+            banner.start_with?('220').should be_true
+          end
         end
 
         it "should yield the banner" do
@@ -177,7 +186,6 @@ describe Network::UDP do
       let(:server_port) { server.addr[1] }
 
       let(:data)       { "hello\n" }
-      let(:local_port) { 1024 + rand(65535 - 1024) }
 
       after(:all) { server.close }
 
@@ -189,13 +197,17 @@ describe Network::UDP do
         mesg[0].should == data
       end
 
-      it "should bind to a local host and port" do
-        subject.udp_send(data,server_host,server_port,nil,local_port)
+      context "when local_port is given" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        mesg = server.recvfrom(data.length)
+        it "should bind to a local host and port" do
+          subject.udp_send(data,server_host,server_port,nil,local_port)
 
-        client_address = mesg[1]
-        client_address[1].should == local_port
+          mesg = server.recvfrom(data.length)
+
+          client_address = mesg[1]
+          client_address[1].should == local_port
+        end
       end
     end
 
