@@ -42,6 +42,12 @@ module Ronin
         parameter :socket, type:        String,
                            description: 'UNIX Socket path'
 
+        # UNIX Server socket
+        #
+        # @since 0.6.0
+        parameter :server_socket, type:        String,
+                                  description: 'UNIX Server socket path'
+
         #
         # @deprecated
         #   Use `socket` instead.
@@ -232,7 +238,7 @@ module Ronin
         # @api public
         #
         def unix_server(socket=nil,&block)
-          socket ||= self.socket
+          socket ||= self.server_socket
 
           print_info "Listening on #{socket} ..."
 
@@ -264,7 +270,7 @@ module Ronin
         # @api public
         #
         def unix_server_session(&block)
-          socket ||= self.socket
+          socket ||= self.server_socket
 
           super(socket,&block)
 
@@ -295,7 +301,7 @@ module Ronin
         # @api public
         #
         def unix_accept(socket=nil)
-          socket ||= self.socket
+          socket ||= self.server_socket
 
           print_info "Listening on #{socket} ..."
 
@@ -334,7 +340,7 @@ module Ronin
         # @api public
         #
         def unix_server_loop(socket=nil)
-          socket ||= self.socket
+          socket ||= self.server_socket
 
           print_info "Listening on #{socket} ..."
 
