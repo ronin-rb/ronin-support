@@ -44,7 +44,7 @@ describe Network::Mixins::FTP do
 
       context "when given a block" do
         it "should yield the new Net::FTP object" do
-          ftp = subject.ftp_connect(host) do |ftp|
+          ftp = subject.ftp_connect do |ftp|
             ftp.should be_kind_of(Net::FTP)
           end
 
@@ -57,7 +57,7 @@ describe Network::Mixins::FTP do
       it "should yield a new Net::FTP object" do
         yielded_ftp = nil
 
-        subject.ftp_session(host) do |ftp|
+        subject.ftp_session do |ftp|
           yielded_ftp = ftp
         end
 
@@ -68,7 +68,7 @@ describe Network::Mixins::FTP do
         session  = nil
         was_open = nil
 
-        subject.ftp_session(host) do |ftp|
+        subject.ftp_session do |ftp|
           session   = ftp
           was_open  = !ftp.closed?
         end
