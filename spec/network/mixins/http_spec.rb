@@ -8,15 +8,6 @@ describe Network::Mixins::HTTP do
     obj
   end
 
-  let(:host) { 'www.google.com' }
-  let(:port) { 80 }
-  let(:path) { '/' }
-
-  before do
-    subject.host = host
-    subject.port = port
-  end
-
   describe "#disable_http_proxy" do
     let(:proxy) { 'www.example.com:8080' }
 
@@ -30,6 +21,15 @@ describe Network::Mixins::HTTP do
   end
 
   describe "helper methods", :network do
+    let(:host) { 'www.google.com' }
+    let(:port) { 80 }
+    let(:path) { '/' }
+
+    before do
+      subject.host = host
+      subject.port = port
+    end
+
     describe "#http_connect" do
       it "should create a Net::HTTP session" do
         http = subject.http_connect
