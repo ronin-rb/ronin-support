@@ -2,14 +2,14 @@ require 'spec_helper'
 require 'ronin/network/mixins/ftp'
 
 describe Network::Mixins::FTP do
+  subject do
+    obj = Object.new
+    obj.extend described_class
+    obj
+  end
+
   describe "helpers", :network do
     let(:host) { 'ftp.kernel.org' }
-
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
 
     before { subject.host = host }
 

@@ -4,14 +4,14 @@ require 'ronin/network/mixins/dns'
 require 'ipaddr'
 
 describe Network::Mixins::DNS do
+  subject do
+    obj = Object.new
+    obj.extend described_class
+    obj
+  end
+
   describe "#dns_resolver" do
     let(:server) { '4.2.2.1' }
-
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
 
     context "when no argument is given" do
       context "when self.nameserver is not set" do

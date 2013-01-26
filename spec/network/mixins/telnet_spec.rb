@@ -2,16 +2,14 @@ require 'spec_helper'
 require 'ronin/network/mixins/telnet'
 
 describe Network::Mixins::Telnet do
-  its(:default_port) { should == 23 }
+  subject do
+    obj = Object.new
+    obj.extend described_class
+    obj
+  end
 
   describe "helpers", :network do
     let(:host) { 'towel.blinkenlights.nl' }
-
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
 
     before { subject.host = host }
 
