@@ -224,7 +224,7 @@ module Ronin
           super(host,options) do |sess|
             yield sess if block_given?
 
-            print "Logging out ..."
+            print_info "Logging out ..."
           end
 
           print_info "Disconnected to #{host}:#{options[:port]}"
