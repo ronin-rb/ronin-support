@@ -120,10 +120,9 @@ module Ronin
         session = Net::IMAP.new(host,port,ssl,ssl_certs,ssl_verify)
 
         if user
-          if auth == :cram_md5
-            session.authenticate('CRAM-MD5',user,passwd)
-          else
-            session.authenticate('LOGIN',user,passwd)
+          case auth
+          when :cram_md5 then session.authenticate('CRAM-MD5',user,passwd)
+          else                session.authenticate('LOGIN',user,passwd)
           end
         end
 
