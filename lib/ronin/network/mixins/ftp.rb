@@ -56,8 +56,8 @@ module Ronin
                                  description: 'FTP password to login with'
 
         # FTP account information to send
-        parameter :ftp_password, type:        String,
-                                 description: 'FTP account information'
+        parameter :ftp_account, type:        String,
+                                description: 'FTP account information'
 
         #
         # Creates a connection to the FTP server. The `host`, `port`,
