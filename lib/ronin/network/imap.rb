@@ -64,7 +64,7 @@ module Ronin
       # @option options [Integer] :port (IMAP.default_port)
       #   The port the IMAP server is running on.
       #
-      # @option options [Hash] :ssl
+      # @option options [Boolean, Hash] :ssl
       #   Additional SSL options.
       #
       # @option :ssl [Boolean] :verify
@@ -103,10 +103,15 @@ module Ronin
         user   = options[:user]
         passwd = options[:password]
 
-        if options[:ssl]
+        case options[:ssl]
+        when Hash
           ssl        = true
           ssl_certs  = options[:ssl][:certs]
           ssl_verify = SSL::VERIFY[options[:ssl][:verify]]
+        when TrueClass
+          ssl        = true
+          ssl_certs  = nil
+          ssl_verify = nil
         else
           ssl        = false
           ssl_certs  = nil
@@ -139,7 +144,7 @@ module Ronin
       # @option options [Integer] :port (IMAP.default_port)
       #   The port the IMAP server is running on.
       #
-      # @option options [Hash] :ssl
+      # @option options [Boolean, Hash] :ssl
       #   Additional SSL options.
       #
       # @option :ssl [Boolean] :verify
