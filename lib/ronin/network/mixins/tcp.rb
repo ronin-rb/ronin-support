@@ -64,20 +64,19 @@ module Ronin
                                 description: 'TCP server port'
 
         #
-        # Tests whether the TCP port, specified by the `host` and `port`
-        # parameters, is open.
+        # Tests whether the TCP port is open.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Integer] port
-        #   The port to connect to.
+        #   The port to connect to. Defaults to {#port}.
         #
         # @param [String] local_host
-        #   The local host to bind to.
+        #   The local host to bind to. Defaults to {#local_host}.
         #
         # @param [Integer] local_port
-        #   The local port to bind to.
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @param [Integer] timeout
         #   The maximum time to attempt connecting.
@@ -104,22 +103,19 @@ module Ronin
         end
 
         #
-        # Opens a TCP connection to the host and port specified by the
-        # `host` and `port` parameters. If the `local_host` and
-        # `local_port` parameters are set, they will be used for
-        # the local host and port of the TCP connection.
+        # Creates a new TCP socket connected to a given host and port.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Integer] port
-        #   The port to connect to.
+        #   The port to connect to. Defaults to {#port}.
         #
         # @param [String] local_host
-        #   The local host to bind to.
+        #   The local host to bind to. Defaults to {#local_host}.
         #
         # @param [Integer] local_port
-        #   The local port to bind to.
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
@@ -157,23 +153,23 @@ module Ronin
         end
 
         #
-        # Connects to the host and port specified by the `host` and `port`
-        # parameters, then sends the given data.
+        # Creates a new TCP socket, connected to a given host and port.
+        # The given data will then be written to the newly created socket.
         #
         # @param [String] data
         #   The data to send through the connection.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Integer] port
-        #   The port to connect to.
+        #   The port to connect to. Defaults to {#port}.
         #
         # @param [String] local_host
-        #   The local host to bind to.
+        #   The local host to bind to. Defaults to {#local_host}.
         #
         # @param [Integer] local_port
-        #   The local port to bind to.
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
@@ -200,20 +196,20 @@ module Ronin
         end
 
         #
-        # Creates a TCP session to the host and port specified by the
-        # `host` and `port` parameters.
+        # Creates a new temporary TCP socket, connected to the given host
+        # and port.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Integer] port
-        #   The port to connect to.
+        #   The port to connect to. Defaults to {#port}.
         #
         # @param [String] local_host
-        #   The local host to bind to.
+        #   The local host to bind to. Defaults to {#local_host}.
         #
         # @param [Integer] local_port
-        #   The local port to bind to.
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
@@ -241,20 +237,19 @@ module Ronin
         end
 
         #
-        # Connects to the host and port specified by the `host` and `port`
-        # parameters, reads the banner then closes the connection.
+        # Reads the banner from the service running on the given host and port.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Integer] port
-        #   The port to connect to.
+        #   The port to connect to. Defaults to {#port}.
         #
         # @param [String] local_host
-        #   The local host to bind to.
+        #   The local host to bind to. Defaults to {#local_host}.
         #
         # @param [Integer] local_port
-        #   The local port to bind to.
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @yield [banner]
         #   If a block is given, it will be passed the grabbed banner.
@@ -285,23 +280,23 @@ module Ronin
         end
 
         #
-        # Connects to the host and port specified by the `host` and `port`
-        # parameters, sends the given data and then disconnects.
+        # Connects to a specified host and port, sends the given data and then
+        # closes the connection.
         #
         # @param [String] data
         #   The data to send through the connection.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Integer] port
-        #   The port to connect to.
+        #   The port to connect to. Defaults to {#port}.
         #
         # @param [String] local_host
-        #   The local host to bind to.
+        #   The local host to bind to. Defaults to {#local_host}.
         #
         # @param [Integer] local_port
-        #   The local port to bind to.
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @return [true]
         #   The data was successfully sent.
@@ -327,14 +322,13 @@ module Ronin
         end
 
         #
-        # Creates a new TCPServer object listening on the `server_host`
-        # and `server_port` parameters.
+        # Creates a new TCP socket listening on a given host and port.
         #
         # @param [Integer] port
-        #   The local port to listen on.
+        #   The local port to listen on. Defaults to {#server_port}.
         #
         # @param [String] host
-        #   The host to bind to.
+        #   The host to bind to. Defaults to {#server_host}.
         #
         # @param [Integer] backlog
         #   The maximum backlog of pending connections.
@@ -365,14 +359,13 @@ module Ronin
         end
 
         #
-        # Creates a new temporary TCPServer object listening on the
-        # `server_host` and `server_port` parameters.
+        # Creates a new temporary TCP socket listening on a host and port.
         #
         # @param [Integer] port
-        #   The local port to listen on.
+        #   The local port to listen on. Defaults to {#server_port}.
         #
         # @param [String] host
-        #   The host to bind to.
+        #   The host to bind to. Defaults to {#server_host}.
         #
         # @param [Integer] backlog
         #   The maximum backlog of pending connections.
@@ -416,10 +409,10 @@ module Ronin
         # accepting clients in a loop.
         #
         # @param [Integer] port
-        #   The local port to listen on.
+        #   The local port to listen on. Defaults to {#server_port}.
         #
         # @param [String] host
-        #   The host to bind to.
+        #   The host to bind to. Defaults to {#server_host}.
         #
         # @param [Integer] backlog
         #   The maximum backlog of pending connections.
@@ -458,17 +451,14 @@ module Ronin
         end
 
         #
-        # Creates a new temporary TCPServer object listening on
-        # `server_host` and `server_port` parameters.
-        # The TCPServer will accepting one client, pass the newly connected
-        # client to a given block, disconnects the client and stops
-        # listening.
+        # Creates a new TCP socket listening on a given host and port,
+        # accepts only one client and then stops listening.
         #
         # @param [Integer] port
-        #   The local port to listen on.
+        #   The local port to listen on. Defaults to {#server_port}.
         #
         # @param [String] host
-        #   The host to bind to.
+        #   The host to bind to. Defaults to {#server_host}.
         #
         # @yield [client]
         #   The given block will be passed the newly connected client.

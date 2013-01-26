@@ -42,6 +42,12 @@ module Ronin
         #
         # The DNS Resolver to use.
         #
+        # @param [String] nameserver
+        #   The nameserver to query. Defaults to {#nameserver}.
+        #
+        # @return [Resolv, Resolv::DNS]
+        #   The resolver.
+        #
         # @see Network::DNS#dns_resolver
         #
         def dns_resolver(nameserver=self.nameserver)

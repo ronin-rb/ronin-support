@@ -63,19 +63,16 @@ module Ronin
                                description: 'Enable Telnet over SSL'
 
         #
-        # Creates a connection to a Telnet server. The `host`, `port`,
-        # `telnet_user`, `telnet_password`, `telnet_proxy` and
-        # `telnet_ssl` parameters will also be used to connect to the
-        # Telnet server.
+        # Creates a new Telnet connection.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (Network::Telnet.default_port)
-        #   The port to connect to.
+        # @option options [Integer] :port
+        #   The port to connect to. Defaults to {#port}.
         #
         # @option options [Boolean] :binmode
         #   Indicates that newline substitution shall not be performed.
@@ -109,15 +106,15 @@ module Ronin
         #   The amount of time to wait after seeing what looks like
         #   a prompt.
         #
-        # @option options [Net::Telnet, IO] :proxy (Network::Telnet.proxy)
+        # @option options [Net::Telnet, IO] :proxy
         #   A proxy object to used instead of opening a direct connection
-        #   to the host.
+        #   to the host. Defaults to {#telnet_proxy}.
         #
         # @option options [String] :user
-        #   The user to login as.
+        #   The user to login as. Defaults to {#telnet_user}.
         #
         # @option options [String] :password
-        #   The password to login with.
+        #   The password to login with. Defaults to {#telnet_password}.
         #
         # @yield [connection]
         #   If a block is given, it will be passed the newly created
@@ -147,16 +144,16 @@ module Ronin
         end
 
         #
-        # Starts a session with a Telnet server. The `host`, `port`,
-        # `telnet_user`, `telnet_password`, `telnet_proxy` and
-        # `telnet_ssl` parameters will also be used to connect to the
-        # Telnet server.
+        # Starts a new Telnet session.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (Network::Telnet.default_port)
-        #   The port to connect to.
+        # @option options [Integer] :port
+        #   The port to connect to. Defaults to {#port}.
         #
         # @option options [Boolean] :binmode
         #   Indicates that newline substitution shall not be performed.
@@ -190,15 +187,15 @@ module Ronin
         #   The amount of time to wait after seeing what looks like
         #   a prompt.
         #
-        # @option options [Net::Telnet, IO] :proxy (Network::Telnet.proxy)
+        # @option options [Net::Telnet, IO] :proxy
         #   A proxy object to used instead of opening a direct connection
-        #   to the host.
+        #   to the host. Defaults to {#telnet_proxy}.
         #
         # @option options [String] :user
-        #   The user to login as.
+        #   The user to login as. Defaults to {#telnet_user}.
         #
         # @option options [String] :password
-        #   The password to login with.
+        #   The password to login with. Defaults to {#telnet_password}.
         #
         # @yield [session]
         #   If a block is given, it will be passed the newly created

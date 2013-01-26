@@ -60,29 +60,28 @@ module Ronin
         protected
 
         #
-        # Creates a connection to the IMAP server. The `host`, `port`,
-        # `imap_auth`, `imap_user` and `imap_password` parameters
-        # will also be used to make the connection.
+        # Creates a connection to the IMAP server.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (IMAP.default_port)
-        #   The port the IMAP server is running on.
+        # @option options [Integer] :port
+        #   The port the IMAP server is running on. Defaults to {#port}.
         #
         # @option options [String] :certs
         #   The path to the file containing CA certs of the server.
         #
         # @option options [Symbol] :auth
         #   The type of authentication to perform when connecting to the
-        #   server. May be either `:login` or `:cram_md5`.
+        #   server. Defaults to {#imap_auth}.
         #
         # @option options [String] :user
         #   The user to authenticate as when connecting to the server.
+        #   Defaults to {#imap_user}.
         #
         # @option options [String] :password
         #   The password to authenticate with when connecting to the
-        #   server.
+        #   server. Defaults to {#imap_password}.
         #
         # @option options [Boolean]
         #   Indicates wether or not to use SSL when connecting to the
@@ -99,9 +98,7 @@ module Ronin
         end
 
         #
-        # Starts a session with the IMAP server. The `host`, `port`,
-        # `imap_auth`, `imap_user` and `imap_password` parameters
-        # will also be used to make the connection.
+        # Starts a session with the IMAP server.
         #
         # @yield [session]
         #   If a block is given, it will be passed the newly created
