@@ -109,6 +109,18 @@ module Ronin
         # `local_port` parameters are set, they will be used for
         # the local host and port of the TCP connection.
         #
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Integer] port
+        #   The port to connect to.
+        #
+        # @param [String] local_host
+        #   The local host to bind to.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to.
+        #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
         #
@@ -151,6 +163,18 @@ module Ronin
         # @param [String] data
         #   The data to send through the connection.
         #
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Integer] port
+        #   The port to connect to.
+        #
+        # @param [String] local_host
+        #   The local host to bind to.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to.
+        #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
         #
@@ -178,6 +202,18 @@ module Ronin
         #
         # Creates a TCP session to the host and port specified by the
         # `host` and `port` parameters.
+        #
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Integer] port
+        #   The port to connect to.
+        #
+        # @param [String] local_host
+        #   The local host to bind to.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
@@ -207,6 +243,18 @@ module Ronin
         #
         # Connects to the host and port specified by the `host` and `port`
         # parameters, reads the banner then closes the connection.
+        #
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Integer] port
+        #   The port to connect to.
+        #
+        # @param [String] local_host
+        #   The local host to bind to.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to.
         #
         # @yield [banner]
         #   If a block is given, it will be passed the grabbed banner.
@@ -240,6 +288,21 @@ module Ronin
         # Connects to the host and port specified by the `host` and `port`
         # parameters, sends the given data and then disconnects.
         #
+        # @param [String] data
+        #   The data to send through the connection.
+        #
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Integer] port
+        #   The port to connect to.
+        #
+        # @param [String] local_host
+        #   The local host to bind to.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to.
+        #
         # @return [true]
         #   The data was successfully sent.
         #
@@ -266,6 +329,15 @@ module Ronin
         #
         # Creates a new TCPServer object listening on the `server_host`
         # and `server_port` parameters.
+        #
+        # @param [Integer] port
+        #   The local port to listen on.
+        #
+        # @param [String] host
+        #   The host to bind to.
+        #
+        # @param [Integer] backlog
+        #   The maximum backlog of pending connections.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -295,6 +367,15 @@ module Ronin
         #
         # Creates a new temporary TCPServer object listening on the
         # `server_host` and `server_port` parameters.
+        #
+        # @param [Integer] port
+        #   The local port to listen on.
+        #
+        # @param [String] host
+        #   The host to bind to.
+        #
+        # @param [Integer] backlog
+        #   The maximum backlog of pending connections.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -334,6 +415,15 @@ module Ronin
         # Creates a new TCP socket listening on a given host and port,
         # accepting clients in a loop.
         #
+        # @param [Integer] port
+        #   The local port to listen on.
+        #
+        # @param [String] host
+        #   The host to bind to.
+        #
+        # @param [Integer] backlog
+        #   The maximum backlog of pending connections.
+        #
         # @yield [client]
         #   The given block will be passed the newly connected client.
         #   After the block has finished, the client will be closed.
@@ -358,7 +448,7 @@ module Ronin
           port ||= self.server_port
           host ||= self.server_host
 
-          super(self.server_port,self.server_host) do |client|
+          return super(self.server_port,self.server_host) do |client|
             print_info "Client connected #{tcp_client_address(client)}"
 
             yield client if block_given?
@@ -373,6 +463,12 @@ module Ronin
         # The TCPServer will accepting one client, pass the newly connected
         # client to a given block, disconnects the client and stops
         # listening.
+        #
+        # @param [Integer] port
+        #   The local port to listen on.
+        #
+        # @param [String] host
+        #   The host to bind to.
         #
         # @yield [client]
         #   The given block will be passed the newly connected client.
