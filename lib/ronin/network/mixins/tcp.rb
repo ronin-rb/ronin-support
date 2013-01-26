@@ -56,19 +56,30 @@ module Ronin
 
         # TCP server host
         parameter :server_host, type:        String,
+                                default:     '0.0.0.0',
                                 description: 'TCP server host'
 
         # TCP server port
         parameter :server_port, type:        Integer,
                                 description: 'TCP server port'
 
-        protected
-
         #
         # Tests whether the TCP port, specified by the `host` and `port`
         # parameters, is open.
         #
-        # @param [Integer] timeout (5)
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Integer] port
+        #   The port to connect to.
+        #
+        # @param [String] local_host
+        #   The local host to bind to.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to.
+        #
+        # @param [Integer] timeout
         #   The maximum time to attempt connecting.
         #
         # @return [Boolean, nil]
@@ -81,10 +92,15 @@ module Ronin
         #
         # @since 0.5.0
         #
-        def tcp_open?(timeout=nil)
-          print_info "Testing if #{host_port} is open ..."
+        def tcp_open?(host=nil,port=nil,local_host=nil,local_port=nil,timeout=nil)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          super(self.host,self.port,self.local_host,self.local_port,timeout)
+          print_info "Testing if #{host}:#{port} is open ..."
+
+          return super(host,port,local_host,local_port,timeout)
         end
 
         #
@@ -117,10 +133,15 @@ module Ronin
         #
         # @api public
         #
-        def tcp_connect(&block)
-          print_info "Connecting to #{host_port} ..."
+        def tcp_connect(host=nil,port=nil,local_host=nil,local_port=nil,&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          return super(self.host,self.port,self.local_host,self.local_port,&block)
+          print_info "Connecting to #{host}:#{port} ..."
+
+          return super(host,port,self.local_host,self.local_port,&block)
         end
 
         #
@@ -143,11 +164,15 @@ module Ronin
         #
         # @api public
         #
-        def tcp_connect_and_send(data,&block)
-          print_info "Connecting to #{host_port} ..."
-          print_debug "Sending data: #{data.inspect}"
+        def tcp_connect_and_send(data,host=nil,port=nil,local_host=nil,local_port=nil,&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          return super(data,self.host,self.port,self.local_host,self.local_port,&block)
+          print_debug "Sending data: #{data.inspect} ..."
+
+          return super(data,host,port,local_host,local_port,&block)
         end
 
         #
@@ -167,12 +192,15 @@ module Ronin
         #
         # @api public
         #
-        def tcp_session(&block)
-          print_info "Connecting to #{host_port} ..."
+        def tcp_session(host=nil,port=nil,local_host=nil,local_port=nil,&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          super(self.host,self.port,self.local_host,self.local_port,&block)
+          super(host,port,local_host,local_port,&block)
 
-          print_info "Disconnected from #{host_port}"
+          print_info "Disconnected from #{host}:#{port}"
           return nil
         end
 
@@ -197,10 +225,15 @@ module Ronin
         #
         # @api public
         #
-        def tcp_banner(&block)
-          print_debug "Grabbing banner from #{host_port}"
+        def tcp_banner(host=nil,port=nil,local_host=nil,local_port=nil,&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          return super(self.host,self.port,self.local_host,self.local_port,&block)
+          print_debug "Grabbing banner from #{host}:#{port}"
+
+          return super(host,port,local_host,local_port,&block)
         end
 
         #
@@ -219,14 +252,15 @@ module Ronin
         #
         # @api public
         #
-        def tcp_send(data)
-          print_info "Connecting to #{host_port} ..."
+        def tcp_send(data,host=nil,port=nil,local_host=nil,local_port=nil)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
+
           print_debug "Sending data: #{data.inspect}"
 
-          super(data,self.host,self.port,self.local_host,self.local_port)
-
-          print_info "Disconnected from #{host_port}"
-          return true
+          return super(data,host,port,local_host,local_port)
         end
 
         #
@@ -249,10 +283,13 @@ module Ronin
         #
         # @api public
         #
-        def tcp_server(&block)
-          print_info "Listening on #{self.server_host_port} ..."
+        def tcp_server(port=nil,host=nil,backlog=5,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
-          return super(self.server_port,self.server_host,&block)
+          print_info "Listening on #{host}:#{port} ..."
+
+          return super(server_port,server_host,&block)
         end
 
         #
@@ -283,12 +320,13 @@ module Ronin
         #
         # @api public
         #
-        def tcp_server_session(&block)
-          print_info "Listening on #{server_host_port} ..."
+        def tcp_server_session(port=nil,host=nil,backlog=5,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
           super(self.server_port,self.server_host,&block)
 
-          print_info "Closed #{server_host_port}"
+          print_info "Closed #{host}:#{port}"
           return nil
         end
 
@@ -316,19 +354,17 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def tcp_server_loop(&block)
-          print_info "Listening on #{server_host_port} ..."
+        def tcp_server_loop(port=nil,host=nil,backlog=5,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
           super(self.server_port,self.server_host) do |client|
-            print_info "Client connected #{client_host_port(client)}"
+            print_info "Client connected #{tcp_client_address(client)}"
 
             yield client if block_given?
 
-            print_info "Disconnected client #{client_host_port(client)}"
+            print_info "Disconnected client #{tcp_client_address(client)}"
           end
-
-          print_info "Closed #{server_host_port}"
-          return nil
         end
 
         #
@@ -359,36 +395,20 @@ module Ronin
         #
         # @since 0.5.0
         #
-        def tcp_accept(&block)
-          print_info "Listening on #{server_host_port} ..."
+        def tcp_accept(port=nil,host=nil,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
-          super(self.server_port,self.server_host) do |client|
-            print_info "Client connected #{client_host_port(client)}"
+          super(port,host) do |client|
+            print_info "Client connected #{tcp_client_address(client)}"
 
             yield client if block_given?
 
-            print_info "Disconnected client #{client_host_port(client)}"
+            print_info "Disconnected client #{tcp_client_address(client)}"
           end
-
-          print_info "Closed #{server_host_port}"
-          return nil
         end
 
-        private
-
-        #
-        # The server host/port parameters.
-        #
-        # @return [String]
-        #   The server host/port parameters in String form.
-        #
-        # @since 0.4.0
-        #
-        # @api private
-        #
-        def server_host_port
-          "#{self.server_host}:#{self.server_port}"
-        end
+        protected
 
         #
         # The host/port of a client.
@@ -403,7 +423,7 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def client_host_port(client)
+        def tcp_client_address(client)
           client_addr = client.peeraddr
           client_host = (client_addr[2] || client_addr[3])
           client_port = client_addr[1]
