@@ -43,6 +43,7 @@ module Ronin
 
         # ESMTP port
         parameter :port, type:        Integer,
+                         default:     Network::SMTP.default_port,
                          description: 'ESMTP port'
 
         # ESMTP authentication method to use
@@ -63,19 +64,19 @@ module Ronin
         # will also be used to connect to the ESMTP server.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (Ronin::Network::SMTP.default_port)
-        #  The port to connect to.
+        # @option options [Integer] :port
+        #  The port to connect to. Defaults to {#port}.
         #
         # @option options [String] :helo
         #   The HELO domain.
         #
         # @option options [Symbol] :auth
-        #   The type of authentication to use.
+        #   The type of authentication to use. Defaults to {#esmtp_login}.
         #   May be one of the following:
         #
         #   * `:login`
@@ -83,10 +84,10 @@ module Ronin
         #   * `:cram_md5`
         #
         # @option options [String] :user
-        #   The user-name to authenticate with.
+        #   The user-name to authenticate with. Defaults to {#esmtp_user}.
         #
         # @option options [String] :password
-        #   The password to authenticate with.
+        #   The password to authenticate with. Defaults to {#esmtp_password}.
         #
         # @yield [session]
         #   If a block is given, it will be passed an ESMTP enabled
@@ -117,19 +118,19 @@ module Ronin
         # will also be used to connect to the ESMTP server.
         #
         # @param [String] host
-        #   The host to connect to.
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (Ronin::Network::SMTP.default_port)
-        #  The port to connect to.
+        # @option options [Integer] :port
+        #  The port to connect to. Defaults to {#port}.
         #
         # @option options [String] :helo
         #   The HELO domain.
         #
         # @option options [Symbol] :auth
-        #   The type of authentication to use.
+        #   The type of authentication to use. Defaults to {#esmtp_login}.
         #   May be one of the following:
         #
         #   * `:login`
@@ -137,10 +138,10 @@ module Ronin
         #   * `:cram_md5`
         #
         # @option options [String] :user
-        #   The user-name to authenticate with.
+        #   The user-name to authenticate with. Defaults to {#esmtp_user}.
         #
         # @option options [String] :password
-        #   The password to authenticate with.
+        #   The password to authenticate with. Defaults to {#esmtp_password}.
         #
         # @yield [session]
         #   If a block is given, it will be passed an ESMTP enabled
