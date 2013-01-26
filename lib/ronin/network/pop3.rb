@@ -62,6 +62,15 @@ module Ronin
       # @option options [Integer] :port (POP3.default_port)
       #   The port the POP3 server is running on.
       #
+      # @option options [Boolean, Hash] :ssl
+      #   Additional SSL options.
+      #
+      # @option :ssl [Boolean] :verify
+      #   Specifies that the SSL certificate should be verified.
+      #
+      # @option :ssl [String] :certs
+      #   The path to the file containing CA certs of the server.
+      #
       # @option options [String] :user
       #   The user to authenticate with when connecting to the POP3 server.
       #
@@ -85,7 +94,24 @@ module Ronin
         user     = options[:user]
         password = options[:password]
 
-        pop3 = Net::POP3.start(host,port,user,password)
+        case options[:ssl]
+        when Hash
+          ssl        = true
+          ssl_certs  = options[:ssl][:certs]
+          ssl_verify = SSL::VERIFY[options[:ssl][:verify]]
+        when TrueClass
+          ssl        = true
+          ssl_certs  = nil
+          ssl_verify = nil
+        else
+          ssl        = false
+          ssl_certs  = nil
+          ssl_verify = false
+        end
+
+        pop3 = Net::POP3.new(host,port)
+        pop3.enable_ssl(ssl_verify,ssl_certs) if ssl
+        pop3.start(user,password)
 
         yield pop3 if block_given?
         return pop3
@@ -99,6 +125,24 @@ module Ronin
       #
       # @param [Hash] options
       #   Additional options.
+      #
+      # @option options [Integer] :port (POP3.default_port)
+      #   The port the POP3 server is running on.
+      #
+      # @option options [Boolean, Hash] :ssl
+      #   Additional SSL options.
+      #
+      # @option :ssl [Boolean] :verify
+      #   Specifies that the SSL certificate should be verified.
+      #
+      # @option :ssl [String] :certs
+      #   The path to the file containing CA certs of the server.
+      #
+      # @option options [String] :user
+      #   The user to authenticate with when connecting to the POP3 server.
+      #
+      # @option options [String] :password
+      #   The password to authenticate with when connecting to the POP3 server.
       #
       # @yield [pop3]
       #   If a block is given, it will be passed the newly created POP3 session.

@@ -42,6 +42,7 @@ module Ronin
 
         # POP3 port
         parameter :port, type:        Integer,
+                         default:     Network::POP3.default_port,
                          description: 'POP3 port'
 
         # POP3 user
@@ -52,8 +53,6 @@ module Ronin
         parameter :pop3_password, type:        String,
                                   description: 'POP3 password to login with'
 
-        protected
-
         #
         # Creates a connection to the POP3 server.
         #
@@ -62,6 +61,15 @@ module Ronin
         #
         # @option options [Integer] :port
         #   The port the POP3 server is running on. Defaults to {#port}.
+        #
+        # @option options [Boolean, Hash] :ssl
+        #   Additional SSL options.
+        #
+        # @option :ssl [Boolean] :verify
+        #   Specifies that the SSL certificate should be verified.
+        #
+        # @option :ssl [String] :certs
+        #   The path to the file containing CA certs of the server.
         #
         # @option options [String] :user
         #   The user to authenticate with when connecting to the POP3
@@ -85,14 +93,40 @@ module Ronin
         #
         # @api public
         #
-        def pop3_connect(options={},&block)
-          print_info "Connecting to #{host_port} ..."
+        def pop3_connect(host=nil,options={},&block)
+          host  ||= self.host
+          options = pop3_merge_options(options)
 
-          return super(self.host,pop3_merge_options(options),&block)
+          print_info "Connecting to #{host}:#{options[:port]} ..."
+
+          return super(host,options,&block)
         end
 
         #
         # Starts a session with the POP3 server.
+        #
+        # @param [Hash] options
+        #   Additional options.
+        #
+        # @option options [Integer] :port
+        #   The port the POP3 server is running on. Defaults to {#port}.
+        #
+        # @option options [Boolean, Hash] :ssl
+        #   Additional SSL options.
+        #
+        # @option :ssl [Boolean] :verify
+        #   Specifies that the SSL certificate should be verified.
+        #
+        # @option :ssl [String] :certs
+        #   The path to the file containing CA certs of the server.
+        #
+        # @option options [String] :user
+        #   The user to authenticate with when connecting to the POP3
+        #   server. Defaults to {#pop3_user}.
+        #
+        # @option options [String] :password
+        #   The password to authenticate with when connecting to the POP3
+        #   server. Defaults to {#pop3_password}.
         #
         # @yield [pop3]
         #   If a block is given, it will be passed the newly created
@@ -102,18 +136,24 @@ module Ronin
         # @yieldparam [Net::POP3] pop3
         #   The newly created POP3 session.
         #
+        # @return [nil]
+        #
         # @see Network::POP3#pop3_session
         #
         # @api public
         #
         def pop3_session(options={})
-          super(options) do |sess|
+          host  ||= self.host
+          options = pop3_merge_options(options)
+
+          super(host,options) do |sess|
             yield sess if block_given?
 
             print_info "Logging out ..."
           end
 
-          print_info "Disconnected to #{host_port}"
+          print_info "Disconnected to #{host}:#{options[:port]}"
+          return nil
         end
 
         private
