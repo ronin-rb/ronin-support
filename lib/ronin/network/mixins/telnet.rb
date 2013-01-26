@@ -62,13 +62,14 @@ module Ronin
         parameter :telnet_ssl, type:        true,
                                description: 'Enable Telnet over SSL'
 
-        protected
-
         #
         # Creates a connection to a Telnet server. The `host`, `port`,
         # `telnet_user`, `telnet_password`, `telnet_proxy` and
         # `telnet_ssl` parameters will also be used to connect to the
         # Telnet server.
+        #
+        # @param [String] host
+        #   The host to connect to.
         #
         # @param [Hash] options
         #   Additional options.
@@ -136,10 +137,13 @@ module Ronin
         #
         # @api public
         #
-        def telnet_connect(options={},&block)
-          print_info "Connecting to #{host_port} ..."
+        def telnet_connect(host=nil,options={},&block)
+          host  ||= self.host
+          options = telnet_merge_options(options)
 
-          return super(self.host,telnet_merge_options(options),&block)
+          print_info "Connecting to #{host}:#{options[:port]} ..."
+
+          return super(host,options,&block)
         end
 
         #
@@ -165,14 +169,17 @@ module Ronin
         #
         # @api public
         #
-        def telnet_session(options={},&block)
-          super(telnet_merge_options(options)) do |sess|
+        def telnet_session(host=nil,options={},&block)
+          host  ||= self.host
+          options = telnet_merge_options(options)
+
+          super(host,options) do |sess|
             yield sess if block_given?
 
             print "Logging out ..."
           end
 
-          print_info "Disconnected to #{host_port}"
+          print_info "Disconnected to #{host}:#{options[:port]}"
           return nil
         end
 
