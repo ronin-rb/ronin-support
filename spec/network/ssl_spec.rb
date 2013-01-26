@@ -141,11 +141,11 @@ describe Network::SSL do
         banner.should =~ expected_banner
       end
 
-      context "when :local_port is given" do
+      context "when local_port is given" do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
         it "should bind to a local host and port" do
-          banner = subject.ssl_banner(host,port, local_port: local_port)
+          banner = subject.ssl_banner(host,port,nil,local_port)
 
           banner.should =~ expected_banner
         end

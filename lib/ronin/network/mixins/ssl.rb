@@ -134,14 +134,14 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [String] :local_host
+        # @param [String] local_host
         #   The local host to bind to.
         #
-        # @option options [Integer] :local_port
+        # @param [Integer] local_port
         #   The local port to bind to.
+        #
+        # @param [Hash] options
+        #   Additional options.
         #
         # @option options [Symbol] :verify
         #   Specifies whether to verify the SSL certificate.
@@ -178,13 +178,15 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_open?(host=nil,port=nil,options={})
-          host ||= self.host
-          port ||= self.port
+        def ssl_open?(host=nil,port=nil,local_host=nil,local_port=nil,options={})
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
           print_info "Testing if #{host}:#{port} is open ..."
 
-          return super(host,port,options)
+          return super(host,port,local_host,local_port,options)
         end
 
         #
@@ -195,6 +197,12 @@ module Ronin
         #
         # @param [Integer] port
         #   The port to connect to.
+        #
+        # @param [String] local_host
+        #   The local host to bind to.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to.
         #
         # @param [Hash] options
         #   Additional options.
@@ -230,18 +238,14 @@ module Ronin
         #
         # @api public
         #
-        def ssl_connect(host=nil,port=nil,options={},&block)
-          host ||= self.host
-          port ||= self.port
+        def ssl_connect(host=nil,port=nil,local_host=nil,local_port=nil,options={},&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
           print_info "Connecting to #{host}:#{port} ..."
-
-          options = {
-            local_host: self.local_host,
-            local_port: self.local_port
-          }.merge(options)
-
-          return super(host,port,options,&block)
+          return super(host,port,local_host,local_port,options,&block)
         end
 
         #
@@ -256,14 +260,14 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [String] :local_host
+        # @param [String] local_host
         #   The local host to bind to.
         #
-        # @option options [Integer] :local_port
+        # @param [Integer] local_port
         #   The local port to bind to.
+        #
+        # @param [Hash] options
+        #   Additional options.
         #
         # @option options [Symbol] :verify
         #   Specifies whether to verify the SSL certificate.
@@ -292,13 +296,10 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_connect_and_send(data,host=nil,port=nil,options={},&block)
-          host ||= self.host
-          port ||= self.port
-
+        def ssl_connect_and_send(data,host=nil,port=nil,local_host=nil,local_port=nil,options={},&block)
           print_debug "Sending data: #{data.inspect}"
 
-          super(data,host,port,options,&block)
+          return super(data,host,port,local_host,local_port,options,&block)
         end
 
         #
@@ -310,14 +311,14 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [String] :local_host
+        # @param [String] local_host
         #   The local host to bind to.
         #
-        # @option options [Integer] :local_port
+        # @param [Integer] local_port
         #   The local port to bind to.
+        #
+        # @param [Hash] options
+        #   Additional options.
         #
         # @option options [Symbol] :verify
         #   Specifies whether to verify the SSL certificate.
@@ -353,11 +354,11 @@ module Ronin
         #
         # @api public
         #
-        def ssl_session(host=nil,port=nil,options={},&block)
+        def ssl_session(host=nil,port=nil,local_host=nil,local_port=nil,options={},&block)
           host ||= self.host
           port ||= self.port
 
-          super(host,port,options,&block)
+          super(host,port,local_host,local_port,options,&block)
 
           print_info "Disconnected from #{host}:#{port}"
           return nil
@@ -372,14 +373,14 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [String] :local_host
+        # @param [String] local_host
         #   The local host to bind to.
         #
-        # @option options [Integer] :local_port
+        # @param [Integer] local_port
         #   The local port to bind to.
+        #
+        # @param [Hash] options
+        #   Additional options.
         #
         # @option options [Symbol] :verify
         #   Specifies whether to verify the SSL certificate.
@@ -415,13 +416,13 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_banner(host=nil,port=nil,options={},&block)
+        def ssl_banner(host=nil,port=nil,local_host=nil,local_port=nil,options={},&block)
           host ||= self.host
           port ||= self.port
 
           print_debug "Grabbing banner from #{host}:#{port}"
 
-          return super(host,port,&block)
+          return super(host,port,local_host,local_port,options,&block)
         end
 
         #
@@ -437,14 +438,14 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [String] :local_host
+        # @param [String] local_host
         #   The local host to bind to.
         #
-        # @option options [Integer] :local_port
+        # @param [Integer] local_port
         #   The local port to bind to.
+        #
+        # @param [Hash] options
+        #   Additional options.
         #
         # @option options [Symbol] :verify
         #   Specifies whether to verify the SSL certificate.
@@ -475,27 +476,27 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_send(data,host=nil,port=nil,options={})
+        def ssl_send(data,host=nil,port=nil,local_host=nil,local_port=nil,options={})
           host ||= self.host
           port ||= self.port
 
           print_debug "Sending data: #{data.inspect}"
 
-          return super(data,host,port,options)
+          return super(data,host,port,local_host,local_port,options)
         end
 
         #
         # Creates a new SSL socket listening on a given host and port,
         # accepting clients in a loop.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Integer] :port (server_port)
+        # @param [Integer] port
         #   The local port to listen on.
         #
-        # @option options [String] :host (server_host)
+        # @param [String] host
         #   The host to bind to.
+        #
+        # @param [Hash] options
+        #   Additional options.
         #
         # @option options [Integer] :backlog (5)
         #   The maximum backlog of pending connections.
@@ -535,15 +536,13 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_server_loop(options={},&block)
-          options = {
-            port: self.server_port,
-            host: self.server_host
-          }.merge(options)
+        def ssl_server_loop(port=nil,host=nil,options={},&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
-          print_info "Listening on #{options[:host]}:#{options[:port]} ..."
+          print_info "Listening on #{host}:#{port} ..."
 
-          super(options) do |client|
+          super(port,host,options) do |client|
             print_info "Client connected #{tcp_client_address(client)}"
 
             yield client if block_given?
@@ -551,7 +550,7 @@ module Ronin
             print_info "Disconnected client #{tcp_client_address(client)}"
           end
 
-          print_info "Listening on #{options[:host]}:#{options[:port]} ..."
+          print_info "Listening on #{host}:#{port} ..."
           return nil
         end
 
@@ -559,14 +558,14 @@ module Ronin
         # Creates a new SSL socket listening on a given host and port,
         # accepts only one client and then stops listening.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Integer] :port (server_port)
+        # @param [Integer] port
         #   The local port to listen on.
         #
-        # @option options [String] :host (server_host)
+        # @param [String] host
         #   The host to bind to.
+        #
+        # @param [Hash] options
+        #   Additional options.
         #
         # @option options [Integer] :backlog (5)
         #   The maximum backlog of pending connections.
@@ -612,13 +611,11 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_accept(options={},&block)
-          options = {
-            port: self.server_port,
-            host: self.server_host
-          }.merge(options)
+        def ssl_accept(host=nil,port=nil,options={},&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
-          return super(options) do |client|
+          return super(port,host,options) do |client|
             print_info "Client connected #{tcp_client_address(client)}"
 
             yield client if block_given?
