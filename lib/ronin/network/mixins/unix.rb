@@ -29,22 +29,44 @@ module Ronin
       #
       # Defines the following parameters:
       #
-      # * `path` (`String`) - UNIX Socket path.
+      # * `socket` (`String`) - UNIX Socket socket.
       #
       # @since 0.5.0
       #
       module UNIX
         include Mixin, Network::UNIX
 
-        # UNIX path
-        parameter :path, type:        String,
-                         description: 'UNIX Socket path'
+        # UNIX socket
+        #
+        # @since 0.6.0
+        parameter :socket, type:        String,
+                           description: 'UNIX Socket path'
+
+        #
+        # @deprecated
+        #   Use `socket` instead.
+        #
+        def path
+          warn "DEPRECATED: #{UNIX}#path is depcreated. Use #socket instead."
+
+          return socket
+        end
+
+        #
+        # @deprecated
+        #   Use `socket=` instead.
+        #
+        def path=(new_path)
+          warn "DEPRECATED: #{UNIX}#path= is depcreated. Use #socket= instead."
+
+          self.socket = new_path
+        end
 
         #
         # Tests whether a UNIX socket is open.
         #
-        # @param [String] path
-        #   The path to the socket.
+        # @param [String] socket
+        #   The socket to the socket.
         #
         # @param [Integer] timeout (5)
         #   The maximum time to attempt connecting.
@@ -57,19 +79,19 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def unix_open?(path=nil,timeout=nil)
-          path ||= self.path
+        def unix_open?(socket=nil,timeout=nil)
+          socket ||= self.socket
 
-          print_info "Testing if #{path} is open ..."
+          print_info "Testing if #{socket} is open ..."
 
-          return super(path,timeout)
+          return super(socket,timeout)
         end
 
         #
-        # Connects to a UNIX socket specified by the `path` parameter.
+        # Connects to a UNIX socket specified by the `socket` parameter.
         #
-        # @param [String] path
-        #   The path to the UNIX socket.
+        # @param [String] socket
+        #   The socket to the UNIX socket.
         #
         # @yield [socket]
         #   If a block is given, it will be passed an UNIX socket object.
@@ -87,23 +109,23 @@ module Ronin
         #
         # @api public
         #
-        def unix_connect(path=nil,&block)
-          path ||= self.path
+        def unix_connect(socket=nil,&block)
+          socket ||= self.socket
 
-          print_info "Connecting to #{path} ..."
+          print_info "Connecting to #{socket} ..."
 
-          return super(path,&block)
+          return super(socket,&block)
         end
 
         #
-        # Creates a new UNIXSocket object, connected to the `path` parameter.
+        # Creates a new UNIXSocket object, connected to the `socket` parameter.
         # The given data will then be written to the newly created UNIXSocket.
         #
         # @param [String] data
         #   The data to send to the socket.
         #
-        # @param [String] path
-        #   The path to the UNIX socket.
+        # @param [String] socket
+        #   The socket to the UNIX socket.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
@@ -118,12 +140,12 @@ module Ronin
         #
         # @api public
         #
-        def unix_connect_and_send(data,path=nil,&block)
-          path ||= self.path
+        def unix_connect_and_send(data,socket=nil,&block)
+          socket ||= self.socket
 
           print_debug "Sending data: #{data.inspect}"
 
-          return super(data,path,&block)
+          return super(data,socket,&block)
         end
 
         #
@@ -132,8 +154,8 @@ module Ronin
         # parameters are set, they will be used for the local host and port
         # of the UNIX connection.
         #
-        # @param [String] path
-        #   The path to the UNIX socket.
+        # @param [String] socket
+        #   The socket to the UNIX socket.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
@@ -146,24 +168,24 @@ module Ronin
         #
         # @api public
         #
-        def unix_session(path=nil,&block)
-          path ||= self.path
+        def unix_session(socket=nil,&block)
+          socket ||= self.socket
 
-          super(path,&block)
+          super(socket,&block)
 
-          print_info "Disconnected from #{path}"
+          print_info "Disconnected from #{socket}"
           return nil
         end
 
         #
-        # Connects to the UNIX socket, specified by the `path` parameter,
+        # Connects to the UNIX socket, specified by the `socket` parameter,
         # sends the given data and then disconnects.
         #
         # @param [String] data
         #   The data to send to the UNIX socket.
         #
-        # @param [String] path
-        #   The path to the UNIX socket.
+        # @param [String] socket
+        #   The socket to the UNIX socket.
         #
         # @return [true]
         #   The data was successfully sent.
@@ -179,19 +201,19 @@ module Ronin
         #
         # @since 0.4.0
         #
-        def unix_send(data,path=nil)
-          path ||= self.path
+        def unix_send(data,socket=nil)
+          socket ||= self.socket
 
           print_debug "Sending data: #{data.inspect}"
 
-          return super(data,path,&block)
+          return super(data,socket,&block)
         end
 
         #
-        # Opens a UNIX socket, listening on the `path` parameter.
+        # Opens a UNIX socket, listening on the `socket` parameter.
         #
-        # @param [String] path
-        #   The path for the new UNIX socket.
+        # @param [String] socket
+        #   The socket for the new UNIX socket.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -209,19 +231,19 @@ module Ronin
         #
         # @api public
         #
-        def unix_server(path=nil,&block)
-          path ||= self.path
+        def unix_server(socket=nil,&block)
+          socket ||= self.socket
 
-          print_info "Listening on #{path} ..."
+          print_info "Listening on #{socket} ..."
 
-          return super(path,&block)
+          return super(socket,&block)
         end
 
         #
-        # Opens a UNIX socket temporarily, listening on the `path` parameter.
+        # Opens a UNIX socket temporarily, listening on the `socket` parameter.
         #
-        # @param [String] path
-        #   The path for the new UNIX socket.
+        # @param [String] socket
+        #   The socket for the new UNIX socket.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -242,20 +264,20 @@ module Ronin
         # @api public
         #
         def unix_server_session(&block)
-          path ||= self.path
+          socket ||= self.socket
 
-          super(path,&block)
+          super(socket,&block)
 
-          print_info "Closed #{path}"
+          print_info "Closed #{socket}"
           return nil
         end
 
         #
-        # Opens a UNIX socket specified by the `path` parameter,
+        # Opens a UNIX socket specified by the `socket` parameter,
         # accepts a connection, then closes the socket.
         #
-        # @param [String] path
-        #   The path for the new UNIX socket.
+        # @param [String] socket
+        #   The socket for the new UNIX socket.
         #
         # @yield [client]
         #   If a block is given, it will be passed the accepted connection.
@@ -272,29 +294,29 @@ module Ronin
         #
         # @api public
         #
-        def unix_accept(path=nil)
-          path ||= self.path
+        def unix_accept(socket=nil)
+          socket ||= self.socket
 
-          print_info "Listening on #{path} ..."
+          print_info "Listening on #{socket} ..."
 
-          super(path) do |client|
-            print_info "Client connected to #{path}"
+          super(socket) do |client|
+            print_info "Client connected to #{socket}"
 
             yield client if block_given?
 
-            print_info "Client disconnecting from #{path} ..."
+            print_info "Client disconnecting from #{socket} ..."
           end
 
-          print_info "Closed #{path}"
+          print_info "Closed #{socket}"
           return nil
         end
 
         #
-        # Opens a UNIX socket specified by the `path` parameter,
+        # Opens a UNIX socket specified by the `socket` parameter,
         # accepts connections in a loop.
         #
-        # @param [String] path
-        #   The path for the new UNIX socket.
+        # @param [String] socket
+        #   The socket for the new UNIX socket.
         #
         # @yield [client]
         #   If a block is given, it will be passed each accepted connection.
@@ -311,20 +333,20 @@ module Ronin
         #
         # @api public
         #
-        def unix_server_loop(path=nil)
-          path ||= self.path
+        def unix_server_loop(socket=nil)
+          socket ||= self.socket
 
-          print_info "Listening on #{path} ..."
+          print_info "Listening on #{socket} ..."
 
-          super(path) do |client|
-            print_info "Client connected: #{path}"
+          super(socket) do |client|
+            print_info "Client connected: #{socket}"
 
             yield client if block_given?
 
-            print_info "Client disconnecting: #{path} ..."
+            print_info "Client disconnecting: #{socket} ..."
           end
 
-          print_info "Closed #{path}"
+          print_info "Closed #{socket}"
           return nil
         end
       end
