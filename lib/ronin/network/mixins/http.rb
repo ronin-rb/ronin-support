@@ -66,8 +66,6 @@ module Ronin
         parameter :http_user_agent, type:        String,
                                     description: 'HTTP User-Agent header to send'
 
-        protected
-
         #
         # Resets the HTTP proxy settings.
         #
