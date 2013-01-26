@@ -56,13 +56,12 @@ module Ronin
 
         # UDP server host
         parameter :server_host, type:        String,
+                                default:     '0.0.0.0',
                                 description: 'UDP server host'
 
         # UDP server port
         parameter :server_port, type:        Integer,
                                 description: 'UDP server port'
-
-        protected
 
         #
         # Tests whether the UDP port, specified by the `host` and `port`
@@ -79,10 +78,15 @@ module Ronin
         #
         # @since 0.5.0
         #
-        def udp_open?(timeout=nil)
-          print_info "Testing if #{host_port} is open ..."
+        def udp_open?(host=nil,port=nil,local_host=nil,local_port=nil,timeout=nil)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          super(self.host,self.port,self.local_host,self.local_port,timeout)
+          print_info "Testing if #{host}:#{port} is open ..."
+
+          return super(self.host,self.port,self.local_host,self.local_port,timeout)
         end
 
         #
@@ -113,10 +117,15 @@ module Ronin
         #
         # @api public
         #
-        def udp_connect(&block)
-          print_info "Connecting to #{host_port} ..."
+        def udp_connect(host=nil,port=nil,local_host=nil,local_port=nil,&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          return super(self.host,self.port,self.local_host,self.local_port,&block)
+          print_info "Connecting to #{host}:#{port} ..."
+
+          return super(host,port,local_host,local_port,&block)
         end
 
         #
@@ -141,11 +150,16 @@ module Ronin
         #
         # @api public
         #
-        def udp_connect_and_send(data,&block)
-          print_info "Connecting to #{host_port} ..."
+        def udp_connect_and_send(data,host=nil,port=nil,local_host=nil,local_port=nil,&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
+
+          print_info "Connecting to #{host}:#{port} ..."
           print_debug "Sending data: #{data.inspect}"
 
-          return super(data,self.host,self.port,self.local_host,self.local_port,&block)
+          return super(data,host,port,local_host,local_port,&block)
         end
 
         #
@@ -167,12 +181,15 @@ module Ronin
         #
         # @api public
         #
-        def udp_session(&block)
-          print_info "Connecting to #{host_port} ..."
+        def udp_session(host=nil,port=nil,local_host=nil,local_port=nil,&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          super(self.host,self.port,self.local_host,self.local_port,&block)
+          super(host,port,local_host,local_port,&block)
 
-          print_info "Disconnected from #{host_port}"
+          print_info "Disconnected from #{host}:#{port}"
           return nil
         end
 
@@ -194,14 +211,15 @@ module Ronin
         #
         # @since 0.4.0
         #
-        def udp_send(data)
-          print_info "Connecting to #{host_port} ..."
+        def udp_send(data,host=nil,port=nil,local_host=nil,local_port=nil)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
+
           print_debug "Sending data: #{data.inspect}"
 
-          super(data,self.host,self.port,self.local_host,self.local_port)
-
-          print_info "Disconnected from #{host_port}"
-          return true
+          return super(data,host,port,local_host,local_port)
         end
 
         #
@@ -224,10 +242,13 @@ module Ronin
         #
         # @api public
         #
-        def udp_server(&block)
-          print_info "Listening on #{server_host_port} ..."
+        def udp_server(port=nil,host=nil,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
-          return super(self.server_port,self.server_host,&block)
+          print_info "Listening on #{host}:#{port} ..."
+
+          return super(port,host,&block)
         end
 
         #
@@ -252,12 +273,13 @@ module Ronin
         #
         # @api public
         #
-        def udp_server_session(&block)
-          print_info "Listening on #{self.server_host_port} ..."
+        def udp_server_session(port=nil,host=nil,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
-          super(self.server_port,self.server_host,&block)
+          super(port,host,&block)
 
-          print_info "Closed #{self.server_host_port}"
+          print_info "Closed #{host}:#{port}"
           return nil
         end
 
@@ -294,13 +316,11 @@ module Ronin
         #
         # @since 0.5.0
         #
-        def udp_server_loop(&block)
-          print_info "Listening on #{self.server_host_port} ..."
+        def udp_server_loop(port=nil,host=nil,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
-          super(self.server_port,self.server_host,&block)
-
-          print_info "Closed #{self.server_host_port}"
-          return nil
+          return super(port,host,&block)
         end
 
         #
@@ -336,34 +356,16 @@ module Ronin
         #
         # @since 0.5.0
         #
-        def udp_recv(&block)
-          print_info "Listening on #{self.server_host_port} ..."
+        def udp_recv(port=nil,host=nil,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
-          super(self.server_port,self.server_host) do |server,(host,port),mesg|
+          return super(port,host) do |server,(host,port),mesg|
             print_info "Received message from #{host}:#{port}"
             print_debug mesg
 
             yield server, [host, port], mesg if block_given?
           end
-
-          print_info "Closed #{self.server_host_port}"
-          return nil
-        end
-
-        private
-
-        #
-        # The server host/port parameters.
-        #
-        # @return [String]
-        #   The server host/port parameters in String form.
-        #
-        # @since 0.4.0
-        #
-        # @api private
-        #
-        def server_host_port
-          "#{self.server_host}:#{self.server_port}"
         end
       end
     end
