@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'ronin/network/telnet'
 
 describe Network::Telnet do
+  its(:default_port) { should == 23 }
+
   describe "helpers", :network do
     let(:host) { 'towel.blinkenlights.nl' }
 
