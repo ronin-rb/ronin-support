@@ -106,10 +106,10 @@ module Ronin
         # @option options [String] :password
         #   The password to authenticate with. Defaults to {#smtp_password}.
         #
-        # @yield [session]
+        # @yield [smtp]
         #   If a block is given, it will be passed an SMTP session object.
         #
-        # @yieldparam [Net::SMTP] session
+        # @yieldparam [Net::SMTP] smtp
         #   The SMTP session.
         #
         # @return [Net::SMTP]
@@ -157,11 +157,11 @@ module Ronin
         # @option options [String] :password
         #   The password to authenticate with. Defaults to {#smtp_password}.
         #
-        # @yield [session]
+        # @yield [smtp]
         #   If a block is given, it will be passed an SMTP session object.
         #   After the block has returned, the session will be closed.
         #
-        # @yieldparam [Net::SMTP] session
+        # @yieldparam [Net::SMTP] smtp
         #   The SMTP session.
         #
         # @see Network::SMTP#smtp_session

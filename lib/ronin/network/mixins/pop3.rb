@@ -71,11 +71,11 @@ module Ronin
         #   The password to authenticate with when connecting to the POP3
         #   server. Defaults to {#pop3_password}.
         #
-        # @yield [session]
+        # @yield [pop3]
         #   If a block is given, it will be passed the newly created
         #   POP3 session.
         #
-        # @yieldparam [Net::POP3] session
+        # @yieldparam [Net::POP3] pop3
         #   The newly created POP3 session.
         #
         # @return [Net::POP3]
@@ -94,12 +94,12 @@ module Ronin
         #
         # Starts a session with the POP3 server.
         #
-        # @yield [session]
+        # @yield [pop3]
         #   If a block is given, it will be passed the newly created
         #   POP3 session. After the block has returned, the session
         #   will be closed.
         #
-        # @yieldparam [Net::POP3] session
+        # @yieldparam [Net::POP3] pop3
         #   The newly created POP3 session.
         #
         # @see Network::POP3#pop3_session

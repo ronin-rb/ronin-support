@@ -116,11 +116,11 @@ module Ronin
         # @option options [String] :password
         #   The password to login with. Defaults to {#telnet_password}.
         #
-        # @yield [connection]
+        # @yield [telnet]
         #   If a block is given, it will be passed the newly created
         #   Telnet connection.
         #
-        # @yieldparam [Net::Telnet] connection
+        # @yieldparam [Net::Telnet] telnet
         #   The newly created Telnet connection.
         #
         # @return [Net::Telnet]
@@ -197,12 +197,12 @@ module Ronin
         # @option options [String] :password
         #   The password to login with. Defaults to {#telnet_password}.
         #
-        # @yield [session]
+        # @yield [telnet]
         #   If a block is given, it will be passed the newly created
         #   Telnet session. After the block has returned, the Telnet
         #   session will be closed.
         #
-        # @yieldparam [Net::Telnet] session
+        # @yieldparam [Net::Telnet] telnet
         #   The newly created Telnet session.
         #
         # @example

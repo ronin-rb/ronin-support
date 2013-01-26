@@ -107,11 +107,11 @@ module Ronin
         # @option options [String] :password
         #   The password to authenticate with. Defaults to {#esmtp_password}.
         #
-        # @yield [session]
+        # @yield [esmtp]
         #   If a block is given, it will be passed an ESMTP enabled
         #   session object.
         #
-        # @yieldparam [Net::SMTP] session
+        # @yieldparam [Net::SMTP] esmtp
         #   The ESMTP session.
         #
         # @return [Net::SMTP]
@@ -159,12 +159,12 @@ module Ronin
         # @option options [String] :password
         #   The password to authenticate with. Defaults to {#esmtp_password}.
         #
-        # @yield [session]
+        # @yield [esmtp]
         #   If a block is given, it will be passed an ESMTP enabled
         #   session object. After the block has returned, the session
         #   will be closed.
         #
-        # @yieldparam [Net::SMTP] session
+        # @yieldparam [Net::SMTP] esmtp
         #   The ESMTP session.
         #
         # @see Network::ESMTP#esmtp_session

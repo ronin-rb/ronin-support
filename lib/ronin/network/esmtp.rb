@@ -65,11 +65,11 @@ module Ronin
       # @option options [String] :password
       #   The password to authenticate with.
       #
-      # @yield [session]
+      # @yield [esmtp]
       #   If a block is given, it will be passed an ESMTP enabled session
       #   object.
       #
-      # @yieldparam [Net::SMTP] session
+      # @yieldparam [Net::SMTP] esmtp
       #   The ESMTP session.
       #
       # @return [Net::SMTP]
@@ -78,11 +78,11 @@ module Ronin
       # @api public
       #
       def esmtp_connect(host,options={})
-        session = smtp_connect(host,options)
-        session.esmtp = true
+        smtp = smtp_connect(host,options)
+        smtp.esmtp = true
 
-        yield session if block_given?
-        return session
+        yield smtp if block_given?
+        return smtp
       end
 
       #
@@ -114,11 +114,11 @@ module Ronin
       # @option options [String] :password
       #   The password to authenticate with.
       #
-      # @yield [session]
+      # @yield [esmtp]
       #   If a block is given, it will be passed an ESMTP enabled session
       #   object. After the block has returned, the session will be closed.
       #
-      # @yieldparam [Net::SMTP] session
+      # @yieldparam [Net::SMTP] esmtp
       #   The ESMTP session.
       #
       # @see Net.esmtp_connect
@@ -126,10 +126,10 @@ module Ronin
       # @api public
       #
       def esmtp_session(host,options={})
-        smtp_session(host,options) do |session|
-          session.esmtp = true
+        smtp_session(host,options) do |smtp|
+          smtp.esmtp = true
 
-          yield session if block_given?
+          yield smtp if block_given?
         end
       end
     end

@@ -68,10 +68,10 @@ module Ronin
       # @option options [String] :password
       #   The password to authenticate with when connecting to the POP3 server.
       #
-      # @yield [session]
+      # @yield [pop3]
       #   If a block is given, it will be passed the newly created POP3 session.
       #
-      # @yieldparam [Net::POP3] session
+      # @yieldparam [Net::POP3] pop3
       #   The newly created POP3 session.
       #
       # @return [Net::POP3]
@@ -85,10 +85,10 @@ module Ronin
         user     = options[:user]
         password = options[:password]
 
-        session = Net::POP3.start(host,port,user,password)
+        pop3 = Net::POP3.start(host,port,user,password)
 
-        yield session if block_given?
-        return session
+        yield pop3 if block_given?
+        return pop3
       end
 
       #
@@ -100,11 +100,11 @@ module Ronin
       # @param [Hash] options
       #   Additional options.
       #
-      # @yield [session]
+      # @yield [pop3]
       #   If a block is given, it will be passed the newly created POP3 session.
       #   After the block has returned, the session will be closed.
       #
-      # @yieldparam [Net::POP3] session
+      # @yieldparam [Net::POP3] pop3
       #   The newly created POP3 session.
       #
       # @return [nil]
@@ -112,11 +112,11 @@ module Ronin
       # @api public
       #
       def pop3_session(host,options={})
-        session = pop3_connect(host,options)
+        pop3 = pop3_connect(host,options)
 
-        yield session if block_given?
+        yield pop3 if block_given?
 
-        session.finish
+        pop3.finish
         return nil
       end
     end
