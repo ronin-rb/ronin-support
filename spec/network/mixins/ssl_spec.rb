@@ -4,18 +4,18 @@ require 'ronin/network/mixins/ssl'
 require 'resolv'
 
 describe Network::Mixins::SSL do
+  subject do
+    obj = Object.new
+    obj.extend described_class
+    obj
+  end
+
   describe "helper methods", :network do
     let(:host) { 'smtp.gmail.com' }
     let(:port) { 465 }
 
     let(:server_host) { 'localhost' }
     let(:server_ip)   { Resolv.getaddress(server_host) }
-
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
 
     before do
       subject.host = host

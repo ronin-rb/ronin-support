@@ -2,16 +2,14 @@ require 'spec_helper'
 require 'ronin/network/mixins/smtp'
 
 describe Network::Mixins::SMTP do
-  its(:default_port) { should == 25 }
+  subject do
+    obj = Object.new
+    obj.extend described_class
+    obj
+  end
 
   describe "helpers", :network do
     let(:host) { 'smtp.gmail.com' }
-
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
 
     before { subject.host = host }
 

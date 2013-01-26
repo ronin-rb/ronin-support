@@ -4,18 +4,18 @@ require 'ronin/network/mixins/udp'
 require 'resolv'
 
 describe Network::Mixins::UDP do
+  subject do
+    obj = Object.new
+    obj.extend described_class
+    obj
+  end
+
   describe "helper methods", :network do
     let(:host) { 'scanme.nmap.org' }
     let(:port) { 123 }
 
     let(:server_host) { 'localhost' }
     let(:server_ip)   { Resolv.getaddress(server_host) }
-
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
 
     before do
       subject.host = host
