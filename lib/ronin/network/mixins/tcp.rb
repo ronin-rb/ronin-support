@@ -399,7 +399,7 @@ module Ronin
           port ||= self.server_port
           host ||= self.server_host
 
-          super(port,host) do |client|
+          return super(port,host) do |client|
             print_info "Client connected #{tcp_client_address(client)}"
 
             yield client if block_given?
