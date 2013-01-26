@@ -133,8 +133,6 @@ describe Network::SSL do
     end
 
     describe "#ssl_banner" do
-      let(:local_port) { 1024 + rand(65535 - 1024) }
-
       let(:expected_banner) { /^220 mx\.google\.com ESMTP/ }
 
       it "should return the read service banner" do
@@ -143,10 +141,14 @@ describe Network::SSL do
         banner.should =~ expected_banner
       end
 
-      it "should bind to a local host and port" do
-        banner = subject.ssl_banner(host,port, local_port: local_port)
+      context "when :local_port is given" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        banner.should =~ expected_banner
+        it "should bind to a local host and port" do
+          banner = subject.ssl_banner(host,port, local_port: local_port)
+
+          banner.should =~ expected_banner
+        end
       end
 
       it "should yield the banner" do
