@@ -69,7 +69,7 @@ module Ronin
         # @option options [Integer] :port
         #   The port the IMAP server is running on. Defaults to {#port}.
         #
-        # @option options [Hash] :ssl
+        # @option options [Boolean, Hash] :ssl
         #   Additional SSL options.
         #
         # @option :ssl [Boolean] :verify
@@ -129,7 +129,7 @@ module Ronin
         # @option options [Integer] :port
         #   The port the IMAP server is running on. Defaults to {#port}.
         #
-        # @option options [Hash] :ssl
+        # @option options [Boolean, Hash] :ssl
         #   Additional SSL options.
         #
         # @option :ssl [Boolean] :verify
