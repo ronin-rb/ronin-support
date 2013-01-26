@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'ronin/network/ftp'
 
 describe Network::FTP do
+  its(:default_port) { should == 21 }
+
   describe "helpers", :network do
     subject do
       obj = Object.new
