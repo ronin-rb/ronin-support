@@ -81,10 +81,10 @@ module Ronin
       # @option options [Boolean] :passive (true)
       #   Specifies whether the FTP session should use passive mode.
       #
-      # @yield [session]
+      # @yield [ftp]
       #   If a block is given, it will be passed an FTP session object.
       #
-      # @yieldparam [Net::FTP] session
+      # @yieldparam [Net::FTP] ftp
       #   The FTP session.
       #
       # @return [Net::FTP]
@@ -102,13 +102,13 @@ module Ronin
         password = options[:password]
         acct     = options[:account]
 
-        session = Net::FTP.new
-        session.connect(host,port)
-        session.login(user,password,acct)
-        session.passive = options.fetch(:passive,true)
+        ftp = Net::FTP.new
+        ftp.connect(host,port)
+        ftp.login(user,password,acct)
+        ftp.passive = options.fetch(:passive,true)
 
-        yield session if block_given?
-        return session
+        yield ftp if block_given?
+        return ftp
       end
 
       #
@@ -135,11 +135,11 @@ module Ronin
       # @option options [Boolean] :passive (true)
       #   Specifies whether the FTP session should use passive mode.
       #
-      # @yield [session]
+      # @yield [ftp]
       #   If a block is given, it will be passed an FTP session object.
       #   After the block has returned, the session will be closed.
       #
-      # @yieldparam [Net::FTP] session
+      # @yieldparam [Net::FTP] ftp
       #   The FTP session.
       #
       # @example

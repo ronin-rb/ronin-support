@@ -154,12 +154,12 @@ module Ronin
         #   Indicates wether or not to use SSL when connecting to the
         #   server.
         #
-        # @yield [session]
+        # @yield [imap]
         #   If a block is given, it will be passed the newly created
         #   IMAP session. After the block has returned, the session will
         #   be closed.
         #
-        # @yieldparam [Net::IMAP] session
+        # @yieldparam [Net::IMAP] imap
         #   The newly created IMAP session object.
         #
         # @return [nil]

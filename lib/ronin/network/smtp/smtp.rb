@@ -118,10 +118,10 @@ module Ronin
       # @option options [String] :password
       #   The password to authenticate with.
       #
-      # @yield [session]
+      # @yield [smtp]
       #   If a block is given, it will be passed an SMTP session object.
       #
-      # @yieldparam [Net::SMTP] session
+      # @yieldparam [Net::SMTP] smtp
       #   The SMTP session.
       #
       # @return [Net::SMTP]
@@ -141,10 +141,10 @@ module Ronin
         user     = options[:user]
         password = options[:password]
 
-        session = Net::SMTP.start(host,port,helo,user,password,auth)
+        smtp = Net::SMTP.start(host,port,helo,user,password,auth)
 
-        yield session if block_given?
-        return session
+        yield smtp if block_given?
+        return smtp
       end
 
       #
@@ -156,11 +156,11 @@ module Ronin
       # @param [Hash] options
       #   Additional options.
       #
-      # @yield [session]
+      # @yield [smtp]
       #   If a block is given, it will be passed an SMTP session object.
       #   After the block has returned, the session will be closed.
       #
-      # @yieldparam [Net::SMTP] session
+      # @yieldparam [Net::SMTP] smtp
       #   The SMTP session.
       #
       # @example
@@ -173,11 +173,11 @@ module Ronin
       # @api public
       #
       def smtp_session(host,options={})
-        session = smtp_connect(host,options)
+        smtp = smtp_connect(host,options)
 
-        yield session if block_given?
+        yield smtp if block_given?
 
-        session.finish
+        smtp.finish
         return nil
       end
 

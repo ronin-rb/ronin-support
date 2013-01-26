@@ -81,10 +81,10 @@ module Ronin
         #   The account information to send via the FTP `ACCT` command.
         #   Defaults to {#ftp_account}.
         #
-        # @yield [session]
+        # @yield [ftp]
         #   If a block is given, it will be passed an FTP session object.
         #
-        # @yieldparam [Net::FTP] session
+        # @yieldparam [Net::FTP] ftp
         #   The FTP session.
         #
         # @return [Net::FTP]
@@ -125,11 +125,11 @@ module Ronin
         #   The account information to send via the FTP `ACCT` command.
         #   Defaults to {#ftp_account}.
         #
-        # @yield [session]
+        # @yield [ftp]
         #   If a block is given, it will be passed an FTP session object.
         #   After the block has returned, the session will be closed.
         #
-        # @yieldparam [Net::FTP] session
+        # @yieldparam [Net::FTP] ftp
         #   The FTP session.
         #
         # @see Network::FTP#ftp_session
