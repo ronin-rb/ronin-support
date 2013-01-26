@@ -187,7 +187,7 @@ module Ronin
         #   
         def esmtp_merge_options(options={})
           options[:port]     ||= self.port
-          options[:login]    ||= self.esmtp_login
+          options[:auth]     ||= self.esmtp_login
           options[:user]     ||= self.esmtp_user
           options[:password] ||= self.esmtp_password
 
