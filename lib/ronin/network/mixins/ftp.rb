@@ -59,26 +59,27 @@ module Ronin
         parameter :ftp_password, type:        String,
                                  description: 'FTP account information'
 
-        protected
-
         #
         # Creates a connection to the FTP server. The `host`, `port`,
         # `ftp_user`, `ftp_password` and `ftp_account` parameters
         # will also be used to connect to the server.
         #
+        # @param [String] host
+        #   The host to connect to.
+        #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (Network::FTP.default_port)
+        # @option options [Integer] :port (port)
         #   The port to connect to.
         #
-        # @option options [String] :user
+        # @option options [String] :user (ftp_user)
         #   The username to authenticate with.
         #
-        # @option options [String] :password
+        # @option options [String] :password (ftp_password)
         #   The password to authenticate with.
         #
-        # @option options [String] :account
+        # @option options [String] :account (ftp_account)
         #   The account information to send via the FTP `ACCT` command.
         #
         # @yield [session]
@@ -94,16 +95,22 @@ module Ronin
         #
         # @api public
         #
-        def ftp_connect(options={},&block)
-          print_info "Connecting to #{host_port} ..."
+        def ftp_connect(host=nil,options={},&block)
+          host  ||= self.host
+          options = ftp_merge_options(options)
 
-          return super(self.host,ftp_merge_options(options),&block)
+          print_info "Connecting to #{host}:#{options[:port]} ..."
+
+          return super(host,options,&block)
         end
 
         #
         # Starts a session with the FTP server. The `host`, `port`,
         # `ftp_login`, `ftp_user` and `ftp_password` parameters
         # will also be used to connect to the server.
+        #
+        # @param [String] host
+        #   The host to connect to.
         #
         # @yield [session]
         #   If a block is given, it will be passed an FTP session object.
@@ -116,14 +123,17 @@ module Ronin
         #
         # @api public
         #
-        def ftp_session(options={},&block)
-          super(ftp_merge_options(options)) do |sess|
+        def ftp_session(host=nil,options={},&block)
+          host  ||= self.host
+          options = ftp_merge_options(options)
+
+          super(options) do |sess|
             yield sess if block_given?
 
             print_info "Logging out ..."
           end
 
-          print_info "Disconnected to #{host_port}"
+          print_info "Disconnected to #{host}:#{options[:port]}"
           return nil
         end
 
