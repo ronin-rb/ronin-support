@@ -40,12 +40,16 @@ describe Network::DNS do
       obj
     end
 
-    it "should return Resolv when passed no nameserver" do
-      subject.dns_resolver(nil).should == Resolv
+    context "when nil is given" do
+      it "should return Resolv" do
+        subject.dns_resolver(nil).should == Resolv
+      end
     end
 
-    it "should return Resolv::DNS when passed a nameserver" do
-      subject.dns_resolver(server).should be_kind_of(Resolv::DNS)
+    context "when an argument is given" do
+      it "should return Resolv::DNS" do
+        subject.dns_resolver(server).should be_kind_of(Resolv::DNS)
+      end
     end
   end
 
