@@ -5,13 +5,15 @@ describe Network::Mixins::SMTP do
   its(:default_port) { should == 25 }
 
   describe "helpers", :network do
+    let(:host) { 'smtp.gmail.com' }
+
     subject do
       obj = Object.new
       obj.extend described_class
       obj
     end
 
-    before { subject.host = 'smtp.gmail.com' }
+    before { subject.host = host }
 
     describe "#smtp_connect" do
       it "should return a Net::SMTP object" do
