@@ -57,8 +57,6 @@ module Ronin
         parameter :esmtp_password, type:        String,
                                    description: 'ESMTP password to login with'
 
-        protected
-
         #
         # Creates a connection to the ESMTP server. The `host`, `port`,
         # `esmtp_login`, `esmtp_user` and `esmtp_password` parameters
