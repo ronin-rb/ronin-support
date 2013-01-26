@@ -176,7 +176,7 @@ module Ronin
         #   
         def smtp_merge_options(options={})
           options[:port]     ||= self.port
-          options[:login]    ||= self.smtp_login
+          options[:auth]     ||= self.smtp_login
           options[:user]     ||= self.smtp_user
           options[:password] ||= self.smtp_password
 
