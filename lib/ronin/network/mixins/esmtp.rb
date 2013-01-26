@@ -175,8 +175,8 @@ module Ronin
           host  ||= self.host
           options = esmtp_merge_options(options)
 
-          super(host,options) do |sess|
-            yield sess if block_given?
+          super(host,options) do |esmtp|
+            yield esmtp if block_given?
 
             print_info "Logging out ..."
           end
