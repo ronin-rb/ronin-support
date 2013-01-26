@@ -127,7 +127,7 @@ module Ronin
           host  ||= self.host
           options = ftp_merge_options(options)
 
-          super(options) do |sess|
+          super(host,options) do |sess|
             yield sess if block_given?
 
             print_info "Logging out ..."
