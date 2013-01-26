@@ -35,13 +35,13 @@ module Ronin
       # @param [Integer] port
       #   The port to connect to.
       #
-      # @param [String] local_host (nil)
+      # @param [String] local_host
       #   The local host to bind to.
       #
-      # @param [Integer] local_port (nil)
+      # @param [Integer] local_port
       #   The local port to bind to.
       #
-      # @param [Integer] timeout (5)
+      # @param [Integer] timeout
       #   The maximum time to attempt connecting.
       #
       # @return [Boolean, nil]
@@ -94,10 +94,10 @@ module Ronin
       # @param [Integer] port
       #   The port to connect to.
       #
-      # @param [String] local_host (nil)
+      # @param [String] local_host
       #   The local host to bind to.
       #
-      # @param [Integer] local_port (nil)
+      # @param [Integer] local_port
       #   The local port to bind to.
       #
       # @yield [socket]
@@ -149,10 +149,10 @@ module Ronin
       # @param [Integer] port
       #   The port to connect to.
       #
-      # @param [String] local_host (nil)
+      # @param [String] local_host
       #   The local host to bind to.
       #
-      # @param [Integer] local_port (nil)
+      # @param [Integer] local_port
       #   The local port to bind to.
       #
       # @yield [socket]
@@ -184,10 +184,10 @@ module Ronin
       # @param [Integer] port
       #   The port to connect to.
       #
-      # @param [String] local_host (nil)
+      # @param [String] local_host
       #   The local host to bind to.
       #
-      # @param [Integer] local_port (nil)
+      # @param [Integer] local_port
       #   The local port to bind to.
       #
       # @yield [socket]
@@ -222,10 +222,10 @@ module Ronin
       # @param [Integer] port
       #   The port to connect to.
       #
-      # @param [String] local_host (nil)
+      # @param [String] local_host
       #   The local host to bind to.
       #
-      # @param [Integer] local_port (nil)
+      # @param [Integer] local_port
       #   The local port to bind to.
       #
       # @return [true]
@@ -257,10 +257,10 @@ module Ronin
       # @param [Integer] port
       #   The port to connect to.
       #
-      # @param [String] local_host (nil)
+      # @param [String] local_host
       #   The local host to bind to.
       #
-      # @param [Integer] local_port (nil)
+      # @param [Integer] local_port
       #   The local port to bind to.
       #
       # @yield [banner]
@@ -291,7 +291,7 @@ module Ronin
       # @param [Integer] port
       #   The local port to listen on.
       #
-      # @param [String] host ('0.0.0.0')
+      # @param [String] host
       #   The host to bind to.
       #
       # @return [UDPServer]
@@ -321,7 +321,7 @@ module Ronin
       # @param [Integer] port
       #   The local port to bind to.
       #
-      # @param [String] host ('0.0.0.0')
+      # @param [String] host
       #   The host to bind to.
       #
       # @yield [server]
