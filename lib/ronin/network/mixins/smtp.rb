@@ -46,8 +46,8 @@ module Ronin
                          description: 'SMTP port'
 
         # SMTP authentication method
-        parameter :smtp_login, type:        String,
-                               description: 'SMTP authentication method'
+        parameter :smtp_auth, type:        String,
+                              description: 'SMTP authentication method'
 
         # SMTP user to login as
         parameter :smtp_user, type:        String,
@@ -56,6 +56,26 @@ module Ronin
         # SMTP user to login with
         parameter :smtp_password, type:        String,
                                   description: 'SMTP password to login with'
+
+        #
+        # @deprecated
+        #   Use {#smtp_auth} instead.
+        #
+        def smtp_login
+          warn "DEPRECATED: #{SMTP}#smtp_login. Use #smtp_auth instead"
+
+          return smtp_auth
+        end
+
+        #
+        # @deprecated
+        #   Use {#smtp_auth=} instead.
+        #
+        def smtp_login=(new_login)
+          warn "DEPRECATED: #{SMTP}#smtp_login=. Use #smtp_auth= instead"
+
+          self.smtp_auth = new_login
+        end
 
         #
         # Creates a connection to the SMTP server. The `host`, `port`,
@@ -176,7 +196,7 @@ module Ronin
         #   
         def smtp_merge_options(options={})
           options[:port]     ||= self.port
-          options[:auth]     ||= self.smtp_login
+          options[:auth]     ||= self.smtp_auth
           options[:user]     ||= self.smtp_user
           options[:password] ||= self.smtp_password
 
