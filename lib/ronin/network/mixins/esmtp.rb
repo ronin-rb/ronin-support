@@ -64,6 +64,9 @@ module Ronin
         # `esmtp_login`, `esmtp_user` and `esmtp_password` parameters
         # will also be used to connect to the ESMTP server.
         #
+        # @param [String] host
+        #   The host to connect to.
+        #
         # @param [Hash] options
         #   Additional options.
         #
@@ -97,16 +100,22 @@ module Ronin
         #
         # @api public
         #
-        def esmtp_connect(options={},&block)
-          print_info "Connecting to #{host_port} ..."
+        def esmtp_connect(host=nil,options={},&block)
+          host  ||= self.host
+          options = esmtp_merge_options(options)
 
-          return super(self.host,esmtp_merge_options(options),&block)
+          print_info "Connecting to #{host}:#{options[:port]} ..."
+
+          return super(host,options,&block)
         end
 
         #
         # Starts a session with the ESMTP server. The `host`, `port`,
         # `esmtp_login`, `esmtp_user` and `esmtp_password` parameters
         # will also be used to connect to the ESMTP server.
+        #
+        # @param [String] host
+        #   The host to connect to.
         #
         # @param [Hash] options
         #   Additional options.
@@ -123,14 +132,17 @@ module Ronin
         #
         # @api public
         #
-        def esmtp_session(options={})
-          super(esmtp_merge_options(options)) do |sess|
+        def esmtp_session(host=nil,options={})
+          host  ||= self.host
+          options = esmtp_merge_options(options)
+
+          super(host,options) do |sess|
             yield sess if block_given?
 
             print_info "Logging out ..."
           end
 
-          print_info "Disconnected from #{host_port}"
+          print_info "Disconnected from #{host}:#{options[:port]}"
           return nil
         end
 
