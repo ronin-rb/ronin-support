@@ -117,17 +117,17 @@ module Ronin
           ssl_verify = false
         end
 
-        session = Net::IMAP.new(host,port,ssl,ssl_certs,ssl_verify)
+        imap = Net::IMAP.new(host,port,ssl,ssl_certs,ssl_verify)
 
         if user
           case auth
-          when :cram_md5 then session.authenticate('CRAM-MD5',user,passwd)
-          else                session.authenticate('LOGIN',user,passwd)
+          when :cram_md5 then imap.authenticate('CRAM-MD5',user,passwd)
+          else                imap.authenticate('LOGIN',user,passwd)
           end
         end
 
-        yield session if block_given?
-        return session
+        yield imap if block_given?
+        return imap
       end
 
       #
@@ -175,13 +175,13 @@ module Ronin
       # @api public
       #
       def imap_session(host,options={})
-        session = imap_connect(host,options)
+        imap = imap_connect(host,options)
 
-        yield session if block_given?
+        yield imap if block_given?
 
-        session.logout if options[:user]
-        session.close
-        session.disconnect
+        imap.logout if options[:user]
+        imap.close
+        imap.disconnect
         return nil
       end
     end
