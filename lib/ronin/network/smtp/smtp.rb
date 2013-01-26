@@ -198,7 +198,7 @@ module Ronin
       end
 
       #
-      # @since 0.2.0
+      # Connects to an SMTP server and sends a message.
       #
       # @param [String] host
       #   The host to connect to.
