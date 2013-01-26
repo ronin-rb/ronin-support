@@ -57,6 +57,18 @@ module Ronin
         parameter :imap_password, type:        String,
                                   description: 'IMAP password to login with'
 
+        # Enables SSL support
+        parameter :ssl, type:        true,
+                        description: 'Enables SSL support'
+
+        # SSL verify mode
+        parameter :ssl_verify, type:        true,
+                               description: 'Verifies the SSL certificate'
+
+        # SSL cert file
+        parameter :ssl_cert, type:        String,
+                             description: 'SSL cert file'
+
         #
         # Creates a connection to the IMAP server.
         #
@@ -70,13 +82,15 @@ module Ronin
         #   The port the IMAP server is running on. Defaults to {#port}.
         #
         # @option options [Boolean, Hash] :ssl
-        #   Additional SSL options.
+        #   Additional SSL options. Enabled when {#ssl} is set.
         #
         # @option :ssl [Boolean] :verify
         #   Specifies that the SSL certificate should be verified.
+        #   Defaults to {#ssl_verify}.
         #
         # @option :ssl [String] :certs
         #   The path to the file containing CA certs of the server.
+        #   Defaults to {#ssl_cert}.
         #
         # @option options [Symbol] :auth
         #   The type of authentication to perform when connecting to the
@@ -203,6 +217,13 @@ module Ronin
           options[:auth]     ||= self.imap_auth
           options[:user]     ||= self.imap_user
           options[:password] ||= self.imap_password
+
+          if self.ssl?
+            options[:ssl] = {
+              verify: self.ssl_verify?,
+              certs:  self.ssl_cert
+            }
+          end
 
           return options
         end
