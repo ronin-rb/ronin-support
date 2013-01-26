@@ -67,7 +67,19 @@ module Ronin
         # Tests whether the UDP port, specified by the `host` and `port`
         # parameters, is open.
         #
-        # @param [Integer] timeout (5)
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Integer] port
+        #   The port to connect to.
+        #
+        # @param [String] local_host
+        #   The local host to bind to.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to.
+        #
+        # @param [Integer] timeout
         #   The maximum time to attempt connecting.
         #
         # @return [Boolean, nil]
@@ -94,6 +106,18 @@ module Ronin
         # `host` and `port` parameters. If the `local_host` and
         # `local_port` parameters are set, they will be used for
         # the local host and port of the UDP connection.
+        #
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Integer] port
+        #   The port to connect to.
+        #
+        # @param [String] local_host
+        #   The local host to bind to.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
@@ -137,6 +161,18 @@ module Ronin
         # @param [String] data
         #   The data to send through the connection.
         #
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Integer] port
+        #   The port to connect to.
+        #
+        # @param [String] local_host
+        #   The local host to bind to.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to.
+        #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
         #
@@ -168,6 +204,18 @@ module Ronin
         # parameters are set, they will be used for the local host and port
         # of the UDP connection.
         #
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Integer] port
+        #   The port to connect to.
+        #
+        # @param [String] local_host
+        #   The local host to bind to.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to.
+        #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
         #   After the block has returned, the socket will then be closed.
@@ -196,6 +244,21 @@ module Ronin
         #
         # Connects to the host and port specified by the `host` and `port`
         # parameters, sends the given data and then disconnects.
+        #
+        # @param [String] data
+        #   The data to send through the connection.
+        #
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Integer] port
+        #   The port to connect to.
+        #
+        # @param [String] local_host
+        #   The local host to bind to.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to.
         #
         # @return [true]
         #   The data was successfully sent.
@@ -226,6 +289,12 @@ module Ronin
         # Creates a new UDPServer object listening on `server_host` and
         # `server_port` parameters.
         #
+        # @param [Integer] port
+        #   The local port to listen on.
+        #
+        # @param [String] host
+        #   The host to bind to.
+        #
         # @yield [server]
         #   The given block will be passed the newly created server.
         #
@@ -254,6 +323,12 @@ module Ronin
         #
         # Creates a new temporary UDPServer object listening on the
         # `server_host` and `server_port` parameters.
+        #
+        # @param [Integer] port
+        #   The local port to listen on.
+        #
+        # @param [String] host
+        #   The host to bind to.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -286,6 +361,12 @@ module Ronin
         #
         # Creates a new UDPServer listening on the `server_host` and
         # `server_port` parameters, accepting messages from clients in a loop.
+        #
+        # @param [Integer] port
+        #   The local port to listen on.
+        #
+        # @param [String] host
+        #   The host to bind to.
         #
         # @yield [server, (client_host, client_port), mesg]
         #   The given block will be passed the client host/port and the received
@@ -326,6 +407,12 @@ module Ronin
         #
         # Creates a new UDPServer listening on the `server_host` and
         # `server_port` parameters, accepts only one message from a client.
+        #
+        # @param [Integer] port
+        #   The local port to listen on.
+        #
+        # @param [String] host
+        #   The host to bind to.
         #
         # @yield [server, (client_host, client_port), mesg]
         #   The given block will be passed the client host/port and the received
