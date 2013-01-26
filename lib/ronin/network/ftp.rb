@@ -120,6 +120,21 @@ module Ronin
       # @param [Hash] options
       #   Additional options.
       #
+      # @option options [Integer] :port (FTP.default_port)
+      #   The port to connect to.
+      #
+      # @option options [String] :user (DEFAULT_USER)
+      #   The user to authenticate with.
+      #
+      # @option options [String] :password
+      #   The password to authenticate with.
+      #
+      # @option options [String] :account
+      #   The FTP account information to send via the `ACCT` command.
+      #
+      # @option options [Boolean] :passive (true)
+      #   Specifies whether the FTP session should use passive mode.
+      #
       # @yield [session]
       #   If a block is given, it will be passed an FTP session object.
       #   After the block has returned, the session will be closed.
@@ -132,7 +147,7 @@ module Ronin
       #     # ...
       #   end
       #
-      # @see #ftp_connect
+      # @see Network::FTP#ftp_session
       #
       # @api public
       #
