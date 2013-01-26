@@ -57,12 +57,13 @@ module Ronin
         parameter :smtp_password, type:        String,
                                   description: 'SMTP password to login with'
 
-        protected
-
         #
         # Creates a connection to the SMTP server. The `host`, `port`,
         # `smtp_login`, `smtp_user` and `smtp_password` parameters
         # will also be used to connect to the server.
+        #
+        # @param [String] host
+        #   The host to connect to.
         #
         # @param [Hash] options
         #   Additional options.
@@ -96,16 +97,41 @@ module Ronin
         #
         # @api public
         #
-        def smtp_connect(options={},&block)
-          print_info "Connecting to #{host_port} ..."
+        def smtp_connect(host=nil,options={},&block)
+          host  ||= self.host
+          options = smtp_merge_options(options)
 
-          return super(self.host,smtp_merge_options(options),&block)
+          print_info "Connecting to #{host}:#{options[:port]} ..."
+
+          return super(host,smtp_merge_options(options),&block)
         end
 
         #
         # Starts a session with the SMTP server. The `host`, `port`,
         # `smtp_login`, `smtp_user` and `smtp_password` parameters
         # will also be used to connect to the server.
+        #
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Hash] options
+        #   Additional options.
+        #
+        # @option options [Integer] :port (Ronin::Network::SMTP.default_port)
+        #   The port to connect to.
+        #
+        # @option options [String] :helo
+        #   The HELO domain.
+        #
+        # @option options [Symbol] :auth
+        #   The type of authentication to use. Can be either `:login`,
+        #   `:plain` or `:cram_md5`.
+        #
+        # @option options [String] :user
+        #   The user-name to authenticate with.
+        #
+        # @option options [String] :password
+        #   The password to authenticate with.
         #
         # @yield [session]
         #   If a block is given, it will be passed an SMTP session object.
@@ -118,14 +144,17 @@ module Ronin
         #
         # @api public
         #
-        def smtp_session(options={},&block)
-          super(smtp_merge_options(options)) do |sess|
-            yield sess if block_given?
+        def smtp_session(host=nil,options={},&block)
+          host  ||= self.host
+          options = smtp_merge_options(options)
+
+          super(host,options) do |smtp|
+            yield smtp if block_given?
 
             print_info "Logging out ..."
           end
 
-          print_info "Disconnected to #{host_port}"
+          print_info "Disconnected to #{host}:#{options[:port]}"
           return nil
         end
 
