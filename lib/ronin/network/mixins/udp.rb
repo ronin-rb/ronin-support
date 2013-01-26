@@ -278,6 +278,45 @@ module Ronin
         end
 
         #
+        # Reads the banner from the service running on the given host and port.
+        #
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Integer] port
+        #   The port to connect to.
+        #
+        # @param [String] local_host
+        #   The local host to bind to.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to.
+        #
+        # @yield [banner]
+        #   If a block is given, it will be passed the grabbed banner.
+        #
+        # @yieldparam [String] banner
+        #   The grabbed banner.
+        #
+        # @return [String]
+        #   The grabbed banner.
+        #
+        # @api public
+        #
+        # @since 0.6.0
+        #
+        def udp_banner(host=nil,port=nil,local_host=nil,local_port=nil)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
+
+          print_debug "Grabbing banner from #{host}:#{port}"
+
+          return super(data,host,port,local_host,local_port)
+        end
+
+        #
         # Creates a new UDP server listening on a given host and port.
         #
         # @param [Integer] port
