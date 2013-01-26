@@ -64,7 +64,13 @@ module Ronin
       # @option options [Integer] :port (IMAP.default_port)
       #   The port the IMAP server is running on.
       #
-      # @option options [String] :certs
+      # @option options [Hash] :ssl
+      #   Additional SSL options.
+      #
+      # @option :ssl [Boolean] :verify
+      #   Specifies that the SSL certificate should be verified.
+      #
+      # @option :ssl [String] :certs
       #   The path to the file containing CA certs of the server.
       #
       # @option options [Symbol] :auth
@@ -77,11 +83,11 @@ module Ronin
       # @option options [String] :password
       #   The password to authenticate with when connecting to the server.
       #
-      # @yield [session]
+      # @yield [imap]
       #   If a block is given, it will be passed the newly created IMAP
       #   session.
       #
-      # @yieldparam [Net::IMAP] session
+      # @yieldparam [Net::IMAP] imap
       #   The newly created IMAP session object.
       #
       # @return [Net::IMAP]
@@ -130,16 +136,38 @@ module Ronin
       # @param [Hash] options
       #   Additional options.
       #
-      # @yield [session]
+      # @option options [Integer] :port (IMAP.default_port)
+      #   The port the IMAP server is running on.
+      #
+      # @option options [Hash] :ssl
+      #   Additional SSL options.
+      #
+      # @option :ssl [Boolean] :verify
+      #   Specifies that the SSL certificate should be verified.
+      #
+      # @option :ssl [String] :certs
+      #   The path to the file containing CA certs of the server.
+      #
+      # @option options [Symbol] :auth
+      #   The type of authentication to perform when connecting to the server.
+      #   May be either `:login` or `:cram_md5`.
+      #
+      # @option options [String] :user
+      #   The user to authenticate as when connecting to the server.
+      #
+      # @option options [String] :password
+      #   The password to authenticate with when connecting to the server.
+      #
+      # @yield [imap]
       #   If a block is given, it will be passed the newly created IMAP
       #   session. After the block has returned, the session will be closed.
       #
-      # @yieldparam [Net::IMAP] session
+      # @yieldparam [Net::IMAP] imap
       #   The newly created IMAP session object.
       #
       # @return [nil]
       #
-      # @see imap_connect
+      # @see #imap_connect
       #
       # @api public
       #
