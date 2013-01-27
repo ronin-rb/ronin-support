@@ -58,6 +58,18 @@ module Ronin
         parameter :esmtp_password, type:        String,
                                    description: 'ESMTP password to login with'
 
+        # Enables SSL support
+        parameter :ssl, type:        true,
+                        description: 'Enables SSL support'
+
+        # SSL verify mode
+        parameter :ssl_verify, type:        true,
+                               description: 'Verifies the SSL certificate'
+
+        # SSL cert file
+        parameter :ssl_cert, type:        String,
+                             description: 'SSL cert file'
+
         #
         # @deprecated
         #   Use {#esmtp_auth} instead.
@@ -227,6 +239,13 @@ module Ronin
           options[:auth]     ||= self.esmtp_auth
           options[:user]     ||= self.esmtp_user
           options[:password] ||= self.esmtp_password
+
+          if self.ssl?
+            options[:ssl] = {
+              verify: self.ssl_verify?,
+              certs:  self.ssl_cert
+            }
+          end
 
           return options
         end
