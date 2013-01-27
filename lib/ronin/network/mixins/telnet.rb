@@ -59,8 +59,30 @@ module Ronin
         parameter :telnet_proxy, description: 'Telnet proxy'
 
         # Enable Telnet SSL
-        parameter :telnet_ssl, type:        true,
-                               description: 'Enable Telnet over SSL'
+        #
+        # @since 0.6.0
+        parameter :ssl, type:        true,
+                        description: 'Enable Telnet over SSL'
+
+        #
+        # @deprecated
+        #   Use {#ssl} instead.
+        #
+        def telnet_ssl
+          warn "DEPRECATED: #{Telnet}#telnet_ssl is deprecated. Use #ssl"
+
+          return ssl
+        end
+
+        #
+        # @deprecated
+        #   Use {#ssl=} instead.
+        #
+        def telnet_ssl=(mode)
+          warn "DEPRECATED: #{Telnet}#telnet_ssl= is deprecated. Use #ssl="
+
+          self.ssl = mode
+        end
 
         #
         # Creates a new Telnet connection.
@@ -250,7 +272,7 @@ module Ronin
           options[:password] ||= self.telnet_password
 
           options[:proxy] ||= self.telnet_proxy
-          options[:ssl]   ||= self.telnet_ssl
+          options[:ssl]   ||= self.ssl?
 
           return options
         end
