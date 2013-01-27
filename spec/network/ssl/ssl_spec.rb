@@ -47,26 +47,22 @@ describe Network::SSL do
     end
 
     describe ":cert" do
-      pending "need to auto-generate a certificate" do
-        let(:cert) { File.join(Dir.tmpdir,'ronin-test.crt') }
+      let(:cert) { File.join(File.dirname(__FILE__),'test.crt') }
 
-        subject { described_class.context(cert: cert) }
+      subject { described_class.context(cert: cert) }
 
-        it "should set cert" do
-          subject.cert.to_s.should == File.read(cert)
-        end
+      it "should set cert" do
+        subject.cert.to_s.should == File.read(cert)
       end
     end
 
     describe ":key" do
-      pending "need to auto-generate a certificate" do
-        let(:key) { File.join(Dir.tmpdir,'ronin-test.key') }
+      let(:key) { File.join(File.dirname(__FILE__),'test.key') }
 
-        subject { described_class.context(key: key) }
+      subject { described_class.context(key: key) }
 
-        it "should set key" do
-          subject.key.to_s.should == File.read(key)
-        end
+      it "should set key" do
+        subject.key.to_s.should == File.read(key)
       end
     end
   end
