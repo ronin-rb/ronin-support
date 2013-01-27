@@ -30,9 +30,12 @@ module Ronin
       #
       # * `host` (`String`) - SMTP host.
       # * `port` (`Integer`) - SMTP port.
-      # * `smtp_login` (`String`) - SMTP authentication method.
+      # * `smtp_auth` (`String`) - SMTP authentication method.
       # * `smtp_user` (`String`) - SMTP user to login as.
       # * `smtp_password` (`String`) - SMTP password to login with.
+      # * `ssl` (`Boolean`) - Enables SSL.
+      # * `ssl_verify` (`Boolean`) - SSL verify mode.
+      # * `ssl_cert` (`String`) - Path to the `.crt` file.
       #
       module SMTP
         include Mixin, Network::SMTP

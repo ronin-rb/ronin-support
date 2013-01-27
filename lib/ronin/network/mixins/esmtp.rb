@@ -30,9 +30,12 @@ module Ronin
       #
       # * `host` (`String`) - ESMTP host.
       # * `port` (`Integer`) - ESMTP port.
-      # * `esmtp_login` (`String`) - ESMTP authentication method to use.
+      # * `esmtp_auth` (`String`) - ESMTP authentication method to use.
       # * `esmtp_user` (`String`) - ESMTP user to login as.
       # * `esmtp_password` (`String`) - ESMTP password to login with.
+      # * `ssl` (`Boolean`) - Enables SSL.
+      # * `ssl_verify` (`Boolean`) - SSL verify mode.
+      # * `ssl_cert` (`String`) - Path to the `.crt` file.
       #
       module ESMTP
         include Mixin, Network::ESMTP

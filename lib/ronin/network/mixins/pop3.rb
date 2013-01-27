@@ -32,6 +32,9 @@ module Ronin
       # * `port` (`Integer`) - POP3 port.
       # * `pop3_user` (`String`) - POP3 user to login as.
       # * `pop3_password` (`String`) - POP3 password to login with.
+      # * `ssl` (`Boolean`) - Enables SSL.
+      # * `ssl_verify` (`Boolean`) - SSL verify mode.
+      # * `ssl_cert` (`String`) - Path to the `.crt` file.
       #
       module POP3
         include Mixin, Network::POP3

@@ -33,6 +33,9 @@ module Ronin
       # * `imap_auth` (`String`) - IMAP authentication method.
       # * `imap_user` (`String`) - IMAP user to login as.
       # * `imap_password` (`String`) - IMAP password to login with.
+      # * `ssl` (`Boolean`) - Enables SSL.
+      # * `ssl_verify` (`Boolean`) - SSL verify mode.
+      # * `ssl_cert` (`String`) - Path to the `.crt` file.
       #
       module IMAP
         include Mixin, Network::IMAP
