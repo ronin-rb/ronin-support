@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'ronin/network/ssl'
 
+require 'tmpdir'
 require 'resolv'
 
 describe Network::SSL do
@@ -21,6 +22,52 @@ describe Network::SSL do
 
     it "should define :peer" do
       subject[:peer].should == OpenSSL::SSL::VERIFY_PEER
+    end
+  end
+
+  describe "context" do
+    subject { described_class.context }
+
+    it "should return an OpenSSL::SSL::SSLContext object" do
+      subject.should be_kind_of(OpenSSL::SSL::SSLContext)
+    end
+
+    describe "defaults" do
+      its(:verify_mode) { should == OpenSSL::SSL::VERIFY_NONE }
+      its(:cert)        { should be_nil }
+      its(:key)         { should be_nil }
+    end
+
+    describe ":verify" do
+      subject { described_class.context(verify: :peer) }
+
+      it "should set verify_mode" do
+        subject.verify_mode.should == OpenSSL::SSL::VERIFY_PEER
+      end
+    end
+
+    describe ":cert" do
+      pending "need to auto-generate a certificate" do
+        let(:cert) { File.join(Dir.tmpdir,'ronin-test.crt') }
+
+        subject { described_class.context(cert: cert) }
+
+        it "should set cert" do
+          subject.cert.to_s.should == File.read(cert)
+        end
+      end
+    end
+
+    describe ":key" do
+      pending "need to auto-generate a certificate" do
+        let(:key) { File.join(Dir.tmpdir,'ronin-test.key') }
+
+        subject { described_class.context(key: key) }
+
+        it "should set key" do
+          subject.key.to_s.should == File.read(key)
+        end
+      end
     end
   end
 
