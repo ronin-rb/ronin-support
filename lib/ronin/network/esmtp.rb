@@ -48,6 +48,15 @@ module Ronin
       # @option options [Integer] :port (SMTP.default_port)
       #   The port to connect to.
       #
+      # @option options [Boolean, Hash] :ssl
+      #   Additional SSL options.
+      #
+      # @option :ssl [Boolean] :verify
+      #   Specifies that the SSL certificate should be verified.
+      #
+      # @option :ssl [String] :certs
+      #   The path to the file containing CA certs of the server.
+      #
       # @option options [String] :helo
       #   The HELO domain.
       #
@@ -96,6 +105,15 @@ module Ronin
       #
       # @option options [Integer] :port (SMTP.default_port)
       #   The port to connect to.
+      #
+      # @option options [Boolean, Hash] :ssl
+      #   Additional SSL options.
+      #
+      # @option :ssl [Boolean] :verify
+      #   Specifies that the SSL certificate should be verified.
+      #
+      # @option :ssl [String] :certs
+      #   The path to the file containing CA certs of the server.
       #
       # @option options [String] :helo
       #   The HELO domain.
