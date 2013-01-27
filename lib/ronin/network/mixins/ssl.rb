@@ -91,7 +91,7 @@ module Ronin
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Symbol] :verify
+        # @option options [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   Defaults to {#ssl_verify}. May be one of the following:
         #
@@ -143,7 +143,7 @@ module Ronin
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Symbol] :verify
+        # @option options [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   Defaults to {#ssl_verify}. May be one of the following:
         #
@@ -207,7 +207,7 @@ module Ronin
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Symbol] :verify
+        # @option options [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   Defaults to {#ssl_verify}. May be one of the following:
         #
@@ -269,7 +269,7 @@ module Ronin
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Symbol] :verify
+        # @option options [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   Defaults to {#ssl_verify}. May be one of the following:
         #
@@ -323,7 +323,7 @@ module Ronin
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Symbol] :verify
+        # @option options [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   Defaults to {#ssl_verify}. May be one of the following:
         #
@@ -388,7 +388,7 @@ module Ronin
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Symbol] :verify
+        # @option options [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   Defaults to {#ssl_verify}. May be one of the following:
         #
@@ -456,7 +456,7 @@ module Ronin
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Symbol] :verify
+        # @option options [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   Defaults to {#ssl_verify}. May be one of the following:
         #
@@ -513,7 +513,7 @@ module Ronin
         # @option options [Integer] :backlog (5)
         #   The maximum backlog of pending connections.
         #
-        # @option options [Symbol] :verify
+        # @option options [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   Defaults to {#ssl_verify}. May be one of the following:
         #
@@ -582,7 +582,7 @@ module Ronin
         # @option options [Integer] :backlog (5)
         #   The maximum backlog of pending connections.
         #
-        # @option options [Symbol] :verify
+        # @option options [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   Defaults to {#ssl_verify}. May be one of the following:
         #

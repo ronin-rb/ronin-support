@@ -23,6 +23,14 @@ describe Network::SSL do
     it "should define :peer" do
       subject[:peer].should == OpenSSL::SSL::VERIFY_PEER
     end
+
+    it "should map true to :peer" do
+      subject[true].should == subject[:peer]
+    end
+
+    it "should map false to :none" do
+      subject[false].should == subject[:none]
+    end
   end
 
   describe "context" do
