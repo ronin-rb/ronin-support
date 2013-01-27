@@ -62,6 +62,9 @@ module Ronin
       # @option options [String] :key
       #   The path to the SSL `.key` file.
       #
+      # @option options [String] :certs
+      #   Path to the CA certificate file or directory.
+      #
       # @return [OpenSSL::SSL::SSLContext]
       #   The newly created SSL Context.
       #
@@ -81,6 +84,14 @@ module Ronin
         if options[:key]
           file = File.new(options[:key])
           context.key = OpenSSL::PKey::RSA.new(file)
+        end
+
+        if options[:certs]
+          if File.file?(options[:certs])
+            context.ca_file = options[:certs]
+          elsif File.directory?(options[:certs])
+            context.ca_path = options[:certs]
+          end
         end
 
         return context

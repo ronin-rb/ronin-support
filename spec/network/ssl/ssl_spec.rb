@@ -65,6 +65,28 @@ describe Network::SSL do
         subject.key.to_s.should == File.read(key)
       end
     end
+
+    describe ":certs" do
+      context "when value is a file" do
+        let(:file) { File.join(File.dirname(__FILE__),'ssl.crt') }
+
+        subject { described_class.context(certs: file) }
+
+        it "should set ca_file" do
+          subject.ca_file.should == file
+        end
+      end
+
+      context "when value is a directory" do
+        let(:dir) { File.dirname(__FILE__) }
+
+        subject { described_class.context(certs: dir) }
+
+        it "should set ca_path" do
+          subject.ca_path.should == dir
+        end
+      end
+    end
   end
 
   describe "helpers", network: true do
