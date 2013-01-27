@@ -37,6 +37,20 @@ describe Network::Mixins::SMTP do
           smtp.finish
         end
       end
+
+      context "when ssl is enabled" do
+        before do
+          subject.port = 587
+          subject.ssl  = true
+        end
+
+        it "should initiate a SSL connection" do
+          smtp = subject.smtp_connect
+
+          smtp.should be_started
+          smtp.finish
+        end
+      end
     end
 
     describe "#smtp_session" do
