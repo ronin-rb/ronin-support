@@ -47,6 +47,8 @@ module Ronin
                          description: 'ESMTP port'
 
         # ESMTP authentication method to use
+        #
+        # @since 0.6.0
         parameter :esmtp_auth, type:        String,
                                description: 'ESMTP authentication method to use'
 

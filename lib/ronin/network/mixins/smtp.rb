@@ -46,6 +46,8 @@ module Ronin
                          description: 'SMTP port'
 
         # SMTP authentication method
+        #
+        # @since 0.6.0
         parameter :smtp_auth, type:        String,
                               description: 'SMTP authentication method'
 
