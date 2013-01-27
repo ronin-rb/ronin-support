@@ -42,6 +42,51 @@ module Ronin
       }
 
       #
+      # Creates a new SSL Context.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @option options [Symbol] :verify (:none)
+      #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
+      #
+      # @option options [String] :cert
+      #   The path to the SSL `.crt` file.
+      #
+      # @option options [String] :key
+      #   The path to the SSL `.key` file.
+      #
+      # @return [OpenSSL::SSL::SSLContext]
+      #   The newly created SSL Context.
+      #
+      # @api semipublic
+      #
+      # @since 0.6.0
+      #
+      def self.context(options={})
+        context = OpenSSL::SSL::SSLContext.new()
+        context.verify_mode = SSL::VERIFY[options.fetch(:verify,:none)]
+
+        if options[:cert]
+          file = File.new(options[:cert])
+          context.cert = OpenSSL::X509::Certificate.new(file)
+        end
+
+        if options[:key]
+          file = File.new(options[:key])
+          context.key = OpenSSL::PKey::RSA.new(file)
+        end
+
+        return context
+      end
+
+      #
       # Initiates an SSL session with an existing TCP socket.
       #
       # @param [TCPSocket] socket
@@ -81,18 +126,7 @@ module Ronin
           raise("unknown verify mode #{verify}")
         end
 
-        ssl_context = OpenSSL::SSL::SSLContext.new()
-        ssl_context.verify_mode = SSL::VERIFY[verify]
-
-        if cert
-          ssl_context.cert = OpenSSL::X509::Certificate.new(File.new(cert))
-        end
-
-        if key
-          ssl_context.key = OpenSSL::PKey::RSA.new(File.new(key))
-        end
-
-        ssl_socket = OpenSSL::SSL::SSLSocket.new(socket,ssl_context)
+        ssl_socket = OpenSSL::SSL::SSLSocket.new(socket,SSL.context(options))
         ssl_socket.sync_close = true
         return ssl_socket
       end
