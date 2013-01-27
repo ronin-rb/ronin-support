@@ -200,10 +200,9 @@ module Ronin
           options[:password] ||= self.pop3_password
 
           if self.ssl?
-            options[:ssl] = {
-              verify: self.ssl_verify?,
-              certs:  self.ssl_cert
-            }
+            options[:ssl] = options.fetch(:ssl) do
+              {verify: self.ssl_verify?, certs:  self.ssl_cert}
+            end
           end
 
           return options
