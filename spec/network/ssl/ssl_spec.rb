@@ -47,7 +47,7 @@ describe Network::SSL do
     end
 
     describe ":cert" do
-      let(:cert) { File.join(File.dirname(__FILE__),'test.crt') }
+      let(:cert) { File.join(File.dirname(__FILE__),'ssl.crt') }
 
       subject { described_class.context(cert: cert) }
 
@@ -57,7 +57,7 @@ describe Network::SSL do
     end
 
     describe ":key" do
-      let(:key) { File.join(File.dirname(__FILE__),'test.key') }
+      let(:key) { File.join(File.dirname(__FILE__),'ssl.key') }
 
       subject { described_class.context(key: key) }
 
