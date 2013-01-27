@@ -34,7 +34,7 @@ module Ronin
       # * `telnet_user` (`String`) - Telnet user to login as.
       # * `telnet_password` (`String`) - Telnet password to login with.
       # * `telnet_proxy` (`String`) - Telnet proxy.
-      # * `telnet_ssl` (`Boolean`) - Enable Telnet over SSL. Defaults to `true`.
+      # * `ssl` (`Boolean`) - Enable Telnet over SSL. Defaults to `true`.
       #
       module Telnet
         include Mixin, Network::Telnet
