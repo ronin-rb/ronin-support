@@ -18,6 +18,7 @@
 #
 
 require 'ronin/network/smtp/email'
+require 'ronin/network/ssl'
 
 require 'net/smtp'
 
@@ -105,6 +106,15 @@ module Ronin
       # @option options [Integer] :port (SMTP.default_port)
       #   The port to connect to.
       #
+      # @option options [Boolean, Hash] :ssl
+      #   Additional SSL options.
+      #
+      # @option :ssl [Boolean] :verify
+      #   Specifies that the SSL certificate should be verified.
+      #
+      # @option :ssl [String] :certs
+      #   The path to the file containing CA certs of the server.
+      #
       # @option options [String] :helo
       #   The HELO domain.
       #
@@ -136,12 +146,23 @@ module Ronin
         host = host.to_s
         port = (options[:port] || SMTP.default_port)
 
+        case options[:ssl]
+        when Hash
+          ssl         = true
+          ssl_context = SSL.context(options[:ssl])
+        when TrueClass
+          ssl         = true
+          ssl_context = SSL.context
+        end
+
         helo     = options[:helo]
         auth     = options[:auth]
         user     = options[:user]
         password = options[:password]
 
-        smtp = Net::SMTP.start(host,port,helo,user,password,auth)
+        smtp = Net::SMTP.new(host,port)
+        smtp.enable_starttls(ssl_context) if ssl
+        smtp.start(helo,user,password,auth)
 
         yield smtp if block_given?
         return smtp
@@ -158,6 +179,15 @@ module Ronin
       #
       # @option options [Integer] :port (SMTP.default_port)
       #   The port to connect to.
+      #
+      # @option options [Boolean, Hash] :ssl
+      #   Additional SSL options.
+      #
+      # @option :ssl [Boolean] :verify
+      #   Specifies that the SSL certificate should be verified.
+      #
+      # @option :ssl [String] :certs
+      #   The path to the file containing CA certs of the server.
       #
       # @option options [String] :helo
       #   The HELO domain.
