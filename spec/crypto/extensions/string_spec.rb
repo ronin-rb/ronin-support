@@ -28,14 +28,14 @@ describe String do
     let(:key)    { Digest::MD5.hexdigest('secret') }
 
     it "should encrypt the String with the cipher and key" do
-      subject.encrypt(cipher,key).should == "\x8B\xDCx\x90[\x83M\x9A\x8F\x159\x1Fi\x95\xDA\xD9"
+      subject.encrypt(cipher, key: key).should == "\x8B\xDCx\x90[\x83M\x9A\x8F\x159\x1Fi\x95\xDA\xD9"
     end
 
     context "when iv is given" do
       let(:iv) { '1234567890abcdef' }
 
       it "should encrypt the String using the given IV" do
-        subject.encrypt(cipher,key,iv).should == "`\xED\x85\xF7\xA5\xE3W8#/\xDB3\xE3\x83\x82-"
+        subject.encrypt(cipher, key: key, iv: iv).should == "`\xED\x85\xF7\xA5\xE3W8#/\xDB3\xE3\x83\x82-"
       end
     end
   end
@@ -47,7 +47,7 @@ describe String do
     subject { "\x8B\xDCx\x90[\x83M\x9A\x8F\x159\x1Fi\x95\xDA\xD9" }
 
     it "should decrypt the String with the cipher and key" do
-      subject.decrypt(cipher,key).should == "hello"
+      subject.decrypt(cipher, key: key).should == "hello"
     end
 
     context "when iv is given" do
@@ -56,7 +56,7 @@ describe String do
       subject { "`\xED\x85\xF7\xA5\xE3W8#/\xDB3\xE3\x83\x82-" }
 
       it "should decrypt the String using the given IV" do
-        subject.decrypt(cipher,key,iv).should == "hello"
+        subject.decrypt(cipher, key: key, iv: iv).should == "hello"
       end
     end
   end

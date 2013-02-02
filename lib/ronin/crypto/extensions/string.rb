@@ -51,10 +51,22 @@ class String
   # @param [String] cipher
   #   The cipher to use.
   #
-  # @param [String] key
+  # @param [Hash] options
+  #   Additional options.
+  #
+  # @option options [:encrypt, :decrypt] :mode
+  #   The cipher mode.
+  #
+  # @option options [Symbol] :hash (:sha1)
+  #   The algorithm to hash the `:password`.
+  #
+  # @option options [String] :key
   #   The secret key to use.
   #
-  # @param [String] iv
+  # @option options [String] :password
+  #   The password for the cipher.
+  #
+  # @option options [String] :iv
   #   The optional Initial Vector (IV).
   #
   # @return [String]
@@ -66,10 +78,8 @@ class String
   #
   # @api public
   #
-  def encrypt(cipher,key,iv=nil)
-    cipher = Ronin::Crypto.cipher(cipher, mode: :encrypt,
-                                          key:  key,
-                                          iv:   iv)
+  def encrypt(cipher,options={})
+    cipher = Ronin::Crypto.cipher(cipher, options.merge(mode: :encrypt))
 
     return cipher.update(self) + cipher.final
   end
@@ -80,10 +90,22 @@ class String
   # @param [String] cipher
   #   The cipher to use.
   #
-  # @param [String] key
+  # @param [Hash] options
+  #   Additional options.
+  #
+  # @option options [:encrypt, :decrypt] :mode
+  #   The cipher mode.
+  #
+  # @option options [Symbol] :hash (:sha1)
+  #   The algorithm to hash the `:password`.
+  #
+  # @option options [String] :key
   #   The secret key to use.
   #
-  # @param [String] iv
+  # @option options [String] :password
+  #   The password for the cipher.
+  #
+  # @option options [String] :iv
   #   The optional Initial Vector (IV).
   #
   # @return [String]
@@ -95,10 +117,8 @@ class String
   #
   # @api public
   #
-  def decrypt(cipher,key,iv=nil)
-    cipher = Ronin::Crypto.cipher(cipher, mode: :decrypt,
-                                          key:  key,
-                                          iv:   iv)
+  def decrypt(cipher,options={})
+    cipher = Ronin::Crypto.cipher(cipher,options.merge(mode: :decrypt))
 
     return cipher.update(self) + cipher.final
   end
