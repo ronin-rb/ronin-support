@@ -29,32 +29,48 @@ describe Crypto do
   end
 
   describe "cipher" do
-    let(:name) { 'aes-256-cbc' }
-    let(:key)  { Digest::MD5.hexdigest('secret') }
+    let(:name)     { 'aes-256-cbc' }
+    let(:password) { 'secret'      }
+    let(:key)      { Digest::MD5.hexdigest(password) }
 
     it "should return a new OpenSSL::Cipher" do
       subject.cipher(name).should be_kind_of(OpenSSL::Cipher)
     end
 
-    pending "OpenSSL::Cipher#key does not exist" do
+    context "when :key is set" do
+      let(:cipher) { subject.cipher(name, mode: :decrypt, key: key) }
+
+      let(:clear_text)  { 'the quick brown fox' }
+      let(:cipher_text) { "O\xA2\xE7\xEF\x84\xF0\xA2\x82\x1F\x00\e\n\x9B\xE4XY\b\x9C_`\xE9\xCC\xBF\xAF\xB8\xF0\xF4\x1A\xB3\x1F)\xA1" }
+
       it "should set the key" do
-        subject.cipher(name,key: key).key.should == key
+        (cipher.update(cipher_text) + cipher.final).should == clear_text
       end
-    end
 
-    pending "OpenSSL::Cipher#iv does not exist" do
-      it "should iv should be nil by default" do
-        subject.cipher(name,key: key).iv.should be_nil
-      end
-    end
+      context "when :iv is set" do
+        let(:iv)     { '0123456789abcdef' }
+        let(:cipher) { subject.cipher(name, mode: :decrypt, key: key, iv: iv) }
 
-    context "when iv is given" do
-      let(:iv) { '1234567890abcdef' }
+        let(:cipher_text) { "\x00\xA0\xFE\x9C\xD3\x81I\xD5\x9E\x7Fq\x87\xB9\xC6\xB5\xDF\xA9T\xD0\xA5\xC5)\x0E\x0E\xCE\xA5\xAF!f\xC5\xB3a" }
 
-      pending "OpenSSL::Cipher#iv does not exist" do
-        it "should set the iv" do
-          subject.cipher(name, key: key, iv: iv).iv.should == iv
+        it "should set the IV" do
+          (cipher.update(cipher_text) + cipher.final).should == clear_text
         end
+      end
+    end
+
+    context "when :password and :hash are given" do
+      let(:cipher) do
+        subject.cipher(name, mode:     :decrypt, 
+                             password: password,
+                             hash:     :md5)
+      end
+
+      let(:clear_text)  { 'the quick brown fox' }
+      let(:cipher_text) { "O\xA2\xE7\xEF\x84\xF0\xA2\x82\x1F\x00\e\n\x9B\xE4XY\b\x9C_`\xE9\xCC\xBF\xAF\xB8\xF0\xF4\x1A\xB3\x1F)\xA1" }
+
+      it "should set the key" do
+        (cipher.update(cipher_text) + cipher.final).should == clear_text
       end
     end
   end

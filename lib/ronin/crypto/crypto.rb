@@ -54,8 +54,14 @@ module Ronin
     # @option options [:encrypt, :decrypt] :mode
     #   The cipher mode.
     #
+    # @option options [Symbol] :hash
+    #   The algorithm to hash the `:password`.
+    #
     # @option options [String] :key
     #   The secret key to use.
+    #
+    # @option options [String] :password
+    #   The password for the cipher.
     #
     # @option options [String] :iv
     #   The optional Initial Vector (IV).
@@ -75,8 +81,15 @@ module Ronin
       when :decrypt then cipher.decrypt
       end
 
-      cipher.key = options[:key] if options[:key]
-      cipher.iv  = options[:iv]  if options[:iv]
+      if options[:iv]
+        cipher.iv = options[:iv]
+      end
+
+      if options[:password] && options[:hash]
+        cipher.key = digest(options[:hash]).hexdigest(options[:password])
+      elsif options[:key]
+        cipher.key = options[:key]
+      end
 
       return cipher
     end
