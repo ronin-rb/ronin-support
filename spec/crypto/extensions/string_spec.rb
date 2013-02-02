@@ -2,62 +2,49 @@ require 'spec_helper'
 require 'ronin/crypto/extensions/string'
 
 describe String do
-  subject { "hello" }
+  subject { 'the quick brown fox' }
 
   it { should respond_to(:hmac)    }
   it { should respond_to(:encrypt) }
   it { should respond_to(:decrypt) }
 
   describe "#hmac" do
-    let(:key)    { "secret" }
-    let(:digest) { :md5 }
+    let(:key)  { 'secret' }
+    let(:hash) { 'cf5073193fae1bfdaa1b31355076f99bfb249f51' }
 
     it "should calculate the HMAC of the String" do
-      subject.hmac(key,digest).should == "bade63863c61ed0b3165806ecd6acefc"
+      subject.hmac(key).should == hash
     end
 
     context "when digest is not given" do
+      let(:digest)      { :md5 }
+      let(:digest_hash) { '8319187ae2b6c1623205354d8f5d1a6e' }
+
       it "should default to using SHA1" do
-        subject.hmac(key).should == "5112055c05f944f85755efc5cd8970e194e9f45b"
+        subject.hmac(key,digest).should == digest_hash
       end
     end
   end
 
   describe "#encrypt" do
-    let(:cipher) { 'aes-256-cbc' }
-    let(:key)    { Digest::MD5.hexdigest('secret') }
+    let(:cipher)   { 'aes-256-cbc' }
+    let(:password) { 'secret' }
+
+    let(:cipher_text) { "\xC8+\xE3\x05\xD3\xBE\xC6d\x0F=N\x90\xB9\x87\xD8bk\x1C#0\x96`4\xBC\xB1\xB5tD\xF3\x98\xAD`" }
 
     it "should encrypt the String with the cipher and key" do
-      subject.encrypt(cipher, key: key).should == "\x8B\xDCx\x90[\x83M\x9A\x8F\x159\x1Fi\x95\xDA\xD9"
-    end
-
-    context "when iv is given" do
-      let(:iv) { '1234567890abcdef' }
-
-      it "should encrypt the String using the given IV" do
-        subject.encrypt(cipher, key: key, iv: iv).should == "`\xED\x85\xF7\xA5\xE3W8#/\xDB3\xE3\x83\x82-"
-      end
+      subject.encrypt(cipher, password: password).should == cipher_text
     end
   end
 
   describe "#decrypt" do
-    let(:cipher) { 'aes-256-cbc' }
-    let(:key)    { Digest::MD5.hexdigest('secret') }
+    let(:cipher)   { 'aes-256-cbc' }
+    let(:password) { 'secret'      }
 
-    subject { "\x8B\xDCx\x90[\x83M\x9A\x8F\x159\x1Fi\x95\xDA\xD9" }
+    let(:cipher_text) { "\xC8+\xE3\x05\xD3\xBE\xC6d\x0F=N\x90\xB9\x87\xD8bk\x1C#0\x96`4\xBC\xB1\xB5tD\xF3\x98\xAD`" }
 
     it "should decrypt the String with the cipher and key" do
-      subject.decrypt(cipher, key: key).should == "hello"
-    end
-
-    context "when iv is given" do
-      let(:iv) { '1234567890abcdef' }
-
-      subject { "`\xED\x85\xF7\xA5\xE3W8#/\xDB3\xE3\x83\x82-" }
-
-      it "should decrypt the String using the given IV" do
-        subject.decrypt(cipher, key: key, iv: iv).should == "hello"
-      end
+      cipher_text.decrypt(cipher, password: password).should == subject
     end
   end
 end
