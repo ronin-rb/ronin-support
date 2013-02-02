@@ -48,15 +48,37 @@ module Ronin
     # @param [String] name
     #   The cipher name.
     #
+    # @param [Hash] options
+    #   Additional options.
+    #
+    # @option options [:encrypt, :decrypt] :mode
+    #   The cipher mode.
+    #
+    # @option options [String] :key
+    #   The secret key to use.
+    #
+    # @option options [String] :iv
+    #   The optional Initial Vector (IV).
+    #
     # @return [OpenSSL::Cipher]
     #   The newly created cipher.
     #
     # @example
-    #   Crypto.cipher('aes-128-cbc')
+    #   Crypto.cipher('aes-128-cbc', mode: :encrypt, key 'secret'.md5)
     #   # => #<OpenSSL::Cipher:0x0000000170d108>
     #
-    def self.cipher(name)
-      OpenSSL::Cipher.new(name)
+    def self.cipher(name,options={})
+      cipher = OpenSSL::Cipher.new(name)
+
+      case options[:mode]
+      when :encrypt then cipher.encrypt
+      when :decrypt then cipher.decrypt
+      end
+
+      cipher.key = options[:key] if options[:key]
+      cipher.iv  = options[:iv]  if options[:iv]
+
+      return cipher
     end
   end
 end

@@ -67,10 +67,9 @@ class String
   # @api public
   #
   def encrypt(cipher,key,iv=nil)
-    cipher = Ronin::Crypto.cipher(cipher)
-    cipher.encrypt
-    cipher.key = key
-    cipher.iv  = iv if iv
+    cipher = Ronin::Crypto.cipher(cipher, mode: :encrypt,
+                                          key:  key,
+                                          iv:   iv)
 
     return cipher.update(self) + cipher.final
   end
@@ -97,10 +96,9 @@ class String
   # @api public
   #
   def decrypt(cipher,key,iv=nil)
-    cipher = Ronin::Crypto.cipher(cipher)
-    cipher.decrypt
-    cipher.key = key
-    cipher.iv  = iv if iv
+    cipher = Ronin::Crypto.cipher(cipher, mode: :decrypt,
+                                          key:  key,
+                                          iv:   iv)
 
     return cipher.update(self) + cipher.final
   end
