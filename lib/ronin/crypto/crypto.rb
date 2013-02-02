@@ -54,7 +54,7 @@ module Ronin
     # @option options [:encrypt, :decrypt] :mode
     #   The cipher mode.
     #
-    # @option options [Symbol] :hash
+    # @option options [Symbol] :hash (:sha1)
     #   The algorithm to hash the `:password`.
     #
     # @option options [String] :key
@@ -75,6 +75,7 @@ module Ronin
     #
     def self.cipher(name,options={})
       cipher = OpenSSL::Cipher.new(name)
+      hash   = options.fetch(:hash,:sha1)
 
       case options[:mode]
       when :encrypt then cipher.encrypt
@@ -85,8 +86,8 @@ module Ronin
         cipher.iv = options[:iv]
       end
 
-      if options[:password] && options[:hash]
-        cipher.key = digest(options[:hash]).hexdigest(options[:password])
+      if options[:password] && hash
+        cipher.key = digest(hash).hexdigest(options[:password])
       elsif options[:key]
         cipher.key = options[:key]
       end
