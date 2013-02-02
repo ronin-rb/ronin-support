@@ -33,16 +33,17 @@ class String
   # @return [String]
   #   The hex-encoded HMAC for the String.
   #
-  # @see http://rubydoc.info/stdlib/openssl/OpenSSL/HMAC
+  # @see Ronin::Crypto.hmac
   #
   # @since 0.6.0
   #
   # @api public
   #
   def hmac(key,digest=:sha1)
-    digest = Ronin::Crypto.digest(digest).new
+    hmac = Ronin::Crypto.hmac(key,digest)
+    hmac.update(self)
 
-    return OpenSSL::HMAC.hexdigest(digest,key,self)
+    return hmac.hexdigest
   end
 
   #

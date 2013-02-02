@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'ronin/crypto/crypto'
 
 describe Crypto do
+  let(:clear_text) { 'the quick brown fox' }
+
   describe "digest" do
     context "when given a lower-case name" do
       let(:name) { :md5 }
@@ -28,11 +30,37 @@ describe Crypto do
     end
   end
 
+  describe "hmac" do
+    let(:key)  { 'secret' }
+    let(:hash) { 'cf5073193fae1bfdaa1b31355076f99bfb249f51' }
+
+    it "should return an OpenSSL::HMAC" do
+      subject.hmac(key).should be_kind_of(OpenSSL::HMAC)
+    end
+
+    it "should use the key when calculating the HMAC" do
+      hmac = subject.hmac(key)
+      hmac.update(clear_text)
+      
+      hmac.hexdigest.should == hash
+    end
+
+    context "when digest is given" do
+      let(:digest) { :md5 }
+      let(:hash) { '8319187ae2b6c1623205354d8f5d1a6e' }
+
+      it "should use the digest algorithm when calculating the HMAC" do
+        hmac = subject.hmac(key,digest)
+        hmac.update(clear_text)
+
+        hmac.hexdigest.should == hash
+      end
+    end
+  end
+
   describe "cipher" do
     let(:name)     { 'aes-256-cbc' }
     let(:password) { 'secret'      }
-
-    let(:clear_text) { 'the quick brown fox' }
 
     subject { described_class.cipher(name) }
 
