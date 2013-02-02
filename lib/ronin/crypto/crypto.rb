@@ -43,6 +43,27 @@ module Ronin
     end
 
     #
+    # Creates a new HMAC.
+    #
+    # @param [String] key
+    #   The secret key for the HMAC.
+    #
+    # @param [Symbol] digest
+    #   The digest algorithm for the HMAC.
+    #
+    # @return [String]
+    #   The hex-encoded HMAC for the String.
+    #
+    # @see http://rubydoc.info/stdlib/openssl/OpenSSL/HMAC
+    #
+    # @example
+    #   Crypto.hmac('secret')
+    #
+    def self.hmac(key,digest=:sha1)
+      OpenSSL::HMAC.new(key,digest(digest).new)
+    end
+
+    #
     # Creates a cipher.
     #
     # @param [String] name
