@@ -235,6 +235,10 @@ describe Network::SSL do
       end
     end
 
+    describe "#ssl_server_socket" do
+      pending "need to automate connecting to the SSL server"
+    end
+
     describe "#ssl_server_loop" do
       pending "need to automate connecting to the SSL server"
     end

@@ -43,6 +43,12 @@ module Ronin
         false              => OpenSSL::SSL::VERIFY_NONE
       }
 
+      # Default SSL key file
+      DEFAULT_KEY_FILE = File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','data','ronin','network','ssl','ssl.key'))
+
+      # Default SSL cert file
+      DEFAULT_CERT_FILE = File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','data','ronin','network','ssl','ssl.pem'))
+
       #
       # Creates a new SSL Context.
       #
@@ -500,6 +506,46 @@ module Ronin
       end
 
       #
+      # Accepts an SSL session from an existing TCP socket.
+      #
+      # @param [TCPSocket] socket
+      #   The existing TCP socket.
+      #
+      # @param [Hash] options
+      #   Additional options.
+      #
+      # @option options [Symbol, Boolean] :verify
+      #   Specifies whether to verify the SSL certificate.
+      #   May be one of the following:
+      #
+      #   * `:none`
+      #   * `:peer`
+      #   * `:fail_if_no_peer_cert`
+      #   * `:client_once`
+      #
+      # @option options [String] :cert (DEFAULT_CERT_FILE)
+      #   The path to the SSL `.crt` file.
+      #
+      # @option options [String] :key (DEFAULT_KEY_FILE)
+      #   The path to the SSL `.key` file.
+      #
+      # @return [OpenSSL::SSL::SSLSocket]
+      #   the new SSL Socket.
+      #
+      # @api public
+      #
+      # @since 0.6.0
+      #
+      def ssl_server_socket(socket,options={})
+        options = {
+          cert: DEFAULT_CERT_FILE,
+          key:  DEFAULT_KEY_FILE
+        }.merge(options)
+
+        return ssl_socket(socket,options)
+      end
+
+      #
       # Creates a new SSL socket listening on a given host and port,
       # accepting clients in a loop.
       #
@@ -524,10 +570,10 @@ module Ronin
       #   * `:fail_if_no_peer_cert`
       #   * `:client_once`
       #
-      # @option options [String] :cert
+      # @option options [String] :cert (DEFAULT_CERT_FILE)
       #   The path to the SSL `.crt` file.
       #
-      # @option options [String] :key
+      # @option options [String] :key (DEFAULT_KEY_FILE)
       #   The path to the SSL `.key` file.
       #
       # @yield [client]
@@ -558,7 +604,7 @@ module Ronin
         return tcp_server_session(port,host,backlog) do |server|
           loop do
             client     = server.accept
-            ssl_client = ssl_socket(client,options)
+            ssl_client = ssl_server_socket(client,options)
             ssl_client.accept
 
             yield ssl_client if block_given?
@@ -592,10 +638,10 @@ module Ronin
       #   * `:fail_if_no_peer_cert`
       #   * `:client_once`
       #
-      # @option options [String] :cert
+      # @option options [String] :cert (DEFAULT_CERT_FILE)
       #   The path to the SSL `.crt` file.
       #
-      # @option options [String] :key
+      # @option options [String] :key (DEFAULT_KEY_FILE)
       #   The path to the SSL `.key` file.
       #
       # @example
@@ -629,7 +675,7 @@ module Ronin
       def ssl_accept(port=nil,host=nil,options={})
         tcp_server_session(port,host,1) do |server|
           client     = server.accept
-          ssl_client = ssl_socket(client,options)
+          ssl_client = ssl_server_socket(client,options)
           ssl_client.accept
 
           yield ssl_client if block_given?
