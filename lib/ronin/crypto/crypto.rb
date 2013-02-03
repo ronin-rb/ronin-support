@@ -87,6 +87,9 @@ module Ronin
     # @option options [String] :iv
     #   The optional Initial Vector (IV).
     #
+    # @option options [Integer] :padding
+    #   Sets the padding for the cipher.
+    #
     # @return [OpenSSL::Cipher]
     #   The newly created cipher.
     #
@@ -105,6 +108,10 @@ module Ronin
 
       if options[:iv]
         cipher.iv = options[:iv]
+      end
+
+      if options[:padding]
+        cipher.padding = options[:padding]
       end
 
       if options[:password] && hash

@@ -81,6 +81,9 @@ class File
   # @option options [String] :iv
   #   The optional Initial Vector (IV).
   #
+  # @option options [Integer] :padding
+  #   Sets the padding for the cipher.
+  #
   # @yield [block]
   #   If a block is given, each encrypted block will be passed to it.
   #
@@ -144,6 +147,9 @@ class File
   #
   # @option options [String] :iv
   #   The optional Initial Vector (IV).
+  #
+  # @option options [Integer] :padding
+  #   Sets the padding for the cipher.
   #
   # @yield [block]
   #   If a block is given, each encrypted block will be passed to it.

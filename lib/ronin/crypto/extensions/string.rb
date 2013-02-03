@@ -70,6 +70,9 @@ class String
   # @option options [String] :iv
   #   The optional Initial Vector (IV).
   #
+  # @option options [Integer] :padding
+  #   Sets the padding for the cipher.
+  #
   # @return [String]
   #   The encrypted String.
   #
@@ -108,6 +111,9 @@ class String
   #
   # @option options [String] :iv
   #   The optional Initial Vector (IV).
+  #
+  # @option options [Integer] :padding
+  #   Sets the padding for the cipher.
   #
   # @return [String]
   #   The decrypted String.
