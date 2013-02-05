@@ -18,7 +18,6 @@
 #
 
 require 'ronin/formatting/extensions'
-require 'ronin/formatting/digest'
 require 'ronin/formatting/binary'
 require 'ronin/formatting/text'
 require 'ronin/formatting/http'

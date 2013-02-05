@@ -4,9 +4,69 @@ require 'ronin/crypto/extensions/string'
 describe String do
   subject { 'the quick brown fox' }
 
+  it { should respond_to(:md5)     }
+  it { should respond_to(:sha1)    }
+  it { should respond_to(:sha2)    }
+  it { should respond_to(:sha256)  }
+  it { should respond_to(:sha512)  }
+  it { should respond_to(:rmd160)  }
   it { should respond_to(:hmac)    }
   it { should respond_to(:encrypt) }
   it { should respond_to(:decrypt) }
+
+  describe "#md5" do
+    let(:digest_md5) { "30f3c93e46436deb58ba70816a8ec124" }
+
+    it "should return the MD5 digest of itself" do
+      subject.md5.should == digest_md5
+    end
+  end
+
+  describe "#sha1" do
+    let(:digest_sha1) { "ced71fa7235231bed383facfdc41c4ddcc22ecf1" }
+
+    it "should return the SHA1 digest of itself" do
+      subject.sha1.should == digest_sha1
+    end
+  end
+
+  describe "#sha2" do
+    let(:digest_sha2) do
+      "9ecb36561341d18eb65484e833efea61edc74b84cf5e6ae1b81c63533e25fc8f"
+    end
+
+    it "should return the SHA2 digest of itself" do
+      subject.sha2.should == digest_sha2
+    end
+  end
+
+  describe "#sha256" do
+    let(:digest_sha256) do
+      "9ecb36561341d18eb65484e833efea61edc74b84cf5e6ae1b81c63533e25fc8f"
+    end
+
+    it "should return the SHA256 digest of itself" do
+      subject.sha256.should == digest_sha256
+    end
+  end
+
+  describe "#sha512" do
+    let(:digest_sha512) do
+      "d9d380f29b97ad6a1d92e987d83fa5a02653301e1006dd2bcd51afa59a9147e9caedaf89521abc0f0b682adcd47fb512b8343c834a32f326fe9bef00542ce887"
+    end
+
+    it "should return the SHA512 digest of itself" do
+      subject.sha512.should == digest_sha512
+    end
+  end
+
+  describe "#rmd160" do
+    let(:digest_rmd160) { "1e76c9c004a440a285d130bc41a8d027b268afcd" }
+
+    it "should return the RMD160 digest of itself" do
+      subject.rmd160.should == digest_rmd160
+    end
+  end
 
   describe "#hmac" do
     let(:key)  { 'secret' }
