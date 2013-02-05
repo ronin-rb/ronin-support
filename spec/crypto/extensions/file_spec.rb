@@ -4,7 +4,10 @@ require 'ronin/crypto/extensions/file'
 require 'tempfile'
 
 describe File do
-  let(:clear_text) { 'the quick brown fox' }
+  let(:clear_text) { 'the quick brown fox'              }
+  let(:path)       { Tempfile.new('ronin-support').path }
+
+  before(:all) { File.write(path,clear_text) }
 
   subject { described_class }
 
@@ -15,10 +18,6 @@ describe File do
   describe "#hmac" do
     let(:key)  { 'secret' }
     let(:hash) { 'cf5073193fae1bfdaa1b31355076f99bfb249f51' }
-
-    let(:path) { Tempfile.new('ronin-support').path }
-
-    before(:all) { File.write(path,clear_text) }
 
     it "should calculate the HMAC of the file" do
       subject.hmac(path,key).should == hash
@@ -39,10 +38,6 @@ describe File do
     let(:password) { 'secret' }
 
     let(:cipher_text) { "\xC8+\xE3\x05\xD3\xBE\xC6d\x0F=N\x90\xB9\x87\xD8bk\x1C#0\x96`4\xBC\xB1\xB5tD\xF3\x98\xAD`" }
-
-    let(:path)       { Tempfile.new('ronin-support').path }
-
-    before(:all) { File.write(path,clear_text) }
 
     it "should encrypt the String with the cipher and key" do
       subject.encrypt(path,cipher, password: password).should == cipher_text
