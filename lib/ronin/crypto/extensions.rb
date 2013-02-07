@@ -17,5 +17,5 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/crypto/crypto'
-require 'ronin/crypto/extensions'
+require 'ronin/crypto/extensions/string'
+require 'ronin/crypto/extensions/file'
