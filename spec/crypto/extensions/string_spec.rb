@@ -10,9 +10,105 @@ describe String do
   it { should respond_to(:sha256)  }
   it { should respond_to(:sha512)  }
   it { should respond_to(:rmd160)  }
+  it { should respond_to(:md5?)    }
+  it { should respond_to(:sha1?)   }
+  it { should respond_to(:sha2?)   }
+  it { should respond_to(:sha256?) }
+  it { should respond_to(:sha512?) }
+  it { should respond_to(:rmd160?) }
   it { should respond_to(:hmac)    }
   it { should respond_to(:encrypt) }
   it { should respond_to(:decrypt) }
+
+  describe "#md5?" do
+    context "when given an MD5" do
+      subject { "30f3c93e46436deb58ba70816a8ec124" }
+
+      it "should return true" do
+        subject.should be_md5
+      end
+    end
+
+    context "otherwise" do
+      subject { "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" }
+
+      it "should return false" do
+        subject.should_not be_md5
+      end
+    end
+  end
+
+  describe "#sha1?" do
+    context "when given an SHA1" do
+      subject { "ced71fa7235231bed383facfdc41c4ddcc22ecf1" }
+
+      it "should return true" do
+        subject.should be_sha1
+      end
+    end
+
+    context "otherwise" do
+      subject { "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" }
+
+      it "should return false" do
+        subject.should_not be_sha1
+      end
+    end
+  end
+
+  describe "#sha2?" do
+    context "when given an SHA2" do
+      subject { "9ecb36561341d18eb65484e833efea61edc74b84cf5e6ae1b81c63533e25fc8f" }
+
+      it "should return true" do
+        subject.should be_sha2
+      end
+    end
+
+    context "otherwise" do
+      subject { "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" }
+
+      it "should return false" do
+        subject.should_not be_sha2
+      end
+    end
+  end
+
+  describe "#sha512?" do
+    context "when given an SHA512" do
+      subject { "d9d380f29b97ad6a1d92e987d83fa5a02653301e1006dd2bcd51afa59a9147e9caedaf89521abc0f0b682adcd47fb512b8343c834a32f326fe9bef00542ce887" }
+
+      it "should return true" do
+        subject.should be_sha512
+      end
+    end
+
+    context "otherwise" do
+      subject { "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" }
+
+      it "should return false" do
+        subject.should_not be_sha512
+      end
+    end
+  end
+
+  describe "#rmd160?" do
+    context "when given an RMD160" do
+      subject { "1e76c9c004a440a285d130bc41a8d027b268afcd" }
+
+      it "should return true" do
+        subject.should be_rmd160
+      end
+    end
+
+    context "otherwise" do
+      subject { "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" }
+
+      it "should return false" do
+        subject.should_not be_sha512
+      end
+    end
+  end
 
   describe "#md5" do
     let(:digest_md5) { "30f3c93e46436deb58ba70816a8ec124" }
@@ -37,16 +133,6 @@ describe String do
 
     it "should return the SHA2 digest of itself" do
       subject.sha2.should == digest_sha2
-    end
-  end
-
-  describe "#sha256" do
-    let(:digest_sha256) do
-      "9ecb36561341d18eb65484e833efea61edc74b84cf5e6ae1b81c63533e25fc8f"
-    end
-
-    it "should return the SHA256 digest of itself" do
-      subject.sha256.should == digest_sha256
     end
   end
 
