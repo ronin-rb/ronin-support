@@ -31,6 +31,8 @@ describe Network::DNS do
 
       subject.nameserver.should == server
     end
+
+    after { subject.nameserver = [] }
   end
 
   describe "#dns_resolver" do
@@ -40,9 +42,9 @@ describe Network::DNS do
       obj
     end
 
-    context "when nil is given" do
+    context "when no arguments are given" do
       it "should return Resolv" do
-        subject.dns_resolver(nil).should == Resolv
+        subject.dns_resolver.should == Resolv
       end
     end
 
