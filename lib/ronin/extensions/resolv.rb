@@ -54,23 +54,6 @@ class Resolv
   ]
 
   #
-  # Creates a new resolver.
-  #
-  # @param [String, Array<String>] nameservers
-  #   The nameserver(s) to query.
-  #
-  # @return [Resolv::DNS]
-  #   A new resolver for the given nameservers.
-  #
-  # @since 0.6.0
-  #
-  # @api public
-  #
-  def Resolv.[](*nameservers)
-    DNS.new(nameserver: nameservers)
-  end
-
-  #
   # Creates a new resolver or uses the system's resolver.
   #
   # @param [Array<String>, String, nil] nameservers
@@ -87,8 +70,10 @@ class Resolv
   # @api public
   #
   def Resolv.resolver(*nameservers)
-    unless nameservers.empty? then self[*nameservers]
-    else                           self
+    unless nameservers.empty?
+      DNS.new(nameserver: nameservers)
+    else
+      self
     end
   end
 
