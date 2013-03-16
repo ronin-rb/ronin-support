@@ -35,22 +35,16 @@ describe Network::DNS do
     after { subject.nameserver = [] }
   end
 
-  describe "#dns_resolver" do
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
-
+  describe "resolver" do
     context "when no arguments are given" do
       it "should return Resolv" do
-        subject.dns_resolver.should == Resolv
+        subject.resolver.should == Resolv
       end
     end
 
     context "when an argument is given" do
       it "should return Resolv::DNS" do
-        subject.dns_resolver(server).should be_kind_of(Resolv::DNS)
+        subject.resolver(server).should be_kind_of(Resolv::DNS)
       end
     end
   end
