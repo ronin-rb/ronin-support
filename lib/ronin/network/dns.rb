@@ -28,9 +28,9 @@ module Ronin
     #
     module DNS
       #
-      # The DNS nameserver to query.
+      # The primary DNS nameserver to query.
       #
-      # @return [String, nil]
+      # @return [Array<String>, String, nil]
       #   The address of the nameserver.
       #
       # @api public
@@ -51,16 +51,14 @@ module Ronin
       # @api public
       #
       def self.nameserver=(address)
-        @nameserver = if address
-                        address.to_s
-                      end
+        @nameserver = address
       end
 
       #
       # Creates a DNS Resolver for the nameserver.
       #
-      # @param [String, nil] nameserver
-      #   Optional DNS nameserver to query.
+      # @param [Array<String>, String] nameserver
+      #   Optional DNS nameserver(s) to query.
       #
       # @return [Resolv, Resolv::DNS]
       #   The DNS Resolver.
@@ -68,8 +66,10 @@ module Ronin
       # @api public
       #
       def dns_resolver(nameserver=DNS.nameserver)
-        if nameserver then Resolv::DNS.new(nameserver: nameserver)
-        else               Resolv
+        unless (nameserver.nil? || nameserver.empty?)
+          Resolv::DNS.new(nameserver: nameserver)
+        else
+          Resolv
         end
       end
 
@@ -79,7 +79,7 @@ module Ronin
       # @param [String] hostname
       #   The hostname to lookup.
       #
-      # @param [String, nil] nameserver
+      # @param [Array<String>, String] nameserver
       #   Optional DNS nameserver to query.
       #
       # @yield [address]
@@ -112,7 +112,7 @@ module Ronin
       # @param [String] hostname
       #   The hostname to lookup.
       #
-      # @param [String, nil] nameserver
+      # @param [Array<String>, String] nameserver
       #   Optional DNS nameserver to query.
       #
       # @yield [address]
@@ -141,7 +141,7 @@ module Ronin
       # @param [String] address
       #   The address to lookup.
       #
-      # @param [String, nil] nameserver
+      # @param [Array<String>, String] nameserver
       #   Optional DNS nameserver to query.
       #
       # @yield [hostname]
@@ -174,7 +174,7 @@ module Ronin
       # @param [String] address
       #   The address to lookup.
       #
-      # @param [String, nil] nameserver
+      # @param [Array<String>, String] nameserver
       #   Optional DNS nameserver to query.
       #
       # @yield [hostname]
