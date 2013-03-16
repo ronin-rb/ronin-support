@@ -71,4 +71,22 @@ class Integer
     "%%%X" % self
   end
 
+  #
+  # HTTP escapes the Integer.
+  #
+  # @return [String]
+  #   The HTTP escaped form of the Integer.
+  #
+  # @example
+  #   62.http_escape
+  #   # => "%3E"
+  #
+  # @api public
+  #
+  # @since 0.6.0
+  #
+  def http_escape
+    CGI.escape(chr)
+  end
+
 end

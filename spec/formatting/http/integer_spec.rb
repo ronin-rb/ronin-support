@@ -51,4 +51,12 @@ describe Integer do
       subject.format_http.should == http_formatted
     end
   end
+
+  describe "#http_escape" do
+    let(:http_escaped) { '+' }
+
+    it "should format the byte" do
+      subject.http_escape.should == http_escaped
+    end
+  end
 end
