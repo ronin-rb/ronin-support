@@ -65,12 +65,29 @@ module Ronin
       #
       # @api public
       #
-      def dns_resolver(nameserver=DNS.nameserver)
+      # @since 0.6.0
+      #
+      def self.resolver(nameserver=self.nameserver)
         unless (nameserver.nil? || nameserver.empty?)
           Resolv::DNS.new(nameserver: nameserver)
         else
           Resolv
         end
+      end
+
+      #
+      # Creates a DNS Resolver for the nameserver.
+      #
+      # @param [Array<String>, String] nameserver
+      #   Optional DNS nameserver(s) to query.
+      #
+      # @return [Resolv, Resolv::DNS]
+      #   The DNS Resolver.
+      #
+      # @api public
+      #
+      def dns_resolver(nameserver=DNS.nameserver)
+        DNS.resolver(nameserver)
       end
 
       #
