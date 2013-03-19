@@ -186,7 +186,7 @@ module Ronin
           end
 
           if readable.include?(@socket)
-            client_connect(@socket.accept)
+            client_connect(accept_client_connection)
           end
         end
 
@@ -317,6 +317,18 @@ module Ronin
         end
 
         protected
+
+        #
+        # Accepts a new client connection.
+        #
+        # @return [TCPSocket]
+        #   A new connection.
+        #
+        # @since 0.6.0
+        #
+        def accept_client_connection
+          @socket.accept
+        end
 
         #
         # Creates a new connection to the server.
