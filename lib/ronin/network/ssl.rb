@@ -137,14 +137,6 @@ module Ronin
       # @since 0.6.0
       #
       def ssl_socket(socket,options={})
-        verify = options.fetch(:verify,:none)
-        cert   = options[:cert]
-        key    = options[:key]
-
-        unless SSL::VERIFY.has_key?(verify)
-          raise("unknown verify mode #{verify}")
-        end
-
         ssl_socket = OpenSSL::SSL::SSLSocket.new(socket,SSL.context(options))
         ssl_socket.sync_close = true
         return ssl_socket
