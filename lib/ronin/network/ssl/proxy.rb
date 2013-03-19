@@ -23,14 +23,146 @@ require 'ronin/network/ssl/ssl'
 module Ronin
   module Network
     module SSL
+      #
+      # The SSL Proxy allows for inspecting and manipulating SSL wrapped
+      # protocols.
+      #
+      # ## Example
+      # 
+      #     require 'ronin/network/ssl/proxy'
+      #     require 'hexdump'
+      #
+      #     Ronin::Network::SSL::Proxy.start(port: 1337, server: ['www.wired.com', 443]) do |proxy|
+      #       address = lambda { |socket|
+      #         addrinfo = socket.peeraddr
+      #
+      #        "#{addrinfo[3]}:#{addrinfo[1]}"
+      #       }
+      #       hex = Hexdump::Dumper.new
+      #
+      #       proxy.on_client_data do |client,server,data|
+      #         puts "#{address[client]} -> #{proxy}"
+      #         hex.dump(data)
+      #       end
+      #
+      #       proxy.on_client_connect do |client|
+      #         puts "#{address[client]} -> #{proxy} [connected]"
+      #       end
+      #
+      #       proxy.on_client_disconnect do |client,server|
+      #         puts "#{address[client]} <- #{proxy} [disconnected]"
+      #       end
+      #
+      #       proxy.on_server_data do |client,server,data|
+      #         puts "#{address[client]} <- #{proxy}"
+      #         hex.dump(data)
+      #       end
+      #
+      #       proxy.on_server_connect do |client,server|
+      #         puts "#{address[client]} <- #{proxy} [connected]"
+      #       end
+      #
+      #       proxy.on_server_disconnect do |client,server|
+      #         puts "#{address[client]} <- #{proxy} [disconnected]"
+      #       end
+      #     end
+      #
+      # ## Callbacks
+      #
+      # In addition to the events supported by the {Network::Proxy Proxy}
+      # base class, the SSL Proxy also supports the following callbacks.
+      #
+      # ### client_connect
+      #
+      # When a client connects to the proxy:
+      #
+      #     on_client_connect do |client|
+      #       puts "[connected] #{client.remote_address.ip_address}:#{client.remote_addre
+      #     end
+      #
+      # ### client_disconnect
+      #
+      # When a client disconnects from the proxy:
+      #
+      #     on_client_disconnect do |client,server|
+      #       puts "[disconnected] #{client.remote_address.ip_address}:#{client.remote_ad
+      #     end
+      #
+      # ### server_connect
+      #
+      # When the server accepts a connection from the proxy:
+      #
+      #     on_server_connect do |client,server|
+      #       puts "[connected] #{proxy}"
+      #     end
+      #
+      # ### server_disconnect
+      #
+      # When the server closes a connection from the proxy.
+      #
+      #     on_server_disconnect do |client,server|
+      #       puts "[disconnected] #{proxy}"
+      #     end
+      #
+      # ### connect
+      #
+      # Alias for {#on_server_connect}.
+      #
+      # ### disconnect
+      #
+      # Alias for {#on_client_disconnect}.
+      #
+      # @since 0.6.0
+      #
       class Proxy < TCP::Proxy
 
+        # The path to the SSL `.crt` file.
+        #
+        # @return [String]
         attr_accessor :cert
 
+        # The path to the SSL `.key` file.
+        #
+        # @return [String]
         attr_accessor :key
 
+        # The SSL verify mode
+        #
+        # @return [Symbol, Boolean]
         attr_accessor :verify
 
+        # Path to the CA certificate file or directory.
+        #
+        # @return [String]
+        attr_accessor :certs
+
+        #
+        # Creates a new SSL Proxy.
+        #
+        # @param [Hash] options
+        #   Additional options.
+        #
+        # @option options [String] :cert (SSL::DEFAULT_CERT_FILE)
+        #   The path to the SSL `.crt` file.
+        #
+        # @option options [String] :key (SSL::DEFAULT_KEY_FILE)
+        #   The path to the SSL `.key` file.
+        #
+        # @option options [Symbol, Boolean] :verify (:none)
+        #   The SSL verify mode. Must be one of:
+        #
+        #   * `:none`
+        #   * `:peer`
+        #   * `:fail_if_no_peer_cert`
+        #   * `:client_once`
+        #   * `true` (alias for `:peer`)
+        #   * `false` (alias for `:none`)
+        #
+        # @option options [String] :certs
+        #   Path to the CA certificate file or directory.
+        #
+        # @see Network::Proxy#initialize
+        #
         def initialize(options={},&block)
           @cert   = options.fetch(:cert,SSL::DEFAULT_CERT_FILE)
           @key    = options.fetch(:key,SSL::DEFAULT_KEY_FILE)
@@ -60,6 +192,12 @@ module Ronin
           return ssl_socket
         end
 
+        #
+        # Opens a new connection to the server.
+        #
+        # @return [OpenSSL::SSL::SSLSocket]
+        #   The new server connection.
+        #
         def open_server_connection
           server = super
 
