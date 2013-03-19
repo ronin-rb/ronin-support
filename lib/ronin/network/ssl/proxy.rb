@@ -219,6 +219,7 @@ module Ronin
 
           ssl_socket = OpenSSL::SSL::SSLSocket.new(client,context)
           ssl_socket.sync_close = true
+          ssl_socket.accept
           return ssl_socket
         end
 
