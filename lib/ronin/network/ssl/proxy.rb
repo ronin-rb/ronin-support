@@ -175,6 +175,36 @@ module Ronin
         protected
 
         #
+        # Sends data to a connection.
+        #
+        # @param [OpenSSL::SSL::SSLSocket] connection
+        #   A SSL connection to write data to.
+        # 
+        # @param [String] data
+        #   The data to write.
+        #
+        # @api public
+        #
+        def send(connection,data)
+          connection.write(data)
+        end
+
+        #
+        # Receives data from a connection.
+        #
+        # @param [OpenSSL::SSL::SSLSocket] connection
+        #   The SSL connection to receive data from.
+        #
+        # @return [String, nil]
+        #   The received data.
+        #
+        # @api public
+        #
+        def recv(connection)
+          connection.readpartial(@buffer_size)
+        end
+
+        #
         # @return [OpenSSL::SSL::SSLSocket]
         #   The new SSL connection.
         #
@@ -185,7 +215,7 @@ module Ronin
           context.verify_mode = SSL::VERIFY[@verify]
 
           context.cert = OpenSSL::X509::Certificate.new(File.new(@cert))
-          context.key = OpenSSL::PKey::RSA.new(File.new(@key))
+          context.key  = OpenSSL::PKey::RSA.new(File.new(@key))
 
           ssl_socket = OpenSSL::SSL::SSLSocket.new(client,context)
           ssl_socket.sync_close = true
@@ -205,7 +235,7 @@ module Ronin
           context.verify_mode = SSL::VERIFY[@verify]
 
           if @certs
-            if File.file?(@certs)         then context.ca_file = @certs
+            if    File.file?(@certs)      then context.ca_file = @certs
             elsif File.directory?(@certs) then context.ca_path = @certs
             end
           end
