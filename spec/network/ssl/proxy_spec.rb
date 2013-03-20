@@ -7,7 +7,7 @@ describe Network::SSL::Proxy, network: true do
 
   let(:port)   { 1337                     }
   let(:host)   { 'localhost'              }
-  let(:server) { ['www.example.com', 443] }
+  let(:server) { ['www.openssl.org', 443] }
 
   before(:each) do
     @proxy  = described_class.new(
