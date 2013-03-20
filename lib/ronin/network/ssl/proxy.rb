@@ -201,7 +201,11 @@ module Ronin
         # @api public
         #
         def recv(connection)
-          connection.readpartial(@buffer_size)
+          begin
+            connection.readpartial(@buffer_size)
+          rescue EOFError
+            ''
+          end
         end
 
         #
