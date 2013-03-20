@@ -186,7 +186,9 @@ module Ronin
           end
 
           if readable.include?(@socket)
-            client_connect(accept_client_connection)
+            if (client_socket = accept_client_connection)
+              client_connect(client_socket)
+            end
           end
         end
 
