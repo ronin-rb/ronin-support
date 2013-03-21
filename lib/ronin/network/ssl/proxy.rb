@@ -203,7 +203,7 @@ module Ronin
         def recv(connection)
           begin
             connection.readpartial(@buffer_size)
-          rescue EOFError
+          rescue Errno::ECONNRESET, EOFError
             ''
           end
         end
