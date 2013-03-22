@@ -240,9 +240,9 @@ module Ronin
         #   The new server connection.
         #
         def open_server_connection
-          server = super
+          server_socket = super
 
-          context = OpenSSL::SSL::SSLContext.new()
+          context = OpenSSL::SSL::SSLContext.new
           context.verify_mode = SSL::VERIFY[@verify]
 
           if @certs
@@ -251,7 +251,7 @@ module Ronin
             end
           end
 
-          ssl_socket = OpenSSL::SSL::SSLSocket.new(server,context)
+          ssl_socket = OpenSSL::SSL::SSLSocket.new(server_socket,context)
           ssl_socket.sync_close = true
           return ssl_socket
         end
