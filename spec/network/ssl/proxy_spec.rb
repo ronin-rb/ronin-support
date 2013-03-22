@@ -59,16 +59,16 @@ describe Network::SSL::Proxy, network: true do
   describe "#on_client_data" do
     before do
       @proxy.on_client_data do |client,server,data|
-        data.gsub!(/HTTP\/1.1/,'HTTP/1.0')
+        data.gsub!('GET /','GET /foo')
       end
 
       @socket = ssl_connect(host,port)
     end
 
     it "should trigger when the client sends data" do
-      @socket.write("GET / HTTP/1.1\r\n\r\n")
+      @socket.write("GET / HTTP/1.1\r\nHost: www.openssl.org\r\n\r\n")
 
-      @socket.readline.should == "HTTP/1.0 302 Found\r\n"
+      @socket.readline.should == "HTTP/1.1 404 Not Found\r\n"
     end
 
     after { @socket.close }
