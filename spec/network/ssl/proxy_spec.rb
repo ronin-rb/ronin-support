@@ -1,13 +1,14 @@
 require 'spec_helper'
 require 'ronin/network/ssl/proxy'
-require 'ronin/network/ssl/ssl'
 
 describe Network::SSL::Proxy, network: true do
   include Ronin::Network::SSL
 
-  let(:port)   { 1337                     }
-  let(:host)   { 'localhost'              }
-  let(:server) { ['www.openssl.org', 443] }
+  let(:port)   { 1337                  }
+  let(:host)   { 'localhost'           }
+  let(:server) { ['www.iana.org', 443] }
+
+  let(:request) { "GET / HTTP/1.1\r\nHost: #{server[0]}\r\n\r\n" }
 
   before(:each) do
     @proxy  = described_class.new(
@@ -66,9 +67,9 @@ describe Network::SSL::Proxy, network: true do
     end
 
     it "should trigger when the client sends data" do
-      @socket.write("GET / HTTP/1.1\r\nHost: www.openssl.org\r\n\r\n")
+      @socket.write(request)
 
-      @socket.readline.should == "HTTP/1.1 404 Not Found\r\n"
+      @socket.readline.should == "HTTP/1.1 404 NOT FOUND\r\n"
     end
 
     after { @socket.close }
@@ -84,7 +85,7 @@ describe Network::SSL::Proxy, network: true do
     end
 
     it "should trigger when the server sends data" do
-      @socket.write("GET / HTTP/1.0\r\n\r\n")
+      @socket.write(request)
 
       @socket.read.should include("Connection: keep-alive\r\n")
     end
@@ -104,7 +105,7 @@ describe Network::SSL::Proxy, network: true do
     end
 
     it "should trigger when the server closes the connection" do
-      @socket.write("GET / HTTP/1.0\r\n\r\n")
+      @socket.write(request)
 
       @socket.read.end_with?(injection).should be_true
     end

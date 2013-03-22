@@ -2,9 +2,11 @@ require 'spec_helper'
 require 'ronin/network/tcp/proxy'
 
 describe Network::TCP::Proxy, network: true do
-  let(:port)   { 1337                    }
-  let(:host)   { 'localhost'             }
-  let(:server) { ['www.example.com', 80] }
+  let(:port)   { 1337                 }
+  let(:host)   { 'localhost'          }
+  let(:server) { ['www.iana.org', 80] }
+
+  let(:request) { "GET / HTTP/1.1\r\nHost: #{server[0]}\r\n\r\n" }
 
   before(:each) do
     @proxy  = described_class.new(
@@ -56,16 +58,16 @@ describe Network::TCP::Proxy, network: true do
   describe "#on_client_data" do
     before do
       @proxy.on_client_data do |client,server,data|
-        data.gsub!(/HTTP\/1.1/,'HTTP/1.0')
+        data.gsub!('GET /','GET /foo')
       end
 
       @socket = TCPSocket.new(host,port)
     end
 
     it "should trigger when the client sends data" do
-      @socket.write("GET / HTTP/1.1\r\n\r\n")
+      @socket.write(request)
 
-      @socket.readline.should == "HTTP/1.0 302 Found\r\n"
+      @socket.readline.should == "HTTP/1.1 404 NOT FOUND\r\n"
     end
 
     after { @socket.close }
@@ -81,7 +83,7 @@ describe Network::TCP::Proxy, network: true do
     end
 
     it "should trigger when the server sends data" do
-      @socket.write("GET / HTTP/1.0\r\n\r\n")
+      @socket.write(request)
 
       @socket.read.should include("Connection: keep-alive\r\n")
     end
@@ -101,7 +103,7 @@ describe Network::TCP::Proxy, network: true do
     end
 
     it "should trigger when the server closes the connection" do
-      @socket.write("GET / HTTP/1.0\r\n\r\n")
+      @socket.write(request)
 
       @socket.read.end_with?(injection).should be_true
     end
