@@ -28,6 +28,8 @@ module Ronin
     # Provides helper methods for communicating with SMTP services.
     #
     module SMTP
+      include SSL
+
       # Default SMTP port
       DEFAULT_PORT = 25
 
@@ -148,11 +150,11 @@ module Ronin
 
         case options[:ssl]
         when Hash
-          ssl         = true
-          ssl_context = SSL.context(options[:ssl])
+          ssl     = true
+          context = ssl_context(options[:ssl])
         when TrueClass
-          ssl         = true
-          ssl_context = SSL.context
+          ssl     = true
+          context = ssl_context
         end
 
         helo     = options[:helo]
@@ -161,7 +163,7 @@ module Ronin
         password = options[:password]
 
         smtp = Net::SMTP.new(host,port)
-        smtp.enable_starttls(ssl_context) if ssl
+        smtp.enable_starttls(context) if ssl
         smtp.start(helo,user,password,auth)
 
         yield smtp if block_given?

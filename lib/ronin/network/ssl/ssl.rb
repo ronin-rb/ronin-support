@@ -80,7 +80,7 @@ module Ronin
       #
       # @since 0.6.0
       #
-      def self.context(options={})
+      def ssl_context(options={})
         context = OpenSSL::SSL::SSLContext.new()
         context.verify_mode = SSL::VERIFY[options.fetch(:verify,:none)]
 
@@ -137,7 +137,7 @@ module Ronin
       # @since 0.6.0
       #
       def ssl_socket(socket,options={})
-        ssl_socket = OpenSSL::SSL::SSLSocket.new(socket,SSL.context(options))
+        ssl_socket = OpenSSL::SSL::SSLSocket.new(socket,ssl_context(options))
         ssl_socket.sync_close = true
         return ssl_socket
       end
