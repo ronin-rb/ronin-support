@@ -33,70 +33,6 @@ describe Network::SSL do
     end
   end
 
-  describe "context" do
-    subject { described_class.context }
-
-    it "should return an OpenSSL::SSL::SSLContext object" do
-      subject.should be_kind_of(OpenSSL::SSL::SSLContext)
-    end
-
-    describe "defaults" do
-      its(:verify_mode) { should == OpenSSL::SSL::VERIFY_NONE }
-      its(:cert)        { should be_nil }
-      its(:key)         { should be_nil }
-    end
-
-    describe ":verify" do
-      subject { described_class.context(verify: :peer) }
-
-      it "should set verify_mode" do
-        subject.verify_mode.should == OpenSSL::SSL::VERIFY_PEER
-      end
-    end
-
-    describe ":cert" do
-      let(:cert) { File.join(File.dirname(__FILE__),'ssl.crt') }
-
-      subject { described_class.context(cert: cert) }
-
-      it "should set cert" do
-        subject.cert.to_s.should == File.read(cert)
-      end
-    end
-
-    describe ":key" do
-      let(:key) { File.join(File.dirname(__FILE__),'ssl.key') }
-
-      subject { described_class.context(key: key) }
-
-      it "should set key" do
-        subject.key.to_s.should == File.read(key)
-      end
-    end
-
-    describe ":certs" do
-      context "when value is a file" do
-        let(:file) { File.join(File.dirname(__FILE__),'ssl.crt') }
-
-        subject { described_class.context(certs: file) }
-
-        it "should set ca_file" do
-          subject.ca_file.should == file
-        end
-      end
-
-      context "when value is a directory" do
-        let(:dir) { File.dirname(__FILE__) }
-
-        subject { described_class.context(certs: dir) }
-
-        it "should set ca_path" do
-          subject.ca_path.should == dir
-        end
-      end
-    end
-  end
-
   describe "helpers", network: true do
     let(:host) { 'smtp.gmail.com' }
     let(:port) { 465 }
@@ -108,6 +44,70 @@ describe Network::SSL do
       obj = Object.new
       obj.extend described_class
       obj
+    end
+
+    describe "#ssl_context", network: false do
+      describe "defaults" do
+        subject { super().ssl_context }
+
+        it "should return an OpenSSL::SSL::SSLContext object" do
+          subject.should be_kind_of(OpenSSL::SSL::SSLContext)
+        end
+
+        its(:verify_mode) { should == OpenSSL::SSL::VERIFY_NONE }
+        its(:cert)        { should be_nil }
+        its(:key)         { should be_nil }
+      end
+
+      describe ":verify" do
+        subject { super().ssl_context(verify: :peer) }
+
+        it "should set verify_mode" do
+          subject.verify_mode.should == OpenSSL::SSL::VERIFY_PEER
+        end
+      end
+
+      describe ":cert" do
+        let(:cert) { File.join(File.dirname(__FILE__),'ssl.crt') }
+
+        subject { super().ssl_context(cert: cert) }
+
+        it "should set cert" do
+          subject.cert.to_s.should == File.read(cert)
+        end
+      end
+
+      describe ":key" do
+        let(:key) { File.join(File.dirname(__FILE__),'ssl.key') }
+
+        subject { super().ssl_context(key: key) }
+
+        it "should set key" do
+          subject.key.to_s.should == File.read(key)
+        end
+      end
+
+      describe ":certs" do
+        context "when value is a file" do
+          let(:file) { File.join(File.dirname(__FILE__),'ssl.crt') }
+
+          subject { super().ssl_context(certs: file) }
+
+          it "should set ca_file" do
+            subject.ca_file.should == file
+          end
+        end
+
+        context "when value is a directory" do
+          let(:dir) { File.dirname(__FILE__) }
+
+          subject { super().ssl_context(certs: dir) }
+
+          it "should set ca_path" do
+            subject.ca_path.should == dir
+          end
+        end
+      end
     end
 
     describe "#ssl_socket" do
