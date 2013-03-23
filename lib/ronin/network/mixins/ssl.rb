@@ -83,46 +83,44 @@ module Ronin
                             description: 'SSL key file'
 
         #
-        # Initiates an SSL session with an existing TCP socket.
-        #
-        # @param [TCPSocket] socket
-        #   The existing TCP socket.
+        # Creates a new SSL Context.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Symbol, Boolean] :verify
+        # @option options [Symbol, Boolean] :verify (#ssl_verify)
         #   Specifies whether to verify the SSL certificate.
-        #   Defaults to {#ssl_verify}. May be one of the following:
+        #   May be one of the following:
         #
         #   * `:none`
         #   * `:peer`
         #   * `:fail_if_no_peer_cert`
         #   * `:client_once`
         #
-        # @option options [String] :cert
-        #   The path to the SSL `.crt` file. Defaults to {#ssl_cert}.
+        # @option options [String] :cert (#ssl_cert)
+        #   The path to the SSL `.crt` file.
         #
-        # @option options [String] :key
-        #   The path to the SSL `.key` file. Defaults to {#ssl_key}.
+        # @option options [String] :key (#ssl_key)
+        #   The path to the SSL `.key` file.
         #
-        # @return [OpenSSL::SSL::SSLSocket]
-        #   the new SSL Socket.
+        # @option options [String] :certs
+        #   Path to the CA certificate file or directory.
         #
-        # @see Network::SSL#ssl_socket
+        # @return [OpenSSL::SSL::SSLContext]
+        #   The newly created SSL Context.
         #
-        # @api public
+        # @see Network::SSL#ssl_context
+        #
+        # @api semipublic
         #
         # @since 0.6.0
         #
-        def ssl_socket(socket,options={})
-          options = {
+        def ssl_context(options={})
+          super({
             verify: self.ssl_verify,
             cert:   self.ssl_cert,
             key:    self.ssl_key
-          }.merge(options)
-
-          return super(socket,options)
+          }.merge(options))
         end
 
         #
