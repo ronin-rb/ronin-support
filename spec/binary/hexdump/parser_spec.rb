@@ -3,79 +3,40 @@ require 'binary/hexdump/helpers/hexdumps'
 
 require 'ronin/binary/hexdump/parser'
 
+shared_examples_for "hexdump format" do |format,encoding|
+  encoding_name = encoding.to_s.gsub('_','-')
+
+  context encoding_name do
+    subject do
+      described_class.new(format: format, encoding: encoding)
+    end
+
+    let(:hexdump) { load_hexdump("#{format}_#{encoding}") }
+    let(:ascii) { load_binary_data('ascii') }
+
+    it "should unhexdump #{encoding_name} hexdump output" do
+      subject.parse(hexdump).should == ascii
+    end
+  end
+end
+
 describe Binary::Hexdump::Parser do
   include Helpers
 
   context "GNU hexdump" do
-    let(:ascii) { load_binary_data('ascii') }
-    let(:repeated) { load_binary_data('repeated') }
-
-    context "octal bytes" do
-      subject do
-        described_class.new(format: :hexdump, encoding: :octal_bytes)
-      end
-
-      let(:hexdump) { load_hexdump('hexdump_octal_bytes') }
-
-      it "should unhexdump octal-byte hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
-
-    context " hex bytes" do
-      subject do
-        described_class.new(format: :hexdump, encoding: :hex_bytes)
-      end
-
-      let(:hexdump) { load_hexdump('hexdump_hex_bytes') }
-
-      it "should unhexdump hex-byte hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
-
-    context "decimal shorts" do
-      subject do
-        described_class.new(format: :hexdump, encoding: :decimal_shorts)
-      end
-
-      let(:hexdump) { load_hexdump('hexdump_decimal_shorts') }
-
-      it "should unhexdump decimal-short hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
-
-    context "octal shorts" do
-      subject do
-        described_class.new(format: :hexdump, encoding: :octal_shorts)
-      end
-
-      let(:hexdump) { load_hexdump('hexdump_octal_shorts') }
-
-      it "should unhexdump octal-short hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
-
-    context "hex shorts" do
-      subject do
-        described_class.new(format: :hexdump, encoding: :hex_shorts)
-      end
-
-      let(:hexdump) { load_hexdump('hexdump_hex_shorts') }
-
-      it "should unhexdump hex-short hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
+    include_context "hexdump format", :hexdump, :octal_bytes
+    include_context "hexdump format", :hexdump, :hex_bytes
+    include_context "hexdump format", :hexdump, :decimal_shorts
+    include_context "hexdump format", :hexdump, :octal_shorts
+    include_context "hexdump format", :hexdump, :hex_shorts
 
     context "repeated" do
       subject do
         described_class.new(format: :hexdump, encoding: :hex_bytes)
       end
 
-      let(:hexdump) { load_hexdump('hexdump_repeated') }
+      let(:hexdump)  { load_hexdump('hexdump_repeated') }
+      let(:repeated) { load_binary_data('repeated')     }
 
       it "should unhexdump repeated hexdump output" do
         subject.parse(hexdump).should == repeated
@@ -85,103 +46,19 @@ describe Binary::Hexdump::Parser do
 
   context "od" do
     let(:ascii) { load_binary_data('ascii') }
-    let(:repeated) { load_binary_data('repeated') }
 
-    context "octal bytes" do
-      subject do
-        described_class.new(format: :od, encoding: :octal_bytes)
-      end
-
-      let(:hexdump) { load_hexdump('od_octal_bytes') }
-
-      it "should unhexdump octal-byte hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
-
-    context "octal shorts" do
-      subject do
-        described_class.new(format: :od, encoding: :octal_shorts)
-      end
-
-      let(:hexdump) { load_hexdump('od_octal_shorts') }
-
-      it "should unhexdump octal-shorts hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
-
-    context "octal ints" do
-      subject do
-        described_class.new(format: :od, encoding: :octal_ints)
-      end
-
-      let(:hexdump) { load_hexdump('od_octal_ints') }
-
-      it "should unhexdump octal-ints hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
-
-    context "octal quads" do
-      subject do
-        described_class.new(format: :od, encoding: :octal_quads)
-      end
-
-      let(:hexdump) { load_hexdump('od_octal_quads') }
-
-      it "should unhexdump octal-quads hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
-
-    context "decimal bytes" do
-      subject do
-        described_class.new(format: :od, encoding: :decimal_bytes)
-      end
-
-      let(:hexdump) { load_hexdump('od_decimal_bytes') }
-
-      it "should unhexdump decimal-byte hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
-
-    context "decimal shorts" do
-      subject do
-        described_class.new(format: :od, encoding: :decimal_shorts)
-      end
-
-      let(:hexdump) { load_hexdump('od_decimal_shorts') }
-
-      it "should unhexdump decimal-shorts hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
-
-    context "decimal ints" do
-      subject do
-        described_class.new(format: :od, encoding: :decimal_ints)
-      end
-
-      let(:hexdump) { load_hexdump('od_decimal_ints') }
-
-      it "should unhexdump decimal-ints hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
-
-    context "decimal quads" do
-      subject do
-        described_class.new(format: :od, encoding: :decimal_quads)
-      end
-
-      let(:hexdump) { load_hexdump('od_decimal_quads') }
-
-      it "should unhexdump decimal-quads hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
+    include_context "hexdump format", :od, :octal_bytes
+    include_context "hexdump format", :od, :octal_shorts
+    include_context "hexdump format", :od, :octal_ints
+    include_context "hexdump format", :od, :octal_quads
+    include_context "hexdump format", :od, :decimal_bytes
+    include_context "hexdump format", :od, :decimal_shorts
+    include_context "hexdump format", :od, :decimal_ints
+    include_context "hexdump format", :od, :decimal_quads
+    include_context "hexdump format", :od, :hex_bytes
+    include_context "hexdump format", :od, :hex_shorts
+    include_context "hexdump format", :od, :hex_ints
+    include_context "hexdump format", :od, :hex_quads
 
     context "named chars" do
       subject do
@@ -194,54 +71,6 @@ describe Binary::Hexdump::Parser do
 
       it "should unhexdump named characters" do
         subject.parse(hexdump).should == data
-      end
-    end
-
-    context "hex bytes" do
-      subject do
-        described_class.new(format: :od, encoding: :hex_bytes)
-      end
-
-      let(:hexdump) { load_hexdump('od_hex_bytes') }
-
-      it "should unhexdump hex-byte hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
-
-    context "hex shorts" do
-      subject do
-        described_class.new(format: :od, encoding: :hex_shorts)
-      end
-
-      let(:hexdump) { load_hexdump('od_hex_shorts') }
-
-      it "should unhexdump hex-shorts hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
-
-    context "hex ints" do
-      subject do
-        described_class.new(format: :od, encoding: :hex_ints)
-      end
-
-      let(:hexdump) { load_hexdump('od_hex_ints') }
-
-      it "should unhexdump hex-ints hexdump output" do
-        subject.parse(hexdump).should == ascii
-      end
-    end
-
-    context "hex quads" do
-      subject do
-        described_class.new(format: :od, encoding: :hex_quads)
-      end
-
-      let(:hexdump) { load_hexdump('od_hex_quads') }
-
-      it "should unhexdump hex-quads hexdump output" do
-        subject.parse(hexdump).should == ascii
       end
     end
 
@@ -286,7 +115,8 @@ describe Binary::Hexdump::Parser do
         described_class.new(format: :od, encoding: :octal_shorts)
       end
 
-      let(:hexdump) { load_hexdump('od_repeated') }
+      let(:hexdump)  { load_hexdump('od_repeated')  }
+      let(:repeated) { load_binary_data('repeated') }
 
       it "should unhexdump repeated hexdump output" do
         subject.parse(hexdump).should == repeated
