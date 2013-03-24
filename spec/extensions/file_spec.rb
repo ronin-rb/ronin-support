@@ -4,7 +4,7 @@ require 'ronin/extensions/file'
 require 'tempfile'
 
 describe File do
-  subject { File }
+  subject { described_class }
 
   it "should provide File.escape_path" do
     subject.should respond_to(:escape_path)
@@ -20,7 +20,7 @@ describe File do
     end
 
     it "should enumerate over each line in the file" do
-      File.each_line(@file.path).to_a.should == lines
+      subject.each_line(@file.path).to_a.should == lines
     end
   end
 
@@ -43,21 +43,21 @@ describe File do
     end
 
     it "should enumerate over each row from each line" do
-      File.each_row(@file.path,separator).to_a.should == rows
+      subject.each_row(@file.path,separator).to_a.should == rows
     end
   end
 
   describe "escape_path" do
     it "should remove null-bytes" do
-      File.escape_path("hello\0world\0").should == "helloworld"
+      subject.escape_path("hello\0world\0").should == "helloworld"
     end
 
     it "should escape home-dir expansions" do
-      File.escape_path("hello/~world").should == "hello/\\~world"
+      subject.escape_path("hello/~world").should == "hello/\\~world"
     end
 
     it "should remove '.' and '..' directories" do
-      File.escape_path("hello/./../world").should == "world"
+      subject.escape_path("hello/./../world").should == "world"
     end
   end
 end
