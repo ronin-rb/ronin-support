@@ -38,7 +38,7 @@ namespace :spec do
   end
 end
 
-task :test => :spec
+task :test    => :spec
 task :default => :spec
 
 require 'yard'
