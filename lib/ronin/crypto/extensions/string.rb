@@ -135,9 +135,6 @@ class String
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [:encrypt, :decrypt] :mode
-  #   The cipher mode.
-  #
   # @option options [Symbol] :hash (:sha1)
   #   The algorithm to hash the `:password`.
   #
@@ -176,9 +173,6 @@ class String
   #
   # @param [Hash] options
   #   Additional options.
-  #
-  # @option options [:encrypt, :decrypt] :mode
-  #   The cipher mode.
   #
   # @option options [Symbol] :hash (:sha1)
   #   The algorithm to hash the `:password`.
