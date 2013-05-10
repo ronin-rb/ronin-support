@@ -259,7 +259,7 @@ class String
   # @since 0.5.0
   #
   def unescape
-    buffer     = ''
+    buffer     = ''.force_encoding(Encoding::ASCII)
     hex_index  = 0
     hex_length = length
 
@@ -283,7 +283,7 @@ class String
       end
     end
 
-    return buffer
+    return buffer.force_encoding(__ENCODING__)
   end
 
 end
