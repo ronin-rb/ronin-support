@@ -283,7 +283,7 @@ class String
       end
     end
 
-    return buffer.force_encoding(Encoding::UTF_8)
+    return buffer.force_encoding(__ENCODING__)
   end
 
 end
