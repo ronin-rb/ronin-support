@@ -267,8 +267,8 @@ class String
       hex_substring = self[hex_index..-1]
 
       if hex_substring =~ /^\\[0-7]{3}/
-        buffer    << hex_substring[0,4].to_i(8)
-        hex_index += 3
+        buffer    << hex_substring[1,3].to_i(8)
+        hex_index += 4
       elsif hex_substring =~ /^\\x[0-9a-fA-F]{1,2}/
         hex_substring[2..-1].scan(/^[0-9a-fA-F]{1,2}/) do |hex_byte|
           buffer    << hex_byte.to_i(16)
