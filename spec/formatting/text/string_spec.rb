@@ -148,7 +148,7 @@ describe String do
     end
 
     it "should unescape an octal String" do
-      "hello\012".unescape.should == "hello\n"
+      "hello\\012".unescape.should == "hello\n"
     end
 
     it "should unescape control characters" do
