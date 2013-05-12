@@ -18,6 +18,7 @@
 #
 
 require 'chars/char_set'
+require 'strscan'
 
 class String
 
@@ -259,27 +260,18 @@ class String
   # @since 0.5.0
   #
   def unescape
-    buffer     = ''.force_encoding(Encoding::ASCII)
-    hex_index  = 0
-    hex_length = length
+    buffer  = ''.force_encoding(Encoding::ASCII)
+    scanner = StringScanner.new(self)
 
-    while (hex_index < hex_length)
-      hex_substring = self[hex_index..-1]
-
-      if hex_substring =~ /^\\[0-7]{3}/
-        buffer    << hex_substring[1,3].to_i(8)
-        hex_index += 4
-      elsif hex_substring =~ /^\\x[0-9a-fA-F]{1,2}/
-        hex_substring[2..-1].scan(/^[0-9a-fA-F]{1,2}/) do |hex_byte|
-          buffer    << hex_byte.to_i(16)
-          hex_index += (2 + hex_byte.length)
-        end
-      elsif hex_substring =~ /^\\./
-        buffer    << UNESCAPE_CHARS[hex_substring[0,2]]
-        hex_index += 2
+    until scanner.eos?
+      if (unicode_escape = scanner.scan(/\\[0-7]{3}/))
+        buffer << unicode_escape[1,3].to_i(8)
+      elsif (hex_escape = scanner.scan(/\\x[0-9a-fA-F]{1,2}/))
+        buffer << hex_escape[2..-1].to_i(16)
+      elsif (escape = scanner.scan(/\\./))
+        buffer << UNESCAPE_CHARS[escape]
       else
-        buffer    << hex_substring[0,1]
-        hex_index += 1
+        buffer << scanner.getch
       end
     end
 
