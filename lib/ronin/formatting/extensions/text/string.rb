@@ -230,10 +230,8 @@ class String
 
   # Common escaped characters.
   UNESCAPE_CHARS = Hash.new do |hash,char|
-    if char[0,1] == '\\'
-      char[1,1]
-    else
-      char
+    if char[0,1] == '\\' then char[1,1]
+    else                      char
     end
   end
   UNESCAPE_CHARS['\0'] = "\0"
