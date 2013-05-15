@@ -258,6 +258,12 @@ module Ronin
       # @param [Integer] local_port
       #   The local port to bind to.
       #
+      # @yield [socket]
+      #   If a block is given, it will be passed the newly created socket.
+      #
+      # @yieldparam [TCPsocket] socket
+      #   The newly created TCP socket.
+      #
       # @return [true]
       #   The data was successfully sent.
       #
@@ -271,6 +277,7 @@ module Ronin
       def tcp_send(data,host,port,local_host=nil,local_port=nil)
         tcp_session(host,port,local_host,local_port) do |socket|
           socket.write(data)
+          yield socket if block_given?
         end
 
         return true
