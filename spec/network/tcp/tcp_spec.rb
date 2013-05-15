@@ -209,6 +209,18 @@ describe Network::TCP do
           client.close
         end
       end
+
+      context "when a block is given" do
+        it "should yield the new TCPSocket" do
+          socket = nil
+
+          subject.tcp_send(data,server_host,server_port) do |yielded_socket|
+            socket = yielded_socket
+          end
+
+          socket.should be_kind_of(TCPSocket)
+        end
+      end
     end
 
     describe "#tcp_server" do
