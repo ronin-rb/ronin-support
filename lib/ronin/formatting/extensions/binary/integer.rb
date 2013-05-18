@@ -141,7 +141,7 @@ class Integer
   # @since 0.6.0
   #
   def hex_encode
-    "%x" % self
+    "%.2x" % self
   end
 
   #
