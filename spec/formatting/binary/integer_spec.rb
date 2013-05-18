@@ -14,12 +14,24 @@ describe Integer do
     should respond_to(:pack)
   end
 
+  it "should provide Integer#hex_encode" do
+    should respond_to(:hex_encode)
+  end
+
   it "should provide Integer#hex_escape" do
     should respond_to(:hex_escape)
   end
 
   it "should alias char to the #chr method" do
     subject.char.should == subject.chr
+  end
+
+  describe "#hex_encode" do
+    subject { 42 }
+
+    it "should hex encode an Integer" do
+      subject.hex_encode.should == "42"
+    end
   end
 
   describe "#hex_escape" do

@@ -129,6 +129,22 @@ class Integer
   end
 
   #
+  # Hex-encodes the Integer.
+  #
+  # @return [String]
+  #   The hex encoded version of the Integer.
+  #
+  # @example
+  #   0x41.hex_encode
+  #   # => "41"
+  #
+  # @since 0.6.0
+  #
+  def hex_encode
+    "%X" % self
+  end
+
+  #
   # @return [String]
   #   The hex escaped version of the Integer.
   #
