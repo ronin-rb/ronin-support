@@ -30,7 +30,7 @@ describe Integer do
     subject { 42 }
 
     it "should hex encode an Integer" do
-      subject.hex_encode.should == "42"
+      subject.hex_encode.should == "2A"
     end
   end
 
