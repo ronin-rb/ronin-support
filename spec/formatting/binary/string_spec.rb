@@ -100,12 +100,12 @@ describe String do
     subject { "hello\x4e" }
 
     it "should hex encode a String" do
-      subject.hex_encode.should == "68656C6C6F4E"
+      subject.hex_encode.should == "68656c6c6f4e"
     end
   end
 
   describe "#hex_decode" do
-    subject { "68656C6C6F4E" }
+    subject { "68656c6c6f4e" }
 
     it "should hex decode a String" do
       subject.hex_decode.should == "hello\x4e"
