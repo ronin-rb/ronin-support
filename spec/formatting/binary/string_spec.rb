@@ -24,6 +24,14 @@ describe String do
     should respond_to(:zlib_deflate)
   end
 
+  it "should provide String#hex_encode" do
+    should respond_to(:hex_encode)
+  end
+
+  it "should provide String#hex_decode" do
+    should respond_to(:hex_decode)
+  end
+
   it "should provide String#hex_unescape" do
     should respond_to(:hex_unescape)
   end
@@ -85,6 +93,22 @@ describe String do
 
     it "should zlib deflate a String" do
       subject.zlib_deflate.should == "x\x9c\xcbH\xcd\xc9\xc9\a\0\x06,\x02\x15"
+    end
+  end
+
+  describe "#hex_encode" do
+    subject { "hello\x4e" }
+
+    it "should hex encode a String" do
+      subject.hex_encode.should == "68656C6C6F4E"
+    end
+  end
+
+  describe "#hex_decode" do
+    subject { "68656C6C6F4E" }
+
+    it "should hex decode a String" do
+      subject.hex_decode.should == "hello\x4e"
     end
   end
 

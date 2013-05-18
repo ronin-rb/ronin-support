@@ -70,6 +70,36 @@ class String
   end
 
   #
+  # Hex-encodes characters in the String.
+  #
+  # @return [String]
+  #   The hex encoded version of the String.
+  #
+  # @example
+  #   "hello".hex_encode
+  #   # => "68656C6C6F"
+  #
+  # @since 0.6.0
+  #
+  def hex_encode
+    format_bytes { |b| b.hex_encode }
+  end
+
+  #
+  # Hex-decodes the String.
+  #
+  # @return [String]
+  #   The hex decoded version of the String.
+  #
+  # @example
+  #   "68656C6C6F".hex_decode
+  #   # => "hello"
+  #
+  def hex_decode
+    scan(/../).map { |hex| hex.to_i(16).chr }.join
+  end
+
+  #
   # Hex-escapes characters in the String.
   #
   # @return [String]
