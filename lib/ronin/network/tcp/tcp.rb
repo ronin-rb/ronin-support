@@ -276,7 +276,7 @@ module Ronin
       #
       def tcp_send(data,host,port,local_host=nil,local_port=nil)
         tcp_session(host,port,local_host,local_port) do |socket|
-          socket.write(data)
+          socket.send(data,0)
           yield socket if block_given?
         end
 
