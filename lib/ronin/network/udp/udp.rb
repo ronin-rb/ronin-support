@@ -242,7 +242,7 @@ module Ronin
       #
       def udp_send(data,host,port,local_host=nil,local_port=nil)
         udp_session(host,port,local_host,local_port) do |socket|
-          socket.write(data)
+          socket.send(data,0)
         end
 
         return true
