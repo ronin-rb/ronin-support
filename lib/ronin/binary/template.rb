@@ -111,11 +111,6 @@ module Ronin
         int32: 'l',
         int64: 'q',
 
-        uint16_le: 'v',
-        uint32_le: 'V',
-        uint16_be: 'n',
-        uint32_be: 'N',
-
         uchar:      'Z',
         ushort:     'S!',
         uint:       'I!',
