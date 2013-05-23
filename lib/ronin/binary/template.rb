@@ -180,6 +180,55 @@ module Ronin
         long_long_be: 'q>'
       }
 
+      # Big and little endian types
+      ENDIAN_TYPES = {
+        big: {
+          uint16:     :uint16_be,
+          uint32:     :uint32_be,
+          uint64:     :uint64_be,
+
+          int16_be:   :int16_be,
+          int32_be:   :int32_be,
+          int64_be:   :int64_be,
+
+          ushort:     :ushort_be,
+          uint:       :uint_be,
+          ulong:      :ulong_be,
+          ulong_long: :ulong_long_be,
+
+          short:      :short_be,
+          int:        :int_be,
+          long:       :long_be,
+          long_long:  :long_long_be,
+
+          float:      :float_be,
+          double:     :double_be
+        },
+
+        little: {
+          uint16:     :uint16_le,
+          uint32:     :uint32_le,
+          uint64:     :uint64_le,
+
+          int16_le:   :int16_le,
+          int32_le:   :int32_le,
+          int64_le:   :int64_le,
+
+          ushort:     :ushort_le,
+          uint:       :uint_le,
+          ulong:      :ulong_le,
+          ulong_long: :ulong_long_le,
+
+          short:      :short_le,
+          int:        :int_le,
+          long:       :long_le,
+          long_long:  :long_long_le,
+
+          float:      :float_le,
+          double:     :double_le
+        }
+      }
+
       # Integer C-types
       INT_TYPES = Set[
         :uint8, :uint16, :uint32, :uint64,
@@ -208,15 +257,6 @@ module Ronin
 
       # String C-types
       STRING_TYPES = CHAR_TYPES + Set[:string]
-
-      # Types which have little and big endian forms
-      ENDIAN_TYPES = Set[
-        :uint16, :uint32, :uint64,
-        :int16, :int32, :int64,
-        :ushort, :uint, :ulong, :ulong_long,
-        :short, :int, :long, :long_long,
-        :float, :double
-      ]
 
       # The fields of the template
       attr_reader :fields
@@ -270,13 +310,8 @@ module Ronin
       #   The value of `:endian` is unknown.
       #
       def self.translate(type,options={})
-        if (options[:endian] && ENDIAN_TYPES.include?(type))
-          type = case options[:endian]
-                 when :little        then :"#{type}_le"
-                 when :big, :network then :"#{type}_be"
-                 else
-                   raise(ArgumentError,"unknown endianness: #{type}")
-                 end
+        if (options[:endian] && ENDIAN_TYPES[options[:endian]].has_key?(type))
+          type = ENDIAN_TYPES[options[:endian]][type]
         end
 
         return type
@@ -303,9 +338,12 @@ module Ronin
       #
       def self.compile(types,options={})
         string = ''
+        endian = options[:endian]
 
         types.each do |(type,length)|
-          type = translate(type,options)
+          if endian
+            type = ENDIAN_TYPES[endian].fetch(type,type)
+          end
 
           unless (code = TYPES[type])
             raise(ArgumentError,"#{type.inspect} not supported")
