@@ -66,26 +66,6 @@ describe Binary::Template do
     it("long_long_be  => L!>") { subject[:long_long_be].should  == 'q>' }
   end
 
-  describe "translate" do
-    subject { described_class }
-
-    context "when given :endian" do
-      it "should translate endian-types" do
-        subject.translate(:uint, endian: :little).should == :uint_le
-      end
-
-      it "should not translate non-endian-types" do
-        subject.translate(:string, endian: :little).should == :string
-      end
-
-      it "should raise an ArgumentError for unknown endianness" do
-        lambda {
-          subject.translate(:uint, endian: :foo)
-        }.should raise_error(ArgumentError)
-      end
-    end
-  end
-
   describe "compile" do
     let(:type) { :uint }
     let(:code) { subject::TYPES[type] }
@@ -104,6 +84,19 @@ describe Binary::Template do
       lambda {
         subject.compile([:foo])
       }.should raise_error(ArgumentError)
+    end
+
+    context "when the :endian is given" do
+      let(:endian) { :big  }
+      let(:code)   { 'I!>' }
+
+      it "should translate endian types" do
+        subject.compile([type], endian: endian).should == code
+      end
+
+      it "should not translate non-endian types" do
+        subject.compile([:byte], endian: endian).should == 'c'
+      end
     end
   end
 
