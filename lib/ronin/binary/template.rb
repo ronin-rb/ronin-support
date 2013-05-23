@@ -182,63 +182,18 @@ module Ronin
 
       # Integer C-types
       INT_TYPES = Set[
-        :uint8,
-        :uint16,
-        :uint32,
-        :uint64,
-
-        :int8,
-        :int16,
-        :int32,
-        :int64,
-
-        :ubyte,
-        :ushort,
-        :uint,
-        :ulong,
-        :ulong_long,
-
-        :byte,
-        :short,
-        :int,
-        :long,
-        :long_long,
-
-        :uint16_le,
-        :uint32_le,
-        :uint64_le,
-
-        :int16_le,
-        :int32_le,
-        :int64_le,
-
-        :ushort_le,
-        :uint_le,
-        :ulong_le,
-        :ulong_long_le,
-
-        :short_le,
-        :int_le,
-        :long_le,
-        :long_long_le,
-
-        :uint16_be,
-        :uint32_be,
-        :uint64_be,
-
-        :int16_be,
-        :int32_be,
-        :int64_be,
-
-        :ushort_be,
-        :uint_be,
-        :ulong_be,
-        :ulong_long_be,
-
-        :short_be,
-        :int_be,
-        :long_be,
-        :long_long_be
+        :uint8, :uint16, :uint32, :uint64,
+        :int8, :int16, :int32, :int64,
+        :ubyte, :ushort, :uint, :ulong, :ulong_long,
+        :byte, :short, :int, :long, :long_long,
+        :uint16_le, :uint32_le, :uint64_le,
+        :int16_le, :int32_le, :int64_le,
+        :ushort_le, :uint_le, :ulong_le, :ulong_long_le,
+        :short_le, :int_le, :long_le, :long_long_le,
+        :uint16_be, :uint32_be, :uint64_be,
+        :int16_be, :int32_be, :int64_be,
+        :ushort_be, :uint_be, :ulong_be, :ulong_long_be,
+        :short_be, :int_be, :long_be, :long_long_be
       ]
 
       # Float C-types
