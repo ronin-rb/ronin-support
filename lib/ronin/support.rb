@@ -27,3 +27,5 @@ require 'ronin/path'
 require 'ronin/templates'
 require 'ronin/support/support'
 require 'ronin/support/version'
+
+include Ronin::Support
