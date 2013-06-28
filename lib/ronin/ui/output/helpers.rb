@@ -17,13 +17,14 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/ui/output/output'
 require 'ronin/ui/printing'
 
 module Ronin
   module UI
-    # Point Ronin::UI::Output::Helpers to Ronin::UI::Printing for backwards
-    # compatibility.
-    Output::Helpers = Printing
+    module Output
+      # Point Ronin::UI::Output::Helpers to Ronin::UI::Printing for backwards
+      # compatibility.
+      Helpers = Printing
+    end
   end
 end
