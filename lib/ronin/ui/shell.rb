@@ -119,7 +119,7 @@ module Ronin
       # @option options [String] :prompt (DEFAULT_PROMPT)
       #   The prompt to use for the shell.
       #
-      # @yield [shell, line]
+      # @yield [(shell), line]
       #   The block that will be passed every command entered.
       #
       # @yieldparam [Shell] shell
@@ -146,7 +146,7 @@ module Ronin
           end
         end
 
-        @input_handler = block
+        @input_handler = (block || method(:run))
       end
 
       #
@@ -196,7 +196,10 @@ module Ronin
             history_rollback += 1
 
             begin
-              run(line)
+              case @input_handler.arity
+              when 2, -1 then @input_handler.call(self,line)
+              else            @input_handler.call(line)
+              end
             rescue => e
               print_error "#{e.class.name}: #{e.message}"
             end
@@ -218,25 +221,21 @@ module Ronin
       # @api semipublic
       #
       def run(line)
-        if @input_handler
-          @input_handler.call(self,line)
-        else
-          arguments = line.split(/\s+/)
-          command   = arguments.shift
+        arguments = line.split(/\s+/)
+        command   = arguments.shift
 
-          # ignore empty lines
-          return false unless command
+        # ignore empty lines
+        return false unless command
 
-          # no explicitly calling handler
-          return false if command == 'handler'
+        # no explicitly calling handler
+        return false if command == 'handler'
 
-          unless @commands.include?(command)
-            print_error "Invalid command: #{command}"
-            return false
-          end
-
-          return send(command,*arguments)
+        unless @commands.include?(command)
+          print_error "Invalid command: #{command}"
+          return false
         end
+
+        return send(command,*arguments)
       end
 
       #

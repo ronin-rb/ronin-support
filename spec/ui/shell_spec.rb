@@ -7,11 +7,16 @@ describe UI::Shell do
   context "with handler callback" do
     let(:line) { 'one two three' }
 
+    before do
+      Readline.stub(:readline).and_return(line,'exit')
+    end
+
     it "should call the input handler with the shell and input line" do
       lines = []
-      shell = described_class.new { |shell,input| lines << input }
 
-      shell.run(line)
+      described_class.start do |shell,input|
+        lines << input
+      end
 
       lines.should == [line]
     end
