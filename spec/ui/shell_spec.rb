@@ -11,7 +11,7 @@ describe UI::Shell do
       lines = []
       shell = described_class.new { |shell,input| lines << input }
 
-      shell.call(line)
+      shell.run(line)
 
       lines.should == [line]
     end
@@ -38,43 +38,43 @@ describe UI::Shell do
       end
     end
 
-    describe "#call" do
+    describe "#run" do
       it "should ignore empty lines" do
-        subject.call('').should == false
+        subject.run('').should == false
       end
 
       it "should ignore white-space lines" do
-        subject.call("     \t   ").should == false
+        subject.run("     \t   ").should == false
       end
 
       it "should not allow calling the handler method" do
-        subject.call('handler').should == false
+        subject.run('handler').should == false
       end
 
       it "should not allow calling unknown commands" do
-        subject.call('an_unknown_command').should == false
+        subject.run('an_unknown_command').should == false
       end
 
       it "should not allow calling unknown commands" do
-        subject.call('an_unknown_command').should == false
+        subject.run('an_unknown_command').should == false
       end
 
       it "should not allow calling public methods" do
-        subject.call('a_public_method').should == false
+        subject.run('a_public_method').should == false
       end
 
       it "should allow calling protected methods" do
-        subject.call('command1').should == :command1
+        subject.run('command1').should == :command1
       end
 
       it "should raise an exception when passing invalid number of arguments" do
         lambda {
-          subject.call('command_with_arg too many args')
+          subject.run('command_with_arg too many args')
         }.should raise_error(ArgumentError)
       end
 
       it "should splat the command arguments to the command method" do
-        subject.call('command_with_args one two three').should == [
+        subject.run('command_with_args one two three').should == [
           'one', 'two', 'three'
         ]
       end

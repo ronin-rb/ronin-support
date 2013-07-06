@@ -19,6 +19,7 @@
 
 require 'ronin/ui/printing'
 
+require 'readline'
 require 'set'
 
 module Ronin
@@ -196,7 +197,7 @@ module Ronin
             history_rollback += 1
 
             begin
-              call(line)
+              run(line)
             rescue => e
               print_error "#{e.class.name}: #{e.message}"
             end
@@ -213,9 +214,11 @@ module Ronin
       # @param [String] line
       #   A line of input received by the shell.
       # 
-      # @since 0.3.0
+      # @since 0.6.0
       #
-      def call(line)
+      # @api semipublic
+      #
+      def run(line)
         if @input_handler
           @input_handler.call(self,line)
         else
