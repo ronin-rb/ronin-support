@@ -146,7 +146,6 @@ module Ronin
           end
         end
 
-
         @input_handler = block
       end
 
