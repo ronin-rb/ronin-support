@@ -3,6 +3,35 @@ require 'ronin/ui/repl'
 
 describe UI::REPL do
   describe "#initialize" do
+    subject do
+      described_class.new { |line| }
+    end
+
+    it "should default name to nil" do
+      subject.name.should == nil
+    end
+
+    it "should default prompt to '>'" do
+      subject.prompt.should == '>'
+    end
+
+    context "when given options" do
+      let(:name)   { 'foo' }
+      let(:prompt) { '$'   }
+
+      subject do
+        described_class.new(name: name, prompt: prompt) { |line| }
+      end
+
+      it "should allow overriding the name" do
+        subject.name.should == name
+      end
+
+      it "should allow overriding the prompt" do
+        subject.prompt.should == prompt
+      end
+    end
+
     context "when no block is given" do
       it "should raise an ArgumentError" do
         lambda {
