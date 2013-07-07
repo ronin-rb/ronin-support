@@ -2,6 +2,16 @@ require 'spec_helper'
 require 'ronin/ui/repl'
 
 describe UI::REPL do
+  describe "#initialize" do
+    context "when no block is given" do
+      it "should raise an ArgumentError" do
+        lambda {
+          described_class.new
+        }.should raise_error(ArgumentError)
+      end
+    end
+  end
+
   describe "#start" do
     let(:line) { 'one two three' }
 

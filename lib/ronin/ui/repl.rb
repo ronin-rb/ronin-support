@@ -57,7 +57,14 @@ module Ronin
       # @option options [String] :prompt (DEFAULT_PROMPT)
       #   The prompt to use for the shell.
       #
+      # @raise [ArgumentError]
+      #   No block was given.
+      #
       def initialize(options={},&block)
+        unless block
+          raise(ArgumentError,"#{self.class}##{__method__} requires a block")
+        end
+
         @name    = options[:name]
         @prompt  = options.fetch(:prompt,DEFAULT_PROMPT)
         @handler = block
