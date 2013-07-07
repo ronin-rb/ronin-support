@@ -113,10 +113,11 @@ module Ronin
           end
         rescue Interrupt
           stop
+        ensure
+          Readline::HISTORY.clear
+          previous_history.each { |line| Readline::HISTORY << line }
         end
 
-        Readline::HISTORY.clear
-        previous_history.each { |line| Readline::HISTORY << line }
         return nil
       end
 
