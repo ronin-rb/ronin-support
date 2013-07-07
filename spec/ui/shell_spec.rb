@@ -14,7 +14,7 @@ describe UI::Shell do
     it "should call the input handler with the shell and input line" do
       lines = []
 
-      described_class.start do |shell,input|
+      described_class.start do |input|
         lines << input
       end
 

@@ -119,11 +119,8 @@ module Ronin
       # @option options [String] :prompt (DEFAULT_PROMPT)
       #   The prompt to use for the shell.
       #
-      # @yield [(shell), line]
+      # @yield [line]
       #   The block that will be passed every command entered.
-      #
-      # @yieldparam [Shell] shell
-      #   The shell to use for output.
       #
       # @yieldparam [String] line
       #   The command entered into the shell.
@@ -196,10 +193,7 @@ module Ronin
             history_rollback += 1
 
             begin
-              case @input_handler.arity
-              when 2, -1 then @input_handler.call(self,line)
-              else            @input_handler.call(line)
-              end
+              @input_handler.call(line)
             rescue => e
               print_error "#{e.class.name}: #{e.message}"
             end
@@ -237,18 +231,6 @@ module Ronin
 
         return send(command,*arguments)
       end
-
-      #
-      # Writes output to the shell.
-      #
-      # @param [String] message
-      #   The message to print.
-      #
-      def write(message)
-        $stdout.write(message)
-      end
-
-      alias << write
 
       protected
 
