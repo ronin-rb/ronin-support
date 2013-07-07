@@ -94,7 +94,8 @@ module Ronin
       # Starts the REPL.
       #
       def start
-        history_rollback = 0
+        previous_history = Readline::HISTORY.each.to_a
+        Readline::HISTORY.clear
 
         begin
           loop do
@@ -102,7 +103,6 @@ module Ronin
 
             unless line.empty?
               Readline::HISTORY << line
-              history_rollback += 1
 
               begin
                 @handler.call(line)
@@ -113,9 +113,10 @@ module Ronin
           end
         rescue Interrupt
           stop
-          history_rollback.times { Readline::HISTORY.pop }
         end
 
+        Readline::HISTORY.clear
+        previous_history.each { |line| Readline::HISTORY << line }
         return nil
       end
 
