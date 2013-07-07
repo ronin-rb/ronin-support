@@ -17,9 +17,9 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/ui/repl'
 require 'ronin/ui/printing'
 
-require 'readline'
 require 'set'
 
 module Ronin
@@ -91,18 +91,11 @@ module Ronin
     #
     # @api semipublic
     #
-    class Shell
+    # @since 0.3.0
+    #
+    class Shell < REPL
 
       include Printing
-
-      # Default shell prompt
-      DEFAULT_PROMPT = '>'
-
-      # The shell name
-      attr_accessor :name
-
-      # The shell prompt
-      attr_accessor :prompt
 
       # The commands available for the shell
       attr_reader :commands
@@ -119,20 +112,7 @@ module Ronin
       # @option options [String] :prompt (DEFAULT_PROMPT)
       #   The prompt to use for the shell.
       #
-      # @yield [line]
-      #   The block that will be passed every command entered.
-      #
-      # @yieldparam [String] line
-      #   The command entered into the shell.
-      #
-      # @api semipublic
-      #
-      # @since 0.3.0
-      #
-      def initialize(options={},&block)
-        @name     = options[:name]
-        @prompt   = options.fetch(:prompt,DEFAULT_PROMPT)
-
+      def initialize(options={})
         @commands = Set['help', 'exit']
 
         self.class.ancestors.each do |subclass|
@@ -143,65 +123,7 @@ module Ronin
           end
         end
 
-        @input_handler = (block || method(:run))
-      end
-
-      #
-      # Creates a new Shell object and starts it.
-      #
-      # @param [Array] arguments
-      #   Arguments for {#initialize}.
-      #
-      # @yield [shell, line]
-      #   The block that will be passed every command entered.
-      #
-      # @yieldparam [Shell] shell
-      #   The shell to use for output.
-      #
-      # @yieldparam [String] line
-      #   The command entered into the shell.
-      #
-      # @return [nil]
-      #
-      # @example
-      #   Shell.start(prompt: '$') { |shell,line| system(line) }
-      #
-      def self.start(*arguments,&block)
-        new(*arguments,&block).start
-      end
-
-      #
-      # Starts the shell.
-      #
-      # @since 0.3.0
-      #
-      def start
-        history_rollback = 0
-
-        loop do
-          unless (raw_line = Readline.readline("#{name}#{prompt} "))
-            break # user exited the shell
-          end
-
-          line = raw_line.strip
-
-          if (line == 'exit' || line == 'quit')
-            exit
-            break
-          elsif !(line.empty?)
-            Readline::HISTORY << raw_line
-            history_rollback += 1
-
-            begin
-              @input_handler.call(line)
-            rescue => e
-              print_error "#{e.class.name}: #{e.message}"
-            end
-          end
-        end
-
-        history_rollback.times { Readline::HISTORY.pop }
-        return nil
+        super(options,&method(:run))
       end
 
       #
@@ -215,14 +137,14 @@ module Ronin
       # @api semipublic
       #
       def run(line)
-        arguments = line.split(/\s+/)
+        arguments = line.strip.split
         command   = arguments.shift
 
         # ignore empty lines
         return false unless command
 
         # no explicitly calling handler
-        return false if command == 'handler'
+        return false if command == 'run'
 
         unless @commands.include?(command)
           print_error "Invalid command: #{command}"
@@ -240,6 +162,7 @@ module Ronin
       # @since 0.3.0
       #
       def exit
+        raise Interrupt
       end
 
       #
