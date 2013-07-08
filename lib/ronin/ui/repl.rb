@@ -155,19 +155,9 @@ module Ronin
 
         return Readline::HISTORY.to_a
       ensure
-        stop
-
         Readline.completion_proc = previous_completion
         Readline::HISTORY.clear
         previous_history.each { |line| Readline::HISTORY << line }
-      end
-
-      #
-      # Stops the REPL and cleans up.
-      #
-      # @abstract
-      #
-      def stop
       end
 
     end
