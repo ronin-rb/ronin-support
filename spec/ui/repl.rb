@@ -49,6 +49,22 @@ describe UI::REPL do
     end
   end
 
+  describe "#completion" do
+    before { Readline::HISTORY.clear }
+
+    before do
+      Readline::HISTORY << 'foo'
+      Readline::HISTORY << 'bar'
+      Readline::HISTORY << 'fox'
+    end
+
+    it "should recommend completions based on Readline::HISTORY" do
+      subject.complete('fo').should == %w[foo fox]
+    end
+
+    after { Readline::HISTORY.clear }
+  end
+
   describe "#start" do
     let(:input) { %w[one two three] }
 

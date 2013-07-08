@@ -111,6 +111,16 @@ module Ronin
       end
 
       #
+      # Provides auto-completion suggestions for the input.
+      #
+      # @return [Array<String>]
+      #   Suggested completions.
+      #
+      def complete(input)
+        Readline::HISTORY.select { |line| line.start_with?(input) }
+      end
+
+      #
       # Starts the REPL.
       #
       # @return [Array<String>]
@@ -120,9 +130,7 @@ module Ronin
         previous_completion = Readline.completion_proc
         previous_history    = Readline::HISTORY.to_a
 
-        Readline.completion_proc = proc { |complete|
-          Readline::HISTORY.select { |line| line.start_with?(complete) }
-        }
+        Readline.completion_proc = method(:complete)
         Readline::HISTORY.clear
 
         loop do
