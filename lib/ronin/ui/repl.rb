@@ -101,7 +101,7 @@ module Ronin
       # Starts the REPL.
       #
       def start
-        previous_history = Readline::HISTORY.each.to_a
+        previous_history = Readline::HISTORY.to_a
         Readline::HISTORY.clear
 
         loop do
@@ -113,7 +113,9 @@ module Ronin
             break unless line
 
             unless line.empty?
-              Readline::HISTORY << line
+              if (Readline::HISTORY.empty? || Readline::HISTORY[-1] != line)
+                Readline::HISTORY << line
+              end
 
               begin
                 @handler.call(line)
