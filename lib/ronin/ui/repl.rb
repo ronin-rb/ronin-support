@@ -104,7 +104,12 @@ module Ronin
       #   The history from the REPL session.
       #
       def start
-        previous_history = Readline::HISTORY.to_a
+        previous_completion = Readline.completion_proc
+        previous_history    = Readline::HISTORY.to_a
+
+        Readline.completion_proc = proc { |complete|
+          Readline::HISTORY.select { |line| line.start_with?(complete) }
+        }
         Readline::HISTORY.clear
 
         loop do
@@ -135,6 +140,7 @@ module Ronin
       ensure
         stop
 
+        Readline.completion_proc = previous_completion
         Readline::HISTORY.clear
         previous_history.each { |line| Readline::HISTORY << line }
       end
