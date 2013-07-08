@@ -42,30 +42,22 @@ describe UI::REPL do
   end
 
   describe "#start" do
-    let(:line) { 'one two three' }
+    let(:input) { %w[one two three] }
 
     before do
-      Readline.stub(:readline).and_return(line,'exit')
+      Readline.stub(:readline).and_return(*input,nil)
     end
 
     it "should call the input handler with the shell and input line" do
-      lines = []
+      lines = described_class.start { |line| }
 
-      described_class.start do |input|
-        raise(Interrupt) if input == 'exit'
-
-        lines << input
-      end
-
-      lines.should == [line]
+      lines.should == input
     end
 
     it "should roll back the Readline::HISTORY" do
       Readline::HISTORY << 'previously'
 
-      described_class.start do |input|
-        raise(Interrupt) if input == 'exit'
-      end
+      described_class.start { |line| }
 
       Readline::HISTORY[0].should == 'previously'
     end

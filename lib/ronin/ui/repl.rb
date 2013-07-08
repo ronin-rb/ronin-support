@@ -100,6 +100,9 @@ module Ronin
       #
       # Starts the REPL.
       #
+      # @return [Array<String>]
+      #   The history from the REPL session.
+      #
       def start
         previous_history = Readline::HISTORY.to_a
         Readline::HISTORY.clear
@@ -128,12 +131,12 @@ module Ronin
           end
         end
 
+        return Readline::HISTORY.to_a
       ensure
         stop
 
         Readline::HISTORY.clear
         previous_history.each { |line| Readline::HISTORY << line }
-        return nil
       end
 
       #
