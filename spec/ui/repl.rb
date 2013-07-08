@@ -54,6 +54,22 @@ describe UI::REPL do
       lines.should == input
     end
 
+    it "should stop if the handler raises an Interrupt" do
+      lines = described_class.start do |line|
+        raise(Interrupt) if line == input[1]
+      end
+
+      lines.should == input[0..1]
+    end
+
+    it "should not add duplicate lines to Readline::HISTORY" do
+      Readline.stub(:readline).and_return('foo','bar','bar','foo',nil)
+
+      lines = described_class.start { |line| }
+
+      lines.should == %w[foo bar foo]
+    end
+
     it "should roll back the Readline::HISTORY" do
       Readline::HISTORY << 'previously'
 
