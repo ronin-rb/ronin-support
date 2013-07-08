@@ -98,6 +98,19 @@ module Ronin
       end
 
       #
+      # Reads a line.
+      #
+      # @return [String, nil]
+      #   The line or `nil`, indicating that the user wishes to exit the REPL.
+      #
+      def readline
+        begin
+          Readline.readline("#{name}#{prompt} ")
+        rescue Interrupt
+        end
+      end
+
+      #
       # Starts the REPL.
       #
       # @return [Array<String>]
@@ -113,26 +126,22 @@ module Ronin
         Readline::HISTORY.clear
 
         loop do
-          begin
-            unless (line = Readline.readline("#{name}#{prompt} "))
-              break
-            end
-
-            break unless line
-
-            unless line.empty?
-              if (Readline::HISTORY.empty? || Readline::HISTORY[-1] != line)
-                Readline::HISTORY << line
-              end
-
-              begin
-                @handler.call(line)
-              rescue => e
-                print_error "#{e.class.name}: #{e.message}"
-              end
-            end
-          rescue Interrupt
+          unless (line = readline)
             break
+          end
+
+          unless line.empty?
+            if (Readline::HISTORY.empty? || Readline::HISTORY[-1] != line)
+              Readline::HISTORY << line
+            end
+
+            begin
+              @handler.call(line)
+            rescue Interrupt
+              break
+            rescue => e
+              print_error "#{e.class.name}: #{e.message}"
+            end
           end
         end
 

@@ -2,11 +2,11 @@ require 'spec_helper'
 require 'ronin/ui/repl'
 
 describe UI::REPL do
-  describe "#initialize" do
-    subject do
-      described_class.new { |line| }
-    end
+  subject do
+    described_class.new { |line| }
+  end
 
+  describe "#initialize" do
     it "should default name to nil" do
       subject.name.should == nil
     end
@@ -41,6 +41,14 @@ describe UI::REPL do
     end
   end
 
+  describe "#readline" do
+    it "should map Interrupts to nil" do
+      Readline.stub(:readline).and_raise(Interrupt)
+
+      subject.readline.should be_nil
+    end
+  end
+
   describe "#start" do
     let(:input) { %w[one two three] }
 
@@ -54,18 +62,24 @@ describe UI::REPL do
       lines.should == input
     end
 
-    it "should stop if the handler raises an Interrupt" do
-      lines = described_class.start do |line|
-        raise(Interrupt) if line == input[1]
+    context "when the handler raises Interrupt" do
+      subject do
+        described_class.new do |line|
+          raise(Interrupt) if line == input[1]
+        end
       end
 
-      lines.should == input[0..1]
+      it "should stop if the handler raises an Interrupt" do
+        lines = subject.start
+
+        lines.should == input[0..1]
+      end
     end
 
     it "should not add duplicate lines to Readline::HISTORY" do
       Readline.stub(:readline).and_return('foo','bar','bar','foo',nil)
 
-      lines = described_class.start { |line| }
+      lines = subject.start { |line| }
 
       lines.should == %w[foo bar foo]
     end
@@ -73,7 +87,7 @@ describe UI::REPL do
     it "should roll back the Readline::HISTORY" do
       Readline::HISTORY << 'previously'
 
-      described_class.start { |line| }
+      subject.start
 
       Readline::HISTORY[0].should == 'previously'
     end
