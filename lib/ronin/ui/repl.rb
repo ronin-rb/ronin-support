@@ -26,7 +26,7 @@ module Ronin
     #
     # Spawns a ReadLine powered REPL.
     #
-    #   REPL.start(prompt: '$') { |line| system(line) }
+    #     REPL.start(prompt: '$') { |line| system(line) }
     #
     # @api semipublic
     #
