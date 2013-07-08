@@ -104,9 +104,13 @@ module Ronin
         previous_history = Readline::HISTORY.each.to_a
         Readline::HISTORY.clear
 
-        begin
-          loop do
-            line = Readline.readline("#{name}#{prompt} ")
+        loop do
+          begin
+            unless (line = Readline.readline("#{name}#{prompt} "))
+              break
+            end
+
+            break unless line
 
             unless line.empty?
               Readline::HISTORY << line
@@ -117,14 +121,16 @@ module Ronin
                 print_error "#{e.class.name}: #{e.message}"
               end
             end
+          rescue Interrupt
+            break
           end
-        rescue Interrupt
-          stop
-        ensure
-          Readline::HISTORY.clear
-          previous_history.each { |line| Readline::HISTORY << line }
         end
 
+      ensure
+        stop
+
+        Readline::HISTORY.clear
+        previous_history.each { |line| Readline::HISTORY << line }
         return nil
       end
 
