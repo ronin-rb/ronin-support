@@ -190,7 +190,7 @@ describe Network::HTTP do
       it "should use a default path" do
         lambda {
           subject.request(method: :get)
-        }.should_not raise_error(ArgumentError)
+        }.should_not raise_error
       end
 
       it "should set the path" do

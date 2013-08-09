@@ -18,13 +18,13 @@ describe Kernel do
     it "should rescue RuntimeError exceptions" do
       lambda {
         try { raise(RuntimeError,"something happened",caller) }
-      }.should_not raise_error(RuntimeError)
+      }.should_not raise_error
     end
 
     it "should rescue StandardError exceptions" do
       lambda {
         try { raise(StandardError,"not allowed to do that",caller) }
-      }.should_not raise_error(StandardError)
+      }.should_not raise_error
     end
   end
 end
