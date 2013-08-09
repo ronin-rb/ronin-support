@@ -158,17 +158,15 @@ describe Binary::Struct do
 
   describe "#[]" do
     subject do
-      struct = Class.new(described_class)
-      struct.class_eval do
+      struct_class = Class.new(described_class)
+      struct_class.class_eval do
         layout :x, :uint,
                :y, :uint
       end
 
-      struct.new
-    end
-
-    before(:all) do
-      subject.instance_variable_set('@x',10)
+      struct_class.new.tap do |struct|
+        struct.instance_variable_set('@x',10)
+      end
     end
 
     it "should access the instance variable" do
@@ -305,28 +303,26 @@ describe Binary::Struct do
 
   describe "#clear" do
     subject do
-      struct = Class.new(described_class)
-      struct.class_eval do
-        nested_struct = Class.new(Ronin::Binary::Struct)
-        nested_struct.class_eval do
+      struct_class = Class.new(described_class)
+      struct_class.class_eval do
+        nested_struct_class = Class.new(Ronin::Binary::Struct)
+        nested_struct_class.class_eval do
           layout :int, :int
         end
 
         layout :x, :uint,
                :y, :float,
-               :z, nested_struct
+               :z, nested_struct_class
       end
 
-      struct.new
+      struct_class.new.tap do |struct|
+        struct.x = 100
+        struct.y = 15.0
+        struct.z.int = -1
+      end
     end
 
-    before(:all) do
-      subject.x = 100
-      subject.y = 15.0
-      subject.z.int = -1
-
-      subject.clear
-    end
+    before { subject.clear }
 
     it "should reset fields to their default values" do
       subject.x.should == 0
