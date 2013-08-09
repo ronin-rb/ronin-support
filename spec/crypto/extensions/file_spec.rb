@@ -6,11 +6,11 @@ require 'ronin/crypto/extensions/file'
 require 'tempfile'
 
 describe File do
-  let(:clear_text) { 'the quick brown fox' }
-
   before(:all) do
+    @clear_text = 'the quick brown fox'
+
     @file = Tempfile.new('ronin-support')
-    @file.write(clear_text)
+    @file.write(@clear_text)
     @file.close
   end
 
@@ -124,31 +124,29 @@ describe File do
   end
 
   describe "#decrypt" do
-    let(:cipher)   { 'aes-256-cbc' }
-    let(:password) { 'secret'      }
-    let(:cipher_text) { "\xC8+\xE3\x05\xD3\xBE\xC6d\x0F=N\x90\xB9\x87\xD8bk\x1C#0\x96`4\xBC\xB1\xB5tD\xF3\x98\xAD`" }
-
     before(:all) do
+      @cipher      = 'aes-256-cbc'
+      @password    = 'secret'
+      @cipher_text = "\xC8+\xE3\x05\xD3\xBE\xC6d\x0F=N\x90\xB9\x87\xD8bk\x1C#0\x96`4\xBC\xB1\xB5tD\xF3\x98\xAD`"
+
       @file = Tempfile.new('ronin-support')
-      @file.write(cipher_text)
+      @file.write(@cipher_text)
       @file.close
     end
 
-    let(:path) { @file.path }
-
     it "should decrypt the String with the cipher and key" do
-      subject.decrypt(path,cipher, password: password).should == clear_text
+      subject.decrypt(@file.path,@cipher,password: @password).should == @clear_text
     end
 
     context "when given a block" do
       it "should yield each decrypted block" do
         output = ''
 
-        subject.decrypt(path,cipher, password: password) do |block|
+        subject.decrypt(@file.path,@cipher,password: @password) do |block|
           output << block
         end
 
-        output.should == clear_text
+        output.should == @clear_text
       end
     end
   end

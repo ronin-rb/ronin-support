@@ -11,39 +11,37 @@ describe File do
   end
 
   describe "each_line" do
-    let(:lines) { %w[one two three] }
-
     before(:all) do
+      @lines = %w[one two three]
+
       @file = Tempfile.new('ronin-support')
-      @file.puts(*lines)
+      @file.puts(*@lines)
       @file.close
     end
 
     it "should enumerate over each line in the file" do
-      subject.each_line(@file.path).to_a.should == lines
+      subject.each_line(@file.path).to_a.should == @lines
     end
   end
 
   describe "each_row" do
-    let(:rows) do
-      [
+    before(:all) do
+      @rows = [
         %w[one two three],
         %w[four five six]
       ]
-    end
 
-    let(:separator) { '|' }
-    let(:newline)   { "\r\n" }
-    let(:lines)     { rows.map { |row| row.join(separator) }.join(newline) }
+      @separator = '|'
+      @newline   = "\r\n"
+      @lines     = @rows.map { |row| row.join(@separator) }.join(@newline)
 
-    before(:all) do
       @file = Tempfile.new('ronin-support')
-      @file.write(lines)
+      @file.write(@lines)
       @file.close
     end
 
     it "should enumerate over each row from each line" do
-      subject.each_row(@file.path,separator).to_a.should == rows
+      subject.each_row(@file.path,@separator).to_a.should == @rows
     end
   end
 
