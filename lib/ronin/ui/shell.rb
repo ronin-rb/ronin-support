@@ -21,6 +21,7 @@ require 'ronin/ui/repl'
 require 'ronin/ui/printing'
 
 require 'set'
+require 'shellwords'
 
 module Ronin
   module UI
@@ -148,7 +149,7 @@ module Ronin
       # @api semipublic
       #
       def run(line)
-        arguments = line.strip.split
+        arguments = Shellwords.split(line.strip)
         command   = arguments.shift
         command   = @aliases.fetch(command,command)
 
