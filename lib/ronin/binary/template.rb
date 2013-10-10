@@ -287,32 +287,6 @@ module Ronin
       end
 
       #
-      # Translates the type of the field.
-      #
-      # @param [Symbol] type
-      #   The type to translate.
-      #
-      # @param [Hash] options
-      #   Translation options.
-      #
-      # @option options [:little, :big, :network] :endian
-      #   The endianness to apply to the C-types.
-      #
-      # @return [Symbol]
-      #   The translated type.
-      #
-      # @raise [ArgumentError]
-      #   The value of `:endian` is unknown.
-      #
-      def self.translate(type,options={})
-        if (options[:endian] && ENDIAN_TYPES[options[:endian]].has_key?(type))
-          type = ENDIAN_TYPES[options[:endian]][type]
-        end
-
-        return type
-      end
-
-      #
       # Compiles C-types into an `Array#pack` / `String#unpack`
       # template.
       #
