@@ -59,9 +59,6 @@ module Ronin
     # * `:ubyte` (`C`) - unsigned byte.
     # * `:byte` (`c`) - signed byte.
     # * `:string` (`Z*`) - binary String, `\0` terminated.
-    #
-    # ### Ruby 1.9 specific C-types
-    #
     # * `:uint16_le` (`S<`) - unsigned 16-bit integer, little endian.
     # * `:uint32_le` (`L<`) - unsigned 32-bit integer, little endian.
     # * `:uint64_le` (`Q<`) - unsigned 64-bit integer, little endian.
