@@ -98,7 +98,14 @@ module Ronin
       include Printing
 
       # The commands available for the shell
+      #
+      # @return [Set[String]]
       attr_reader :commands
+
+      # The command aliases
+      #
+      # @return [Hash{String => String}]
+      attr_reader :aliases
 
       #
       # Creates a new shell.
@@ -114,6 +121,10 @@ module Ronin
       #
       def initialize(options={})
         @commands = Set['help', 'exit']
+        @aliases  = {
+          '?'    => 'help',
+          'quit' => 'exit'
+        }
 
         self.class.ancestors.each do |subclass|
           if subclass < Shell
@@ -139,19 +150,18 @@ module Ronin
       def run(line)
         arguments = line.strip.split
         command   = arguments.shift
+        command   = @aliases.fetch(command,command)
 
-        # ignore empty lines
-        return false unless command
+        case command
+        when nil, 'run'  then return false
+        else
+          unless @commands.include?(command)
+            print_error "Invalid command: #{arguments[0]}"
+            return false
+          end
 
-        # no explicitly calling handler
-        return false if command == 'run'
-
-        unless @commands.include?(command)
-          print_error "Invalid command: #{command}"
-          return false
+          return send(command,*arguments)
         end
-
-        return send(command,*arguments)
       end
 
       protected
@@ -163,15 +173,6 @@ module Ronin
       #
       def exit
         raise Interrupt
-      end
-
-      #
-      # @see #exit
-      #
-      # @since 0.3.0
-      #
-      def quit
-        exit
       end
 
       #
