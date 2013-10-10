@@ -290,7 +290,7 @@ module Ronin
       # Compiles C-types into an `Array#pack` / `String#unpack`
       # template.
       #
-      # @param [Array<type, (type, length)>] fields
+      # @param [Array<type, (type), (type, length)>] fields
       #   The C-types which the packer will use.
       #
       # @param [Hash] options
@@ -309,7 +309,12 @@ module Ronin
         string = ''
         endian = options[:endian]
 
-        fields.each do |(type,length)|
+        fields.each do |field|
+          type, length = case field
+                         when Array then [field[0], field.fetch(1,'*')]
+                         else            field
+                         end
+
           if endian
             type = ENDIAN_TYPES[endian].fetch(type,type)
           end

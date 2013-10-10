@@ -80,6 +80,10 @@ describe Binary::Template do
       subject.compile([[type, 10]]).should == "#{code}10"
     end
 
+    it "should allow fields of arbitrary length" do
+      subject.compile([[type]]).should == "#{code}*"
+    end
+
     it "should raise ArgumentError for unknown types" do
       lambda {
         subject.compile([:foo])
@@ -307,6 +311,16 @@ describe Binary::Template do
 
       it "should unpack an unsigned 8bit integer" do
         subject.unpack("\xff").should == [uint8]
+      end
+    end
+
+    context "[:uint8]" do
+      subject { described_class.new [[:uint8]] }
+
+      let(:n) { 4 }
+
+      it "should unpack an arbitrary number of 8bit integers" do
+        subject.unpack("\xff" * n).should == [uint8] * n
       end
     end
 
