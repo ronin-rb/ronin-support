@@ -290,7 +290,7 @@ module Ronin
       # Compiles C-types into an `Array#pack` / `String#unpack`
       # template.
       #
-      # @param [Array<type, (type, length)>] types
+      # @param [Array<type, (type, length)>] fields
       #   The C-types which the packer will use.
       #
       # @param [Hash] options
@@ -305,11 +305,11 @@ module Ronin
       # @raise [ArgumentError]
       #   A given type is not known.
       #
-      def self.compile(types,options={})
+      def self.compile(fields,options={})
         string = ''
         endian = options[:endian]
 
-        types.each do |(type,length)|
+        fields.each do |(type,length)|
           if endian
             type = ENDIAN_TYPES[endian].fetch(type,type)
           end
