@@ -14,5 +14,11 @@ describe Network::IP do
         subject.external_ip.should_not be_nil
       end
     end
+
+    describe "#internal_ip" do
+      it "should determine our internal IP Address" do
+        subject.internal_ip.should_not be_nil
+      end
+    end
   end
 end

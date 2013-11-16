@@ -39,7 +39,37 @@ module Ronin
         IPAddr.extract(Net::HTTP.get('checkip.dyndns.org','/')).first
       end
 
-      alias ip external_ip
+      #
+      # Determines the internal IP Address.
+      #
+      # @return [String]
+      #   The non-loopback / non-multicast internal IP Address.
+      #
+      # @api public
+      #
+      def internal_ip
+        addresses = Socket.ip_address_list
+
+        addresses.find { |addr| addr.ipv4_private? || addr.ipv4_loopback? } ||
+        addresses.find { |addr| addr.ipv6_linklocal? || addr.ipv6_loopback? }
+      end
+
+      #
+      # Determines the accessible IP Address.
+      #
+      # @return [String]
+      #   The accessible IP Address according to {#external_ip} or
+      #   {#internal_ip}.
+      #
+      # @api public
+      #
+      def ip
+        begin
+          external_ip
+        rescue
+          internal_ip
+        end
+      end
     end
   end
 end
