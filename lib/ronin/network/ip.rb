@@ -19,6 +19,7 @@
 
 require 'ronin/extensions/ip_addr'
 
+require 'socket'
 require 'net/http'
 
 module Ronin
