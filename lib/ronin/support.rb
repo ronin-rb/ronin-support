@@ -31,6 +31,7 @@ require 'ronin/support/version'
 module Ronin
   module Support
     include UI::Printing
+    include Network::IP
     include Network::DNS
     include Network::TCP
     include Network::UDP
