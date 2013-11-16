@@ -17,10 +17,26 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/network/ip'
+require 'ronin/extensions/ip_addr'
+
+require 'net/http'
 
 module Ronin
   module Network
-    extend IP
+    module IP
+      #
+      # Determines the current external IP Address.
+      #
+      # @return [String]
+      #   The external IP Address according to {http://checkip.dyndns.org}.
+      #
+      # @api public
+      #
+      def external_ip
+        IPAddr.extract(Net::HTTP.get('checkip.dyndns.org','/')).first
+      end
+
+      alias ip external_ip
+    end
   end
 end
