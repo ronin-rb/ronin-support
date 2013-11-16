@@ -25,7 +25,25 @@ require 'ronin/crypto'
 require 'ronin/network'
 require 'ronin/path'
 require 'ronin/templates'
-require 'ronin/support/support'
+require 'ronin/ui/printing'
 require 'ronin/support/version'
+
+module Ronin
+  module Support
+    include UI::Printing
+    include Network::DNS
+    include Network::TCP
+    include Network::UDP
+    include Network::SSL
+    include Network::UNIX
+    include Network::SMTP
+    include Network::ESMTP
+    include Network::POP3
+    include Network::IMAP
+    include Network::Telnet
+    include Network::FTP
+    include Network::HTTP
+  end
+end
 
 include Ronin::Support
