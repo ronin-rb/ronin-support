@@ -23,6 +23,9 @@ require 'net/http'
 
 module Ronin
   module Network
+    #
+    # @since 0.6.0
+    #
     module IP
       #
       # Determines the current external IP Address.
