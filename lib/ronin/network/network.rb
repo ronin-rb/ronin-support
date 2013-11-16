@@ -19,7 +19,6 @@
 
 require 'ronin/extensions/ip_addr'
 
-require 'uri/http'
 require 'net/http'
 
 module Ronin
@@ -27,9 +26,6 @@ module Ronin
   # Network helper methods.
   #
   module Network
-    # The URL used for determining the external IP Address.
-    IP_URL = URI.parse('http://checkip.dyndns.org/')
-
     #
     # Determines the current external IP Address.
     #
@@ -39,7 +35,7 @@ module Ronin
     # @api public
     #
     def Network.ip
-      IPAddr.extract(Net::HTTP.get(IP_URL)).first
+      IPAddr.extract(Net::HTTP.get('checkip.dyndns.org','/')).first
     end
   end
 end
