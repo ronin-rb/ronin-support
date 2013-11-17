@@ -211,7 +211,7 @@ module Ronin
         # @api public
         #
         def transparent?
-          Network.ip == proxied_ip
+          Network.external_ip == proxied_ip
         end
 
         #
