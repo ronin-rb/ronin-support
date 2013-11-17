@@ -33,6 +33,8 @@ require 'ronin/network/http'
 
 module Ronin
   module Network
+    module_function
+
     include IP
     include DNS
     include TCP
