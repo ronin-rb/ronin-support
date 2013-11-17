@@ -30,3 +30,21 @@ require 'ronin/network/imap'
 require 'ronin/network/telnet'
 require 'ronin/network/ftp'
 require 'ronin/network/http'
+
+module Ronin
+  module Network
+    include IP
+    include DNS
+    include TCP
+    include UDP
+    include SSL
+    include UNIX
+    include SMTP
+    include ESMTP
+    include POP3
+    include IMAP
+    include Telnet
+    include FTP
+    include HTTP
+  end
+end
