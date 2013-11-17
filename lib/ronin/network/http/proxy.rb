@@ -197,7 +197,7 @@ module Ronin
         #
         def proxied_ip
           IPAddr.extract(Net.http_get_body(
-            url:   Network::IP_URL,
+            host: 'checkip.dyndns.org',
             proxy: self
           )).first
         end
