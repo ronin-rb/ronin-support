@@ -383,16 +383,19 @@ module Ronin
         host  = options[:host].to_s
         port  = options[:port]
         proxy = options[:proxy]
-        proxy_host = if (proxy && proxy[:host])
-                       proxy[:host].to_s
-                     end
 
-        http = Net::HTTP::Proxy(
-          proxy_host,
-          proxy[:port],
-          proxy[:user],
-          proxy[:password]
-        ).new(host,port)
+        http = if proxy
+                 Net::HTTP.new(
+                   host,
+                   port,
+                   (proxy[:host].to_s if proxy[:host]),
+                   proxy[:port],
+                   proxy[:user],
+                   proxy[:password]
+                 )
+               else
+                 Net::HTTP.new(host,port)
+               end
 
         if options[:ssl]
           http.use_ssl     = true
