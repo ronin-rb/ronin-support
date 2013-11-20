@@ -17,6 +17,9 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/fuzzing/fuzzer'
+require 'ronin/fuzzing/mutator'
+require 'ronin/fuzzing/repeater'
 require 'ronin/fuzzing/extensions'
 
 require 'set'
