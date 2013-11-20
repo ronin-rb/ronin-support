@@ -17,4 +17,4 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/network/extensions/esmtp/net'
+require 'ronin/network/http/extensions/uri/http.rb'

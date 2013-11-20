@@ -19,4 +19,3 @@
 
 require 'ronin/network/smtp/email'
 require 'ronin/network/smtp/smtp'
-require 'ronin/network/extensions/smtp'
