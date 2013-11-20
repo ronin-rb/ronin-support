@@ -139,7 +139,7 @@ module Ronin
       # @yieldparam [Net::SMTP] esmtp
       #   The ESMTP session.
       #
-      # @see Net.esmtp_connect
+      # @see esmtp_connect
       #
       # @api public
       #
