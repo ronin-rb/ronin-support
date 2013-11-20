@@ -17,7 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/fuzzing/fuzzing'
+require 'ronin/fuzzing'
 require 'ronin/extensions/regexp'
 
 require 'strscan'

@@ -21,7 +21,7 @@ require 'ronin/fuzzing/template'
 require 'ronin/fuzzing/repeater'
 require 'ronin/fuzzing/fuzzer'
 require 'ronin/fuzzing/mutator'
-require 'ronin/fuzzing/fuzzing'
+require 'ronin/fuzzing'
 require 'ronin/extensions/regexp'
 
 class String
