@@ -18,7 +18,8 @@
 #
 
 require 'ronin/extensions/ip_addr'
-require 'ronin/network/network'
+require 'ronin/network/ip'
+require 'ronin/network/http'
 
 module Ronin
   module Network
@@ -148,7 +149,7 @@ module Ronin
         #
         def valid?
           begin
-            Net.http_get_body(
+            http_get_body(
               url:   'http://www.example.com/',
               proxy: self
             ).include?('Example Web Page')
@@ -169,7 +170,7 @@ module Ronin
         def latency
           time = lambda { |proxy|
             t1 = Time.now
-            Net.http_head(
+            http_head(
               url:   'http://www.example.com/',
               proxy: proxy
             )
@@ -196,7 +197,7 @@ module Ronin
         # @api public
         #
         def proxied_ip
-          IPAddr.extract(Net.http_get_body(
+          IPAddr.extract(http_get_body(
             host: 'checkip.dyndns.org',
             proxy: self
           )).first
@@ -211,7 +212,7 @@ module Ronin
         # @api public
         #
         def transparent?
-          Network.external_ip == proxied_ip
+          external_ip == proxied_ip
         end
 
         #
@@ -323,6 +324,11 @@ module Ronin
 
           return "#<#{self.class}: #{str}>"
         end
+
+        private
+
+        include Network::IP
+        include Network::HTTP
 
       end
     end
