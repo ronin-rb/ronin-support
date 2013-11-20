@@ -17,7 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/crypto/crypto'
+require 'ronin/crypto'
 
 require 'digest'
 
