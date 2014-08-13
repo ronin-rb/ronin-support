@@ -60,7 +60,7 @@ module Ronin
       # @param [Array<String>, String] nameserver
       #   Optional DNS nameserver(s) to query.
       #
-      # @return [Resolv, Resolv::DNS]
+      # @return [Resolv::DNS]
       #   The DNS Resolver.
       #
       # @api public
@@ -71,7 +71,7 @@ module Ronin
         unless (nameserver.nil? || nameserver.empty?)
           Resolv::DNS.new(nameserver: nameserver)
         else
-          Resolv
+          Resolv::DNS.new
         end
       end
 

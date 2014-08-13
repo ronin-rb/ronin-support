@@ -36,15 +36,27 @@ describe Network::DNS do
   end
 
   describe "resolver" do
+    it "should return Resolv::DNS" do
+      subject.resolver(server).should be_kind_of(Resolv::DNS)
+    end
+
     context "when no arguments are given" do
-      it "should return Resolv" do
-        subject.resolver.should == Resolv
+      before { subject.nameserver = server }
+
+      it "should default to using DNS.nameserver" do
+        Resolv::DNS.should_receive(:new).with(nameserver: subject.nameserver)
+
+        subject.resolver
       end
+
+      after { subject.nameserver = nil }
     end
 
     context "when an argument is given" do
-      it "should return Resolv::DNS" do
-        subject.resolver(server).should be_kind_of(Resolv::DNS)
+      it "should pass the nameserver: option to Resolv::DNS.new" do
+        Resolv::DNS.should_receive(:new).with(nameserver: server)
+
+        subject.resolver(server)
       end
     end
   end
