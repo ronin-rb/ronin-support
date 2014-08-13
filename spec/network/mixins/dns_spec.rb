@@ -10,34 +10,30 @@ describe Network::Mixins::DNS do
     obj
   end
 
-  describe "#dns_resolver" do
+  describe "#dns_dns_resolver" do
     let(:server) { '4.2.2.1' }
 
-    context "when no argument is given" do
-      context "when self.nameserver is not set" do
-        it "should return Resolv" do
-          subject.dns_resolver.should == Resolv
-        end
-      end
-
-      context "when self.nameserver is set" do
-        before { subject.nameserver = server }
-
-        it "should return Resolv::DNS" do
-          subject.dns_resolver(server).should be_kind_of(Resolv::DNS)
-        end
-      end
+    it "should return Resolv::DNS" do
+      subject.dns_resolver(server).should be_kind_of(Resolv::DNS)
     end
 
-    context "when nil is given" do
-      it "should return Resolv" do
-        subject.dns_resolver(nil).should == Resolv
+    context "when no arguments are given" do
+      before { subject.nameserver = server }
+
+      it "should default to using DNS.nameserver" do
+        Resolv::DNS.should_receive(:new).with(nameserver: subject.nameserver)
+
+        subject.dns_resolver
       end
+
+      after { subject.nameserver = nil }
     end
 
     context "when an argument is given" do
-      it "should return Resolv::DNS" do
-        subject.dns_resolver(server).should be_kind_of(Resolv::DNS)
+      it "should pass the nameserver: option to Resolv::DNS.new" do
+        Resolv::DNS.should_receive(:new).with(nameserver: server)
+
+        subject.dns_resolver(server)
       end
     end
   end
