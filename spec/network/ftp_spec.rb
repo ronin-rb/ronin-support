@@ -15,14 +15,14 @@ describe Network::FTP do
       it "should return a Net::FTP object" do
         ftp = subject.ftp_connect(host)
 
-        ftp.should be_kind_of(Net::FTP)
+        expect(ftp).to be_kind_of(Net::FTP)
         ftp.close
       end
 
       it "should connect to an FTP service" do
         ftp = subject.ftp_connect(host)
 
-        ftp.should_not be_closed
+        expect(ftp).not_to be_closed
         ftp.close
       end
 
@@ -30,14 +30,14 @@ describe Network::FTP do
         it "should set passive mode by default" do
           ftp = subject.ftp_connect(host)
 
-          ftp.passive.should be_true
+          expect(ftp.passive).to be_true
           ftp.close
         end
 
         it "should allow disabling passive mode" do
           ftp = subject.ftp_connect(host, :passive => false)
 
-          ftp.passive.should be_false
+          expect(ftp.passive).to be_false
           ftp.close
         end
       end
@@ -45,7 +45,7 @@ describe Network::FTP do
       context "when given a block" do
         it "should yield the new Net::FTP object" do
           ftp = subject.ftp_connect(host) do |ftp|
-            ftp.should be_kind_of(Net::FTP)
+            expect(ftp).to be_kind_of(Net::FTP)
           end
 
           ftp.close
@@ -61,7 +61,7 @@ describe Network::FTP do
           yielded_ftp = ftp
         end
 
-        yielded_ftp.should be_kind_of(Net::FTP)
+        expect(yielded_ftp).to be_kind_of(Net::FTP)
       end
 
       it "should close the FTP session after yielding it" do
@@ -73,8 +73,8 @@ describe Network::FTP do
           was_open  = !ftp.closed?
         end
 
-        was_open.should == true
-        session.should be_closed
+        expect(was_open).to eq(true)
+        expect(session).to be_closed
       end
     end
   end

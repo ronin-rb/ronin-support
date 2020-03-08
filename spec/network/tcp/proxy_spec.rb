@@ -29,7 +29,7 @@ describe Network::TCP::Proxy, :network => true do
     end
 
     it "should trigger when a new client connects" do
-      @socket.readline.should == injection
+      expect(@socket.readline).to eq(injection)
     end
 
     after { @socket.close }
@@ -47,7 +47,7 @@ describe Network::TCP::Proxy, :network => true do
     end
 
     it "should trigger after a new client connects" do
-      @socket.readline.should == injection
+      expect(@socket.readline).to eq(injection)
     end
 
     after { @socket.close }
@@ -65,7 +65,7 @@ describe Network::TCP::Proxy, :network => true do
     it "should trigger when the client sends data" do
       @socket.write("GET / HTTP/1.1\r\n\r\n")
 
-      @socket.readline.should == "HTTP/1.0 302 Found\r\n"
+      expect(@socket.readline).to eq("HTTP/1.0 302 Found\r\n")
     end
 
     after { @socket.close }
@@ -83,7 +83,7 @@ describe Network::TCP::Proxy, :network => true do
     it "should trigger when the server sends data" do
       @socket.write("GET / HTTP/1.0\r\n\r\n")
 
-      @socket.read.should include("Connection: keep-alive\r\n")
+      expect(@socket.read).to include("Connection: keep-alive\r\n")
     end
 
     after { @socket.close }
@@ -103,7 +103,7 @@ describe Network::TCP::Proxy, :network => true do
     it "should trigger when the server closes the connection" do
       @socket.write("GET / HTTP/1.0\r\n\r\n")
 
-      @socket.read.end_with?(injection).should be_true
+      expect(@socket.read.end_with?(injection)).to be_true
     end
 
     after { @socket.close }

@@ -5,18 +5,18 @@ describe "Ronin::Support::Inflector" do
   subject { Ronin::Support::Inflector }
 
   it "should not be nil" do
-    subject.should_not be_nil
+    expect(subject).not_to be_nil
   end
 
   it "should support pluralizing words" do
-    subject.pluralize('word').should == 'words'
+    expect(subject.pluralize('word')).to eq('words')
   end
 
   it "should support singularizing words" do
-    subject.singularize('words').should == 'word'
+    expect(subject.singularize('words')).to eq('word')
   end
 
   it "should support humanizing words" do
-    subject.humanize('word_id').should == 'Word'
+    expect(subject.humanize('word_id')).to eq('Word')
   end
 end

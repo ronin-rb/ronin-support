@@ -21,11 +21,11 @@ describe Network::UNIX do
       before(:all) { UNIXServer.new(old_path).close }
 
       it "should return true for listening UNIX sockets" do
-        subject.unix_open?(path).should == true
+        expect(subject.unix_open?(path)).to eq(true)
       end
 
       it "should return false for closed UNIX sockets" do
-        subject.unix_open?(old_path).should == false
+        expect(subject.unix_open?(old_path)).to eq(false)
       end
 
       it "should have a timeout for non-existent UNIX sockets" do
@@ -35,7 +35,7 @@ describe Network::UNIX do
         subject.unix_open?(bad_path,timeout)
         t2 = Time.now
 
-        (t2 - t1).to_i.should <= timeout
+        expect((t2 - t1).to_i).to be <= timeout
       end
 
       after(:all) { FileUtils.rm(old_path) }
@@ -47,8 +47,8 @@ describe Network::UNIX do
       it "should open a UNIXSocket" do
         socket = subject.unix_connect(path)
 
-        socket.should be_kind_of(UNIXSocket)
-        socket.should_not be_closed
+        expect(socket).to be_kind_of(UNIXSocket)
+        expect(socket).not_to be_closed
 
         socket.close
       end
@@ -60,7 +60,7 @@ describe Network::UNIX do
           socket = yielded_socket
         end
 
-        socket.should_not be_closed
+        expect(socket).not_to be_closed
         socket.close
       end
     end
@@ -74,7 +74,7 @@ describe Network::UNIX do
         socket   = subject.unix_connect_and_send(data,path)
         response = socket.readline
 
-        response.should == data
+        expect(response).to eq(data)
 
         socket.close
        end
@@ -86,7 +86,7 @@ describe Network::UNIX do
           response = socket.readline
         end
 
-        response.should == data
+        expect(response).to eq(data)
 
         socket.close
       end
@@ -102,8 +102,8 @@ describe Network::UNIX do
           socket = yielded_socket
         end
 
-        socket.should be_kind_of(UNIXSocket)
-        socket.should be_closed
+        expect(socket).to be_kind_of(UNIXSocket)
+        expect(socket).to be_closed
       end
     end
 
@@ -121,7 +121,7 @@ describe Network::UNIX do
 
         client.close
 
-        sent.should == data
+        expect(sent).to eq(data)
       end
 
       after(:each) do
@@ -137,8 +137,8 @@ describe Network::UNIX do
       it "should create a new UNIXServer" do
         server = subject.unix_server(server_path)
 
-        server.should be_kind_of(UNIXServer)
-        server.should_not be_closed
+        expect(server).to be_kind_of(UNIXServer)
+        expect(server).not_to be_closed
 
         server.close
       end
@@ -150,8 +150,8 @@ describe Network::UNIX do
           server = yielded_server
         end
 
-        server.should be_kind_of(UNIXServer)
-        server.should_not be_closed
+        expect(server).to be_kind_of(UNIXServer)
+        expect(server).not_to be_closed
 
         server.close
       end
@@ -169,8 +169,8 @@ describe Network::UNIX do
           server = yielded_server
         end
 
-        server.should be_kind_of(UNIXServer)
-        server.should be_closed
+        expect(server).to be_kind_of(UNIXServer)
+        expect(server).to be_closed
       end
 
       after(:each) { FileUtils.rm(server_path) }

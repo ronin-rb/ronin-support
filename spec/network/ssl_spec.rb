@@ -6,15 +6,15 @@ describe Network::SSL do
     subject { Network::SSL::VERIFY }
 
     it "should map verify mode names to OpenSSL VERIFY_* constants" do
-      subject[:peer].should == OpenSSL::SSL::VERIFY_PEER
+      expect(subject[:peer]).to eq(OpenSSL::SSL::VERIFY_PEER)
     end
 
     it "should default to VERIFY_NONE if no verify mode name is given" do
-      subject[nil].should == OpenSSL::SSL::VERIFY_NONE
+      expect(subject[nil]).to eq(OpenSSL::SSL::VERIFY_NONE)
     end
 
     it "should raise an exception for unknown verify modes" do
-      lambda { subject[:foo_bar] }.should raise_error
+      expect { subject[:foo_bar] }.to raise_error
     end
   end
 
@@ -30,15 +30,15 @@ describe Network::SSL do
 
     describe "#ssl_connect" do
       it "should connect to an SSL protected port" do
-        lambda {
+        expect {
           subject.ssl_connect(host,port)
-        }.should_not raise_error(OpenSSL::SSL::SSLError)
+        }.not_to raise_error
       end
 
       it "should return an OpenSSL::SSL::SSLSocket" do
         socket = subject.ssl_connect(host,port)
 
-        socket.should be_kind_of(OpenSSL::SSL::SSLSocket)
+        expect(socket).to be_kind_of(OpenSSL::SSL::SSLSocket)
       end
 
       context "when a block is given" do
@@ -49,7 +49,7 @@ describe Network::SSL do
             socket = yielded_socket
           end
 
-          socket.should be_kind_of(OpenSSL::SSL::SSLSocket)
+          expect(socket).to be_kind_of(OpenSSL::SSL::SSLSocket)
         end
       end
     end
@@ -62,8 +62,8 @@ describe Network::SSL do
           socket = yielded_socket
         end
 
-        socket.should be_kind_of(OpenSSL::SSL::SSLSocket)
-        socket.should be_closed
+        expect(socket).to be_kind_of(OpenSSL::SSL::SSLSocket)
+        expect(socket).to be_closed
       end
     end
   end

@@ -31,43 +31,43 @@ describe Array do
 
   describe "#bytes" do
     it "should convert an Array of bytes to an Array of bytes" do
-      byte_array.bytes.should == byte_array
+      expect(byte_array.bytes).to eq(byte_array)
     end
 
     it "should convert an Array of chars to an Array of bytes" do
-      char_array.bytes.should == byte_array
+      expect(char_array.bytes).to eq(byte_array)
     end
 
     it "should safely handle mixed byte/char/string Arrays" do
-      mixed_array.bytes.should == byte_array
+      expect(mixed_array.bytes).to eq(byte_array)
     end
   end
 
   describe "#chars" do
     it "should convert an Array of bytes to an Array of chars" do
-      byte_array.chars.should == char_array
+      expect(byte_array.chars).to eq(char_array)
     end
 
     it "should safely convert an Array of chars to an Array of chars" do
-      char_array.chars.should == char_array
+      expect(char_array.chars).to eq(char_array)
     end
 
     it "should safely handle mixed byte/char/string Arrays" do
-      mixed_array.chars.should == char_array
+      expect(mixed_array.chars).to eq(char_array)
     end
   end
 
   describe "#char_string" do
     it "should convert an Array of bytes to a String" do
-      byte_array.char_string.should == string
+      expect(byte_array.char_string).to eq(string)
     end
 
     it "should convert an Array of chars to a String" do
-      char_array.char_string.should == string
+      expect(char_array.char_string).to eq(string)
     end
 
     it "should safely handle mixed byte/char/string Arrays" do
-      mixed_array.char_string.should == string
+      expect(mixed_array.char_string).to eq(string)
     end
   end
 
@@ -75,15 +75,15 @@ describe Array do
     let(:hex_chars) { ['\x41', '\x41', '\x20'] }
 
     it "should convert an Array of bytes into hexadecimal chars" do
-      byte_array.hex_chars.should == hex_chars
+      expect(byte_array.hex_chars).to eq(hex_chars)
     end
 
     it "should convert an Array of chars into hexadecimal chars" do
-      char_array.hex_chars.should == hex_chars
+      expect(char_array.hex_chars).to eq(hex_chars)
     end
 
     it "should safely handle mixed byte/char/string Arrays" do
-      mixed_array.hex_chars.should == hex_chars
+      expect(mixed_array.hex_chars).to eq(hex_chars)
     end
   end
 
@@ -91,15 +91,15 @@ describe Array do
     let(:hex_integers) { ['0x41', '0x41', '0x20'] }
 
     it "should convert an Array of bytes into hexadecimal integers" do
-      byte_array.hex_integers.should == hex_integers
+      expect(byte_array.hex_integers).to eq(hex_integers)
     end
 
     it "should convert an Array of chars into hexadecimal integers" do
-      char_array.hex_integers.should == hex_integers
+      expect(char_array.hex_integers).to eq(hex_integers)
     end
 
     it "should safely handle mixed byte/char/string Arrays" do
-      mixed_array.hex_integers.should == hex_integers
+      expect(mixed_array.hex_integers).to eq(hex_integers)
     end
   end
 end

@@ -13,13 +13,13 @@ describe Array do
 
     context "when only given a String" do
       it "should pack elements using Array#pack codes" do
-        subject.pack('vZ*').should == packed
+        expect(subject.pack('vZ*')).to eq(packed)
       end
     end
 
     context "otherwise" do
       it "should pack fields using Binary::Template" do
-        subject.pack(:uint16_le, :string).should == packed
+        expect(subject.pack(:uint16_le, :string)).to eq(packed)
       end
     end
   end

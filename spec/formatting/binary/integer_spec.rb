@@ -19,14 +19,14 @@ describe Integer do
   end
 
   it "should alias char to the #chr method" do
-    subject.char.should == subject.chr
+    expect(subject.char).to eq(subject.chr)
   end
 
   describe "#hex_escape" do
     subject { 42 }
 
     it "should hex escape an Integer" do
-      subject.hex_escape.should == "\\x2a"
+      expect(subject.hex_escape).to eq("\\x2a")
     end
   end
 
@@ -44,39 +44,39 @@ describe Integer do
     subject { 0x1337 }
 
     it "should return the bytes in little endian ordering by default" do
-      subject.bytes(4).should == little_endian_long
+      expect(subject.bytes(4)).to eq(little_endian_long)
     end
 
     it "should return the bytes for a char in little endian ordering" do
-      subject.bytes(1, :little).should == little_endian_char
+      expect(subject.bytes(1, :little)).to eq(little_endian_char)
     end
 
     it "should return the bytes for a short in little endian ordering" do
-      subject.bytes(2, :little).should == little_endian_short
+      expect(subject.bytes(2, :little)).to eq(little_endian_short)
     end
 
     it "should return the bytes for a long in little endian ordering" do
-      subject.bytes(4, :little).should == little_endian_long
+      expect(subject.bytes(4, :little)).to eq(little_endian_long)
     end
 
     it "should return the bytes for a quad in little endian ordering" do
-      subject.bytes(8, :little).should == little_endian_quad
+      expect(subject.bytes(8, :little)).to eq(little_endian_quad)
     end
 
     it "should return the bytes for a char in big endian ordering" do
-      subject.bytes(1, :big).should == big_endian_char
+      expect(subject.bytes(1, :big)).to eq(big_endian_char)
     end
 
     it "should return the bytes for a short in big endian ordering" do
-      subject.bytes(2, :big).should == big_endian_short
+      expect(subject.bytes(2, :big)).to eq(big_endian_short)
     end
 
     it "should return the bytes for a long in big endian ordering" do
-      subject.bytes(4, :big).should == big_endian_long
+      expect(subject.bytes(4, :big)).to eq(big_endian_long)
     end
 
     it "should return the bytes for a quad in big endian ordering" do
-      subject.bytes(8, :big).should == big_endian_quad
+      expect(subject.bytes(8, :big)).to eq(big_endian_quad)
     end
   end
 
@@ -87,21 +87,21 @@ describe Integer do
 
     context "when only given a String" do
       it "should pack Integers using Array#pack codes" do
-        subject.pack('V').should == packed
+        expect(subject.pack('V')).to eq(packed)
       end
     end
 
     context "when given a Binary::Template Integer type" do
       it "should pack Integers using Binary::Template" do
-        subject.pack(:uint32_le).should == packed
+        expect(subject.pack(:uint32_le)).to eq(packed)
       end
     end
 
     context "when given non-Integer Binary::Template types" do
       it "should raise an ArgumentError" do
-        lambda {
+        expect {
           subject.pack(:float)
-        }.should raise_error(ArgumentError)
+        }.to raise_error(ArgumentError)
       end
     end
 
@@ -123,43 +123,43 @@ describe Integer do
       end
 
       it "should pack itself for a little-endian architecture by default" do
-        subject.pack(i386).should == uint32_le
+        expect(subject.pack(i386)).to eq(uint32_le)
       end
 
       it "should pack itself as a short for a little-endian architecture" do
-        subject.pack(i386,2).should == uint16_le
+        expect(subject.pack(i386,2)).to eq(uint16_le)
       end
 
       it "should pack itself as a long for a little-endian architecture" do
-        subject.pack(i386,4).should == uint32_le
+        expect(subject.pack(i386,4)).to eq(uint32_le)
       end
 
       it "should pack itself as a quad for a little-endian architecture" do
-        subject.pack(i386,8).should == uint64_le
+        expect(subject.pack(i386,8)).to eq(uint64_le)
       end
 
       it "should pack itself for a big-endian architecture" do
-        subject.pack(ppc).should == uint32_be
+        expect(subject.pack(ppc)).to eq(uint32_be)
       end
 
       it "should pack itself as a short for a big-endian architecture" do
-        subject.pack(ppc,2).should == uint16_be
+        expect(subject.pack(ppc,2)).to eq(uint16_be)
       end
 
       it "should pack itself as a long for a big-endian architecture" do
-        subject.pack(ppc,4).should == uint32_be
+        expect(subject.pack(ppc,4)).to eq(uint32_be)
       end
 
       it "should pack itself as a quad for a big-endian architecture" do
-        subject.pack(ppc,8).should == uint64_be
+        expect(subject.pack(ppc,8)).to eq(uint64_be)
       end
     end
 
     context "when given more than 1 or 2 arguments" do
       it "should raise an ArgumentError" do
-        lambda {
+        expect {
           subject.pack(1,2,3)
-        }.should raise_error(ArgumentError)
+        }.to raise_error(ArgumentError)
       end
     end
   end

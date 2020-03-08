@@ -13,37 +13,37 @@ describe Base64 do
 
     describe "strict_encode64" do
       it "should strictly encode a String" do
-        subject.strict_encode64(string).should == strict_base64
+        expect(subject.strict_encode64(string)).to eq(strict_base64)
       end
     end
 
     describe "strict_decode64" do
       it "should strict decode an encoded Base64 String" do
-        subject.strict_decode64(strict_base64).should == string
+        expect(subject.strict_decode64(strict_base64)).to eq(string)
       end
 
       it "should raise an ArgumentError for non-strictly encoded Base64" do
-        lambda {
+        expect {
           subject.strict_decode64(base64)
-        }.should raise_error(ArgumentError)
+        }.to raise_error(ArgumentError)
       end
     end
 
     describe "urlsafe_encode64" do
       it "should encode URL-safe Base64 Strings" do
-        subject.urlsafe_encode64(string).should == urlsafe_base64
+        expect(subject.urlsafe_encode64(string)).to eq(urlsafe_base64)
       end
     end
 
     describe "urlsafe_decode64" do
       it "should decode URL-safe Base64 String" do
-        subject.urlsafe_decode64(urlsafe_base64).should == string
+        expect(subject.urlsafe_decode64(urlsafe_base64)).to eq(string)
       end
 
       it "should raise an ArgumentError for non-strictly encoded Base64" do
-        lambda {
+        expect {
           subject.urlsafe_decode64(base64)
-        }.should raise_error(ArgumentError)
+        }.to raise_error(ArgumentError)
       end
     end
   end
