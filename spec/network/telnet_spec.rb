@@ -15,7 +15,7 @@ describe Network::Telnet do
       it "should return a Net::Telnet object" do
         telnet = subject.telnet_connect(host)
 
-        telnet.should be_kind_of(Net::Telnet)
+        expect(telnet).to be_kind_of(Net::Telnet)
         telnet.close
       end
 
@@ -33,7 +33,7 @@ describe Network::Telnet do
             telnet = telnet_object
           end
 
-          telnet.should be_kind_of(Net::Telnet)
+          expect(telnet).to be_kind_of(Net::Telnet)
           telnet.close
         end
       end
@@ -47,7 +47,7 @@ describe Network::Telnet do
           yielded_telnet = telnet
         end
 
-        yielded_telnet.should be_kind_of(Net::Telnet)
+        expect(yielded_telnet).to be_kind_of(Net::Telnet)
       end
 
       it "should close the Telnet session after yielding it" do
@@ -59,8 +59,8 @@ describe Network::Telnet do
           was_open  = !telnet.sock.closed?
         end
 
-        was_open.should == true
-        session.sock.should be_closed
+        expect(was_open).to eq(true)
+        expect(session.sock).to be_closed
       end
     end
   end

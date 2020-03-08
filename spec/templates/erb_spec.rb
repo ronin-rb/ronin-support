@@ -12,10 +12,10 @@ describe Templates::Erb do
   end
 
   it "should render inline ERB templates" do
-    subject.erb(%{<%= 'hello' %>}).should == 'hello'
+    expect(subject.erb(%{<%= 'hello' %>})).to eq('hello')
   end
 
   it "should render ERB templates using the binding of the object" do
-    subject.erb(%{<%= @x %> <%= @y %>}).should == '2 3'
+    expect(subject.erb(%{<%= @x %> <%= @y %>})).to eq('2 3')
   end
 end

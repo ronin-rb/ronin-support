@@ -6,19 +6,19 @@ describe Fuzzing do
     let(:method) { :bad_strings }
 
     it "should return Enumerators for fuzzing methods" do
-      subject[method].should be_kind_of(Enumerable)
+      expect(subject[method]).to be_kind_of(Enumerable)
     end
 
     it "should raise NoMethodError for unknown methods" do
-      lambda {
+      expect {
         subject[:foo]
-      }.should raise_error(NoMethodError)
+      }.to raise_error(NoMethodError)
     end
 
     it "should not allow accessing inherited methods" do
-      lambda {
+      expect {
         subject[:instance_eval]
-      }.should raise_error(NoMethodError)
+      }.to raise_error(NoMethodError)
     end
   end
 end

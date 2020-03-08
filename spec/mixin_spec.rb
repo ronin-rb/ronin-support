@@ -26,12 +26,12 @@ describe Mixin do
     end
 
     it "should include the mixed in modules" do
-      @base.should include(Mixins::Test1)
-      @base.should include(Mixins::Test2)
+      expect(@base).to include(Mixins::Test1)
+      expect(@base).to include(Mixins::Test2)
     end
 
     it "should evaluate the mixin block" do
-      @base.instance_variable_get("@var").should == 1
+      expect(@base.instance_variable_get("@var")).to eq(1)
     end
   end
 
@@ -42,12 +42,12 @@ describe Mixin do
     end
 
     it "should extend the mixed in modules" do
-      @base.should be_kind_of(Mixins::Test1)
-      @base.should be_kind_of(Mixins::Test2)
+      expect(@base).to be_kind_of(Mixins::Test1)
+      expect(@base).to be_kind_of(Mixins::Test2)
     end
 
     it "should evaluate the mixin block" do
-      @base.instance_variable_get("@var").should == 1
+      expect(@base.instance_variable_get("@var")).to eq(1)
     end
   end
 end

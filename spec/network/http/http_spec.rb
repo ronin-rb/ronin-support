@@ -4,7 +4,7 @@ require 'ronin/network/http'
 describe Network::HTTP do
   describe "proxy" do
     it "should be disabled by default" do
-      subject.proxy.should_not be_enabled
+      expect(subject.proxy).not_to be_enabled
     end
   end
 
@@ -14,7 +14,7 @@ describe Network::HTTP do
     it "should accept URI objects" do
       options = subject.expand_url(url)
 
-      options[:host].should == url.host
+      expect(options[:host]).to eq(url.host)
     end
 
     it "should accept Hashes" do
@@ -24,29 +24,29 @@ describe Network::HTTP do
       }
       options = subject.expand_url(hash)
 
-      options[:host].should == url.host
-      options[:port].should == url.port
+      expect(options[:host]).to eq(url.host)
+      expect(options[:port]).to eq(url.port)
     end
 
     it "should accept Strings" do
       options = subject.expand_url(url.to_s)
 
-      options[:host].should == url.host
-      options[:port].should == url.port
+      expect(options[:host]).to eq(url.host)
+      expect(options[:port]).to eq(url.port)
     end
 
     describe ":path" do
       it "should filter out empty URL paths" do
         options = subject.expand_url(URI('http://example.com'))
 
-        options[:path].should be_nil
+        expect(options[:path]).to be_nil
       end
 
       context "when the path is empty" do
         it "should not be set" do
           options = subject.expand_url(URI('http://example.com'))
 
-          options.should_not have_key(:path)
+          expect(options).not_to have_key(:path)
         end
       end
     end
@@ -55,14 +55,14 @@ describe Network::HTTP do
       it "should set :query to the query string" do
         options = subject.expand_url(url)
 
-        options[:query].should == url.query
+        expect(options[:query]).to eq(url.query)
       end
 
       context "when query is nil" do
         it "should not be set" do
           options = subject.expand_url(URI('http://example.com/path'))
 
-          options.should_not have_key(:query)
+          expect(options).not_to have_key(:query)
         end
       end
 
@@ -70,7 +70,7 @@ describe Network::HTTP do
         it "should be set" do
           options = subject.expand_url(URI('http://example.com/path?'))
 
-          options[:query].should be_empty
+          expect(options[:query]).to be_empty
         end
       end
     end
@@ -78,7 +78,7 @@ describe Network::HTTP do
     it "should set :ssl if the URI scheme is 'https'" do
       options = subject.expand_url(URI('https://example.com'))
 
-      options[:ssl].should == {}
+      expect(options[:ssl]).to eq({})
     end
   end
 
@@ -87,30 +87,30 @@ describe Network::HTTP do
       options = {:ssl => true}
       expanded_options = subject.expand_options(options)
 
-      expanded_options[:ssl].should == {}
+      expect(expanded_options[:ssl]).to eq({})
     end
 
     it "should added a default port and path" do
       options = {:host => 'example.com'}
       expanded_options = subject.expand_options(options)
 
-      expanded_options[:port].should == 80
-      expanded_options[:path].should == '/'
+      expect(expanded_options[:port]).to eq(80)
+      expect(expanded_options[:path]).to eq('/')
     end
 
     it "should add the default proxy settings" do
       options = {:host => 'example.com'}
       expanded_options = subject.expand_options(options)
 
-      expanded_options[:proxy].should == subject.proxy
+      expect(expanded_options[:proxy]).to eq(subject.proxy)
     end
 
     it "should disable the proxy settings if :proxy is nil" do
       options = {:host => 'example.com', :proxy => nil}
       expanded_options = subject.expand_options(options)
 
-      expanded_options[:proxy][:host].should be_nil
-      expanded_options[:proxy][:port].should be_nil
+      expect(expanded_options[:proxy][:host]).to be_nil
+      expect(expanded_options[:proxy][:port]).to be_nil
     end
 
     it "should not modify :proxy if it is a HTTP::Proxy object" do
@@ -118,28 +118,28 @@ describe Network::HTTP do
       options = {:host => 'example.com', :proxy => proxy}
       expanded_options = subject.expand_options(options)
 
-      expanded_options[:proxy].should == proxy
+      expect(expanded_options[:proxy]).to eq(proxy)
     end
 
     it "should parse the :proxy option" do
       options = {:host => 'example.com', :proxy => 'http://proxy.com:8181'}
       expanded_options = subject.expand_options(options)
 
-      expanded_options[:proxy][:host].should == 'proxy.com'
-      expanded_options[:proxy][:port].should == 8181
+      expect(expanded_options[:proxy][:host]).to eq('proxy.com')
+      expect(expanded_options[:proxy][:port]).to eq(8181)
     end
 
     it "should expand the :url option" do
       options = {:url => 'http://joe:secret@example.com:8080/bla?var'}
       expanded_options = subject.expand_options(options)
 
-      expanded_options[:url].should be_nil
-      expanded_options[:host].should == 'example.com'
-      expanded_options[:port].should == 8080
-      expanded_options[:user].should == 'joe'
-      expanded_options[:password].should == 'secret'
-      expanded_options[:path].should == '/bla'
-      expanded_options[:query].should == 'var'
+      expect(expanded_options[:url]).to be_nil
+      expect(expanded_options[:host]).to eq('example.com')
+      expect(expanded_options[:port]).to eq(8080)
+      expect(expanded_options[:user]).to eq('joe')
+      expect(expanded_options[:password]).to eq('secret')
+      expect(expanded_options[:path]).to eq('/bla')
+      expect(expanded_options[:query]).to eq('var')
     end
   end
 
@@ -147,56 +147,56 @@ describe Network::HTTP do
     it "should convert Symbol options to HTTP Headers" do
       options = {:user_agent => 'bla', :location => 'test'}
 
-      subject.headers(options).should == {
+      expect(subject.headers(options)).to eq({
         'User-Agent' => 'bla',
         'Location'   => 'test'
-      }
+      })
     end
 
     it "should convert String options to HTTP Headers" do
       options = {'user_agent' => 'bla', 'x-powered-by' => 'PHP'}
 
-      subject.headers(options).should == {
+      expect(subject.headers(options)).to eq({
         'User-Agent'   => 'bla',
         'X-Powered-By' => 'PHP'
-      }
+      })
     end
 
     it "should convert all values to Strings" do
       mtime = Time.now.to_i
       options = {:modified_by => mtime, :x_accept => :gzip}
 
-      subject.headers(options).should == {
+      expect(subject.headers(options)).to eq({
         'Modified-By' => mtime.to_s,
         'X-Accept'    => 'gzip'
-      }
+      })
     end
   end
 
   describe "request" do
     it "should handle Symbol names" do
-      subject.request(
+      expect(subject.request(
         :method => :get, :path => '/'
-      ).class.should == Net::HTTP::Get
+      ).class).to eq(Net::HTTP::Get)
     end
 
     it "should handle String names" do
-      subject.request(
+      expect(subject.request(
         :method => 'GET', :path => '/'
-      ).class.should == Net::HTTP::Get
+      ).class).to eq(Net::HTTP::Get)
     end
 
     context "with :path" do
       it "should use a default path" do
-        lambda {
+        expect {
           subject.request(:method => :get)
-        }.should_not raise_error(ArgumentError)
+        }.not_to raise_error
       end
 
       it "should set the path" do
         req = subject.request(:method => :get, :path => '/foo')
 
-        req.path.should == '/foo'
+        expect(req.path).to eq('/foo')
       end
     end
 
@@ -211,7 +211,7 @@ describe Network::HTTP do
           :query  => query
         )
 
-        req.path.should == "#{path}?#{query}"
+        expect(req.path).to eq("#{path}?#{query}")
       end
 
       context "when path already contains a query string" do
@@ -224,7 +224,7 @@ describe Network::HTTP do
             :query  => additional_query
           )
 
-          req.path.should == "#{path}?#{query}&#{additional_query}"
+          expect(req.path).to eq("#{path}?#{query}&#{additional_query}")
         end
 
         context "when :query is empty" do
@@ -235,7 +235,7 @@ describe Network::HTTP do
               :query  => ''
             )
 
-            req.path.should be_end_with('&')
+            expect(req.path).to be_end_with('&')
           end
         end
       end
@@ -248,7 +248,7 @@ describe Network::HTTP do
             :query  => ''
           )
 
-          req.path.should be_end_with('?')
+          expect(req.path).to be_end_with('?')
         end
       end
     end
@@ -257,7 +257,7 @@ describe Network::HTTP do
       it "should accept the :user option for Basic-Auth" do
         req = subject.request(:method => :get, :user => 'joe')
 
-        req['authorization'].should == "Basic am9lOg=="
+        expect(req['authorization']).to eq("Basic am9lOg==")
       end
 
       it "should also accept the :password options for Basic-Auth" do
@@ -267,7 +267,7 @@ describe Network::HTTP do
           :password => 'secret'
         )
 
-        req['authorization'].should == "Basic am9lOnNlY3JldA=="
+        expect(req['authorization']).to eq("Basic am9lOnNlY3JldA==")
       end
     end
 
@@ -275,92 +275,92 @@ describe Network::HTTP do
       it "should create HTTP Copy requests" do
         req = subject.request(:method => :copy)
 
-        req.class.should == Net::HTTP::Copy
+        expect(req.class).to eq(Net::HTTP::Copy)
       end
 
       it "should create HTTP Delete requests" do
         req = subject.request(:method => :delete)
 
-        req.class.should == Net::HTTP::Delete
+        expect(req.class).to eq(Net::HTTP::Delete)
       end
 
       it "should create HTTP Get requests" do
         req = subject.request(:method => :get)
 
-        req.class.should == Net::HTTP::Get
+        expect(req.class).to eq(Net::HTTP::Get)
       end
 
       it "should create HTTP Head requests" do
         req = subject.request(:method => :head)
 
-        req.class.should == Net::HTTP::Head
+        expect(req.class).to eq(Net::HTTP::Head)
       end
 
       it "should create HTTP Lock requests" do
         req = subject.request(:method => :lock)
 
-        req.class.should == Net::HTTP::Lock
+        expect(req.class).to eq(Net::HTTP::Lock)
       end
 
       it "should create HTTP Mkcol requests" do
         req = subject.request(:method => :mkcol)
 
-        req.class.should == Net::HTTP::Mkcol
+        expect(req.class).to eq(Net::HTTP::Mkcol)
       end
 
       it "should create HTTP Move requests" do
         req = subject.request(:method => :move)
 
-        req.class.should == Net::HTTP::Move
+        expect(req.class).to eq(Net::HTTP::Move)
       end
 
       it "should create HTTP Options requests" do
         req = subject.request(:method => :options)
 
-        req.class.should == Net::HTTP::Options
+        expect(req.class).to eq(Net::HTTP::Options)
       end
 
       it "should create HTTP Post requests" do
         req = subject.request(:method => :post)
 
-        req.class.should == Net::HTTP::Post
+        expect(req.class).to eq(Net::HTTP::Post)
       end
 
       it "should create HTTP Propfind requests" do
         req = subject.request(:method => :propfind)
 
-        req.class.should == Net::HTTP::Propfind
+        expect(req.class).to eq(Net::HTTP::Propfind)
       end
 
       it "should create HTTP Proppatch requests" do
         req = subject.request(:method => :proppatch)
 
-        req.class.should == Net::HTTP::Proppatch
+        expect(req.class).to eq(Net::HTTP::Proppatch)
       end
 
       it "should create HTTP Trace requests" do
         req = subject.request(:method => :trace)
 
-        req.class.should == Net::HTTP::Trace
+        expect(req.class).to eq(Net::HTTP::Trace)
       end
 
       it "should create HTTP Unlock requests" do
         req = subject.request(:method => :unlock)
 
-        req.class.should == Net::HTTP::Unlock
+        expect(req.class).to eq(Net::HTTP::Unlock)
       end
 
       it "should raise an UnknownRequest exception for invalid methods" do
-        lambda {
+        expect {
           subject.request(:method => :bla)
-        }.should raise_error(subject::UnknownRequest)
+        }.to raise_error(subject::UnknownRequest)
       end
     end
 
     it "should raise an ArgumentError when :method is not specified" do
-      lambda {
+      expect {
         subject.request()
-      }.should raise_error(ArgumentError)
+      }.to raise_error(ArgumentError)
     end
   end
 
@@ -380,8 +380,8 @@ describe Network::HTTP do
       it "should create a Net::HTTP session" do
         http = subject.http_connect(:host => host, :port => port)
         
-        http.should be_kind_of(Net::HTTP)
-        http.should be_started
+        expect(http).to be_kind_of(Net::HTTP)
+        expect(http).to be_started
 
         http.finish
       end
@@ -393,7 +393,7 @@ describe Network::HTTP do
           http = session
         end
 
-        http.should be_kind_of(Net::HTTP)
+        expect(http).to be_kind_of(Net::HTTP)
       end
 
       it "should allow yielding the expanded options" do
@@ -403,9 +403,9 @@ describe Network::HTTP do
           expanded_options = options
         end
 
-        expanded_options[:host].should == host
-        expanded_options[:port].should == port
-        expanded_options[:path].should == path
+        expect(expanded_options[:host]).to eq(host)
+        expect(expanded_options[:port]).to eq(port)
+        expect(expanded_options[:path]).to eq(path)
       end
     end
 
@@ -417,8 +417,8 @@ describe Network::HTTP do
           http = session
         end
         
-        http.should be_kind_of(Net::HTTP)
-        http.should_not be_started
+        expect(http).to be_kind_of(Net::HTTP)
+        expect(http).not_to be_started
       end
 
       it "should allow yielding the Net::HTTP session" do
@@ -428,7 +428,7 @@ describe Network::HTTP do
           http = session
         end
         
-        http.should be_kind_of(Net::HTTP)
+        expect(http).to be_kind_of(Net::HTTP)
       end
 
       it "should allow yielding the expanded options" do
@@ -438,9 +438,9 @@ describe Network::HTTP do
           expanded_options = options
         end
 
-        expanded_options[:host].should == host
-        expanded_options[:port].should == port
-        expanded_options[:path].should == path
+        expect(expanded_options[:host]).to eq(host)
+        expect(expanded_options[:port]).to eq(port)
+        expect(expanded_options[:path]).to eq(path)
       end
     end
 
@@ -448,7 +448,7 @@ describe Network::HTTP do
       it "should send an arbitrary request and return the response" do
         response = subject.http_request(:url => uri, :method => :options)
 
-        response.should be_kind_of(Net::HTTPMethodNotAllowed)
+        expect(response).to be_kind_of(Net::HTTPMethodNotAllowed)
       end
 
       it "should allow yielding the request" do
@@ -458,7 +458,7 @@ describe Network::HTTP do
           request = req
         end
 
-        request.should be_kind_of(Net::HTTP::Options)
+        expect(request).to be_kind_of(Net::HTTP::Options)
       end
 
       it "should allow yielding the expanded options" do
@@ -468,25 +468,25 @@ describe Network::HTTP do
           expanded_options = options
         end
         
-        expanded_options[:host].should == host
-        expanded_options[:port].should == port
-        expanded_options[:path].should == path
+        expect(expanded_options[:host]).to eq(host)
+        expect(expanded_options[:port]).to eq(port)
+        expect(expanded_options[:path]).to eq(path)
       end
     end
 
     describe "#http_status" do
       it "should return an Integer" do
-        subject.http_status(:url => uri).should be_kind_of(Integer)
+        expect(subject.http_status(:url => uri)).to be_kind_of(Integer)
       end
 
       it "should return the status-code of the Response" do
-        subject.http_status(:url => uri).should == 200
+        expect(subject.http_status(:url => uri)).to eq(200)
       end
     end
 
     describe "#http_ok?" do
       it "should check if the Response has code 200" do
-        subject.http_ok?(:url => uri).should == true
+        expect(subject.http_ok?(:url => uri)).to eq(true)
       end
     end
 
@@ -495,7 +495,7 @@ describe Network::HTTP do
       let(:headers) { subject.http_get_headers(:url => url) }
 
       it "should return the 'Server' header" do
-        subject.http_server(:url => url).should == headers['Server']
+        expect(subject.http_server(:url => url)).to eq(headers['Server'])
       end
     end
 
@@ -504,7 +504,7 @@ describe Network::HTTP do
       let(:headers) { subject.http_get_headers(:url => url) }
 
       it "should return the 'X-Powered-By' header" do
-        subject.http_powered_by(:url => url).should == headers['X-Powered-By']
+        expect(subject.http_powered_by(:url => url)).to eq(headers['X-Powered-By'])
       end
     end
 
@@ -512,14 +512,14 @@ describe Network::HTTP do
       let(:headers) { subject.http_get_headers(:url => uri) }
 
       it "should return HTTP Headers" do
-        headers.should_not be_empty
+        expect(headers).not_to be_empty
       end
 
       it "should format the HTTP Headers accordingly" do
         format = /^[A-Z][a-z0-9]*(-[A-Z][a-z0-9]*)*$/
         bad_headers = headers.keys.reject { |name| name =~ format }
 
-        bad_headers.should == []
+        expect(bad_headers).to eq([])
       end
     end
 
@@ -527,8 +527,8 @@ describe Network::HTTP do
       it "should return the response body" do
         body = subject.http_get_body(:url => uri)
 
-        body.should be_kind_of(String)
-        body.should_not be_empty
+        expect(body).to be_kind_of(String)
+        expect(body).not_to be_empty
       end
     end
 
@@ -536,14 +536,14 @@ describe Network::HTTP do
       let(:headers) { subject.http_post_headers(:url => uri) }
 
       it "should return HTTP Headers" do
-        headers.should_not be_empty
+        expect(headers).not_to be_empty
       end
 
       it "should format the HTTP Headers accordingly" do
         format = /^[A-Z][a-z0-9]*(-[A-Z][a-z0-9]*)*$/
         bad_headers = headers.keys.reject { |name| name =~ format }
 
-        bad_headers.should == []
+        expect(bad_headers).to eq([])
       end
     end
 
@@ -551,8 +551,8 @@ describe Network::HTTP do
       it "should return the response body" do
         body = subject.http_post_body(:url => uri)
 
-        body.should be_kind_of(String)
-        body.should_not be_empty
+        expect(body).to be_kind_of(String)
+        expect(body).not_to be_empty
       end
     end
   end
