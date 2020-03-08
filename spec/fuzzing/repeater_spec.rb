@@ -43,7 +43,7 @@ describe Fuzzing::Repeater do
       subject { described_class.new(lengths) }
 
       it "should yield repeated values for each length" do
-        values = subject.each(repeatable).to_a.should
+        values = subject.each(repeatable).to_a
 
         values.should == [
           repeatable * 1,
