@@ -7,52 +7,52 @@ describe Path do
   let(:n) { 7 }
 
   it "should inherit from Pathname" do
-    subject.superclass.should == Pathname
+    expect(subject.superclass).to eq(Pathname)
   end
 
   describe "#initialize" do
     it "should accept a separator argument" do
       path = described_class.new('foo',"\\")
 
-      path.separator.should == "\\"
+      expect(path.separator).to eq("\\")
     end
 
     it "should default the separator to File::SEPARATOR" do
       path = described_class.new('foo')
 
-      path.separator.should == File::SEPARATOR
+      expect(path.separator).to eq(File::SEPARATOR)
     end
   end
 
   describe "up" do
     it "should be able to traverse up 0 directories" do
-      subject.up(0).should == File::SEPARATOR
+      expect(subject.up(0)).to eq(File::SEPARATOR)
     end
 
     it "should raise an ArgumentError when not passed an Integer or Enumerable" do
-      lambda {
+      expect {
         subject.up(1.5)
-      }.should raise_error(ArgumentError)
+      }.to raise_error(ArgumentError)
     end
 
     it "should raise an ArgumentError on negative number of directories" do
-      lambda {
+      expect {
         subject.up(-1)
-      }.should raise_error(ArgumentError)
+      }.to raise_error(ArgumentError)
     end
 
     it "should create directory-escaping paths" do
-      subject.up(n).to_s.should == (['..'] * n).join(File::SEPARATOR)
+      expect(subject.up(n).to_s).to eq((['..'] * n).join(File::SEPARATOR))
     end
 
     it "should create a range of directory-escaping paths" do
       range = 7..10
 
-      subject.up(range).should == range.map { |i| Path.up(i) }
+      expect(subject.up(range)).to eq(range.map { |i| Path.up(i) })
     end
 
     it "should allow using custom path separators" do
-      subject.up(n,'\\').to_s.should == (['..'] * n).join("\\")
+      expect(subject.up(n,'\\').to_s).to eq((['..'] * n).join("\\"))
     end
   end
 
@@ -63,37 +63,37 @@ describe Path do
       sub_path = File.join('one','two')
       expected = [subject, sub_path].join(File::SEPARATOR)
 
-      subject.join(sub_path).to_s.should == expected
+      expect(subject.join(sub_path).to_s).to eq(expected)
     end
 
     it "should join with a sub-directory" do
       sub_directory = 'three'
       expected = [subject, sub_directory].join(File::SEPARATOR)
 
-      subject.join(sub_directory).to_s.should == expected
+      expect(subject.join(sub_directory).to_s).to eq(expected)
     end
 
     it "should not collapse directory traversals" do
       traversal = Path.up(n)
       expected = [subject, traversal].join(File::SEPARATOR)
 
-      subject.join(traversal).to_s.should == expected
+      expect(subject.join(traversal).to_s).to eq(expected)
     end
 
     it "should filter out leading directory separators" do
       expected = [subject, 'sub'].join(File::SEPARATOR)
 
-      subject.join('/','sub','/').to_s.should == expected
+      expect(subject.join('/','sub','/').to_s).to eq(expected)
     end
 
     it "should filter out extra directory separators" do
       expected = [subject, 'sub'].join(File::SEPARATOR)
 
-      subject.join('/sub').to_s.should == expected
+      expect(subject.join('/sub').to_s).to eq(expected)
     end
 
     it "should join with the root path" do
-      Path.root.join('etc','passwd').to_s.should == '/etc/passwd'
+      expect(Path.root.join('etc','passwd').to_s).to eq('/etc/passwd')
     end
 
     context "with a custom path seperator" do
@@ -104,7 +104,7 @@ describe Path do
       it "should pass the path separator to the new path" do
         new_path = subject.join('bar','baz')
 
-        new_path.separator.should == separator
+        expect(new_path.separator).to eq(separator)
       end
     end
   end

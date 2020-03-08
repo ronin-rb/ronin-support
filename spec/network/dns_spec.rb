@@ -8,7 +8,7 @@ describe Network::DNS do
 
   describe "nameserver" do
     it "should be nil by default" do
-      subject.nameserver.should be_nil
+      expect(subject.nameserver).to be_nil
     end
   end
 
@@ -16,20 +16,20 @@ describe Network::DNS do
     it "should accept Strings" do
       subject.nameserver = server
 
-      subject.nameserver.should == server
+      expect(subject.nameserver).to eq(server)
     end
 
     it "should accept nil" do
       subject.nameserver = server
       subject.nameserver = nil
 
-      subject.nameserver.should be_nil
+      expect(subject.nameserver).to be_nil
     end
 
     it "should convert non-nil values to Strings" do
       subject.nameserver = IPAddr.new(server)
 
-      subject.nameserver.should == server
+      expect(subject.nameserver).to eq(server)
     end
   end
 
@@ -41,11 +41,11 @@ describe Network::DNS do
     end
 
     it "should return Resolv when passed no nameserver" do
-      subject.dns_resolver(nil).should == Resolv
+      expect(subject.dns_resolver(nil)).to eq(Resolv)
     end
 
     it "should return Resolv::DNS when passed a nameserver" do
-      subject.dns_resolver(server).should be_kind_of(Resolv::DNS)
+      expect(subject.dns_resolver(server)).to be_kind_of(Resolv::DNS)
     end
   end
 
@@ -64,19 +64,19 @@ describe Network::DNS do
 
     describe "#dns_lookup" do
       it "should lookup the address for a hostname" do
-        subject.dns_lookup(hostname).should == address
+        expect(subject.dns_lookup(hostname)).to eq(address)
       end
 
       it "should return nil for unknown hostnames" do
-        subject.dns_lookup(bad_hostname).should be_nil
+        expect(subject.dns_lookup(bad_hostname)).to be_nil
       end
 
       it "should accept non-String hostnames" do
-        subject.dns_lookup(hostname.to_sym).should == address
+        expect(subject.dns_lookup(hostname.to_sym)).to eq(address)
       end
 
       it "should accept an additional nameserver argument" do
-        subject.dns_lookup(hostname,server).should == address
+        expect(subject.dns_lookup(hostname,server)).to eq(address)
       end
 
       context "when given a block" do
@@ -87,7 +87,7 @@ describe Network::DNS do
             resolved_address = address
           end
 
-          resolved_address.should == address
+          expect(resolved_address).to eq(address)
         end
 
         it "should not yield unresolved addresses" do
@@ -97,54 +97,54 @@ describe Network::DNS do
             resolved_address = address
           end
 
-          resolved_address.should be_nil
+          expect(resolved_address).to be_nil
         end
       end
     end
 
     describe "#dns_lookup_all" do
       it "should lookup all addresses for a hostname" do
-        subject.dns_lookup_all(hostname).should include(address)
+        expect(subject.dns_lookup_all(hostname)).to include(address)
       end
 
       it "should return an empty Array for unknown hostnames" do
-        subject.dns_lookup_all(bad_hostname).should == []
+        expect(subject.dns_lookup_all(bad_hostname)).to eq([])
       end
 
       it "should accept non-String hostnames" do
-        subject.dns_lookup_all(hostname.to_sym).should include(address)
+        expect(subject.dns_lookup_all(hostname.to_sym)).to include(address)
       end
 
       it "should accept an additional nameserver argument" do
-        subject.dns_lookup_all(hostname,server).should include(address)
+        expect(subject.dns_lookup_all(hostname,server)).to include(address)
       end
 
       context "when given a block" do
         it "should yield the resolved address" do
-          subject.enum_for(:dns_lookup,hostname).to_a.should == [address]
+          expect(subject.enum_for(:dns_lookup,hostname).to_a).to eq([address])
         end
 
         it "should not yield unresolved addresses" do
-          subject.enum_for(:dns_lookup,bad_hostname).to_a.should == []
+          expect(subject.enum_for(:dns_lookup,bad_hostname).to_a).to eq([])
         end
       end
     end
 
     describe "#dns_reverse_lookup" do
       it "should lookup the address for a hostname" do
-        subject.dns_reverse_lookup(address).should == reverse_hostname
+        expect(subject.dns_reverse_lookup(address)).to eq(reverse_hostname)
       end
 
       it "should return nil for unknown hostnames" do
-        subject.dns_reverse_lookup(bad_address).should be_nil
+        expect(subject.dns_reverse_lookup(bad_address)).to be_nil
       end
 
       it "should accept non-String addresses" do
-        subject.dns_reverse_lookup(IPAddr.new(address)).should == reverse_hostname
+        expect(subject.dns_reverse_lookup(IPAddr.new(address))).to eq(reverse_hostname)
       end
 
       it "should accept an additional nameserver argument" do
-        subject.dns_reverse_lookup(address,server).should == reverse_hostname
+        expect(subject.dns_reverse_lookup(address,server)).to eq(reverse_hostname)
       end
 
       context "when given a block" do
@@ -155,7 +155,7 @@ describe Network::DNS do
             resolved_hostname = hostname
           end
 
-          resolved_hostname.should == reverse_hostname
+          expect(resolved_hostname).to eq(reverse_hostname)
         end
 
         it "should not yield unresolved hostnames" do
@@ -165,35 +165,35 @@ describe Network::DNS do
             resolved_hostname = hostname
           end
 
-          resolved_hostname.should be_nil
+          expect(resolved_hostname).to be_nil
         end
       end
     end
 
     describe "#dns_reverse_lookup_all" do
       it "should lookup all addresses for a hostname" do
-        subject.dns_reverse_lookup_all(address).should include(reverse_hostname)
+        expect(subject.dns_reverse_lookup_all(address)).to include(reverse_hostname)
       end
 
       it "should return an empty Array for unknown hostnames" do
-        subject.dns_reverse_lookup_all(bad_address).should == []
+        expect(subject.dns_reverse_lookup_all(bad_address)).to eq([])
       end
 
       it "should accept non-String addresses" do
-        subject.dns_reverse_lookup_all(IPAddr.new(address)).should include(reverse_hostname)
+        expect(subject.dns_reverse_lookup_all(IPAddr.new(address))).to include(reverse_hostname)
       end
 
       it "should accept an additional nameserver argument" do
-        subject.dns_reverse_lookup_all(address,server).should include(reverse_hostname)
+        expect(subject.dns_reverse_lookup_all(address,server)).to include(reverse_hostname)
       end
 
       context "when given a block" do
         it "should yield the resolved hostnames" do
-          subject.enum_for(:dns_reverse_lookup_all,address).to_a.should == [reverse_hostname]
+          expect(subject.enum_for(:dns_reverse_lookup_all,address).to_a).to eq([reverse_hostname])
         end
 
         it "should not yield unresolved hostnames" do
-          subject.enum_for(:dns_reverse_lookup_all,bad_address).to_a.should == []
+          expect(subject.enum_for(:dns_reverse_lookup_all,bad_address).to_a).to eq([])
         end
       end
     end

@@ -24,7 +24,7 @@ describe Integer do
     let(:html_escaped) { "&amp;" }
 
     it "should HTML escape itself" do
-      subject.html_escape.should == html_escaped
+      expect(subject.html_escape).to eq(html_escaped)
     end
   end
 
@@ -32,7 +32,7 @@ describe Integer do
     let(:formatted_html) { "&#38;" }
 
     it "should HTML format all chars" do
-      subject.format_html.should == formatted_html
+      expect(subject.format_html).to eq(formatted_html)
     end
   end
 
@@ -44,11 +44,11 @@ describe Integer do
     let(:normal_char) { 'A' }
 
     it "should escape special JavaScript characters" do
-      special_byte.js_escape.should == escaped_special_byte
+      expect(special_byte.js_escape).to eq(escaped_special_byte)
     end
 
     it "should ignore normal characters" do
-      normal_byte.js_escape.should == normal_char
+      expect(normal_byte.js_escape).to eq(normal_char)
     end
   end
 
@@ -56,11 +56,11 @@ describe Integer do
     let(:js_escaped) { '\x26' }
 
     it "should JavaScript format ascii bytes" do
-      subject.format_js.should == js_escaped
+      expect(subject.format_js).to eq(js_escaped)
     end
 
     it "should JavaScript format unicode bytes" do
-      0xd556.format_js.should == '\uD556'
+      expect(0xd556.format_js).to eq('\uD556')
     end
   end
 end

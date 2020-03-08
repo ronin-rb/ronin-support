@@ -7,7 +7,7 @@ describe File do
   subject { File }
 
   it "should provide File.escape_path" do
-    subject.should respond_to(:escape_path)
+    expect(subject).to respond_to(:escape_path)
   end
 
   describe "each_line" do
@@ -20,7 +20,7 @@ describe File do
     end
 
     it "should enumerate over each line in the file" do
-      File.each_line(@file.path).to_a.should == lines
+      expect(File.each_line(@file.path).to_a).to eq(lines)
     end
   end
 
@@ -43,21 +43,21 @@ describe File do
     end
 
     it "should enumerate over each row from each line" do
-      File.each_row(@file.path,separator).to_a.should == rows
+      expect(File.each_row(@file.path,separator).to_a).to eq(rows)
     end
   end
 
   describe "escape_path" do
     it "should remove null-bytes" do
-      File.escape_path("hello\0world\0").should == "helloworld"
+      expect(File.escape_path("hello\0world\0")).to eq("helloworld")
     end
 
     it "should escape home-dir expansions" do
-      File.escape_path("hello/~world").should == "hello/\\~world"
+      expect(File.escape_path("hello/~world")).to eq("hello/\\~world")
     end
 
     it "should remove '.' and '..' directories" do
-      File.escape_path("hello/./../world").should == "world"
+      expect(File.escape_path("hello/./../world")).to eq("world")
     end
   end
 end

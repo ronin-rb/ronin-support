@@ -15,21 +15,21 @@ describe Float do
 
     context "when only given a String" do
       it "should unpack Strings using String#unpack template Strings" do
-        subject.pack('E').should == packed
+        expect(subject.pack('E')).to eq(packed)
       end
     end
 
     context "when given a Binary::Template Float type" do
       it "should unpack Strings using Binary::Template" do
-        subject.pack(:double_le).should == packed
+        expect(subject.pack(:double_le)).to eq(packed)
       end
     end
 
     context "when given non-Float Binary::Template types" do
       it "should raise an ArgumentError" do
-        lambda {
+        expect {
           subject.pack(:int)
-        }.should raise_error(ArgumentError)
+        }.to raise_error(ArgumentError)
       end
     end
   end

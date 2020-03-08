@@ -3,6 +3,6 @@ require 'ronin/support/version'
 
 describe Support do
   it "should have a version" do
-    subject.const_defined?('VERSION').should == true
+    expect(subject.const_defined?('VERSION')).to eq(true)
   end
 end

@@ -36,7 +36,7 @@ describe Wordlist do
 
       subject.parse(text) { |word| seen << word }
 
-      seen.should =~ words
+      expect(seen).to match_array(words)
     end
   end
 
@@ -47,7 +47,7 @@ describe Wordlist do
     it "should return the new Wordlist object" do
       wordlist = described_class.create(created_path,text)
 
-      wordlist.to_a.should =~ words
+      expect(wordlist.to_a).to match_array(words)
     end
 
     it "should create a wordlist file from text" do
@@ -55,7 +55,7 @@ describe Wordlist do
 
       saved_words = File.open(created_path).each_line.map(&:chomp)
 
-      saved_words.should =~ words
+      expect(saved_words).to match_array(words)
     end
 
     it "should apply mutations to the created wordlist" do
@@ -63,7 +63,7 @@ describe Wordlist do
 
       saved_words = File.open(created_path).each_line.map(&:chomp)
 
-      saved_words.should =~ %w[foo f0o fo0 f00 bar baz]
+      expect(saved_words).to match_array(%w[foo f0o fo0 f00 bar baz])
     end
 
     after(:all) { FileUtils.rm(created_path) }
@@ -73,19 +73,19 @@ describe Wordlist do
     it "should accept a list of words" do
       wordlist = described_class.new(path)
 
-      wordlist.to_a.should == words
+      expect(wordlist.to_a).to eq(words)
     end
 
     it "should accept a path to a wordlist file" do
       wordlist = described_class.new(path)
 
-      wordlist.to_a.should == words
+      expect(wordlist.to_a).to eq(words)
     end
 
     it "should raise a TypeError for non-String / non-Enumerable objects" do
-      lambda {
+      expect {
         described_class.new(Object.new)
-      }.should raise_error(TypeError)
+      }.to raise_error(TypeError)
     end
   end
 
@@ -94,7 +94,7 @@ describe Wordlist do
       subject { described_class.new(path) }
 
       it "should enumerate over the words" do
-        subject.each_word.to_a.should == words
+        expect(subject.each_word.to_a).to eq(words)
       end
     end
 
@@ -102,7 +102,7 @@ describe Wordlist do
       subject { described_class.new(words) }
 
       it "should enumerate over the words" do
-        subject.each_word.to_a.should == words
+        expect(subject.each_word.to_a).to eq(words)
       end
     end
   end
@@ -111,24 +111,24 @@ describe Wordlist do
     it "should rewind file lists" do
       subject.each { |word| }
 
-      subject.to_a.should == words
+      expect(subject.to_a).to eq(words)
     end
 
     it "should apply additional mutation rules" do
       wordlist = described_class.new(words)
       wordlist.mutations['o'] = ['0']
 
-      wordlist.to_a.should =~ %w[foo f0o fo0 f00 bar baz]
+      expect(wordlist.to_a).to match_array(%w[foo f0o fo0 f00 bar baz])
     end
   end
 
   describe "#each_n_words" do
     it "should enumerate over every combination of N words" do
-      subject.each_n_words(2).to_a.should == %w[
+      expect(subject.each_n_words(2).to_a).to eq(%w[
         foofoo foobar foobaz
         barfoo barbar barbaz
         bazfoo bazbar bazbaz
-      ]
+      ])
     end
   end
 
@@ -141,7 +141,7 @@ describe Wordlist do
       saved_words    = File.open(saved_path).each_line.map(&:chomp)
       expected_words = subject.to_a
 
-      saved_words.should == expected_words
+      expect(saved_words).to eq(expected_words)
     end
 
     after(:all) { FileUtils.rm(saved_path) }

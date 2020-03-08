@@ -22,11 +22,11 @@ describe Network::UDP do
       let(:port) { 53 }
 
       it "should return true for open ports" do
-        subject.udp_open?(host,port).should == true
+        expect(subject.udp_open?(host,port)).to eq(true)
       end
 
       it "should return false for closed ports" do
-        subject.udp_open?('localhost',rand(1024) + 1).should == false
+        expect(subject.udp_open?('localhost',rand(1024) + 1)).to eq(false)
       end
 
       it "should have a timeout for firewalled ports" do
@@ -36,7 +36,7 @@ describe Network::UDP do
         subject.udp_open?(host,1337,nil,nil,timeout)
         t2 = Time.now
 
-        (t2 - t1).to_i.should <= timeout
+        expect((t2 - t1).to_i).to be <= timeout
       end
     end
 
@@ -46,8 +46,8 @@ describe Network::UDP do
       it "should open a UDPSocket" do
         socket = subject.udp_connect(host,port)
 
-        socket.should be_kind_of(UDPSocket)
-        socket.should_not be_closed
+        expect(socket).to be_kind_of(UDPSocket)
+        expect(socket).not_to be_closed
 
         socket.close
       end
@@ -56,7 +56,7 @@ describe Network::UDP do
         socket      = subject.udp_connect(host,port,nil,local_port)
         bound_port = socket.addr[1]
 
-        bound_port.should == local_port
+        expect(bound_port).to eq(local_port)
 
         socket.close
       end
@@ -68,7 +68,7 @@ describe Network::UDP do
           socket = yielded_socket
         end
 
-        socket.should_not be_closed
+        expect(socket).not_to be_closed
         socket.close
       end
     end
@@ -122,8 +122,8 @@ describe Network::UDP do
           socket = yielded_socket
         end
 
-        socket.should be_kind_of(UDPSocket)
-        socket.should be_closed
+        expect(socket).to be_kind_of(UDPSocket)
+        expect(socket).to be_closed
       end
 
       it "should bind to a local host and port" do
@@ -133,7 +133,7 @@ describe Network::UDP do
           bound_port = socket.addr[1]
         end
 
-        bound_port.should == local_port
+        expect(bound_port).to eq(local_port)
       end
     end
 
@@ -186,7 +186,7 @@ describe Network::UDP do
 
         mesg = server.recvfrom(data.length)
 
-        mesg[0].should == data
+        expect(mesg[0]).to eq(data)
       end
 
       it "should bind to a local host and port" do
@@ -195,7 +195,7 @@ describe Network::UDP do
         mesg = server.recvfrom(data.length)
 
         client_address = mesg[1]
-        client_address[1].should == local_port
+        expect(client_address[1]).to eq(local_port)
       end
     end
 
@@ -205,8 +205,8 @@ describe Network::UDP do
       it "should create a new UDPSocket" do
         server = subject.udp_server
 
-        server.should be_kind_of(UDPSocket)
-        server.should_not be_closed
+        expect(server).to be_kind_of(UDPSocket)
+        expect(server).not_to be_closed
 
         server.close
       end
@@ -216,8 +216,8 @@ describe Network::UDP do
         bound_host = server.addr[3]
         bound_port = server.addr[1]
 
-        bound_host.should == server_ip
-        bound_port.should == server_port
+        expect(bound_host).to eq(server_ip)
+        expect(bound_port).to eq(server_port)
 
         server.close
       end
@@ -229,8 +229,8 @@ describe Network::UDP do
           server = yielded_server
         end
 
-        server.should be_kind_of(UDPSocket)
-        server.should_not be_closed
+        expect(server).to be_kind_of(UDPSocket)
+        expect(server).not_to be_closed
 
         server.close
       end
@@ -246,8 +246,8 @@ describe Network::UDP do
           server = yielded_server
         end
 
-        server.should be_kind_of(UDPSocket)
-        server.should be_closed
+        expect(server).to be_kind_of(UDPSocket)
+        expect(server).to be_closed
       end
 
       it "should bind to a specific port and host" do
@@ -259,8 +259,8 @@ describe Network::UDP do
           bound_port = yielded_server.addr[1]
         end
 
-        bound_host.should == server_ip
-        bound_port.should == server_port
+        expect(bound_host).to eq(server_ip)
+        expect(bound_port).to eq(server_port)
       end
     end
 
