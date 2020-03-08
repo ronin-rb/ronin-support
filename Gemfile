@@ -14,6 +14,7 @@ group :development do
   gem 'ripl-auto_indent',   '~> 0.1'
   gem 'ripl-color_result',  '~> 0.3'
   gem 'rspec',              '~> 2.8'
+  gem 'transpec'
 
   gem 'kramdown',           '~> 0.12'
 end
