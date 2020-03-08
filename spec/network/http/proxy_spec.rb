@@ -8,40 +8,40 @@ describe Network::HTTP::Proxy do
     it "should parse host-names" do
       proxy = subject.parse('127.0.0.1')
 
-      proxy.host.should == '127.0.0.1'
+      expect(proxy.host).to eq('127.0.0.1')
     end
 
     it "should parse 'host:port' URLs" do
       proxy = subject.parse('127.0.0.1:80')
 
-      proxy.host.should == '127.0.0.1'
-      proxy.port.should == 80
+      expect(proxy.host).to eq('127.0.0.1')
+      expect(proxy.port).to eq(80)
     end
 
     it "should parse 'user@host:port' URLs" do
       proxy = subject.parse('joe@127.0.0.1:80')
 
-      proxy.user.should == 'joe'
-      proxy.host.should == '127.0.0.1'
-      proxy.port.should == 80
+      expect(proxy.user).to eq('joe')
+      expect(proxy.host).to eq('127.0.0.1')
+      expect(proxy.port).to eq(80)
     end
 
     it "should prase 'user:password@host:port' URLs" do
       proxy = subject.parse('joe:lol@127.0.0.1:80')
 
-      proxy.user.should == 'joe'
-      proxy.password.should == 'lol'
-      proxy.host.should == '127.0.0.1'
-      proxy.port.should == 80
+      expect(proxy.user).to eq('joe')
+      expect(proxy.password).to eq('lol')
+      expect(proxy.host).to eq('127.0.0.1')
+      expect(proxy.port).to eq(80)
     end
 
     it "should ignore http:// prefixes when parsing proxy URLs" do
       proxy = subject.parse('http://joe:lol@127.0.0.1:80')
 
-      proxy.user.should == 'joe'
-      proxy.password.should == 'lol'
-      proxy.host.should == '127.0.0.1'
-      proxy.port.should == 80
+      expect(proxy.user).to eq('joe')
+      expect(proxy.password).to eq('lol')
+      expect(proxy.host).to eq('127.0.0.1')
+      expect(proxy.port).to eq(80)
     end
   end
 
@@ -54,55 +54,55 @@ describe Network::HTTP::Proxy do
     it "should accept Proxy objects" do
       proxy = subject.new(:host => host, :port => port)
 
-      subject.create(proxy).should == proxy
+      expect(subject.create(proxy)).to eq(proxy)
     end
 
     it "should accept URI::HTTP objects" do
       url = URI::HTTP.build(:host => host, :port => port)
       proxy = subject.create(url)
 
-      proxy.host.should == host
-      proxy.port.should == port
+      expect(proxy.host).to eq(host)
+      expect(proxy.port).to eq(port)
     end
 
     it "should accept Hash objects" do
       hash = {:host => host, :port => port}
       proxy = subject.create(hash)
 
-      proxy.host.should == host
-      proxy.port.should == port
+      expect(proxy.host).to eq(host)
+      expect(proxy.port).to eq(port)
     end
 
     it "should accept String objects" do
       string = "#{host}:#{port}"
       proxy = subject.create(string)
 
-      proxy.host.should == host
-      proxy.port.should == port
+      expect(proxy.host).to eq(host)
+      expect(proxy.port).to eq(port)
     end
 
     it "should accept nil" do
       proxy = subject.create(nil)
 
-      proxy.should_not be_enabled
+      expect(proxy).not_to be_enabled
     end
   end
 
   it "should behave like a Hash" do
     subject[:host] = 'example.com'
-    subject[:host].should == 'example.com'
+    expect(subject[:host]).to eq('example.com')
   end
 
   it "should not have a host by default" do
-    subject.host.should be_nil
+    expect(subject.host).to be_nil
   end
 
   it "should not have a port by default" do
-    subject.port.should be_nil
+    expect(subject.port).to be_nil
   end
 
   it "should be disabled by default" do
-    subject.should_not be_enabled
+    expect(subject).not_to be_enabled
   end
 
   it "should reset the host, port, user and password when disabled" do
@@ -113,10 +113,10 @@ describe Network::HTTP::Proxy do
 
     subject.disable!
 
-    subject[:host].should be_nil
-    subject[:port].should be_nil
-    subject[:user].should be_nil
-    subject[:password].should be_nil
+    expect(subject[:host]).to be_nil
+    expect(subject[:port]).to be_nil
+    expect(subject[:user]).to be_nil
+    expect(subject[:password]).to be_nil
   end
 
   it "should return a URI::HTTP representing the proxy" do
@@ -127,22 +127,22 @@ describe Network::HTTP::Proxy do
 
     url = subject.url
 
-    url.host.should == 'example.com'
-    url.port.should == 9001
-    url.user.should == 'joe'
-    url.password.should == 'lol'
+    expect(url.host).to eq('example.com')
+    expect(url.port).to eq(9001)
+    expect(url.user).to eq('joe')
+    expect(url.password).to eq('lol')
   end
 
   it "should return nil when converting a disabled proxy to a URL" do
-    subject.url.should be_nil
+    expect(subject.url).to be_nil
   end
 
   it "should return the host-name when converted to a String" do
     subject[:host] = 'example.com'
-    subject.to_s.should == 'example.com'
+    expect(subject.to_s).to eq('example.com')
   end
 
   it "should return an empty String when there is no host-name" do
-    subject.to_s.should be_empty
+    expect(subject.to_s).to be_empty
   end
 end

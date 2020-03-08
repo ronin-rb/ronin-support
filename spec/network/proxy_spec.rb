@@ -24,8 +24,8 @@ describe Network::Proxy do
         :server => [server_host, server_port]
       )
 
-      proxy.port.should == port
-      proxy.host.should == '0.0.0.0'
+      expect(proxy.port).to eq(port)
+      expect(proxy.host).to eq('0.0.0.0')
     end
 
     it "should allow setting both the host and port" do
@@ -35,8 +35,8 @@ describe Network::Proxy do
         :server => [server_host, server_port]
       )
 
-      proxy.port.should == port
-      proxy.host.should == host
+      expect(proxy.port).to eq(port)
+      expect(proxy.host).to eq(host)
     end
 
     it "should set the server_host and server_port" do
@@ -46,20 +46,20 @@ describe Network::Proxy do
         :server => [server_host, server_port]
       )
 
-      proxy.server_host.should == server_host
-      proxy.server_port.should == server_port
+      expect(proxy.server_host).to eq(server_host)
+      expect(proxy.server_port).to eq(server_port)
     end
   end
 
   describe "#on_data" do
     it "should call on_client_data" do
-      subject.should_receive(:on_client_data)
+      expect(subject).to receive(:on_client_data)
 
       subject.on_data { |client,server,data| }
     end
 
     it "should call on_server_data" do
-      subject.should_receive(:on_server_data)
+      expect(subject).to receive(:on_server_data)
 
       subject.on_data { |client,server,data| }
     end
@@ -68,33 +68,33 @@ describe Network::Proxy do
   describe "actions" do
     describe "#ignore!" do
       it "should throw the :ignore action" do
-        lambda {
+        expect {
           subject.ignore!
-        }.should throw_symbol(:action, :ignore)
+        }.to throw_symbol(:action, :ignore)
       end
     end
 
     describe "#close!" do
       it "should throw the :close action" do
-        lambda {
+        expect {
           subject.close!
-        }.should throw_symbol(:action, :close)
+        }.to throw_symbol(:action, :close)
       end
     end
 
     describe "#reset!" do
       it "should throw the :reset action" do
-        lambda {
+        expect {
           subject.reset!
-        }.should throw_symbol(:action, :reset)
+        }.to throw_symbol(:action, :reset)
       end
     end
 
     describe "#stop!" do
       it "should throw the :stop action" do
-        lambda {
+        expect {
           subject.stop!
-        }.should throw_symbol(:action, :stop)
+        }.to throw_symbol(:action, :stop)
       end
     end
   end
@@ -103,11 +103,11 @@ describe Network::Proxy do
     subject { proxy.to_s }
 
     it "should include the proxy host and port" do
-      subject.should include("#{host}:#{port}")
+      expect(subject).to include("#{host}:#{port}")
     end
 
     it "should include the server host and port" do
-      subject.should include("#{server_host}:#{server_port}")
+      expect(subject).to include("#{server_host}:#{server_port}")
     end
   end
 
@@ -115,7 +115,7 @@ describe Network::Proxy do
     subject { proxy.inspect }
 
     it "should include the output of #to_s" do
-      subject.should include(proxy.to_s)
+      expect(subject).to include(proxy.to_s)
     end
   end
 end

@@ -30,7 +30,7 @@ describe String do
     let(:digest_md5) { "098f6bcd4621d373cade4e832627b4f6" }
 
     it "should return the MD5 digest of itself" do
-      subject.md5.should == digest_md5
+      expect(subject.md5).to eq(digest_md5)
     end
   end
 
@@ -40,7 +40,7 @@ describe String do
     let(:digest_sha1) { "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3" }
 
     it "should return the SHA1 digest of itself" do
-      subject.sha1.should == digest_sha1
+      expect(subject.sha1).to eq(digest_sha1)
     end
   end
 
@@ -52,7 +52,7 @@ describe String do
     end
 
     it "should return the SHA2 digest of itself" do
-      subject.sha2.should == digest_sha2
+      expect(subject.sha2).to eq(digest_sha2)
     end
   end
 
@@ -64,7 +64,7 @@ describe String do
     end
 
     it "should return the SHA256 digest of itself" do
-      subject.sha256.should == digest_sha256
+      expect(subject.sha256).to eq(digest_sha256)
     end
   end
 
@@ -76,7 +76,7 @@ describe String do
     end
 
     it "should return the SHA512 digest of itself" do
-      subject.sha512.should == digest_sha512
+      expect(subject.sha512).to eq(digest_sha512)
     end
   end
 end

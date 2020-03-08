@@ -18,7 +18,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('hexdump_octal_bytes') }
 
       it "should unhexdump octal-byte hexdump output" do
-        subject.parse(hexdump).should == ascii
+        expect(subject.parse(hexdump)).to eq(ascii)
       end
     end
 
@@ -30,7 +30,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('hexdump_hex_bytes') }
 
       it "should unhexdump hex-byte hexdump output" do
-        subject.parse(hexdump).should == ascii
+        expect(subject.parse(hexdump)).to eq(ascii)
       end
     end
 
@@ -42,7 +42,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('hexdump_decimal_shorts') }
 
       it "should unhexdump decimal-short hexdump output" do
-        subject.parse(hexdump).should == ascii
+        expect(subject.parse(hexdump)).to eq(ascii)
       end
     end
 
@@ -54,7 +54,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('hexdump_octal_shorts') }
 
       it "should unhexdump octal-short hexdump output" do
-        subject.parse(hexdump).should == ascii
+        expect(subject.parse(hexdump)).to eq(ascii)
       end
     end
 
@@ -66,7 +66,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('hexdump_hex_shorts') }
 
       it "should unhexdump hex-short hexdump output" do
-        subject.parse(hexdump).should == ascii
+        expect(subject.parse(hexdump)).to eq(ascii)
       end
     end
 
@@ -78,7 +78,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('hexdump_repeated') }
 
       it "should unhexdump repeated hexdump output" do
-        subject.parse(hexdump).should == repeated
+        expect(subject.parse(hexdump)).to eq(repeated)
       end
     end
   end
@@ -95,7 +95,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('od_octal_bytes') }
 
       it "should unhexdump octal-byte hexdump output" do
-        subject.parse(hexdump).should == ascii
+        expect(subject.parse(hexdump)).to eq(ascii)
       end
     end
 
@@ -107,7 +107,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('od_octal_shorts') }
 
       it "should unhexdump octal-shorts hexdump output" do
-        subject.parse(hexdump).should == ascii
+        expect(subject.parse(hexdump)).to eq(ascii)
       end
     end
 
@@ -119,7 +119,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('od_octal_ints') }
 
       it "should unhexdump octal-ints hexdump output" do
-        subject.parse(hexdump).should == ascii
+        expect(subject.parse(hexdump)).to eq(ascii)
       end
     end
 
@@ -132,7 +132,7 @@ describe Binary::Hexdump::Parser do
         let(:hexdump) { load_hexdump('od_octal_quads') }
 
         it "should unhexdump octal-quads hexdump output" do
-          subject.parse(hexdump).should == ascii
+          expect(subject.parse(hexdump)).to eq(ascii)
         end
       end
     end
@@ -145,7 +145,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('od_decimal_bytes') }
 
       it "should unhexdump decimal-byte hexdump output" do
-        subject.parse(hexdump).should == ascii
+        expect(subject.parse(hexdump)).to eq(ascii)
       end
     end
 
@@ -157,7 +157,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('od_decimal_shorts') }
 
       it "should unhexdump decimal-shorts hexdump output" do
-        subject.parse(hexdump).should == ascii
+        expect(subject.parse(hexdump)).to eq(ascii)
       end
     end
 
@@ -169,7 +169,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('od_decimal_ints') }
 
       it "should unhexdump decimal-ints hexdump output" do
-        subject.parse(hexdump).should == ascii
+        expect(subject.parse(hexdump)).to eq(ascii)
       end
     end
 
@@ -182,7 +182,7 @@ describe Binary::Hexdump::Parser do
         let(:hexdump) { load_hexdump('od_decimal_quads') }
 
         it "should unhexdump decimal-quads hexdump output" do
-          subject.parse(hexdump).should == ascii
+          expect(subject.parse(hexdump)).to eq(ascii)
         end
       end
     end
@@ -197,7 +197,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('od_named_chars') }
 
       it "should unhexdump named characters" do
-        subject.parse(hexdump).should == data
+        expect(subject.parse(hexdump)).to eq(data)
       end
     end
 
@@ -209,7 +209,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('od_hex_bytes') }
 
       it "should unhexdump hex-byte hexdump output" do
-        subject.parse(hexdump).should == ascii
+        expect(subject.parse(hexdump)).to eq(ascii)
       end
     end
 
@@ -221,7 +221,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('od_hex_shorts') }
 
       it "should unhexdump hex-shorts hexdump output" do
-        subject.parse(hexdump).should == ascii
+        expect(subject.parse(hexdump)).to eq(ascii)
       end
     end
 
@@ -233,7 +233,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('od_hex_ints') }
 
       it "should unhexdump hex-ints hexdump output" do
-        subject.parse(hexdump).should == ascii
+        expect(subject.parse(hexdump)).to eq(ascii)
       end
     end
 
@@ -246,7 +246,7 @@ describe Binary::Hexdump::Parser do
         let(:hexdump) { load_hexdump('od_hex_quads') }
 
         it "should unhexdump hex-quads hexdump output" do
-          subject.parse(hexdump).should == ascii
+          expect(subject.parse(hexdump)).to eq(ascii)
         end
       end
     end
@@ -265,7 +265,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('od_floats') }
 
       it "should unhexdump floats" do
-        subject.parse(hexdump).should == data
+        expect(subject.parse(hexdump)).to eq(data)
       end
     end
 
@@ -283,7 +283,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('od_doubles') }
 
       it "should unhexdump doubles" do
-        subject.parse(hexdump).should == data
+        expect(subject.parse(hexdump)).to eq(data)
       end
     end
 
@@ -295,7 +295,7 @@ describe Binary::Hexdump::Parser do
       let(:hexdump) { load_hexdump('od_repeated') }
 
       it "should unhexdump repeated hexdump output" do
-        subject.parse(hexdump).should == repeated
+        expect(subject.parse(hexdump)).to eq(repeated)
       end
     end
   end

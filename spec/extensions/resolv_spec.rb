@@ -8,11 +8,11 @@ describe Resolv do
     subject { Resolv }
 
     it "should create a new Resolv::DNS object if a nameserver is given" do
-      subject.resolver(nameserver).should be_kind_of(Resolv::DNS)
+      expect(subject.resolver(nameserver)).to be_kind_of(Resolv::DNS)
     end
 
     it "should return the default resolver otherwise" do
-      subject.resolver.should == Resolv
+      expect(subject.resolver).to eq(Resolv)
     end
   end
 end

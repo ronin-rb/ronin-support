@@ -32,7 +32,7 @@ describe String do
     let(:html_escaped) { "one &amp; two" }
 
     it "should HTML escape itself" do
-      subject.html_escape.should == html_escaped
+      expect(subject.html_escape).to eq(html_escaped)
     end
   end
 
@@ -40,7 +40,7 @@ describe String do
     let(:html_escaped) { "one &amp; two" }
 
     it "should HTML unescape itself" do
-      html_escaped.html_unescape.should == subject
+      expect(html_escaped.html_unescape).to eq(subject)
     end
   end
 
@@ -50,7 +50,7 @@ describe String do
     end
 
     it "should HTML format all chars" do
-      subject.format_html.should == formatted_html
+      expect(subject.format_html).to eq(formatted_html)
     end
   end
 
@@ -61,11 +61,11 @@ describe String do
     let(:normal_chars) { "abc" }
 
     it "should escape special JavaScript characters" do
-      special_chars.js_escape.should == escaped_special_chars
+      expect(special_chars.js_escape).to eq(escaped_special_chars)
     end
 
     it "should ignore normal characters" do
-      normal_chars.js_escape.should == normal_chars
+      expect(normal_chars.js_escape).to eq(normal_chars)
     end
   end
 
@@ -77,19 +77,19 @@ describe String do
     let(:js_mixed) { "%u6F%u6E%u65 %26 two" }
 
     it "should unescape JavaScript unicode characters" do
-      js_unicode.js_unescape.should == subject
+      expect(js_unicode.js_unescape).to eq(subject)
     end
 
     it "should unescape JavaScript hex characters" do
-      js_hex.js_unescape.should == subject
+      expect(js_hex.js_unescape).to eq(subject)
     end
 
     it "should unescape backslash-escaped characters" do
-      "\\b\\t\\n\\f\\r\\\"\\\\".js_unescape.should == "\b\t\n\f\r\"\\"
+      expect("\\b\\t\\n\\f\\r\\\"\\\\".js_unescape).to eq("\b\t\n\f\r\"\\")
     end
 
     it "should ignore non-escaped characters" do
-      js_mixed.js_unescape.should == subject
+      expect(js_mixed.js_unescape).to eq(subject)
     end
   end
 
@@ -97,7 +97,7 @@ describe String do
     let(:js_formatted) { '\x6F\x6E\x65\x20\x26\x20\x74\x77\x6F' }
 
     it "should JavaScript escape all characters" do
-      subject.format_js.should == js_formatted
+      expect(subject.format_js).to eq(js_formatted)
     end
   end
 end

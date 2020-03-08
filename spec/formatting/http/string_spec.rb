@@ -30,7 +30,7 @@ describe String do
     let(:uri_encoded) { "mod%20%25%203" }
 
     it "should URI encode itself" do
-      subject.uri_encode.should == uri_encoded
+      expect(subject.uri_encode).to eq(uri_encoded)
     end
   end
 
@@ -40,7 +40,7 @@ describe String do
     let(:uri_decoded) { "mod % 3" }
 
     it "should URI decode itself" do
-      subject.uri_decode.should == uri_decoded
+      expect(subject.uri_decode).to eq(uri_decoded)
     end
   end
 
@@ -50,7 +50,7 @@ describe String do
     let(:uri_escaped) { "x+%2B+y" }
 
     it "should URI escape itself" do
-      subject.uri_escape.should == uri_escaped
+      expect(subject.uri_escape).to eq(uri_escaped)
     end
   end
 
@@ -60,7 +60,7 @@ describe String do
     let(:uri_unescaped) { "x + y" }
 
     it "should URI unescape itself" do
-      subject.uri_unescape.should == uri_unescaped
+      expect(subject.uri_unescape).to eq(uri_unescaped)
     end
   end
 
@@ -70,7 +70,7 @@ describe String do
     let(:http_formatted) { "%6D%6F%64%20%25%20%33" }
 
     it "should format each byte of the String" do
-      subject.format_http.should == http_formatted
+      expect(subject.format_http).to eq(http_formatted)
     end
   end
 end

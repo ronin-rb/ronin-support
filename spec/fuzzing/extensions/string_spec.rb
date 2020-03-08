@@ -3,19 +3,19 @@ require 'ronin/fuzzing/extensions/string'
 
 describe String do
   it "should provide String.generate" do
-    described_class.should respond_to(:generate)
+    expect(described_class).to respond_to(:generate)
   end
 
   it "should provide String#repeating" do
-    subject.should respond_to(:repeating)
+    expect(subject).to respond_to(:repeating)
   end
 
   it "should provide String#fuzz" do
-    subject.should respond_to(:fuzz)
+    expect(subject).to respond_to(:fuzz)
   end
 
   it "should provide String#mutate" do
-    subject.should respond_to(:mutate)
+    expect(subject).to respond_to(:mutate)
   end
 
   describe "generate" do
@@ -24,7 +24,7 @@ describe String do
     it "should generate Strings from a template" do
       strings = subject.generate([:numeric, 2]).to_a
 
-      strings.grep(/^[0-9]{2}$/).should == strings
+      expect(strings.grep(/^[0-9]{2}$/)).to eq(strings)
     end
   end
 
@@ -35,7 +35,7 @@ describe String do
       let(:n) { 100 }
 
       it "should multiply the String by n" do
-        subject.repeating(n).should == (subject * n)
+        expect(subject.repeating(n)).to eq(subject * n)
       end
     end
 
@@ -45,7 +45,7 @@ describe String do
       it "should repeat the String by each length" do
         strings = subject.repeating(n).to_a
 
-        strings.should == n.map { |length| subject * length }
+        expect(strings).to eq(n.map { |length| subject * length })
       end
     end
   end
@@ -56,14 +56,14 @@ describe String do
     it "should apply each fuzzing rule individually" do
       strings = subject.fuzz(/o/ => ['O', '0'], /a/ => ['A', '@']).to_a
       
-      strings.should =~ [
+      expect(strings).to match_array([
         "fOo bar",
         "f0o bar",
         "foO bar",
         "fo0 bar",
         "foo bAr",
         "foo b@r"
-      ]
+      ])
     end
   end
 
@@ -73,7 +73,7 @@ describe String do
     it "should apply every combination of mutation rules" do
       strings = subject.mutate(/o/ => ['0'], /a/ => ['@']).to_a
 
-      strings.should =~ [
+      expect(strings).to match_array([
         "f0o bar",
         "fo0 bar",
         "f00 bar",
@@ -81,7 +81,7 @@ describe String do
         "f0o b@r",
         "fo0 b@r",
         "f00 b@r"
-      ]
+      ])
     end
   end
 end

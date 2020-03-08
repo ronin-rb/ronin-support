@@ -9,15 +9,15 @@ describe Fuzzing::Repeater do
       it "should coerce lengths to an Enumerable" do
         repeator = subject.new(10)
 
-        repeator.lengths.should be_kind_of(Enumerable)
+        expect(repeator.lengths).to be_kind_of(Enumerable)
       end
     end
 
     context "when lengths is not Enumerable or an Integer" do
       it "should raise a TypeError" do
-        lambda {
+        expect {
           subject.new(Object.new)
-        }.should raise_error(TypeError)
+        }.to raise_error(TypeError)
       end
     end
   end
@@ -33,7 +33,7 @@ describe Fuzzing::Repeater do
       it "should yield one repeated value" do
         values = subject.each(repeatable).to_a
         
-        values.should == [repeatable * length]
+        expect(values).to eq([repeatable * length])
       end
     end
 
@@ -45,12 +45,12 @@ describe Fuzzing::Repeater do
       it "should yield repeated values for each length" do
         values = subject.each(repeatable).to_a
 
-        values.should == [
+        expect(values).to eq([
           repeatable * 1,
           repeatable * 2,
           repeatable * 3,
           repeatable * 4
-        ]
+        ])
       end
     end
   end
