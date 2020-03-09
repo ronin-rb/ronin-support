@@ -5,7 +5,7 @@ gemspec
 gem 'jruby-openssl',	'~> 0.7.0', :platforms => :jruby
 
 group :development do
-  gem 'rake',               '~> 10.0'
+  gem 'rake'
   gem 'rubygems-tasks',     '~> 0.1'
   gem 'rspec',              '~> 3.0'
 
