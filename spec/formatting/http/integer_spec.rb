@@ -20,7 +20,7 @@ describe Integer do
     let(:uri_encoded) { '%20' }
 
     it "should URI encode itself" do
-      expect(subject.uri_encode).to eq(uri_encoded)
+      expect(subject.uri_encode).to be == uri_encoded
     end
   end
 
@@ -28,7 +28,7 @@ describe Integer do
     let(:uri_escaped) { '+' }
 
     it "should URI escape itself" do
-      expect(subject.uri_escape).to eq(uri_escaped)
+      expect(subject.uri_escape).to be == uri_escaped
     end
   end
 
@@ -36,7 +36,7 @@ describe Integer do
     let(:http_formatted) { '%20' }
 
     it "should format the byte" do
-      expect(subject.format_http).to eq(http_formatted)
+      expect(subject.format_http).to be == http_formatted
     end
   end
 end
