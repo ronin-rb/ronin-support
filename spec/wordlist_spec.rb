@@ -7,7 +7,7 @@ describe Wordlist do
   let(:words) { %w[foo bar baz] }
   let(:path)  { File.join(Dir.tmpdir,'ronin-support-wordlist') }
 
-  before(:all) do
+  before do
     File.open(path,'w') do |file|
       file.puts(*words)
     end
@@ -66,7 +66,7 @@ describe Wordlist do
       expect(saved_words).to match_array(%w[foo f0o fo0 f00 bar baz])
     end
 
-    after(:all) { FileUtils.rm(created_path) }
+    after { FileUtils.rm(created_path) }
   end
 
   describe "#initialize" do
@@ -144,8 +144,8 @@ describe Wordlist do
       expect(saved_words).to eq(expected_words)
     end
 
-    after(:all) { FileUtils.rm(saved_path) }
+    after { FileUtils.rm(saved_path) }
   end
 
-  after(:all) { FileUtils.rm(path) }
+  after { FileUtils.rm(path) }
 end

@@ -12,15 +12,14 @@ describe File do
 
   describe "each_line" do
     let(:lines) { %w[one two three] }
+    let(:path)  { Tempfile.new('ronin-support-File#each_line') }
 
-    before(:all) do
-      @file = Tempfile.new('ronin-support')
-      @file.puts(*lines)
-      @file.close
+    before do
+      File.open(path,'w') { |file| file.puts(*lines) }
     end
 
     it "should enumerate over each line in the file" do
-      expect(File.each_line(@file.path).to_a).to eq(lines)
+      expect(File.each_line(path).to_a).to eq(lines)
     end
   end
 
@@ -35,15 +34,14 @@ describe File do
     let(:separator) { '|' }
     let(:newline)   { "\r\n" }
     let(:lines)     { rows.map { |row| row.join(separator) }.join(newline) }
+    let(:path)      { Tempfile.new('ronin-support-File#each_row') }
 
-    before(:all) do
-      @file = Tempfile.new('ronin-support')
-      @file.write(lines)
-      @file.close
+    before do
+      File.open(path,'w') { |file| file.puts(*lines) }
     end
 
     it "should enumerate over each row from each line" do
-      expect(File.each_row(@file.path,separator).to_a).to eq(rows)
+      expect(File.each_row(path,separator).to_a).to eq(rows)
     end
   end
 
