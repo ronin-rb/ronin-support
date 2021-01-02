@@ -20,9 +20,9 @@ end
 group :test do
   case ENV['INFLECTOR']
   when 'activesupport'
-    gem 'i18n',           '~> 0.4'
-    gem 'tzinfo',         '~> 0.3.0'
-    gem 'activesupport',  '~> 3.0.0'
+    gem 'i18n',           '~> 1.0'
+    gem 'tzinfo',         '~> 2.0'
+    gem 'activesupport',  '~> 6.0'
   else
     gem 'dm-core',        '~> 1.0'
   end
