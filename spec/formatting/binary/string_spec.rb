@@ -9,35 +9,35 @@ describe String do
   subject { "hello" }
 
   it "should provide String#unpack_original" do
-    should respond_to(:unpack_original)
+    expect(subject).to respond_to(:unpack_original)
   end
 
   it "should provide String#unpack" do
-    should respond_to(:unpack)
+    expect(subject).to respond_to(:unpack)
   end
 
   it "should provide String#depack" do
-    should respond_to(:depack)
+    expect(subject).to respond_to(:depack)
   end
 
   it "should provide String#zlib_inflate" do
-    should respond_to(:zlib_inflate)
+    expect(subject).to respond_to(:zlib_inflate)
   end
 
   it "should provide String#zlib_deflate" do
-    should respond_to(:zlib_deflate)
+    expect(subject).to respond_to(:zlib_deflate)
   end
 
   it "should provide String#hex_unescape" do
-    should respond_to(:hex_unescape)
+    expect(subject).to respond_to(:hex_unescape)
   end
 
   it "should provide String#xor" do
-    should respond_to(:xor)
+    expect(subject).to respond_to(:xor)
   end
 
   it "should provide String#unhexdump" do
-    should respond_to(:unhexdump)
+    expect(subject).to respond_to(:unhexdump)
   end
 
   describe "#unpack" do
@@ -47,13 +47,13 @@ describe String do
 
     context "when given only a String" do
       it "should unpack Strings using String#unpack template Strings" do
-        subject.unpack('VZ*').should == data
+        expect(subject.unpack('VZ*')).to be == data
       end
     end
 
     context "otherwise" do
       it "should unpack Strings using Binary::Template" do
-        subject.unpack(:uint32_le, :string).should == data
+        expect(subject.unpack(:uint32_le, :string)).to be == data
       end
     end
   end
@@ -81,39 +81,39 @@ describe String do
       let(:ppc_packed_quad)  { "\000\000\000\000\000\000\0237" }
 
       it "should depack itself for a little-endian architecture" do
-        i386_packed_int.depack(i386).should == subject
+        expect(i386_packed_int.depack(i386)).to be == subject
       end
 
       it "should depack itself as a short for a little-endian architecture" do
-        i386_packed_short.depack(i386,2).should == subject
+        expect(i386_packed_short.depack(i386,2)).to be == subject
       end
 
       it "should depack itself as a long for a little-endian architecture" do
-        i386_packed_long.depack(i386,4).should == subject
+        expect(i386_packed_long.depack(i386,4)).to be == subject
       end
 
       it "should depack itself as a quad for a little-endian architecture" do
-        i386_packed_quad.depack(i386,8).should == subject
+        expect(i386_packed_quad.depack(i386,8)).to be == subject
       end
 
       it "should depack itself for a big-endian architecture" do
-        ppc_packed_int.depack(ppc).should == subject
+        expect(ppc_packed_int.depack(ppc)).to be == subject
       end
 
       it "should depack itself as a short for a big-endian architecture" do
-        ppc_packed_short.depack(ppc,2).should == subject
+        expect(ppc_packed_short.depack(ppc,2)).to be == subject
       end
 
       it "should depack itself as a long for a big-endian architecture" do
-        ppc_packed_long.depack(ppc,4).should == subject
+        expect(ppc_packed_long.depack(ppc,4)).to be == subject
       end
 
       it "should depack itself as a quad for a big-endian architecture" do
-        ppc_packed_quad.depack(ppc,8).should == subject
+        expect(ppc_packed_quad.depack(ppc,8)).to be == subject
       end
 
       it "should accept String#unpack template strings" do
-        i386_packed_long.depack('V').should == [subject]
+        expect(i386_packed_long.depack('V')).to be == [subject]
       end
     end
   end
@@ -122,7 +122,7 @@ describe String do
     subject { "hello\0" }
 
     it "should base64 encode a String" do
-      subject.base64_encode.should == "aGVsbG8A\n"
+      expect(subject.base64_encode).to be == "aGVsbG8A\n"
     end
   end
 
@@ -130,7 +130,7 @@ describe String do
     subject { "aGVsbG8A\n" }
 
     it "should base64 decode a String" do
-      subject.base64_decode.should == "hello\0"
+      expect(subject.base64_decode).to be == "hello\0"
     end
   end
 
@@ -140,7 +140,7 @@ describe String do
     end
 
     it "should inflate a zlib deflated String" do
-      subject.zlib_inflate.should == "0f8f5ec6-14dc-46e7-a63a-f89b7d11265b\0"
+      expect(subject.zlib_inflate).to be == "0f8f5ec6-14dc-46e7-a63a-f89b7d11265b\0"
     end
   end
 
@@ -148,7 +148,7 @@ describe String do
     subject { "hello" }
 
     it "should zlib deflate a String" do
-      subject.zlib_deflate.should == "x\x9c\xcbH\xcd\xc9\xc9\a\0\x06,\x02\x15"
+      expect(subject.zlib_deflate).to be == "x\x9c\xcbH\xcd\xc9\xc9\a\0\x06,\x02\x15"
     end
   end
 
@@ -156,7 +156,7 @@ describe String do
     subject { "hello\x4e" }
 
     it "should hex escape a String" do
-      subject.hex_escape.should == "\\x68\\x65\\x6c\\x6c\\x6f\\x4e"
+      expect(subject.hex_escape).to be == "\\x68\\x65\\x6c\\x6c\\x6f\\x4e"
     end
   end
 
@@ -167,23 +167,23 @@ describe String do
     let(:keys) { [0x50, 0x55] }
 
     it "should not contain the key used in the xor" do
-      should_not include(key.chr)
+      expect(subject).to_not include(key.chr)
     end
 
     it "should not equal the original string" do
-      subject.xor(key).should_not == subject
+      expect(subject.xor(key)).to_not be == subject
     end
 
     it "should be able to be decoded with another xor" do
-      subject.xor(key).xor(key).should == subject
+      expect(subject.xor(key).xor(key)).to be == subject
     end
 
     it "should allow xoring against a single key" do
-      subject.xor(key).should == "85<<?"
+      expect(subject.xor(key)).to be == "85<<?"
     end
 
     it "should allow xoring against multiple keys" do
-      subject.xor(keys).should == "80<9?"
+      expect(subject.xor(keys)).to be == "80<9?"
     end
   end
 
@@ -193,7 +193,7 @@ describe String do
     let(:raw) { "# Ronin Support\n" }
 
     it "should unhexdump a String" do
-      subject.unhexdump.should == raw
+      expect(subject.unhexdump).to be == raw
     end
   end
 end
