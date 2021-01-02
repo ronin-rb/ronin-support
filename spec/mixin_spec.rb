@@ -20,34 +20,32 @@ describe Mixin do
   end
 
   context "when included" do
-    before(:all) do
-      @base = Class.new
-      @base.send :include, subject
+    let(:klass) do
+      Class.new.tap { |klass| klass.send :include, subject }
     end
 
     it "should include the mixed in modules" do
-      expect(@base).to include(Mixins::Test1)
-      expect(@base).to include(Mixins::Test2)
+      expect(klass).to include(Mixins::Test1)
+      expect(klass).to include(Mixins::Test2)
     end
 
     it "should evaluate the mixin block" do
-      expect(@base.instance_variable_get("@var")).to eq(1)
+      expect(klass.instance_variable_get("@var")).to eq(1)
     end
   end
 
   context "when extended" do
-    before(:all) do
-      @base = Object.new
-      @base.send :extend, subject
+    let(:object) do
+      Object.new.tap { |obj| obj.extend(subject) }
     end
 
     it "should extend the mixed in modules" do
-      expect(@base).to be_kind_of(Mixins::Test1)
-      expect(@base).to be_kind_of(Mixins::Test2)
+      expect(object).to be_kind_of(Mixins::Test1)
+      expect(object).to be_kind_of(Mixins::Test2)
     end
 
     it "should evaluate the mixin block" do
-      expect(@base.instance_variable_get("@var")).to eq(1)
+      expect(object.instance_variable_get("@var")).to eq(1)
     end
   end
 end

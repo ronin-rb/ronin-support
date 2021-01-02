@@ -167,7 +167,7 @@ describe Binary::Struct do
       struct.new
     end
 
-    before(:all) do
+    before do
       subject.instance_variable_set('@x',10)
     end
 
@@ -199,7 +199,7 @@ describe Binary::Struct do
       struct.new
     end
 
-    before(:each) do
+    before do
       subject.instance_variable_set('@x',0)
     end
 
@@ -236,7 +236,7 @@ describe Binary::Struct do
       struct.new
     end
 
-    before(:each) do
+    before do
       subject.x = x
       subject.y = y
     end
@@ -264,7 +264,7 @@ describe Binary::Struct do
         struct.new
       end
 
-      before(:each) do
+      before do
         subject.z.int = z
       end
 
@@ -292,7 +292,7 @@ describe Binary::Struct do
         struct.new
       end
 
-      before(:each) do
+      before do
         subject.z[0].int = z
         subject.z[1].int = z
       end
@@ -320,7 +320,7 @@ describe Binary::Struct do
       struct.new
     end
 
-    before(:all) do
+    before do
       subject.x = 100
       subject.y = 15.0
       subject.z.int = -1
@@ -352,7 +352,7 @@ describe Binary::Struct do
         struct.new
       end
 
-      before(:each) do
+      before do
         subject.chars = string
       end
 
@@ -379,7 +379,7 @@ describe Binary::Struct do
         struct.new
       end
 
-      before(:each) do
+      before do
         subject.int = 10
         subject.struct.int = 20
       end
@@ -407,7 +407,7 @@ describe Binary::Struct do
         struct.new
       end
 
-      before(:each) do
+      before do
         subject.int = 10
         subject.struct[0].int = 20
         subject.struct[1].int = 30

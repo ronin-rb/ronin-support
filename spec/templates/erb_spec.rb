@@ -6,7 +6,7 @@ require 'templates/classes/example_erb'
 describe Templates::Erb do
   subject { ExampleErb.new }
 
-  before(:all) do
+  before do
     subject.x = 2
     subject.y = 3
   end
