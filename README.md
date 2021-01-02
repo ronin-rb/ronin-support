@@ -84,7 +84,7 @@ please see [Everyday Ronin].
 3. `cd ronin-support`
 4. `bundle install`
 5. `git checkout -b my_feature`
-6. Code!
+6. Code It!
 7. `bundle exec rake spec`
 8. `git push origin my_feature`
 
