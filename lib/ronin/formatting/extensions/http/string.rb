@@ -38,7 +38,7 @@ class String
   # @api public
   #
   def uri_encode
-    URI.encode(self)
+    URI::DEFAULT_PARSER.escape(self)
   end
 
   #
@@ -54,7 +54,7 @@ class String
   # @api public
   #
   def uri_decode
-    URI.decode(self)
+    URI::DEFAULT_PARSER.unescape(self)
   end
 
   #
