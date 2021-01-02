@@ -1,4 +1,4 @@
-# Ronin Support
+# ronin-support
 
 * [Source](https://github.com/ronin-ruby/ronin-support)
 * [Issues](https://github.com/ronin-ruby/ronin-support/issues)
