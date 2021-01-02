@@ -31,7 +31,7 @@ class Integer
   # @api public
   #
   def uri_encode
-    URI.encode(chr)
+    URI::DEFAULT_PARSER.escape(chr)
   end
 
   #
