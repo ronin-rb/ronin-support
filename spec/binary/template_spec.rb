@@ -7,19 +7,19 @@ describe Binary::Template do
   describe "TYPES" do
     subject { described_class::TYPES }
 
-    it("uint8      => C") { subject[:uint8].should       == 'C' }
-    it("uint16     => S") { subject[:uint16].should      == 'S' }
-    it("uint32     => L") { subject[:uint32].should      == 'L' }
-    it("uint64     => Q") { subject[:uint64].should      == 'Q' }
-    it("int8       => C") { subject[:int8].should        == 'c' }
-    it("int16      => S") { subject[:int16].should       == 's' }
-    it("int32      => L") { subject[:int32].should       == 'l' }
-    it("int64      => Q") { subject[:int64].should       == 'q' }
+    it("uint8      => C")  { subject[:uint8].should       == 'C' }
+    it("uint16     => S")  { subject[:uint16].should      == 'S' }
+    it("uint32     => L")  { subject[:uint32].should      == 'L' }
+    it("uint64     => Q")  { subject[:uint64].should      == 'Q' }
+    it("int8       => C")  { subject[:int8].should        == 'c' }
+    it("int16      => S")  { subject[:int16].should       == 's' }
+    it("int32      => L")  { subject[:int32].should       == 'l' }
+    it("int64      => Q")  { subject[:int64].should       == 'q' }
     if RUBY_VERSION < '1.9.'
-    it("uint16_le  => v") { subject[:uint16_le].should   == 'v' }
-    it("uint32_le  => V") { subject[:uint32_le].should   == 'V' }
-    it("uint16_be  => n") { subject[:uint16_be].should   == 'n' }
-    it("uint32_be  => N") { subject[:uint32_be].should   == 'N' }
+    it("uint16_le  => v")  { subject[:uint16_le].should   == 'v' }
+    it("uint32_le  => V")  { subject[:uint32_le].should   == 'V' }
+    it("uint16_be  => n")  { subject[:uint16_be].should   == 'n' }
+    it("uint32_be  => N")  { subject[:uint32_be].should   == 'N' }
     end
     it("uchar      => Z")  { subject[:uchar].should      == 'Z' }
     it("ushort     => S!") { subject[:ushort].should     == 'S!'}
@@ -32,14 +32,14 @@ describe Binary::Template do
     it("long       => l!") { subject[:long].should       == 'l!'}
     it("long_long  => q")  { subject[:long_long].should  == 'q' }
     it("utf8       => U")  { subject[:utf8].should       == 'U' }
-    it("float      => F") { subject[:float].should       == 'F' }
-    it("double     => D") { subject[:double].should      == 'D' }
-    it("float_le   => e") { subject[:float_le].should    == 'e' }
-    it("double_le  => E") { subject[:double_le].should   == 'E' }
-    it("float_be   => g") { subject[:float_be].should    == 'g' }
-    it("double_ge  => G") { subject[:double_be].should   == 'G' }
-    it("ubyte      => C") { subject[:ubyte].should       == 'C' }
-    it("byte       => c") { subject[:byte].should        == 'c' }
+    it("float      => F")  { subject[:float].should       == 'F' }
+    it("double     => D")  { subject[:double].should      == 'D' }
+    it("float_le   => e")  { subject[:float_le].should    == 'e' }
+    it("double_le  => E")  { subject[:double_le].should   == 'E' }
+    it("float_be   => g")  { subject[:float_be].should    == 'g' }
+    it("double_ge  => G")  { subject[:double_be].should   == 'G' }
+    it("ubyte      => C")  { subject[:ubyte].should       == 'C' }
+    it("byte       => c")  { subject[:byte].should        == 'c' }
     it("string     => Z*") { subject[:string].should     == 'Z*'}
 
     if RUBY_VERSION > '1.9.'
