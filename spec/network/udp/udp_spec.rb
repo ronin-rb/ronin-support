@@ -83,7 +83,7 @@ describe Network::UDP do
           banner   = socket.readline
           response = socket.readline
 
-          response.start_with?('250').should be_true
+          expect(response.start_with?('250')).to be_true
 
           socket.close
         end
@@ -92,7 +92,7 @@ describe Network::UDP do
           socket      = subject.udp_connect_and_send(data,host,port,nil,local_port)
           bound_port = socket.addr[1]
 
-          bound_port.should == local_port
+          expect(bound_port).to be == local_port
 
           socket.close
         end
@@ -105,7 +105,7 @@ describe Network::UDP do
             response = socket.readline
           end
 
-          response.start_with?('250').should be_true
+          expect(response.start_with?('250')).to be_true
 
           socket.close
         end
@@ -147,13 +147,13 @@ describe Network::UDP do
         it "should read the service banner" do
           banner = subject.udp_banner(host,port)
 
-          banner.start_with?('220').should be_true
+          expect(banner.start_with?('220')).to be_true
         end
 
         it "should bind to a local host and port" do
           banner = subject.udp_banner(host,port,nil,local_port)
 
-          banner.start_with?('220').should be_true
+          expect(banner.start_with?('220')).to be_true
         end
 
         it "should yield the banner" do
@@ -163,7 +163,7 @@ describe Network::UDP do
             banner = yielded_banner
           end
 
-          banner.start_with?('220').should be_true
+          expect(banner.start_with?('220')).to be_true
         end
       end
     end
