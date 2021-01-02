@@ -1,7 +1,7 @@
 name: ronin-support
-summary: A support library for Ronin.
+summary: A support library for ronin-rb.
 description:
-  Ronin Support is a support library for Ronin. Ronin Support contains many
+  Ronin Support is a support library for ronin-rb. Ronin Support contains many
   of the convenience methods used by Ronin and additional libraries.
 
 license: LGPL-3
