@@ -2,11 +2,11 @@
 
 * [Source](https://github.com/ronin-ruby/ronin-support)
 * [Issues](https://github.com/ronin-ruby/ronin-support/issues)
-* [Documentation](http://ronin-ruby.github.com/docs/ronin-support/frames)
+* [Documentation](http://ronin-rb.dev/docs/ronin-support/frames)
 * [Slack](https://ronin-rb.slack.com) |
   [Discord](https://discord.gg/F5Ap9B2N) |
   [Twitter](https://twitter.com/ronin_rb)
-  [IRC](http://ronin-ruby.github.com/irc/)
+  [IRC](http://ronin-rb.dev/irc/)
 
 ## Description
 
@@ -102,8 +102,8 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 
-[Ronin]: http://ronin-ruby.github.com/
-[Everyday Ronin]: http://ronin-ruby.github.com/guides/everyday_ronin.html
+[Ronin]: http://ronin-rb.dev/
+[Everyday Ronin]: http://ronin-rb.dev/guides/everyday_ronin.html
 [Ruby]: http://www.ruby-lang.org/
 
 [chars]: https://github.com/postmodern/chars#readme
