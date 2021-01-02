@@ -107,11 +107,11 @@ module Ronin
     # @yieldparam [String] word
     #   A unique word from the text.
     #
-    # @return [SortedSet]
+    # @return [Set]
     #   The unique set of words from the text.
     #
     def self.parse(text)
-      words_seen = SortedSet[]
+      words_seen = Set[]
 
       text.each_line do |line|
         line.scan(Regexp::WORD) do |word|
