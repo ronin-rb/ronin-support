@@ -72,16 +72,18 @@ please see [Everyday Ronin].
 
 ## Install
 
-### Stable
-
     $ gem install ronin-support
 
-### Edge
+## Development
 
-    $ git clone git://github.com/ronin-ruby/ronin-support.git
-    $ cd ronin-support/
-    $ bundle install
-    $ rake console
+1. [Fork It!](https://github.com/ronin-rb/ronin-support/fork)
+2. Clone It!
+3. `cd ronin-support`
+4. `bundle install`
+5. `git checkout -b my_feature`
+6. Code!
+7. `bundle exec rake spec`
+8. `git push origin my_feature`
 
 ## License
 
