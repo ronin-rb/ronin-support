@@ -4,7 +4,10 @@
 * [Issues](https://github.com/ronin-ruby/ronin-support/issues)
 * [Documentation](http://ronin-ruby.github.com/docs/ronin-support/frames)
 * [Mailing List](https://groups.google.com/group/ronin-ruby)
-* [irc.freenode.net #ronin](http://ronin-ruby.github.com/irc/)
+* [Slack](https://ronin-rb.slack.com) |
+  [Discord](https://discord.gg/F5Ap9B2N) |
+  [Twitter](https://twitter.com/ronin_rb)
+  [IRC](http://ronin-ruby.github.com/irc/)
 
 ## Description
 
