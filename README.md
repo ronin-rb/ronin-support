@@ -22,6 +22,7 @@ or payloads over many common Source-Code-Management (SCM) systems.
 * Provides convenience methods for:
   * Formatting data:
     * Binary
+      * Structs
     * Text
     * URIs
     * HTTP
@@ -29,6 +30,8 @@ or payloads over many common Source-Code-Management (SCM) systems.
     * JavaScript
     * SQL
   * Fuzzing
+    * Generating
+    * Mutating
   * Networking:
     * DNS
     * UNIX
