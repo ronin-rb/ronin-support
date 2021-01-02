@@ -14,7 +14,7 @@ group :development do
   gem 'ripl-auto_indent',   '~> 0.1'
   gem 'ripl-color_result',  '~> 0.3'
 
-  gem 'kramdown',           '~> 0.12'
+  gem 'kramdown',           '~> 2.0'
 end
 
 group :test do
