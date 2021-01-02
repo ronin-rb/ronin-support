@@ -29,10 +29,10 @@ module Ronin
   #
   module Fuzzing
     # Short String lengths
-    SHORT_LENGTHS = SortedSet[1, 100, 500, 1_000, 10_000]
+    SHORT_LENGTHS = Set[1, 100, 500, 1_000, 10_000]
 
     # Long String lengths
-    LONG_LENGTHS = SortedSet[
+    LONG_LENGTHS = Set[
       128, 255, 256, 257, 511, 512, 513, 1023, 1024, 2048, 2049, 4095,
       4096, 4097, 5_000, 10_000, 20_000, 32762, 32763, 32764, 32765, 32766,
       32767, 32768, 32769,
