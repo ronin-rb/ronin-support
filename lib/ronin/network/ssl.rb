@@ -14,7 +14,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with ronin-support.  If not, see <http://www.gnu.org/licenses/>.
+# along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 require 'ronin/network/tcp'
@@ -98,7 +98,7 @@ module Ronin
       # @example
       #   socket = ssl_connect('twitter.com',443)
       #
-      # @see http://rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLSocket
+      # @see https://rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLSocket
       #
       # @api public
       #
@@ -172,7 +172,7 @@ module Ronin
       #     sock.each_line { |line| puts line }
       #   end
       #
-      # @see http://rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLSocket
+      # @see https://rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLSocket
       #
       # @api public
       #

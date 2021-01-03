@@ -14,7 +14,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with ronin-support.  If not, see <http://www.gnu.org/licenses/>.
+# along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 require 'socket'
@@ -118,7 +118,7 @@ module Ronin
       #     puts socket.readlines
       #   end
       #
-      # @see http://rubydoc.info/stdlib/socket/UDPSocket
+      # @see https://rubydoc.info/stdlib/socket/UDPSocket
       #
       # @api public
       #
@@ -300,7 +300,7 @@ module Ronin
       # @example
       #   udp_server(1337)
       #
-      # @see http://rubydoc.info/stdlib/socket/UDPSocket
+      # @see https://rubydoc.info/stdlib/socket/UDPSocket
       #
       # @api public
       #

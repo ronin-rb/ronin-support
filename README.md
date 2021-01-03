@@ -2,11 +2,11 @@
 
 * [Source](https://github.com/ronin-ruby/ronin-support)
 * [Issues](https://github.com/ronin-ruby/ronin-support/issues)
-* [Documentation](http://ronin-rb.dev/docs/ronin-support/frames)
+* [Documentation](https://ronin-rb.dev/docs/ronin-support/frames)
 * [Slack](https://ronin-rb.slack.com) |
   [Discord](https://discord.gg/F5Ap9B2N) |
   [Twitter](https://twitter.com/ronin_rb) |
-  [IRC](http://ronin-rb.dev/irc/)
+  [IRC](https://ronin-rb.dev/irc/)
 
 ## Description
 
@@ -107,11 +107,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with ronin-support.  If not, see <http://www.gnu.org/licenses/>.
+along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 
-[ronin-rb]: http://ronin-rb.dev/
-[Everyday Ronin]: http://ronin-rb.dev/guides/everyday_ronin.html
-[Ruby]: http://www.ruby-lang.org/
+[ronin-rb]: https://ronin-rb.dev/
+[Everyday Ronin]: https://ronin-rb.dev/guides/everyday_ronin.html
+[Ruby]: https://www.ruby-lang.org/
 
 [chars]: https://github.com/postmodern/chars#readme
 [hexdump]: https://github.com/postmodern/hexdump#readme

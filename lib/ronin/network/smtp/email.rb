@@ -14,7 +14,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with ronin-support.  If not, see <http://www.gnu.org/licenses/>.
+# along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 module Ronin
@@ -117,7 +117,7 @@ module Ronin
         # @return [String]
         #   Properly formatted SMTP message.
         #
-        # @see http://rubydoc.info/stdlib/net/Net/SMTP
+        # @see https://rubydoc.info/stdlib/net/Net/SMTP
         #
         # @api public
         #
