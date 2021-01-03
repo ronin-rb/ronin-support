@@ -109,7 +109,7 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 
-[ronin-rb]: https://ronin-rb.dev/
+[ronin-rb]: https://ronin-rb.dev
 [Everyday Ronin]: https://ronin-rb.dev/guides/everyday_ronin.html
 [Ruby]: https://www.ruby-lang.org/
 
