@@ -14,7 +14,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with ronin-support.  If not, see <http://www.gnu.org/licenses/>.
+# along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 require 'socket'
@@ -76,7 +76,7 @@ module Ronin
       # @example
       #   unix_connect('/tmp/haproxy.stats.socket')
       #
-      # @see http://rubydoc.info/stdlib/socket/UNIXSocket
+      # @see https://rubydoc.info/stdlib/socket/UNIXSocket
       #
       # @api public
       #
@@ -188,7 +188,7 @@ module Ronin
       # @example
       #   unix_server('/tmp/test.socket')
       #
-      # @see http://rubydoc.info/stdlib/socket/UNIXServer
+      # @see https://rubydoc.info/stdlib/socket/UNIXServer
       #
       # @api public
       #

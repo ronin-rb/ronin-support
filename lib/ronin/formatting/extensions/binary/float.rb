@@ -14,7 +14,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with ronin-support.  If not, see <http://www.gnu.org/licenses/>.
+# along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 require 'ronin/binary/template'
@@ -42,7 +42,7 @@ class Float
   #   0x42.pack(:float_be)
   #   # => ">\xD7\n="
   #
-  # @see http://rubydoc.info/stdlib/core/Array:pack
+  # @see https://rubydoc.info/stdlib/core/Array:pack
   # @see Ronin::Binary::Template
   #
   # @since 0.5.0

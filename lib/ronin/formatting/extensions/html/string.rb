@@ -14,7 +14,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with ronin-support.  If not, see <http://www.gnu.org/licenses/>.
+# along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 require 'ronin/formatting/extensions/html/integer'
@@ -45,7 +45,7 @@ class String
   #   "one & two".html_escape
   #   # => "one &amp; two"
   #
-  # @see http://rubydoc.info/stdlib/cgi/1.9.2/CGI.escapeHTML
+  # @see https://rubydoc.info/stdlib/cgi/1.9.2/CGI.escapeHTML
   #
   # @since 0.2.0
   #
@@ -65,7 +65,7 @@ class String
   #   "&lt;p&gt;one &lt;span&gt;two&lt;/span&gt;&lt;/p&gt;".html_unescape
   #   # => "<p>one <span>two</span></p>"
   #
-  # @see http://rubydoc.info/stdlib/cgi/1.9.2/CGI.unescapeHTML
+  # @see https://rubydoc.info/stdlib/cgi/1.9.2/CGI.unescapeHTML
   #
   # @since 0.2.0
   #

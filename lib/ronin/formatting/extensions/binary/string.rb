@@ -14,7 +14,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with ronin-support.  If not, see <http://www.gnu.org/licenses/>.
+# along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 require 'ronin/formatting/extensions/binary/base64'
@@ -53,7 +53,7 @@ class String
   #   "A\0\0\0".unpack('V')
   #   # => 65
   #
-  # @see http://rubydoc.info/stdlib/core/String:unpack
+  # @see https://rubydoc.info/stdlib/core/String:unpack
   # @see Ronin::Binary::Template
   #
   # @since 0.5.0

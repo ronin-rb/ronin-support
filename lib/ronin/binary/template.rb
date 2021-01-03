@@ -14,7 +14,7 @@
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with ronin-support.  If not, see <http://www.gnu.org/licenses/>.
+# along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 require 'set'
@@ -91,7 +91,7 @@ module Ronin
     # * `:long_be` (`l>`) - signed long integer, little endian.
     # * `:long_long_be` (`q>`) - signed quad integer, little endian.
     #
-    # @see http://rubydoc.info/stdlib/core/Array:pack
+    # @see https://rubydoc.info/stdlib/core/Array:pack
     #
     # @api semipbulic
     #
@@ -431,7 +431,7 @@ module Ronin
       # @return [String]
       #   The template String.
       #
-      # @see http://rubydoc.info/stdlib/core/Array:pack
+      # @see https://rubydoc.info/stdlib/core/Array:pack
       #
       def to_s
         @template
