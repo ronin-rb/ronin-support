@@ -79,6 +79,10 @@ please see [Everyday Ronin].
 
     $ gem install ronin-support
 
+### Gemfile
+
+    gem 'ronin-support', '~> 0.5'
+
 ## Development
 
 1. [Fork It!](https://github.com/ronin-rb/ronin-support/fork)
