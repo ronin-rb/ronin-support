@@ -15,7 +15,7 @@ describe Network::HTTP::Proxy do
       proxy = subject.parse('127.0.0.1:80')
 
       expect(proxy.host).to eq('127.0.0.1')
-      expect(proxy.port).to eq(80)
+      expect(proxy.port).to be(80)
     end
 
     it "should parse 'user@host:port' URLs" do
@@ -23,7 +23,7 @@ describe Network::HTTP::Proxy do
 
       expect(proxy.user).to eq('joe')
       expect(proxy.host).to eq('127.0.0.1')
-      expect(proxy.port).to eq(80)
+      expect(proxy.port).to be(80)
     end
 
     it "should prase 'user:password@host:port' URLs" do
@@ -32,7 +32,7 @@ describe Network::HTTP::Proxy do
       expect(proxy.user).to eq('joe')
       expect(proxy.password).to eq('lol')
       expect(proxy.host).to eq('127.0.0.1')
-      expect(proxy.port).to eq(80)
+      expect(proxy.port).to be(80)
     end
 
     it "should ignore http:// prefixes when parsing proxy URLs" do
@@ -41,7 +41,7 @@ describe Network::HTTP::Proxy do
       expect(proxy.user).to eq('joe')
       expect(proxy.password).to eq('lol')
       expect(proxy.host).to eq('127.0.0.1')
-      expect(proxy.port).to eq(80)
+      expect(proxy.port).to be(80)
     end
   end
 
@@ -128,7 +128,7 @@ describe Network::HTTP::Proxy do
     url = subject.url
 
     expect(url.host).to eq('example.com')
-    expect(url.port).to eq(9001)
+    expect(url.port).to be(9001)
     expect(url.user).to eq('joe')
     expect(url.password).to eq('lol')
   end

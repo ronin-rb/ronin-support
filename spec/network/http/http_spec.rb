@@ -94,7 +94,7 @@ describe Network::HTTP do
       options = {:host => 'example.com'}
       expanded_options = subject.expand_options(options)
 
-      expect(expanded_options[:port]).to eq(80)
+      expect(expanded_options[:port]).to be(80)
       expect(expanded_options[:path]).to eq('/')
     end
 
@@ -126,7 +126,7 @@ describe Network::HTTP do
       expanded_options = subject.expand_options(options)
 
       expect(expanded_options[:proxy][:host]).to eq('proxy.com')
-      expect(expanded_options[:proxy][:port]).to eq(8181)
+      expect(expanded_options[:proxy][:port]).to be(8181)
     end
 
     it "should expand the :url option" do
@@ -135,7 +135,7 @@ describe Network::HTTP do
 
       expect(expanded_options[:url]).to be_nil
       expect(expanded_options[:host]).to eq('example.com')
-      expect(expanded_options[:port]).to eq(8080)
+      expect(expanded_options[:port]).to be(8080)
       expect(expanded_options[:user]).to eq('joe')
       expect(expanded_options[:password]).to eq('secret')
       expect(expanded_options[:path]).to eq('/bla')
@@ -480,13 +480,13 @@ describe Network::HTTP do
       end
 
       it "should return the status-code of the Response" do
-        expect(subject.http_status(:url => uri)).to eq(200)
+        expect(subject.http_status(:url => uri)).to be(200)
       end
     end
 
     describe "#http_ok?" do
       it "should check if the Response has code 200" do
-        expect(subject.http_ok?(:url => uri)).to eq(true)
+        expect(subject.http_ok?(:url => uri)).to be(true)
       end
     end
 
