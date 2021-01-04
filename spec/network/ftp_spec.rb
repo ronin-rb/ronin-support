@@ -73,7 +73,7 @@ describe Network::FTP do
           was_open  = !ftp.closed?
         end
 
-        expect(was_open).to eq(true)
+        expect(was_open).to be(true)
         expect(session).to be_closed
       end
     end

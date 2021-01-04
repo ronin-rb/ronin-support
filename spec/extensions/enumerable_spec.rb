@@ -18,7 +18,7 @@ describe Enumerable do
     it "should set the default_proc of the Hash" do
       hash = [].map_hash { |i| i ** 2 }
 
-      expect(hash[3]).to eq(9)
+      expect(hash[3]).to be(9)
     end
   end
 end

@@ -21,11 +21,11 @@ describe Network::UNIX do
       before(:all) { UNIXServer.new(old_path).close }
 
       it "should return true for listening UNIX sockets" do
-        expect(subject.unix_open?(path)).to eq(true)
+        expect(subject.unix_open?(path)).to be(true)
       end
 
       it "should return false for closed UNIX sockets" do
-        expect(subject.unix_open?(old_path)).to eq(false)
+        expect(subject.unix_open?(old_path)).to be(false)
       end
 
       it "should have a timeout for non-existent UNIX sockets" do

@@ -8,7 +8,7 @@ describe Kernel do
 
   describe "#try" do
     it "should return the result of the block if nothing is raised" do
-      expect(try { 2 + 2 }).to eq(4)
+      expect(try { 2 + 2 }).to be(4)
     end
 
     it "should return nil if an exception is raised" do

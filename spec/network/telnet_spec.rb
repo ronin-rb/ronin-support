@@ -59,7 +59,7 @@ describe Network::Telnet do
           was_open  = !telnet.sock.closed?
         end
 
-        expect(was_open).to eq(true)
+        expect(was_open).to be(true)
         expect(session.sock).to be_closed
       end
     end

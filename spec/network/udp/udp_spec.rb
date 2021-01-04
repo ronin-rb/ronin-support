@@ -22,11 +22,11 @@ describe Network::UDP do
       let(:port) { 53 }
 
       it "should return true for open ports" do
-        expect(subject.udp_open?(host,port)).to eq(true)
+        expect(subject.udp_open?(host,port)).to be(true)
       end
 
       it "should return false for closed ports" do
-        expect(subject.udp_open?('localhost',rand(1024) + 1)).to eq(false)
+        expect(subject.udp_open?('localhost',rand(1024) + 1)).to be(false)
       end
 
       it "should have a timeout for firewalled ports" do
