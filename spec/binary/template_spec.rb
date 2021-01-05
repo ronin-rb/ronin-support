@@ -7,71 +7,71 @@ describe Binary::Template do
   describe "TYPES" do
     subject { described_class::TYPES }
 
-    it("uint8      => C")  { expect(subject[:uint8]).to       be == 'C' }
-    it("uint16     => S")  { expect(subject[:uint16]).to      be == 'S' }
-    it("uint32     => L")  { expect(subject[:uint32]).to      be == 'L' }
-    it("uint64     => Q")  { expect(subject[:uint64]).to      be == 'Q' }
-    it("int8       => C")  { expect(subject[:int8]).to        be == 'c' }
-    it("int16      => S")  { expect(subject[:int16]).to       be == 's' }
-    it("int32      => L")  { expect(subject[:int32]).to       be == 'l' }
-    it("int64      => Q")  { expect(subject[:int64]).to       be == 'q' }
+    it("uint8      => C")  { expect(subject[:uint8]).to       eq('C' ) }
+    it("uint16     => S")  { expect(subject[:uint16]).to      eq('S' ) }
+    it("uint32     => L")  { expect(subject[:uint32]).to      eq('L' ) }
+    it("uint64     => Q")  { expect(subject[:uint64]).to      eq('Q' ) }
+    it("int8       => C")  { expect(subject[:int8]).to        eq('c' ) }
+    it("int16      => S")  { expect(subject[:int16]).to       eq('s' ) }
+    it("int32      => L")  { expect(subject[:int32]).to       eq('l' ) }
+    it("int64      => Q")  { expect(subject[:int64]).to       eq('q' ) }
     if RUBY_VERSION < '1.9.'
-    it("uint16_le  => v")  { expect(subject[:uint16_le]).to   be == 'v' }
-    it("uint32_le  => V")  { expect(subject[:uint32_le]).to   be == 'V' }
-    it("uint16_be  => n")  { expect(subject[:uint16_be]).to   be == 'n' }
-    it("uint32_be  => N")  { expect(subject[:uint32_be]).to   be == 'N' }
+    it("uint16_le  => v")  { expect(subject[:uint16_le]).to   eq('v' ) }
+    it("uint32_le  => V")  { expect(subject[:uint32_le]).to   eq('V' ) }
+    it("uint16_be  => n")  { expect(subject[:uint16_be]).to   eq('n' ) }
+    it("uint32_be  => N")  { expect(subject[:uint32_be]).to   eq('N' ) }
     end
-    it("uchar      => Z")  { expect(subject[:uchar]).to      be == 'Z' }
-    it("ushort     => S!") { expect(subject[:ushort]).to     be == 'S!'}
-    it("uint       => I!") { expect(subject[:uint]).to       be == 'I!'}
-    it("ulong      => L!") { expect(subject[:ulong]).to      be == 'L!'}
-    it("ulong_long => Q")  { expect(subject[:ulong_long]).to be == 'Q' }
-    it("char       => Z")  { expect(subject[:char]).to       be == 'Z' }
-    it("short      => s!") { expect(subject[:short]).to      be == 's!'}
-    it("int        => i!") { expect(subject[:int]).to        be == 'i!'}
-    it("long       => l!") { expect(subject[:long]).to       be == 'l!'}
-    it("long_long  => q")  { expect(subject[:long_long]).to  be == 'q' }
-    it("utf8       => U")  { expect(subject[:utf8]).to       be == 'U' }
-    it("float      => F")  { expect(subject[:float]).to       be == 'F' }
-    it("double     => D")  { expect(subject[:double]).to      be == 'D' }
-    it("float_le   => e")  { expect(subject[:float_le]).to    be == 'e' }
-    it("double_le  => E")  { expect(subject[:double_le]).to   be == 'E' }
-    it("float_be   => g")  { expect(subject[:float_be]).to    be == 'g' }
-    it("double_ge  => G")  { expect(subject[:double_be]).to   be == 'G' }
-    it("ubyte      => C")  { expect(subject[:ubyte]).to       be == 'C' }
-    it("byte       => c")  { expect(subject[:byte]).to        be == 'c' }
-    it("string     => Z*") { expect(subject[:string]).to     be == 'Z*'}
+    it("uchar      => Z")  { expect(subject[:uchar]).to      eq('Z' ) }
+    it("ushort     => S!") { expect(subject[:ushort]).to     eq('S!') }
+    it("uint       => I!") { expect(subject[:uint]).to       eq('I!') }
+    it("ulong      => L!") { expect(subject[:ulong]).to      eq('L!') }
+    it("ulong_long => Q")  { expect(subject[:ulong_long]).to eq('Q' ) }
+    it("char       => Z")  { expect(subject[:char]).to       eq('Z' ) }
+    it("short      => s!") { expect(subject[:short]).to      eq('s!') }
+    it("int        => i!") { expect(subject[:int]).to        eq('i!') }
+    it("long       => l!") { expect(subject[:long]).to       eq('l!') }
+    it("long_long  => q")  { expect(subject[:long_long]).to  eq('q' ) }
+    it("utf8       => U")  { expect(subject[:utf8]).to       eq('U' ) }
+    it("float      => F")  { expect(subject[:float]).to       eq('F' ) }
+    it("double     => D")  { expect(subject[:double]).to      eq('D' ) }
+    it("float_le   => e")  { expect(subject[:float_le]).to    eq('e' ) }
+    it("double_le  => E")  { expect(subject[:double_le]).to   eq('E' ) }
+    it("float_be   => g")  { expect(subject[:float_be]).to    eq('g' ) }
+    it("double_ge  => G")  { expect(subject[:double_be]).to   eq('G' ) }
+    it("ubyte      => C")  { expect(subject[:ubyte]).to       eq('C' ) }
+    it("byte       => c")  { expect(subject[:byte]).to        eq('c' ) }
+    it("string     => Z*") { expect(subject[:string]).to     eq('Z*') }
 
     if RUBY_VERSION > '1.9.'
       context "Ruby 1.9" do
-        it("uint16_le     => S<") { expect(subject[:uint16_le]).to      be == 'S<' }
-        it("uint32_le     => L<") { expect(subject[:uint32_le]).to      be == 'L<' }
-        it("uint64_le     => Q<") { expect(subject[:uint64_le]).to      be == 'Q<' }
-        it("int16_le      => S<") { expect(subject[:int16_le]).to       be == 's<' }
-        it("int32_le      => L<") { expect(subject[:int32_le]).to       be == 'l<' }
-        it("int64_le      => Q<") { expect(subject[:int64_le]).to       be == 'q<' }
-        it("uint16_be     => S>") { expect(subject[:uint16_be]).to      be == 'S>' }
-        it("uint32_be     => L>") { expect(subject[:uint32_be]).to      be == 'L>' }
-        it("uint64_be     => Q>") { expect(subject[:uint64_be]).to      be == 'Q>' }
-        it("int16_be      => S>") { expect(subject[:int16_be]).to       be == 's>' }
-        it("int32_be      => L>") { expect(subject[:int32_be]).to       be == 'l>' }
-        it("int64_be      => Q>") { expect(subject[:int64_be]).to       be == 'q>' }
-        it("ushort_le     => S!<") { expect(subject[:ushort_le]).to     be == 'S!<'}
-        it("uint_le       => I!<") { expect(subject[:uint_le]).to       be == 'I!<'}
-        it("ulong_le      => L!<") { expect(subject[:ulong_le]).to      be == 'L!<'}
-        it("ulong_long_le => L!<") { expect(subject[:ulong_long_le]).to be == 'Q<' }
-        it("short_le      => S!<") { expect(subject[:short_le]).to      be == 's!<'}
-        it("int_le        => I!<") { expect(subject[:int_le]).to        be == 'i!<'}
-        it("long_le       => L!<") { expect(subject[:long_le]).to       be == 'l!<'}
-        it("long_long_le  => L!<") { expect(subject[:long_long_le]).to  be == 'q<' }
-        it("ushort_be     => S!>") { expect(subject[:ushort_be]).to     be == 'S!>'}
-        it("uint_be       => I!>") { expect(subject[:uint_be]).to       be == 'I!>'}
-        it("ulong_be      => L!>") { expect(subject[:ulong_be]).to      be == 'L!>'}
-        it("ulong_long_be => L!>") { expect(subject[:ulong_long_be]).to be == 'Q>' }
-        it("short_be      => S!>") { expect(subject[:short_be]).to      be == 's!>'}
-        it("int_be        => I!>") { expect(subject[:int_be]).to        be == 'i!>'}
-        it("long_be       => L!>") { expect(subject[:long_be]).to       be == 'l!>'}
-        it("long_long_be  => L!>") { expect(subject[:long_long_be]).to  be == 'q>' }
+        it("uint16_le     => S<") { expect(subject[:uint16_le]).to      eq('S<' ) }
+        it("uint32_le     => L<") { expect(subject[:uint32_le]).to      eq('L<' ) }
+        it("uint64_le     => Q<") { expect(subject[:uint64_le]).to      eq('Q<' ) }
+        it("int16_le      => S<") { expect(subject[:int16_le]).to       eq('s<' ) }
+        it("int32_le      => L<") { expect(subject[:int32_le]).to       eq('l<' ) }
+        it("int64_le      => Q<") { expect(subject[:int64_le]).to       eq('q<' ) }
+        it("uint16_be     => S>") { expect(subject[:uint16_be]).to      eq('S>' ) }
+        it("uint32_be     => L>") { expect(subject[:uint32_be]).to      eq('L>' ) }
+        it("uint64_be     => Q>") { expect(subject[:uint64_be]).to      eq('Q>' ) }
+        it("int16_be      => S>") { expect(subject[:int16_be]).to       eq('s>' ) }
+        it("int32_be      => L>") { expect(subject[:int32_be]).to       eq('l>' ) }
+        it("int64_be      => Q>") { expect(subject[:int64_be]).to       eq('q>' ) }
+        it("ushort_le     => S!<") { expect(subject[:ushort_le]).to     eq('S!<') }
+        it("uint_le       => I!<") { expect(subject[:uint_le]).to       eq('I!<') }
+        it("ulong_le      => L!<") { expect(subject[:ulong_le]).to      eq('L!<') }
+        it("ulong_long_le => L!<") { expect(subject[:ulong_long_le]).to eq('Q<' ) }
+        it("short_le      => S!<") { expect(subject[:short_le]).to      eq('s!<') }
+        it("int_le        => I!<") { expect(subject[:int_le]).to        eq('i!<') }
+        it("long_le       => L!<") { expect(subject[:long_le]).to       eq('l!<') }
+        it("long_long_le  => L!<") { expect(subject[:long_long_le]).to  eq('q<' ) }
+        it("ushort_be     => S!>") { expect(subject[:ushort_be]).to     eq('S!>') }
+        it("uint_be       => I!>") { expect(subject[:uint_be]).to       eq('I!>') }
+        it("ulong_be      => L!>") { expect(subject[:ulong_be]).to      eq('L!>') }
+        it("ulong_long_be => L!>") { expect(subject[:ulong_long_be]).to eq('Q>' ) }
+        it("short_be      => S!>") { expect(subject[:short_be]).to      eq('s!>') }
+        it("int_be        => I!>") { expect(subject[:int_be]).to        eq('i!>') }
+        it("long_be       => L!>") { expect(subject[:long_be]).to       eq('l!>') }
+        it("long_long_be  => L!>") { expect(subject[:long_long_be]).to  eq('q>' ) }
       end
     end
   end
@@ -81,11 +81,11 @@ describe Binary::Template do
 
     context "when given :endian" do
       it "should translate endian-types" do
-        expect(subject.translate(:uint, :endian => :little)).to be == :uint_le
+        expect(subject.translate(:uint, :endian => :little)).to eq(:uint_le)
       end
 
       it "should not translate non-endian-types" do
-        expect(subject.translate(:string, :endian => :little)).to be == :string
+        expect(subject.translate(:string, :endian => :little)).to eq(:string)
       end
 
       it "should raise an ArgumentError for unknown endianness" do
@@ -103,11 +103,11 @@ describe Binary::Template do
     subject { described_class }
 
     it "should translate types to their pack codes" do
-      expect(subject.compile([type])).to be == code
+      expect(subject.compile([type])).to eq(code)
     end
 
     it "should support specifying the length of a field" do
-      expect(subject.compile([[type, 10]])).to be == "#{code}10"
+      expect(subject.compile([[type, 10]])).to eq("#{code}10")
     end
 
     it "should raise ArgumentError for unknown types" do
@@ -121,10 +121,10 @@ describe Binary::Template do
     subject { described_class.new [:uint32, :string] }
 
     it "should store the types" do
-      expect(subject.fields).to be == [
+      expect(subject.fields).to eq([
         :uint32,
         :string
-      ]
+      ])
     end
 
     it "should raise ArgumentError for unknown types" do
@@ -163,7 +163,7 @@ describe Binary::Template do
       subject { described_class.new [:byte] }
 
       it "should pack a signed byte" do
-        expect(subject.pack(byte)).to be == char
+        expect(subject.pack(byte)).to eq(char)
       end
     end
 
@@ -172,7 +172,7 @@ describe Binary::Template do
       subject { described_class.new [[:byte, n]] }
 
       it "should pack multiple signed characters" do
-        expect(subject.pack(*bytes)).to be == chars
+        expect(subject.pack(*bytes)).to eq(chars)
       end
     end
 
@@ -180,7 +180,7 @@ describe Binary::Template do
       subject { described_class.new [:char] }
 
       it "should pack a signed character" do
-        expect(subject.pack(char)).to be == char
+        expect(subject.pack(char)).to eq(char)
       end
     end
 
@@ -189,7 +189,7 @@ describe Binary::Template do
       subject { described_class.new [[:char, n]] }
 
       it "should pack multiple signed characters" do
-        expect(subject.pack(*chars)).to be == string
+        expect(subject.pack(*chars)).to eq(string)
       end
 
       context "padding" do
@@ -197,7 +197,7 @@ describe Binary::Template do
         subject { described_class.new [[:char, n + padding]] }
 
         it "should pad the string with '\\0' characters" do
-          expect(subject.pack(*chars)).to be == (string + ("\0" * padding))
+          expect(subject.pack(*chars)).to eq((string + ("\0" * padding)))
         end
       end
     end
@@ -206,7 +206,7 @@ describe Binary::Template do
       subject { described_class.new [:uint8] }
 
       it "should pack an unsigned 8bit integer" do
-        expect(subject.pack(uint8)).to be == "\xff"
+        expect(subject.pack(uint8)).to eq("\xff")
       end
     end
 
@@ -214,7 +214,7 @@ describe Binary::Template do
       subject { described_class.new [:uint16] }
 
       it "should pack an unsigned 16bit integer" do
-        expect(subject.pack(uint16)).to be == "\xff\xff"
+        expect(subject.pack(uint16)).to eq("\xff\xff")
       end
     end
 
@@ -222,7 +222,7 @@ describe Binary::Template do
       subject { described_class.new [:uint32] }
 
       it "should pack an unsigned 32bit integer" do
-        expect(subject.pack(uint32)).to be == "\xff\xff\xff\xff"
+        expect(subject.pack(uint32)).to eq("\xff\xff\xff\xff")
       end
     end
 
@@ -230,7 +230,7 @@ describe Binary::Template do
       subject { described_class.new [:uint64] }
 
       it "should pack an unsigned 64bit integer" do
-        expect(subject.pack(uint64)).to be == "\xff\xff\xff\xff\xff\xff\xff\xff"
+        expect(subject.pack(uint64)).to eq("\xff\xff\xff\xff\xff\xff\xff\xff")
       end
     end
 
@@ -238,7 +238,7 @@ describe Binary::Template do
       subject { described_class.new [:int8] }
 
       it "should pack an signed 8bit integer" do
-        expect(subject.pack(int8)).to be == "\xff"
+        expect(subject.pack(int8)).to eq("\xff")
       end
     end
 
@@ -246,7 +246,7 @@ describe Binary::Template do
       subject { described_class.new [:int16] }
 
       it "should pack an unsigned 16bit integer" do
-        expect(subject.pack(int16)).to be == "\xff\xff"
+        expect(subject.pack(int16)).to eq("\xff\xff")
       end
     end
 
@@ -254,7 +254,7 @@ describe Binary::Template do
       subject { described_class.new [:int32] }
 
       it "should pack an unsigned 32bit integer" do
-        expect(subject.pack(int32)).to be == "\xff\xff\xff\xff"
+        expect(subject.pack(int32)).to eq("\xff\xff\xff\xff")
       end
     end
 
@@ -262,7 +262,7 @@ describe Binary::Template do
       subject { described_class.new [:int64] }
 
       it "should pack an unsigned 64bit integer" do
-        expect(subject.pack(int64)).to be == "\xff\xff\xff\xff\xff\xff\xff\xff"
+        expect(subject.pack(int64)).to eq("\xff\xff\xff\xff\xff\xff\xff\xff")
       end
     end
 
@@ -270,7 +270,7 @@ describe Binary::Template do
       subject { described_class.new [:string] }
 
       it "should pack a string" do
-        expect(subject.pack(string)).to be == "#{string}\0"
+        expect(subject.pack(string)).to eq("#{string}\0")
       end
     end
   end
@@ -280,7 +280,7 @@ describe Binary::Template do
       subject { described_class.new [:byte] }
 
       it "should unpack a signed byte" do
-        expect(subject.unpack(char)).to be == [byte]
+        expect(subject.unpack(char)).to eq([byte])
       end
     end
 
@@ -289,7 +289,7 @@ describe Binary::Template do
       subject { described_class.new [[:byte, n]] }
 
       it "should pack multiple signed characters" do
-        expect(subject.unpack(chars)).to be == bytes
+        expect(subject.unpack(chars)).to eq(bytes)
       end
     end
 
@@ -297,7 +297,7 @@ describe Binary::Template do
       subject { described_class.new [:char] }
 
       it "should unpack a signed character" do
-        expect(subject.unpack(char)).to be == [char]
+        expect(subject.unpack(char)).to eq([char])
       end
     end
 
@@ -306,7 +306,7 @@ describe Binary::Template do
       subject { described_class.new [[:char, n]] }
 
       it "should unpack multiple signed characters" do
-        expect(subject.unpack(string)).to be == [chars]
+        expect(subject.unpack(string)).to eq([chars])
       end
 
       context "padding" do
@@ -314,7 +314,7 @@ describe Binary::Template do
         subject { described_class.new [[:char, n + padding]] }
 
         it "should strip '\\0' padding characters" do
-          expect(subject.unpack(string + ("\0" * padding))).to be == [chars]
+          expect(subject.unpack(string + ("\0" * padding))).to eq([chars])
         end
       end
     end
@@ -323,7 +323,7 @@ describe Binary::Template do
       subject { described_class.new [:uint8] }
 
       it "should unpack an unsigned 8bit integer" do
-        expect(subject.unpack("\xff")).to be == [uint8]
+        expect(subject.unpack("\xff")).to eq([uint8])
       end
     end
 
@@ -331,7 +331,7 @@ describe Binary::Template do
       subject { described_class.new [:uint16] }
 
       it "should unpack an unsigned 16bit integer" do
-        expect(subject.unpack("\xff\xff")).to be == [uint16]
+        expect(subject.unpack("\xff\xff")).to eq([uint16])
       end
     end
 
@@ -339,7 +339,7 @@ describe Binary::Template do
       subject { described_class.new [:uint32] }
 
       it "should unpack an unsigned 32bit integer" do
-        expect(subject.unpack("\xff\xff\xff\xff")).to be == [uint32]
+        expect(subject.unpack("\xff\xff\xff\xff")).to eq([uint32])
       end
     end
 
@@ -347,7 +347,7 @@ describe Binary::Template do
       subject { described_class.new [:uint64] }
 
       it "should unpack an unsigned 64bit integer" do
-        expect(subject.unpack("\xff\xff\xff\xff\xff\xff\xff\xff")).to be == [uint64]
+        expect(subject.unpack("\xff\xff\xff\xff\xff\xff\xff\xff")).to eq([uint64])
       end
     end
 
@@ -355,7 +355,7 @@ describe Binary::Template do
       subject { described_class.new [:int8] }
 
       it "should unpack an signed 8bit integer" do
-        expect(subject.unpack("\xff")).to be == [int8]
+        expect(subject.unpack("\xff")).to eq([int8])
       end
     end
 
@@ -363,7 +363,7 @@ describe Binary::Template do
       subject { described_class.new [:int16] }
 
       it "should unpack an unsigned 16bit integer" do
-        expect(subject.unpack("\xff\xff")).to be == [int16]
+        expect(subject.unpack("\xff\xff")).to eq([int16])
       end
     end
 
@@ -371,7 +371,7 @@ describe Binary::Template do
       subject { described_class.new [:int32] }
 
       it "should unpack an unsigned 32bit integer" do
-        expect(subject.unpack("\xff\xff\xff\xff")).to be == [int32]
+        expect(subject.unpack("\xff\xff\xff\xff")).to eq([int32])
       end
     end
 
@@ -379,7 +379,7 @@ describe Binary::Template do
       subject { described_class.new [:int64] }
 
       it "should unpack an unsigned 64bit integer" do
-        expect(subject.unpack("\xff\xff\xff\xff\xff\xff\xff\xff")).to be == [int64]
+        expect(subject.unpack("\xff\xff\xff\xff\xff\xff\xff\xff")).to eq([int64])
       end
     end
 
@@ -387,7 +387,7 @@ describe Binary::Template do
       subject { described_class.new [:string] }
 
       it "should unpack a string" do
-        expect(subject.unpack("#{string}\0")).to be == [string]
+        expect(subject.unpack("#{string}\0")).to eq([string])
       end
     end
   end
@@ -396,7 +396,7 @@ describe Binary::Template do
     subject { described_class.new [:uint32, :string] }
 
     it "should return the pack format String" do
-      expect(subject.to_s).to be == "LZ*"
+      expect(subject.to_s).to eq("LZ*")
     end
   end
 

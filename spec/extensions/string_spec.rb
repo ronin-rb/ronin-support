@@ -13,7 +13,7 @@ describe String do
 
     it "should allow passing the string index back" do
       subject.each_substring do |sub_string,index|
-        expect(subject[index,sub_string.length]).to be == sub_string
+        expect(subject[index,sub_string.length]).to eq(sub_string)
 
         expect(subject).to include(sub_string)
       end
@@ -72,7 +72,7 @@ describe String do
 
       seen = seen.to_a
 
-      expect(seen.uniq).to be == seen
+      expect(seen.uniq).to eq(seen)
     end
   end
 
@@ -82,7 +82,7 @@ describe String do
       two = 'What is puzzling you is the nature of my name'
       common = 'What is puzzling you is the nature of my '
 
-      expect(one.common_prefix(two)).to be == common
+      expect(one.common_prefix(two)).to eq(common)
     end
 
     it "should return the common prefix between two Strings with no uncommon postfix" do
@@ -90,21 +90,21 @@ describe String do
       two = "12345"
       common = "1234"
 
-      expect(one.common_prefix(two)).to be == common
+      expect(one.common_prefix(two)).to eq(common)
     end
 
     it "should return an empty String if there is no common prefix" do
       one = 'Tell me people'
       two = 'Whats my name'
 
-      expect(one.common_prefix(two)).to be == ''
+      expect(one.common_prefix(two)).to eq('')
     end
 
     it "should return an empty String if one of the strings is also empty" do
       one = 'Haha'
       two = ''
 
-      expect(one.common_prefix(two)).to be == ''
+      expect(one.common_prefix(two)).to eq('')
     end
   end
 
@@ -114,21 +114,21 @@ describe String do
       two = "Can't you guess my name"
       common = 's my name'
 
-      expect(one.common_suffix(two)).to be == common
+      expect(one.common_suffix(two)).to eq(common)
     end
 
     it "should return an empty String if there is no common postfix" do
       one = 'You got to right up, stand up'
       two = 'stand up for your rights'
 
-      expect(one.common_suffix(two)).to be == ''
+      expect(one.common_suffix(two)).to eq('')
     end
 
     it "should return an empty String if one of the strings is also empty" do
       one = 'You and I must fight for our rights'
       two = ''
 
-      expect(one.common_suffix(two)).to be == ''
+      expect(one.common_suffix(two)).to eq('')
     end
   end
 
@@ -138,7 +138,7 @@ describe String do
       two = "Tell me honey whats my name"
       uncommon = 'bab'
 
-      expect(one.uncommon_substring(two)).to be == uncommon
+      expect(one.uncommon_substring(two)).to eq(uncommon)
     end
 
     it "should find the uncommon substring between two Strings with a common prefix" do
@@ -146,7 +146,7 @@ describe String do
       two = 'You and I must fight to survive'
       uncommon = 'for our rights'
 
-      expect(one.uncommon_substring(two)).to be == uncommon
+      expect(one.uncommon_substring(two)).to eq(uncommon)
     end
 
     it "should find the uncommon substring between two Strings with a common postfix" do
@@ -154,26 +154,26 @@ describe String do
       two = "Can't you guess my name"
       uncommon = 'Tell me baby what'
 
-      expect(one.uncommon_substring(two)).to be == uncommon
+      expect(one.uncommon_substring(two)).to eq(uncommon)
     end
   end
 
   if RUBY_VERSION < '1.9.'
     describe "#dump" do
       it "should dump printable strings" do
-        expect("hello".dump).to be == '"hello"'
+        expect("hello".dump).to eq('"hello"')
       end
 
       it "should dump strings containing control characters" do
-        expect("hello\n\b\a".dump).to be == '"hello\n\b\a"'
+        expect("hello\n\b\a".dump).to eq('"hello\n\b\a"')
       end
 
       it "should dump strings containing non-printable characters" do
-        expect("hello\x90\x05\xEF".dump).to be == '"hello\x90\x05\xEF"'
+        expect("hello\x90\x05\xEF".dump).to eq('"hello\x90\x05\xEF"')
       end
 
       it "should dump the string when calling the inspect method" do
-        expect("hello\x90\x05\xEF".inspect).to be == '"hello\x90\x05\xEF"'
+        expect("hello\x90\x05\xEF".inspect).to eq('"hello\x90\x05\xEF"')
       end
     end
   end

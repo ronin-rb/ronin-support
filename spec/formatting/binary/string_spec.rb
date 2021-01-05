@@ -47,13 +47,13 @@ describe String do
 
     context "when given only a String" do
       it "should unpack Strings using String#unpack template Strings" do
-        expect(subject.unpack('VZ*')).to be == data
+        expect(subject.unpack('VZ*')).to eq(data)
       end
     end
 
     context "otherwise" do
       it "should unpack Strings using Binary::Template" do
-        expect(subject.unpack(:uint32_le, :string)).to be == data
+        expect(subject.unpack(:uint32_le, :string)).to eq(data)
       end
     end
   end
@@ -81,39 +81,39 @@ describe String do
       let(:ppc_packed_quad)  { "\000\000\000\000\000\000\0237" }
 
       it "should depack itself for a little-endian architecture" do
-        expect(i386_packed_int.depack(i386)).to be == subject
+        expect(i386_packed_int.depack(i386)).to eq(subject)
       end
 
       it "should depack itself as a short for a little-endian architecture" do
-        expect(i386_packed_short.depack(i386,2)).to be == subject
+        expect(i386_packed_short.depack(i386,2)).to eq(subject)
       end
 
       it "should depack itself as a long for a little-endian architecture" do
-        expect(i386_packed_long.depack(i386,4)).to be == subject
+        expect(i386_packed_long.depack(i386,4)).to eq(subject)
       end
 
       it "should depack itself as a quad for a little-endian architecture" do
-        expect(i386_packed_quad.depack(i386,8)).to be == subject
+        expect(i386_packed_quad.depack(i386,8)).to eq(subject)
       end
 
       it "should depack itself for a big-endian architecture" do
-        expect(ppc_packed_int.depack(ppc)).to be == subject
+        expect(ppc_packed_int.depack(ppc)).to eq(subject)
       end
 
       it "should depack itself as a short for a big-endian architecture" do
-        expect(ppc_packed_short.depack(ppc,2)).to be == subject
+        expect(ppc_packed_short.depack(ppc,2)).to eq(subject)
       end
 
       it "should depack itself as a long for a big-endian architecture" do
-        expect(ppc_packed_long.depack(ppc,4)).to be == subject
+        expect(ppc_packed_long.depack(ppc,4)).to eq(subject)
       end
 
       it "should depack itself as a quad for a big-endian architecture" do
-        expect(ppc_packed_quad.depack(ppc,8)).to be == subject
+        expect(ppc_packed_quad.depack(ppc,8)).to eq(subject)
       end
 
       it "should accept String#unpack template strings" do
-        expect(i386_packed_long.depack('V')).to be == [subject]
+        expect(i386_packed_long.depack('V')).to eq([subject])
       end
     end
   end
@@ -122,7 +122,7 @@ describe String do
     subject { "hello\0" }
 
     it "should base64 encode a String" do
-      expect(subject.base64_encode).to be == "aGVsbG8A\n"
+      expect(subject.base64_encode).to eq("aGVsbG8A\n")
     end
   end
 
@@ -130,7 +130,7 @@ describe String do
     subject { "aGVsbG8A\n" }
 
     it "should base64 decode a String" do
-      expect(subject.base64_decode).to be == "hello\0"
+      expect(subject.base64_decode).to eq("hello\0")
     end
   end
 
@@ -140,7 +140,7 @@ describe String do
     end
 
     it "should inflate a zlib deflated String" do
-      expect(subject.zlib_inflate).to be == "0f8f5ec6-14dc-46e7-a63a-f89b7d11265b\0"
+      expect(subject.zlib_inflate).to eq("0f8f5ec6-14dc-46e7-a63a-f89b7d11265b\0")
     end
   end
 
@@ -148,7 +148,7 @@ describe String do
     subject { "hello" }
 
     it "should zlib deflate a String" do
-      expect(subject.zlib_deflate).to be == "x\x9c\xcbH\xcd\xc9\xc9\a\0\x06,\x02\x15"
+      expect(subject.zlib_deflate).to eq("x\x9c\xcbH\xcd\xc9\xc9\a\0\x06,\x02\x15")
     end
   end
 
@@ -156,7 +156,7 @@ describe String do
     subject { "hello\x4e" }
 
     it "should hex escape a String" do
-      expect(subject.hex_escape).to be == "\\x68\\x65\\x6c\\x6c\\x6f\\x4e"
+      expect(subject.hex_escape).to eq("\\x68\\x65\\x6c\\x6c\\x6f\\x4e")
     end
   end
 
@@ -175,15 +175,15 @@ describe String do
     end
 
     it "should be able to be decoded with another xor" do
-      expect(subject.xor(key).xor(key)).to be == subject
+      expect(subject.xor(key).xor(key)).to eq(subject)
     end
 
     it "should allow xoring against a single key" do
-      expect(subject.xor(key)).to be == "85<<?"
+      expect(subject.xor(key)).to eq("85<<?")
     end
 
     it "should allow xoring against multiple keys" do
-      expect(subject.xor(keys)).to be == "80<9?"
+      expect(subject.xor(keys)).to eq("80<9?")
     end
   end
 
@@ -193,7 +193,7 @@ describe String do
     let(:raw) { "# Ronin Support\n" }
 
     it "should unhexdump a String" do
-      expect(subject.unhexdump).to be == raw
+      expect(subject.unhexdump).to eq(raw)
     end
   end
 end
