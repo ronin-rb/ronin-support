@@ -32,7 +32,7 @@ describe String do
       
       expect(substrings.all? { |sub_string|
         subject.include?(sub_string)
-      }).to be(true)
+      }).to eq(true)
     end
   end
 
@@ -68,7 +68,7 @@ describe String do
 
       expect(seen.all? { |sub_string|
         subject.include?(sub_string)
-      }).to be(true)
+      }).to eq(true)
 
       seen = seen.to_a
 

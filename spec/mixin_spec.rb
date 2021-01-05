@@ -30,7 +30,7 @@ describe Mixin do
     end
 
     it "should evaluate the mixin block" do
-      expect(klass.instance_variable_get("@var")).to be(1)
+      expect(klass.instance_variable_get("@var")).to eq(1)
     end
   end
 
@@ -45,7 +45,7 @@ describe Mixin do
     end
 
     it "should evaluate the mixin block" do
-      expect(object.instance_variable_get("@var")).to be(1)
+      expect(object.instance_variable_get("@var")).to eq(1)
     end
   end
 end

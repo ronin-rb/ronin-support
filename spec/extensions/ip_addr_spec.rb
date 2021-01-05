@@ -117,7 +117,7 @@ describe IPAddr do
       it "should only iterate over one IP address for an address" do
         addresses = fixed_addr.map { |ip| IPAddr.new(ip) }
 
-        expect(addresses.length).to be(1)
+        expect(addresses.length).to eq(1)
         expect(fixed_addr).to include(addresses.first)
       end
 
@@ -130,7 +130,7 @@ describe IPAddr do
       it "should return an Enumerator when no block is given" do
         expect(class_c.each.all? { |ip|
           class_c.include?(IPAddr.new(ip))
-        }).to be(true)
+        }).to eq(true)
       end
     end
 
@@ -177,7 +177,7 @@ describe IPAddr do
       it "should return an Enumerator when no block is given" do
         ips = IPAddr.each(ipv4_range)
 
-        expect(ips.all? { |ip| ip =~ /^10\.1\.[1-5]\.1$/ }).to be(true)
+        expect(ips.all? { |ip| ip =~ /^10\.1\.[1-5]\.1$/ }).to eq(true)
       end
     end
   end
