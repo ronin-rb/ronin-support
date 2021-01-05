@@ -92,7 +92,7 @@ describe Network::UDP do
           socket      = subject.udp_connect_and_send(data,host,port,nil,local_port)
           bound_port = socket.addr[1]
 
-          expect(bound_port).to be == local_port
+          expect(bound_port).to eq(local_port)
 
           socket.close
         end
