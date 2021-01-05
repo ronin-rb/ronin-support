@@ -22,11 +22,11 @@ describe Network::TCP do
       let(:port) { 80 }
 
       it "should return true for open ports" do
-        expect(subject.tcp_open?(host,port)).to be(true)
+        expect(subject.tcp_open?(host,port)).to eq(true)
       end
 
       it "should return false for closed ports" do
-        expect(subject.tcp_open?('localhost',rand(1024) + 1)).to be(false)
+        expect(subject.tcp_open?('localhost',rand(1024) + 1)).to eq(false)
       end
 
       it "should have a timeout for firewalled ports" do

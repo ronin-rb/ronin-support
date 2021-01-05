@@ -40,7 +40,7 @@ describe Regexp do
     it "should match 0 - 255" do
       expect((0..255).all? { |n|
         subject.match(n.to_s)[0] == n.to_s
-      }).to be(true)
+      }).to eq(true)
     end
 
     it "should not match numbers greater than 255" do
