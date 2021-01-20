@@ -48,8 +48,8 @@ describe Binary::Struct do
     end
 
     it "should determine if fields exist" do
-      expect(subject.field?(:x)).to eq(true)
-      expect(subject.field?(:foo)).to eq(false)
+      expect(subject.field?(:x)).to be(true)
+      expect(subject.field?(:foo)).to be(false)
     end
   end
 
