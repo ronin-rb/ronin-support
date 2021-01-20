@@ -486,7 +486,7 @@ describe Network::HTTP do
 
     describe "#http_ok?" do
       it "should check if the Response has code 200" do
-        expect(subject.http_ok?(:url => uri)).to eq(true)
+        expect(subject.http_ok?(:url => uri)).to be(true)
       end
     end
 

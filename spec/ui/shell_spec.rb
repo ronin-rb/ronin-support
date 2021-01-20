@@ -40,27 +40,27 @@ describe UI::Shell do
 
     describe "#call" do
       it "should ignore empty lines" do
-        expect(subject.call('')).to eq(false)
+        expect(subject.call('')).to be(false)
       end
 
       it "should ignore white-space lines" do
-        expect(subject.call("     \t   ")).to eq(false)
+        expect(subject.call("     \t   ")).to be(false)
       end
 
       it "should not allow calling the handler method" do
-        expect(subject.call('handler')).to eq(false)
+        expect(subject.call('handler')).to be(false)
       end
 
       it "should not allow calling unknown commands" do
-        expect(subject.call('an_unknown_command')).to eq(false)
+        expect(subject.call('an_unknown_command')).to be(false)
       end
 
       it "should not allow calling unknown commands" do
-        expect(subject.call('an_unknown_command')).to eq(false)
+        expect(subject.call('an_unknown_command')).to be(false)
       end
 
       it "should not allow calling public methods" do
-        expect(subject.call('a_public_method')).to eq(false)
+        expect(subject.call('a_public_method')).to be(false)
       end
 
       it "should allow calling protected methods" do
