@@ -1,5 +1,7 @@
 # ronin-support
 
+[![CI](https://github.com/ronin-rb/ronin-support/actions/workflows/ruby.yml/badge.svg)](https://github.com/ronin-rb/ronin-support/actions/workflows/ruby.yml)
+
 * [Source](https://github.com/ronin-ruby/ronin-support)
 * [Issues](https://github.com/ronin-ruby/ronin-support/issues)
 * [Documentation](https://ronin-rb.dev/docs/ronin-support/frames)
