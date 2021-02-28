@@ -43,10 +43,10 @@ class File
   #
   # @api public
   #
-  def File.each_line(path)
+  def self.each_line(path)
     return enum_for(__method__,path) unless block_given?
 
-    File.foreach(path) { |line| yield line.chomp }
+    foreach(path) { |line| yield line.chomp }
   end
 
   #
@@ -76,10 +76,10 @@ class File
   #
   # @api public
   #
-  def File.each_row(path,separator=/\s+/)
+  def self.each_row(path,separator=/\s+/)
     return enum_for(__method__,path,separator) unless block_given?
 
-    File.each_line(path) { |line| yield line.split(separator) }
+    each_line(path) { |line| yield line.split(separator) }
   end
 
   if RUBY_VERSION < '1.9.'
@@ -102,8 +102,8 @@ class File
     #
     # @api public
     #
-    def File.write(path,data,offset=0)
-      File.open(path,'w') do |file|
+    def self.write(path,data,offset=0)
+      open(path,'w') do |file|
         file.seek(offset)
         file.write(data)
       end
@@ -121,7 +121,7 @@ class File
   #
   # @api public
   #
-  def File.escape_path(path)
+  def self.escape_path(path)
     path = path.to_s
 
     # remove any \0 characters first
@@ -130,7 +130,7 @@ class File
     # remove any home-dir expansions
     path.gsub!('~',"\\~")
 
-    path = File.expand_path(File.join('/',path))
+    path = expand_path(File.join('/',path))
 
     # remove the leading slash
     return path[1..-1]
