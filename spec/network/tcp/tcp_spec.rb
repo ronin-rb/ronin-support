@@ -6,10 +6,7 @@ require 'resolv'
 describe Network::TCP do
   describe "helper methods", :network do
     let(:host) { 'smtp.gmail.com' }
-    let(:port) { 25 }
-
-    let(:server_host) { 'localhost' }
-    let(:server_ip)   { Resolv.getaddress(server_host) }
+    let(:port) { 587 }
 
     subject do
       obj = Object.new
@@ -29,19 +26,22 @@ describe Network::TCP do
         expect(subject.tcp_open?('localhost',rand(1024) + 1)).to be(false)
       end
 
-      it "should have a timeout for firewalled ports" do
-        timeout = 2
+      context "when given a timeout" do
+        it "should have a timeout for firewalled ports" do
+          timeout = 2
 
-        t1 = Time.now
-        subject.tcp_open?(host,1337,nil,nil,timeout)
-        t2 = Time.now
+          t1 = Time.now
+          subject.tcp_open?(host,1337,nil,nil,timeout)
+          t2 = Time.now
 
-        expect((t2 - t1).to_i).to be <= timeout
+          expect((t2 - t1).to_i).to be <= timeout
+        end
       end
     end
 
     describe "#tcp_connect" do
-      let(:local_port) { 1024 + rand(65535 - 1024) }
+      let(:host) { 'example.com' }
+      let(:port) { 80 }
 
       it "should open a TCPSocket" do
         socket = subject.tcp_connect(host,port)
@@ -52,32 +52,37 @@ describe Network::TCP do
         socket.close
       end
 
-      it "should bind to a local host and port" do
-        socket     = subject.tcp_connect(host,port,nil,local_port)
-        bound_port = socket.addr[1]
+      context "when given a local host and port" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        expect(bound_port).to eq(local_port)
+        it "should bind to a local host and port" do
+          socket     = subject.tcp_connect(host,port,nil,local_port)
+          bound_port = socket.addr[1]
 
-        socket.close
+          expect(bound_port).to eq(local_port)
+
+          socket.close
+        end
       end
 
-      it "should yield the new TCPSocket" do
-        socket = nil
+      context "when given a block" do
+        it "should yield the new TCPSocket" do
+          socket = nil
 
-        subject.tcp_connect(host,port) do |yielded_socket|
-          socket = yielded_socket
+          subject.tcp_connect(host,port) do |yielded_socket|
+            socket = yielded_socket
+          end
+
+          expect(socket).not_to be_closed
+          socket.close
         end
-
-        expect(socket).not_to be_closed
-        socket.close
       end
     end
 
     describe "#tcp_connect_and_send" do
-      let(:data) { "HELO ronin\n" }
-      let(:local_port) { 1024 + rand(65535 - 1024) }
+      let(:data) { "HELO ronin-support\n" }
 
-      let(:expected_response) { "250 mx.google.com at your service\r\n" }
+      let(:expected_response) { "250 #{host} at your service\r\n" }
 
       it "should connect and then send data" do
         socket   = subject.tcp_connect_and_send(data,host,port)
@@ -89,32 +94,36 @@ describe Network::TCP do
         socket.close
        end
 
-      it "should bind to a local host and port" do
-        socket     = subject.tcp_connect_and_send(data,host,port,nil,local_port)
-        bound_port = socket.addr[1]
+      context "when given a local host and port" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        expect(bound_port).to eq(local_port)
+        it "should bind to a local host and port" do
+          socket     = subject.tcp_connect_and_send(data,host,port,nil,local_port)
+          bound_port = socket.addr[1]
 
-        socket.close
+          expect(bound_port).to eq(local_port)
+
+          socket.close
+        end
       end
 
-      it "should yield the TCPSocket" do
-        response = nil
+      context "when given a block" do
+        it "should yield the TCPSocket" do
+          response = nil
 
-        socket = subject.tcp_connect_and_send(data,host,port) do |socket|
-          banner   = socket.readline
-          response = socket.readline
+          socket = subject.tcp_connect_and_send(data,host,port) do |socket|
+            banner   = socket.readline
+            response = socket.readline
+          end
+
+          expect(response).to eq(expected_response)
+
+          socket.close
         end
-
-        expect(response).to eq(expected_response)
-
-        socket.close
       end
     end
 
     describe "#tcp_session" do
-      let(:local_port) { 1024 + rand(65535 - 1024) }
-
       it "should open then close a TCPSocket" do
         socket = nil
 
@@ -126,23 +135,26 @@ describe Network::TCP do
         expect(socket).to be_closed
       end
 
-      it "should bind to a local host and port" do
-        bound_port = nil
+      context "when given a local host and port" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        subject.tcp_session(host,port,nil,local_port) do |socket|
-          bound_port = socket.addr[1]
+        it "should bind to a local host and port" do
+          bound_port = nil
+
+          subject.tcp_session(host,port,nil,local_port) do |socket|
+            bound_port = socket.addr[1]
+          end
+
+          expect(bound_port).to eq(local_port)
         end
-
-        expect(bound_port).to eq(local_port)
       end
     end
 
     describe "#tcp_banner" do
       let(:host)       { 'smtp.gmail.com' }
-      let(:port)       { 25 }
-      let(:local_port) { 1024 + rand(65535 - 1024) }
+      let(:port)       { 587 }
 
-      let(:expected_banner) { /^220 mx\.google\.com ESMTP/ }
+      let(:expected_banner) { /^220 #{Regexp.escape(host)} ESMTP [^\s]+ - gsmtp$/ }
 
       it "should return the read service banner" do
         banner = subject.tcp_banner(host,port)
@@ -150,34 +162,47 @@ describe Network::TCP do
         expect(banner).to match(expected_banner)
       end
 
-      it "should bind to a local host and port" do
-        banner = subject.tcp_banner(host,port,nil,local_port)
+      context "when given a local host and port" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        expect(banner).to match(expected_banner)
+        it "should bind to a local host and port" do
+          banner = subject.tcp_banner(host,port,nil,local_port)
+
+          expect(banner).to match(expected_banner)
+        end
       end
 
-      it "should yield the banner" do
-        banner = nil
-        
-        subject.tcp_banner(host,port) do |yielded_banner|
-          banner = yielded_banner
-        end
+      context "when given a block" do
+        it "should yield the banner" do
+          banner = nil
 
-        expect(banner).to match(expected_banner)
+          subject.tcp_banner(host,port) do |yielded_banner|
+            banner = yielded_banner
+          end
+
+          expect(banner).to match(expected_banner)
+        end
       end
     end
 
+    let(:local_host) { 'localhost' }
+    let(:local_ip)   { Resolv.getaddress(local_host) }
+
     describe "#tcp_send" do
-      let(:server)      { TCPServer.new(server_host,0) }
-      let(:server_port) { server.addr[1] }
+      let(:server_host) { 'localhost' }
+      let(:server_port) { 1024 + rand(65535 - 1024) }
+      let(:server_ip)   { Resolv.getaddress(server_host) }
+      let(:server) { TCPServer.new(server_host,server_port) }
+      let(:server_bind_ip)   { server.addr[3] }
+      let(:server_bind_port) { server.addr[1] }
 
-      let(:data)       { "hello\n" }
-      let(:local_port) { 1024 + rand(65535 - 1024) }
+      before(:each) { server.listen(1) }
+      after(:each)  { server.close }
 
-      after(:all) { server.close }
+      let(:data) { "hello\n" }
 
       it "should send data to a service" do
-        subject.tcp_send(data,server_host,server_port)
+        subject.tcp_send(data,server_bind_ip,server_bind_port)
 
         client = server.accept
         sent   = client.readline
@@ -187,21 +212,23 @@ describe Network::TCP do
         expect(sent).to eq(data)
       end
 
-      it "should bind to a local host and port" do
-        subject.tcp_send(data,server_host,server_port,nil,local_port)
+      context "when given a local host and port" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        client      = server.accept
-        client_port = client.peeraddr[1]
+        it "should bind to a local host and port" do
+          subject.tcp_send(data,server_bind_ip,server_bind_port,server_bind_ip,local_port)
 
-        expect(client_port).to eq(local_port)
+          client      = server.accept
+          client_port = client.peeraddr[1]
 
-        client.close
+          expect(client_port).to eq(local_port)
+
+          client.close
+        end
       end
     end
 
     describe "#tcp_server" do
-      let(:server_port) { 1024 + rand(65535 - 1024) }
-
       it "should create a new TCPServer" do
         server = subject.tcp_server
 
@@ -211,34 +238,38 @@ describe Network::TCP do
         server.close
       end
 
-      it "should bind to a specific port and host" do
-        server     = subject.tcp_server(server_port,server_host)
-        bound_host = server.addr[3]
-        bound_port = server.addr[1]
+      context "when given a local host and port" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        expect(bound_host).to eq(server_ip)
-        expect(bound_port).to eq(server_port)
+        it "should bind to a specific port and host" do
+          server     = subject.tcp_server(local_port,local_host)
+          bound_host = server.addr[3]
+          bound_port = server.addr[1]
 
-        server.close
+          expect(bound_host).to eq(local_ip)
+          expect(bound_port).to eq(local_port)
+
+          server.close
+        end
       end
 
-      it "should yield the new TCPServer" do
-        server = nil
-        
-        subject.tcp_server do |yielded_server|
-          server = yielded_server
+      context "when given a block" do
+        it "should yield the new TCPServer" do
+          server = nil
+
+          subject.tcp_server do |yielded_server|
+            server = yielded_server
+          end
+
+          expect(server).to be_kind_of(TCPServer)
+          expect(server).not_to be_closed
+
+          server.close
         end
-
-        expect(server).to be_kind_of(TCPServer)
-        expect(server).not_to be_closed
-
-        server.close
       end
     end
 
     describe "#tcp_server_session" do
-      let(:server_port) { 1024 + rand(65535 - 1024) }
-
       it "should create a temporary TCPServer" do
         server = nil
         
@@ -250,17 +281,21 @@ describe Network::TCP do
         expect(server).to be_closed
       end
 
-      it "should bind to a specific port and host" do
-        bound_host = nil
-        bound_port = nil
-        
-        subject.tcp_server_session(server_port,server_host) do |yielded_server|
-          bound_host = yielded_server.addr[3]
-          bound_port = yielded_server.addr[1]
-        end
+      context "when given a block" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        expect(bound_host).to eq(server_ip)
-        expect(bound_port).to eq(server_port)
+        it "should bind to a specific port and host" do
+          bound_host = nil
+          bound_port = nil
+
+          subject.tcp_server_session(local_port,local_host) do |server|
+            bound_host = server.addr[3]
+            bound_port = server.addr[1]
+          end
+
+          expect(bound_host).to eq(local_ip)
+          expect(bound_port).to eq(local_port)
+        end
       end
     end
 

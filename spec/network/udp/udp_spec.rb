@@ -8,9 +8,6 @@ describe Network::UDP do
     let(:host) { 'scanme.nmap.org' }
     let(:port) { 123 }
 
-    let(:server_host) { 'localhost' }
-    let(:server_ip)   { Resolv.getaddress(server_host) }
-
     subject do
       obj = Object.new
       obj.extend described_class
@@ -41,8 +38,6 @@ describe Network::UDP do
     end
 
     describe "#udp_connect" do
-      let(:local_port) { 1024 + rand(65535 - 1024) }
-
       it "should open a UDPSocket" do
         socket = subject.udp_connect(host,port)
 
@@ -52,24 +47,30 @@ describe Network::UDP do
         socket.close
       end
 
-      it "should bind to a local port" do
-        socket      = subject.udp_connect(host,port,nil,local_port)
-        bound_port = socket.addr[1]
+      context "when given a local port" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        expect(bound_port).to eq(local_port)
+        it "should bind to a local port" do
+          socket      = subject.udp_connect(host,port,nil,local_port)
+          bound_port = socket.addr[1]
 
-        socket.close
+          expect(bound_port).to eq(local_port)
+
+          socket.close
+        end
       end
 
-      it "should yield the new UDPSocket" do
-        socket = nil
+      context "when given a block" do
+        it "should yield the new UDPSocket" do
+          socket = nil
 
-        subject.udp_connect(host,port) do |yielded_socket|
-          socket = yielded_socket
+          subject.udp_connect(host,port) do |yielded_socket|
+            socket = yielded_socket
+          end
+
+          expect(socket).not_to be_closed
+          socket.close
         end
-
-        expect(socket).not_to be_closed
-        socket.close
       end
     end
 
@@ -126,14 +127,16 @@ describe Network::UDP do
         expect(socket).to be_closed
       end
 
-      it "should bind to a local host and port" do
-        bound_port = nil
+      context "when given a local host and port" do
+        it "should bind to a local host and port" do
+          bound_port = nil
 
-        subject.udp_session(host,port,nil,local_port) do |socket|
-          bound_port = socket.addr[1]
+          subject.udp_session(host,port,nil,local_port) do |socket|
+            bound_port = socket.addr[1]
+          end
+
+          expect(bound_port).to eq(local_port)
         end
-
-        expect(bound_port).to eq(local_port)
       end
     end
 
@@ -150,58 +153,66 @@ describe Network::UDP do
           expect(banner.start_with?('220')).to be_true
         end
 
-        it "should bind to a local host and port" do
-          banner = subject.udp_banner(host,port,nil,local_port)
+        context "when given a local host and port" do
+          it "should bind to a local host and port" do
+            banner = subject.udp_banner(host,port,nil,local_port)
 
-          expect(banner.start_with?('220')).to be_true
+            expect(banner.start_with?('220')).to be_true
+          end
         end
 
-        it "should yield the banner" do
-          banner = nil
+        context "when given a block" do
+          it "should yield the banner" do
+            banner = nil
 
-          subject.udp_banner(host,port) do |yielded_banner|
-            banner = yielded_banner
+            subject.udp_banner(host,port) do |yielded_banner|
+              banner = yielded_banner
+            end
+
+            expect(banner.start_with?('220')).to be_true
           end
-
-          expect(banner.start_with?('220')).to be_true
         end
       end
     end
 
+    let(:local_host) { 'localhost' }
+    let(:local_ip)   { '127.0.0.1' } # XXX: UPDSocket defaults to using IPv4
+
     describe "#udp_send" do
-      let(:server) do
-        socket = UDPSocket.new
-        socket.bind(server_host,0)
-        socket
-      end
-      let(:server_port) { server.addr[1] }
+      let(:server_host) { local_host }
+      let(:server_port) { 1024 + rand(65535 - 1024) }
+      let(:server)      { UDPSocket.new }
+      let(:server_bind_ip)   { server.addr[3] }
+      let(:server_bind_port) { server.addr[1] }
 
-      let(:data)       { "hello\n" }
-      let(:local_port) { 1024 + rand(65535 - 1024) }
+      before(:each) { server.bind(server_host,server_port) }
+      after(:each)  { server.close }
 
-      after(:all) { server.close }
+      let(:data) { "hello\n" }
 
       it "should send data to a service" do
-        subject.udp_send(data,server_host,server_port)
+        subject.udp_send(data,server_bind_ip,server_bind_port)
 
         mesg = server.recvfrom(data.length)
 
         expect(mesg[0]).to eq(data)
       end
 
-      it "should bind to a local host and port" do
-        subject.udp_send(data,server_host,server_port,nil,local_port)
+      context "when given a local host and port" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        mesg = server.recvfrom(data.length)
+        it "should bind to a local host and port" do
+          subject.udp_send(data,server_bind_ip,server_bind_port,server_bind_ip,local_port)
 
-        client_address = mesg[1]
-        expect(client_address[1]).to eq(local_port)
+          mesg = server.recvfrom(data.length)
+
+          client_address = mesg[1]
+          expect(client_address[1]).to eq(local_port)
+        end
       end
     end
 
     describe "#udp_server" do
-      let(:server_port) { 1024 + rand(65535 - 1024) }
-
       it "should create a new UDPSocket" do
         server = subject.udp_server
 
@@ -211,34 +222,38 @@ describe Network::UDP do
         server.close
       end
 
-      it "should bind to a specific port and host" do
-        server      = subject.udp_server(server_port,server_host)
-        bound_host = server.addr[3]
-        bound_port = server.addr[1]
+      context "when given a port and host" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        expect(bound_host).to eq(server_ip)
-        expect(bound_port).to eq(server_port)
+        it "should bind to a specific port and host" do
+          server      = subject.udp_server(local_port,local_host)
+          bound_host = server.addr[3]
+          bound_port = server.addr[1]
 
-        server.close
+          expect(bound_host).to eq(local_ip)
+          expect(bound_port).to eq(local_port)
+
+          server.close
+        end
       end
 
-      it "should yield the new UDPSocket" do
-        server = nil
-        
-        subject.udp_server do |yielded_server|
-          server = yielded_server
+      context "when a block is given" do
+        it "should yield the new UDPSocket" do
+          server = nil
+
+          subject.udp_server do |yielded_server|
+            server = yielded_server
+          end
+
+          expect(server).to be_kind_of(UDPSocket)
+          expect(server).not_to be_closed
+
+          server.close
         end
-
-        expect(server).to be_kind_of(UDPSocket)
-        expect(server).not_to be_closed
-
-        server.close
       end
     end
 
     describe "#udp_server_session" do
-      let(:server_port) { 1024 + rand(65535 - 1024) }
-
       it "should create a temporary UDPSocket" do
         server = nil
         
@@ -250,17 +265,21 @@ describe Network::UDP do
         expect(server).to be_closed
       end
 
-      it "should bind to a specific port and host" do
-        bound_host = nil
-        bound_port = nil
-        
-        subject.udp_server_session(server_port,server_host) do |yielded_server|
-          bound_host = yielded_server.addr[3]
-          bound_port = yielded_server.addr[1]
-        end
+      context "when given a port and a host" do
+        let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        expect(bound_host).to eq(server_ip)
-        expect(bound_port).to eq(server_port)
+        it "should bind to a specific port and host" do
+          bound_host = nil
+          bound_port = nil
+
+          subject.udp_server_session(local_port,local_host) do |new_server|
+            bound_host = new_server.addr[3]
+            bound_port = new_server.addr[1]
+          end
+
+          expect(bound_host).to eq(local_ip)
+          expect(bound_port).to eq(local_port)
+        end
       end
     end
 
