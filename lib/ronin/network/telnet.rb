@@ -24,6 +24,8 @@ module Ronin
     #
     # Provides helper methods for communicating with Telnet services.
     #
+    # @deprecated Will be removed in 1.0.0.
+    #
     module Telnet
       # Default telnet port
       DEFAULT_PORT = 23
