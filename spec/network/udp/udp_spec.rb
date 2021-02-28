@@ -14,16 +14,31 @@ describe Network::UDP do
       obj
     end
 
+    shared_examples "UDP Server" do
+      let(:server_host) { local_host }
+      let(:server_port) { 1024 + rand(65535 - 1024) }
+      let(:server)      { UDPSocket.new }
+      let(:server_bind_ip)   { server.addr[3] }
+      let(:server_bind_port) { server.addr[1] }
+
+      before(:each) { server.bind(server_host,server_port) }
+      after(:each)  { server.close }
+    end
+
     describe "#udp_open?" do
-      let(:host) { '4.2.2.1' }
-      let(:port) { 53 }
+      let(:host) { server_bind_ip   }
+      let(:port) { server_bind_port }
+
+      include_context "UDP Server"
 
       it "should return true for open ports" do
         expect(subject.udp_open?(host,port)).to be(true)
       end
 
+      let(:closed_port) { port + 1 }
+
       it "should return false for closed ports" do
-        expect(subject.udp_open?('localhost',rand(1024) + 1)).to be(false)
+        expect(subject.udp_open?(host,closed_port).to be(false)
       end
 
       it "should have a timeout for firewalled ports" do
@@ -179,15 +194,6 @@ describe Network::UDP do
     let(:local_ip)   { '127.0.0.1' } # XXX: UPDSocket defaults to using IPv4
 
     describe "#udp_send" do
-      let(:server_host) { local_host }
-      let(:server_port) { 1024 + rand(65535 - 1024) }
-      let(:server)      { UDPSocket.new }
-      let(:server_bind_ip)   { server.addr[3] }
-      let(:server_bind_port) { server.addr[1] }
-
-      before(:each) { server.bind(server_host,server_port) }
-      after(:each)  { server.close }
-
       let(:data) { "hello\n" }
 
       it "should send data to a service" do

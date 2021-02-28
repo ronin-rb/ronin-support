@@ -14,16 +14,32 @@ describe Network::TCP do
       obj
     end
 
+    shared_examples "TCP Server" do
+      let(:server_host) { 'localhost' }
+      let(:server_port) { 1024 + rand(65535 - 1024) }
+      let(:server_ip)   { Resolv.getaddress(server_host) }
+      let(:server) { TCPServer.new(server_host,server_port) }
+      let(:server_bind_ip)   { server.addr[3] }
+      let(:server_bind_port) { server.addr[1] }
+
+      before(:each) { server.listen(1) }
+      after(:each)  { server.close }
+    end
+
     describe "#tcp_open?" do
-      let(:host) { 'example.com' }
-      let(:port) { 80 }
+      include_examples "TCP Server"
+
+      let(:host) { server_bind_ip }
+      let(:port) { server_bind_port }
 
       it "should return true for open ports" do
         expect(subject.tcp_open?(host,port)).to be(true)
       end
 
+      let(:closed_port) { port + 1 }
+
       it "should return false for closed ports" do
-        expect(subject.tcp_open?('localhost',rand(1024) + 1)).to be(false)
+        expect(subject.tcp_open?(host,closed_port).to be(false)
       end
 
       context "when given a timeout" do
@@ -31,7 +47,7 @@ describe Network::TCP do
           timeout = 2
 
           t1 = Time.now
-          subject.tcp_open?(host,1337,nil,nil,timeout)
+          subject.tcp_open?(host,port+1,nil,nil,timeout)
           t2 = Time.now
 
           expect((t2 - t1).to_i).to be <= timeout
@@ -189,15 +205,7 @@ describe Network::TCP do
     let(:local_ip)   { Resolv.getaddress(local_host) }
 
     describe "#tcp_send" do
-      let(:server_host) { 'localhost' }
-      let(:server_port) { 1024 + rand(65535 - 1024) }
-      let(:server_ip)   { Resolv.getaddress(server_host) }
-      let(:server) { TCPServer.new(server_host,server_port) }
-      let(:server_bind_ip)   { server.addr[3] }
-      let(:server_bind_port) { server.addr[1] }
-
-      before(:each) { server.listen(1) }
-      after(:each)  { server.close }
+      include_context "TCP Server"
 
       let(:data) { "hello\n" }
 
