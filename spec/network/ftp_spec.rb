@@ -9,7 +9,7 @@ describe Network::FTP do
       obj
     end
 
-    let(:host) { 'ftp.kernel.org' }
+    let(:host) { 'ftp.osuosl.org' }
 
     describe "#ftp_connect" do
       it "should return a Net::FTP object" do
@@ -30,14 +30,14 @@ describe Network::FTP do
         it "should set passive mode by default" do
           ftp = subject.ftp_connect(host)
 
-          expect(ftp.passive).to be_true
+          expect(ftp.passive).to be(true)
           ftp.close
         end
 
         it "should allow disabling passive mode" do
           ftp = subject.ftp_connect(host, :passive => false)
 
-          expect(ftp.passive).to be_false
+          expect(ftp.passive).to be(false)
           ftp.close
         end
       end
