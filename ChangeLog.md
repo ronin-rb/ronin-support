@@ -1,10 +1,15 @@
 ### 0.5.2 / 2021-02-28
 
-* Temporarily added the [net-telnet] gem as a dependency, since Ruby 3.0 moved
-  `net/telnet` out of the stdlib.
+* Ruby 3.0 support:
+  * Temporarily added the [net-telnet] gem as a dependency, since Ruby 3.0 moved
+    `net/telnet` out of the stdlib.
+  * {Ronin::Fuzzing::SHORT_LENGTHS} and {Ronin::Fuzzing::LONG_LENGTHS} are now
+    `Set` objects, instead of `SortedSet`, which Ruby 3.0 moved out of stdlib.
+  * Use `URI::DEFAULT_PARSER.escape` / `.unescape` in {String#uri_encode},
+    {String#uri_decode}, and {Integer#uri_encode} now that `URI.encode`,
+    `URI.decode`, `URI.escape`, `URI.unescape` have all been removed in
+    Ruby 3.0.
 * Deprecated {Ronin::Network::Telnet}.
-* {Ronin::Fuzzing::SHORT_LENGTHS} and {Ronin::Fuzzing::LONG_LENGTHS} are now
-  `Set` objects, instead of `SortedSet`, which Ruby 3.0 moved out of stdlib.
 * Allow {Ronin::Path#initialize} to accept a separator argument.
 * No longer bind new sockets to `0.0.0.0` by default in {Ronin::Network::TCP}
   and {Ronin::Network::UDP}. `0.0.0.0` is the IPv4 Any address, which makes the
