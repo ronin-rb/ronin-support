@@ -69,11 +69,8 @@ module Ronin
               # send an empty UDP packet, just like nmap
               socket.syswrite('')
 
-              # send junk data, to elicit an error message
-              socket.syswrite("\0" * 64)
-
-              # test if we've received any data
-              socket.sysread(1)
+              # send an empty UDP packet again, to elicit an Errno::ECONNREFUSED
+              socket.syswrite('')
             end
           end
 
