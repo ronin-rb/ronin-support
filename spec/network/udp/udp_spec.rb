@@ -38,7 +38,7 @@ describe Network::UDP do
       let(:closed_port) { port + 1 }
 
       it "should return false for closed ports" do
-        expect(subject.udp_open?(host,closed_port).to be(false)
+        expect(subject.udp_open?(host,closed_port)).to be(false)
       end
 
       it "should have a timeout for firewalled ports" do
@@ -194,6 +194,8 @@ describe Network::UDP do
     let(:local_ip)   { '127.0.0.1' } # XXX: UPDSocket defaults to using IPv4
 
     describe "#udp_send" do
+      include_context "UDP Server"
+
       let(:data) { "hello\n" }
 
       it "should send data to a service" do

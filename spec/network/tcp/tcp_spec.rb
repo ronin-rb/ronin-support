@@ -39,7 +39,7 @@ describe Network::TCP do
       let(:closed_port) { port + 1 }
 
       it "should return false for closed ports" do
-        expect(subject.tcp_open?(host,closed_port).to be(false)
+        expect(subject.tcp_open?(host,closed_port)).to be(false)
       end
 
       context "when given a timeout" do
