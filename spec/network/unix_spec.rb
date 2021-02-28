@@ -15,21 +15,22 @@ describe Network::UNIX do
     describe "#unix_open?" do
       include_context "UNIX Server"
 
-      let(:old_path) { socket_path('ronin_old_unix_socket') }
-      let(:bad_path) { socket_path('ronin_bad_unix_socket') }
-
-      before(:all) { UNIXServer.new(old_path).close }
-
       it "should return true for listening UNIX sockets" do
         expect(subject.unix_open?(path)).to be(true)
       end
 
       it "should return false for closed UNIX sockets" do
+        old_path = socket_path('ronin_old_unix_socket')
+        UNIXServer.new(old_path).close
+
         expect(subject.unix_open?(old_path)).to be(false)
+
+        FileUtils.rm(old_path)
       end
 
       it "should have a timeout for non-existent UNIX sockets" do
-        timeout = 2
+        bad_path = socket_path('ronin_bad_unix_socket')
+        timeout  = 2
 
         t1 = Time.now
         subject.unix_open?(bad_path,timeout)
@@ -37,8 +38,6 @@ describe Network::UNIX do
 
         expect((t2 - t1).to_i).to be <= timeout
       end
-
-      after(:all) { FileUtils.rm(old_path) }
     end
 
     describe "#unix_connect" do
