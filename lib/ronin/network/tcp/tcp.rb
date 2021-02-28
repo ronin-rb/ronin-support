@@ -85,7 +85,7 @@ module Ronin
       # @param [Integer] port
       #   The port to connect to.
       #
-      # @param [String] local_host ('0.0.0.0')
+      # @param [String] local_host (nil)
       #   The local host to bind to.
       #
       # @param [Integer] local_port (nil)
@@ -116,12 +116,17 @@ module Ronin
       # @api public
       #
       def tcp_connect(host,port,local_host=nil,local_port=nil)
-        host       = host.to_s
-        port       = port.to_i
-        local_host = (local_host || '0.0.0.0').to_s
-        local_port = local_port.to_i
+        host = host.to_s
+        port = port.to_i
 
-        socket = TCPSocket.new(host,port,local_host,local_port)
+        socket = if local_host || local_port
+                   local_host = local_host.to_s
+                   local_port = local_port.to_i
+
+                   TCPSocket.new(host,port,local_host,local_port)
+                 else
+                   TCPSocket.new(host,port)
+                 end
 
         yield socket if block_given?
         return socket
@@ -278,10 +283,10 @@ module Ronin
       #
       # Creates a new TCPServer listening on a given host and port.
       #
-      # @param [Integer] port
+      # @param [Integer] port (nil)
       #   The local port to listen on.
       #
-      # @param [String] host ('0.0.0.0')
+      # @param [String] host (nil)
       #   The host to bind to.
       #
       # @param [Integer] backlog (5)
@@ -305,9 +310,13 @@ module Ronin
       #
       def tcp_server(port=nil,host=nil,backlog=5)
         port = port.to_i
-        host = (host || '0.0.0.0').to_s
 
-        server = TCPServer.new(host,port)
+        server = if host
+                   host = host.to_s
+                   TCPServer.new(host,port)
+                 else
+                   TCPServer.new(port)
+                 end
         server.listen(backlog)
 
         yield server if block_given?
@@ -317,10 +326,10 @@ module Ronin
       #
       # Creates a new temporary TCPServer listening on a host and port.
       #
-      # @param [Integer] port
+      # @param [Integer] port (nil)
       #   The local port to bind to.
       #
-      # @param [String] host ('0.0.0.0')
+      # @param [String] host (nil)
       #   The host to bind to.
       #
       # @param [Integer] backlog (5)
@@ -358,10 +367,10 @@ module Ronin
       # Creates a new TCPServer listening on a given host and port,
       # accepting clients in a loop.
       #
-      # @param [Integer] port
+      # @param [Integer] port (nil)
       #   The local port to bind to.
       #
-      # @param [String] host ('0.0.0.0')
+      # @param [String] host (nil)
       #   The host to bind to.
       #
       # @yield [client]
@@ -397,10 +406,10 @@ module Ronin
       # Creates a new TCPServer listening on a given host and port,
       # accepts only one client and then stops listening.
       #
-      # @param [Integer] port
+      # @param [Integer] port (nil)
       #   The local port to bind to.
       #
-      # @param [String] host ('0.0.0.0')
+      # @param [String] host (nil
       #   The host to bind to.
       #
       # @yield [client]

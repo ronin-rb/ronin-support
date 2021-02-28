@@ -123,13 +123,18 @@ module Ronin
       # @api public
       #
       def udp_connect(host,port,local_host=nil,local_port=nil)
-        host       = host.to_s
-        port       = port.to_i
-        local_host = (local_host || '0.0.0.0').to_s
-        local_port = local_port.to_i
+        host = host.to_s
+        port = port.to_i
 
         socket = UDPSocket.new
-        socket.bind(local_host,local_port) if (local_host && local_port)
+
+        if local_host || local_port
+          local_host = local_host.to_s
+          local_port = local_port.to_i
+
+          socket.bind(local_host,local_port)
+        end
+
         socket.connect(host,port)
 
         yield socket if block_given?
@@ -288,10 +293,10 @@ module Ronin
       #
       # Creates a new UDPServer listening on a given host and port.
       #
-      # @param [Integer] port
+      # @param [Integer] port (nil)
       #   The local port to listen on.
       #
-      # @param [String] host ('0.0.0.0')
+      # @param [String] host (nil)
       #   The host to bind to.
       #
       # @return [UDPServer]
@@ -306,7 +311,7 @@ module Ronin
       #
       def udp_server(port=nil,host=nil)
         port   = port.to_i
-        host   = (host || '0.0.0.0').to_s
+        host   = host.to_s
 
         server = UDPSocket.new
         server.bind(host,port)
@@ -318,10 +323,10 @@ module Ronin
       #
       # Creates a new temporary UDPServer listening on a given host and port.
       #
-      # @param [Integer] port
+      # @param [Integer] port (nil)
       #   The local port to bind to.
       #
-      # @param [String] host ('0.0.0.0')
+      # @param [String] host (nil)
       #   The host to bind to.
       #
       # @yield [server]
@@ -350,10 +355,10 @@ module Ronin
       # Creates a new UDPServer listening on a given host and port,
       # accepting messages from clients in a loop.
       #
-      # @param [Integer] port
+      # @param [Integer] port (nil)
       #   The port the UDPServer will listen on.
       #
-      # @param [String] host
+      # @param [String] host (nil)
       #   The optional host the UDPServer will bind to.
       #
       # @yield [server, (client_host, client_port), mesg]
@@ -397,10 +402,10 @@ module Ronin
       # Creates a new UDPServer listening on a given host and port,
       # accepts only one message from a client.
       #
-      # @param [Integer] port
+      # @param [Integer] port (nil)
       #   The port the UDPServer will listen on.
       #
-      # @param [String] host
+      # @param [String] host (nil)
       #   The optional host the UDPServer will bind to.
       #
       # @yield [server, (client_host, client_port), mesg]
