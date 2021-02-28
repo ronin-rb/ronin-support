@@ -1,3 +1,26 @@
+### 0.5.2 / 2021-02-28
+
+* Temporarily added the [net-telnet] gem as a dependency, since Ruby 3.0 moved
+  `net/telnet` out of the stdlib.
+* Deprecated {Ronin::Network::Telnet}.
+* {Ronin::Fuzzing::SHORT_LENGTHS} and {Ronin::Fuzzing::LONG_LENGTHS} are now
+  `Set` objects, instead of `SortedSet`, which Ruby 3.0 moved out of stdlib.
+* Allow {Ronin::Path#initialize} to accept a separator argument.
+* No longer bind new sockets to `0.0.0.0` by default in {Ronin::Network::TCP}
+  and {Ronin::Network::UDP}. `0.0.0.0` is the IPv4 Any address, which makes the
+  socket IPv4 and thus incompatible with IPv6 hosts.
+* Fixed a bug in {Ronin::Network::UDP#udp_open?} where it would always timeout
+  and return `nil`, even when the UDP port was open.
+* Filter out `nil` or empty `:query` options passed to
+  {Ronin::Network::HTTP.request}.
+* No longer append the query String to the path in
+  {Ronin::Network::HTTP.expand_url}.
+* Support escaping `"\`"` tick-marks in {String#sql_escape}.
+* Allow setting the request body or form-data in {Ronin::Network::HTTP.request},
+  even for request types that typically do not use a body or form-data.
+
+[net-telnet]: https://github.com/ruby/net-telnet
+
 ### 0.5.1 / 2012-06-29
 
 * Added {Ronin::Binary::Template#inspect}.
