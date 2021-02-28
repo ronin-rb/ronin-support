@@ -56,16 +56,18 @@ describe Network::TCP::Proxy, :network => true do
   describe "#on_client_data" do
     before do
       @proxy.on_client_data do |client,server,data|
-        data.gsub!(/HTTP\/1.1/,'HTTP/1.0')
+        if (match = data.match(/HTTP\/(\d\.\d)/))
+          client.write("HTTP #{match[1]} detected!\r\n")
+        end
       end
 
       @socket = TCPSocket.new(host,port)
     end
 
     it "should trigger when the client sends data" do
-      @socket.write("GET / HTTP/1.1\r\n\r\n")
+      @socket.write("GET /placeholder HTTP/1.0\r\n\r\n")
 
-      expect(@socket.readline).to eq("HTTP/1.0 302 Found\r\n")
+      expect(@socket.readline).to eq("HTTP 1.0 detected!\r\n")
     end
 
     after { @socket.close }
@@ -103,7 +105,7 @@ describe Network::TCP::Proxy, :network => true do
     it "should trigger when the server closes the connection" do
       @socket.write("GET / HTTP/1.0\r\n\r\n")
 
-      expect(@socket.read.end_with?(injection)).to be_true
+      expect(@socket.read.end_with?(injection)).to be(true)
     end
 
     after { @socket.close }
