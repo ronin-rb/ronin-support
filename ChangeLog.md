@@ -1,6 +1,6 @@
 ### 0.5.2 / 2021-02-28
 
-* Ruby 3.0 support:
+* Support Ruby 3.0:
   * Temporarily added the [net-telnet] gem as a dependency, since Ruby 3.0 moved
     `net/telnet` out of the stdlib.
   * {Ronin::Fuzzing::SHORT_LENGTHS} and {Ronin::Fuzzing::LONG_LENGTHS} are now
