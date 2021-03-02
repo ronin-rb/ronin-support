@@ -8,6 +8,7 @@ group :development do
   gem 'rake'
   gem 'rubygems-tasks',     '~> 0.1'
   gem 'rspec',              '~> 3.0'
+  gem 'simplecov',          '~> 0.18'
 
   gem 'ripl',               '~> 0.3'
   gem 'ripl-multi_line',    '~> 0.2'
