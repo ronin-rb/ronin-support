@@ -3,8 +3,8 @@
 [![CI](https://github.com/ronin-rb/ronin-support/actions/workflows/ruby.yml/badge.svg)](https://github.com/ronin-rb/ronin-support/actions/workflows/ruby.yml)
 [![Code Climate](https://codeclimate.com/github/ronin-rb/ronin-support.svg)](https://codeclimate.com/github/ronin-rb/ronin-support)
 
-* [Source](https://github.com/ronin-ruby/ronin-support)
-* [Issues](https://github.com/ronin-ruby/ronin-support/issues)
+* [Source](https://github.com/ronin-rb/ronin-support)
+* [Issues](https://github.com/ronin-rb/ronin-support/issues)
 * [Documentation](https://ronin-rb.dev/docs/ronin-support/frames)
 * [Slack](https://ronin-rb.slack.com) |
   [Discord](https://discord.gg/6WAb3PsVX9) |

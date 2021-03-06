@@ -261,7 +261,7 @@
 ### 0.1.0 / 2011-03-20
 
 * Initial release:
-  * Split out of [ronin](http://github.com/ronin-ruby/ronin) 0.3.0.
+  * Split out of [ronin](http://github.com/ronin-rb/ronin) 0.3.0.
   * Upgraded to the LGPL-3 license.
   * Require Ruby >= 1.8.7.
   * Require chars ~> 0.2.
