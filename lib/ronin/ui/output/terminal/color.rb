@@ -72,7 +72,7 @@ module Ronin
           # @api private
           #
           def self.print_info(message)
-            $stdout.puts "#{GREEN}#{BRIGHT}[-]#{BRIGHT_OFF} #{message}#{CLEAR}"
+            $stdout.puts "#{GREEN}#{BRIGHT}[-]#{CLEAR} #{GREEN}#{message}#{CLEAR}"
           end
 
           #
@@ -86,7 +86,7 @@ module Ronin
           # @api private
           #
           def self.print_debug(message)
-            $stdout.puts "#{CYAN}#{BRIGHT}[=]#{BRIGHT_OFF} #{message}#{CLEAR}"
+            $stdout.puts "#{CYAN}#{BRIGHT}[=]#{CLEAR} #{GREEN}#{message}#{CLEAR}"
           end
 
           #
@@ -100,7 +100,7 @@ module Ronin
           # @api private
           #
           def self.print_warning(message)
-            $stdout.puts "#{YELLOW}#{BRIGHT}[*]#{BRIGHT_OFF} #{message}#{CLEAR}"
+            $stdout.puts "#{YELLOW}#{BRIGHT}[*]#{CLEAR} #{GREEN}#{message}#{CLEAR}"
           end
 
           #
@@ -114,7 +114,7 @@ module Ronin
           # @api private
           #
           def self.print_error(message)
-            $stdout.puts "#{RED}#{BRIGHT}[!]#{BRIGHT_OFF} #{message}#{CLEAR}"
+            $stdout.puts "#{RED}#{BRIGHT}[!]#{CLEAR} #{GREEN}#{message}#{CLEAR}"
           end
 
         end
