@@ -5,31 +5,31 @@ describe String do
   subject { "hello" }
 
   it "should provide String#format_chars" do
-    should respond_to(:format_chars)
+    expect(subject).to respond_to(:format_chars)
   end
 
   it "should provide String#format_bytes" do
-    should respond_to(:format_bytes)
+    expect(subject).to respond_to(:format_bytes)
   end
 
   it "should provide String#random_case" do
-    should respond_to(:random_case)
+    expect(subject).to respond_to(:random_case)
   end
 
   it "should provide String#insert_before" do
-    should respond_to(:insert_before)
+    expect(subject).to respond_to(:insert_before)
   end
 
   it "should provide String#insert_after" do
-    should respond_to(:insert_after)
+    expect(subject).to respond_to(:insert_after)
   end
 
   it "should provide String#escape" do
-    should respond_to(:escape)
+    expect(subject).to respond_to(:escape)
   end
 
   it "should provide String#unescape" do
-    should respond_to(:unescape)
+    expect(subject).to respond_to(:unescape)
   end
 
   describe "#format_bytes" do

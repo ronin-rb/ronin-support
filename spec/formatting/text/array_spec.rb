@@ -10,23 +10,23 @@ describe Array do
   let(:string) { 'AA ' }
 
   it "should provide Array#bytes" do
-    should respond_to(:bytes)
+    expect(subject).to respond_to(:bytes)
   end
 
   it "should provide Array#chars" do
-    should respond_to(:chars)
+    expect(subject).to respond_to(:chars)
   end
 
   it "should provide Array#char_string" do
-    should respond_to(:char_string)
+    expect(subject).to respond_to(:char_string)
   end
 
   it "should provide Array#hex_chars" do
-    should respond_to(:hex_chars)
+    expect(subject).to respond_to(:hex_chars)
   end
 
   it "should provide Array#hex_integers" do
-    should respond_to(:hex_integers)
+    expect(subject).to respond_to(:hex_integers)
   end
 
   describe "#bytes" do

@@ -7,7 +7,7 @@ describe Float do
   subject { 0.42 }
 
   it "should provide Float#pack" do
-    should respond_to(:pack)
+    expect(subject).to respond_to(:pack)
   end
 
   describe "#pack" do

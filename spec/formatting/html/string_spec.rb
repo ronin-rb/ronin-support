@@ -5,27 +5,27 @@ describe String do
   subject { "one & two" }
 
   it "should provide String#html_escape" do
-    should respond_to(:html_escape)
+    expect(subject).to respond_to(:html_escape)
   end
 
   it "should provide String#html_unescape" do
-    should respond_to(:html_unescape)
+    expect(subject).to respond_to(:html_unescape)
   end
 
   it "should provide String#format_html" do
-    should respond_to(:format_html)
+    expect(subject).to respond_to(:format_html)
   end
 
   it "should provide String#js_escape" do
-    should respond_to(:js_escape)
+    expect(subject).to respond_to(:js_escape)
   end
 
   it "should provide String#js_unescape" do
-    should respond_to(:js_unescape)
+    expect(subject).to respond_to(:js_unescape)
   end
 
   it "should provide String#format_js" do
-    should respond_to(:format_js)
+    expect(subject).to respond_to(:format_js)
   end
 
   describe "#html_escape" do
