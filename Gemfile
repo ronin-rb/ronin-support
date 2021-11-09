@@ -16,6 +16,8 @@ group :development do
   gem 'ripl-color_result',  '~> 0.3'
 
   gem 'kramdown',           '~> 2.0'
+
+  gem 'dead_end', require: false
 end
 
 group :test do
