@@ -5,15 +5,15 @@ describe Integer do
   subject { 0x20 }
 
   it "should provide String#uri_encode" do
-    should respond_to(:uri_encode)
+    expect(subject).to respond_to(:uri_encode)
   end
 
   it "should provide String#uri_escape" do
-    should respond_to(:uri_escape)
+    expect(subject).to respond_to(:uri_escape)
   end
 
   it "should provide String#format_http" do
-    should respond_to(:format_http)
+    expect(subject).to respond_to(:format_http)
   end
 
   describe "#uri_encode" do

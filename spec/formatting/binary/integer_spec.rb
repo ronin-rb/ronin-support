@@ -7,15 +7,15 @@ describe Integer do
   subject { 0x41 }
 
   it "should provide Integer#bytes" do
-    should respond_to(:bytes)
+    expect(subject).to respond_to(:bytes)
   end
 
   it "should provide Integer#pack" do
-    should respond_to(:pack)
+    expect(subject).to respond_to(:pack)
   end
 
   it "should provide Integer#hex_escape" do
-    should respond_to(:hex_escape)
+    expect(subject).to respond_to(:hex_escape)
   end
 
   it "should alias char to the #chr method" do

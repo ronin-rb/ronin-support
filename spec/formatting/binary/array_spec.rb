@@ -5,7 +5,7 @@ describe Array do
   subject { [0x1234, "hello"] }
 
   it "should provide Array#pack" do
-    should respond_to(:pack)
+    expect(subject).to respond_to(:pack)
   end
 
   describe "#pack" do

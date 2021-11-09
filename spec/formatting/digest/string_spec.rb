@@ -5,23 +5,23 @@ describe String do
   subject { "hello" }
 
   it "should provide String#md5" do
-    should respond_to(:md5)
+    expect(subject).to respond_to(:md5)
   end
 
   it "should provide String#sha1" do
-    should respond_to(:sha1)
+    expect(subject).to respond_to(:sha1)
   end
 
   it "should provide String#sha2" do
-    should respond_to(:sha2)
+    expect(subject).to respond_to(:sha2)
   end
 
   it "should provide String#sha256" do
-    should respond_to(:sha256)
+    expect(subject).to respond_to(:sha256)
   end
 
   it "should provide String#sha512" do
-    should respond_to(:sha512)
+    expect(subject).to respond_to(:sha512)
   end
 
   describe "#md5" do
