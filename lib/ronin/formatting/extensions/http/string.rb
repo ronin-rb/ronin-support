@@ -28,6 +28,9 @@ class String
   #
   # URI encodes the String.
   #
+  # @param [Array<String>] unsafe
+  #   The unsafe characters to encode.
+  #
   # @return [String]
   #   The URI encoded form of the String.
   #
@@ -37,8 +40,10 @@ class String
   #
   # @api public
   #
-  def uri_encode
-    URI::DEFAULT_PARSER.escape(self)
+  def uri_encode(*unsafe)
+    unless unsafe.empty? then URI::DEFAULT_PARSER.escape(self,unsafe.join)
+    else                      URI::DEFAULT_PARSER.escape(self)
+    end
   end
 
   #
@@ -105,6 +110,42 @@ class String
   #
   def format_http(options={})
     format_bytes(options) { |b| b.format_http }
+  end
+
+  #
+  # HTTP escapes the String.
+  #
+  # @return [String]
+  #   The HTTP escaped form of the String.
+  #
+  # @example
+  #   "x > y".http_escape
+  #   # => "x+%3E+y"
+  #
+  # @api public
+  #
+  # @since 0.6.0
+  #
+  def http_escape
+    CGI.escape(self)
+  end
+
+  #
+  # HTTP unescapes the String.
+  #
+  # @return [String]
+  #   The raw String.
+  #
+  # @example
+  #   "sweet+%26+sour".http_unescape
+  #   # => "sweet & sour"
+  #
+  # @api public
+  #
+  # @since 0.6.0
+  #
+  def http_unescape
+    CGI.unescape(self)
   end
 
 end

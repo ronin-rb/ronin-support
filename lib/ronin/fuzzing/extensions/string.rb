@@ -21,7 +21,7 @@ require 'ronin/fuzzing/template'
 require 'ronin/fuzzing/repeater'
 require 'ronin/fuzzing/fuzzer'
 require 'ronin/fuzzing/mutator'
-require 'ronin/fuzzing/fuzzing'
+require 'ronin/fuzzing'
 require 'ronin/extensions/regexp'
 
 class String
@@ -164,7 +164,7 @@ class String
   #   end
   #
   # @example Replace a {Regexp::UNIX_PATH} with {Ronin::Fuzzing#format_strings}:
-  #   "GET /downloads/".fuzz(:unix_path => :format_string)
+  #   "GET /downloads/".fuzz(unix_path: :format_string)
   #
   # @since 0.3.0
   #

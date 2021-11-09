@@ -2,6 +2,12 @@ require 'spec_helper'
 require 'ronin/network/ftp'
 
 describe Network::FTP do
+  describe "default_port" do
+    it "must default to 21" do
+      expect(subject.default_port).to eq(21)
+    end
+  end
+
   describe "helpers", :network do
     subject do
       obj = Object.new
@@ -35,7 +41,7 @@ describe Network::FTP do
         end
 
         it "should allow disabling passive mode" do
-          ftp = subject.ftp_connect(host, :passive => false)
+          ftp = subject.ftp_connect(host, passive: false)
 
           expect(ftp.passive).to be(false)
           ftp.close

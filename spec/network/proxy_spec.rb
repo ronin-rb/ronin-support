@@ -9,9 +9,9 @@ describe Network::Proxy do
 
   let(:proxy) do
     described_class.new(
-      :port   => port,
-      :host   => host,
-      :server => [server_host, server_port]
+      port: port,
+      host: host,
+      server: [server_host, server_port]
     )
   end
 
@@ -20,8 +20,8 @@ describe Network::Proxy do
   describe "#initialize" do
     it "should default host to '0.0.0.0'" do
       proxy = described_class.new(
-        :port   => port,
-        :server => [server_host, server_port]
+        port: port,
+        server: [server_host, server_port]
       )
 
       expect(proxy.port).to eq(port)
@@ -30,9 +30,9 @@ describe Network::Proxy do
 
     it "should allow setting both the host and port" do
       proxy = described_class.new(
-        :port   => port,
-        :host   => host,
-        :server => [server_host, server_port]
+        port: port,
+        host: host,
+        server: [server_host, server_port]
       )
 
       expect(proxy.port).to eq(port)
@@ -41,9 +41,9 @@ describe Network::Proxy do
 
     it "should set the server_host and server_port" do
       proxy = described_class.new(
-        :port   => port,
-        :host   => host,
-        :server => [server_host, server_port]
+        port: port,
+        host: host,
+        server: [server_host, server_port]
       )
 
       expect(proxy.server_host).to eq(server_host)

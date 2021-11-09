@@ -14,12 +14,24 @@ describe Integer do
     expect(subject).to respond_to(:pack)
   end
 
+  it "should provide Integer#hex_encode" do
+    should respond_to(:hex_encode)
+  end
+
   it "should provide Integer#hex_escape" do
     expect(subject).to respond_to(:hex_escape)
   end
 
   it "should alias char to the #chr method" do
     expect(subject.char).to eq(subject.chr)
+  end
+
+  describe "#hex_encode" do
+    subject { 42 }
+
+    it "should hex encode an Integer" do
+      expect(subject.hex_encode).to eq("2a")
+    end
   end
 
   describe "#hex_escape" do
@@ -102,56 +114,6 @@ describe Integer do
         expect {
           subject.pack(:float)
         }.to raise_error(ArgumentError)
-      end
-    end
-
-    context "deprecated" do
-      let(:uint16_le) { "7\023" }
-      let(:uint32_le) { "7\023\000\000" }
-      let(:uint64_le) { "7\023\000\000\000\000\000\000" }
-
-      let(:uint16_be) { "\0237" }
-      let(:uint32_be) { "\000\000\0237" }
-      let(:uint64_be) { "\000\000\000\000\000\000\0237" }
-
-      let(:i386) do
-        OpenStruct.new(:endian => :little, :address_length => 4)
-      end
-
-      let(:ppc) do
-        OpenStruct.new(:endian => :big, :address_length => 4)
-      end
-
-      it "should pack itself for a little-endian architecture by default" do
-        expect(subject.pack(i386)).to eq(uint32_le)
-      end
-
-      it "should pack itself as a short for a little-endian architecture" do
-        expect(subject.pack(i386,2)).to eq(uint16_le)
-      end
-
-      it "should pack itself as a long for a little-endian architecture" do
-        expect(subject.pack(i386,4)).to eq(uint32_le)
-      end
-
-      it "should pack itself as a quad for a little-endian architecture" do
-        expect(subject.pack(i386,8)).to eq(uint64_le)
-      end
-
-      it "should pack itself for a big-endian architecture" do
-        expect(subject.pack(ppc)).to eq(uint32_be)
-      end
-
-      it "should pack itself as a short for a big-endian architecture" do
-        expect(subject.pack(ppc,2)).to eq(uint16_be)
-      end
-
-      it "should pack itself as a long for a big-endian architecture" do
-        expect(subject.pack(ppc,4)).to eq(uint32_be)
-      end
-
-      it "should pack itself as a quad for a big-endian architecture" do
-        expect(subject.pack(ppc,8)).to eq(uint64_be)
       end
     end
 

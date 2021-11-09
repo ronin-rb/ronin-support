@@ -17,47 +17,12 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/formatting/extensions/xml/integer'
+require 'ronin/formatting/extensions/js/integer'
+
 require 'cgi'
 
 class Integer
-
-  # Special JavaScript bytes and their escaped Strings.
-  JS_ESCAPE_BYTES = {
-    0x00 => '\u0000',
-    0x01 => '\u0001',
-    0x02 => '\u0002',
-    0x03 => '\u0003',
-    0x04 => '\u0004',
-    0x05 => '\u0005',
-    0x06 => '\u0006',
-    0x07 => '\u0007',
-    0x08 =>  '\b',
-    0x09 =>  '\t',
-    0x0a =>  '\n',
-    0x0b => '\u000b',
-    0x0c =>  '\f',
-    0x0d =>  '\r',
-    0x0e => '\u000e',
-    0x0f => '\u000f',
-    0x10 => '\u0010',
-    0x11 => '\u0011',
-    0x12 => '\u0012',
-    0x13 => '\u0013',
-    0x14 => '\u0014',
-    0x15 => '\u0015',
-    0x16 => '\u0016',
-    0x17 => '\u0017',
-    0x18 => '\u0018',
-    0x19 => '\u0019',
-    0x1a => '\u001a',
-    0x1b => '\u001b',
-    0x1c => '\u001c',
-    0x1d => '\u001d',
-    0x1e => '\u001e',
-    0x1f => '\u001f',
-    0x22 =>  '\"',
-    0x5c =>  '\\\\',
-  }
 
   #
   # Escapes the Integer as an HTML String.
@@ -71,10 +36,12 @@ class Integer
   #
   # @since 0.2.0
   #
+  # @see #xml_escape
+  #
   # @api public
   #
   def html_escape
-    CGI.escapeHTML(chr)
+    xml_escape
   end
 
   #
@@ -89,54 +56,12 @@ class Integer
   #
   # @since 0.2.0
   #
+  # @see #format_xml
+  #
   # @api public
   #
   def format_html
-    "&#%d;" % self
-  end
-
-  #
-  # Escapes the Integer as a JavaScript String.
-  #
-  # @return [String]
-  #   The escaped JavaScript String.
-  #
-  # @example 
-  #   0x22.js_escape
-  #   # => "\\\""
-  #
-  # @example
-  #   0x7f.js_escape
-  #   # => "\x7F"
-  #
-  # @since 0.2.0
-  #
-  # @api public
-  #
-  def js_escape
-    if self > 0xff then format_js
-    else                JS_ESCAPE_BYTES.fetch(self,chr)
-    end
-  end
-
-  #
-  # Formats the Integer as a JavaScript escaped String.
-  #
-  # @return [String]
-  #   The escaped JavaScript String.
-  #
-  # @example
-  #   0x41.format_js
-  #   # => "%41"
-  #
-  # @since 0.2.0
-  #
-  # @api public
-  #
-  def format_js
-    if self > 0xff then "\\u%.4X" % self
-    else                "\\x%.2X" % self
-    end
+    format_xml
   end
 
 end

@@ -90,7 +90,7 @@ class Integer
   #
   # Packs the Integer into a String.
   #
-  # @param [String, Symbol, arch] arguments
+  # @param [String, Symbol] type
   #   The `Array#pack` code, {Ronin::Binary::Template} type or Architecture
   #   object with `#endian` and `#address_length` methods.
   #
@@ -108,57 +108,40 @@ class Integer
   # @example using {Ronin::Binary::Template} types:
   #   0x41.pack(:uint32_le)
   #
-  # @example using archs other than `Ronin::Arch` (**deprecated**):
-  #   arch = OpenStruct.new(:endian => :little, :address_length => 4)
-  #
-  #   0x41.pack(arch)
-  #   # => "A\0\0\0"
-  #
-  # @example using a `Ronin::Arch` arch (**deprecated**):
-  #   0x41.pack(Arch.i686)
-  #   # => "A\0\0\0"
-  #
-  # @example specifying a custom address-length (**deprecated**):
-  #   0x41.pack(Arch.ppc,2)
-  #   # => "\0A"
-  #
-  # @see https://rubydoc.info/stdlib/core/Array:pack
+  # @see http://rubydoc.info/stdlib/core/Array:pack
   # @see Ronin::Binary::Template
   #
   # @api public
   #
-  def pack(*arguments)
-    if (arguments.length == 1 && arguments.first.kind_of?(String))
-      [self].pack(arguments.first)
-    elsif (arguments.length == 1 && arguments.first.kind_of?(Symbol))
-      type = arguments.first
-
+  def pack(type)
+    case type
+    when String
+      [self].pack(type)
+    when Symbol
       unless Ronin::Binary::Template::INT_TYPES.include?(type)
         raise(ArgumentError,"unsupported integer type: #{type}")
       end
 
       [self].pack(Ronin::Binary::Template::TYPES[type])
-    elsif (arguments.length == 1 || arguments.length == 2)
-      # TODO: deprecate this calling convention
-      arch, address_length = arguments
-
-      unless arch.respond_to?(:address_length)
-        raise(ArgumentError,"first argument to Ineger#pack must respond to address_length")
-      end
-
-      unless arch.respond_to?(:endian)
-        raise(ArgumentError,"first argument to Ineger#pack must respond to endian")
-      end
-
-      address_length ||= arch.address_length
-
-      integer_bytes = bytes(address_length,arch.endian)
-      integer_bytes.map! { |b| b.chr }
-
-      return integer_bytes.join
     else
-      raise(ArgumentError,"wrong number of arguments (#{arguments.length} for 1..2)")
+      raise(ArgumentError,"invalid pack type: #{type}")
     end
+  end
+
+  #
+  # Hex-encodes the Integer.
+  #
+  # @return [String]
+  #   The hex encoded version of the Integer.
+  #
+  # @example
+  #   0x41.hex_encode
+  #   # => "41"
+  #
+  # @since 0.6.0
+  #
+  def hex_encode
+    "%.2x" % self
   end
 
   #

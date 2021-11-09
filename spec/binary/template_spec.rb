@@ -15,12 +15,6 @@ describe Binary::Template do
     it("int16      => S")  { expect(subject[:int16]).to       eq('s' ) }
     it("int32      => L")  { expect(subject[:int32]).to       eq('l' ) }
     it("int64      => Q")  { expect(subject[:int64]).to       eq('q' ) }
-    if RUBY_VERSION < '1.9.'
-    it("uint16_le  => v")  { expect(subject[:uint16_le]).to   eq('v' ) }
-    it("uint32_le  => V")  { expect(subject[:uint32_le]).to   eq('V' ) }
-    it("uint16_be  => n")  { expect(subject[:uint16_be]).to   eq('n' ) }
-    it("uint32_be  => N")  { expect(subject[:uint32_be]).to   eq('N' ) }
-    end
     it("uchar      => Z")  { expect(subject[:uchar]).to      eq('Z' ) }
     it("ushort     => S!") { expect(subject[:ushort]).to     eq('S!') }
     it("uint       => I!") { expect(subject[:uint]).to       eq('I!') }
@@ -42,58 +36,34 @@ describe Binary::Template do
     it("byte       => c")  { expect(subject[:byte]).to        eq('c' ) }
     it("string     => Z*") { expect(subject[:string]).to     eq('Z*') }
 
-    if RUBY_VERSION > '1.9.'
-      context "Ruby 1.9" do
-        it("uint16_le     => S<") { expect(subject[:uint16_le]).to      eq('S<' ) }
-        it("uint32_le     => L<") { expect(subject[:uint32_le]).to      eq('L<' ) }
-        it("uint64_le     => Q<") { expect(subject[:uint64_le]).to      eq('Q<' ) }
-        it("int16_le      => S<") { expect(subject[:int16_le]).to       eq('s<' ) }
-        it("int32_le      => L<") { expect(subject[:int32_le]).to       eq('l<' ) }
-        it("int64_le      => Q<") { expect(subject[:int64_le]).to       eq('q<' ) }
-        it("uint16_be     => S>") { expect(subject[:uint16_be]).to      eq('S>' ) }
-        it("uint32_be     => L>") { expect(subject[:uint32_be]).to      eq('L>' ) }
-        it("uint64_be     => Q>") { expect(subject[:uint64_be]).to      eq('Q>' ) }
-        it("int16_be      => S>") { expect(subject[:int16_be]).to       eq('s>' ) }
-        it("int32_be      => L>") { expect(subject[:int32_be]).to       eq('l>' ) }
-        it("int64_be      => Q>") { expect(subject[:int64_be]).to       eq('q>' ) }
-        it("ushort_le     => S!<") { expect(subject[:ushort_le]).to     eq('S!<') }
-        it("uint_le       => I!<") { expect(subject[:uint_le]).to       eq('I!<') }
-        it("ulong_le      => L!<") { expect(subject[:ulong_le]).to      eq('L!<') }
-        it("ulong_long_le => L!<") { expect(subject[:ulong_long_le]).to eq('Q<' ) }
-        it("short_le      => S!<") { expect(subject[:short_le]).to      eq('s!<') }
-        it("int_le        => I!<") { expect(subject[:int_le]).to        eq('i!<') }
-        it("long_le       => L!<") { expect(subject[:long_le]).to       eq('l!<') }
-        it("long_long_le  => L!<") { expect(subject[:long_long_le]).to  eq('q<' ) }
-        it("ushort_be     => S!>") { expect(subject[:ushort_be]).to     eq('S!>') }
-        it("uint_be       => I!>") { expect(subject[:uint_be]).to       eq('I!>') }
-        it("ulong_be      => L!>") { expect(subject[:ulong_be]).to      eq('L!>') }
-        it("ulong_long_be => L!>") { expect(subject[:ulong_long_be]).to eq('Q>' ) }
-        it("short_be      => S!>") { expect(subject[:short_be]).to      eq('s!>') }
-        it("int_be        => I!>") { expect(subject[:int_be]).to        eq('i!>') }
-        it("long_be       => L!>") { expect(subject[:long_be]).to       eq('l!>') }
-        it("long_long_be  => L!>") { expect(subject[:long_long_be]).to  eq('q>' ) }
-      end
-    end
-  end
-
-  describe "translate" do
-    subject { described_class }
-
-    context "when given :endian" do
-      it "should translate endian-types" do
-        expect(subject.translate(:uint, :endian => :little)).to eq(:uint_le)
-      end
-
-      it "should not translate non-endian-types" do
-        expect(subject.translate(:string, :endian => :little)).to eq(:string)
-      end
-
-      it "should raise an ArgumentError for unknown endianness" do
-        expect {
-          subject.translate(:uint, :endian => :foo)
-        }.to raise_error(ArgumentError)
-      end
-    end
+    it("uint16_le     => S<") { expect(subject[:uint16_le]).to      eq('S<' ) }
+    it("uint32_le     => L<") { expect(subject[:uint32_le]).to      eq('L<' ) }
+    it("uint64_le     => Q<") { expect(subject[:uint64_le]).to      eq('Q<' ) }
+    it("int16_le      => S<") { expect(subject[:int16_le]).to       eq('s<' ) }
+    it("int32_le      => L<") { expect(subject[:int32_le]).to       eq('l<' ) }
+    it("int64_le      => Q<") { expect(subject[:int64_le]).to       eq('q<' ) }
+    it("uint16_be     => S>") { expect(subject[:uint16_be]).to      eq('S>' ) }
+    it("uint32_be     => L>") { expect(subject[:uint32_be]).to      eq('L>' ) }
+    it("uint64_be     => Q>") { expect(subject[:uint64_be]).to      eq('Q>' ) }
+    it("int16_be      => S>") { expect(subject[:int16_be]).to       eq('s>' ) }
+    it("int32_be      => L>") { expect(subject[:int32_be]).to       eq('l>' ) }
+    it("int64_be      => Q>") { expect(subject[:int64_be]).to       eq('q>' ) }
+    it("ushort_le     => S!<") { expect(subject[:ushort_le]).to     eq('S!<') }
+    it("uint_le       => I!<") { expect(subject[:uint_le]).to       eq('I!<') }
+    it("ulong_le      => L!<") { expect(subject[:ulong_le]).to      eq('L!<') }
+    it("ulong_long_le => L!<") { expect(subject[:ulong_long_le]).to eq('Q<' ) }
+    it("short_le      => S!<") { expect(subject[:short_le]).to      eq('s!<') }
+    it("int_le        => I!<") { expect(subject[:int_le]).to        eq('i!<') }
+    it("long_le       => L!<") { expect(subject[:long_le]).to       eq('l!<') }
+    it("long_long_le  => L!<") { expect(subject[:long_long_le]).to  eq('q<' ) }
+    it("ushort_be     => S!>") { expect(subject[:ushort_be]).to     eq('S!>') }
+    it("uint_be       => I!>") { expect(subject[:uint_be]).to       eq('I!>') }
+    it("ulong_be      => L!>") { expect(subject[:ulong_be]).to      eq('L!>') }
+    it("ulong_long_be => L!>") { expect(subject[:ulong_long_be]).to eq('Q>' ) }
+    it("short_be      => S!>") { expect(subject[:short_be]).to      eq('s!>') }
+    it("int_be        => I!>") { expect(subject[:int_be]).to        eq('i!>') }
+    it("long_be       => L!>") { expect(subject[:long_be]).to       eq('l!>') }
+    it("long_long_be  => L!>") { expect(subject[:long_long_be]).to  eq('q>' ) }
   end
 
   describe "compile" do
@@ -110,10 +80,27 @@ describe Binary::Template do
       expect(subject.compile([[type, 10]])).to eq("#{code}10")
     end
 
+    it "should allow fields of arbitrary length" do
+      expect(subject.compile([[type]])).to eq("#{code}*")
+    end
+
     it "should raise ArgumentError for unknown types" do
       expect {
         subject.compile([:foo])
       }.to raise_error(ArgumentError)
+    end
+
+    context "when the :endian is given" do
+      let(:endian) { :big  }
+      let(:code)   { 'I!>' }
+
+      it "should translate endian types" do
+        expect(subject.compile([type], endian: endian)).to eq(code)
+      end
+
+      it "should not translate non-endian types" do
+        expect(subject.compile([:byte], endian: endian)).to eq('c')
+      end
     end
   end
 
@@ -324,6 +311,16 @@ describe Binary::Template do
 
       it "should unpack an unsigned 8bit integer" do
         expect(subject.unpack("\xff")).to eq([uint8])
+      end
+    end
+
+    context "[:uint8]" do
+      subject { described_class.new [[:uint8]] }
+
+      let(:n) { 4 }
+
+      it "should unpack an arbitrary number of 8bit integers" do
+        expect(subject.unpack("\xff" * n)).to eq([uint8] * n)
       end
     end
 

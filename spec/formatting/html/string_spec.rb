@@ -29,28 +29,24 @@ describe String do
   end
 
   describe "#html_escape" do
-    let(:html_escaped) { "one &amp; two" }
+    subject { "one &amp; two" }
 
-    it "should HTML escape itself" do
-      expect(subject.html_escape).to eq(html_escaped)
+    it "should behave like #xml_escape" do
+      expect(subject.html_escape).to eq(subject.xml_escape)
     end
   end
 
   describe "#html_unescape" do
-    let(:html_escaped) { "one &amp; two" }
+    subject { "one &amp; two" }
 
-    it "should HTML unescape itself" do
-      expect(html_escaped.html_unescape).to eq(subject)
+    it "should behave like #xml_unescape" do
+      expect(subject.html_unescape).to eq(subject.xml_unescape)
     end
   end
 
   describe "#format_html" do
-    let(:formatted_html) do
-      "&#111;&#110;&#101;&#32;&#38;&#32;&#116;&#119;&#111;"
-    end
-
-    it "should HTML format all chars" do
-      expect(subject.format_html).to eq(formatted_html)
+    it "should behave like #format_xml" do
+      expect(subject.format_html).to eq(subject.format_xml)
     end
   end
 

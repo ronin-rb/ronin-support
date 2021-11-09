@@ -18,6 +18,7 @@
 #
 
 require 'ronin/network/smtp/email'
+require 'ronin/network/ssl'
 
 require 'net/smtp'
 
@@ -27,6 +28,8 @@ module Ronin
     # Provides helper methods for communicating with SMTP services.
     #
     module SMTP
+      include SSL
+
       # Default SMTP port
       DEFAULT_PORT = 25
 
@@ -105,6 +108,15 @@ module Ronin
       # @option options [Integer] :port (SMTP.default_port)
       #   The port to connect to.
       #
+      # @option options [Boolean, Hash] :ssl
+      #   Additional SSL options.
+      #
+      # @option :ssl [Boolean] :verify
+      #   Specifies that the SSL certificate should be verified.
+      #
+      # @option :ssl [String] :certs
+      #   The path to the file containing CA certs of the server.
+      #
       # @option options [String] :helo
       #   The HELO domain.
       #
@@ -118,17 +130,17 @@ module Ronin
       # @option options [String] :password
       #   The password to authenticate with.
       #
-      # @yield [session]
+      # @yield [smtp]
       #   If a block is given, it will be passed an SMTP session object.
       #
-      # @yieldparam [Net::SMTP] session
+      # @yieldparam [Net::SMTP] smtp
       #   The SMTP session.
       #
       # @return [Net::SMTP]
       #   The SMTP session.
       #
       # @example
-      #   smtp_connect('www.example.com', :user => 'joe')
+      #   smtp_connect('www.example.com', user: 'joe')
       #
       # @api public
       #
@@ -136,15 +148,26 @@ module Ronin
         host = host.to_s
         port = (options[:port] || SMTP.default_port)
 
+        case options[:ssl]
+        when Hash
+          ssl     = true
+          context = ssl_context(options[:ssl])
+        when TrueClass
+          ssl     = true
+          context = ssl_context
+        end
+
         helo     = options[:helo]
         auth     = options[:auth]
         user     = options[:user]
         password = options[:password]
 
-        session = Net::SMTP.start(host,port,helo,user,password,auth)
+        smtp = Net::SMTP.new(host,port)
+        smtp.enable_starttls(context) if ssl
+        smtp.start(helo,user,password,auth)
 
-        yield session if block_given?
-        return session
+        yield smtp if block_given?
+        return smtp
       end
 
       #
@@ -156,15 +179,40 @@ module Ronin
       # @param [Hash] options
       #   Additional options.
       #
-      # @yield [session]
+      # @option options [Integer] :port (SMTP.default_port)
+      #   The port to connect to.
+      #
+      # @option options [Boolean, Hash] :ssl
+      #   Additional SSL options.
+      #
+      # @option :ssl [Boolean] :verify
+      #   Specifies that the SSL certificate should be verified.
+      #
+      # @option :ssl [String] :certs
+      #   The path to the file containing CA certs of the server.
+      #
+      # @option options [String] :helo
+      #   The HELO domain.
+      #
+      # @option options [Symbol] :auth
+      #   The type of authentication to use. Can be either `:login`, `:plain`,
+      #   or `:cram_md5`.
+      #
+      # @option options [String] :user
+      #   The user-name to authenticate with.
+      #
+      # @option options [String] :password
+      #   The password to authenticate with.
+      #
+      # @yield [smtp]
       #   If a block is given, it will be passed an SMTP session object.
       #   After the block has returned, the session will be closed.
       #
-      # @yieldparam [Net::SMTP] session
+      # @yieldparam [Net::SMTP] smtp
       #   The SMTP session.
       #
       # @example
-      #   smtp_session('www.example.com', :user => 'joe') do |smtp|
+      #   smtp_session('www.example.com', user: 'joe') do |smtp|
       #     # ...
       #   end
       #
@@ -173,16 +221,16 @@ module Ronin
       # @api public
       #
       def smtp_session(host,options={})
-        session = smtp_connect(host,options)
+        smtp = smtp_connect(host,options)
 
-        yield session if block_given?
+        yield smtp if block_given?
 
-        session.finish
+        smtp.finish
         return nil
       end
 
       #
-      # @since 0.2.0
+      # Connects to an SMTP server and sends a message.
       #
       # @param [String] host
       #   The host to connect to.
@@ -199,11 +247,11 @@ module Ronin
       # @see #smtp_session
       #
       # @example
-      #   smtp_send_message 'www.example.com', :to => 'joe@example.com',
-      #                                        :from => 'eve@example.com',
-      #                                        :subject => 'Hello',
-      #                                        :message_id => 'XXXX',
-      #                                        :body => 'Hello'
+      #   smtp_send_message 'www.example.com', to:         'joe@example.com',
+      #                                        from:       'eve@example.com',
+      #                                        subject:    'Hello',
+      #                                        message_id: 'XXXX',
+      #                                        body:       'Hello'
       #
       # @example Using the block:
       #   smtp_send_message('www.example.com') do |email|

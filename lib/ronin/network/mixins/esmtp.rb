@@ -30,64 +30,117 @@ module Ronin
       #
       # * `host` (`String`) - ESMTP host.
       # * `port` (`Integer`) - ESMTP port.
-      # * `esmtp_login` (`String`) - ESMTP authentication method to use.
+      # * `esmtp_auth` (`String`) - ESMTP authentication method to use.
       # * `esmtp_user` (`String`) - ESMTP user to login as.
       # * `esmtp_password` (`String`) - ESMTP password to login with.
+      # * `ssl` (`Boolean`) - Enables SSL.
+      # * `ssl_verify` (`Boolean`) - SSL verify mode.
+      # * `ssl_cert` (`String`) - Path to the `.crt` file.
       #
       module ESMTP
         include Mixin, Network::ESMTP
 
         # ESMTP host
-        parameter :host, :type => String,
-                         :description => 'ESMTP host'
+        parameter :host, type:        String,
+                         description: 'ESMTP host'
 
         # ESMTP port
-        parameter :port, :type => Integer,
-                         :description => 'ESMTP port'
+        parameter :port, type:        Integer,
+                         default:     Network::SMTP.default_port,
+                         description: 'ESMTP port'
 
         # ESMTP authentication method to use
-        parameter :esmtp_login, :type => String,
-                                :description => 'ESMTP authentication method to use'
+        #
+        # @since 0.6.0
+        parameter :esmtp_auth, type:        String,
+                               description: 'ESMTP authentication method to use'
 
         # ESMTP user to login as
-        parameter :esmtp_user, :type => String,
-                               :description => 'ESMTP user to login as'
+        parameter :esmtp_user, type:        String,
+                               description: 'ESMTP user to login as'
 
         # ESMTP password to login with
-        parameter :esmtp_password, :type => String,
-                                   :description => 'ESMTP password to login with'
+        parameter :esmtp_password, type:        String,
+                                   description: 'ESMTP password to login with'
 
-        protected
+        # Enables SSL support
+        parameter :ssl, type:        true,
+                        description: 'Enables SSL support'
+
+        # SSL verify mode
+        parameter :ssl_verify, type:        true,
+                               description: 'Verifies the SSL certificate'
+
+        # SSL cert file
+        parameter :ssl_cert, type:        String,
+                             description: 'SSL cert file'
 
         #
-        # Creates a connection to the ESMTP server. The `host`, `port`,
-        # `esmtp_login`, `esmtp_user` and `esmtp_password` parameters
-        # will also be used to connect to the ESMTP server.
+        # @deprecated
+        #   Use {#esmtp_auth} instead.
+        #
+        def esmtp_login
+          warn "DEPRECATED: #{SMTP}#esmtp_login. Use #esmtp_auth instead"
+
+          return smtp_auth
+        end
+
+        #
+        # @deprecated
+        #   Use {#esmtp_auth=} instead.
+        #
+        def esmtp_login=(new_login)
+          warn "DEPRECATED: #{SMTP}#esmtp_login=. Use #esmtp_auth= instead"
+
+          self.esmtp_auth = new_login
+        end
+
+        #
+        # Creates a connection to the ESMTP server.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (Ronin::Network::SMTP.default_port)
-        #  The port to connect to.
+        # @option options [Integer] :port
+        #  The port to connect to. Defaults to {#port}.
+        #
+        # @option options [Boolean, Hash] :ssl
+        #   Additional SSL options.
+        #
+        # @option :ssl [Boolean] :verify
+        #   Specifies that the SSL certificate should be verified.
+        #
+        # @option :ssl [String] :certs
+        #   The path to the file containing CA certs of the server.
+        #
+        # @option options [String] :helo
+        #   The HELO domain.
         #
         # @option options [String] :helo
         #   The HELO domain.
         #
         # @option options [Symbol] :auth
-        #   The type of authentication to use.
-        #   Can be either `:login`, `:plain`, or `:cram_md5`.
+        #   The type of authentication to use. Defaults to {#esmtp_auth}.
+        #   May be one of the following:
+        #
+        #   * `:login`
+        #   * `:plain`
+        #   * `:cram_md5`
         #
         # @option options [String] :user
-        #   The user-name to authenticate with.
+        #   The user-name to authenticate with. Defaults to {#esmtp_user}.
         #
         # @option options [String] :password
-        #   The password to authenticate with.
+        #   The password to authenticate with. Defaults to {#esmtp_password}.
         #
-        # @yield [session]
+        # @yield [esmtp]
         #   If a block is given, it will be passed an ESMTP enabled
         #   session object.
         #
-        # @yieldparam [Net::SMTP] session
+        # @yieldparam [Net::SMTP] esmtp
         #   The ESMTP session.
         #
         # @return [Net::SMTP]
@@ -97,40 +150,76 @@ module Ronin
         #
         # @api public
         #
-        def esmtp_connect(options={},&block)
-          print_info "Connecting to #{host_port} ..."
+        def esmtp_connect(host=nil,options={},&block)
+          host  ||= self.host
+          options = esmtp_merge_options(options)
 
-          return super(self.host,esmtp_merge_options(options),&block)
+          print_info "Connecting to #{host}:#{options[:port]} ..."
+
+          return super(host,options,&block)
         end
 
         #
-        # Starts a session with the ESMTP server. The `host`, `port`,
-        # `esmtp_login`, `esmtp_user` and `esmtp_password` parameters
-        # will also be used to connect to the ESMTP server.
+        # Starts a session with the ESMTP server.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @yield [session]
+        # @option options [Integer] :port
+        #  The port to connect to. Defaults to {#port}.
+        #
+        # @option options [Boolean, Hash] :ssl
+        #   Additional SSL options.
+        #
+        # @option :ssl [Boolean] :verify
+        #   Specifies that the SSL certificate should be verified.
+        #
+        # @option :ssl [String] :certs
+        #   The path to the file containing CA certs of the server.
+        #
+        # @option options [String] :helo
+        #   The HELO domain.
+        #
+        # @option options [Symbol] :auth
+        #   The type of authentication to use. Defaults to {#esmtp_auth}.
+        #   May be one of the following:
+        #
+        #   * `:login`
+        #   * `:plain`
+        #   * `:cram_md5`
+        #
+        # @option options [String] :user
+        #   The user-name to authenticate with. Defaults to {#esmtp_user}.
+        #
+        # @option options [String] :password
+        #   The password to authenticate with. Defaults to {#esmtp_password}.
+        #
+        # @yield [esmtp]
         #   If a block is given, it will be passed an ESMTP enabled
         #   session object. After the block has returned, the session
         #   will be closed.
         #
-        # @yieldparam [Net::SMTP] session
+        # @yieldparam [Net::SMTP] esmtp
         #   The ESMTP session.
         #
         # @see Network::ESMTP#esmtp_session
         #
         # @api public
         #
-        def esmtp_session(options={})
-          super(esmtp_merge_options(options)) do |sess|
-            yield sess if block_given?
+        def esmtp_session(host=nil,options={})
+          host  ||= self.host
+          options = esmtp_merge_options(options)
+
+          super(host,options) do |esmtp|
+            yield esmtp if block_given?
 
             print_info "Logging out ..."
           end
 
-          print_info "Disconnected from #{host_port}"
+          print_info "Disconnected from #{host}:#{options[:port]}"
           return nil
         end
 
@@ -152,9 +241,15 @@ module Ronin
         #   
         def esmtp_merge_options(options={})
           options[:port]     ||= self.port
-          options[:login]    ||= self.esmtp_login
+          options[:auth]     ||= self.esmtp_auth
           options[:user]     ||= self.esmtp_user
           options[:password] ||= self.esmtp_password
+
+          if self.ssl?
+            options[:ssl] = options.fetch(:ssl) do
+              {verify: self.ssl_verify?, certs:  self.ssl_cert}
+            end
+          end
 
           return options
         end

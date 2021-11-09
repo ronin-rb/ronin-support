@@ -34,47 +34,67 @@ module Ronin
       # * `telnet_user` (`String`) - Telnet user to login as.
       # * `telnet_password` (`String`) - Telnet password to login with.
       # * `telnet_proxy` (`String`) - Telnet proxy.
-      # * `telnet_ssl` (`Boolean`) - Enable Telnet over SSL. Defaults to `true`.
+      # * `ssl` (`Boolean`) - Enable Telnet over SSL. Defaults to `true`.
       #
       module Telnet
         include Mixin, Network::Telnet
 
         # Telnet host
-        parameter :host, :type => String,
-                         :description => 'Telnet host'
+        parameter :host, type:        String,
+                         description: 'Telnet host'
 
         # Telnet port
-        parameter :port, :type => Integer,
-                         :description => 'Telnet port'
+        parameter :port, type:        Integer,
+                         description: 'Telnet port'
 
         # Telnet user
-        parameter :telnet_user, :type => String,
-                                :description => 'Telnet user to login as'
+        parameter :telnet_user, type:        String,
+                                description: 'Telnet user to login as'
 
         # Telnet password
-        parameter :telnet_password, :type => String,
-                                    :description => 'Telnet password to login with'
+        parameter :telnet_password, type:        String,
+                                    description: 'Telnet password to login with'
 
         # Telnet proxy
-        parameter :telnet_proxy, :description => 'Telnet proxy'
+        parameter :telnet_proxy, description: 'Telnet proxy'
 
         # Enable Telnet SSL
-        parameter :telnet_ssl, :type => true,
-                               :description => 'Enable Telnet over SSL'
-
-        protected
+        #
+        # @since 0.6.0
+        parameter :ssl, type:        true,
+                        description: 'Enable Telnet over SSL'
 
         #
-        # Creates a connection to a Telnet server. The `host`, `port`,
-        # `telnet_user`, `telnet_password`, `telnet_proxy` and
-        # `telnet_ssl` parameters will also be used to connect to the
-        # Telnet server.
+        # @deprecated
+        #   Use {#ssl} instead.
+        #
+        def telnet_ssl
+          warn "DEPRECATED: #{Telnet}#telnet_ssl is deprecated. Use #ssl"
+
+          return ssl
+        end
+
+        #
+        # @deprecated
+        #   Use {#ssl=} instead.
+        #
+        def telnet_ssl=(mode)
+          warn "DEPRECATED: #{Telnet}#telnet_ssl= is deprecated. Use #ssl="
+
+          self.ssl = mode
+        end
+
+        #
+        # Creates a new Telnet connection.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (Network::Telnet.default_port)
-        #   The port to connect to.
+        # @option options [Integer] :port
+        #   The port to connect to. Defaults to {#port}.
         #
         # @option options [Boolean] :binmode
         #   Indicates that newline substitution shall not be performed.
@@ -108,21 +128,21 @@ module Ronin
         #   The amount of time to wait after seeing what looks like
         #   a prompt.
         #
-        # @option options [Net::Telnet, IO] :proxy (Network::Telnet.proxy)
+        # @option options [Net::Telnet, IO] :proxy
         #   A proxy object to used instead of opening a direct connection
-        #   to the host.
+        #   to the host. Defaults to {#telnet_proxy}.
         #
         # @option options [String] :user
-        #   The user to login as.
+        #   The user to login as. Defaults to {#telnet_user}.
         #
         # @option options [String] :password
-        #   The password to login with.
+        #   The password to login with. Defaults to {#telnet_password}.
         #
-        # @yield [connection]
+        # @yield [telnet]
         #   If a block is given, it will be passed the newly created
         #   Telnet connection.
         #
-        # @yieldparam [Net::Telnet] connection
+        # @yieldparam [Net::Telnet] telnet
         #   The newly created Telnet connection.
         #
         # @return [Net::Telnet]
@@ -136,24 +156,75 @@ module Ronin
         #
         # @api public
         #
-        def telnet_connect(options={},&block)
-          print_info "Connecting to #{host_port} ..."
+        def telnet_connect(host=nil,options={},&block)
+          host  ||= self.host
+          options = telnet_merge_options(options)
 
-          return super(self.host,telnet_merge_options(options),&block)
+          print_info "Connecting to #{host}:#{options[:port]} ..."
+
+          return super(host,options,&block)
         end
 
         #
-        # Starts a session with a Telnet server. The `host`, `port`,
-        # `telnet_user`, `telnet_password`, `telnet_proxy` and
-        # `telnet_ssl` parameters will also be used to connect to the
-        # Telnet server.
+        # Starts a new Telnet session.
         #
-        # @yield [session]
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
+        #
+        # @param [Hash] options
+        #   Additional options.
+        #
+        # @option options [Integer] :port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @option options [Boolean] :binmode
+        #   Indicates that newline substitution shall not be performed.
+        #
+        # @option options [String] :output_log
+        #   The name of the file to write connection status messages
+        #   and all received traffic to.
+        #
+        # @option options [String] :dump_log
+        #   Similar to the `:output_log` option, but connection output
+        #   is also written in hexdump format.
+        #
+        # @option options [Regexp] :prompt (Network::Telnet.default_prompt)
+        #   A regular expression matching the host command-line prompt
+        #   sequence, used to determine when a command has finished.
+        #
+        # @option options [Boolean] :telnet (true)
+        #   Indicates that the connection shall behave as a telnet
+        #   connection.
+        #
+        # @option options [Boolean] :plain
+        #   Indicates that the connection shall behave as a normal TCP
+        #   connection.
+        #
+        # @option options [Integer] :timeout (Network::Telnet.default_timeout)
+        #   The number of seconds to wait before timing out both the
+        #   initial attempt to connect to host, and all attempts to read
+        #   data from the host.
+        #
+        # @option options [Integer] :wait_time
+        #   The amount of time to wait after seeing what looks like
+        #   a prompt.
+        #
+        # @option options [Net::Telnet, IO] :proxy
+        #   A proxy object to used instead of opening a direct connection
+        #   to the host. Defaults to {#telnet_proxy}.
+        #
+        # @option options [String] :user
+        #   The user to login as. Defaults to {#telnet_user}.
+        #
+        # @option options [String] :password
+        #   The password to login with. Defaults to {#telnet_password}.
+        #
+        # @yield [telnet]
         #   If a block is given, it will be passed the newly created
         #   Telnet session. After the block has returned, the Telnet
         #   session will be closed.
         #
-        # @yieldparam [Net::Telnet] session
+        # @yieldparam [Net::Telnet] telnet
         #   The newly created Telnet session.
         #
         # @example
@@ -165,14 +236,17 @@ module Ronin
         #
         # @api public
         #
-        def telnet_session(options={},&block)
-          super(telnet_merge_options(options)) do |sess|
+        def telnet_session(host=nil,options={},&block)
+          host  ||= self.host
+          options = telnet_merge_options(options)
+
+          super(host,options) do |sess|
             yield sess if block_given?
 
-            print "Logging out ..."
+            print_info "Logging out ..."
           end
 
-          print_info "Disconnected to #{host_port}"
+          print_info "Disconnected to #{host}:#{options[:port]}"
           return nil
         end
 
@@ -198,7 +272,7 @@ module Ronin
           options[:password] ||= self.telnet_password
 
           options[:proxy] ||= self.telnet_proxy
-          options[:ssl]   ||= self.telnet_ssl
+          options[:ssl]   ||= self.ssl?
 
           return options
         end

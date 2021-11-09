@@ -21,18 +21,14 @@ describe Integer do
   end
 
   describe "#html_escape" do
-    let(:html_escaped) { "&amp;" }
-
-    it "should HTML escape itself" do
-      expect(subject.html_escape).to eq(html_escaped)
+    it "should behave like #xml_escape" do
+      expect(subject.html_escape).to eq(subject.xml_escape)
     end
   end
 
   describe "#format_html" do
-    let(:formatted_html) { "&#38;" }
-
-    it "should HTML format all chars" do
-      expect(subject.format_html).to eq(formatted_html)
+    it "should have like #format_xml" do
+      expect(subject.format_html).to eq(subject.format_xml)
     end
   end
 

@@ -176,11 +176,11 @@ module Ronin
       # @option options [String] :password
       #   The password to login with.
       #
-      # @yield [session]
+      # @yield [telnet]
       #   If a block is given, it will be passed the newly created Telnet
       #   session.
       #
-      # @yieldparam [Net::Telnet] session
+      # @yieldparam [Net::Telnet] telnet
       #   The newly created Telnet session.
       #
       # @return [Net::Telnet]
@@ -218,11 +218,11 @@ module Ronin
           telnet_options['Proxy'] = proxy
         end
 
-        session = Net::Telnet.new(telnet_options)
-        session.login(options[:user],options[:password]) if options[:user]
+        telnet = Net::Telnet.new(telnet_options)
+        telnet.login(options[:user],options[:password]) if options[:user]
 
-        yield session if block_given?
-        return session
+        yield telnet if block_given?
+        return telnet
       end
 
       #
@@ -234,12 +234,12 @@ module Ronin
       # @param [Hash] options
       #   Additional options.
       #
-      # @yield [session]
+      # @yield [telnet]
       #   If a block is given, it will be passed the newly created
       #   Telnet session. After the block has returned, the Telnet session
       #   will be closed.
       #
-      # @yieldparam [Net::Telnet] session
+      # @yieldparam [Net::Telnet] telnet
       #   The newly created Telnet session.
       #
       # @return [nil]
@@ -254,11 +254,11 @@ module Ronin
       # @api public
       #
       def telnet_session(host,options={})
-        session = telnet_connect(host,options)
+        telnet = telnet_connect(host,options)
 
-        yield session if block_given?
+        yield telnet if block_given?
 
-        session.close
+        telnet.close
         return nil
       end
     end

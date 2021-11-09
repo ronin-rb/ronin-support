@@ -32,7 +32,7 @@
 * Added the `:passive` option to {Ronin::Network::FTP#ftp_connect}.
 * Forgot to require `ronin/formatting/extensions/binary/array`.
 * Fixed a bug where {Array#pack} would not accept tuples (ex: `[:uint8, 2]`).
-* Fixed a bug in {String#sql_decode} where `"\\'\\'"` would incorrectly be
+* Fixed a bug in `String#sql_decode` where `"\\'\\'"` would incorrectly be
   converted to `'"'`.
 * Ensure that {Integer#pack} only accepts one argument.
 * Have {String#hex_unescape} to decode every two characters.
@@ -68,16 +68,16 @@
 * Added {Ronin::Network::UNIX}.
 * Added {Ronin::Network::Mixins::FTP}.
 * Added {Ronin::Network::Mixins::UNIX}.
-* Aliased {String#escape} to {String#dump}.
+* Aliased {String#escape} to `String#dump`.
 * Renamed {String#hex_unescape} to {String#unescape}.
   * Aliased {String#hex_unescape} to {String#unescape}.
-* Renamed {Ronin::Network::TCP#tcp_single_server} to
+* Renamed `Ronin::Network::TCP#tcp_single_server` to
   {Ronin::Network::TCP#tcp_accept}.
-* Renamed {Ronin::Network::UDP#udp_single_server} to
+* Renamed `Ronin::Network::UDP#udp_single_server` to
   {Ronin::Network::UDP#udp_recv}.
-* Deprecated {Ronin::Network::TCP#tcp_single_server}.
-* Deprecated {Ronin::Network::UDP#udp_single_server}.
-* Backported Ruby 1.9 only {Base64} methods.
+* Deprecated `Ronin::Network::TCP#tcp_single_server`.
+* Deprecated `Ronin::Network::UDP#udp_single_server`.
+* Backported Ruby 1.9 only `Base64` methods.
 * Allow {Integer#pack} to accept a type from {Ronin::Binary::Template::TYPES}.
 * Allow {Array#pack} to accept types from {Ronin::Binary::Template::TYPES}.
 * Allow {String#unpack} to accept types from {Ronin::Binary::Template::TYPES}.
@@ -100,7 +100,7 @@
 * Default the server host to `0.0.0.0` in
   {Ronin::Network::TCP#tcp_accept}.
 * No longer honor the `VERBOSE` environment variable for enabling verbose output
-  in {Ronin::UI::Output}. Use `ruby -w` or `ruby -d` instead.
+  in `Ronin::UI::Output`. Use `ruby -w` or `ruby -d` instead.
 * No longer support loading `extlib` in `ronin/support/inflector`.
 
 ### 0.4.0 / 2012-02-12
@@ -124,7 +124,7 @@
 * Added {Regexp::ABSOLUTE_PATH}.
 * Added {Regexp::PATH}.
 * Added {String#repeating}.
-* Added {String#sql_inject}.
+* Added `String#sql_inject`.
 * Added {String#mutate}.
 * Added {Ronin::Fuzzing}.
   * Added {Ronin::Fuzzing.[]}.
@@ -152,7 +152,7 @@
 * Added {Ronin::Network::Mixins::SSL}.
 * Added missing {Ronin::Network::UDP#udp_send} and
   {Ronin::Network::Mixins::UDP#udp_send} methods.
-* Added {Ronin::UI::Output::Helpers#print_exception}.
+* Added `Ronin::UI::Output::Helpers#print_exception`.
 * Made {Regexp::HOST_NAME} case-insensitive.
 * Refactored {Regexp::IPv4} to not match invalid IPv4 addresses.
 * Require `ronin/formatting/html` in `ronin/formatting`.
@@ -168,7 +168,7 @@
 * Moved `Net.*` methods into the {Ronin::Network} modules.
 * Fixed bugs in {Ronin::Network::UDP#udp_connect} and
   {Ronin::Network::UDP#udp_server}.
-* Fixed a bug in {Ronin::Network::HTTP.expand_url}, where the URI query-string
+* Fixed a bug in `Ronin::Network::HTTP.expand_url`, where the URI query-string
   was not being escaped.
 * Allow {Ronin::Network::HTTP.request} to accept `:query` and `:query_params`
   options.
@@ -178,11 +178,11 @@
   {Ronin::Network::HTTP#http_post_headers} now return a Hash of Capitalized
   Header names and String values.
 * Allow {Ronin::Templates::Erb} to use `<%- -%>` syntax.
-* Alias `<<` to `write` in {Ronin::UI::Output::Helpers}.
+* Alias `<<` to `write` in `Ronin::UI::Output::Helpers`.
 * Fixed bugs in {Ronin::UI::Shell}.
-* Warning messages are printed by {Ronin::UI::Output::Helpers}, unless output
+* Warning messages are printed by `Ronin::UI::Output::Helpers`, unless output
   is silenced.
-* {Ronin::UI::Output::Helpers} and {Ronin::Network} modules are included into
+* `Ronin::UI::Output::Helpers` and {Ronin::Network} modules are included into
   {Ronin::Support}.
 
 ### 0.3.0 / 2011-10-16
@@ -221,7 +221,7 @@
 * Added {Regexp::HOST_NAME}.
 * Added {Regexp::USER_NAME}.
 * Added {Regexp::EMAIL_ADDR}.
-* Moved {Ronin::UI::Output}, {Ronin::UI::Shell} and {Ronin::Network::Mixins}
+* Moved `Ronin::UI::Output`, {Ronin::UI::Shell} and {Ronin::Network::Mixins}
   from ronin into ronin-support.
 * Refactored {Ronin::UI::Shell} into a Class where commands are defined as
   protected methods.
@@ -246,15 +246,15 @@
 * Added YARD `@api` tags to define the public, semi-public and private APIs.
 * Renamed `Kernel#attempt` to {Kernel#try}.
 * Allow `:method` to be used with `Net.http_ok?`.
-* Fixed a bug in {Ronin::Network::HTTP.expand_url} where `:host` and `:port`
+* Fixed a bug in `Ronin::Network::HTTP.expand_url` where `:host` and `:port`
   options were being overridden.
 * Improved the performance of {Integer#bytes}.
-* Only redefine {String#dump} for Ruby 1.8.x.
+* Only redefine `String#dump` for Ruby 1.8.x.
   * Ruby >= 1.9.1 correctly hex-escapes special characters.
 * Fixed a bug in {String#format_chars}, where it was not using `each_char`
   for unicode characters.
-* Deprecated {String#common_postfix}, in favor of {String#common_suffix}.
-  {String#common_postfix} will be removed in ronin-support 1.0.0.
+* Deprecated `String#common_postfix`, in favor of {String#common_suffix}.
+  `String#common_postfix` will be removed in ronin-support 1.0.0.
 * `Net.http_get_body` no longer accepts a block.
 * `Net.http_post_body` no longer accepts a block.
 

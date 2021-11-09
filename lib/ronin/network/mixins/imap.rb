@@ -33,97 +33,170 @@ module Ronin
       # * `imap_auth` (`String`) - IMAP authentication method.
       # * `imap_user` (`String`) - IMAP user to login as.
       # * `imap_password` (`String`) - IMAP password to login with.
+      # * `ssl` (`Boolean`) - Enables SSL.
+      # * `ssl_verify` (`Boolean`) - SSL verify mode.
+      # * `ssl_cert` (`String`) - Path to the `.crt` file.
       #
       module IMAP
         include Mixin, Network::IMAP
 
         # IMAP host
-        parameter :host, :type => String,
-                         :description => 'IMAP host'
+        parameter :host, type:        String,
+                         description: 'IMAP host'
 
         # IMAP port
-        parameter :port, :type => Integer,
-                         :description => 'IMAP port'
+        parameter :port, type:        Integer,
+                         description: 'IMAP port'
 
         # IMAP auth
-        parameter :imap_auth, :type => String,
-                              :description => 'IMAP authentication method'
+        parameter :imap_auth, type:        String,
+                              description: 'IMAP authentication method'
 
         # IMAP user to login as
-        parameter :imap_user, :type => String,
-                              :description => 'IMAP user to login as'
+        parameter :imap_user, type:        String,
+                              description: 'IMAP user to login as'
 
         # IMAP password to login with
-        parameter :imap_password, :type => String,
-                                  :description => 'IMAP password to login with'
+        parameter :imap_password, type:        String,
+                                  description: 'IMAP password to login with'
 
-        protected
+        # Enables SSL support
+        parameter :ssl, type:        true,
+                        description: 'Enables SSL support'
+
+        # SSL verify mode
+        parameter :ssl_verify, type:        true,
+                               description: 'Verifies the SSL certificate'
+
+        # SSL cert file
+        parameter :ssl_cert, type:        String,
+                             description: 'SSL cert file'
 
         #
-        # Creates a connection to the IMAP server. The `host`, `port`,
-        # `imap_auth`, `imap_user` and `imap_password` parameters
-        # will also be used to make the connection.
+        # Creates a connection to the IMAP server.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (IMAP.default_port)
-        #   The port the IMAP server is running on.
+        # @option options [Integer] :port
+        #   The port the IMAP server is running on. Defaults to {#port}.
         #
-        # @option options [String] :certs
+        # @option options [Boolean, Hash] :ssl
+        #   Additional SSL options. Enabled when {#ssl} is set.
+        #
+        # @option :ssl [Boolean] :verify
+        #   Specifies that the SSL certificate should be verified.
+        #   Defaults to {#ssl_verify}.
+        #
+        # @option :ssl [String] :certs
         #   The path to the file containing CA certs of the server.
+        #   Defaults to {#ssl_cert}.
         #
         # @option options [Symbol] :auth
         #   The type of authentication to perform when connecting to the
-        #   server. May be either `:login` or `:cram_md5`.
+        #   server. Defaults to {#imap_auth}.
         #
         # @option options [String] :user
         #   The user to authenticate as when connecting to the server.
+        #   Defaults to {#imap_user}.
         #
         # @option options [String] :password
         #   The password to authenticate with when connecting to the
-        #   server.
+        #   server. Defaults to {#imap_password}.
         #
         # @option options [Boolean]
         #   Indicates wether or not to use SSL when connecting to the
         #   server.
         #
+        # @yield [imap]
+        #   If a block is given, it will be passed the newly created IMAP
+        #   session.
+        #
+        # @yieldparam [Net::IMAP] imap
+        #   The newly created IMAP session object.
+        #
+        # @return [Net::IMAP]
+        #   The newly created IMAP session object.
+        #
         # @see Network::IMAP#imap_connect
         #
         # @api public
         #
-        def imap_connect(options={},&block)
-          print_info "Connecting to #{host_port} ..."
+        def imap_connect(host=nil,options={},&block)
+          host  ||= self.host
+          options = imap_merge_options(options)
 
-          return super(self.host,imap_merge_options(options),&block)
+          print_info "Connecting to #{host}:#{options[:port]} ..."
+
+          return super(host,options,&block)
         end
 
         #
-        # Starts a session with the IMAP server. The `host`, `port`,
-        # `imap_auth`, `imap_user` and `imap_password` parameters
-        # will also be used to make the connection.
+        # Starts a session with the IMAP server.
         #
-        # @yield [session]
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
+        #
+        # @param [Hash] options
+        #   Additional options.
+        #
+        # @option options [Integer] :port
+        #   The port the IMAP server is running on. Defaults to {#port}.
+        #
+        # @option options [Boolean, Hash] :ssl
+        #   Additional SSL options.
+        #
+        # @option :ssl [Boolean] :verify
+        #   Specifies that the SSL certificate should be verified.
+        #
+        # @option :ssl [String] :certs
+        #   The path to the file containing CA certs of the server.
+        #
+        # @option options [Symbol] :auth
+        #   The type of authentication to perform when connecting to the
+        #   server. Defaults to {#imap_auth}.
+        #
+        # @option options [String] :user
+        #   The user to authenticate as when connecting to the server.
+        #   Defaults to {#imap_user}.
+        #
+        # @option options [String] :password
+        #   The password to authenticate with when connecting to the
+        #   server. Defaults to {#imap_password}.
+        #
+        # @option options [Boolean]
+        #   Indicates wether or not to use SSL when connecting to the
+        #   server.
+        #
+        # @yield [imap]
         #   If a block is given, it will be passed the newly created
         #   IMAP session. After the block has returned, the session will
         #   be closed.
         #
-        # @yieldparam [Net::IMAP] session
+        # @yieldparam [Net::IMAP] imap
         #   The newly created IMAP session object.
+        #
+        # @return [nil]
         #
         # @see Network::IMAP#imap_session
         #
         # @api public
         #
-        def imap_session(options={})
-          super(imap_merge_options(options)) do |sess|
+        def imap_session(host=nil,options={})
+          host  ||= self.host
+          options = imap_merge_options(options)
+
+          super(host,options) do |sess|
             yield sess if block_given?
 
             print_info "Logging out ..."
           end
 
-          print_info "Disconnected from #{host_port}"
-          return il
+          print_info "Disconnected from #{host}:#{options[:port]}"
+          return nil
         end
 
         private
@@ -147,6 +220,12 @@ module Ronin
           options[:auth]     ||= self.imap_auth
           options[:user]     ||= self.imap_user
           options[:password] ||= self.imap_password
+
+          if self.ssl?
+            options[:ssl] = options.fetch(:ssl) do
+              {verify: self.ssl_verify?, certs:  self.ssl_cert}
+            end
+          end
 
           return options
         end

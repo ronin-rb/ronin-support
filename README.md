@@ -33,6 +33,7 @@ or payloads over many common Source-Code-Management (SCM) systems.
     * HTML
     * JavaScript
     * SQL
+  * Cryptography
   * Fuzzing
     * Generating
     * Mutating
@@ -59,7 +60,7 @@ or payloads over many common Source-Code-Management (SCM) systems.
   * Wordlists
   * Erb Templates
   * UI:
-    * Terminal Output
+    * Printing
     * Custom Shells
 
 ## Examples
@@ -69,7 +70,7 @@ please see [Everyday Ronin].
 
 ## Requirements
 
-* [Ruby] >= 1.8.7
+* [Ruby] >= 1.9.1
 * [chars] ~> 0.2
 * [hexdump] ~> 0.1
 * [combinatorics] ~> 0.4

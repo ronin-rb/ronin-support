@@ -40,51 +40,51 @@ module Ronin
         include Mixin, Network::FTP
 
         # FTP host
-        parameter :host, :type => String,
-                         :description => 'FTP host'
+        parameter :host, type:        String,
+                         description: 'FTP host'
 
         # FTP port
-        parameter :port, :type => Integer,
-                         :description => 'FTP port'
+        parameter :port, type:        Integer,
+                         description: 'FTP port'
 
         # FTP user to login as
-        parameter :ftp_user, :type => String,
-                              :description => 'FTP user to login as'
+        parameter :ftp_user, type:        String,
+                             description: 'FTP user to login as'
 
         # FTP password to login with
-        parameter :ftp_password, :type => String,
-                                  :description => 'FTP password to login with'
+        parameter :ftp_password, type:        String,
+                                 description: 'FTP password to login with'
 
         # FTP account information to send
-        parameter :ftp_password, :type => String,
-                                  :description => 'FTP account information'
-
-        protected
+        parameter :ftp_account, type:        String,
+                                description: 'FTP account information'
 
         #
-        # Creates a connection to the FTP server. The `host`, `port`,
-        # `ftp_user`, `ftp_password` and `ftp_account` parameters
-        # will also be used to connect to the server.
+        # Creates a connection to the FTP server.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (Network::FTP.default_port)
-        #   The port to connect to.
+        # @option options [Integer] :port
+        #   The port to connect to. Defaults to {#port}.
         #
         # @option options [String] :user
-        #   The username to authenticate with.
+        #   The username to authenticate with. Defaults to {#ftp_user}.
         #
         # @option options [String] :password
-        #   The password to authenticate with.
+        #   The password to authenticate with. Defaults to {#ftp_password}.
         #
         # @option options [String] :account
         #   The account information to send via the FTP `ACCT` command.
+        #   Defaults to {#ftp_account}.
         #
-        # @yield [session]
+        # @yield [ftp]
         #   If a block is given, it will be passed an FTP session object.
         #
-        # @yieldparam [Net::FTP] session
+        # @yieldparam [Net::FTP] ftp
         #   The FTP session.
         #
         # @return [Net::FTP]
@@ -94,36 +94,59 @@ module Ronin
         #
         # @api public
         #
-        def ftp_connect(options={},&block)
-          print_info "Connecting to #{host_port} ..."
+        def ftp_connect(host=nil,options={},&block)
+          host  ||= self.host
+          options = ftp_merge_options(options)
 
-          return super(self.host,ftp_merge_options(options),&block)
+          print_info "Connecting to #{host}:#{options[:port]} ..."
+
+          return super(host,options,&block)
         end
 
         #
-        # Starts a session with the FTP server. The `host`, `port`,
-        # `ftp_login`, `ftp_user` and `ftp_password` parameters
-        # will also be used to connect to the server.
+        # Starts a session with the FTP server.
         #
-        # @yield [session]
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
+        #
+        # @param [Hash] options
+        #   Additional options.
+        #
+        # @option options [Integer] :port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @option options [String] :user
+        #   The username to authenticate with. Defaults to {#ftp_user}.
+        #
+        # @option options [String] :password
+        #   The password to authenticate with. Defaults to {#ftp_password}.
+        #
+        # @option options [String] :account
+        #   The account information to send via the FTP `ACCT` command.
+        #   Defaults to {#ftp_account}.
+        #
+        # @yield [ftp]
         #   If a block is given, it will be passed an FTP session object.
         #   After the block has returned, the session will be closed.
         #
-        # @yieldparam [Net::FTP] session
+        # @yieldparam [Net::FTP] ftp
         #   The FTP session.
         #
         # @see Network::FTP#ftp_session
         #
         # @api public
         #
-        def ftp_session(options={},&block)
-          super(ftp_merge_options(options)) do |sess|
+        def ftp_session(host=nil,options={},&block)
+          host  ||= self.host
+          options = ftp_merge_options(options)
+
+          super(host,options) do |sess|
             yield sess if block_given?
 
             print_info "Logging out ..."
           end
 
-          print_info "Disconnected to #{host_port}"
+          print_info "Disconnected to #{host}:#{options[:port]}"
           return nil
         end
 

@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/ui/output/helpers'
+require 'ronin/ui/printing'
 
 require 'parameters'
 
@@ -28,12 +28,11 @@ module Ronin
       # @since 0.4.0
       #
       module Mixin
-        include Parameters,
-                UI::Output::Helpers
+        include Parameters, UI::Printing
 
-        parameter :host, :type => String
+        parameter :host, type: String
 
-        parameter :port, :type => Integer
+        parameter :port, type: Integer
 
         protected
 

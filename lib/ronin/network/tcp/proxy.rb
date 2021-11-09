@@ -32,7 +32,7 @@ module Ronin
       #     require 'ronin/network/tcp/proxy'
       #     require 'hexdump'
       #
-      #     Ronin::Network::TCP::Proxy.start(:port => 1337, :server => ['www.wired.com', 80]) do |proxy|
+      #     Ronin::Network::TCP::Proxy.start(port: 1337, server: ['www.wired.com', 80]) do |proxy|
       #       address = lambda { |socket|
       #         addrinfo = socket.peeraddr
       #
@@ -186,7 +186,9 @@ module Ronin
           end
 
           if readable.include?(@socket)
-            client_connect(@socket.accept)
+            if (client_socket = accept_client_connection)
+              client_connect(client_socket)
+            end
           end
         end
 
@@ -317,6 +319,18 @@ module Ronin
         end
 
         protected
+
+        #
+        # Accepts a new client connection.
+        #
+        # @return [TCPSocket]
+        #   A new connection.
+        #
+        # @since 0.6.0
+        #
+        def accept_client_connection
+          @socket.accept
+        end
 
         #
         # Creates a new connection to the server.

@@ -108,10 +108,10 @@ module Ronin
       #   The new Proxy object.
       #
       # @example Proxies `0.0.0.0:1337` to `victim.com:80`:
-      #   Proxy.new(:port => 1337, :server => ['victim.com', 80])
+      #   Proxy.new(port: 1337, server: ['victim.com', 80])
       #
       # @example Proxies `localhost:25` to `victim.com:25`:
-      #   Proxy.new(:port => 25, :host => 'localhost', :server => 'victim.com')
+      #   Proxy.new(port: 25, host: 'localhost', server: 'victim.com')
       #
       def initialize(options={})
         @host = options.fetch(:host,DEFAULT_HOST)
@@ -120,10 +120,7 @@ module Ronin
         @server_host, @server_port = options.fetch(:server)
         @server_port ||= @port
 
-        @callbacks = {
-          :client_data => [],
-          :server_data => []
-        }
+        @callbacks = {client_data: [], server_data: []}
 
         @buffer_size = options.fetch(:buffer_size,DEFAULT_BUFFER_SIZE)
         @connections = {}
@@ -354,34 +351,18 @@ module Ronin
         @connections[client_connection]
       end
 
-      if RUBY_VERSION < '1.9.'
-        #
-        # Finds the connection from the client, associated with the server
-        # connection.
-        #
-        # @param [connection] server_connection
-        #   The connection to the server.
-        #
-        # @return [connection]
-        #   The connection from the client.
-        #
-        def client_connection_for(server_connection)
-          @connections.index(server_connection)
-        end
-      else
-        #
-        # Finds the connection from the client, associated with the server
-        # connection.
-        #
-        # @param [connection] server_connection
-        #   The connection to the server.
-        #
-        # @return [connection]
-        #   The connection from the client.
-        #
-        def client_connection_for(server_connection)
-          @connections.key(server_connection)
-        end
+      #
+      # Finds the connection from the client, associated with the server
+      # connection.
+      #
+      # @param [connection] server_connection
+      #   The connection to the server.
+      #
+      # @return [connection]
+      #   The connection from the client.
+      #
+      def client_connection_for(server_connection)
+        @connections.key(server_connection)
       end
 
       #

@@ -31,46 +31,46 @@ module Ronin
 
         # Bases for various encodings
         BASES = {
-          :binary         => 2,
-          :octal          => 8,
-          :octal_bytes    => 8,
-          :octal_shorts   => 8,
-          :octal_ints     => 8,
-          :octal_quads    => 8,
-          :decimal        => 10,
-          :decimal_bytes  => 10,
-          :decimal_shorts => 10,
-          :decimal_ints   => 10,
-          :decimal_quads  => 10,
-          :hex            => 16,
-          :hex_bytes      => 16,
-          :hex_shorts     => 16,
-          :hex_ints       => 16,
-          :hex_quads      => 16,
-          :named_chars    => 16,
-          :floats         => 10,
-          :doubles        => 10
+          binary:           2,
+          octal:            8,
+          octal_bytes:      8,
+          octal_shorts:     8,
+          octal_ints:       8,
+          octal_quads:      8,
+          decimal:          10,
+          decimal_bytes:    10,
+          decimal_shorts:   10,
+          decimal_ints:     10,
+          decimal_quads:    10,
+          hex:              16,
+          hex_bytes:        16,
+          hex_shorts:       16,
+          hex_ints:         16,
+          hex_quads:        16,
+          named_chars:      16,
+          floats:           10,
+          doubles:          10
         }
 
         # Word-sizes for various encodings
         WORD_SIZES = {
-          :binary         => 1,
-          :octal_bytes    => 1,
-          :decimal_bytes  => 1,
-          :hex_bytes      => 1,
-          :hex_chars      => 1,
-          :named_chars    => 1,
-          :octal_shorts   => 2,
-          :decimal_shorts => 2,
-          :hex_shorts     => 2,
-          :octal_ints     => 4,
-          :decimal_ints   => 4,
-          :hex_ints       => 4,
-          :octal_quads    => 8,
-          :decimal_quads  => 8,
-          :hex_quads      => 8,
-          :floats         => 4,
-          :doubles        => 8
+          binary:           1,
+          octal_bytes:      1,
+          decimal_bytes:    1,
+          hex_bytes:        1,
+          hex_chars:        1,
+          named_chars:      1,
+          octal_shorts:     2,
+          decimal_shorts:   2,
+          hex_shorts:       2,
+          octal_ints:       4,
+          decimal_ints:     4,
+          hex_ints:         4,
+          octal_quads:      8,
+          decimal_quads:    8,
+          hex_quads:        8,
+          floats:           4,
+          doubles:          8
         }
 
         # The format to parse (`:hexdump` / `:od`)
@@ -273,29 +273,29 @@ module Ronin
 
         # `Array#pack` codes for various types/endianness/word-sizes
         FORMATS = {
-          :integer => {
-            :little => {
+          integer: {
+            little: {
               1 => 'C',
-              2 => (RUBY_VERSION > '1.9.' ? 'S<' : 'v'),
-              4 => (RUBY_VERSION > '1.9.' ? 'L<' : 'V'),
-              8 => 'Q<' # Ruby 1.9 only
+              2 => 'S<',
+              4 => 'L<',
+              8 => 'Q<'
             },
 
-            :big => {
+            big: {
               1 => 'C',
-              2 => (RUBY_VERSION > '1.9.' ? 'S>' : 'n'),
-              4 => (RUBY_VERSION > '1.9.' ? 'L>' : 'N'),
-              8 => 'Q>' # Ruby 1.9 only
+              2 => 'S>',
+              4 => 'L>',
+              8 => 'Q>'
             }
           },
 
-          :float => {
-            :little => {
+          float: {
+            little: {
               4 => 'e',
               8 => 'E'
             },
 
-            :big => {
+            big: {
               4 => 'g',
               8 => 'G'
             }

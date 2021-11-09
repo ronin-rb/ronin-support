@@ -18,7 +18,8 @@
 #
 
 require 'ronin/extensions/ip_addr'
-require 'ronin/network/network'
+require 'ronin/network/ip'
+require 'ronin/network/http'
 
 module Ronin
   module Network
@@ -94,10 +95,10 @@ module Ronin
           port = port.to_i if port
 
           return new(
-            :host => host,
-            :port => port,
-            :user => user,
-            :password => password
+            host:     host,
+            port:     port,
+            user:     user,
+            password: password
           )
         end
 
@@ -122,10 +123,10 @@ module Ronin
             proxy
           when URI::HTTP
             new(
-              :host => proxy.host,
-              :port => proxy.port,
-              :user => proxy.user,
-              :password => proxy.password
+              host:       proxy.host,
+              port:       proxy.port,
+              user:       proxy.user,
+              password:   proxy.password
             )
           when Hash
             new(proxy)
@@ -148,9 +149,9 @@ module Ronin
         #
         def valid?
           begin
-            Net.http_get_body(
-              :url => 'http://www.example.com/',
-              :proxy => self
+            http_get_body(
+              url:   'http://www.example.com/',
+              proxy: self
             ).include?('Example Web Page')
           rescue Timeout::Error, StandardError
             return false
@@ -169,9 +170,9 @@ module Ronin
         def latency
           time = lambda { |proxy|
             t1 = Time.now
-            Net.http_head(
-              :url => 'http://www.example.com/',
-              :proxy => proxy
+            http_head(
+              url:   'http://www.example.com/',
+              proxy: proxy
             )
             t2 = Time.now
 
@@ -196,9 +197,9 @@ module Ronin
         # @api public
         #
         def proxied_ip
-          IPAddr.extract(Net.http_get_body(
-            :url => Network::IP_URL,
-            :proxy => self
+          IPAddr.extract(http_get_body(
+            host: 'checkip.dyndns.org',
+            proxy: self
           )).first
         end
 
@@ -211,7 +212,7 @@ module Ronin
         # @api public
         #
         def transparent?
-          Network.ip == proxied_ip
+          external_ip == proxied_ip
         end
 
         #
@@ -274,9 +275,9 @@ module Ronin
                      end
           
           return URI::HTTP.build(
-            :userinfo => userinfo,
-            :host => host,
-            :port => port
+            userinfo: userinfo,
+            host:     host,
+            port:     port
           )
         end
 
@@ -323,6 +324,11 @@ module Ronin
 
           return "#<#{self.class}: #{str}>"
         end
+
+        private
+
+        include Network::IP
+        include Network::HTTP
 
       end
     end

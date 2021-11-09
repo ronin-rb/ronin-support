@@ -64,7 +64,13 @@ module Ronin
       # @option options [Integer] :port (IMAP.default_port)
       #   The port the IMAP server is running on.
       #
-      # @option options [String] :certs
+      # @option options [Boolean, Hash] :ssl
+      #   Additional SSL options.
+      #
+      # @option :ssl [Boolean] :verify
+      #   Specifies that the SSL certificate should be verified.
+      #
+      # @option :ssl [String] :certs
       #   The path to the file containing CA certs of the server.
       #
       # @option options [Symbol] :auth
@@ -77,11 +83,11 @@ module Ronin
       # @option options [String] :password
       #   The password to authenticate with when connecting to the server.
       #
-      # @yield [session]
+      # @yield [imap]
       #   If a block is given, it will be passed the newly created IMAP
       #   session.
       #
-      # @yieldparam [Net::IMAP] session
+      # @yieldparam [Net::IMAP] imap
       #   The newly created IMAP session object.
       #
       # @return [Net::IMAP]
@@ -92,33 +98,36 @@ module Ronin
       def imap_connect(host,options={})
         host   = host.to_s
         port   = (options[:port] || IMAP.default_port)
-        certs  = options[:certs]
         auth   = options[:auth]
         user   = options[:user]
         passwd = options[:password]
 
-        if options[:ssl]
+        case options[:ssl]
+        when Hash
           ssl        = true
           ssl_certs  = options[:ssl][:certs]
           ssl_verify = SSL::VERIFY[options[:ssl][:verify]]
+        when TrueClass
+          ssl        = true
+          ssl_certs  = nil
+          ssl_verify = nil
         else
           ssl        = false
           ssl_certs  = nil
           ssl_verify = false
         end
 
-        session = Net::IMAP.new(host,port,ssl,ssl_certs,ssl_verify)
+        imap = Net::IMAP.new(host,port,ssl,ssl_certs,ssl_verify)
 
         if user
-          if auth == :cram_md5
-            session.authenticate('CRAM-MD5',user,passwd)
-          else
-            session.authenticate('LOGIN',user,passwd)
+          case auth
+          when :cram_md5 then imap.authenticate('CRAM-MD5',user,passwd)
+          else                imap.authenticate('LOGIN',user,passwd)
           end
         end
 
-        yield session if block_given?
-        return session
+        yield imap if block_given?
+        return imap
       end
 
       #
@@ -130,27 +139,49 @@ module Ronin
       # @param [Hash] options
       #   Additional options.
       #
-      # @yield [session]
+      # @option options [Integer] :port (IMAP.default_port)
+      #   The port the IMAP server is running on.
+      #
+      # @option options [Boolean, Hash] :ssl
+      #   Additional SSL options.
+      #
+      # @option :ssl [Boolean] :verify
+      #   Specifies that the SSL certificate should be verified.
+      #
+      # @option :ssl [String] :certs
+      #   The path to the file containing CA certs of the server.
+      #
+      # @option options [Symbol] :auth
+      #   The type of authentication to perform when connecting to the server.
+      #   May be either `:login` or `:cram_md5`.
+      #
+      # @option options [String] :user
+      #   The user to authenticate as when connecting to the server.
+      #
+      # @option options [String] :password
+      #   The password to authenticate with when connecting to the server.
+      #
+      # @yield [imap]
       #   If a block is given, it will be passed the newly created IMAP
       #   session. After the block has returned, the session will be closed.
       #
-      # @yieldparam [Net::IMAP] session
+      # @yieldparam [Net::IMAP] imap
       #   The newly created IMAP session object.
       #
       # @return [nil]
       #
-      # @see imap_connect
+      # @see #imap_connect
       #
       # @api public
       #
       def imap_session(host,options={})
-        session = imap_connect(host,options)
+        imap = imap_connect(host,options)
 
-        yield session if block_given?
+        yield imap if block_given?
 
-        session.logout if options[:user]
-        session.close
-        session.disconnect
+        imap.logout if options[:user]
+        imap.close
+        imap.disconnect
         return nil
       end
     end

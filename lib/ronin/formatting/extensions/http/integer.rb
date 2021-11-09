@@ -25,13 +25,18 @@ class Integer
   #
   # URI encodes the byte.
   #
+  # @param [Array<String>] unsafe
+  #   The unsafe characters to encode.
+  #
   # @return [String]
   #   The URI encoded byte.
   #
   # @api public
   #
-  def uri_encode
-    URI::DEFAULT_PARSER.escape(chr)
+  def uri_encode(*unsafe)
+    unless unsafe.empty? then URI::DEFAULT_PARSER.escape(chr,unsafe.join)
+    else                      URI::DEFAULT_PARSER.escape(chr)
+    end
   end
 
   #
@@ -64,6 +69,24 @@ class Integer
   #
   def format_http
     "%%%X" % self
+  end
+
+  #
+  # HTTP escapes the Integer.
+  #
+  # @return [String]
+  #   The HTTP escaped form of the Integer.
+  #
+  # @example
+  #   62.http_escape
+  #   # => "%3E"
+  #
+  # @api public
+  #
+  # @since 0.6.0
+  #
+  def http_escape
+    CGI.escape(chr)
   end
 
 end

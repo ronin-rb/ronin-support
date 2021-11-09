@@ -426,7 +426,7 @@ module Ronin
       def self.templates
         @templates ||= Hash.new do |hash,options|
           fields  = each_field.map { |struct,name,field| field }
-          options = {:endian => self.endian}.merge(options)
+          options = {endian: self.endian}.merge(options)
 
           hash[options] = template(fields,options)
         end

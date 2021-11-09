@@ -17,5 +17,4 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/ui/output/output'
 require 'ronin/ui/output/helpers'

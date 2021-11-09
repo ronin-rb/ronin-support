@@ -59,9 +59,6 @@ module Ronin
     # * `:ubyte` (`C`) - unsigned byte.
     # * `:byte` (`c`) - signed byte.
     # * `:string` (`Z*`) - binary String, `\0` terminated.
-    #
-    # ### Ruby 1.9 specific C-types
-    #
     # * `:uint16_le` (`S<`) - unsigned 16-bit integer, little endian.
     # * `:uint32_le` (`L<`) - unsigned 32-bit integer, little endian.
     # * `:uint64_le` (`Q<`) - unsigned 64-bit integer, little endian.
@@ -101,149 +98,143 @@ module Ronin
 
       # Supported C-types and corresponding `Array#pack` codes.
       TYPES = {
-        :uint8  => 'C',
-        :uint16 => 'S',
-        :uint32 => 'L',
-        :uint64 => 'Q',
+        uint8:  'C',
+        uint16: 'S',
+        uint32: 'L',
+        uint64: 'Q',
 
-        :int8   => 'c',
-        :int16  => 's',
-        :int32  => 'l',
-        :int64  => 'q',
+        int8:  'c',
+        int16: 's',
+        int32: 'l',
+        int64: 'q',
 
-        :uint16_le => 'v',
-        :uint32_le => 'V',
-        :uint16_be => 'n',
-        :uint32_be => 'N',
+        uchar:      'Z',
+        ushort:     'S!',
+        uint:       'I!',
+        ulong:      'L!',
+        ulong_long: 'Q',
 
-        :uchar      => 'Z',
-        :ushort     => 'S!',
-        :uint       => 'I!',
-        :ulong      => 'L!',
-        :ulong_long => 'Q',
+        char:      'Z',
+        short:     's!',
+        int:       'i!',
+        long:      'l!',
+        long_long: 'q',
 
-        :char      => 'Z',
-        :short     => 's!',
-        :int       => 'i!',
-        :long      => 'l!',
-        :long_long => 'q',
+        utf8: 'U',
 
-        :utf8 => 'U',
+        float:  'F',
+        double: 'D',
 
-        :float     => 'F',
-        :double    => 'D',
+        float_le:  'e',
+        double_le: 'E',
 
-        :float_le  => 'e',
-        :double_le => 'E',
+        float_be:  'g',
+        double_be: 'G',
 
-        :float_be  => 'g',
-        :double_be => 'G',
+        ubyte:  'C',
+        byte:   'c',
+        string: 'Z*',
 
-        :ubyte  => 'C',
-        :byte   => 'c',
-        :string => 'Z*'
+        uint16_le: 'S<',
+        uint32_le: 'L<',
+        uint64_le: 'Q<',
+
+        int16_le: 's<',
+        int32_le: 'l<',
+        int64_le: 'q<',
+
+        uint16_be: 'S>',
+        uint32_be: 'L>',
+        uint64_be: 'Q>',
+
+        int16_be: 's>',
+        int32_be: 'l>',
+        int64_be: 'q>',
+
+        ushort_le:     'S!<',
+        uint_le:       'I!<',
+        ulong_le:      'L!<',
+        ulong_long_le: 'Q<',
+
+        short_le:     's!<',
+        int_le:       'i!<',
+        long_le:      'l!<',
+        long_long_le: 'q<',
+
+        ushort_be:     'S!>',
+        uint_be:       'I!>',
+        ulong_be:      'L!>',
+        ulong_long_be: 'Q>',
+
+        short_be:     's!>',
+        int_be:       'i!>',
+        long_be:      'l!>',
+        long_long_be: 'q>'
       }
 
-      # Additional C-types, not available on Ruby 1.8:
-      if RUBY_VERSION > '1.9.'
-        TYPES.merge!(
-          :uint16_le => 'S<',
-          :uint32_le => 'L<',
-          :uint64_le => 'Q<',
+      # Big and little endian types
+      ENDIAN_TYPES = {
+        big: {
+          uint16:     :uint16_be,
+          uint32:     :uint32_be,
+          uint64:     :uint64_be,
 
-          :int16_le => 's<',
-          :int32_le => 'l<',
-          :int64_le => 'q<',
+          int16_be:   :int16_be,
+          int32_be:   :int32_be,
+          int64_be:   :int64_be,
 
-          :uint16_be => 'S>',
-          :uint32_be => 'L>',
-          :uint64_be => 'Q>',
+          ushort:     :ushort_be,
+          uint:       :uint_be,
+          ulong:      :ulong_be,
+          ulong_long: :ulong_long_be,
 
-          :int16_be => 's>',
-          :int32_be => 'l>',
-          :int64_be => 'q>',
+          short:      :short_be,
+          int:        :int_be,
+          long:       :long_be,
+          long_long:  :long_long_be,
 
-          :ushort_le     => 'S!<',
-          :uint_le       => 'I!<',
-          :ulong_le      => 'L!<',
-          :ulong_long_le => 'Q<',
+          float:      :float_be,
+          double:     :double_be
+        },
 
-          :short_le     => 's!<',
-          :int_le       => 'i!<',
-          :long_le      => 'l!<',
-          :long_long_le => 'q<',
+        little: {
+          uint16:     :uint16_le,
+          uint32:     :uint32_le,
+          uint64:     :uint64_le,
 
-          :ushort_be     => 'S!>',
-          :uint_be       => 'I!>',
-          :ulong_be      => 'L!>',
-          :ulong_long_be => 'Q>',
+          int16_le:   :int16_le,
+          int32_le:   :int32_le,
+          int64_le:   :int64_le,
 
-          :short_be     => 's!>',
-          :int_be       => 'i!>',
-          :long_be      => 'l!>',
-          :long_long_be => 'q>'
-        )
-      end
+          ushort:     :ushort_le,
+          uint:       :uint_le,
+          ulong:      :ulong_le,
+          ulong_long: :ulong_long_le,
+
+          short:      :short_le,
+          int:        :int_le,
+          long:       :long_le,
+          long_long:  :long_long_le,
+
+          float:      :float_le,
+          double:     :double_le
+        }
+      }
 
       # Integer C-types
       INT_TYPES = Set[
-        :uint8,
-        :uint16,
-        :uint32,
-        :uint64,
-
-        :int8,
-        :int16,
-        :int32,
-        :int64,
-
-        :ubyte,
-        :ushort,
-        :uint,
-        :ulong,
-        :ulong_long,
-
-        :byte,
-        :short,
-        :int,
-        :long,
-        :long_long,
-
-        :uint16_le,
-        :uint32_le,
-        :uint64_le,
-
-        :int16_le,
-        :int32_le,
-        :int64_le,
-
-        :ushort_le,
-        :uint_le,
-        :ulong_le,
-        :ulong_long_le,
-
-        :short_le,
-        :int_le,
-        :long_le,
-        :long_long_le,
-
-        :uint16_be,
-        :uint32_be,
-        :uint64_be,
-
-        :int16_be,
-        :int32_be,
-        :int64_be,
-
-        :ushort_be,
-        :uint_be,
-        :ulong_be,
-        :ulong_long_be,
-
-        :short_be,
-        :int_be,
-        :long_be,
-        :long_long_be
+        :uint8, :uint16, :uint32, :uint64,
+        :int8, :int16, :int32, :int64,
+        :ubyte, :ushort, :uint, :ulong, :ulong_long,
+        :byte, :short, :int, :long, :long_long,
+        :uint16_le, :uint32_le, :uint64_le,
+        :int16_le, :int32_le, :int64_le,
+        :ushort_le, :uint_le, :ulong_le, :ulong_long_le,
+        :short_le, :int_le, :long_le, :long_long_le,
+        :uint16_be, :uint32_be, :uint64_be,
+        :int16_be, :int32_be, :int64_be,
+        :ushort_be, :uint_be, :ulong_be, :ulong_long_be,
+        :short_be, :int_be, :long_be, :long_long_be
       ]
 
       # Float C-types
@@ -258,15 +249,6 @@ module Ronin
 
       # String C-types
       STRING_TYPES = CHAR_TYPES + Set[:string]
-
-      # Types which have little and big endian forms
-      ENDIAN_TYPES = Set[
-        :uint16, :uint32, :uint64,
-        :int16, :int32, :int64,
-        :ushort, :uint, :ulong, :ulong_long,
-        :short, :int, :long, :long_long,
-        :float, :double
-      ]
 
       # The fields of the template
       attr_reader :fields
@@ -286,38 +268,6 @@ module Ronin
       # @raise [ArgumentError]
       #   A given type is not known.
       #
-      # @note
-      #   The following C-types are **not supported** on Ruby 1.8:
-      #
-      #   * `:uint16_le`
-      #   * `:uint32_le`
-      #   * `:uint64_le`
-      #   * `:int16_le`
-      #   * `:int32_le`
-      #   * `:int64_le`
-      #   * `:uint16_be`
-      #   * `:uint32_be`
-      #   * `:uint64_be`
-      #   * `:int16_be`
-      #   * `:int32_be`
-      #   * `:int64_be`
-      #   * `:ushort_le`
-      #   * `:uint_le`
-      #   * `:ulong_le`
-      #   * `:ulong_long_le`
-      #   * `:short_le`
-      #   * `:int_le`
-      #   * `:long_le`
-      #   * `:long_long_le`
-      #   * `:ushort_be`
-      #   * `:uint_be`
-      #   * `:ulong_be`
-      #   * `:ulong_long_be`
-      #   * `:short_be`
-      #   * `:int_be`
-      #   * `:long_be`
-      #   * `:long_long_be`
-      #
       # @example
       #   Template.new(:uint32, [:char, 100])
       #
@@ -334,41 +284,10 @@ module Ronin
       end
 
       #
-      # Translates the type of the field.
-      #
-      # @param [Symbol] type
-      #   The type to translate.
-      #
-      # @param [Hash] options
-      #   Translation options.
-      #
-      # @option options [:little, :big, :network] :endian
-      #   The endianness to apply to the C-types.
-      #
-      # @return [Symbol]
-      #   The translated type.
-      #
-      # @raise [ArgumentError]
-      #   The value of `:endian` is unknown.
-      #
-      def self.translate(type,options={})
-        if (options[:endian] && ENDIAN_TYPES.include?(type))
-          type = case options[:endian]
-                 when :little        then :"#{type}_le"
-                 when :big, :network then :"#{type}_be"
-                 else
-                   raise(ArgumentError,"unknown endianness: #{type}")
-                 end
-        end
-
-        return type
-      end
-
-      #
       # Compiles C-types into an `Array#pack` / `String#unpack`
       # template.
       #
-      # @param [Array<type, (type, length)>] types
+      # @param [Array<type, (type), (type, length)>] fields
       #   The C-types which the packer will use.
       #
       # @param [Hash] options
@@ -383,11 +302,19 @@ module Ronin
       # @raise [ArgumentError]
       #   A given type is not known.
       #
-      def self.compile(types,options={})
+      def self.compile(fields,options={})
         string = ''
+        endian = options[:endian]
 
-        types.each do |(type,length)|
-          type = translate(type,options)
+        fields.each do |field|
+          type, length = case field
+                         when Array then [field[0], field.fetch(1,'*')]
+                         else            field
+                         end
+
+          if endian
+            type = ENDIAN_TYPES[endian].fetch(type,type)
+          end
 
           unless (code = TYPES[type])
             raise(ArgumentError,"#{type.inspect} not supported")

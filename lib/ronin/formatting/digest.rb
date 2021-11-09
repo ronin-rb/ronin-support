@@ -18,3 +18,5 @@
 #
 
 require 'ronin/formatting/extensions/digest'
+
+warn "DEPRECATED: ronin/formatting/digest is deprecated. Require ronin/crypto instead"

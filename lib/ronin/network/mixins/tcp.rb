@@ -39,36 +39,46 @@ module Ronin
         include Mixin, Network::TCP
 
         # TCP host
-        parameter :host, :type => String,
-                         :description => 'TCP host'
+        parameter :host, type:        String,
+                         description: 'TCP host'
 
         # TCP port
-        parameter :port, :type => Integer,
-                         :description => 'TCP port'
+        parameter :port, type:        Integer,
+                         description: 'TCP port'
 
         # TCP local host
-        parameter :local_host, :type => String,
-                               :description => 'TCP local host'
+        parameter :local_host, type:        String,
+                               description: 'TCP local host'
 
         # TCP local port
-        parameter :local_port, :type => Integer,
-                               :description => 'TCP local port'
+        parameter :local_port, type:        Integer,
+                               description: 'TCP local port'
 
         # TCP server host
-        parameter :server_host, :type => String,
-                                :description => 'TCP server host'
+        parameter :server_host, type:        String,
+                                default:     '0.0.0.0',
+                                description: 'TCP server host'
 
         # TCP server port
-        parameter :server_port, :type => Integer,
-                                :description => 'TCP server port'
-
-        protected
+        parameter :server_port, type:        Integer,
+                                description: 'TCP server port'
 
         #
-        # Tests whether the TCP port, specified by the `host` and `port`
-        # parameters, is open.
+        # Tests whether the TCP port is open.
         #
-        # @param [Integer] timeout (5)
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
+        #
+        # @param [Integer] port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @param [String] local_host
+        #   The local host to bind to. Defaults to {#local_host}.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to. Defaults to {#local_port}.
+        #
+        # @param [Integer] timeout
         #   The maximum time to attempt connecting.
         #
         # @return [Boolean, nil]
@@ -81,26 +91,40 @@ module Ronin
         #
         # @since 0.5.0
         #
-        def tcp_open?(timeout=nil)
-          print_info "Testing if #{host_port} is open ..."
+        def tcp_open?(host=nil,port=nil,local_host=nil,local_port=nil,timeout=nil)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          super(self.host,self.port,self.local_host,self.local_port,timeout)
+          print_info "Testing if #{host}:#{port} is open ..."
+
+          return super(host,port,local_host,local_port,timeout)
         end
 
         #
-        # Opens a TCP connection to the host and port specified by the
-        # `host` and `port` parameters. If the `local_host` and
-        # `local_port` parameters are set, they will be used for
-        # the local host and port of the TCP connection.
+        # Creates a new TCP socket connected to a given host and port.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
+        #
+        # @param [Integer] port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @param [String] local_host
+        #   The local host to bind to. Defaults to {#local_host}.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
         #
         # @yieldparam [TCPsocket] socket
-        #   The newly created TCPSocket object.
+        #   The newly created TCP socket.
         #
         # @return [TCPSocket]
-        #   The newly created TCPSocket object.
+        #   The newly created TCP socket.
         #
         # @example
         #   tcp_connect # => TCPSocket
@@ -117,49 +141,82 @@ module Ronin
         #
         # @api public
         #
-        def tcp_connect(&block)
-          print_info "Connecting to #{host_port} ..."
+        def tcp_connect(host=nil,port=nil,local_host=nil,local_port=nil,&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          return super(self.host,self.port,self.local_host,self.local_port,&block)
+          print_info "Connecting to #{host}:#{port} ..."
+
+          return super(host,port,self.local_host,self.local_port,&block)
         end
 
         #
-        # Connects to the host and port specified by the `host` and `port`
-        # parameters, then sends the given data.
+        # Creates a new TCP socket, connected to a given host and port.
+        # The given data will then be written to the newly created socket.
         #
         # @param [String] data
         #   The data to send through the connection.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
+        #
+        # @param [Integer] port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @param [String] local_host
+        #   The local host to bind to. Defaults to {#local_host}.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
         #
         # @yieldparam [TCPsocket] socket
-        #   The newly created TCPSocket object.
+        #   The newly created TCP socket.
         #
         # @return [TCPSocket]
-        #   The newly created TCPSocket object.
+        #   The newly created TCP socket.
         #
         # @see Network::TCP#tcp_connect_and_send
         #
         # @api public
         #
-        def tcp_connect_and_send(data,&block)
-          print_info "Connecting to #{host_port} ..."
-          print_debug "Sending data: #{data.inspect}"
+        def tcp_connect_and_send(data,host=nil,port=nil,local_host=nil,local_port=nil,&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          return super(data,self.host,self.port,self.local_host,self.local_port,&block)
+          print_debug "Sending data: #{data.inspect} ..."
+
+          return super(data,host,port,local_host,local_port,&block)
         end
 
         #
-        # Creates a TCP session to the host and port specified by the
-        # `host` and `port` parameters.
+        # Creates a new temporary TCP socket, connected to the given host
+        # and port.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
+        #
+        # @param [Integer] port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @param [String] local_host
+        #   The local host to bind to. Defaults to {#local_host}.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
         #   After the block has returned, the socket will be closed.
         #
         # @yieldparam [TCPsocket] socket
-        #   The newly created TCPSocket object.
+        #   The newly created TCP socket.
         #
         # @return [nil]
         #
@@ -167,18 +224,32 @@ module Ronin
         #
         # @api public
         #
-        def tcp_session(&block)
-          print_info "Connecting to #{host_port} ..."
+        def tcp_session(host=nil,port=nil,local_host=nil,local_port=nil,&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          super(self.host,self.port,self.local_host,self.local_port,&block)
+          super(host,port,local_host,local_port,&block)
 
-          print_info "Disconnected from #{host_port}"
+          print_info "Disconnected from #{host}:#{port}"
           return nil
         end
 
         #
-        # Connects to the host and port specified by the `host` and `port`
-        # parameters, reads the banner then closes the connection.
+        # Reads the banner from the service running on the given host and port.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
+        #
+        # @param [Integer] port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @param [String] local_host
+        #   The local host to bind to. Defaults to {#local_host}.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @yield [banner]
         #   If a block is given, it will be passed the grabbed banner.
@@ -197,21 +268,41 @@ module Ronin
         #
         # @api public
         #
-        def tcp_banner(&block)
-          print_debug "Grabbing banner from #{host_port}"
+        def tcp_banner(host=nil,port=nil,local_host=nil,local_port=nil,&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          return super(self.host,self.port,self.local_host,self.local_port,&block)
+          print_debug "Grabbing banner from #{host}:#{port}"
+
+          return super(host,port,local_host,local_port,&block)
         end
 
         #
-        # Connects to the host and port specified by the `host` and `port`
-        # parameters, sends the given data and then disconnects.
+        # Connects to a specified host and port, sends the given data and then
+        # closes the connection.
+        #
+        # @param [String] data
+        #   The data to send through the connection.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
+        #
+        # @param [Integer] port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @param [String] local_host
+        #   The local host to bind to. Defaults to {#local_host}.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @return [true]
         #   The data was successfully sent.
         #
         # @example
-        #   buffer = "GET /" + ('A' * 4096) + "\n\r"
+        #   buffer = "GET /#{'A' * 4096}\n\r"
         #   tcp_send(buffer)
         #   # => true
         #
@@ -219,19 +310,28 @@ module Ronin
         #
         # @api public
         #
-        def tcp_send(data)
-          print_info "Connecting to #{host_port} ..."
+        def tcp_send(data,host=nil,port=nil,local_host=nil,local_port=nil)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
+
           print_debug "Sending data: #{data.inspect}"
 
-          super(data,self.host,self.port,self.local_host,self.local_port)
-
-          print_info "Disconnected from #{host_port}"
-          return true
+          return super(data,host,port,local_host,local_port)
         end
 
         #
-        # Creates a new TCPServer object listening on the `server_host`
-        # and `server_port` parameters.
+        # Creates a new TCP socket listening on a given host and port.
+        #
+        # @param [Integer] port
+        #   The local port to listen on. Defaults to {#server_port}.
+        #
+        # @param [String] host
+        #   The host to bind to. Defaults to {#server_host}.
+        #
+        # @param [Integer] backlog
+        #   The maximum backlog of pending connections.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -249,15 +349,26 @@ module Ronin
         #
         # @api public
         #
-        def tcp_server(&block)
-          print_info "Listening on #{self.server_host_port} ..."
+        def tcp_server(port=nil,host=nil,backlog=5,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
-          return super(self.server_port,self.server_host,&block)
+          print_info "Listening on #{host}:#{port} ..."
+
+          return super(server_port,server_host,&block)
         end
 
         #
-        # Creates a new temporary TCPServer object listening on the
-        # `server_host` and `server_port` parameters.
+        # Creates a new temporary TCP socket listening on a host and port.
+        #
+        # @param [Integer] port
+        #   The local port to listen on. Defaults to {#server_port}.
+        #
+        # @param [String] host
+        #   The host to bind to. Defaults to {#server_host}.
+        #
+        # @param [Integer] backlog
+        #   The maximum backlog of pending connections.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -283,21 +394,71 @@ module Ronin
         #
         # @api public
         #
-        def tcp_server_session(&block)
-          print_info "Listening on #{server_host_port} ..."
+        def tcp_server_session(port=nil,host=nil,backlog=5,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
           super(self.server_port,self.server_host,&block)
 
-          print_info "Closed #{server_host_port}"
+          print_info "Closed #{host}:#{port}"
           return nil
         end
 
         #
-        # Creates a new temporary TCPServer object listening on
-        # `server_host` and `server_port` parameters.
-        # The TCPServer will accepting one client, pass the newly connected
-        # client to a given block, disconnects the client and stops
-        # listening.
+        # Creates a new TCP socket listening on a given host and port,
+        # accepting clients in a loop.
+        #
+        # @param [Integer] port
+        #   The local port to listen on. Defaults to {#server_port}.
+        #
+        # @param [String] host
+        #   The host to bind to. Defaults to {#server_host}.
+        #
+        # @param [Integer] backlog
+        #   The maximum backlog of pending connections.
+        #
+        # @yield [client]
+        #   The given block will be passed the newly connected client.
+        #   After the block has finished, the client will be closed.
+        #
+        # @yieldparam [TCPSocket] client
+        #   A newly connected client.
+        #
+        # @return [nil]
+        #
+        # @example
+        #   tcp_server_loop do |client|
+        #     client.puts 'lol'
+        #   end
+        #
+        # @see Network::TCP#tcp_server_loop
+        #
+        # @api public
+        #
+        # @since 0.6.0
+        #
+        def tcp_server_loop(port=nil,host=nil,backlog=5,&block)
+          port ||= self.server_port
+          host ||= self.server_host
+
+          return super(self.server_port,self.server_host) do |client|
+            print_info "Client connected #{tcp_client_address(client)}"
+
+            yield client if block_given?
+
+            print_info "Disconnected client #{tcp_client_address(client)}"
+          end
+        end
+
+        #
+        # Creates a new TCP socket listening on a given host and port,
+        # accepts only one client and then stops listening.
+        #
+        # @param [Integer] port
+        #   The local port to listen on. Defaults to {#server_port}.
+        #
+        # @param [String] host
+        #   The host to bind to. Defaults to {#server_host}.
         #
         # @yield [client]
         #   The given block will be passed the newly connected client.
@@ -320,47 +481,40 @@ module Ronin
         #
         # @since 0.5.0
         #
-        def tcp_accept(&block)
-          print_info "Listening on #{server_host_port} ..."
+        def tcp_accept(port=nil,host=nil,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
-          super(self.server_port,self.server_host) do |client|
-            client_addr = client.peeraddr
-            client_host = (client_addr[2] || client_addr[3])
-            client_port = client_addr[1]
-
-            print_info "Client connected #{client_host}:#{client_port}"
+          return super(port,host) do |client|
+            print_info "Client connected #{tcp_client_address(client)}"
 
             yield client if block_given?
 
-            print_info "Disconnected client #{client_host}:#{client_port}"
+            print_info "Disconnected client #{tcp_client_address(client)}"
           end
-
-          print_info "Closed #{server_host_port}"
-          return nil
         end
 
-        #
-        # @deprecated
-        #   Deprecated as of 0.5.0. Use {#tcp_accept} instead.
-        #
-        def tcp_single_server(&block)
-          tcp_accept(&block)
-        end
-
-        private
+        protected
 
         #
-        # The server host/port parameters.
+        # The host/port of a client.
+        #
+        # @param [TCPSocket] client
+        #   The client socket.
         #
         # @return [String]
-        #   The server host/port parameters in String form.
-        #
-        # @since 0.4.0
+        #   The host/port of the client socket.
         #
         # @api private
         #
-        def server_host_port
-          "#{self.server_host}:#{self.server_port}"
+        # @since 0.6.0
+        #
+        def tcp_client_address(client)
+          client_addr = client.peeraddr
+          client_host = (client_addr[2] || client_addr[3])
+          client_port = client_addr[1]
+
+          return "#{client_host}:#{client_port}"
         end
       end
     end

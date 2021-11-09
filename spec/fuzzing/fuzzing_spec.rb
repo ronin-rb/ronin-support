@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/fuzzing/fuzzing'
+require 'ronin/fuzzing'
 
 describe Fuzzing do
   describe "[]" do

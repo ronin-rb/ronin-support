@@ -40,33 +40,31 @@ module Ronin
         include Mixin, Network::HTTP
 
         # HTTP host
-        parameter :host, :type => String,
-                         :description => 'HTTP host'
+        parameter :host, type:        String,
+                         description: 'HTTP host'
 
         # HTTP port
-        parameter :port, :default => Net::HTTP.default_port,
-                         :description => 'HTTP port'
+        parameter :port, default:     Net::HTTP.default_port,
+                         description: 'HTTP port'
 
         # HTTP `Host` header to send
-        parameter :http_vhost, :type => String,
-                               :description => 'HTTP Host header to send'
+        parameter :http_vhost, type:        String,
+                               description: 'HTTP Host header to send'
 
         # HTTP user to authenticate as
-        parameter :http_user, :type => String,
-                              :description => 'HTTP user to authenticate as'
+        parameter :http_user, type:        String,
+                              description: 'HTTP user to authenticate as'
 
         # HTTP password to authenticate with
-        parameter :http_password, :type => String,
-                                  :description => 'HTTP password to authenticate with'
+        parameter :http_password, type:        String,
+                                  description: 'HTTP password to authenticate with'
 
         # HTTP proxy information
-        parameter :http_proxy, :description => 'HTTP proxy information'
+        parameter :http_proxy, description: 'HTTP proxy information'
 
         # HTTP `User-Agent` header to send
-        parameter :http_user_agent, :type => String,
-                                    :description => 'HTTP User-Agent header to send'
-
-        protected
+        parameter :http_user_agent, type:        String,
+                                    description: 'HTTP User-Agent header to send'
 
         #
         # Resets the HTTP proxy settings.
@@ -87,20 +85,22 @@ module Ronin
         #   The full URL to request.
         #
         # @option options [String] :host
-        #   The host the HTTP server is running on.
+        #   The host the HTTP server is running on. Defaults to {#host}.
         #
-        # @option options [Integer] :port (Net::HTTP.default_port)
-        #   The port the HTTP server is listening on.
+        # @option options [Integer] :port
+        #   The port the HTTP server is listening on. Defaults to {#port}.
         #
-        # @option options [String, Hash] :proxy (HTTP.proxy)
+        # @option options [String, Hash] :proxy
         #   A Hash of proxy settings to use when connecting to the HTTP server.
+        #   Defaults to {#http_proxy}.
         #
         # @option options [String] :user
         #   The user to authenticate with when connecting to the HTTP server.
+        #   Defaults to {#http_user}.
         #
         # @option options [String] :password
         #   The password to authenticate with when connecting to the HTTP
-        #   server.
+        #   server. Defaults to {#http_password}.
         #
         # @option options [Boolean, Hash] :ssl
         #   Enables SSL for the HTTP connection.

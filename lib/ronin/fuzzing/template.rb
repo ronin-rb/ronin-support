@@ -58,7 +58,7 @@ module Ronin
                  when Enumerable
                    set.each
                  when Symbol
-                   name = set.to_s.upcase
+                   name = set.upcase
 
                    unless Chars.const_defined?(name)
                      raise(ArgumentError,"unknown charset #{set.inspect}")

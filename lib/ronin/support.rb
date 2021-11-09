@@ -21,9 +21,18 @@ require 'ronin/extensions'
 require 'ronin/formatting'
 require 'ronin/fuzzing'
 require 'ronin/binary'
+require 'ronin/crypto'
 require 'ronin/network'
 require 'ronin/path'
 require 'ronin/templates'
-require 'ronin/support/inflector'
-require 'ronin/support/support'
+require 'ronin/ui/printing'
 require 'ronin/support/version'
+
+module Ronin
+  module Support
+    include Network
+    include UI::Printing
+  end
+end
+
+include Ronin::Support

@@ -40,25 +40,25 @@ describe String do
     end
 
     it "should format specific bytes in a String" do
-      expect(subject.format_bytes(:include => [104, 108]) { |b|
+      expect(subject.format_bytes(include: [104, 108]) { |b|
         b - 32
       }).to eq('HeLLo')
     end
 
     it "should not format specific bytes in a String" do
-      expect(subject.format_bytes(:exclude => [101, 111]) { |b|
+      expect(subject.format_bytes(exclude: [101, 111]) { |b|
         b - 32
       }).to eq('HeLLo')
     end
 
     it "should format ranges of bytes in a String" do
-      expect(subject.format_bytes(:include => (104..108)) { |b|
+      expect(subject.format_bytes(include: (104..108)) { |b|
         b - 32
       }).to eq('HeLLo')
     end
 
     it "should not format ranges of bytes in a String" do
-      expect(subject.format_bytes(:exclude => (104..108)) { |b|
+      expect(subject.format_bytes(exclude: (104..108)) { |b|
         b - 32
       }).to eq('hEllO')
     end
@@ -72,25 +72,13 @@ describe String do
     end
 
     it "should format specific chars in a String" do
-      expect(subject.format_chars(:include => ['h', 'l']) { |c|
+      expect(subject.format_chars(include: ['h', 'l']) { |c|
         c.upcase
       }).to eq('HeLLo')
     end
 
     it "should not format specific chars in a String" do
-      expect(subject.format_chars(:exclude => ['h', 'l']) { |c|
-        c.upcase
-      }).to eq('hEllO')
-    end
-
-    it "should format ranges of chars in a String" do
-      expect(subject.format_chars(:include => /[h-l]/) { |c|
-        c.upcase
-      }).to eq('HeLLo')
-    end
-
-    it "should not format ranges of chars in a String" do
-      expect(subject.format_chars(:exclude => /[h-l]/) { |c|
+      expect(subject.format_chars(exclude: ['h', 'l']) { |c|
         c.upcase
       }).to eq('hEllO')
     end
@@ -98,13 +86,13 @@ describe String do
 
   describe "#random_case" do
     it "should capitalize each character when :probability is 1.0" do
-      new_string = subject.random_case(:probability => 1.0)
+      new_string = subject.random_case(probability: 1.0)
 
       expect(subject.upcase).to eq(new_string)
     end
 
     it "should not capitalize any characters when :probability is 0.0" do
-      new_string = subject.random_case(:probability => 0.0)
+      new_string = subject.random_case(probability: 0.0)
 
       expect(subject).to eq(new_string)
     end
@@ -148,7 +136,7 @@ describe String do
     end
 
     it "should unescape an octal String" do
-      expect("hello\012".unescape).to eq("hello\n")
+      expect("hello\\012".unescape).to eq("hello\n")
     end
 
     it "should unescape control characters" do

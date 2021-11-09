@@ -17,7 +17,8 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'set'
+require 'chars/char_set'
+require 'strscan'
 
 class String
 
@@ -27,10 +28,10 @@ class String
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [#include?] :include (0x00..0xff)
+  # @option options [Enumerable<Integer, String>] :include (0x00..0xff)
   #   The bytes to format.
   #
-  # @option options [#include?] :exclude
+  # @option options [Enumerable<Integer, String>] :exclude
   #   The bytes not to format.
   #
   # @yield [byte]
@@ -50,12 +51,13 @@ class String
   # @api public
   #
   def format_bytes(options={})
-    included  = (options[:include] || (0x00..0xff))
-    excluded  = (options[:exclude] || Set[])
+    included  = (Chars::CharSet.new(*options[:include]) if options[:include])
+    excluded  = (Chars::CharSet.new(*options[:exclude]) if options[:exclude])
     formatted = ''
 
     each_byte do |b|
-      formatted << if (included.include?(b) && !excluded.include?(b))
+      formatted << if (included.nil? || included.include_byte?(b)) &&
+                      (excluded.nil? || !excluded.include_byte?(b))
                      yield(b)
                    else
                      b
@@ -71,10 +73,10 @@ class String
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [#include?, Regexp] :include (/./m)
+  # @option options [Enumerable<Integer, String>] :include
   #   The bytes to format.
   #
-  # @option options [#include?, Regexp] :exclude
+  # @option options [Enumerable<Integer, String>] :exclude
   #   The bytes not to format.
   #
   # @yield [char]
@@ -94,18 +96,13 @@ class String
   # @api public
   #
   def format_chars(options={})
-    included  = (options[:include] || /./m)
-    excluded  = (options[:exclude] || Set[])
+    included  = (Chars::CharSet.new(*options[:include]) if options[:include])
+    excluded  = (Chars::CharSet.new(*options[:exclude]) if options[:exclude])
     formatted = ''
 
-    matches = lambda { |filter,c|
-      if    filter.respond_to?(:include?) then filter.include?(c)
-      elsif filter.kind_of?(Regexp)       then c =~ filter
-      end
-    }
-
     each_char do |c|
-      formatted << if (matches[included,c] && !matches[excluded,c])
+      formatted << if (included.nil? || included.include_char?(c)) &&
+                      (excluded.nil? || !excluded.include_char?(c))
                      yield(c)
                    else
                      c
@@ -122,18 +119,14 @@ class String
   # @param [Hash] options
   #   Additional options.
   #
-  # @option options [Array, Range] :include (0x00..0xff)
-  #   The bytes to format.
-  #
-  # @option options [Array, Range] :exclude
-  #   The bytes not to format.
-  #
   # @option options [Float] :probability (0.5)
   #   The probability that a character will have it's case changed.
   #
   # @example
   #   "get out your checkbook".random_case
   #   # => "gEt Out YOur CHEckbook"
+  #
+  # @see #format_chars
   #
   # @api public
   #
@@ -237,10 +230,8 @@ class String
 
   # Common escaped characters.
   UNESCAPE_CHARS = Hash.new do |hash,char|
-    if char[0,1] == '\\'
-      char[1,1]
-    else
-      char
+    if char[0] == '\\' then char[1]
+    else                    char
     end
   end
   UNESCAPE_CHARS['\0'] = "\0"
@@ -267,31 +258,22 @@ class String
   # @since 0.5.0
   #
   def unescape
-    buffer     = ''
-    hex_index  = 0
-    hex_length = length
+    buffer  = ''.force_encoding(Encoding::ASCII)
+    scanner = StringScanner.new(self)
 
-    while (hex_index < hex_length)
-      hex_substring = self[hex_index..-1]
-
-      if hex_substring =~ /^\\[0-7]{3}/
-        buffer    << hex_substring[0,4].to_i(8)
-        hex_index += 3
-      elsif hex_substring =~ /^\\x[0-9a-fA-F]{1,2}/
-        hex_substring[2..-1].scan(/^[0-9a-fA-F]{1,2}/) do |hex_byte|
-          buffer    << hex_byte.to_i(16)
-          hex_index += (2 + hex_byte.length)
-        end
-      elsif hex_substring =~ /^\\./
-        buffer    << UNESCAPE_CHARS[hex_substring[0,2]]
-        hex_index += 2
+    until scanner.eos?
+      if (unicode_escape = scanner.scan(/\\[0-7]{3}/))
+        buffer << unicode_escape[1,3].to_i(8)
+      elsif (hex_escape = scanner.scan(/\\x[0-9a-fA-F]{1,2}/))
+        buffer << hex_escape[2..-1].to_i(16)
+      elsif (escape = scanner.scan(/\\./))
+        buffer << UNESCAPE_CHARS[escape]
       else
-        buffer    << hex_substring[0,1]
-        hex_index += 1
+        buffer << scanner.getch
       end
     end
 
-    return buffer
+    return buffer.force_encoding(__ENCODING__)
   end
 
 end

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'jruby-openssl',	'~> 0.7.0', :platforms => :jruby
+gem 'jruby-openssl',	'~> 0.7.0', platforms: :jruby
 
 group :development do
   gem 'rake'
@@ -18,15 +18,4 @@ group :development do
   gem 'kramdown',           '~> 2.0'
 
   gem 'dead_end', require: false
-end
-
-group :test do
-  case ENV['INFLECTOR']
-  when 'activesupport'
-    gem 'i18n',           '~> 1.0'
-    gem 'tzinfo',         '~> 2.0'
-    gem 'activesupport',  '~> 6.0'
-  else
-    gem 'dm-core',        '~> 1.0'
-  end
 end

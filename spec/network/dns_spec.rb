@@ -31,21 +31,33 @@ describe Network::DNS do
 
       expect(subject.nameserver).to eq(server)
     end
+
+    after { subject.nameserver = [] }
   end
 
-  describe "#dns_resolver" do
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
+  describe "resolver" do
+    it "should return Resolv::DNS" do
+      expect(subject.resolver(server)).to be_kind_of(Resolv::DNS)
     end
 
-    it "should return Resolv when passed no nameserver" do
-      expect(subject.dns_resolver(nil)).to eq(Resolv)
+    context "when no arguments are given" do
+      before { subject.nameserver = server }
+
+      it "should default to using DNS.nameserver" do
+        expect(Resolv::DNS).to receive(:new).with(nameserver: subject.nameserver)
+
+        subject.resolver
+      end
+
+      after { subject.nameserver = nil }
     end
 
-    it "should return Resolv::DNS when passed a nameserver" do
-      expect(subject.dns_resolver(server)).to be_kind_of(Resolv::DNS)
+    context "when an argument is given" do
+      it "should pass the nameserver: option to Resolv::DNS.new" do
+        expect(Resolv::DNS).to receive(:new).with(nameserver: server)
+
+        subject.resolver(server)
+      end
     end
   end
 

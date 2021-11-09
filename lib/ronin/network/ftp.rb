@@ -81,17 +81,17 @@ module Ronin
       # @option options [Boolean] :passive (true)
       #   Specifies whether the FTP session should use passive mode.
       #
-      # @yield [session]
+      # @yield [ftp]
       #   If a block is given, it will be passed an FTP session object.
       #
-      # @yieldparam [Net::FTP] session
+      # @yieldparam [Net::FTP] ftp
       #   The FTP session.
       #
       # @return [Net::FTP]
       #   The FTP session.
       #
       # @example
-      #   ftp_connect('www.example.com', :user => 'joe', :password => 'secret')
+      #   ftp_connect('www.example.com', user: 'joe', password: 'secret')
       #
       # @api public
       #
@@ -102,13 +102,13 @@ module Ronin
         password = options[:password]
         acct     = options[:account]
 
-        session = Net::FTP.new
-        session.connect(host,port)
-        session.login(user,password,acct)
-        session.passive = options.fetch(:passive,true)
+        ftp = Net::FTP.new
+        ftp.connect(host,port)
+        ftp.login(user,password,acct)
+        ftp.passive = options.fetch(:passive,true)
 
-        yield session if block_given?
-        return session
+        yield ftp if block_given?
+        return ftp
       end
 
       #
@@ -120,19 +120,34 @@ module Ronin
       # @param [Hash] options
       #   Additional options.
       #
-      # @yield [session]
+      # @option options [Integer] :port (FTP.default_port)
+      #   The port to connect to.
+      #
+      # @option options [String] :user (DEFAULT_USER)
+      #   The user to authenticate with.
+      #
+      # @option options [String] :password
+      #   The password to authenticate with.
+      #
+      # @option options [String] :account
+      #   The FTP account information to send via the `ACCT` command.
+      #
+      # @option options [Boolean] :passive (true)
+      #   Specifies whether the FTP session should use passive mode.
+      #
+      # @yield [ftp]
       #   If a block is given, it will be passed an FTP session object.
       #   After the block has returned, the session will be closed.
       #
-      # @yieldparam [Net::FTP] session
+      # @yieldparam [Net::FTP] ftp
       #   The FTP session.
       #
       # @example
-      #   ftp_session('www.example.com', :user => 'joe') do |ftp|
+      #   ftp_session('www.example.com', user: 'joe') do |ftp|
       #     # ...
       #   end
       #
-      # @see #ftp_connect
+      # @see Network::FTP#ftp_session
       #
       # @api public
       #

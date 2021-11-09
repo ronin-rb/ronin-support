@@ -48,12 +48,25 @@ module Ronin
       # @option options [Integer] :port (SMTP.default_port)
       #   The port to connect to.
       #
+      # @option options [Boolean, Hash] :ssl
+      #   Additional SSL options.
+      #
+      # @option :ssl [Boolean] :verify
+      #   Specifies that the SSL certificate should be verified.
+      #
+      # @option :ssl [String] :certs
+      #   The path to the file containing CA certs of the server.
+      #
       # @option options [String] :helo
       #   The HELO domain.
       #
       # @option options [Symbol] :auth
-      #   The type of authentication to use. Can be either `:login`, `:plain`,
-      #   or `:cram_md5`.
+      #   The type of authentication to use.
+      #   May be one of the following:
+      #
+      #   * `:login`
+      #   * `:plain`
+      #   * `:cram_md5`
       #
       # @option options [String] :user
       #   The user-name to authenticate with.
@@ -61,11 +74,11 @@ module Ronin
       # @option options [String] :password
       #   The password to authenticate with.
       #
-      # @yield [session]
+      # @yield [esmtp]
       #   If a block is given, it will be passed an ESMTP enabled session
       #   object.
       #
-      # @yieldparam [Net::SMTP] session
+      # @yieldparam [Net::SMTP] esmtp
       #   The ESMTP session.
       #
       # @return [Net::SMTP]
@@ -74,11 +87,11 @@ module Ronin
       # @api public
       #
       def esmtp_connect(host,options={})
-        session = smtp_connect(host,options)
-        session.esmtp = true
+        smtp = smtp_connect(host,options)
+        smtp.esmtp = true
 
-        yield session if block_given?
-        return session
+        yield smtp if block_given?
+        return smtp
       end
 
       #
@@ -90,22 +103,51 @@ module Ronin
       # @param [Hash] options
       #   Additional options.
       #
-      # @yield [session]
+      # @option options [Integer] :port (SMTP.default_port)
+      #   The port to connect to.
+      #
+      # @option options [Boolean, Hash] :ssl
+      #   Additional SSL options.
+      #
+      # @option :ssl [Boolean] :verify
+      #   Specifies that the SSL certificate should be verified.
+      #
+      # @option :ssl [String] :certs
+      #   The path to the file containing CA certs of the server.
+      #
+      # @option options [String] :helo
+      #   The HELO domain.
+      #
+      # @option options [Symbol] :auth
+      #   The type of authentication to use.
+      #   May be one of the following:
+      #
+      #   * `:login`
+      #   * `:plain`
+      #   * `:cram_md5`
+      #
+      # @option options [String] :user
+      #   The user-name to authenticate with.
+      #
+      # @option options [String] :password
+      #   The password to authenticate with.
+      #
+      # @yield [esmtp]
       #   If a block is given, it will be passed an ESMTP enabled session
       #   object. After the block has returned, the session will be closed.
       #
-      # @yieldparam [Net::SMTP] session
+      # @yieldparam [Net::SMTP] esmtp
       #   The ESMTP session.
       #
-      # @see Net.esmtp_connect
+      # @see esmtp_connect
       #
       # @api public
       #
       def esmtp_session(host,options={})
-        smtp_session(host,options) do |session|
-          session.esmtp = true
+        smtp_session(host,options) do |smtp|
+          smtp.esmtp = true
 
-          yield session if block_given?
+          yield smtp if block_given?
         end
       end
     end

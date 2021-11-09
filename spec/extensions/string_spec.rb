@@ -157,24 +157,4 @@ describe String do
       expect(one.uncommon_substring(two)).to eq(uncommon)
     end
   end
-
-  if RUBY_VERSION < '1.9.'
-    describe "#dump" do
-      it "should dump printable strings" do
-        expect("hello".dump).to eq('"hello"')
-      end
-
-      it "should dump strings containing control characters" do
-        expect("hello\n\b\a".dump).to eq('"hello\n\b\a"')
-      end
-
-      it "should dump strings containing non-printable characters" do
-        expect("hello\x90\x05\xEF".dump).to eq('"hello\x90\x05\xEF"')
-      end
-
-      it "should dump the string when calling the inspect method" do
-        expect("hello\x90\x05\xEF".inspect).to eq('"hello\x90\x05\xEF"')
-      end
-    end
-  end
 end

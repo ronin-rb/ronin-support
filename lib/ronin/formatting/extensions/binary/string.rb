@@ -17,16 +17,17 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/formatting/extensions/binary/base64'
 require 'ronin/formatting/extensions/binary/integer'
 require 'ronin/formatting/extensions/text/string'
 require 'ronin/binary/hexdump/parser'
 require 'ronin/binary/template'
 
+require 'base64'
+
 begin
   require 'zlib'
 rescue ::LoadError
-  $stderr.puts "WARNING: Ruby was not compiled with zlib support"
+  warn "WARNING: Ruby was not compiled with zlib support"
 end
 
 class String
@@ -69,82 +70,33 @@ class String
   end
 
   #
-  # Unpacks the String into an Integer.
+  # Hex-encodes characters in the String.
   #
-  # @param [Ronin::Arch, #endian, #address_length, String] arch
-  #   The architecture that the Integer was originally packed with.
+  # @return [String]
+  #   The hex encoded version of the String.
   #
-  # @param [Integer] address_length
-  #   The number of bytes to depack.
+  # @example
+  #   "hello".hex_encode
+  #   # => "68656C6C6F"
   #
-  # @return [Integer]
-  #   The depacked Integer.
+  # @since 0.6.0
   #
-  # @raise [ArgumentError]
-  #   The given `arch` does not respond to the `endian` or `address_length`
-  #   methods.
-  #
-  # @example using archs other than `Ronin::Arch`:
-  #   arch = OpenStruct.new(:endian => :little, :address_length => 4)
-  #   
-  #   "A\0\0\0".depack(arch)
-  #   # => 65
-  #
-  # @example using a `Ronin::Arch` arch:
-  #   "A\0\0\0".depack(Arch.i386)
-  #   # => 65
-  #
-  # @example specifying a custom address-length:
-  #   "A\0".depack(Arch.ppc,2)
-  #   # => 65
-  #
-  # @example using a `String#unpack` template:
-  #   "A\0\0\0".depack('V')
-  #   # => 65
-  #
-  # @deprecated
-  #   Deprecated as of 0.5.0, use {#unpack} instead.
-  #
-  # @api public
-  #   
-  def depack(arch,address_length=nil)
-    if arch.kind_of?(String)
-      return unpack(arch)
-    end
+  def hex_encode
+    format_bytes { |b| b.hex_encode }
+  end
 
-    unless arch.respond_to?(:address_length)
-      raise(ArgumentError,"first argument to Ineger#pack must respond to address_length")
-    end
-
-    unless arch.respond_to?(:endian)
-      raise(ArgumentError,"first argument to Ineger#pack must respond to endian")
-    end
-
-    endian           = arch.endian.to_sym
-    address_length ||= arch.address_length
-
-    integer    = 0x0
-    byte_index = 0
-
-    case endian
-    when :little
-      mask = lambda { |b| b << (byte_index * 8) }
-    when :big
-      mask = lambda { |b|
-        b << ((address_length - byte_index - 1) * 8)
-      }
-    else
-      raise(ArgumentError,"invalid endian #{arch.endian.inspect}")
-    end
-
-    each_byte do |b|
-      break if byte_index >= address_length
-
-      integer |= mask.call(b)
-      byte_index += 1
-    end
-
-    return integer
+  #
+  # Hex-decodes the String.
+  #
+  # @return [String]
+  #   The hex decoded version of the String.
+  #
+  # @example
+  #   "68656C6C6F".hex_decode
+  #   # => "hello"
+  #
+  def hex_decode
+    scan(/../).map { |hex| hex.to_i(16).chr }.join
   end
 
   #
@@ -202,6 +154,8 @@ class String
 
     return result
   end
+
+  alias ^ xor
 
   #
   # Base64 encodes a string.

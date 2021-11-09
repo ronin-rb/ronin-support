@@ -82,34 +82,6 @@ class File
     each_line(path) { |line| yield line.split(separator) }
   end
 
-  if RUBY_VERSION < '1.9.'
-    #
-    # Writes the given data to a specified path.
-    #
-    # @param [String] path
-    #   The path of the file to write to.
-    #
-    # @param [String] data
-    #   The data to write to the file.
-    #
-    # @param [Integer] offset
-    #   Optional offset to write the data to.
-    #
-    # @return [nil]
-    #
-    # @example
-    #   File.write('dump.txt',data)
-    #
-    # @api public
-    #
-    def self.write(path,data,offset=0)
-      open(path,'w') do |file|
-        file.seek(offset)
-        file.write(data)
-      end
-    end
-  end
-
   #
   # Escapes a path.
   #

@@ -27,7 +27,7 @@ require 'net/http'
 begin
   require 'net/https'
 rescue ::LoadError
-  $stderr.puts "WARNING: could not load 'net/https'"
+  warn "WARNING: could not load 'net/https'"
 end
 
 module Ronin
@@ -113,15 +113,13 @@ module Ronin
       #
       # @api private
       #
-      def self.expand_url(url)
-        new_options = {}
-
+      def self.options_from(url)
         url = case url
-              when URI  then url
               when Hash then URI::HTTP.build(url)
-              else           URI(url.to_s)
+              else           URI(url)
               end
 
+        new_options = {}
         new_options[:ssl] = {} if url.scheme == 'https'
 
         new_options[:host] = url.host
@@ -168,7 +166,7 @@ module Ronin
       #
       # @api private
       #
-      def self.expand_options(options={})
+      def self.normalize_options(options={})
         new_options = options.dup
 
         new_options[:port] ||= Net::HTTP.default_port
@@ -179,7 +177,7 @@ module Ronin
         end
 
         if (url = new_options.delete(:url))
-          new_options.merge!(HTTP.expand_url(url))
+          new_options.merge!(HTTP.options_from(url))
         end
 
         new_options[:proxy] = if new_options.has_key?(:proxy)
@@ -281,7 +279,7 @@ module Ronin
       #   The `:method` option did not match a known Net::HTTP request
       #   class.
       #
-      # @see HTTP.expand_options
+      # @see HTTP.normalize_options
       #
       # @api private
       #
@@ -290,10 +288,10 @@ module Ronin
           raise(ArgumentError,"the :method option must be specified")
         end
 
-        name = options[:method].to_s.capitalize
+        name = options[:method].capitalize
 
         unless Net::HTTP.const_defined?(name)
-          raise(UnknownRequest,"unknown HTTP request type #{name.dump}")
+          raise(UnknownRequest,"unknown HTTP request type #{name}")
         end
 
         headers = headers(options[:headers])
@@ -380,21 +378,24 @@ module Ronin
       # @api public
       #
       def http_connect(options={},&block)
-        options = HTTP.expand_options(options)
+        options = HTTP.normalize_options(options)
 
         host  = options[:host].to_s
         port  = options[:port]
         proxy = options[:proxy]
-        proxy_host = if (proxy && proxy[:host])
-                       proxy[:host].to_s
-                     end
 
-        http = Net::HTTP::Proxy(
-          proxy_host,
-          proxy[:port],
-          proxy[:user],
-          proxy[:password]
-        ).new(host,port)
+        http = if proxy
+                 Net::HTTP.new(
+                   host,
+                   port,
+                   (proxy[:host].to_s if proxy[:host]),
+                   proxy[:port],
+                   proxy[:user],
+                   proxy[:password]
+                 )
+               else
+                 Net::HTTP.new(host,port)
+               end
 
         if options[:ssl]
           http.use_ssl     = true
@@ -482,8 +483,17 @@ module Ronin
       # @option options [Symbol, String] :method
       #   The HTTP method to use in the request.
       #
-      # @option options [String] :path
+      # @option options [String] :path ('/')
       #   The path to request from the HTTP server.
+      #
+      # @option options [String] :query
+      #   The query-string to append to the request path.
+      #
+      # @option options [String] :query_params
+      #   The query-params to append to the request path.
+      #
+      # @option options [String] :body
+      #   The body of the request.
       #
       # @option options [Hash] :headers
       #   The Hash of the HTTP headers to send with the request.
@@ -509,7 +519,15 @@ module Ronin
       # @return [Net::HTTPResponse]
       #   The response of the HTTP request.
       #
+      # @raise [ArgumentError]
+      #   The `:method` option must be specified.
+      #
+      # @raise [UnknownRequest]
+      #   The `:method` option did not match a known Net::HTTP request
+      #   class.
+      #
       # @see #http_session
+      # @see http_request
       #
       # @api public
       #
@@ -552,7 +570,7 @@ module Ronin
       # @api public
       #
       def http_status(options={})
-        options = {:method => :head}.merge(options)
+        options = {method: :head}.merge(options)
 
         return http_request(options).code.to_i
       end
@@ -594,7 +612,7 @@ module Ronin
       # @api public
       #
       def http_server(options={})
-        options = {:method => :head}.merge(options)
+        options = {method: :head}.merge(options)
 
         return http_request(options)['server']
       end
@@ -616,7 +634,7 @@ module Ronin
       # @api public
       #
       def http_powered_by(options={})
-        options = {:method => :get}.merge(options)
+        options = {method: :get}.merge(options)
 
         return http_request(options)['x-powered-by']
       end
@@ -642,7 +660,7 @@ module Ronin
       # @api public
       #
       def http_copy(options={})
-        response = http_request(options.merge(:method => :copy))
+        response = http_request(options.merge(method: :copy))
 
         yield response if block_given?
         return response
@@ -672,13 +690,13 @@ module Ronin
         original_headers = options[:headers]
 
         # set the HTTP Depth header
-        options[:headers] = {:depth => 'Infinity'}
+        options[:headers] = {depth: 'Infinity'}
 
         if original_headers
           options[:header].merge!(original_headers)
         end
 
-        response = http_request(options.merge(:method => :delete))
+        response = http_request(options.merge(method: :delete))
 
         yield response if block_given?
         return response
@@ -705,7 +723,7 @@ module Ronin
       # @api public
       #
       def http_get(options={},&block)
-        response = http_request(options.merge(:method => :get))
+        response = http_request(options.merge(method: :get))
 
         yield response if block_given?
         return response
@@ -774,7 +792,7 @@ module Ronin
       # @api public
       #
       def http_head(options={},&block)
-        response = http_request(options.merge(:method => :head))
+        response = http_request(options.merge(method: :head))
 
         yield response if block_given?
         return response
@@ -801,7 +819,7 @@ module Ronin
       # @api public
       #
       def http_lock(options={},&block)
-        response = http_request(options.merge(:method => :lock))
+        response = http_request(options.merge(method: :lock))
 
         yield response if block_given?
         return response
@@ -828,7 +846,7 @@ module Ronin
       # @api public
       #
       def http_mkcol(options={},&block)
-        response = http_request(options.merge(:method => :mkcol))
+        response = http_request(options.merge(method: :mkcol))
 
         yield response if block_given?
         return response
@@ -855,7 +873,7 @@ module Ronin
       # @api public
       #
       def http_move(options={},&block)
-        response = http_request(options.merge(:method => :move))
+        response = http_request(options.merge(method: :move))
 
         yield response if block_given?
         return response
@@ -882,7 +900,7 @@ module Ronin
       # @api public
       #
       def http_options(options={},&block)
-        response = http_request(options.merge(:method => :options))
+        response = http_request(options.merge(method: :options))
 
         yield response if block_given?
         return response
@@ -912,7 +930,7 @@ module Ronin
       # @api public
       #
       def http_post(options={},&block)
-        response = http_request(options.merge(:method => :post))
+        response = http_request(options.merge(method: :post))
 
         yield response if block_given?
         return response
@@ -995,7 +1013,7 @@ module Ronin
       # @api public
       #
       def http_put(options={})
-        response = http_request(options.merge(:method => :put))
+        response = http_request(options.merge(method: :put))
 
         yield response if block_given?
         return response
@@ -1025,13 +1043,13 @@ module Ronin
         original_headers = options[:headers]
 
         # set the HTTP Depth header
-        options[:headers] = {:depth => '0'}
+        options[:headers] = {depth: '0'}
 
         if original_headers
           options[:header].merge!(original_headers)
         end
 
-        response = http_request(options.merge(:method => :propfind))
+        response = http_request(options.merge(method: :propfind))
 
         yield response if block_given?
         return response
@@ -1058,7 +1076,7 @@ module Ronin
       # @api public
       #
       def http_prop_patch(options={},&block)
-        response = http_request(options.merge(:method => :proppatch))
+        response = http_request(options.merge(method: :proppatch))
 
         yield response if block_given?
         return response
@@ -1085,7 +1103,7 @@ module Ronin
       # @api public
       #
       def http_trace(options={},&block)
-        response = http_request(options.merge(:method => :trace))
+        response = http_request(options.merge(method: :trace))
 
         yield response if block_given?
         return response
@@ -1112,7 +1130,7 @@ module Ronin
       # @api public
       #
       def http_unlock(options={},&block)
-        response = http_request(options.merge(:method => :unlock))
+        response = http_request(options.merge(method: :unlock))
 
         yield response if block_given?
         return response

@@ -4,7 +4,7 @@ require 'ronin/extensions/file'
 require 'tempfile'
 
 describe File do
-  subject { File }
+  subject { described_class }
 
   it "should provide File.escape_path" do
     expect(subject).to respond_to(:escape_path)

@@ -30,63 +30,115 @@ module Ronin
       #
       # * `host` (`String`) - SMTP host.
       # * `port` (`Integer`) - SMTP port.
-      # * `smtp_login` (`String`) - SMTP authentication method.
+      # * `smtp_auth` (`String`) - SMTP authentication method.
       # * `smtp_user` (`String`) - SMTP user to login as.
       # * `smtp_password` (`String`) - SMTP password to login with.
+      # * `ssl` (`Boolean`) - Enables SSL.
+      # * `ssl_verify` (`Boolean`) - SSL verify mode.
+      # * `ssl_cert` (`String`) - Path to the `.crt` file.
       #
       module SMTP
         include Mixin, Network::SMTP
 
         # SMTP host
-        parameter :host, :type => String,
-                         :description => 'SMTP host'
+        parameter :host, type:        String,
+                         description: 'SMTP host'
 
         # SMTP port
-        parameter :port, :type => Integer,
-                         :description => 'SMTP port'
+        parameter :port, type:        Integer,
+                         description: 'SMTP port'
 
         # SMTP authentication method
-        parameter :smtp_login, :type => String,
-                               :description => 'SMTP authentication method'
+        #
+        # @since 0.6.0
+        parameter :smtp_auth, type:        String,
+                              description: 'SMTP authentication method'
 
         # SMTP user to login as
-        parameter :smtp_user, :type => String,
-                              :description => 'SMTP user to login as'
+        parameter :smtp_user, type:        String,
+                              description: 'SMTP user to login as'
 
         # SMTP user to login with
-        parameter :smtp_password, :type => String,
-                                  :description => 'SMTP password to login with'
+        parameter :smtp_password, type:        String,
+                                  description: 'SMTP password to login with'
 
-        protected
+        # Enables SSL support
+        parameter :ssl, type:        true,
+                        description: 'Enables SSL support'
+
+        # SSL verify mode
+        parameter :ssl_verify, type:        true,
+                               description: 'Verifies the SSL certificate'
+
+        # SSL cert file
+        parameter :ssl_cert, type:        String,
+                             description: 'SSL cert file'
 
         #
-        # Creates a connection to the SMTP server. The `host`, `port`,
-        # `smtp_login`, `smtp_user` and `smtp_password` parameters
-        # will also be used to connect to the server.
+        # @deprecated
+        #   Use {#smtp_auth} instead.
+        #
+        def smtp_login
+          warn "DEPRECATED: #{SMTP}#smtp_login. Use #smtp_auth instead"
+
+          return smtp_auth
+        end
+
+        #
+        # @deprecated
+        #   Use {#smtp_auth=} instead.
+        #
+        def smtp_login=(new_login)
+          warn "DEPRECATED: #{SMTP}#smtp_login=. Use #smtp_auth= instead"
+
+          self.smtp_auth = new_login
+        end
+
+        #
+        # Creates a connection to the SMTP server.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
         #
         # @param [Hash] options
         #   Additional options.
         #
-        # @option options [Integer] :port (Ronin::Network::SMTP.default_port)
-        #   The port to connect to.
+        # @option options [Integer] :port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @option options [Boolean, Hash] :ssl
+        #   Additional SSL options.
+        #
+        # @option :ssl [Boolean] :verify
+        #   Specifies that the SSL certificate should be verified.
+        #
+        # @option :ssl [String] :certs
+        #   The path to the file containing CA certs of the server.
+        #
+        # @option options [String] :helo
+        #   The HELO domain.
         #
         # @option options [String] :helo
         #   The HELO domain.
         #
         # @option options [Symbol] :auth
-        #   The type of authentication to use. Can be either `:login`,
-        #   `:plain` or `:cram_md5`.
+        #   The type of authentication to use. Defaults to {#smtp_auth}.
+        #   May be one of the following:
+        #
+        #   * `:login`
+        #   * `:plain`
+        #   * `:cram_md5`
         #
         # @option options [String] :user
-        #   The user-name to authenticate with.
+        #   The user-name to authenticate with. Defaults to {#smtp_user}.
         #
         # @option options [String] :password
-        #   The password to authenticate with.
+        #   The password to authenticate with. Defaults to {#smtp_password}.
         #
-        # @yield [session]
+        # @yield [smtp]
         #   If a block is given, it will be passed an SMTP session object.
         #
-        # @yieldparam [Net::SMTP] session
+        # @yieldparam [Net::SMTP] smtp
         #   The SMTP session.
         #
         # @return [Net::SMTP]
@@ -96,36 +148,78 @@ module Ronin
         #
         # @api public
         #
-        def smtp_connect(options={},&block)
-          print_info "Connecting to #{host_port} ..."
+        def smtp_connect(host=nil,options={},&block)
+          host  ||= self.host
+          options = smtp_merge_options(options)
 
-          return super(self.host,smtp_merge_options(options),&block)
+          print_info "Connecting to #{host}:#{options[:port]} ..."
+
+          return super(host,smtp_merge_options(options),&block)
         end
 
         #
-        # Starts a session with the SMTP server. The `host`, `port`,
-        # `smtp_login`, `smtp_user` and `smtp_password` parameters
-        # will also be used to connect to the server.
+        # Starts a session with the SMTP server.
         #
-        # @yield [session]
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Hash] options
+        #   Additional options.
+        #
+        # @option options [Integer] :port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @option options [Boolean, Hash] :ssl
+        #   Additional SSL options.
+        #
+        # @option :ssl [Boolean] :verify
+        #   Specifies that the SSL certificate should be verified.
+        #
+        # @option :ssl [String] :certs
+        #   The path to the file containing CA certs of the server.
+        #
+        # @option options [String] :helo
+        #   The HELO domain.
+        #
+        # @option options [String] :helo
+        #   The HELO domain.
+        #
+        # @option options [Symbol] :auth
+        #   The type of authentication to use. Defaults to {#smtp_auth}.
+        #   May be one of the following:
+        #
+        #   * `:login`
+        #   * `:plain`
+        #   * `:cram_md5`
+        #
+        # @option options [String] :user
+        #   The user-name to authenticate with. Defaults to {#smtp_user}.
+        #
+        # @option options [String] :password
+        #   The password to authenticate with. Defaults to {#smtp_password}.
+        #
+        # @yield [smtp]
         #   If a block is given, it will be passed an SMTP session object.
         #   After the block has returned, the session will be closed.
         #
-        # @yieldparam [Net::SMTP] session
+        # @yieldparam [Net::SMTP] smtp
         #   The SMTP session.
         #
         # @see Network::SMTP#smtp_session
         #
         # @api public
         #
-        def smtp_session(options={},&block)
-          super(smtp_merge_options(options)) do |sess|
-            yield sess if block_given?
+        def smtp_session(host=nil,options={},&block)
+          host  ||= self.host
+          options = smtp_merge_options(options)
+
+          super(host,options) do |smtp|
+            yield smtp if block_given?
 
             print_info "Logging out ..."
           end
 
-          print_info "Disconnected to #{host_port}"
+          print_info "Disconnected to #{host}:#{options[:port]}"
           return nil
         end
 
@@ -147,9 +241,15 @@ module Ronin
         #   
         def smtp_merge_options(options={})
           options[:port]     ||= self.port
-          options[:login]    ||= self.smtp_login
+          options[:auth]     ||= self.smtp_auth
           options[:user]     ||= self.smtp_user
           options[:password] ||= self.smtp_password
+
+          if self.ssl?
+            options[:ssl] = options.fetch(:ssl) do
+              {verify: self.ssl_verify?, certs:  self.ssl_cert}
+            end
+          end
 
           return options
         end

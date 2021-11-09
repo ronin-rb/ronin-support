@@ -39,36 +39,46 @@ module Ronin
         include Mixin, Network::UDP
 
         # UDP host
-        parameter :host, :type => String,
-                         :description => 'UDP host'
+        parameter :host, type:        String,
+                         description: 'UDP host'
 
         # UDP port
-        parameter :port, :type => Integer,
-                         :description => 'UDP port'
+        parameter :port, type:        Integer,
+                         description: 'UDP port'
 
         # UDP local host
-        parameter :local_host, :type => String,
-                               :description => 'UDP local host'
+        parameter :local_host, type:        String,
+                               description: 'UDP local host'
 
         # UDP local port
-        parameter :local_port, :type => Integer,
-                               :description => 'UDP local port'
+        parameter :local_port, type:        Integer,
+                               description: 'UDP local port'
 
         # UDP server host
-        parameter :server_host, :type => String,
-                                :description => 'UDP server host'
+        parameter :server_host, type:        String,
+                                default:     '0.0.0.0',
+                                description: 'UDP server host'
 
         # UDP server port
-        parameter :server_port, :type => Integer,
-                                :description => 'UDP server port'
-
-        protected
+        parameter :server_port, type:        Integer,
+                                description: 'UDP server port'
 
         #
-        # Tests whether the UDP port, specified by the `host` and `port`
-        # parameters, is open.
+        # Tests whether a remote UDP port is open.
         #
-        # @param [Integer] timeout (5)
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
+        #
+        # @param [Integer] port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @param [String] local_host
+        #   The local host to bind to. Defaults to {#local_host}.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to. Defaults to {#local_port}.
+        #
+        # @param [Integer] timeout
         #   The maximum time to attempt connecting.
         #
         # @return [Boolean, nil]
@@ -79,26 +89,40 @@ module Ronin
         #
         # @since 0.5.0
         #
-        def udp_open?(timeout=nil)
-          print_info "Testing if #{host_port} is open ..."
+        def udp_open?(host=nil,port=nil,local_host=nil,local_port=nil,timeout=nil)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          super(self.host,self.port,self.local_host,self.local_port,timeout)
+          print_info "Testing if #{host}:#{port} is open ..."
+
+          return super(self.host,self.port,self.local_host,self.local_port,timeout)
         end
 
         #
-        # Opens a UDP connection to the host and port specified by the
-        # `host` and `port` parameters. If the `local_host` and
-        # `local_port` parameters are set, they will be used for
-        # the local host and port of the UDP connection.
+        # Creates a new UDP sockeet connected to a given host and port.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
+        #
+        # @param [Integer] port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @param [String] local_host
+        #   The local host to bind to. Defaults to {#local_host}.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
         #
         # @yieldparam [UDPsocket] socket
-        #   The newly created UDPSocket object.
+        #   The newly created UDP socket.
         #
         # @return [UDPSocket]
-        #   The newly created UDPSocket object.
+        #   The newly created UDP socket.
         #
         # @example
         #   udp_connect
@@ -113,53 +137,83 @@ module Ronin
         #
         # @api public
         #
-        def udp_connect(&block)
-          print_info "Connecting to #{host_port} ..."
+        def udp_connect(host=nil,port=nil,local_host=nil,local_port=nil,&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          return super(self.host,self.port,self.local_host,self.local_port,&block)
+          print_info "Connecting to #{host}:#{port} ..."
+
+          return super(host,port,local_host,local_port,&block)
         end
 
         #
-        # Connects to the host and port specified by the `host` and `port`
-        # parameters, then sends the given data. If the `local_host` and
-        # `local_port` instance methods are set, they will be used for the
-        # local host and port of the UDP connection.
+        # Creates a new UDP socket, connected to a given host and port.
+        # The given data will then be written to the newly created UDPSocket.
         #
         # @param [String] data
         #   The data to send through the connection.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
+        #
+        # @param [Integer] port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @param [String] local_host
+        #   The local host to bind to. Defaults to {#local_host}.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
         #
         # @yieldparam [UDPsocket] socket
-        #   The newly created UDPSocket object.
+        #   The newly created UDP socket.
         #
         # @return [UDPSocket]
-        #   The newly created UDPSocket object.
+        #   The newly created UDP socket.
         #
         # @see Network::UDP#udp_connect_and_send
         #
         # @api public
         #
-        def udp_connect_and_send(data,&block)
-          print_info "Connecting to #{host_port} ..."
+        def udp_connect_and_send(data,host=nil,port=nil,local_host=nil,local_port=nil,&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
+
+          print_info "Connecting to #{host}:#{port} ..."
           print_debug "Sending data: #{data.inspect}"
 
-          return super(data,self.host,self.port,self.local_host,self.local_port,&block)
+          return super(data,host,port,local_host,local_port,&block)
         end
 
         #
-        # Creates a UDP session to the host and port specified by the
-        # `host` and `port` parameters. If the `local_host` and `local_port`
-        # parameters are set, they will be used for the local host and port
-        # of the UDP connection.
+        # Creates a new temporary UDP socket, connected to the given host
+        # and port.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
+        #
+        # @param [Integer] port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @param [String] local_host
+        #   The local host to bind to. Defaults to {#local_host}.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @yield [socket]
         #   If a block is given, it will be passed the newly created socket.
         #   After the block has returned, the socket will then be closed.
         #
         # @yieldparam [UDPsocket] socket
-        #   The newly created UDPSocket object.
+        #   The newly created UDP socket.
         #
         # @return [nil]
         #
@@ -167,24 +221,42 @@ module Ronin
         #
         # @api public
         #
-        def udp_session(&block)
-          print_info "Connecting to #{host_port} ..."
+        def udp_session(host=nil,port=nil,local_host=nil,local_port=nil,&block)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
 
-          super(self.host,self.port,self.local_host,self.local_port,&block)
+          super(host,port,local_host,local_port,&block)
 
-          print_info "Disconnected from #{host_port}"
+          print_info "Disconnected from #{host}:#{port}"
           return nil
         end
 
         #
-        # Connects to the host and port specified by the `host` and `port`
-        # parameters, sends the given data and then disconnects.
+        # Connects to a specified host and port, sends the given data and then
+        # closes the connection.
+        #
+        # @param [String] data
+        #   The data to send through the connection.
+        #
+        # @param [String] host
+        #   The host to connect to. Defaults to {#host}.
+        #
+        # @param [Integer] port
+        #   The port to connect to. Defaults to {#port}.
+        #
+        # @param [String] local_host
+        #   The local host to bind to. Defaults to {#local_host}.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to. Defaults to {#local_port}.
         #
         # @return [true]
         #   The data was successfully sent.
         #
         # @example
-        #   buffer = "GET /" + ('A' * 4096) + "\n\r"
+        #   buffer = "GET /#{'A' * 4096}\n\r"
         #   udp_send(buffer)
         #   # => true
         #
@@ -194,19 +266,64 @@ module Ronin
         #
         # @since 0.4.0
         #
-        def udp_send(data)
-          print_info "Connecting to #{host_port} ..."
+        def udp_send(data,host=nil,port=nil,local_host=nil,local_port=nil)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
+
           print_debug "Sending data: #{data.inspect}"
 
-          super(data,self.host,self.port,self.local_host,self.local_port)
-
-          print_info "Disconnected from #{host_port}"
-          return true
+          return super(data,host,port,local_host,local_port)
         end
 
         #
-        # Creates a new UDPServer object listening on `server_host` and
-        # `server_port` parameters.
+        # Reads the banner from the service running on the given host and port.
+        #
+        # @param [String] host
+        #   The host to connect to.
+        #
+        # @param [Integer] port
+        #   The port to connect to.
+        #
+        # @param [String] local_host
+        #   The local host to bind to.
+        #
+        # @param [Integer] local_port
+        #   The local port to bind to.
+        #
+        # @yield [banner]
+        #   If a block is given, it will be passed the grabbed banner.
+        #
+        # @yieldparam [String] banner
+        #   The grabbed banner.
+        #
+        # @return [String]
+        #   The grabbed banner.
+        #
+        # @api public
+        #
+        # @since 0.6.0
+        #
+        def udp_banner(host=nil,port=nil,local_host=nil,local_port=nil)
+          host       ||= self.host
+          port       ||= self.port
+          local_host ||= self.local_host
+          local_port ||= self.local_port
+
+          print_debug "Grabbing banner from #{host}:#{port}"
+
+          return super(data,host,port,local_host,local_port)
+        end
+
+        #
+        # Creates a new UDP server listening on a given host and port.
+        #
+        # @param [Integer] port
+        #   The local port to listen on. Defaults to {#server_port}.
+        #
+        # @param [String] host
+        #   The host to bind to. Defaults to {#server_host}.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -224,15 +341,23 @@ module Ronin
         #
         # @api public
         #
-        def udp_server(&block)
-          print_info "Listening on #{server_host_port} ..."
+        def udp_server(port=nil,host=nil,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
-          return super(self.server_port,self.server_host,&block)
+          print_info "Listening on #{host}:#{port} ..."
+
+          return super(port,host,&block)
         end
 
         #
-        # Creates a new temporary UDPServer object listening on the
-        # `server_host` and `server_port` parameters.
+        # Creates a new temporary UDP server listening on a given host and port.
+        #
+        # @param [Integer] port
+        #   The local port to listen on. Defaults to {#server_port}.
+        #
+        # @param [String] host
+        #   The host to bind to. Defaults to {#server_host}.
         #
         # @yield [server]
         #   The given block will be passed the newly created server.
@@ -252,18 +377,25 @@ module Ronin
         #
         # @api public
         #
-        def udp_server_session(&block)
-          print_info "Listening on #{self.server_host_port} ..."
+        def udp_server_session(port=nil,host=nil,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
-          super(self.server_port,self.server_host,&block)
+          super(port,host,&block)
 
-          print_info "Closed #{self.server_host_port}"
+          print_info "Closed #{host}:#{port}"
           return nil
         end
 
         #
-        # Creates a new UDPServer listening on the `server_host` and
-        # `server_port` parameters, accepting messages from clients in a loop.
+        # Creates a new UDP server listening on a given host and port,
+        # accepting messages from clients in a loop.
+        #
+        # @param [Integer] port
+        #   The local port to listen on. Defaults to {#server_port}.
+        #
+        # @param [String] host
+        #   The host to bind to. Defaults to {#server_host}.
         #
         # @yield [server, (client_host, client_port), mesg]
         #   The given block will be passed the client host/port and the received
@@ -294,18 +426,22 @@ module Ronin
         #
         # @since 0.5.0
         #
-        def udp_server_loop(&block)
-          print_info "Listening on #{self.server_host_port} ..."
+        def udp_server_loop(port=nil,host=nil,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
-          super(self.server_port,self.server_host,&block)
-
-          print_info "Closed #{self.server_host_port}"
-          return nil
+          return super(port,host,&block)
         end
 
         #
-        # Creates a new UDPServer listening on the `server_host` and
-        # `server_port` parameters, accepts only one message from a client.
+        # Creates a new UDP server listening on a given host and port,
+        # accepts only one message from a client.
+        #
+        # @param [Integer] port
+        #   The local port to listen on. Defaults to {#server_port}.
+        #
+        # @param [String] host
+        #   The host to bind to. Defaults to {#server_host}.
         #
         # @yield [server, (client_host, client_port), mesg]
         #   The given block will be passed the client host/port and the received
@@ -336,44 +472,16 @@ module Ronin
         #
         # @since 0.5.0
         #
-        def udp_recv(&block)
-          print_info "Listening on #{self.server_host_port} ..."
+        def udp_recv(port=nil,host=nil,&block)
+          port ||= self.server_port
+          host ||= self.server_host
 
-          super(self.server_port,self.server_host) do |server,(host,port),mesg|
+          return super(port,host) do |server,(host,port),mesg|
             print_info "Received message from #{host}:#{port}"
             print_debug mesg
 
             yield server, [host, port], mesg if block_given?
           end
-
-          print_info "Closed #{self.server_host_port}"
-          return nil
-        end
-
-        #
-        # @deprecated
-        #   Deprecated as of 0.5.0. Use {#udp_recv} instead.
-        #
-        # @since 0.5.0
-        #
-        def udp_single_server(&block)
-          udp_recv(&block)
-        end
-
-        private
-
-        #
-        # The server host/port parameters.
-        #
-        # @return [String]
-        #   The server host/port parameters in String form.
-        #
-        # @since 0.4.0
-        #
-        # @api private
-        #
-        def server_host_port
-          "#{self.server_host}:#{self.server_port}"
         end
       end
     end

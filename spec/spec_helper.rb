@@ -1,5 +1,6 @@
 require 'rspec'
 require 'simplecov'
+require 'ronin/spec/ui/printing'
 require 'ronin/support/version'
 
 include Ronin

@@ -17,6 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/network/ip'
 require 'ronin/network/dns'
 require 'ronin/network/tcp'
 require 'ronin/network/udp'
@@ -29,3 +30,23 @@ require 'ronin/network/imap'
 require 'ronin/network/telnet'
 require 'ronin/network/ftp'
 require 'ronin/network/http'
+
+module Ronin
+  module Network
+    module_function
+
+    include IP
+    include DNS
+    include TCP
+    include UDP
+    include SSL
+    include UNIX
+    include SMTP
+    include ESMTP
+    include POP3
+    include IMAP
+    include Telnet
+    include FTP
+    include HTTP
+  end
+end
