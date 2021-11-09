@@ -70,17 +70,30 @@ describe Crypto do
 
     context "when :key is set" do
       let(:key)         { Digest::MD5.hexdigest(password) }
-      let(:cipher_text) { "O\xA2\xE7\xEF\x84\xF0\xA2\x82\x1F\x00\e\n\x9B\xE4XY\b\x9C_`\xE9\xCC\xBF\xAF\xB8\xF0\xF4\x1A\xB3\x1F)\xA1" }
+      let(:cipher_text) do
+        cipher = OpenSSL::Cipher.new('aes-256-cbc')
+        cipher.encrypt
+        cipher.key = key
+
+        cipher.update(clear_text) + cipher.final
+      end
 
       subject { described_class.cipher(name, mode: :decrypt, key: key) }
 
-      it "should set the key" do
+      it "should use the given key" do
         expect(subject.update(cipher_text) + subject.final).to eq(clear_text)
       end
 
       context "when :iv is set" do
         let(:iv)          { '0123456789abcdef' }
-        let(:cipher_text) { "L\x91Z\xF7\xC7;\xCFr\x99H\x05\xDB\xF6\x93\xB0\xCC5N`\x19f\x06m\n[\xF37\x99\xFE!\x99\xFD" }
+        let(:cipher_text) do
+          cipher = OpenSSL::Cipher.new('aes-256-cbc')
+          cipher.encrypt
+          cipher.iv  = iv
+          cipher.key = key
+
+          cipher.update(clear_text) + cipher.final
+        end
 
         subject do
           described_class.cipher(name, mode: :decrypt, key: key, iv: iv)
@@ -93,26 +106,40 @@ describe Crypto do
     end
 
     context "when :password is given" do
-      let(:cipher_text) { "\xC8+\xE3\x05\xD3\xBE\xC6d\x0F=N\x90\xB9\x87\xD8bk\x1C#0\x96`4\xBC\xB1\xB5tD\xF3\x98\xAD`" }
+      let(:password)    { "other secret" }
+      let(:cipher_text) do
+        cipher = OpenSSL::Cipher.new('aes-256-cbc')
+        cipher.encrypt
+        cipher.key = OpenSSL::Digest::SHA256.digest(password)
+
+        cipher.update(clear_text) + cipher.final
+      end
 
       subject do
         described_class.cipher(name, mode: :decrypt,  password: password)
       end
 
-      it "should default :hash to :sha1" do
+      it "should default :hash to :sha256" do
         expect(subject.update(cipher_text) + subject.final).to eq(clear_text)
       end
 
-      context "when :hash is given" do
-        let(:cipher_text) { "O\xA2\xE7\xEF\x84\xF0\xA2\x82\x1F\x00\e\n\x9B\xE4XY\b\x9C_`\xE9\xCC\xBF\xAF\xB8\xF0\xF4\x1A\xB3\x1F)\xA1" }
+      context "when :hash and :password are given" do
+        let(:hash)        { :sha256 }
+        let(:cipher_text) do
+          cipher = OpenSSL::Cipher.new('aes-256-cbc')
+          cipher.encrypt
+          cipher.key = OpenSSL::Digest::SHA256.digest(password)
+
+          cipher.update(clear_text) + cipher.final
+        end
 
         subject do
           described_class.cipher(name, mode:     :decrypt, 
-                                       hash:     :md5,
+                                       hash:     hash,
                                        password: password)
         end
 
-        it "should set the key" do
+        it "should derive the key from the hash and password" do
           expect(subject.update(cipher_text) + subject.final).to eq(clear_text)
         end
       end

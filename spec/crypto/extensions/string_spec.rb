@@ -88,24 +88,25 @@ describe String do
     end
   end
 
+  let(:cipher)   { 'aes-256-cbc' }
+  let(:password) { 'secret'      }
+
+  let(:cipher_text) do
+    cipher = OpenSSL::Cipher.new('aes-256-cbc')
+    cipher.encrypt
+    cipher.key = OpenSSL::Digest::SHA256.digest(password)
+
+    cipher.update(subject) + cipher.final
+  end
+
   describe "#encrypt" do
-    let(:cipher)   { 'aes-256-cbc' }
-    let(:password) { 'secret' }
-
-    let(:cipher_text) { "\xC8+\xE3\x05\xD3\xBE\xC6d\x0F=N\x90\xB9\x87\xD8bk\x1C#0\x96`4\xBC\xB1\xB5tD\xF3\x98\xAD`" }
-
-    it "should encrypt the String with the cipher and key" do
+    it "should encrypt the String" do
       expect(subject.encrypt(cipher, password: password)).to eq(cipher_text)
     end
   end
 
   describe "#decrypt" do
-    let(:cipher)   { 'aes-256-cbc' }
-    let(:password) { 'secret'      }
-
-    let(:cipher_text) { "\xC8+\xE3\x05\xD3\xBE\xC6d\x0F=N\x90\xB9\x87\xD8bk\x1C#0\x96`4\xBC\xB1\xB5tD\xF3\x98\xAD`" }
-
-    it "should decrypt the String with the cipher and key" do
+    it "should decrypt the String" do
       expect(cipher_text.decrypt(cipher, password: password)).to eq(subject)
     end
   end
