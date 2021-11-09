@@ -143,6 +143,8 @@ class File
   #
   # @since 0.6.0
   #
+  # @note JRuby and TruffleRuby do not yet support RMD160.
+  #
   def File.rmd160(path)
     Digest::RMD160.file(path).hexdigest
   end

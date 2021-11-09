@@ -97,6 +97,8 @@ class String
   #
   # @since 0.6.0
   #
+  # @note JRuby and TruffleRuby do not yet support RMD160.
+  #
   def rmd160
     Digest::RMD160.hexdigest(self)
   end

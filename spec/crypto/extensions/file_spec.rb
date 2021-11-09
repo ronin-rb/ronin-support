@@ -75,6 +75,8 @@ describe File do
     it "should return the RMD160 digest of itself" do
       if RUBY_ENGINE == 'jruby'
         pending "JRuby's bouncy-castle-java does not yet support RMD160"
+      elsif RUBY_ENGINE == 'truffleruby'
+        pending "TruffleRuby does not yet support RMD160"
       end
 
       expect(subject.rmd160(path)).to eq(digest_rmd160)
