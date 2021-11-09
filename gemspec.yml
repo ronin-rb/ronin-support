@@ -18,7 +18,7 @@ metadata:
   bug_tracker_uri:   https://github.com/ronin-rb/ronin-support/issues
   changelog_uri:     https://github.com/ronin-rb/ronin-support/blob/master/ChangeLog.md
 
-required_ruby_version: ">= 1.9.1"
+required_ruby_version: ">= 2.6.0"
 
 dependencies:
   net-telnet: ~> 0.1
