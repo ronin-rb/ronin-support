@@ -73,6 +73,10 @@ describe File do
     let(:digest_rmd160) { "1e76c9c004a440a285d130bc41a8d027b268afcd" }
 
     it "should return the RMD160 digest of itself" do
+      if RUBY_ENGINE == 'jruby'
+        pending "JRuby's bouncy-castle-java does not yet support RMD160"
+      end
+
       expect(subject.rmd160(path)).to eq(digest_rmd160)
     end
   end
