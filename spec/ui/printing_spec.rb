@@ -63,6 +63,10 @@ describe UI::Printing do
 
     describe "#print_info" do
       context "when $stdout is a TTY" do
+        before do
+          allow($stdout).to receive(:tty?).and_return(true)
+        end
+
         it "should print ANSI colour codes" do
           expect($stdout).to receive(:puts).with("#{green}#{bright}[-]#{bright_off} #{message}#{clear}")
 
@@ -108,6 +112,10 @@ describe UI::Printing do
         before { described_class.verbose! }
 
         context "when $stdout is a TTY" do
+          before do
+            allow($stdout).to receive(:tty?).and_return(true)
+          end
+
           it "should print ANSI colour codes" do
             expect($stdout).to receive(:puts).with("#{cyan}#{bright}[?]#{bright_off} #{message}#{clear}")
 
@@ -151,6 +159,10 @@ describe UI::Printing do
 
     describe "#print_warning" do
       context "when $stdout is a TTY" do
+        before do
+          allow($stdout).to receive(:tty?).and_return(true)
+        end
+
         it "should print ANSI colour codes" do
           expect($stdout).to receive(:puts).with("#{yellow}#{bright}[*]#{bright_off} #{message}#{clear}")
 
@@ -193,6 +205,10 @@ describe UI::Printing do
 
     describe "#print_error" do
       context "when $stdout is a TTY" do
+        before do
+          allow($stdout).to receive(:tty?).and_return(true)
+        end
+
         it "should print ANSI colour codes" do
           expect($stdout).to receive(:puts).with("#{red}#{bright}[!]#{bright_off} #{message}#{clear}")
 
@@ -225,6 +241,10 @@ describe UI::Printing do
 
     describe "#print_success" do
       context "when $stdout is a TTY" do
+        before do
+          allow($stdout).to receive(:tty?).and_return(true)
+        end
+
         it "should print ANSI colour codes" do
           expect($stdout).to receive(:puts).with("#{white}#{bright}[+] #{message}#{clear}")
 
