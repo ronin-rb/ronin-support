@@ -17,5 +17,6 @@ group :development do
 
   gem 'kramdown',           '~> 2.0'
 
-  gem 'dead_end', require: false
+  gem 'yard-spellcheck', require: false
+  gem 'dead_end',        require: false
 end
