@@ -12,14 +12,12 @@
 
 ## Description
 
-ronin-support is a support library for [ronin-rb]. ronin-support contains many
-of the convenience methods used by Ronin and additional libraries.
+ronin-support is a support library for [Ronin][ronin-rb]. ronin-support
+contains many of the convenience methods used by Ronin and additional libraries.
 
-It's like activesupport, but for hacking!
+It's like [pwntools] combined with [activesupport].
 
-[ronin-rb] is a Ruby platform for exploit development and security research.
-Ronin allows for the rapid development and distribution of code, exploits
-or payloads over many common Source-Code-Management (SCM) systems.
+[Ronin][ronin-rb] is a [Ruby] toolkit for security research and development.
 
 ## Features
 
@@ -119,6 +117,8 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [ronin-rb]: https://ronin-rb.dev
 [Everyday Ronin]: https://ronin-rb.dev/guides/everyday_ronin.html
 [Ruby]: https://www.ruby-lang.org/
+
+[pwntools]: 
 
 [chars]: https://github.com/postmodern/chars#readme
 [hexdump]: https://github.com/postmodern/hexdump#readme
