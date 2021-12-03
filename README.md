@@ -12,8 +12,8 @@
 
 ## Description
 
-ronin-support is a support library for ronin-rb. ronin-support contains many of
-the convenience methods used by Ronin and additional libraries.
+ronin-support is a support library for [ronin-rb]. ronin-support contains many
+of the convenience methods used by Ronin and additional libraries.
 
 It's like activesupport, but for hacking!
 
