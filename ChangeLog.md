@@ -60,14 +60,14 @@
 * Added {Ronin::Network::TCP#tcp_server_loop}.
 * Added {Ronin::Network::UDP#udp_open?}.
 * Added {Ronin::Network::UDP#udp_server_loop}.
-* Added {Ronin::Network::Mixins::TCP#tcp_open?}.
-* Added {Ronin::Network::Mixins::UDP#udp_open?}.
-* Added {Ronin::Network::Mixins::UDP#udp_server_loop}.
-* Added {Ronin::Network::Mixins::UDP#udp_recv}.
+* Added `Ronin::Network::Mixins::TCP#tcp_open?`.
+* Added `Ronin::Network::Mixins::UDP#udp_open?`.
+* Added `Ronin::Network::Mixins::UDP#udp_server_loop`.
+* Added `Ronin::Network::Mixins::UDP#udp_recv`.
 * Added {Ronin::Network::FTP}.
 * Added {Ronin::Network::UNIX}.
-* Added {Ronin::Network::Mixins::FTP}.
-* Added {Ronin::Network::Mixins::UNIX}.
+* Added `Ronin::Network::Mixins::FTP`.
+* Added `Ronin::Network::Mixins::UNIX`.
 * Aliased {String#escape} to `String#dump`.
 * Renamed {String#hex_unescape} to {String#unescape}.
   * Aliased {String#hex_unescape} to {String#unescape}.
@@ -147,11 +147,11 @@
   * Added `Ronin::Fuzzing.sint64`.
 * Added {Ronin::Wordlist}.
 * Added {Ronin::Network::DNS}.
-* Added {Ronin::Network::Mixins::Mixin}.
-* Added {Ronin::Network::Mixins::DNS}.
-* Added {Ronin::Network::Mixins::SSL}.
+* Added `Ronin::Network::Mixins::Mixin`.
+* Added `Ronin::Network::Mixins::DNS`.
+* Added `Ronin::Network::Mixins::SSL`.
 * Added missing {Ronin::Network::UDP#udp_send} and
-  {Ronin::Network::Mixins::UDP#udp_send} methods.
+  `Ronin::Network::Mixins::UDP#udp_send` methods.
 * Added `Ronin::UI::Output::Helpers#print_exception`.
 * Made {Regexp::HOST_NAME} case-insensitive.
 * Refactored {Regexp::IPv4} to not match invalid IPv4 addresses.
@@ -221,7 +221,7 @@
 * Added {Regexp::HOST_NAME}.
 * Added {Regexp::USER_NAME}.
 * Added {Regexp::EMAIL_ADDR}.
-* Moved `Ronin::UI::Output`, {Ronin::UI::Shell} and {Ronin::Network::Mixins}
+* Moved `Ronin::UI::Output`, {Ronin::UI::Shell} and `Ronin::Network::Mixins`
   from ronin into ronin-support.
 * Refactored {Ronin::UI::Shell} into a Class where commands are defined as
   protected methods.
@@ -229,7 +229,7 @@
 ### 0.2.0 / 2011-07-04
 
 * Require data_paths ~> 0.3.
-* Added {Ronin::Mixin}.
+* Added `Ronin::Mixin`.
 * Added {Ronin::Network::SMTP::Email#headers}.
 * Added {Integer#html_escape}.
 * Added {Integer#js_escape}.
