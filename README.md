@@ -55,7 +55,6 @@ It's like [pwntools] combined with [activesupport].
 * Provides Modules/Classes for:
   * Paths
   * Fuzzing
-  * Wordlists
   * Erb Templates
   * UI:
     * Printing

@@ -51,9 +51,9 @@
 * Added {Ronin::Fuzzing::Repeater}.
 * Added {Ronin::Fuzzing::Fuzzer}.
 * Added {Ronin::Fuzzing::Mutator}.
-* Added {Ronin::Wordlist.create}.
-* Added {Ronin::Wordlist#path} and {Ronin::Wordlist#words}.
-* Added {Ronin::Wordlist#save}.
+* Added `Ronin::Wordlist.create`.
+* Added `Ronin::Wordlist#path` and `Ronin::Wordlist#words`.
+* Added `Ronin::Wordlist#save`.
 * Added {Ronin::Network::Proxy}, {Ronin::Network::TCP::Proxy} and
   {Ronin::Network::UDP::Proxy}.
 * Added {Ronin::Network::TCP#tcp_open?}.
@@ -145,7 +145,7 @@
   * Added `Ronin::Fuzzing.sint16`.
   * Added `Ronin::Fuzzing.sint32`.
   * Added `Ronin::Fuzzing.sint64`.
-* Added {Ronin::Wordlist}.
+* Added `Ronin::Wordlist`.
 * Added {Ronin::Network::DNS}.
 * Added `Ronin::Network::Mixins::Mixin`.
 * Added `Ronin::Network::Mixins::DNS`.
