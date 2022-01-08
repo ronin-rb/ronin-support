@@ -179,7 +179,7 @@
   Header names and String values.
 * Allow {Ronin::Templates::Erb} to use `<%- -%>` syntax.
 * Alias `<<` to `write` in `Ronin::UI::Output::Helpers`.
-* Fixed bugs in {Ronin::UI::Shell}.
+* Fixed bugs in `Ronin::UI::Shell`.
 * Warning messages are printed by `Ronin::UI::Output::Helpers`, unless output
   is silenced.
 * `Ronin::UI::Output::Helpers` and {Ronin::Network} modules are included into
@@ -221,9 +221,9 @@
 * Added {Regexp::HOST_NAME}.
 * Added {Regexp::USER_NAME}.
 * Added {Regexp::EMAIL_ADDR}.
-* Moved `Ronin::UI::Output`, {Ronin::UI::Shell} and `Ronin::Network::Mixins`
+* Moved `Ronin::UI::Output`, `Ronin::UI::Shell` and `Ronin::Network::Mixins`
   from ronin into ronin-support.
-* Refactored {Ronin::UI::Shell} into a Class where commands are defined as
+* Refactored `Ronin::UI::Shell` into a Class where commands are defined as
   protected methods.
 
 ### 0.2.0 / 2011-07-04

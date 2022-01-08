@@ -59,7 +59,6 @@ It's like [pwntools] combined with [activesupport].
   * Erb Templates
   * UI:
     * Printing
-    * Custom Shells
 
 ## Examples
 
