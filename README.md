@@ -74,7 +74,6 @@ please see [Everyday Ronin].
 * [combinatorics] ~> 0.4
 * [uri-query_params] ~> 0.6
 * [data_paths] ~> 0.3
-* [parameters] ~> 0.4
 
 ## Install
 
@@ -125,4 +124,3 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [combinatorics]: https://github.com/postmodern/combinatorics#readme
 [uri-query_params]: https://github.com/postmodern/uri-query_params#readme
 [data_paths]: https://github.com/postmodern/data_paths#readme
-[parameters]: https://github.com/postmodern/parameters#readme
