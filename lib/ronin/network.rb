@@ -23,11 +23,12 @@ require 'ronin/network/tcp'
 require 'ronin/network/udp'
 require 'ronin/network/ssl'
 require 'ronin/network/unix'
-require 'ronin/network/smtp'
-require 'ronin/network/esmtp'
+require 'ronin/network/http'
+require 'ronin/network/ftp'
 require 'ronin/network/pop3'
 require 'ronin/network/imap'
-require 'ronin/network/http'
+require 'ronin/network/smtp'
+require 'ronin/network/esmtp'
 
 module Ronin
   module Network
@@ -39,10 +40,11 @@ module Ronin
     include UDP
     include SSL
     include UNIX
+    include HTTP
+    include FTP
     include SMTP
     include ESMTP
     include POP3
     include IMAP
-    include HTTP
   end
 end
