@@ -21,7 +21,6 @@ metadata:
 required_ruby_version: ">= 2.6.0"
 
 dependencies:
-  net-telnet: ~> 0.1
   chars: ~> 0.2
   hexdump: ~> 0.1
   combinatorics: ~> 0.4
