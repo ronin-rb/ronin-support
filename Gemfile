@@ -4,8 +4,11 @@ gemspec
 
 gem 'jruby-openssl',	'~> 0.7', platforms: :jruby
 
-gem 'net-telnet', '~> 0.1', group: :telnet
-gem 'net-ftp',    '~> 0.1', group: :ftp
+gem 'net-telnet', '~> 0.1', group: :net
+gem 'net-ftp',    '~> 0.1', group: :net
+gem 'net-smtp',   '~> 0.1', group: :net
+gem 'net-pop',    '~> 0.1', group: :net
+gem 'net-imap',   '~> 0.1', group: :net
 
 group :development do
   gem 'rake'
