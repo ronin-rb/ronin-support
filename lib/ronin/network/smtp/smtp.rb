@@ -23,7 +23,7 @@ require 'ronin/network/ssl'
 begin
   require 'net/smtp'
 rescue LoadError => error
-  warn "ronin/network/smtp requires the net-smtp gem be installed."
+  warn "ronin/network/smtp requires the net-smtp gem listed in the Gemfile."
   raise(error)
 end
 

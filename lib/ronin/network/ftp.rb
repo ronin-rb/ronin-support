@@ -20,7 +20,7 @@
 begin
   require 'net/ftp'
 rescue LoadError => error
-  warn "ronin/network/ftp requires the net-ftp gem be installed."
+  warn "ronin/network/ftp requires the net-ftp gem be listed in the Gemfile."
   raise(error)
 end
 

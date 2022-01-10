@@ -20,7 +20,7 @@
 begin
   require 'net/pop'
 rescue LoadError => error
-  warn "ronin/network/pop3 requires the net-pop gem be installed."
+  warn "ronin/network/pop3 requires the net-pop gem be listed in the Gemfile."
   raise(error)
 end
 
