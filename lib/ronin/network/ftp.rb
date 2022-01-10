@@ -17,7 +17,12 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'net/ftp'
+begin
+  require 'net/ftp'
+rescue LoadError => error
+  warn "ronin/network/ftp requires the net-ftp gem be installed."
+  raise(error)
+end
 
 module Ronin
   module Network

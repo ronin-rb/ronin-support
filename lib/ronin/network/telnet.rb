@@ -17,7 +17,12 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'net/telnet'
+begin
+  require 'net/telnet'
+rescue LoadError => error
+  warn "ronin/network/telnet requires the net-telnet gem be installed."
+  raise(error)
+end
 
 module Ronin
   module Network
