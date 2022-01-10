@@ -17,7 +17,12 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'net/pop'
+begin
+  require 'net/pop'
+rescue LoadError => error
+  warn "ronin/network/pop3 requires the net-pop gem be installed."
+  raise(error)
+end
 
 module Ronin
   module Network

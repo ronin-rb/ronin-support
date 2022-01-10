@@ -20,7 +20,12 @@
 require 'ronin/network/smtp/email'
 require 'ronin/network/ssl'
 
-require 'net/smtp'
+begin
+  require 'net/smtp'
+rescue LoadError => error
+  warn "ronin/network/smtp requires the net-smtp gem be installed."
+  raise(error)
+end
 
 module Ronin
   module Network

@@ -19,7 +19,12 @@
 
 require 'ronin/network/ssl'
 
-require 'net/imap'
+begin
+  require 'net/imap'
+rescue LoadError => error
+  warn "ronin/network/imap requires the net-imap gem be installed."
+  raise(error)
+end
 
 module Ronin
   module Network
