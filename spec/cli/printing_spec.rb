@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'ronin/ui/printing'
+require 'ronin/cli/printing'
 
 require 'stringio'
 
-describe UI::Printing do
+describe CLI::Printing do
   before { described_class.normal! }
 
   describe "mode" do

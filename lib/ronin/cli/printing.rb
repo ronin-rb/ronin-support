@@ -18,7 +18,7 @@
 #
 
 module Ronin
-  module UI
+  module CLI
     #
     # Printing methods.
     #

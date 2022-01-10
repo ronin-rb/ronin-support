@@ -25,13 +25,13 @@ require 'ronin/crypto'
 require 'ronin/network'
 require 'ronin/path'
 require 'ronin/templates'
-require 'ronin/ui/printing'
+require 'ronin/cli/printing'
 require 'ronin/support/version'
 
 module Ronin
   module Support
     include Network
-    include UI::Printing
+    include CLI::Printing
   end
 end
 

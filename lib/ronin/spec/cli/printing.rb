@@ -17,12 +17,12 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/ui/printing'
+require 'ronin/cli/printing'
 
 RSpec.configure do |specs|
   specs.before(:suite) do
-    if ENV['VERBOSE'] then Ronin::UI::Printing.verbose!
-    else                   Ronin::UI::Printing.silent!
+    if ENV['VERBOSE'] then Ronin::CLI::Printing.verbose!
+    else                   Ronin::CLI::Printing.silent!
     end
   end
 end
