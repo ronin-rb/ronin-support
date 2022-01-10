@@ -262,5 +262,9 @@ module Ronin
         return nil
       end
     end
+
+    module_function
+
+    include Telnet
   end
 end

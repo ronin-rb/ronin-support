@@ -160,5 +160,9 @@ module Ronin
         return nil
       end
     end
+
+    module_function
+
+    include FTP
   end
 end

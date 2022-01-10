@@ -27,8 +27,6 @@ require 'ronin/network/smtp'
 require 'ronin/network/esmtp'
 require 'ronin/network/pop3'
 require 'ronin/network/imap'
-require 'ronin/network/telnet'
-require 'ronin/network/ftp'
 require 'ronin/network/http'
 
 module Ronin
@@ -45,8 +43,6 @@ module Ronin
     include ESMTP
     include POP3
     include IMAP
-    include Telnet
-    include FTP
     include HTTP
   end
 end
