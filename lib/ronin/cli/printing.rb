@@ -17,6 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/cli/ansi'
+
 module Ronin
   module CLI
     #
@@ -25,31 +27,6 @@ module Ronin
     # @since 0.6.0
     #
     module Printing
-
-      # ANSI Green code
-      GREEN = "\e[32m"
-
-      # ANSI Cyan code
-      CYAN = "\e[36m"
-
-      # ANSI Yellow code
-      YELLOW = "\e[33m"
-
-      # ANSI Red code
-      RED = "\e[31m"
-
-      # ANSI White code
-      WHITE = "\e[37m"
-
-      # ANSI Bright code
-      BRIGHT = "\e[1m"
-
-      # ANSI Bright-Off code
-      BRIGHT_OFF = "\e[21m"
-
-      # ANSI Clear code
-      CLEAR = "\e[0m"
-
       @mode = (($DEBUG || $VERBOSE) ? :verbose : nil)
 
       #
@@ -173,12 +150,7 @@ module Ronin
 
         message = format(*arguments)
 
-        if $stdout.tty?
-          $stdout.puts "#{GREEN}#{BRIGHT}[-]#{BRIGHT_OFF} #{message}#{CLEAR}"
-        else
-          $stdout.puts "[-] #{message}"
-        end
-
+        $stdout.puts ANSI.green("#{ANSI.bold('[-]')} #{message}")
         return true
       end
 
@@ -204,12 +176,7 @@ module Ronin
 
         message = format(*arguments)
 
-        if $stdout.tty?
-          $stdout.puts "#{CYAN}#{BRIGHT}[?]#{BRIGHT_OFF} #{message}#{CLEAR}"
-        else
-          $stdout.puts "[?] #{message}"
-        end
-
+        $stdout.puts ANSI.cyan("#{ANSI.bold('[?]')} #{message}")
         return true
       end
 
@@ -238,12 +205,7 @@ module Ronin
 
         message = format(*arguments)
 
-        if $stdout.tty?
-          $stdout.puts "#{YELLOW}#{BRIGHT}[*]#{BRIGHT_OFF} #{message}#{CLEAR}"
-        else
-          $stdout.puts "[*] #{message}"
-        end
-
+        $stdout.puts ANSI.yellow("#{ANSI.bold('[*]')} #{message}")
         return true
       end
 
@@ -269,12 +231,7 @@ module Ronin
 
         message = Printing.format(*arguments)
 
-        if $stdout.tty?
-          $stdout.puts "#{RED}#{BRIGHT}[!]#{BRIGHT_OFF} #{message}#{CLEAR}"
-        else
-          $stdout.puts "[!] #{message}"
-        end
-
+        $stdout.puts ANSI.red("#{ANSI.bold('[!]')} #{message}")
         return true
       end
 
@@ -302,12 +259,7 @@ module Ronin
 
         message = Printing.format(*arguments)
 
-        if $stdout.tty?
-          $stdout.puts "#{WHITE}#{BRIGHT}[+] #{message}#{CLEAR}"
-        else
-          $stdout.puts "[+] #{message}"
-        end
-
+        $stdout.puts ANSI.white("#{ANSI.bold('[+]')} #{message}")
         return true
       end
 
