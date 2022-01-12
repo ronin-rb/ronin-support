@@ -128,8 +128,8 @@ module Ronin
       #
       # Prints an `info` message.
       #
-      # @param [Array] arguments
-      #   The arguments to print.
+      # @param [String] message
+      #   The message to print.
       #
       # @return [Boolean]
       #   Specifies whether the messages were successfully printed.
@@ -145,10 +145,8 @@ module Ronin
       #
       # @api public
       #
-      def print_info(*arguments)
+      def print_info(message)
         return false if (Printing.silent? || Printing.quiet?)
-
-        message = format(*arguments)
 
         $stdout.puts ANSI.green("#{ANSI.bold('[-]')} #{message}")
         return true
@@ -157,8 +155,8 @@ module Ronin
       #
       # Prints a `debug` message.
       #
-      # @param [Array, String] arguments
-      #   The arguments to print.
+      # @param [String] nessage
+      #   The message to print.
       #
       # @return [Boolean]
       #   Specifies whether the messages were successfully printed.
@@ -171,10 +169,8 @@ module Ronin
       #
       # @api public
       #
-      def print_debug(*arguments)
+      def print_debug(message)
         return false unless Printing.verbose?
-
-        message = format(*arguments)
 
         $stdout.puts ANSI.cyan("#{ANSI.bold('[?]')} #{message}")
         return true
@@ -183,8 +179,8 @@ module Ronin
       #
       # Prints a `warning` message.
       #
-      # @param [Array] arguments
-      #   The arguments to print.
+      # @param [String] message
+      #   The message to print.
       #
       # @return [Boolean]
       #   Specifies whether the messages were successfully printed.
@@ -200,10 +196,8 @@ module Ronin
       #
       # @api public
       #
-      def print_warning(*arguments)
+      def print_warning(message)
         return false if (Printing.silent? || Printing.quiet?)
-
-        message = format(*arguments)
 
         $stdout.puts ANSI.yellow("#{ANSI.bold('[*]')} #{message}")
         return true
@@ -212,8 +206,8 @@ module Ronin
       #
       # Prints an `error` message.
       #
-      # @param [Array] arguments
-      #   The arguments to print.
+      # @param [String] message
+      #   The message to print.
       #
       # @return [Boolean]
       #   Specifies whether the messages were successfully printed.
@@ -226,10 +220,8 @@ module Ronin
       #
       # @api public
       #
-      def print_error(*arguments)
+      def print_error(message)
         return false if Printing.silent?
-
-        message = Printing.format(*arguments)
 
         $stdout.puts ANSI.red("#{ANSI.bold('[!]')} #{message}")
         return true
@@ -238,8 +230,8 @@ module Ronin
       #
       # Prints a `success` message.
       #
-      # @param [Array] arguments
-      #   The arguments to print.
+      # @param [String] message
+      #   The message to print.
       #
       # @return [Boolean]
       #   Specifies whether the messages were successfully printed.
@@ -254,10 +246,8 @@ module Ronin
       #
       # @since 0.6.0
       #
-      def print_success(*arguments)
+      def print_success(message)
         return false if Printing.silent?
-
-        message = Printing.format(*arguments)
 
         $stdout.puts ANSI.white("#{ANSI.bold('[+]')} #{message}")
         return true
@@ -294,25 +284,6 @@ module Ronin
         end
 
         return true
-      end
-
-      protected
-
-      #
-      # Formats a message to be printed.
-      #
-      # @param [Array] arguments
-      #   The message and additional Objects to format.
-      #
-      # @return [String]
-      #   The formatted message.
-      #
-      # @api private
-      #
-      def Printing.format(*arguments)
-        unless arguments.length == 1 then arguments.first % arguments[1..-1]
-        else                              arguments.first
-        end
       end
     end
   end
