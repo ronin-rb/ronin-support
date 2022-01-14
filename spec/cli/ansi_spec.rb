@@ -53,7 +53,21 @@ describe CLI::ANSI do
   let(:str) { 'foo' }
 
   describe ".reset" do
-    it { expect(subject.reset).to eq(described_class::RESET) }
+    context "when $stdout is a TTY" do
+      before do
+        allow($stdout).to receive(:tty?).and_return(true)
+      end
+
+      it { expect(subject.reset).to eq(described_class::RESET) }
+    end
+
+    context "when $stdout is not a TTY" do
+      before { $stdout = StringIO.new }
+
+      it { expect(subject.bold).to eq('') }
+
+      after { $stdout = STDOUT }
+    end
   end
 
   describe ".bold" do
