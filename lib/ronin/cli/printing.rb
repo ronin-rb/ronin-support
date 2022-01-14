@@ -24,7 +24,7 @@ module Ronin
     #
     # Printing methods.
     #
-    # @since 0.6.0
+    # @since 1.0.0
     #
     module Printing
       @@debug = false
