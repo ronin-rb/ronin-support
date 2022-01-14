@@ -27,102 +27,33 @@ module Ronin
     # @since 0.6.0
     #
     module Printing
-      @mode = (($DEBUG || $VERBOSE) ? :verbose : nil)
+      @@debug = false
 
       #
-      # Determines if verbose printing is enabled.
+      # The current debug mode.
       #
       # @return [Boolean]
-      #   Specifies whether verbose printing is enabled.
+      #   The new debug mode.
       #
       # @api semipublic
       #
-      def self.verbose?
-        @mode == :verbose
+      def self.debug?
+        @@debug
       end
 
       #
-      # Enables verbose printing.
+      # Sets the debug mode.
       #
-      # @return [Printing]
-      #
-      # @api semipublic
-      #
-      def self.verbose!
-        @mode = :verbose
-        return self
-      end
-
-      #
-      # Determines if normal printing is enabled.
+      # @param [Boolean] debug_mode
+      #   The new debug mode.
       #
       # @return [Boolean]
-      #   Specifies whether normal printing is enabled.
+      #   The new debug mode.
       #
       # @api semipublic
       #
-      def self.normal?
-        @mode.nil?
-      end
-
-      #
-      # Enables normal printing.
-      #
-      # @return [Printing]
-      #
-      # @api semipublic
-      #
-      def self.normal!
-        @mode = nil
-        return self
-      end
-
-      #
-      # Determines if quiet printing is enabled.
-      #
-      # @return [Boolean]
-      #   Specifies whether quiet printing is enabled.
-      #
-      # @api semipublic
-      #
-      def self.quiet?
-        @mode == :quiet
-      end
-
-      #
-      # Enables quiet printing.
-      #
-      # @return [Printing]
-      #
-      # @api semipublic
-      #
-      def self.quiet!
-        @mode = :quiet
-        return self
-      end
-
-      #
-      # Determines if silent printing is enabled.
-      #
-      # @return [Boolean]
-      #   Specifies whether silent printing is enabled.
-      #
-      # @api semipublic
-      #
-      def self.silent?
-        @mode == :silent
-      end
-
-      #
-      # Enables silent printing.
-      #
-      # @return [Printing]
-      #
-      # @api semipublic
-      #
-      def self.silent!
-        @mode = :silent
-        return self
+      def self.debug=(debug_mode)
+        @@debug = debug_mode
       end
 
       #
@@ -146,8 +77,6 @@ module Ronin
       # @api public
       #
       def print_info(message)
-        return false if (Printing.silent? || Printing.quiet?)
-
         $stdout.puts ANSI.green("#{ANSI.bold('[-]')} #{message}")
         return true
       end
@@ -170,10 +99,12 @@ module Ronin
       # @api public
       #
       def print_debug(message)
-        return false unless Printing.verbose?
-
-        $stdout.puts ANSI.cyan("#{ANSI.bold('[?]')} #{message}")
-        return true
+        if Printing.debug?
+          $stdout.puts ANSI.cyan("#{ANSI.bold('[?]')} #{message}")
+          return true
+        else
+          return false
+        end
       end
 
       #
@@ -197,8 +128,6 @@ module Ronin
       # @api public
       #
       def print_warning(message)
-        return false if (Printing.silent? || Printing.quiet?)
-
         $stdout.puts ANSI.yellow("#{ANSI.bold('[*]')} #{message}")
         return true
       end
@@ -221,8 +150,6 @@ module Ronin
       # @api public
       #
       def print_error(message)
-        return false if Printing.silent?
-
         $stdout.puts ANSI.red("#{ANSI.bold('[!]')} #{message}")
         return true
       end
@@ -247,8 +174,6 @@ module Ronin
       # @since 0.6.0
       #
       def print_success(message)
-        return false if Printing.silent?
-
         $stdout.puts ANSI.white("#{ANSI.bold('[+]')} #{message}")
         return true
       end
@@ -269,18 +194,13 @@ module Ronin
       #     print_exception(e)
       #   end
       #
-      # @note
-      #   Will printing a five line backtrace if verbose printing is enabled.
-      #
       # @api public
       #
       def print_exception(exception)
         print_error "#{exception.class}: #{exception.message}"
 
-        if Printing.verbose?
-          exception.backtrace[0,5].each do |line|
-            print_error "  #{line}"
-          end
+        exception.backtrace[0,5].each do |line|
+          print_error "  #{line}"
         end
 
         return true
