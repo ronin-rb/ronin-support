@@ -57,110 +57,308 @@ describe CLI::ANSI do
   end
 
   describe ".bold" do
-    context "when given a string" do
-      it "must wrap the string with \\e[1m and \\e[22m" do
-        expect(subject.bold(str)).to eq("\e[1m#{str}\e[22m")
+    context "when $stdout is a TTY" do
+      before do
+        allow($stdout).to receive(:tty?).and_return(true)
+      end
+
+      context "when given a string" do
+        it "must wrap the string with \\e[1m and \\e[22m" do
+          expect(subject.bold(str)).to eq("\e[1m#{str}\e[22m")
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.bold).to eq("\e[1m") }
       end
     end
 
-    context "when given no arguments" do
-      it { expect(subject.bold).to eq("\e[1m") }
+    context "when $stdout is not a TTY" do
+      before { $stdout = StringIO.new }
+
+      context "when given a string" do
+        it "must return the String" do
+          expect(subject.bold(str)).to eq(str)
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.bold).to eq('') }
+      end
+
+      after { $stdout = STDOUT }
     end
   end
 
   describe ".black" do
-    context "when given a string" do
-      it "must wrap the string with \\e[30m and \\e[39m" do
-        expect(subject.black(str)).to eq("\e[30m#{str}\e[39m")
+    context "when $stdout is a TTY" do
+      before do
+        allow($stdout).to receive(:tty?).and_return(true)
+      end
+
+      context "when given a string" do
+        it "must wrap the string with \\e[30m and \\e[39m" do
+          expect(subject.black(str)).to eq("\e[30m#{str}\e[39m")
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.black).to eq("\e[30m") }
       end
     end
 
-    context "when given no arguments" do
-      it { expect(subject.black).to eq("\e[30m") }
+    context "when $stdout is not a TTY" do
+      before { $stdout = StringIO.new }
+
+      context "when given a string" do
+        it "must return the String" do
+          expect(subject.black(str)).to eq(str)
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.black).to eq('') }
+      end
+
+      after { $stdout = STDOUT }
     end
   end
 
   describe ".red" do
-    context "when given a string" do
-      it "must wrap the string with \\e[31m and \\e[39m" do
-        expect(subject.red(str)).to eq("\e[31m#{str}\e[39m")
+    context "when $stdout is a TTY" do
+      before do
+        allow($stdout).to receive(:tty?).and_return(true)
+      end
+
+      context "when given a string" do
+        it "must wrap the string with \\e[31m and \\e[39m" do
+          expect(subject.red(str)).to eq("\e[31m#{str}\e[39m")
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.red).to eq("\e[31m") }
       end
     end
 
-    context "when given no arguments" do
-      it { expect(subject.red).to eq("\e[31m") }
+    context "when $stdout is not a TTY" do
+      before { $stdout = StringIO.new }
+
+      context "when given a string" do
+        it "must return the String" do
+          expect(subject.red(str)).to eq(str)
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.red).to eq('') }
+      end
+
+      after { $stdout = STDOUT }
     end
   end
 
   describe ".green" do
-    context "when given a string" do
-      it "must wrap the string with \\e[32m and \\e[39m" do
-        expect(subject.green(str)).to eq("\e[32m#{str}\e[39m")
+    context "when $stdout is a TTY" do
+      before do
+        allow($stdout).to receive(:tty?).and_return(true)
+      end
+
+      context "when given a string" do
+        it "must wrap the string with \\e[32m and \\e[39m" do
+          expect(subject.green(str)).to eq("\e[32m#{str}\e[39m")
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.green).to eq("\e[32m") }
       end
     end
 
-    context "when given no arguments" do
-      it { expect(subject.green).to eq("\e[32m") }
+    context "when $stdout is not a TTY" do
+      before { $stdout = StringIO.new }
+
+      context "when given a string" do
+        it "must return the String" do
+          expect(subject.green(str)).to eq(str)
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.green).to eq('') }
+      end
+
+      after { $stdout = STDOUT }
     end
   end
 
   describe ".yellow" do
-    context "when given a string" do
-      it "must wrap the string with \\e[33m and \\e[39m" do
-        expect(subject.yellow(str)).to eq("\e[33m#{str}\e[39m")
+    context "when $stdout is a TTY" do
+      before do
+        allow($stdout).to receive(:tty?).and_return(true)
+      end
+
+      context "when given a string" do
+        it "must wrap the string with \\e[33m and \\e[39m" do
+          expect(subject.yellow(str)).to eq("\e[33m#{str}\e[39m")
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.yellow).to eq("\e[33m") }
       end
     end
 
-    context "when given no arguments" do
-      it { expect(subject.yellow).to eq("\e[33m") }
+    context "when $stdout is not a TTY" do
+      before { $stdout = StringIO.new }
+
+      context "when given a string" do
+        it "must return the String" do
+          expect(subject.yellow(str)).to eq(str)
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.yellow).to eq('') }
+      end
+
+      after { $stdout = STDOUT }
     end
   end
 
   describe ".blue" do
-    context "when given a string" do
-      it "must wrap the string with \\e[34m and \\e[39m" do
-        expect(subject.blue(str)).to eq("\e[34m#{str}\e[39m")
+    context "when $stdout is a TTY" do
+      before do
+        allow($stdout).to receive(:tty?).and_return(true)
+      end
+
+      context "when given a string" do
+        it "must wrap the string with \\e[34m and \\e[39m" do
+          expect(subject.blue(str)).to eq("\e[34m#{str}\e[39m")
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.blue).to eq("\e[34m") }
       end
     end
 
-    context "when given no arguments" do
-      it { expect(subject.blue).to eq("\e[34m") }
+    context "when $stdout is not a TTY" do
+      before { $stdout = StringIO.new }
+
+      context "when given a string" do
+        it "must return the String" do
+          expect(subject.blue(str)).to eq(str)
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.blue).to eq('') }
+      end
+
+      after { $stdout = STDOUT }
     end
   end
 
   describe ".magenta" do
-    context "when given a string" do
-      it "must wrap the string with \\e[35m and \\e[39m" do
-        expect(subject.magenta(str)).to eq("\e[35m#{str}\e[39m")
+    context "when $stdout is a TTY" do
+      before do
+        allow($stdout).to receive(:tty?).and_return(true)
+      end
+
+      context "when given a string" do
+        it "must wrap the string with \\e[35m and \\e[39m" do
+          expect(subject.magenta(str)).to eq("\e[35m#{str}\e[39m")
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.magenta).to eq("\e[35m") }
       end
     end
 
-    context "when given no arguments" do
-      it { expect(subject.magenta).to eq("\e[35m") }
+    context "when $stdout is not a TTY" do
+      before { $stdout = StringIO.new }
+
+      context "when given a string" do
+        it "must return the String" do
+          expect(subject.magenta(str)).to eq(str)
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.magenta).to eq('') }
+      end
+
+      after { $stdout = STDOUT }
     end
   end
 
   describe ".cyan" do
-    context "when given a string" do
-      it "must wrap the string with \\e[36m and \\e[39m" do
-        expect(subject.cyan(str)).to eq("\e[36m#{str}\e[39m")
+    context "when $stdout is a TTY" do
+      before do
+        allow($stdout).to receive(:tty?).and_return(true)
+      end
+
+      context "when given a string" do
+        it "must wrap the string with \\e[36m and \\e[39m" do
+          expect(subject.cyan(str)).to eq("\e[36m#{str}\e[39m")
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.cyan).to eq("\e[36m") }
       end
     end
 
-    context "when given no arguments" do
-      it { expect(subject.cyan).to eq("\e[36m") }
+    context "when $stdout is not a TTY" do
+      before { $stdout = StringIO.new }
+
+      context "when given a string" do
+        it "must return the String" do
+          expect(subject.cyan(str)).to eq(str)
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.cyan).to eq('') }
+      end
+
+      after { $stdout = STDOUT }
     end
   end
 
   describe ".white" do
-    context "when given a string" do
-      it "must wrap the string with \\e[37m and \\e[39m" do
-        expect(subject.white(str)).to eq("\e[37m#{str}\e[39m")
+    context "when $stdout is a TTY" do
+      before do
+        allow($stdout).to receive(:tty?).and_return(true)
+      end
+
+      context "when given a string" do
+        it "must wrap the string with \\e[37m and \\e[39m" do
+          expect(subject.white(str)).to eq("\e[37m#{str}\e[39m")
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.white).to eq("\e[37m") }
       end
     end
 
-    context "when given no arguments" do
-      it { expect(subject.white).to eq("\e[37m") }
+    context "when $stdout is not a TTY" do
+      before { $stdout = StringIO.new }
+
+      context "when given a string" do
+        it "must return the String" do
+          expect(subject.white(str)).to eq(str)
+        end
+      end
+
+      context "when given no arguments" do
+        it { expect(subject.white).to eq('') }
+      end
+
+      after { $stdout = STDOUT }
     end
   end
 end
