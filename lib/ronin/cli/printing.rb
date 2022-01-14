@@ -177,34 +177,6 @@ module Ronin
         $stdout.puts ANSI.white("#{ANSI.bold('[+]')} #{message}")
         return true
       end
-
-      #
-      # Prints an exception.
-      #
-      # @param [Exception] exception
-      #   The exception to print.
-      #
-      # @return [Boolean]
-      #   Specifies whether the exception was printed or not.
-      #
-      # @example
-      #   begin
-      #     socket.write(buffer)
-      #   rescue => e
-      #     print_exception(e)
-      #   end
-      #
-      # @api public
-      #
-      def print_exception(exception)
-        print_error "#{exception.class}: #{exception.message}"
-
-        exception.backtrace[0,5].each do |line|
-          print_error "  #{line}"
-        end
-
-        return true
-      end
     end
   end
 end

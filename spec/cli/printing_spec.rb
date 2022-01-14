@@ -179,49 +179,4 @@ describe CLI::Printing do
       after { $stdout = STDOUT }
     end
   end
-
-  describe "#print_exception" do
-    let(:exception_class) { RuntimeError }
-    let(:message)         { "error!" }
-
-    let(:backtrace) do
-      [
-        "/usr/share/ruby/irb/workspace.rb:80:in `eval'",
-        "/usr/share/ruby/irb/workspace.rb:80:in `evaluate'",
-        "/usr/share/ruby/irb/context.rb:254:in `evaluate'",
-        "/usr/share/ruby/irb.rb:159:in `block (2 levels) in eval_input'",
-        "/usr/share/ruby/irb.rb:273:in `signal_status'",
-        "/usr/share/ruby/irb.rb:156:in `block in eval_input'",
-        "/usr/share/ruby/irb/ruby-lex.rb:243:in `block (2 levels) in each_top_level_statement'",
-        "/usr/share/ruby/irb/ruby-lex.rb:229:in `loop'",
-        "/usr/share/ruby/irb/ruby-lex.rb:229:in `block in each_top_level_statement'",
-        "/usr/share/ruby/irb/ruby-lex.rb:228:in `catch'",
-        "/usr/share/ruby/irb/ruby-lex.rb:228:in `each_top_level_statement'",
-        "/usr/share/ruby/irb.rb:155:in `eval_input'",
-        "/usr/share/ruby/irb.rb:70:in `block in start'",
-        "/usr/share/ruby/irb.rb:69:in `catch'",
-        "/usr/share/ruby/irb.rb:69:in `start'",
-        "/usr/bin/irb:12:in `<main>'"
-      ]
-    end
-
-    let(:exception) do
-      begin
-        raise(exception_class,message,backtrace)
-      rescue => exception
-        exception
-      end
-    end
-
-    it "should print the exception class and message" do
-      expect(subject).to receive(:print_error).with("#{exception_class}: #{message}")
-      expect(subject).to receive(:print_error).with("  #{backtrace[0]}")
-      expect(subject).to receive(:print_error).with("  #{backtrace[1]}")
-      expect(subject).to receive(:print_error).with("  #{backtrace[2]}")
-      expect(subject).to receive(:print_error).with("  #{backtrace[3]}")
-      expect(subject).to receive(:print_error).with("  #{backtrace[4]}")
-
-      subject.print_exception(exception)
-    end
-  end
 end
