@@ -25,4 +25,4 @@ require 'ronin/extensions/resolv'
 require 'ronin/extensions/kernel'
 
 require 'hexdump/core_ext'
-require 'uri/query_params/extensions'
+require 'uri/query_params/core_ext'

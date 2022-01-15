@@ -70,7 +70,7 @@ please see [Everyday Ronin].
 * [chars] ~> 0.2
 * [hexdump] ~> 1.0
 * [combinatorics] ~> 0.4
-* [uri-query_params] ~> 0.6
+* [uri-query_params] ~> 0.8
 * [data_paths] ~> 0.3
 
 ## Install
