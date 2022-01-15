@@ -68,7 +68,7 @@ please see [Everyday Ronin].
 
 * [Ruby] >= 1.9.1
 * [chars] ~> 0.2
-* [hexdump] ~> 0.1
+* [hexdump] ~> 1.0
 * [combinatorics] ~> 0.4
 * [uri-query_params] ~> 0.6
 * [data_paths] ~> 0.3

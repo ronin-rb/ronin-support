@@ -23,4 +23,4 @@ require 'ronin/formatting/extensions/binary/string'
 require 'ronin/formatting/extensions/binary/array'
 require 'ronin/formatting/extensions/binary/file'
 
-require 'hexdump/extensions'
+require 'hexdump/core_ext'
