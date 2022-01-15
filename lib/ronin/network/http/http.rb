@@ -18,7 +18,6 @@
 #
 
 require 'ronin/network/http/exceptions/unknown_request'
-require 'ronin/network/http/proxy'
 require 'ronin/network/ssl'
 
 require 'uri/query_params'
@@ -39,43 +38,44 @@ module Ronin
       #
       # The Ronin HTTP proxy to use.
       #
-      # @return [Proxy]
+      # @return [URI::HTTP, nil]
       #   The Ronin HTTP proxy.
       #
       # @note
       #   If the `HTTP_PROXY` environment variable is specified, it will
       #   be used as the default value.
       #
-      # @see Proxy.new
-      # @see Proxy.parse
-      #
       # @api public
       #
       def self.proxy
         @proxy ||= if ENV['HTTP_PROXY']
-                     Proxy.parse(ENV['HTTP_PROXY'])
-                   else
-                     Proxy.new
+                     URI.parse(ENV['HTTP_PROXY'])
                    end
       end
 
       #
       # Sets the Ronin HTTP proxy to use.
       #
-      # @param [Proxy, URI::HTTP, Hash, String] new_proxy
+      # @param [URI::HTTP, String, nil] new_proxy
       #   The new proxy information to use.
       #
-      # @return [Proxy]
+      # @return [URI::HTTP, nil]
       #   The new proxy.
       #
       # @raise [ArgumentError]
-      #   The given proxy information was not a {Proxy}, `URI::HTTP`,
-      #   `Hash` or {String}.
+      #   The given proxy information was not a `URI::HTTP`, `String`, or
+      #   `nil`.
       #
       # @api public
       #
       def self.proxy=(new_proxy)
-        @proxy = Proxy.create(new_proxy)
+        @proxy = case new_proxy
+                 when URI::HTTP then new_proxy
+                 when String    then URI.parse(new_proxy)
+                 when nil       then nil
+                 else
+                   raise(ArgumentError,"proxy must be a URI::HTTP, String, or nil")
+                 end
       end
 
       #
@@ -158,11 +158,14 @@ module Ronin
       # @option options [String] :path ('/')
       #   The path to request.
       #
-      # @option options [String, Hash] :proxy (HTTP.proxy)
+      # @option options [URI::HTTP, String, nil] :proxy (HTTP.proxy)
       #   The Proxy information.
       #
       # @return [Hash]
       #   The expanded version of options.
+      #
+      # @raise [ArgumentError]
+      #   The `:proxy` option was not a `URI::HTTP`, `String`, or `nil`.
       #
       # @api private
       #
@@ -181,7 +184,13 @@ module Ronin
         end
 
         new_options[:proxy] = if new_options.has_key?(:proxy)
-                                HTTP::Proxy.create(new_options[:proxy])
+                                case options[:proxy]
+                                when URI::HTTP then options[:proxy]
+                                when String    then URI.parse(options[:proxy])
+                                when nil       then nil
+                                else
+                                  raise(ArgumentError,":proxy option must be a URI::HTTP, String, or nil")
+                                end
                               else
                                 HTTP.proxy
                               end
@@ -350,7 +359,7 @@ module Ronin
       # @option options [Integer] :port (Net::HTTP.default_port)
       #   The port the HTTP server is listening on.
       #
-      # @option options [String, Hash] :proxy (HTTP.proxy)
+      # @option options [URI::HTTP, String, nil] :proxy (HTTP.proxy)
       #   A Hash of proxy settings to use when connecting to the HTTP server.
       #
       # @option options [String] :user
@@ -386,12 +395,8 @@ module Ronin
 
         http = if proxy
                  Net::HTTP.new(
-                   host,
-                   port,
-                   (proxy[:host].to_s if proxy[:host]),
-                   proxy[:port],
-                   proxy[:user],
-                   proxy[:password]
+                   host, port,
+                   proxy.host, proxy.port, proxy.user, proxy.password
                  )
                else
                  Net::HTTP.new(host,port)
@@ -436,7 +441,7 @@ module Ronin
       # @option options [String] :password
       #   The password to authenticate with when connecting to the HTTP server.
       #
-      # @option options [String, Hash] :proxy (HTTP.proxy)
+      # @option options [URI::HTTP, String, nil] :proxy (HTTP.proxy)
       #   A Hash of proxy settings to use when connecting to the HTTP server.
       #
       # @option options [Boolean, Hash] :ssl

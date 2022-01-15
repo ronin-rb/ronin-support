@@ -4,7 +4,7 @@ require 'ronin/network/http'
 describe Network::HTTP do
   describe "proxy" do
     it "should be disabled by default" do
-      expect(subject.proxy).not_to be_enabled
+      expect(subject.proxy).to be(nil)
     end
   end
 
@@ -109,24 +109,25 @@ describe Network::HTTP do
       options = {host: 'example.com', proxy: nil}
       expanded_options = subject.normalize_options(options)
 
-      expect(expanded_options[:proxy][:host]).to be_nil
-      expect(expanded_options[:proxy][:port]).to be_nil
+      expect(expanded_options[:proxy]).to be(nil)
     end
 
-    it "should not modify :proxy if it is a HTTP::Proxy object" do
-      proxy = Network::HTTP::Proxy.new(host: 'proxy.com', port: 8181)
+    it "should not modify :proxy if it is a URI::HTTP object" do
+      proxy   = URI::HTTP.build(host: 'proxy.com', port: 8181)
       options = {host: 'example.com', proxy: proxy}
+
       expanded_options = subject.normalize_options(options)
 
-      expect(expanded_options[:proxy]).to eq(proxy)
+      expect(expanded_options[:proxy]).to be(proxy)
     end
 
-    it "should parse the :proxy option" do
+    it "should parse the :proxy option if it is a String object" do
       options = {host: 'example.com', proxy: 'http://proxy.com:8181'}
       expanded_options = subject.normalize_options(options)
 
-      expect(expanded_options[:proxy][:host]).to eq('proxy.com')
-      expect(expanded_options[:proxy][:port]).to eq(8181)
+      expect(expanded_options[:proxy]).to be_kind_of(URI::HTTP)
+      expect(expanded_options[:proxy].host).to eq('proxy.com')
+      expect(expanded_options[:proxy].port).to eq(8181)
     end
 
     it "should expand the :url option" do
