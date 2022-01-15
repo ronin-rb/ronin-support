@@ -18,7 +18,7 @@
 #
 
 require 'ronin/fuzzing'
-require 'ronin/extensions/regexp'
+require 'ronin/core_ext/regexp'
 
 require 'strscan'
 

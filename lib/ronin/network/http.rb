@@ -19,4 +19,4 @@
 
 require 'ronin/network/http/exceptions'
 require 'ronin/network/http/http'
-require 'ronin/network/http/extensions'
+require 'ronin/network/http/core_ext'

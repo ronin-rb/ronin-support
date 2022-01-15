@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/formatting/extensions/xml/integer'
+require 'ronin/formatting/core_ext/xml/integer'
 
 describe Integer do
   subject { 0x26 }

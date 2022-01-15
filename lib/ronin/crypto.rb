@@ -17,7 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/crypto/extensions'
+require 'ronin/crypto/core_ext'
 
 begin
   require 'openssl'

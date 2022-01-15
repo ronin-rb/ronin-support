@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/formatting/extensions/js/integer'
+require 'ronin/formatting/core_ext/js/integer'
 
 describe Integer do
   subject { 0x26 }

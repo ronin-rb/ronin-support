@@ -20,7 +20,7 @@
 require 'ronin/fuzzing/fuzzer'
 require 'ronin/fuzzing/mutator'
 require 'ronin/fuzzing/repeater'
-require 'ronin/fuzzing/extensions'
+require 'ronin/fuzzing/core_ext'
 
 require 'set'
 

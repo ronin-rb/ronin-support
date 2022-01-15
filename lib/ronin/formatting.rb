@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/formatting/extensions'
+require 'ronin/formatting/core_ext'
 require 'ronin/formatting/binary'
 require 'ronin/formatting/text'
 require 'ronin/formatting/http'
