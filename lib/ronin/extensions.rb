@@ -17,7 +17,6 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/extensions/meta'
 require 'ronin/extensions/string'
 require 'ronin/extensions/regexp'
 require 'ronin/extensions/file'
