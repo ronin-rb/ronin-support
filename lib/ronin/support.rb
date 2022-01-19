@@ -33,5 +33,3 @@ module Ronin
     include CLI::Printing
   end
 end
-
-include Ronin::Support
