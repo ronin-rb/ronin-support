@@ -1,12 +1,12 @@
 require 'spec_helper'
-require 'ronin/templates/template'
+require 'ronin/support/templates/template'
 
 require 'templates/helpers/data'
 
 describe Templates::Template do
   class ExampleTemplate
 
-    include Ronin::Templates::Template
+    include Ronin::Support::Templates::Template
 
     def enter_example_template(&block)
       enter_template(File.join('templates','example.erb'),&block)

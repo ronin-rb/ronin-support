@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/formatting/core_ext/xml/string'
+require 'ronin/support/formatting/core_ext/xml/string'
 
 describe String do
   subject { "one & two" }

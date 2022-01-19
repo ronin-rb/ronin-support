@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/network/smtp'
+require 'ronin/support/network/smtp'
 
 describe Network::SMTP do
   describe "default_port" do

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/binary/struct'
+require 'ronin/support/binary/struct'
 
 describe Binary::Struct do
   describe "layout" do
@@ -99,7 +99,7 @@ describe Binary::Struct do
     subject do
       struct = Class.new(described_class)
       struct.class_eval do
-        nested_struct = Class.new(Ronin::Binary::Struct)
+        nested_struct = Class.new(Ronin::Support::Binary::Struct)
         nested_struct.class_eval do
           layout :int, :uint
         end
@@ -251,7 +251,7 @@ describe Binary::Struct do
       subject do
         struct = Class.new(described_class)
         struct.class_eval do
-          nested_struct = Class.new(Ronin::Binary::Struct)
+          nested_struct = Class.new(Ronin::Support::Binary::Struct)
           nested_struct.class_eval do
             layout :int, :uint
           end
@@ -279,7 +279,7 @@ describe Binary::Struct do
       subject do
         struct = Class.new(described_class)
         struct.class_eval do
-          nested_struct = Class.new(Ronin::Binary::Struct)
+          nested_struct = Class.new(Ronin::Support::Binary::Struct)
           nested_struct.class_eval do
             layout :int, :uint
           end
@@ -307,7 +307,7 @@ describe Binary::Struct do
     subject do
       struct_class = Class.new(described_class)
       struct_class.class_eval do
-        nested_struct_class = Class.new(Ronin::Binary::Struct)
+        nested_struct_class = Class.new(Ronin::Support::Binary::Struct)
         nested_struct_class.class_eval do
           layout :int, :int
         end
@@ -367,7 +367,7 @@ describe Binary::Struct do
       subject do
         struct = Class.new(described_class)
         struct.class_eval do
-          nested_struct = Class.new(Ronin::Binary::Struct)
+          nested_struct = Class.new(Ronin::Support::Binary::Struct)
           nested_struct.class_eval do
             layout :int, :uint32_le
           end
@@ -395,7 +395,7 @@ describe Binary::Struct do
       subject do
         struct = Class.new(described_class)
         struct.class_eval do
-          nested_struct = Class.new(Ronin::Binary::Struct)
+          nested_struct = Class.new(Ronin::Support::Binary::Struct)
           nested_struct.class_eval do
             layout :int, :uint32_le
           end
@@ -446,7 +446,7 @@ describe Binary::Struct do
       subject do
         struct = Class.new(described_class)
         struct.class_eval do
-          nested_struct = Class.new(Ronin::Binary::Struct)
+          nested_struct = Class.new(Ronin::Support::Binary::Struct)
           nested_struct.class_eval do
             layout :int, :uint32_le
           end
@@ -472,7 +472,7 @@ describe Binary::Struct do
       subject do
         struct = Class.new(described_class)
         struct.class_eval do
-          nested_struct = Class.new(Ronin::Binary::Struct)
+          nested_struct = Class.new(Ronin::Support::Binary::Struct)
           nested_struct.class_eval do
             layout :int, :uint32_le
           end

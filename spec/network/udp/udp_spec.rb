@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/network/udp'
+require 'ronin/support/network/udp'
 
 require 'resolv'
 

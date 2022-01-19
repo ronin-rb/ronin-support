@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/network/telnet'
+require 'ronin/support/network/telnet'
 
 describe Network::Telnet do
   describe "default_port" do

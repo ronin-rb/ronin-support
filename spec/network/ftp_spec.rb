@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/network/ftp'
+require 'ronin/support/network/ftp'
 
 describe Network::FTP do
   describe "default_port" do

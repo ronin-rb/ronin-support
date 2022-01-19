@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/core_ext/file'
+require 'ronin/support/core_ext/file'
 
 require 'tempfile'
 

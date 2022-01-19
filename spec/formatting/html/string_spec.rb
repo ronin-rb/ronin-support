@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/formatting/core_ext/html/string'
+require 'ronin/support/formatting/core_ext/html/string'
 
 describe String do
   subject { "one & two" }

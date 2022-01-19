@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/formatting/core_ext/http/string'
+require 'ronin/support/formatting/core_ext/http/string'
 
 describe String do
   subject { "hello" }

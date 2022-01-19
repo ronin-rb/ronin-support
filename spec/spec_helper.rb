@@ -2,7 +2,7 @@ require 'rspec'
 require 'simplecov'
 require 'ronin/support/version'
 
-include Ronin
+include Ronin::Support
 
 SimpleCov.start
 

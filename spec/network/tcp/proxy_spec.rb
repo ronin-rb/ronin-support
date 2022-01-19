@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/network/tcp/proxy'
+require 'ronin/support/network/tcp/proxy'
 
 describe Network::TCP::Proxy, :network => true do
   let(:port)   { 1337                    }

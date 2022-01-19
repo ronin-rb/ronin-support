@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/core_ext/regexp'
+require 'ronin/support/core_ext/regexp'
 
 describe Regexp do
   describe "WORD" do

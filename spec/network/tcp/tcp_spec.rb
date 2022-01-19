@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/network/tcp'
+require 'ronin/support/network/tcp'
 
 require 'resolv'
 

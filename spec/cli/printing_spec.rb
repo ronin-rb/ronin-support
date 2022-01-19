@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/cli/printing'
+require 'ronin/support/cli/printing'
 
 require 'stringio'
 

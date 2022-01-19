@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'ronin/templates/erb'
+require 'ronin/support/templates/erb'
 
 describe Templates::Erb do
   class ErbTemplate
 
-    include Ronin::Templates::Erb
+    include Ronin::Support::Templates::Erb
 
     attr_accessor :x, :y
 

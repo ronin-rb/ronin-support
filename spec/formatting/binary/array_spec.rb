@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/formatting/core_ext/binary/array'
+require 'ronin/support/formatting/core_ext/binary/array'
 
 describe Array do
   subject { [0x1234, "hello"] }

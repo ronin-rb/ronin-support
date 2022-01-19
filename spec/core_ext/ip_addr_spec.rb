@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/core_ext/ip_addr'
+require 'ronin/support/core_ext/ip_addr'
 
 describe IPAddr do
   describe "extract" do

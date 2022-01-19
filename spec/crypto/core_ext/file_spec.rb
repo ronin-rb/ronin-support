@@ -1,7 +1,7 @@
 # encoding: US-ASCII
 
 require 'spec_helper'
-require 'ronin/crypto/core_ext/file'
+require 'ronin/support/crypto/core_ext/file'
 
 require 'tempfile'
 

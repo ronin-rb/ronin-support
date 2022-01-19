@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/network/imap'
+require 'ronin/support/network/imap'
 
 describe Network::IMAP do
   describe "default_port" do

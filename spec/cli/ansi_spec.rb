@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/cli/ansi'
+require 'ronin/support/cli/ansi'
 
 describe CLI::ANSI do
   describe "RESET" do

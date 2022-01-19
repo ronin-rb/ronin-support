@@ -1,7 +1,7 @@
 # encoding: US-ASCII
 
 require 'spec_helper'
-require 'ronin/binary/template'
+require 'ronin/support/binary/template'
 
 describe Binary::Template do
   describe "TYPES" do

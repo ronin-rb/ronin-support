@@ -9,34 +9,34 @@
     {String#uri_decode}, and {Integer#uri_encode} now that `URI.encode`,
     `URI.decode`, `URI.escape`, `URI.unescape` have all been removed in
     Ruby 3.0.
-* Deprecated {Ronin::Network::Telnet}.
-* Allow {Ronin::Path#initialize} to accept a separator argument.
-* No longer bind new sockets to `0.0.0.0` by default in {Ronin::Network::TCP}
-  and {Ronin::Network::UDP}. `0.0.0.0` is the IPv4 Any address, which makes the
+* Deprecated `Ronin::Network::Telnet`.
+* Allow `Ronin::Path#initialize` to accept a separator argument.
+* No longer bind new sockets to `0.0.0.0` by default in `Ronin::Network::TCP`
+  and `Ronin::Network::UDP`. `0.0.0.0` is the IPv4 Any address, which makes the
   socket IPv4 and thus incompatible with IPv6 hosts.
-* Fixed a bug in {Ronin::Network::UDP#udp_open?} where it would always timeout
+* Fixed a bug in `Ronin::Network::UDP#udp_open?` where it would always timeout
   and return `nil`, even when the UDP port was open.
 * Filter out `nil` or empty `:query` options passed to
-  {Ronin::Network::HTTP.request}.
+  `Ronin::Network::HTTP.request`.
 * No longer append the query String to the path in
-  {Ronin::Network::HTTP.expand_url}.
+  `Ronin::Network::HTTP.expand_url`.
 * Support escaping `"\`"` tick-marks in {String#sql_escape}.
-* Allow setting the request body or form-data in {Ronin::Network::HTTP.request},
+* Allow setting the request body or form-data in `Ronin::Network::HTTP.request`,
   even for request types that typically do not use a body or form-data.
 
 [net-telnet]: https://github.com/ruby/net-telnet
 
 ### 0.5.1 / 2012-06-29
 
-* Added {Ronin::Binary::Template#inspect}.
-* Added the `:passive` option to {Ronin::Network::FTP#ftp_connect}.
+* Added `Ronin::Binary::Template#inspect`.
+* Added the `:passive` option to `Ronin::Network::FTP#ftp_connect`.
 * Forgot to require `ronin/formatting/extensions/binary/array`.
 * Fixed a bug where {Array#pack} would not accept tuples (ex: `[:uint8, 2]`).
 * Fixed a bug in `String#sql_decode` where `"\\'\\'"` would incorrectly be
   converted to `'"'`.
 * Ensure that {Integer#pack} only accepts one argument.
 * Have {String#hex_unescape} to decode every two characters.
-* Enable passive-mode by default in {Ronin::Network::FTP#ftp_connect}.
+* Enable passive-mode by default in `Ronin::Network::FTP#ftp_connect`.
 
 ### 0.5.0 / 2012-06-16
 
@@ -44,9 +44,9 @@
 * Added {Float#pack}.
 * Added {Regexp::WORD}.
 * Added {Regexp::PHONE_NUMBER}.
-* Added {Ronin::Binary::Template}.
-* Added {Ronin::Binary::Struct}.
-* Added {Ronin::Binary::Hexdump::Parser}.
+* Added `Ronin::Binary::Template`.
+* Added `Ronin::Binary::Struct`.
+* Added `Ronin::Binary::Hexdump::Parser`.
 * Added `Ronin::Fuzzing::Template`.
 * Added `Ronin::Fuzzing::Repeater`.
 * Added `Ronin::Fuzzing::Fuzzer`.
@@ -54,35 +54,35 @@
 * Added `Ronin::Wordlist.create`.
 * Added `Ronin::Wordlist#path` and `Ronin::Wordlist#words`.
 * Added `Ronin::Wordlist#save`.
-* Added {Ronin::Network::Proxy}, {Ronin::Network::TCP::Proxy} and
-  {Ronin::Network::UDP::Proxy}.
-* Added {Ronin::Network::TCP#tcp_open?}.
-* Added {Ronin::Network::TCP#tcp_server_loop}.
-* Added {Ronin::Network::UDP#udp_open?}.
-* Added {Ronin::Network::UDP#udp_server_loop}.
+* Added `Ronin::Network::Proxy`, `Ronin::Network::TCP::Proxy` and
+  `Ronin::Network::UDP::Proxy`.
+* Added `Ronin::Network::TCP#tcp_open?`.
+* Added `Ronin::Network::TCP#tcp_server_loop`.
+* Added `Ronin::Network::UDP#udp_open?`.
+* Added `Ronin::Network::UDP#udp_server_loop`.
 * Added `Ronin::Network::Mixins::TCP#tcp_open?`.
 * Added `Ronin::Network::Mixins::UDP#udp_open?`.
 * Added `Ronin::Network::Mixins::UDP#udp_server_loop`.
 * Added `Ronin::Network::Mixins::UDP#udp_recv`.
-* Added {Ronin::Network::FTP}.
-* Added {Ronin::Network::UNIX}.
+* Added `Ronin::Network::FTP`.
+* Added `Ronin::Network::UNIX`.
 * Added `Ronin::Network::Mixins::FTP`.
 * Added `Ronin::Network::Mixins::UNIX`.
 * Aliased {String#escape} to `String#dump`.
 * Renamed {String#hex_unescape} to {String#unescape}.
   * Aliased {String#hex_unescape} to {String#unescape}.
 * Renamed `Ronin::Network::TCP#tcp_single_server` to
-  {Ronin::Network::TCP#tcp_accept}.
+  `Ronin::Network::TCP#tcp_accept`.
 * Renamed `Ronin::Network::UDP#udp_single_server` to
-  {Ronin::Network::UDP#udp_recv}.
+  `Ronin::Network::UDP#udp_recv`.
 * Deprecated `Ronin::Network::TCP#tcp_single_server`.
 * Deprecated `Ronin::Network::UDP#udp_single_server`.
 * Backported Ruby 1.9 only `Base64` methods.
-* Allow {Integer#pack} to accept a type from {Ronin::Binary::Template::TYPES}.
-* Allow {Array#pack} to accept types from {Ronin::Binary::Template::TYPES}.
-* Allow {String#unpack} to accept types from {Ronin::Binary::Template::TYPES}.
+* Allow {Integer#pack} to accept a type from `Ronin::Binary::Template::TYPES`.
+* Allow {Array#pack} to accept types from `Ronin::Binary::Template::TYPES`.
+* Allow {String#unpack} to accept types from `Ronin::Binary::Template::TYPES`.
 * Support nmap-style `i,j-k` globbed IP address ranges in {IPAddr.each}.
-* Moved {String#unhexdump} logic into {Ronin::Binary::Hexdump::Parser}.
+* Moved {String#unhexdump} logic into `Ronin::Binary::Hexdump::Parser`.
   * Added the `:named_chars` option.
   * Improved the parsing of `od` hexdumps.
   * Support unhexdumping specific endianness.
@@ -94,11 +94,11 @@
   included into other Classes/Modules.
 * Use `$stdout` instead of calling `Kernel.puts` or `STDOUT`.
   Prevents infinite recursion if another library overrides `Kernel.puts`.
-* Allow {Ronin::Network::DNS} methods to yield resolved addresses.
-* Inject {Ronin::Network::DNS} into {Net} for backwards compatibility.
-* Allow {Ronin::Network::TCP#tcp_server} to accept a `backlog` argument.
+* Allow `Ronin::Network::DNS` methods to yield resolved addresses.
+* Inject `Ronin::Network::DNS` into {Net} for backwards compatibility.
+* Allow `Ronin::Network::TCP#tcp_server` to accept a `backlog` argument.
 * Default the server host to `0.0.0.0` in
-  {Ronin::Network::TCP#tcp_accept}.
+  `Ronin::Network::TCP#tcp_accept`.
 * No longer honor the `VERBOSE` environment variable for enabling verbose output
   in `Ronin::UI::Output`. Use `ruby -w` or `ruby -d` instead.
 * No longer support loading `extlib` in `ronin/support/inflector`.
@@ -146,11 +146,11 @@
   * Added `Ronin::Fuzzing.sint32`.
   * Added `Ronin::Fuzzing.sint64`.
 * Added `Ronin::Wordlist`.
-* Added {Ronin::Network::DNS}.
+* Added `Ronin::Network::DNS`.
 * Added `Ronin::Network::Mixins::Mixin`.
 * Added `Ronin::Network::Mixins::DNS`.
 * Added `Ronin::Network::Mixins::SSL`.
-* Added missing {Ronin::Network::UDP#udp_send} and
+* Added missing `Ronin::Network::UDP#udp_send` and
   `Ronin::Network::Mixins::UDP#udp_send` methods.
 * Added `Ronin::UI::Output::Helpers#print_exception`.
 * Made {Regexp::HOST_NAME} case-insensitive.
@@ -165,25 +165,25 @@
   unescaped (thanks isis!).
 * Have `String#fuzz` only accept `Regexp` and `String` objects.
 * Moved `String#fuzz` and `String.generate` into `ronin/fuzzing`.
-* Moved `Net.*` methods into the {Ronin::Network} modules.
-* Fixed bugs in {Ronin::Network::UDP#udp_connect} and
-  {Ronin::Network::UDP#udp_server}.
+* Moved `Net.*` methods into the `Ronin::Network` modules.
+* Fixed bugs in `Ronin::Network::UDP#udp_connect` and
+  `Ronin::Network::UDP#udp_server`.
 * Fixed a bug in `Ronin::Network::HTTP.expand_url`, where the URI query-string
   was not being escaped.
-* Allow {Ronin::Network::HTTP.request} to accept `:query` and `:query_params`
+* Allow `Ronin::Network::HTTP.request` to accept `:query` and `:query_params`
   options.
 * Fixed a bug in `Ronin::Network::Mixins::HTTP#http_session`, where
   normalized options were not being yielded.
-* {Ronin::Network::HTTP#http_get_headers} and
-  {Ronin::Network::HTTP#http_post_headers} now return a Hash of Capitalized
+* `Ronin::Network::HTTP#http_get_headers` and
+  `Ronin::Network::HTTP#http_post_headers` now return a Hash of Capitalized
   Header names and String values.
-* Allow {Ronin::Templates::Erb} to use `<%- -%>` syntax.
+* Allow `Ronin::Templates::Erb` to use `<%- -%>` syntax.
 * Alias `<<` to `write` in `Ronin::UI::Output::Helpers`.
 * Fixed bugs in `Ronin::UI::Shell`.
 * Warning messages are printed by `Ronin::UI::Output::Helpers`, unless output
   is silenced.
-* `Ronin::UI::Output::Helpers` and {Ronin::Network} modules are included into
-  {Ronin::Support}.
+* `Ronin::UI::Output::Helpers` and `Ronin::Network` modules are included into
+  `Ronin::Support`.
 
 ### 0.3.0 / 2011-10-16
 
@@ -230,7 +230,7 @@
 
 * Require data_paths ~> 0.3.
 * Added `Ronin::Mixin`.
-* Added {Ronin::Network::SMTP::Email#headers}.
+* Added `Ronin::Network::SMTP::Email#headers`.
 * Added {Integer#html_escape}.
 * Added {Integer#js_escape}.
 * Added {Integer#format_js}.

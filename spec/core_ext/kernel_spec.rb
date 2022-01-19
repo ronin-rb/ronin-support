@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/core_ext/kernel'
+require 'ronin/support/core_ext/kernel'
 
 describe Kernel do
   it "should provide Kernel#try" do

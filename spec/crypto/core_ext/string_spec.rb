@@ -1,7 +1,7 @@
 # encoding: US-ASCII
 
 require 'spec_helper'
-require 'ronin/crypto/core_ext/string'
+require 'ronin/support/crypto/core_ext/string'
 
 describe String do
   subject { 'the quick brown fox' }

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/network/smtp/email'
+require 'ronin/support/network/smtp/email'
 
 require 'date'
 

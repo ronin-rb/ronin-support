@@ -1,7 +1,7 @@
 # encoding: US-ASCII
 
 require 'spec_helper'
-require 'ronin/formatting/core_ext/binary/string'
+require 'ronin/support/formatting/core_ext/binary/string'
 
 require 'ostruct'
 

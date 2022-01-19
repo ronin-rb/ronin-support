@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'network/shared/unix_server'
-require 'ronin/network/unix'
+require 'ronin/support/network/unix'
 
 require 'fileutils'
 

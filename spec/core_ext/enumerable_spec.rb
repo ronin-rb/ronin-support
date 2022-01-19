@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/core_ext/enumerable'
+require 'ronin/support/core_ext/enumerable'
 
 describe Enumerable do
   describe "#map_hash" do

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/path'
+require 'ronin/support/path'
 
 describe Path do
   subject { described_class }

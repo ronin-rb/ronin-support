@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/core_ext/string'
+require 'ronin/support/core_ext/string'
 
 describe String do
   describe "#each_substring" do

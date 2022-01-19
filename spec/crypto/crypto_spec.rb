@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/crypto'
+require 'ronin/support/crypto'
 
 describe Crypto do
   let(:clear_text) { 'the quick brown fox' }

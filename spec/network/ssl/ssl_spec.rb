@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/network/ssl'
+require 'ronin/support/network/ssl'
 
 require 'tmpdir'
 require 'resolv'

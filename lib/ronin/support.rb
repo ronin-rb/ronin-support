@@ -17,14 +17,14 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/core_ext'
-require 'ronin/formatting'
-require 'ronin/binary'
-require 'ronin/crypto'
-require 'ronin/network'
-require 'ronin/path'
-require 'ronin/templates'
-require 'ronin/cli/printing'
+require 'ronin/support/core_ext'
+require 'ronin/support/formatting'
+require 'ronin/support/binary'
+require 'ronin/support/crypto'
+require 'ronin/support/network'
+require 'ronin/support/path'
+require 'ronin/support/templates'
+require 'ronin/support/cli/printing'
 require 'ronin/support/version'
 
 module Ronin

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/network/http'
+require 'ronin/support/network/http'
 
 describe Network::HTTP do
   describe "proxy" do

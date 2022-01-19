@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/network/dns'
+require 'ronin/support/network/dns'
 
 require 'ipaddr'
 

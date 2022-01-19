@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/core_ext/resolv'
+require 'ronin/support/core_ext/resolv'
 
 describe Resolv do
   describe "resolver" do

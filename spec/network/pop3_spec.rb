@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/network/pop3'
+require 'ronin/support/network/pop3'
 
 describe Network::POP3 do
   describe "default_port" do

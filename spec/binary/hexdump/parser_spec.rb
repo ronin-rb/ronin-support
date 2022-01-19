@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'binary/hexdump/helpers/hexdumps'
 
-require 'ronin/binary/hexdump/parser'
+require 'ronin/support/binary/hexdump/parser'
 
 shared_examples_for "hexdump format" do |format,encoding|
   encoding_name = encoding.to_s.gsub('_','-')

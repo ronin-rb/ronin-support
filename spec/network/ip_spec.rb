@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/network/ip'
+require 'ronin/support/network/ip'
 
 describe Network::IP do
   describe "helper methods", :network do
