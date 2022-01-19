@@ -3,7 +3,7 @@
 * Support Ruby 3.0:
   * Temporarily added the [net-telnet] gem as a dependency, since Ruby 3.0 moved
     `net/telnet` out of the stdlib.
-  * {Ronin::Fuzzing::SHORT_LENGTHS} and {Ronin::Fuzzing::LONG_LENGTHS} are now
+  * `Ronin::Fuzzing::SHORT_LENGTHS` and `Ronin::Fuzzing::LONG_LENGTHS` are now
     `Set` objects, instead of `SortedSet`, which Ruby 3.0 moved out of stdlib.
   * Use `URI::DEFAULT_PARSER.escape` / `.unescape` in {String#uri_encode},
     {String#uri_decode}, and {Integer#uri_encode} now that `URI.encode`,
@@ -47,10 +47,10 @@
 * Added {Ronin::Binary::Template}.
 * Added {Ronin::Binary::Struct}.
 * Added {Ronin::Binary::Hexdump::Parser}.
-* Added {Ronin::Fuzzing::Template}.
-* Added {Ronin::Fuzzing::Repeater}.
-* Added {Ronin::Fuzzing::Fuzzer}.
-* Added {Ronin::Fuzzing::Mutator}.
+* Added `Ronin::Fuzzing::Template`.
+* Added `Ronin::Fuzzing::Repeater`.
+* Added `Ronin::Fuzzing::Fuzzer`.
+* Added `Ronin::Fuzzing::Mutator`.
 * Added `Ronin::Wordlist.create`.
 * Added `Ronin::Wordlist#path` and `Ronin::Wordlist#words`.
 * Added `Ronin::Wordlist#save`.
@@ -87,10 +87,10 @@
   * Improved the parsing of `od` hexdumps.
   * Support unhexdumping specific endianness.
   * Support unhexdumping floats / doubles.
-* Allow {String#mutate} to accept Symbols that map to {Ronin::Fuzzing}
+* Allow `String#mutate` to accept Symbols that map to `Ronin::Fuzzing`
   generator methods.
-* {Ronin::Fuzzing.[]} now raises a `NoMethodError` for unknown fuzzing methods.
-* Use `module_function` in {Ronin::Fuzzing}, so the generator methods can be
+* `Ronin::Fuzzing.[]` now raises a `NoMethodError` for unknown fuzzing methods.
+* Use `module_function` in `Ronin::Fuzzing`, so the generator methods can be
   included into other Classes/Modules.
 * Use `$stdout` instead of calling `Kernel.puts` or `STDOUT`.
   Prevents infinite recursion if another library overrides `Kernel.puts`.
@@ -123,11 +123,11 @@
 * Added {Regexp::RELATIVE_PATH}.
 * Added {Regexp::ABSOLUTE_PATH}.
 * Added {Regexp::PATH}.
-* Added {String#repeating}.
+* Added `String#repeating`.
 * Added `String#sql_inject`.
-* Added {String#mutate}.
-* Added {Ronin::Fuzzing}.
-  * Added {Ronin::Fuzzing.[]}.
+* Added `String#mutate`.
+* Added `Ronin::Fuzzing`.
+  * Added `Ronin::Fuzzing.[]`.
   * Added `Ronin::Fuzzing.bad_strings`.
   * Added `Ronin::Fuzzing.format_strings`.
   * Added `Ronin::Fuzzing.bad_paths`.
@@ -163,8 +163,8 @@
   * `:url` / `:urlsafe`
 * Fixed a bug in {String#js_unescape}, where `%uXX` chars were not being
   unescaped (thanks isis!).
-* Have {String#fuzz} only accept `Regexp` and `String` objects.
-* Moved {String#fuzz} and {String.generate} into `ronin/fuzzing`.
+* Have `String#fuzz` only accept `Regexp` and `String` objects.
+* Moved `String#fuzz` and `String.generate` into `ronin/fuzzing`.
 * Moved `Net.*` methods into the {Ronin::Network} modules.
 * Fixed bugs in {Ronin::Network::UDP#udp_connect} and
   {Ronin::Network::UDP#udp_server}.
@@ -189,8 +189,8 @@
 
 * Require combinatorics ~> 0.4.
 * Added {Enumerable#map_hash}.
-* Added {String.generate}.
-* Added {String#fuzz}.
+* Added `String.generate`.
+* Added `String#fuzz`.
 * Added {File.each_line}.
 * Added {File.each_row}.
 * Added {Resolv.resolver}.

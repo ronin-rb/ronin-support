@@ -32,9 +32,6 @@ It's like [pwntools] combined with [activesupport].
     * JavaScript
     * SQL
   * Cryptography
-  * Fuzzing
-    * Generating
-    * Mutating
   * Networking:
     * DNS
     * UNIX
@@ -54,7 +51,6 @@ It's like [pwntools] combined with [activesupport].
   * Handling exceptions.
 * Provides Modules/Classes for:
   * Paths
-  * Fuzzing
   * Erb Templates
   * UI:
     * Printing

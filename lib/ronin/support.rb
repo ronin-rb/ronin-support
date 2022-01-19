@@ -19,7 +19,6 @@
 
 require 'ronin/core_ext'
 require 'ronin/formatting'
-require 'ronin/fuzzing'
 require 'ronin/binary'
 require 'ronin/crypto'
 require 'ronin/network'
