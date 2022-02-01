@@ -18,7 +18,6 @@
 #
 
 require 'ronin/support/core_ext/string'
-require 'ronin/support/core_ext/regexp'
 require 'ronin/support/core_ext/file'
 require 'ronin/support/core_ext/ip_addr'
 require 'ronin/support/core_ext/resolv'

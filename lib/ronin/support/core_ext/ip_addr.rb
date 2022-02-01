@@ -18,7 +18,7 @@
 #
 
 require 'ronin/support/core_ext/resolv'
-require 'ronin/support/core_ext/regexp'
+require 'ronin/support/text/patterns'
 
 require 'ipaddr'
 require 'combinatorics/list_comprehension'
@@ -66,9 +66,9 @@ class IPAddr
     return enum_for(__method__,text,version).to_a unless block_given?
 
     regexp = case version
-             when :ipv4, :v4, 4 then Regexp::IPv4
-             when :ipv6, :v6, 6 then Regexp::IPv6
-             else                    Regexp::IP
+             when :ipv4, :v4, 4 then Ronin::Support::Text::Patterns::IPv4
+             when :ipv6, :v6, 6 then Ronin::Support::Text::Patterns::IPv6
+             else                    Ronin::Support::Text::Patterns::IP
              end
 
     text.scan(regexp) do |match|

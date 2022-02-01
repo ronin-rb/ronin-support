@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ronin/support/core_ext/regexp'
+require 'ronin/support/text/patterns'
 
-describe Regexp do
+describe Ronin::Support::Text::Patterns do
   describe "WORD" do
     let(:word) { 'dog' }
 
-    subject { Regexp::WORD }
+    subject { described_class::WORD }
 
     it "should not match single letters" do
       expect(subject.match('A')).to be_nil
@@ -35,7 +35,7 @@ describe Regexp do
   end
 
   describe "OCTET" do
-    subject { Regexp::OCTET }
+    subject { described_class::OCTET }
 
     it "should match 0 - 255" do
       expect((0..255).all? { |n|
@@ -49,7 +49,7 @@ describe Regexp do
   end
 
   describe "MAC" do
-    subject { Regexp::MAC }
+    subject { described_class::MAC }
 
     it "should match six hexadecimal bytes" do
       mac = '12:34:56:78:9a:bc'
@@ -59,7 +59,7 @@ describe Regexp do
   end
 
   describe "IPv4" do
-    subject { Regexp::IPv4 }
+    subject { described_class::IPv4 }
 
     it "should match valid addresses" do
       ip = '127.0.0.1'
@@ -99,7 +99,7 @@ describe Regexp do
   end
 
   describe "IPv6" do
-    subject { Regexp::IPv6 }
+    subject { described_class::IPv6 }
 
     it "should match valid IPv6 addresses" do
       ip = '2001:db8:85a3:0:0:8a2e:370:7334'
@@ -127,7 +127,7 @@ describe Regexp do
   end
 
   describe "IP" do
-    subject { Regexp::IP }
+    subject { described_class::IP }
 
     it "should match IPv4 addresses" do
       ip = '10.1.1.1'
@@ -143,7 +143,7 @@ describe Regexp do
   end
 
   describe "HOST_NAME" do
-    subject { Regexp::HOST_NAME }
+    subject { described_class::HOST_NAME }
 
     it "should match valid hostnames" do
       hostname = 'www.google.com'
@@ -161,7 +161,7 @@ describe Regexp do
   end
 
   describe "USER_NAME" do
-    subject { Regexp::USER_NAME }
+    subject { described_class::USER_NAME }
 
     it "should match valid user-names" do
       username = 'alice1234'
@@ -195,7 +195,7 @@ describe Regexp do
   end
 
   describe "EMAIL_ADDR" do
-    subject { Regexp::EMAIL_ADDR }
+    subject { described_class::EMAIL_ADDR }
 
     it "should match valid email addresses" do
       email = 'alice@example.com'
@@ -205,7 +205,7 @@ describe Regexp do
   end
 
   describe "PHONE_NUMBER" do
-    subject { Regexp::PHONE_NUMBER }
+    subject { described_class::PHONE_NUMBER }
 
     it "should match 111-2222" do
       number = '111-2222'
@@ -233,7 +233,7 @@ describe Regexp do
   end
 
   describe "IDENTIFIER" do
-    subject { Regexp::IDENTIFIER }
+    subject { described_class::IDENTIFIER }
 
     it "should match Strings beginning with a '_' character" do
       identifier = '_foo'
@@ -259,7 +259,7 @@ describe Regexp do
   end
 
   describe "FILE_EXT" do
-    subject { Regexp::FILE_EXT }
+    subject { described_class::FILE_EXT }
 
     it "should match the '.' separator character" do
       ext = '.txt'
@@ -277,7 +277,7 @@ describe Regexp do
   end
 
   describe "FILE_NAME" do
-    subject { Regexp::FILE_NAME }
+    subject { described_class::FILE_NAME }
 
     it "should match file names" do
       filename = 'foo_bar'
@@ -293,7 +293,7 @@ describe Regexp do
   end
 
   describe "FILE" do
-    subject { Regexp::FILE }
+    subject { described_class::FILE }
 
     it "should match the filename and extension" do
       filename = 'foo_bar.txt'
@@ -303,7 +303,7 @@ describe Regexp do
   end
 
   describe "DIRECTORY" do
-    subject { Regexp::DIRECTORY }
+    subject { described_class::DIRECTORY }
 
     it "should match directory names" do
       dir = 'foo_bar'
@@ -325,7 +325,7 @@ describe Regexp do
   end
 
   describe "RELATIVE_UNIX_PATH" do
-    subject { Regexp::RELATIVE_UNIX_PATH }
+    subject { described_class::RELATIVE_UNIX_PATH }
 
     it "should match multiple directories" do
       path = 'foo/./bar/../baz'
@@ -335,7 +335,7 @@ describe Regexp do
   end
 
   describe "ABSOLUTE_UNIX_PATH" do
-    subject { Regexp::ABSOLUTE_UNIX_PATH }
+    subject { described_class::ABSOLUTE_UNIX_PATH }
 
     it "should match absolute paths" do
       path = '/foo/bar/baz'
@@ -357,7 +357,7 @@ describe Regexp do
   end
 
   describe "UNIX_PATH" do
-    subject { Regexp::UNIX_PATH }
+    subject { described_class::UNIX_PATH }
 
     it "should match relative paths" do
       path = 'foo/./bar/../baz'
@@ -373,7 +373,7 @@ describe Regexp do
   end
 
   describe "RELATIVE_WINDOWS_PATH" do
-    subject { Regexp::RELATIVE_WINDOWS_PATH }
+    subject { described_class::RELATIVE_WINDOWS_PATH }
 
     it "should match multiple directories" do
       path = 'foo\\.\\bar\\..\\baz'
@@ -383,7 +383,7 @@ describe Regexp do
   end
 
   describe "ABSOLUTE_WINDOWS_PATH" do
-    subject { Regexp::ABSOLUTE_WINDOWS_PATH }
+    subject { described_class::ABSOLUTE_WINDOWS_PATH }
 
     it "should match absolute paths" do
       path = 'C:\\foo\\bar\\baz'
@@ -405,7 +405,7 @@ describe Regexp do
   end
 
   describe "WINDOWS_PATH" do
-    subject { Regexp::WINDOWS_PATH }
+    subject { described_class::WINDOWS_PATH }
 
     it "should match relative paths" do
       path = 'foo\\.\\bar\\..\\baz'
@@ -421,7 +421,7 @@ describe Regexp do
   end
 
   describe "RELATIVE_PATH" do
-    subject { Regexp::RELATIVE_PATH }
+    subject { described_class::RELATIVE_PATH }
 
     it "should match relative UNIX paths" do
       path = 'foo/./bar/../baz'
@@ -437,7 +437,7 @@ describe Regexp do
   end
 
   describe "ABSOLUTE_PATH" do
-    subject { Regexp::ABSOLUTE_PATH }
+    subject { described_class::ABSOLUTE_PATH }
 
     it "should match absolute UNIX paths" do
       path = '/foo/bar/baz'
@@ -453,7 +453,7 @@ describe Regexp do
   end
 
   describe "PATH" do
-    subject { Regexp::PATH }
+    subject { described_class::PATH }
 
     it "should match relative UNIX paths" do
       path = 'foo/./bar/../baz'
