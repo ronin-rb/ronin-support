@@ -85,7 +85,7 @@ module Ronin
         #
         # Prints a `debug` message.
         #
-        # @param [String] nessage
+        # @param [String] message
         #   The message to print.
         #
         # @return [Boolean]
