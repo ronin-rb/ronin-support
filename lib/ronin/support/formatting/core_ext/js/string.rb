@@ -36,8 +36,8 @@ class String
   #
   # Escapes a String for JavaScript.
   #
-  # @param [Hash] options
-  #   Additional options for {#format_chars}.
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {#format_chars}.
   #
   # @return [String]
   #   The JavaScript escaped String.
@@ -52,8 +52,8 @@ class String
   #
   # @api public
   #
-  def js_escape(options={})
-    format_chars(options) { |c| c.ord.js_escape }
+  def js_escape(**kwargs)
+    format_chars(**kwargs) { |c| c.ord.js_escape }
   end
 
   #
@@ -91,8 +91,8 @@ class String
   #
   # Escapes a String for JavaScript.
   #
-  # @param [Hash] options
-  #   Additional options for {#format_chars}.
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {#format_chars}.
   #
   # @return [String]
   #   The JavaScript escaped String.
@@ -107,8 +107,8 @@ class String
   #
   # @api public
   #
-  def format_js(options={})
-    format_chars(options) { |c| c.ord.format_js }
+  def format_js(**kwargs)
+    format_chars(**kwargs) { |c| c.ord.format_js }
   end
 
 end

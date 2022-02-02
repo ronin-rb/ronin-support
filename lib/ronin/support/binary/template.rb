@@ -260,10 +260,10 @@ module Ronin
         # @param [Array<type, (type, length)>] fields
         #   The C-types which the packer will use.
         #
-        # @param [Hash] options
-        #   Template options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {compile}.
         #
-        # @option options [:little, :big, :network] :endian
+        # @option kwargs [:little, :big, :network] :endian
         #   The endianness to apply to the C-types.
         #
         # @raise [ArgumentError]
@@ -272,9 +272,9 @@ module Ronin
         # @example
         #   Template.new(:uint32, [:char, 100])
         #
-        def initialize(fields,options={})
+        def initialize(fields,**kwargs)
           @fields   = fields
-          @template = self.class.compile(@fields,options)
+          @template = self.class.compile(@fields,**kwargs)
         end
 
         #
@@ -291,10 +291,7 @@ module Ronin
         # @param [Array<type, (type), (type, length)>] fields
         #   The C-types which the packer will use.
         #
-        # @param [Hash] options
-        #   Type options.
-        #
-        # @option options [:little, :big, :network] :endian
+        # @param [:little, :big, :network] endian
         #   The endianness to apply to the C-types.
         #
         # @return [String]
@@ -303,9 +300,8 @@ module Ronin
         # @raise [ArgumentError]
         #   A given type is not known.
         #
-        def self.compile(fields,options={})
+        def self.compile(fields, endian: nil)
           string = ''
-          endian = options[:endian]
 
           fields.each do |field|
             type, length = case field

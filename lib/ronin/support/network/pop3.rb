@@ -62,29 +62,28 @@ module Ronin
         # @param [String] host
         #   The host to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Integer] :port (POP3.default_port)
+        # @param [Integer] port
         #   The port the POP3 server is running on.
         #
-        # @option options [Boolean, Hash] :ssl
+        # @param [Boolean, Hash] ssl
         #   Additional SSL options.
         #
-        # @option :ssl [Boolean] :verify
+        # @option ssl [Boolean] :verify
         #   Specifies that the SSL certificate should be verified.
         #
-        # @option :ssl [String] :certs
+        # @option ssl [String] :certs
         #   The path to the file containing CA certs of the server.
         #
-        # @option options [String] :user
+        # @param [String] user
         #   The user to authenticate with when connecting to the POP3 server.
         #
-        # @option options [String] :password
-        #   The password to authenticate with when connecting to the POP3 server.
+        # @param [String] password
+        #   The password to authenticate with when connecting to the POP3
+        #   server.
         #
         # @yield [pop3]
-        #   If a block is given, it will be passed the newly created POP3 session.
+        #   If a block is given, it will be passed the newly created POP3
+        #   session.
         #
         # @yieldparam [Net::POP3] pop3
         #   The newly created POP3 session.
@@ -94,17 +93,17 @@ module Ronin
         #
         # @api public
         #
-        def pop3_connect(host,options={})
-          host     = host.to_s
-          port     = (options[:port] || POP3.default_port)
-          user     = options[:user]
-          password = options[:password]
+        def pop3_connect(host, port: POP3.default_port,
+                               ssl:  nil,
+                               user: ,
+                               password: )
+          host = host.to_s
 
-          case options[:ssl]
+          case ssl
           when Hash
             ssl        = true
-            ssl_certs  = options[:ssl][:certs]
-            ssl_verify = SSL::VERIFY[options[:ssl][:verify]]
+            ssl_certs  = ssl[:certs]
+            ssl_verify = SSL::VERIFY[ssl[:verify]]
           when TrueClass
             ssl        = true
             ssl_certs  = nil
@@ -129,30 +128,12 @@ module Ronin
         # @param [String] host
         #   The host to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Integer] :port (POP3.default_port)
-        #   The port the POP3 server is running on.
-        #
-        # @option options [Boolean, Hash] :ssl
-        #   Additional SSL options.
-        #
-        # @option :ssl [Boolean] :verify
-        #   Specifies that the SSL certificate should be verified.
-        #
-        # @option :ssl [String] :certs
-        #   The path to the file containing CA certs of the server.
-        #
-        # @option options [String] :user
-        #   The user to authenticate with when connecting to the POP3 server.
-        #
-        # @option options [String] :password
-        #   The password to authenticate with when connecting to the POP3 server.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#pop3_connect}.
         #
         # @yield [pop3]
-        #   If a block is given, it will be passed the newly created POP3 session.
-        #   After the block has returned, the session will be closed.
+        #   If a block is given, it will be passed the newly created POP3
+        #   session. After the block has returned, the session will be closed.
         #
         # @yieldparam [Net::POP3] pop3
         #   The newly created POP3 session.
@@ -161,8 +142,8 @@ module Ronin
         #
         # @api public
         #
-        def pop3_session(host,options={})
-          pop3 = pop3_connect(host,options)
+        def pop3_session(host,**kwargs)
+          pop3 = pop3_connect(host,**kwargs)
 
           yield pop3 if block_given?
 

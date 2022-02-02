@@ -33,8 +33,8 @@ module Ronin
         #
         # @api public
         #
-        def esmtp_message(options={},&block)
-          smtp_message(options,&block)
+        def esmtp_message(**kwargs,&block)
+          smtp_message(**kwargs,&block)
         end
 
         #
@@ -43,13 +43,13 @@ module Ronin
         # @param [String] host
         #   The host to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#smtp_connect}.
         #
-        # @option options [Integer] :port (SMTP.default_port)
+        # @option kwargs [Integer] :port (SMTP.default_port)
         #   The port to connect to.
         #
-        # @option options [Boolean, Hash] :ssl
+        # @option kwargs [Boolean, Hash] :ssl
         #   Additional SSL options.
         #
         # @option :ssl [Boolean] :verify
@@ -58,10 +58,10 @@ module Ronin
         # @option :ssl [String] :certs
         #   The path to the file containing CA certs of the server.
         #
-        # @option options [String] :helo
+        # @option kwargs [String] :helo
         #   The HELO domain.
         #
-        # @option options [Symbol] :auth
+        # @option kwargs [Symbol] :auth
         #   The type of authentication to use.
         #   May be one of the following:
         #
@@ -69,10 +69,10 @@ module Ronin
         #   * `:plain`
         #   * `:cram_md5`
         #
-        # @option options [String] :user
+        # @option kwargs [String] :user
         #   The user-name to authenticate with.
         #
-        # @option options [String] :password
+        # @option kwargs [String] :password
         #   The password to authenticate with.
         #
         # @yield [esmtp]
@@ -87,8 +87,8 @@ module Ronin
         #
         # @api public
         #
-        def esmtp_connect(host,options={})
-          smtp = smtp_connect(host,options)
+        def esmtp_connect(host,**kwargs)
+          smtp = smtp_connect(host,**kwargs)
           smtp.esmtp = true
 
           yield smtp if block_given?
@@ -101,13 +101,13 @@ module Ronin
         # @param [String] host
         #   The host to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#smtp_session}.
         #
-        # @option options [Integer] :port (SMTP.default_port)
+        # @option kwargs [Integer] :port (SMTP.default_port)
         #   The port to connect to.
         #
-        # @option options [Boolean, Hash] :ssl
+        # @option kwargs [Boolean, Hash] :ssl
         #   Additional SSL options.
         #
         # @option :ssl [Boolean] :verify
@@ -116,10 +116,10 @@ module Ronin
         # @option :ssl [String] :certs
         #   The path to the file containing CA certs of the server.
         #
-        # @option options [String] :helo
+        # @option kwargs [String] :helo
         #   The HELO domain.
         #
-        # @option options [Symbol] :auth
+        # @option kwargs [Symbol] :auth
         #   The type of authentication to use.
         #   May be one of the following:
         #
@@ -127,10 +127,10 @@ module Ronin
         #   * `:plain`
         #   * `:cram_md5`
         #
-        # @option options [String] :user
+        # @option kwargs [String] :user
         #   The user-name to authenticate with.
         #
-        # @option options [String] :password
+        # @option kwargs [String] :password
         #   The password to authenticate with.
         #
         # @yield [esmtp]
@@ -144,8 +144,8 @@ module Ronin
         #
         # @api public
         #
-        def esmtp_session(host,options={})
-          smtp_session(host,options) do |smtp|
+        def esmtp_session(host,**kwargs)
+          smtp_session(host,**kwargs) do |smtp|
             smtp.esmtp = true
 
             yield smtp if block_given?

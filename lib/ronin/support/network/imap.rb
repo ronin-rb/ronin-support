@@ -64,30 +64,27 @@ module Ronin
         # @param [String] host
         #   The host to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Integer] :port (IMAP.default_port)
-        #   The port the IMAP server is running on.
-        #
-        # @option options [Boolean, Hash] :ssl
-        #   Additional SSL options.
-        #
-        # @option :ssl [Boolean] :verify
-        #   Specifies that the SSL certificate should be verified.
-        #
-        # @option :ssl [String] :certs
-        #   The path to the file containing CA certs of the server.
-        #
-        # @option options [Symbol] :auth
-        #   The type of authentication to perform when connecting to the server.
-        #   May be either `:login` or `:cram_md5`.
-        #
-        # @option options [String] :user
+        # @param [String, nil] user
         #   The user to authenticate as when connecting to the server.
         #
-        # @option options [String] :password
+        # @param [String, nil] password
         #   The password to authenticate with when connecting to the server.
+        #
+        # @param [Integer] port
+        #   The port the IMAP server is running on.
+        #
+        # @param [Boolean, Hash, nil] ssl
+        #   Additional SSL options.
+        #
+        # @option ssl [Boolean] :verify
+        #   Specifies that the SSL certificate should be verified.
+        #
+        # @option ssl [String] :certs
+        #   The path to the file containing CA certs of the server.
+        #
+        # @param [:login, :cram_md5] auth
+        #   The type of authentication to perform when connecting to the server.
+        #   May be either `:login` or `:cram_md5`.
         #
         # @yield [imap]
         #   If a block is given, it will be passed the newly created IMAP
@@ -101,18 +98,16 @@ module Ronin
         #
         # @api public
         #
-        def imap_connect(host,options={})
-          host   = host.to_s
-          port   = (options[:port] || IMAP.default_port)
-          auth   = options[:auth]
-          user   = options[:user]
-          passwd = options[:password]
+        def imap_connect(host,user,password, port: IMAP.default_port,
+                                             ssl:  nil,
+                                             auth: :login)
+          host = host.to_s
 
-          case options[:ssl]
+          case ssl
           when Hash
             ssl        = true
-            ssl_certs  = options[:ssl][:certs]
-            ssl_verify = SSL::VERIFY[options[:ssl][:verify]]
+            ssl_certs  = ssl[:certs]
+            ssl_verify = SSL::VERIFY[ssl[:verify]]
           when TrueClass
             ssl        = true
             ssl_certs  = nil
@@ -125,11 +120,9 @@ module Ronin
 
           imap = Net::IMAP.new(host,port,ssl,ssl_certs,ssl_verify)
 
-          if user
-            case auth
-            when :cram_md5 then imap.authenticate('CRAM-MD5',user,passwd)
-            else                imap.authenticate('LOGIN',user,passwd)
-            end
+          case auth
+          when :cram_md5 then imap.authenticate('CRAM-MD5',user,passwd)
+          else                imap.authenticate('LOGIN',user,passwd)
           end
 
           yield imap if block_given?
@@ -142,30 +135,8 @@ module Ronin
         # @param [String] host
         #   The host to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Integer] :port (IMAP.default_port)
-        #   The port the IMAP server is running on.
-        #
-        # @option options [Boolean, Hash] :ssl
-        #   Additional SSL options.
-        #
-        # @option :ssl [Boolean] :verify
-        #   Specifies that the SSL certificate should be verified.
-        #
-        # @option :ssl [String] :certs
-        #   The path to the file containing CA certs of the server.
-        #
-        # @option options [Symbol] :auth
-        #   The type of authentication to perform when connecting to the server.
-        #   May be either `:login` or `:cram_md5`.
-        #
-        # @option options [String] :user
-        #   The user to authenticate as when connecting to the server.
-        #
-        # @option options [String] :password
-        #   The password to authenticate with when connecting to the server.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#imap_connect}.
         #
         # @yield [imap]
         #   If a block is given, it will be passed the newly created IMAP
@@ -180,12 +151,12 @@ module Ronin
         #
         # @api public
         #
-        def imap_session(host,options={})
-          imap = imap_connect(host,options)
+        def imap_session(host,user,password,**kwargs)
+          imap = imap_connect(host,**kwargs)
 
           yield imap if block_given?
 
-          imap.logout if options[:user]
+          imap.logout
           imap.close
           imap.disconnect
           return nil

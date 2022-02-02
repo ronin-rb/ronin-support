@@ -67,8 +67,8 @@ class String
   #
   # Formats the chars in the String for XML.
   #
-  # @param [Hash] options
-  #   Additional options for {#format_chars}.
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {#format_chars}.
   #
   # @return [String]
   #   The formatted XML String.
@@ -83,8 +83,8 @@ class String
   #
   # @api public
   #
-  def format_xml(options={})
-    format_chars(options) { |c| c.ord.format_xml }
+  def format_xml(**kwargs)
+    format_chars(**kwargs) { |c| c.ord.format_xml }
   end
 
 end

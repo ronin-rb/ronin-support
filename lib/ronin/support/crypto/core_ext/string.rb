@@ -134,22 +134,22 @@ class String
   # @param [String] cipher
   #   The cipher to use.
   #
-  # @param [Hash] options
-  #   Additional options.
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {Ronin::Support::Crypto.cipher}.
   #
-  # @option options [Symbol] :hash (:sha1)
+  # @option kwargs [Symbol] :hash (:sha1)
   #   The algorithm to hash the `:password`.
   #
-  # @option options [String] :key
+  # @option kwargs [String] :key
   #   The secret key to use.
   #
-  # @option options [String] :password
+  # @option kwargs [String] :password
   #   The password for the cipher.
   #
-  # @option options [String] :iv
+  # @option kwargs [String] :iv
   #   The optional Initial Vector (IV).
   #
-  # @option options [Integer] :padding
+  # @option kwargs [Integer] :padding
   #   Sets the padding for the cipher.
   #
   # @return [String]
@@ -161,8 +161,8 @@ class String
   #
   # @api public
   #
-  def encrypt(cipher,options={})
-    cipher = Ronin::Support::Crypto.cipher(cipher, options.merge(mode: :encrypt))
+  def encrypt(cipher,**kwargs)
+    cipher = Ronin::Support::Crypto.cipher(cipher, mode: :encrypt, **kwargs)
 
     return cipher.update(self) + cipher.final
   end
@@ -173,22 +173,22 @@ class String
   # @param [String] cipher
   #   The cipher to use.
   #
-  # @param [Hash] options
-  #   Additional options.
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {Ronin::Support::Crypto.cipher}.
   #
-  # @option options [Symbol] :hash (:sha1)
+  # @option kwargs [Symbol] :hash (:sha1)
   #   The algorithm to hash the `:password`.
   #
-  # @option options [String] :key
+  # @option kwargs [String] :key
   #   The secret key to use.
   #
-  # @option options [String] :password
+  # @option kwargs [String] :password
   #   The password for the cipher.
   #
-  # @option options [String] :iv
+  # @option kwargs [String] :iv
   #   The optional Initial Vector (IV).
   #
-  # @option options [Integer] :padding
+  # @option kwargs [Integer] :padding
   #   Sets the padding for the cipher.
   #
   # @return [String]
@@ -200,8 +200,8 @@ class String
   #
   # @api public
   #
-  def decrypt(cipher,options={})
-    cipher = Ronin::Support::Crypto.cipher(cipher,options.merge(mode: :decrypt))
+  def decrypt(cipher,**kwargs)
+    cipher = Ronin::Support::Crypto.cipher(cipher, mode: :decrypt, **kwargs)
 
     return cipher.update(self) + cipher.final
   end

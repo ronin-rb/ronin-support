@@ -27,14 +27,15 @@ class File
   # @param [Pathname, String] path
   #   The path of the hexdump file.
   #
-  # @param [Hash] options
-  #   Additional options.
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for
+  #   {Ronin::Support::Binary::Hexdump::Parser#initialize}.
   #
-  # @option options [Symbol] :format
+  # @option kwargs [Symbol] :format
   #   The expected format of the hexdump. Must be either `:od` or
   #   `:hexdump`.
   #
-  # @option options [Symbol] :encoding
+  # @option kwargs [Symbol] :encoding
   #   Denotes the encoding used for the bytes within the hexdump.
   #   Must be one of the following:
   #
@@ -59,10 +60,10 @@ class File
   #   * `:floats`
   #   * `:doubles`
   #
-  # @option options [:little, :big, :network] :endian (:little)
+  # @option kwargs [:little, :big, :network] :endian (:little)
   #   The endianness of the words.
   #
-  # @option options [Integer] :segment (16)
+  # @option kwargs [Integer] :segment (16)
   #   The length in bytes of each segment in the hexdump.
   #
   # @return [String]
@@ -70,8 +71,8 @@ class File
   #
   # @api public
   #
-  def File.unhexdump(path,options={})
-    Ronin::Support::Binary::Hexdump::Parser.new(options).parse(File.new(path))
+  def File.unhexdump(path,**kwargs)
+    Ronin::Support::Binary::Hexdump::Parser.new(**kwargs).parse(File.new(path))
   end
 
 end

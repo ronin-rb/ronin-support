@@ -25,13 +25,10 @@ class String
   #
   # Creates a new String by formatting each byte.
   #
-  # @param [Hash] options
-  #   Additional options.
-  #
-  # @option options [Enumerable<Integer, String>] :include (0x00..0xff)
+  # @param [Enumerable<Integer, String>] include
   #   The bytes to format.
   #
-  # @option options [Enumerable<Integer, String>] :exclude
+  # @param [Enumerable<Integer, String>] exclude
   #   The bytes not to format.
   #
   # @yield [byte]
@@ -50,9 +47,9 @@ class String
   #
   # @api public
   #
-  def format_bytes(options={})
-    included  = (Chars::CharSet.new(*options[:include]) if options[:include])
-    excluded  = (Chars::CharSet.new(*options[:exclude]) if options[:exclude])
+  def format_bytes(include: nil, exclude: nil)
+    included  = (Chars::CharSet.new(*include) if include)
+    excluded  = (Chars::CharSet.new(*exclude) if exclude)
     formatted = ''
 
     each_byte do |b|
@@ -70,13 +67,10 @@ class String
   #
   # Creates a new String by formatting each character.
   #
-  # @param [Hash] options
-  #   Additional options.
-  #
-  # @option options [Enumerable<Integer, String>] :include
+  # @param [Enumerable<Integer, String>] include
   #   The bytes to format.
   #
-  # @option options [Enumerable<Integer, String>] :exclude
+  # @param [Enumerable<Integer, String>] exclude
   #   The bytes not to format.
   #
   # @yield [char]
@@ -95,9 +89,9 @@ class String
   #
   # @api public
   #
-  def format_chars(options={})
-    included  = (Chars::CharSet.new(*options[:include]) if options[:include])
-    excluded  = (Chars::CharSet.new(*options[:exclude]) if options[:exclude])
+  def format_chars(include: nil, exclude: nil)
+    included  = (Chars::CharSet.new(*include) if include)
+    excluded  = (Chars::CharSet.new(*exclude) if exclude)
     formatted = ''
 
     each_char do |c|
@@ -116,11 +110,11 @@ class String
   # Creates a new String by randomizing the case of each character in the
   # String.
   #
-  # @param [Hash] options
-  #   Additional options.
-  #
-  # @option options [Float] :probability (0.5)
+  # @param [Float] probability
   #   The probability that a character will have it's case changed.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {#format_chars].
   #
   # @example
   #   "get out your checkbook".random_case
@@ -130,12 +124,10 @@ class String
   #
   # @api public
   #
-  def random_case(options={})
-    prob = (options[:probability] || 0.5)
-
-    format_chars(options) do |c|
-      if rand <= prob then c.swapcase 
-      else                 c
+  def random_case(probability: 0.5, **kwargs)
+    format_chars(**kwargs) do |c|
+      if rand <= probability then c.swapcase 
+      else                        c
       end
     end
   end

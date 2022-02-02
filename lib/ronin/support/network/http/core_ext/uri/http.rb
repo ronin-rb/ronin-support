@@ -31,8 +31,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def request(options={},&block)
-      http_request(options.merge(url: self),&block)
+    def request(**kwargs,&block)
+      http_request(url: self, **kwargs, &block)
     end
 
     #
@@ -40,8 +40,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def status(options={})
-      http_status(options.merge(url: self))
+    def status(**kwargs)
+      http_status(url: self)
     end
 
     #
@@ -49,8 +49,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def ok?(options={})
-      http_ok?(options.merge(url: self))
+    def ok?(**kwargs)
+      http_ok?(url: self)
     end
 
     #
@@ -58,8 +58,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def server(options={})
-      http_server(options.merge(url: self))
+    def server(**kwargs)
+      http_server(url: self)
     end
 
     #
@@ -67,8 +67,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def powered_by(options={})
-      http_powered_by(options.merge(url: self))
+    def powered_by(**kwargs)
+      http_powered_by(url: self)
     end
 
     #
@@ -76,8 +76,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def copy(options={},&block)
-      http_copy(options.merge(url: self),&block)
+    def copy(**kwargs,&block)
+      http_copy(url: self, **kwargs, &block)
     end
 
     #
@@ -85,8 +85,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def delete(options={},&block)
-      http_delete(options.merge(url: self),&block)
+    def delete(**kwargs,&block)
+      http_delete(url: self, **kwargs, &block)
     end
 
     #
@@ -94,8 +94,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def get(options={},&block)
-      http_get(options.merge(url: self),&block)
+    def get(**kwargs,&block)
+      http_get(url: self, **kwargs, &block)
     end
 
     #
@@ -103,8 +103,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def get_headers(options={},&block)
-      http_get_headers(options.merge(url: self),&block)
+    def get_headers(**kwargs,&block)
+      http_get_headers(url: self, **kwargs, &block)
     end
 
     #
@@ -112,8 +112,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def get_body(options={},&block)
-      http_get_body(options.merge(url: self),&block)
+    def get_body(**kwargs,&block)
+      http_get_body(url: self, **kwargs, &block)
     end
 
     #
@@ -121,8 +121,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def head(options={},&block)
-      http_head(options.merge(url: self),&block)
+    def head(**kwargs,&block)
+      http_head(url: self, **kwargs, &block)
     end
 
     #
@@ -130,8 +130,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def lock(options={},&block)
-      http_lock(options.merge(url: self),&block)
+    def lock(**kwargs,&block)
+      http_lock(url: self, **kwargs, &block)
     end
 
     #
@@ -139,8 +139,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def mkcol(options={},&block)
-      http_mkcol(options.merge(url: self),&block)
+    def mkcol(**kwargs,&block)
+      http_mkcol(url: self, **kwargs, &block)
     end
 
     #
@@ -148,8 +148,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def move(options={},&block)
-      http_move(options.merge(url: self),&block)
+    def move(**kwargs,&block)
+      http_move(url: self, **kwargs, &block)
     end
 
     #
@@ -157,8 +157,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def options(options={},&block)
-      http_options(options.merge(url: self),&block)
+    def options(**kwargs,&block)
+      http_options(url: self, **kwargs, &block)
     end
 
     #
@@ -166,8 +166,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def post(options={},&block)
-      http_post(options.merge(url: self),&block)
+    def post(**kwargs,&block)
+      http_post(url: self, **kwargs, &block)
     end
 
     #
@@ -175,8 +175,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def post_headers(options={},&block)
-      http_post_headers(options.merge(url: self),&block)
+    def post_headers(**kwargs,&block)
+      http_post_headers(url: self, **kwargs, &block)
     end
 
     #
@@ -184,8 +184,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def post_body(options={},&block)
-      http_post_body(options.merge(url: self),&block)
+    def post_body(**kwargs,&block)
+      http_post_body(url: self, **kwargs, &block)
     end
 
     #
@@ -193,8 +193,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def prop_find(options={},&block)
-      http_prop_find(options.merge(url: self),&block)
+    def prop_find(**kwargs,&block)
+      http_prop_find(url: self, **kwargs, &block)
     end
 
     #
@@ -202,8 +202,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def prop_match(options={},&block)
-      http_prop_match(options.merge(url: self),&block)
+    def prop_match(**kwargs,&block)
+      http_prop_match(url: self, **kwargs, &block)
     end
 
     #
@@ -211,8 +211,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def trace(options={},&block)
-      http_trace(options.merge(url: self),&block)
+    def trace(**kwargs,&block)
+      http_trace(url: self, **kwargs, &block)
     end
 
     #
@@ -220,8 +220,8 @@ module URI
     #
     # @since 0.3.0
     #
-    def unlock(options={},&block)
-      http_unlock(options.merge(url: self),&block)
+    def unlock(**kwargs,&block)
+      http_unlock(url: self, **kwargs, &block)
     end
 
   end

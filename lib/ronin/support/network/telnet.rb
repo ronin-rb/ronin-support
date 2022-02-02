@@ -136,50 +136,47 @@ module Ronin
         # @param [String] host
         #   The host to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Integer] :port (Telnet.default_port)
+        # @param [Integer] port
         #   The port to connect to.
         #
-        # @option options [Boolean] :binmode
+        # @param [Boolean] binmode
         #   Indicates that newline substitution shall not be performed.
         #
-        # @option options [String] :output_log
+        # @param [String, nil] output_log
         #   The name of the file to write connection status messages and all
         #   received traffic to.
         #
-        # @option options [String] :dump_log
+        # @param [String, nil] dump_log
         #   Similar to the `:output_log` option, but connection output is also
         #   written in hexdump format.
         #
-        # @option options [Regexp] :prompt (Telnet.default_prompt)
+        # @param [Regexp] prompt
         #   A regular expression matching the host command-line prompt sequence,
         #   used to determine when a command has finished.
         #
-        # @option options [Boolean] :telnet (true)
+        # @param [Boolean] telnet
         #   Indicates that the connection shall behave as a telnet connection.
         #
-        # @option options [Boolean] :plain
+        # @param [Boolean] plain
         #   Indicates that the connection shall behave as a normal TCP
         #   connection.
         #
-        # @option options [Integer] :timeout (Telnet.default_timeout)
+        # @param [Integer] timeout
         #   The number of seconds to wait before timing out both the initial
         #   attempt to connect to host, and all attempts to read data from the
         #   host.
         #
-        # @option options [Integer] :wait_time
+        # @param [Integer] wait_time
         #   The amount of time to wait after seeing what looks like a prompt.
         #
-        # @option options [Net::Telnet, IO] :proxy (Telnet.proxy)
+        # @param [Net::Telnet, IO, nil] proxy
         #   A proxy object to used instead of opening a direct connection to the
         #   host.
         #
-        # @option options [String] :user
+        # @param [String, nil] user
         #   The user to login as.
         #
-        # @option options [String] :password
+        # @param [String, nil] password
         #   The password to login with.
         #
         # @yield [telnet]
@@ -198,34 +195,37 @@ module Ronin
         #
         # @api public
         #
-        def telnet_connect(host,options={})
+        def telnet_connect(host, # connection options
+                                 proxy:     Telnet.proxy,
+                                 port:      Telnet.default_port,
+                                 binmode:   false,
+                                 wait_time: 0,
+                                 prompt:    Telnet.default_prompt,
+                                 timeout:   Telnet.default_timeout,
+                                 telnet:    nil,
+                                 plain:     nil,
+                                 # authentication options
+                                 user:     nil,
+                                 password: nil,
+                                 # log options
+                                 output_log: nil,
+                                 dump_log:   nil)
           telnet_options = {
             'Host'       => host.to_s,
-            'Port'       => (options[:port]      || Telnet.default_port),
-            'Binmode'    => (options[:binmode]   || false),
-            'Waittime'   => (options[:wait_time] || 0),
-            'Prompt'     => (options[:prompt]    || Telnet.default_prompt),
-            'Timeout'    => (options[:timeout]   || Telnet.default_timeout)
+            'Port'       => port,
+            'Binmode'    => binmode,
+            'Waittime'   => wait_time,
+            'Prompt'     => prompt,
+            'Timeout'    => timeout
           }
 
-          if (options[:telnet] && !options[:plain])
-            telnet_options['Telnetmode'] = true
-          end
-
-          if options[:output_log]
-            telnet_options['Output_log'] = options[:output_log]
-          end
-
-          if options[:dump_log]
-            telnet_options['Dump_log'] = options[:dump_log]
-          end
-
-          if (proxy = (options[:proxy] || Telnet.proxy))
-            telnet_options['Proxy'] = proxy
-          end
+          telnet_options['Telnetmode'] = true       if (telnet && !plain)
+          telnet_options['Output_log'] = output_log if output_log
+          telnet_options['Dump_log']   = dump_log   if dump_log
+          telnet_options['Proxy']      = proxy      if proxy
 
           telnet = Net::Telnet.new(telnet_options)
-          telnet.login(options[:user],options[:password]) if options[:user]
+          telnet.login(user,password) if user
 
           yield telnet if block_given?
           return telnet
@@ -237,8 +237,8 @@ module Ronin
         # @param [String] host
         #   The host to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#telnet_connect}.
         #
         # @yield [telnet]
         #   If a block is given, it will be passed the newly created
@@ -259,8 +259,8 @@ module Ronin
         #
         # @api public
         #
-        def telnet_session(host,options={})
-          telnet = telnet_connect(host,options)
+        def telnet_session(host,**kwargs)
+          telnet = telnet_connect(host,**kwargs)
 
           yield telnet if block_given?
 

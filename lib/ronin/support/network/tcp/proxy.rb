@@ -120,10 +120,13 @@ module Ronin
           #
           # Creates a new TCP Proxy.
           #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {Network::Proxy#initialize}.
+          #
           # @see Network::Proxy#initialize
           #
-          def initialize(options={})
-            super(options) do |proxy|
+          def initialize(**kwargs)
+            super(**kwargs) do |proxy|
               @callbacks[:client_connect]    = []
               @callbacks[:client_disconnect] = []
               @callbacks[:server_connect]    = []

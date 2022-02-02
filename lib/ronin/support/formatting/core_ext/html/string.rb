@@ -69,8 +69,8 @@ class String
   #
   # Formats the chars in the String for HTML.
   #
-  # @param [Hash] options
-  #   Additional options for {#format_chars}.
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {#format_chars}.
   #
   # @return [String]
   #   The formatted HTML String.
@@ -87,8 +87,8 @@ class String
   #
   # @api public
   #
-  def format_html(options={})
-    format_xml(options)
+  def format_html(**kwargs)
+    format_xml(**kwargs)
   end
 
 end

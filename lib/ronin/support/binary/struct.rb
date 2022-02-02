@@ -93,17 +93,17 @@ module Ronin
         # @param [String] data
         #   The data to unpack.
         #
-        # @param [Hash] options
-        #   Unpacking options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Unpacking keyword arguments.
         #
-        # @option options [:little, :big, :network] :endian
+        # @option kwargs [:little, :big, :network] :endian
         #   The endianness to apply to the types.
         #
         # @return [Struct]
         #   The newly unpacked structure.
         #
-        def self.unpack(data,options={})
-          new().unpack(data,options)
+        def self.unpack(data,**kwargs)
+          new().unpack(data,**kwargs)
         end
 
         #
@@ -197,17 +197,17 @@ module Ronin
         #
         # Packs the structure.
         #
-        # @param [Hash] options
-        #   Pack options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Binary format keyword arguments.
         #
-        # @option options [:little, :big, :network] :endian
+        # @option kwargs [:little, :big, :network] :endian
         #   The endianness to apply to the types.
         #
         # @return [String]
         #   The packed structure.
         #
-        def pack(options={})
-          self.class.templates[options].pack(*values.flatten)
+        def pack(**kwargs)
+          self.class.templates[kwargs].pack(*values.flatten)
         end
 
         #
@@ -216,17 +216,17 @@ module Ronin
         # @param [String] data
         #   The data to unpack.
         #
-        # @param [Hash] options
-        #   Unpack options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Binary format keyword arguments.
         #
-        # @option options [:little, :big, :network] :endian
+        # @option kwargs [:little, :big, :network] :endian
         #   The endianness to apply to the types.
         #
         # @return [Struct]
         #   The unpacked structure.
         #
-        def unpack(data,options={})
-          values = self.class.templates[options].unpack(data)
+        def unpack(data,**kwargs)
+          values = self.class.templates[kwargs].unpack(data)
 
           each_field do |struct,name,(type,length)|
             struct[name] = if length
@@ -419,17 +419,17 @@ module Ronin
         #
         # The templates for the structure.
         #
-        # @return [Hash{Hash => Template}]
-        #   The templates and their options.
+        # @return [Hash{Hash{Symbol => Object} => Template}]
+        #   The templates and their binary format options.
         #
         # @api semipublic
         #
         def self.templates
-          @templates ||= Hash.new do |hash,options|
-            fields  = each_field.map { |struct,name,field| field }
-            options = {endian: self.endian}.merge(options)
+          @templates ||= Hash.new do |hash,kwargs|
+            fields = each_field.map { |struct,name,field| field }
+            kwargs = {endian: self.endian}.merge(kwargs)
 
-            hash[options] = template(fields,options)
+            hash[kwargs] = template(fields,**kwargs)
           end
         end
 
@@ -439,16 +439,16 @@ module Ronin
         # @param [Array<type, (type, length)>] fields
         #   The fields of the structure.
         #
-        # @param [Hash] options
-        #   Template options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {Template#initialize}.
         #
         # @return [Template]
         #   The new template.
         #
         # @api semipublic
         #
-        def self.template(fields,options={})
-          Template.new(fields,options)
+        def self.template(fields,**kwargs)
+          Template.new(fields,**kwargs)
         end
 
         #

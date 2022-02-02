@@ -222,7 +222,7 @@ module Ronin
         # Converts underscored, dashed, lowercase and uppercase HTTP headers
         # to standard camel-cased HTTP headers.
         #
-        # @param [Hash{Symbol,String => String}] options
+        # @param [Hash{Symbol,String => String}] headers
         #   Ronin HTTP headers.
         #
         # @return [Hash]
@@ -230,53 +230,51 @@ module Ronin
         #
         # @api private
         #
-        def self.headers(options={})
-          headers = {}
+        def self.headers(headers)
+          normalized_headers = {}
 
           if user_agent
-            headers['User-Agent'] = user_agent
+            normalized_headers['User-Agent'] = user_agent
           end
 
-          if options
-            options.each do |name,value|
-              headers[HTTP.header_name(name)] = value.to_s
-            end
+          headers.each do |name,value|
+            normalized_headers[HTTP.header_name(name)] = value.to_s
           end
 
-          return headers
+          return normalized_headers
         end
 
         #
         # Creates a specific type of HTTP request object.
         #
-        # @param [Hash] options
-        #   The HTTP options for the request.
-        #
-        # @option options [Symbol, String] :method
+        # @param [Symbol, String] method
         #   The HTTP method to use for the request.
         #
-        # @option options [String] :path ('/')
+        # @param [String, nil] url
+        #   Optional URL to create the HTTP request for.
+        #
+        # @param [String] path
         #   The path to request.
         #
-        # @option options [String] :query
+        # @param [String, nil] query
         #   The query-string to append to the request path.
         #
-        # @option options [String] :query_params
+        # @param [Hash, nil] query_params
         #   The query-params to append to the request path.
         #
-        # @option options [String] :body
+        # @param [String, nil] body
         #   The body of the request.
         #
-        # @option options [Hash, String] :form_data
+        # @param [Hash, String, nil] form_data
         #   The form data that may be sent in the body of the request.
         #
-        # @option options [String] :user
+        # @param [String, nil] user
         #   The user to authenticate as.
         #
-        # @option options [String] :password
+        # @param [String, nil] password
         #   The password to authenticate with.
         #
-        # @option options [Hash{Symbol,String => String}] :headers
+        # @param [Hash{Symbol,String => String}, nil] headers
         #   Additional HTTP headers to use for the request.
         #
         # @return [HTTP::Request]
@@ -293,50 +291,66 @@ module Ronin
         #
         # @api private
         #
-        def self.request(options={})
-          unless options[:method]
-            raise(ArgumentError,"the :method option must be specified")
-          end
-
-          name = options[:method].capitalize
+        def self.request(method:  ,
+                         headers: {},
+                         # URL options
+                         url:   nil,
+                         path:  '/',
+                         query: nil,
+                         query_params: nil,
+                         # body options
+                         body:      nil,
+                         form_data: nil,
+                         # authentication options
+                         user:     nil,
+                         password: nil)
+          name = method.capitalize
 
           unless Net::HTTP.const_defined?(name)
             raise(UnknownRequest,"unknown HTTP request type #{name}")
           end
 
-          headers = headers(options[:headers])
-          path    = (options[:path] || '/').to_s
-          query   = if options[:query]
-                      options[:query].to_s
-                    elsif options[:query_params]
-                      URI::QueryParams.dump(options[:query_params])
-                    end
+          headers = self.headers(headers)
 
-          if query
-            # append the query-string onto the path
-            path += if path.include?('?') then "&#{query}"
-                    else                       "?#{query}"
-                    end
+          if url
+            url = URI(url)
+
+            path  = url.path
+            query = url.query
+          else
+            path    = path.to_s
+            query   = if query
+                        query.to_s
+                      elsif query_params
+                        URI::QueryParams.dump(query_params)
+                      end
+
+            if query
+              # append the query-string onto the path
+              path += if path.include?('?') then "&#{query}"
+                      else                       "?#{query}"
+                      end
+            end
           end
 
           request = Net::HTTP.const_get(name).new(path,headers)
 
-          if options[:form_data]
-            case options[:form_data]
+          if form_data
+            case form_data
             when String
               request.content_type = 'application/x-www-form-urlencoded'
-              request.body         = options[:form_data]
+              request.body         = form_data
             else
-              request.form_data = options[:form_data]
+              request.form_data    = form_data
             end
-          elsif options[:body]
-            request.body = options[:body]
+          elsif body
+            request.body = body
           end
 
-          if options[:user]
-            user     = options[:user].to_s
-            password = if options[:password]
-                         options[:password].to_s
+          if user
+            user     = user.to_s
+            password = if password
+                         password.to_s
                        end
 
             request.basic_auth(user,password)
@@ -348,28 +362,28 @@ module Ronin
         #
         # Starts a HTTP connection with the server.
         #
-        # @param [Hash] options
-        #   Additional options
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
         #
-        # @option options [String, URI::HTTP] :url
+        # @option kwargs [String, URI::HTTP] :url
         #   The full URL to request.
         #
-        # @option options [String] :host
+        # @option kwargs [String] :host
         #   The host the HTTP server is running on.
         #
-        # @option options [Integer] :port (Net::HTTP.default_port)
+        # @option kwargs [Integer] :port (Net::HTTP.default_port)
         #   The port the HTTP server is listening on.
         #
-        # @option options [URI::HTTP, String, nil] :proxy (HTTP.proxy)
+        # @option kwargs [URI::HTTP, String, nil] :proxy (HTTP.proxy)
         #   A Hash of proxy settings to use when connecting to the HTTP server.
         #
-        # @option options [String] :user
+        # @option kwargs [String] :user
         #   The user to authenticate with when connecting to the HTTP server.
         #
-        # @option options [String] :password
+        # @option kwargs [String] :password
         #   The password to authenticate with when connecting to the HTTP server.
         #
-        # @option options [Boolean, Hash] :ssl
+        # @option kwargs [Boolean, Hash] :ssl
         #   Enables SSL for the HTTP connection.
         #
         # @option :ssl [Symbol] :verify
@@ -387,8 +401,8 @@ module Ronin
         #
         # @api public
         #
-        def http_connect(options={},&block)
-          options = HTTP.normalize_options(options)
+        def http_connect(**kwargs,&block)
+          options = HTTP.normalize_options(kwargs)
 
           host  = options[:host].to_s
           port  = options[:port]
@@ -424,28 +438,28 @@ module Ronin
         #
         # Creates a new temporary HTTP session with the server.
         #
-        # @param [Hash] options
-        #   Additional options
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_connect}.
         #
-        # @option options [String, URI::HTTP] :url
+        # @option kwargs [String, URI::HTTP] :url
         #   The full URL to request.
         #
-        # @option options [String] :host
+        # @option kwargs [String] :host
         #   The host the HTTP server is running on.
         #
-        # @option options [Integer] :port (Net::HTTP.default_port)
+        # @option kwargs [Integer] :port (Net::HTTP.default_port)
         #   The port the HTTP server is listening on.
         #
-        # @option options [String] :user
+        # @option kwargs [String] :user
         #   The user to authenticate with when connecting to the HTTP server.
         #
-        # @option options [String] :password
+        # @option kwargs [String] :password
         #   The password to authenticate with when connecting to the HTTP server.
         #
-        # @option options [URI::HTTP, String, nil] :proxy (HTTP.proxy)
+        # @option kwargs [URI::HTTP, String, nil] :proxy (HTTP.proxy)
         #   A Hash of proxy settings to use when connecting to the HTTP server.
         #
-        # @option options [Boolean, Hash] :ssl
+        # @option kwargs [Boolean, Hash] :ssl
         #   Enables SSL for the HTTP connection.
         #
         # @option :ssl [Symbol] :verify
@@ -464,15 +478,9 @@ module Ronin
         #
         # @api public
         #
-        def http_session(options={},&block)
-          http_connect(options) do |http,expanded_options|
-            if block
-              if block.arity == 2
-                block.call(http,expanded_options)
-              else
-                block.call(http)
-              end
-            end
+        def http_session(**kwargs)
+          http_connect(**kwargs) do |http|
+            yield http if block_given?
 
             http.finish
           end
@@ -483,32 +491,32 @@ module Ronin
         #
         # Connects to the HTTP server and sends an HTTP Request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_session}.
         #
-        # @option options [Symbol, String] :method
+        # @option kwargs [Symbol, String] :method
         #   The HTTP method to use in the request.
         #
-        # @option options [String] :path ('/')
+        # @option kwargs [String] :path ('/')
         #   The path to request from the HTTP server.
         #
-        # @option options [String] :query
+        # @option kwargs [String] :query
         #   The query-string to append to the request path.
         #
-        # @option options [String] :query_params
+        # @option kwargs [String] :query_params
         #   The query-params to append to the request path.
         #
-        # @option options [String] :body
+        # @option kwargs [String] :body
         #   The body of the request.
         #
-        # @option options [Hash] :headers
+        # @option kwargs [Hash] :headers
         #   The Hash of the HTTP headers to send with the request.
         #   May contain either Strings or Symbols, lower-case or camel-case keys.
         #
-        # @option options [String] :body
+        # @option kwargs [String] :body
         #   The body of the request.
         #
-        # @option options [Hash, String] :form_data
+        # @option kwargs [Hash, String] :form_data
         #   The form data that may be sent in the body of the request.
         #
         # @yield [request, (options)]
@@ -537,19 +545,13 @@ module Ronin
         #
         # @api public
         #
-        def http_request(options={},&block)
+        def http_request(**kwargs)
           response = nil
 
-          http_session(options) do |http,expanded_options|
-            req = HTTP.request(expanded_options)
+          http_session(**kwargs) do |http|
+            req = HTTP.request(**kwargs)
 
-            if block
-              if block.arity == 2
-                block.call(req,expanded_options)
-              else
-                block.call(req)
-              end
-            end
+            yield req if block_given?
 
             response = http.request(req)
           end
@@ -560,11 +562,11 @@ module Ronin
         #
         # Returns the Status Code of the Response.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Symbol, String] :method (:head)
+        # @param [Symbol, String] method
         #   The method to use for the request.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
         # @return [Integer]
         #   The HTTP Response Status.
@@ -575,19 +577,17 @@ module Ronin
         #
         # @api public
         #
-        def http_status(options={})
-          options = {method: :head}.merge(options)
-
-          return http_request(options).code.to_i
+        def http_status(method: :head, **kwargs)
+          return http_request(method: method, **kwargs).code.to_i
         end
 
         #
         # Checks if the response has an HTTP OK status code.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_status}.
         #
-        # @option options [Symbol, String] :method (:head)
+        # @option kwargs [Symbol, String] :method (:head)
         #   The method to use for the request.
         #
         # @return [Boolean]
@@ -597,18 +597,18 @@ module Ronin
         #
         # @api public
         #
-        def http_ok?(options={})
-          http_status(options) == 200
+        def http_ok?(**kwargs)
+          http_status(**kwargs) == 200
         end
 
         #
         # Sends a HTTP Head request and returns the HTTP Server header.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Symbol, String] :method (:head)
+        # @param [Symbol, String] method
         #   The method to use for the request.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
         # @return [String]
         #   The HTTP `Server` header.
@@ -617,20 +617,18 @@ module Ronin
         #
         # @api public
         #
-        def http_server(options={})
-          options = {method: :head}.merge(options)
-
-          return http_request(options)['server']
+        def http_server(method: :head, **kwargs)
+          http_request(method: method, **kwargs)['server']
         end
 
         #
         # Sends an HTTP Head request and returns the HTTP X-Powered-By header.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Symbol, String] :method (:get)
+        # @param [Symbol, String] method
         #   The method to use for the request.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
         # @return [String]
         #   The HTTP `X-Powered-By` header.
@@ -639,17 +637,15 @@ module Ronin
         #
         # @api public
         #
-        def http_powered_by(options={})
-          options = {method: :get}.merge(options)
-
-          return http_request(options)['x-powered-by']
+        def http_powered_by(method: :head, **kwargs)
+          return http_request(method: method, **kwargs)['x-powered-by']
         end
 
         #
         # Performs an HTTP Copy request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
         # @yield [response]
         #   If a block is given, it will be passed the response received
@@ -665,8 +661,8 @@ module Ronin
         #
         # @api public
         #
-        def http_copy(options={})
-          response = http_request(options.merge(method: :copy))
+        def http_copy(**kwargs)
+          response = http_request(method: :copy, **kwargs)
 
           yield response if block_given?
           return response
@@ -675,8 +671,11 @@ module Ronin
         #
         # Performs an HTTP Delete request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
+        #
+        # @param [Hash, nil] headers
+        #   Additional headers to send.
         #
         # @yield [response]
         #   If a block is given, it will be passed the response received from
@@ -692,17 +691,18 @@ module Ronin
         #
         # @api public
         #
-        def http_delete(options={},&block)
-          original_headers = options[:headers]
+        def http_delete(headers: nil, **kwargs, &block)
+          original_headers = headers
 
           # set the HTTP Depth header
-          options[:headers] = {depth: 'Infinity'}
+          headers = {depth: 'Infinity'}
+          headers.merge!(original_headers) if original_headers
 
-          if original_headers
-            options[:header].merge!(original_headers)
-          end
-
-          response = http_request(options.merge(method: :delete))
+          response = http_request(
+            method: :delete,
+            headers: headers,
+            **kwargs
+          )
 
           yield response if block_given?
           return response
@@ -711,8 +711,8 @@ module Ronin
         #
         # Performs an HTTP Get request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
         # @yield [response]
         #   If a block is given, it will be passed the response received from
@@ -728,8 +728,8 @@ module Ronin
         #
         # @api public
         #
-        def http_get(options={},&block)
-          response = http_request(options.merge(method: :get))
+        def http_get(**kwargs,&block)
+          response = http_request(method: :get, **kwargs)
 
           yield response if block_given?
           return response
@@ -738,8 +738,8 @@ module Ronin
         #
         # Performs an HTTP Get request and returns the Response Headers.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_get}.
         #
         # @return [Hash{String => Array<String>}]
         #   The Headers of the HTTP response.
@@ -750,10 +750,10 @@ module Ronin
         #
         # @api public
         #
-        def http_get_headers(options={})
+        def http_get_headers(**kwargs)
           headers = {}
 
-          http_get(options).each_header do |name,value|
+          http_get(**kwargs).each_header do |name,value|
             headers[HTTP.header_name(name)] = value
           end
 
@@ -763,8 +763,8 @@ module Ronin
         #
         # Performs an HTTP Get request and returns the Respond Body.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_get}.
         #
         # @return [String]
         #   The body of the HTTP response.
@@ -773,15 +773,15 @@ module Ronin
         #
         # @api public
         #
-        def http_get_body(options={})
-          http_get(options).body
+        def http_get_body(**kwargs)
+          http_get(**kwargs).body
         end
 
         #
         # Performs an HTTP Head request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
         # @yield [response]
         #   If a block is given, it will be passed the response received from
@@ -797,8 +797,8 @@ module Ronin
         #
         # @api public
         #
-        def http_head(options={},&block)
-          response = http_request(options.merge(method: :head))
+        def http_head(**kwargs,&block)
+          response = http_request(method: :head, **kwargs)
 
           yield response if block_given?
           return response
@@ -807,8 +807,8 @@ module Ronin
         #
         # Performs an HTTP Lock request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
         # @yield [response]
         #   If a block is given, it will be passed the response received from
@@ -824,8 +824,8 @@ module Ronin
         #
         # @api public
         #
-        def http_lock(options={},&block)
-          response = http_request(options.merge(method: :lock))
+        def http_lock(**kwargs,&block)
+          response = http_request(method: :lock, **kwargs)
 
           yield response if block_given?
           return response
@@ -834,8 +834,8 @@ module Ronin
         #
         # Performs an HTTP Mkcol request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
         # @yield [response]
         #   If a block is given, it will be passed the response received from
@@ -851,8 +851,8 @@ module Ronin
         #
         # @api public
         #
-        def http_mkcol(options={},&block)
-          response = http_request(options.merge(method: :mkcol))
+        def http_mkcol(**kwargs,&block)
+          response = http_request(method: :mkcol, **kwargs)
 
           yield response if block_given?
           return response
@@ -861,8 +861,8 @@ module Ronin
         #
         # Performs an HTTP Move request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
         # @yield [response]
         #   If a block is given, it will be passed the response received from
@@ -878,8 +878,8 @@ module Ronin
         #
         # @api public
         #
-        def http_move(options={},&block)
-          response = http_request(options.merge(method: :move))
+        def http_move(**kwargs,&block)
+          response = http_request(method: :move, **kwargs)
 
           yield response if block_given?
           return response
@@ -888,8 +888,8 @@ module Ronin
         #
         # Performs an HTTP Options request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
         # @yield [response]
         #   If a block is given, it will be passed the response received from
@@ -905,8 +905,8 @@ module Ronin
         #
         # @api public
         #
-        def http_options(options={},&block)
-          response = http_request(options.merge(method: :options))
+        def http_options(**kwargs,&block)
+          response = http_request(method: :options, **kwargs)
 
           yield response if block_given?
           return response
@@ -915,10 +915,10 @@ module Ronin
         #
         # Performs an HTTP Post request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
-        # @option options [Hash, String] :form_data
+        # @option kwargs [Hash, String] :form_data
         #   The form data to send with the HTTP Post request.
         #
         # @yield [response]
@@ -935,8 +935,8 @@ module Ronin
         #
         # @api public
         #
-        def http_post(options={},&block)
-          response = http_request(options.merge(method: :post))
+        def http_post(**kwargs,&block)
+          response = http_request(method: :post, **kwargs)
 
           yield response if block_given?
           return response
@@ -945,10 +945,10 @@ module Ronin
         #
         # Performs an HTTP Post request and returns the Response Headers.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_post}.
         #
-        # @option options [Hash, String] :form_data
+        # @option kwargs [Hash, String] :form_data
         #   The form data to send with the HTTP Post request.
         #
         # @return [Hash{String => Array<String>}]
@@ -960,10 +960,10 @@ module Ronin
         #
         # @api public
         #
-        def http_post_headers(options={})
+        def http_post_headers(**kwargs)
           headers = {}
 
-          http_post(options).each_header do |name,value|
+          http_post(**kwargs).each_header do |name,value|
             headers[HTTP.header_name(name)] = value
           end
 
@@ -973,10 +973,10 @@ module Ronin
         #
         # Performs an HTTP Post request and returns the Response Body.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_post}.
         #
-        # @option options [Hash, String] :form_data
+        # @option kwargs [Hash, String] :form_data
         #   The form data to send with the HTTP Post request.
         #
         # @return [String]
@@ -986,20 +986,20 @@ module Ronin
         #
         # @api public
         #
-        def http_post_body(options={})
-          http_post(options).body
+        def http_post_body(**kwargs)
+          http_post(**kwargs).body
         end
 
         #
         # Performs an HTTP PUT request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
-        # @option options [String] :body
+        # @option kwargs [String] :body
         #   The body for the request.
         #
-        # @option options [Hash, String] :form_data
+        # @option kwargs [Hash, String] :form_data
         #   The form data to send with the HTTP PUT request.
         #
         # @yield [response]
@@ -1018,8 +1018,8 @@ module Ronin
         #
         # @api public
         #
-        def http_put(options={})
-          response = http_request(options.merge(method: :put))
+        def http_put(**kwargs)
+          response = http_request(method: :put, **kwargs)
 
           yield response if block_given?
           return response
@@ -1028,8 +1028,8 @@ module Ronin
         #
         # Performs an HTTP Propfind request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
         # @yield [response]
         #   If a block is given, it will be passed the response received from
@@ -1045,17 +1045,18 @@ module Ronin
         #
         # @api public
         #
-        def http_prop_find(options={},&block)
-          original_headers = options[:headers]
+        def http_prop_find(headers: nil, **kwargs,&block)
+          original_headers = headers
 
           # set the HTTP Depth header
-          options[:headers] = {depth: '0'}
+          headers = {depth: '0'}
+          headers.merge!(original_headers) if original_headers
 
-          if original_headers
-            options[:header].merge!(original_headers)
-          end
-
-          response = http_request(options.merge(method: :propfind))
+          response = http_request(
+            method: :propfind,
+            headers: headers,
+            **kwargs
+          )
 
           yield response if block_given?
           return response
@@ -1064,8 +1065,8 @@ module Ronin
         #
         # Performs an HTTP Proppatch request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
         # @yield [response]
         #   If a block is given, it will be passed the response received from
@@ -1081,8 +1082,8 @@ module Ronin
         #
         # @api public
         #
-        def http_prop_patch(options={},&block)
-          response = http_request(options.merge(method: :proppatch))
+        def http_prop_patch(**kwargs,&block)
+          response = http_request(method: :proppatch, **kwargs)
 
           yield response if block_given?
           return response
@@ -1091,8 +1092,8 @@ module Ronin
         #
         # Performs an HTTP Trace request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
         # @yield [response]
         #   If a block is given, it will be passed the response received from
@@ -1108,8 +1109,8 @@ module Ronin
         #
         # @api public
         #
-        def http_trace(options={},&block)
-          response = http_request(options.merge(method: :trace))
+        def http_trace(**kwargs,&block)
+          response = http_request(method: :trace, **kwargs)
 
           yield response if block_given?
           return response
@@ -1118,8 +1119,8 @@ module Ronin
         #
         # Performs an HTTP Unlock request.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#http_request}.
         #
         # @yield [response]
         #   If a block is given, it will be passed the response received from
@@ -1135,8 +1136,8 @@ module Ronin
         #
         # @api public
         #
-        def http_unlock(options={},&block)
-          response = http_request(options.merge(method: :unlock))
+        def http_unlock(**kwargs,&block)
+          response = http_request(method: :unlock, **kwargs)
 
           yield response if block_given?
           return response

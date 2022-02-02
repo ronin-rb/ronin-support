@@ -64,6 +64,9 @@ module Ronin
         #
         # Creates a properly formatted email.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {Email#initialize}.
+        #
         # @yield [email]
         #   If a block is given, it will be passed the newly created Email
         #   object.
@@ -74,19 +77,19 @@ module Ronin
         # @return [String]
         #   Formatted SMTP email.
         #
-        # @see SMTP::Email
+        # @see Email#initialize
         #
         # @api public
         #
-        def self.message(options={},&block)
-          Email.new(options,&block).to_s
+        def self.message(**kwargs,&block)
+          Email.new(**kwargs,&block).to_s
         end
 
         #
         # Creates a new email message.
         #
-        # @param [Hash] options
-        #   Additional options for the email.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {Email#initialize}.
         #
         # @yield [email]
         #   The given block will be passed the new email.
@@ -94,12 +97,12 @@ module Ronin
         # @yieldparam [Email] email
         #   The new email.
         #
-        # @see Email.new
+        # @see Email#initialize
         #
         # @api public
         #
-        def smtp_message(options={},&block)
-          Email.new(options,&block)
+        def smtp_message(**kwargs,&block)
+          Email.new(**kwargs,&block)
         end
 
         #
@@ -108,33 +111,30 @@ module Ronin
         # @param [String] host
         #   The host to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Integer] :port (SMTP.default_port)
-        #   The port to connect to.
-        #
-        # @option options [Boolean, Hash] :ssl
-        #   Additional SSL options.
-        #
-        # @option :ssl [Boolean] :verify
-        #   Specifies that the SSL certificate should be verified.
-        #
-        # @option :ssl [String] :certs
-        #   The path to the file containing CA certs of the server.
-        #
-        # @option options [String] :helo
-        #   The HELO domain.
-        #
-        # @option options [Symbol] :auth
-        #   The type of authentication to use. Can be either `:login`, `:plain`,
-        #   or `:cram_md5`.
-        #
-        # @option options [String] :user
+        # @param [String] user
         #   The user-name to authenticate with.
         #
-        # @option options [String] :password
+        # @param [String] password
         #   The password to authenticate with.
+        #
+        # @param [Integer] port (SMTP.default_port)
+        #   The port to connect to.
+        #
+        # @param [Boolean, Hash] ssl
+        #   Additional SSL options.
+        #
+        # @option ssl [Boolean] :verify
+        #   Specifies that the SSL certificate should be verified.
+        #
+        # @option ssl [String] :certs
+        #   The path to the file containing CA certs of the server.
+        #
+        # @param [String] helo
+        #   The HELO domain.
+        #
+        # @param [:login, :plain, :cram_md5] auth
+        #   The type of authentication to use. Can be either `:login`, `:plain`,
+        #   or `:cram_md5`.
         #
         # @yield [smtp]
         #   If a block is given, it will be passed an SMTP session object.
@@ -150,23 +150,22 @@ module Ronin
         #
         # @api public
         #
-        def smtp_connect(host,options={})
+        def smtp_connect(host,user,password, port: SMTP.default_port,
+                                               ssl:  nil,
+                                               helo: 'localhost',
+                                               auth: :login)
           host = host.to_s
-          port = (options[:port] || SMTP.default_port)
+          user = user.to_s
+          password = password.to_s
 
-          case options[:ssl]
+          case ssl
           when Hash
             ssl     = true
-            context = ssl_context(options[:ssl])
+            context = ssl_context(ssl)
           when TrueClass
             ssl     = true
             context = ssl_context
           end
-
-          helo     = options[:helo]
-          auth     = options[:auth]
-          user     = options[:user]
-          password = options[:password]
 
           smtp = Net::SMTP.new(host,port)
           smtp.enable_starttls(context) if ssl
@@ -182,33 +181,8 @@ module Ronin
         # @param [String] host
         #   The host to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Integer] :port (SMTP.default_port)
-        #   The port to connect to.
-        #
-        # @option options [Boolean, Hash] :ssl
-        #   Additional SSL options.
-        #
-        # @option :ssl [Boolean] :verify
-        #   Specifies that the SSL certificate should be verified.
-        #
-        # @option :ssl [String] :certs
-        #   The path to the file containing CA certs of the server.
-        #
-        # @option options [String] :helo
-        #   The HELO domain.
-        #
-        # @option options [Symbol] :auth
-        #   The type of authentication to use. Can be either `:login`, `:plain`,
-        #   or `:cram_md5`.
-        #
-        # @option options [String] :user
-        #   The user-name to authenticate with.
-        #
-        # @option options [String] :password
-        #   The password to authenticate with.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#smtp_connect}.
         #
         # @yield [smtp]
         #   If a block is given, it will be passed an SMTP session object.
@@ -226,8 +200,8 @@ module Ronin
         #
         # @api public
         #
-        def smtp_session(host,options={})
-          smtp = smtp_connect(host,options)
+        def smtp_session(host,user,password, **kwargs)
+          smtp = smtp_connect(host,**kwargs)
 
           yield smtp if block_given?
 
@@ -241,8 +215,45 @@ module Ronin
         # @param [String] host
         #   The host to connect to.
         #
-        # @param [Hash] options
-        #   Additional SMTP and Email options.
+        # @param [Integer] port (SMTP.default_port)
+        #   The port to connect to.
+        #
+        # @param [Boolean, Hash] ssl
+        #   Additional SSL options.
+        #
+        # @option ssl [Boolean] :verify
+        #   Specifies that the SSL certificate should be verified.
+        #
+        # @option ssl [String] :certs
+        #   The path to the file containing CA certs of the server.
+        #
+        # @param [String] helo
+        #   The HELO domain.
+        #
+        # @param [:login, :plain, :cram_md5] auth
+        #   The type of authentication to use. Can be either `:login`, `:plain`,
+        #   or `:cram_md5`.
+        #
+        # @param [String] from
+        #   The address the email is from.
+        #
+        # @param [Array, String] to
+        #   The address that the email should be sent to.
+        #
+        # @param [String] subject
+        #   The subject of the email.
+        #
+        # @param [String] message_id
+        #   Message-ID of the email.
+        #
+        # @param [String, Time] date
+        #   The date the email was sent on.
+        #
+        # @param [Hash<String => String}] headers
+        #   Additional headers.
+        #
+        # @param [String, Array<String>] body
+        #   The body of the email.
         #
         # @yield [email]
         #   The given block will be passed the new email to be sent.
@@ -272,10 +283,32 @@ module Ronin
         #
         # @api public
         #
-        def smtp_send_message(host,options={},&block)
-          email = smtp_message(options,&block)
+        def smtp_send_message(host,user,password, # smtp options
+                                                  port: SMTP.default_port,
+                                                  ssl:  nil,
+                                                  helo: 'localhost',
+                                                  auth: :login,
+                                                  # email options
+                                                  from:       nil,
+                                                  to:         nil,
+                                                  subject:    nil,
+                                                  date:       Time.now,
+                                                  message_id: nil,
+                                                  headers:    nil,
+                                                  body:       nil,
+                                                  &block)
+          email = smtp_message(
+            to:         to,
+            subject:    subject,
+            date:       date,
+            message_id: message_id,
+            headers:    headers,
+            body:       body,
+            &block
+          )
 
-          smtp_session(host,options) do |smtp|
+          smtp_session(host,user,password,
+                       port: port, ssl: ssl, helo: helo, auth: auth) do |smtp|
             smtp.send_message(email.to_s, email.from, email.to)
           end
         end

@@ -53,28 +53,25 @@ module Ronin
           #
           # Creates a new Email object.
           #
-          # @param [Hash] options
-          #   Additional options.
-          #
-          # @option options [String] :from
+          # @param [String] from
           #   The address the email is from.
           #
-          # @option options [Array, String] :to
+          # @param [Array, String] to
           #   The address that the email should be sent to.
           #
-          # @option options [String] :subject
+          # @param [String] subject
           #   The subject of the email.
           #
-          # @option options [String] :message_id
+          # @param [String] message_id
           #   Message-ID of the email.
           #
-          # @option options [String, Time] :date (Time.now)
+          # @param [String, Time] date
           #   The date the email was sent on.
           #
-          # @option options [Hash<String => String}] :headers
+          # @param [Hash<String => String}] headers
           #   Additional headers.
           #
-          # @option options [String, Array<String>] :body
+          # @param [String, Array<String>] body
           #   The body of the email.
           #
           # @yield [email]
@@ -86,26 +83,30 @@ module Ronin
           #
           # @api public
           #
-          def initialize(options={})
-            @from = options[:from]
-            @to = options[:to]
-            @subject = options[:subject]
-            @date = options.fetch(:date,Time.now)
-            @message_id = options[:message_id]
-            @headers = {}
+          def initialize(from:       nil,
+                         to:         nil,
+                         subject:    nil,
+                         date:       Time.now,
+                         message_id: nil,
+                         headers:    nil,
+                         body:       nil)
+            @from       = from
+            @to         = to
+            @subject    = subject
+            @date       = date
+            @message_id = message_id
 
-            if options[:headers]
-              @headers.merge!(options[:headers])
-            end
+            @headers = {}
+            @headers.merge!(headers) if headers
 
             @body = []
 
-            if options[:body]
-              case options[:body]
+            if body
+              case body
               when Array
-                @body += options[:body]
+                @body += body
               else
-                @body << options[:body]
+                @body << body
               end
             end
 

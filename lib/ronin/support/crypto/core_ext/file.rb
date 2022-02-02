@@ -191,25 +191,25 @@ class File
   # @param [String] cipher
   #   The cipher to use.
   #
-  # @param [Hash] options
-  #   Additional options.
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {Ronin::Support::Crypto.cipher}.
   #
-  # @option options [:encrypt, :decrypt] :mode
+  # @option kwargs [:encrypt, :decrypt] :mode
   #   The cipher mode.
   #
-  # @option options [Symbol] :hash (:sha1)
+  # @option kwargs [Symbol] :hash (:sha1)
   #   The algorithm to hash the `:password`.
   #
-  # @option options [String] :key
+  # @option kwargs [String] :key
   #   The secret key to use.
   #
-  # @option options [String] :password
+  # @option kwargs [String] :password
   #   The password for the cipher.
   #
-  # @option options [String] :iv
+  # @option kwargs [String] :iv
   #   The optional Initial Vector (IV).
   #
-  # @option options [Integer] :padding
+  # @option kwargs [Integer] :padding
   #   Sets the padding for the cipher.
   #
   # @yield [block]
@@ -227,8 +227,8 @@ class File
   #
   # @api public
   #
-  def self.encrypt(path,cipher,options={})
-    cipher = Ronin::Support::Crypto.cipher(cipher,options.merge(mode: :encrypt))
+  def self.encrypt(path,cipher,**kwargs)
+    cipher = Ronin::Support::Crypto.cipher(cipher, mode: :encrypt, **kwargs)
     output = ''
 
     open(path,'rb') do |file|
@@ -258,25 +258,25 @@ class File
   # @param [String] cipher
   #   The cipher to use.
   #
-  # @param [Hash] options
-  #   Additional options.
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {Ronin::Support::Crypto.cipher}.
   #
-  # @option options [:encrypt, :decrypt] :mode
+  # @option kwargs [:encrypt, :decrypt] :mode
   #   The cipher mode.
   #
-  # @option options [Symbol] :hash (:sha1)
+  # @option kwargs [Symbol] :hash (:sha1)
   #   The algorithm to hash the `:password`.
   #
-  # @option options [String] :key
+  # @option kwargs [String] :key
   #   The secret key to use.
   #
-  # @option options [String] :password
+  # @option kwargs [String] :password
   #   The password for the cipher.
   #
-  # @option options [String] :iv
+  # @option kwargs [String] :iv
   #   The optional Initial Vector (IV).
   #
-  # @option options [Integer] :padding
+  # @option kwargs [Integer] :padding
   #   Sets the padding for the cipher.
   #
   # @yield [block]
@@ -294,8 +294,8 @@ class File
   #
   # @api public
   #
-  def self.decrypt(path,cipher,options={})
-    cipher = Ronin::Support::Crypto.cipher(cipher,options.merge(mode: :decrypt))
+  def self.decrypt(path,cipher,**kwargs)
+    cipher = Ronin::Support::Crypto.cipher(cipher, mode: :decrypt, **kwargs)
     output = ''
 
     open(path,'rb') do |file|

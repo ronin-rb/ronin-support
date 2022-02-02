@@ -140,16 +140,13 @@ module Ronin
           #
           # Creates a new SSL Proxy.
           #
-          # @param [Hash] options
-          #   Additional options.
-          #
-          # @option options [String] :cert (SSL::DEFAULT_CERT_FILE)
+          # @param [String] cert
           #   The path to the SSL `.crt` file.
           #
-          # @option options [String] :key (SSL::DEFAULT_KEY_FILE)
+          # @param [String] key
           #   The path to the SSL `.key` file.
           #
-          # @option options [Symbol, Boolean] :verify (:none)
+          # @param [Symbol, Boolean] verify
           #   The SSL verify mode. Must be one of:
           #
           #   * `:none`
@@ -159,18 +156,26 @@ module Ronin
           #   * `true` (alias for `:peer`)
           #   * `false` (alias for `:none`)
           #
-          # @option options [String] :certs
+          # @param [String] certs
           #   Path to the CA certificate file or directory.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {TCP::Proxy#initialize}.
           #
           # @see Network::Proxy#initialize
           #
-          def initialize(options={},&block)
-            @cert   = options.fetch(:cert,SSL::DEFAULT_CERT_FILE)
-            @key    = options.fetch(:key,SSL::DEFAULT_KEY_FILE)
-            @verify = options.fetch(:verify,:none)
-            @certs  = options[:certs]
+          def initialize(cert:   SSL::DEFAULT_CERT_FILE,
+                         key:    SSL::DEFAULT_KEY_FILE,
+                         verify: :none,
+                         certs:  nil,
+                         **kwargs,
+                         &block)
+            @cert   = cert
+            @key    = key
+            @verify = verify
+            @certs  = certs
 
-            super(options,&block)
+            super(**kwargs,&block)
           end
 
           protected

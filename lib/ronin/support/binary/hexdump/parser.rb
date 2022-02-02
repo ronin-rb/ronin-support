@@ -98,14 +98,11 @@ module Ronin
           #
           # Initializes the hexdump parser.
           #
-          # @param [Hash] options
-          #   Additional options.
-          #
-          # @option options [Symbol] :format
+          # @param [Symbol] format
           #   The expected format of the hexdump. Must be either `:od` or
           #   `:hexdump`.
           #
-          # @option options [Symbol] :encoding
+          # @param [Symbol] encoding
           #   Denotes the encoding used for the bytes within the hexdump.
           #   Must be one of the following:
           #
@@ -130,18 +127,20 @@ module Ronin
           #   * `:floats`
           #   * `:doubles`
           #
-          # @option options [:little, :big, :network] :endian (:little)
+          # @param [:little, :big, :network] endian
           #   The endianness of the words.
           #
-          def initialize(options={})
-            @format   = options[:format]
-            @encoding = options[:encoding]
+          def initialize(format:   :hexdump,
+                         encoding: :hex_bytes,
+                         endian:   :little)
+            @format   = format
+            @encoding = encoding
+            @endian   = endian
 
             @type = case @encoding
                     when :floats, :doubles then :float
                     else                        :integer
                     end
-            @endian = options.fetch(:endian,:little)
 
             case @format
             when :od
@@ -159,8 +158,8 @@ module Ronin
             end
 
             if @encoding
-              @base      = BASES.fetch(options[:encoding])
-              @word_size = WORD_SIZES.fetch(options[:encoding])
+              @base      = BASES.fetch(encoding)
+              @word_size = WORD_SIZES.fetch(encoding)
             end
 
             @chars = case @encoding

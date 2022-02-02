@@ -431,18 +431,6 @@ describe Network::HTTP do
         
         expect(http).to be_kind_of(Net::HTTP)
       end
-
-      it "should allow yielding the expanded options" do
-        expanded_options = nil
-
-        subject.http_session(url: uri) do |session,options|
-          expanded_options = options
-        end
-
-        expect(expanded_options[:host]).to eq(host)
-        expect(expanded_options[:port]).to eq(port)
-        expect(expanded_options[:path]).to eq(path)
-      end
     end
 
     describe "#http_request" do
@@ -460,18 +448,6 @@ describe Network::HTTP do
         end
 
         expect(request).to be_kind_of(Net::HTTP::Options)
-      end
-
-      it "should allow yielding the expanded options" do
-        expanded_options = nil
-
-        subject.http_request(url: uri, method: :options) do |req,options|
-          expanded_options = options
-        end
-        
-        expect(expanded_options[:host]).to eq(host)
-        expect(expanded_options[:port]).to eq(port)
-        expect(expanded_options[:path]).to eq(path)
       end
     end
 

@@ -19,14 +19,18 @@ describe Network::SMTP do
 
     describe "#smtp_connect" do
       it "should return a Net::SMTP object" do
-        smtp = subject.smtp_connect(host)
+        pending "need valid SMTP credentials"
+
+        smtp = subject.smtp_connect(host,user,password)
 
         smtp.should be_kind_of(Net::SMTP)
         smtp.finish
       end
 
       it "should connect to an SMTP service" do
-        smtp = subject.smtp_connect(host)
+        pending "need valid SMTP credentials"
+
+        smtp = subject.smtp_connect(host,user,password)
 
         smtp.should be_started
         smtp.finish
@@ -34,7 +38,9 @@ describe Network::SMTP do
 
       context "when given a block" do
         it "should yield the new Net::SMTP object" do
-          smtp = subject.smtp_connect(host) do |smtp|
+          pending "need valid SMTP credentials"
+
+          smtp = subject.smtp_connect(host,user,password) do |smtp|
             smtp.should be_kind_of(Net::SMTP)
           end
 
@@ -46,7 +52,9 @@ describe Network::SMTP do
         let(:port) { 587 }
 
         it "should initiate a SSL connection" do
-          smtp = subject.smtp_connect(host, port: port, ssl: true)
+          pending "need valid SMTP credentials"
+
+          smtp = subject.smtp_connect(host,user,password, port: port, ssl: true)
 
           smtp.should be_started
           smtp.finish
@@ -56,9 +64,11 @@ describe Network::SMTP do
 
     describe "#smtp_session" do
       it "should yield a new Net::SMTP object" do
+        pending "need valid SMTP credentials"
+
         yielded_smtp = nil
 
-        subject.smtp_session(host) do |smtp|
+        subject.smtp_session(host,user,passowrd) do |smtp|
           yielded_smtp = smtp
         end
 
@@ -66,10 +76,12 @@ describe Network::SMTP do
       end
 
       it "should finish the SMTP session after yielding it" do
+        pending "need valid SMTP credentials"
+
         smtp        = nil
         was_started = nil
 
-        subject.smtp_session(host) do |yielded_smtp|
+        subject.smtp_session(host,user,password) do |yielded_smtp|
           smtp        = yielded_smtp
           was_started = smtp.started?
         end

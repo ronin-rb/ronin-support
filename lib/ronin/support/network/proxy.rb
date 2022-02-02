@@ -86,19 +86,16 @@ module Ronin
         #
         # Creates a new Proxy.
         #
-        # @param [Hash] options
-        #   Options for the proxy.
-        #
-        # @option options [String] :host (DEFAULT_HOST)
+        # @param [String] host
         #   The host to listen on.
         #
-        # @option options [Integer] :port
+        # @param [Integer] port
         #   The port to listen on.
         #
-        # @option options [String, (host, port)] :server
+        # @param [String, (host, port)] server
         #   The server to forward connections to.
         #
-        # @option options [Integer] :buffer_size (DEFAULT_BUFFER_SIZE)
+        # @param [Integer] buffer_size
         #   The maximum amount of data to read in.
         #
         # @yield [proxy]
@@ -114,16 +111,19 @@ module Ronin
         # @example Proxies `localhost:25` to `victim.com:25`:
         #   Proxy.new(port: 25, host: 'localhost', server: 'victim.com')
         #
-        def initialize(options={})
-          @host = options.fetch(:host,DEFAULT_HOST)
-          @port = options.fetch(:port)
+        def initialize(host: DEFAULT_HOST,
+                       port: ,
+                       server: ,
+                       buffer_size: DEFAULT_BUFFER_SIZE)
+          @host = host
+          @port = port
 
-          @server_host, @server_port = options.fetch(:server)
+          @server_host, @server_port = server
           @server_port ||= @port
 
           @callbacks = {client_data: [], server_data: []}
 
-          @buffer_size = options.fetch(:buffer_size,DEFAULT_BUFFER_SIZE)
+          @buffer_size = buffer_size
           @connections = {}
 
           yield self if block_given?
@@ -132,12 +132,15 @@ module Ronin
         #
         # Creates a new Proxy and begins relaying data.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#initialize}.
+        #
         # @see #initialize
         #
         # @api public
         #
-        def self.start(options={},&block)
-          new(options,&block).start
+        def self.start(**kwargs,&block)
+          new(**kwargs,&block).start
         end
 
         #

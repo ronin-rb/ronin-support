@@ -97,6 +97,9 @@ class String
   #
   # Formats the bytes of the String.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {#format_bytes}.
+  #
   # @return [String]
   #   The HTTP hexadecimal encoded form of the String.
   #
@@ -108,8 +111,8 @@ class String
   #
   # @api public
   #
-  def format_http(options={})
-    format_bytes(options) { |b| b.format_http }
+  def format_http(**kwargs)
+    format_bytes(**kwargs) { |b| b.format_http }
   end
 
   #

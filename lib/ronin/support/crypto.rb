@@ -72,9 +72,6 @@ module Ronin
       # @param [String] name
       #   The cipher name.
       #
-      # @param [Hash] options
-      #   Additional options.
-      #
       # @option options [:encrypt, :decrypt] :mode
       #   The cipher mode.
       #
@@ -96,31 +93,35 @@ module Ronin
       # @return [OpenSSL::Cipher]
       #   The newly created cipher.
       #
+      # @raise [ArgumentError]
+      #   Either the the `key:` or `password:` keyword argument must be given.
+      #
       # @example
       #   Crypto.cipher('aes-128-cbc', mode: :encrypt, key 'secret'.md5)
       #   # => #<OpenSSL::Cipher:0x0000000170d108>
       #
-      def self.cipher(name,options={})
+      def self.cipher(name, mode: ,
+                            hash:     :sha256,
+                            key:      nil,
+                            password: nil,
+                            iv:       nil,
+                            padding:  nil)
         cipher = OpenSSL::Cipher.new(name)
-        hash   = options.fetch(:hash,:sha256)
 
-        case options[:mode]
+        case mode
         when :encrypt then cipher.encrypt
         when :decrypt then cipher.decrypt
         end
 
-        if options[:iv]
-          cipher.iv = options[:iv]
-        end
+        cipher.iv      = iv      if iv
+        cipher.padding = padding if padding
 
-        if options[:padding]
-          cipher.padding = options[:padding]
-        end
-
-        if options[:password] && hash
-          cipher.key = digest(hash).digest(options[:password])
-        elsif options[:key]
-          cipher.key = options[:key]
+        if password && hash
+          cipher.key = digest(hash).digest(password)
+        elsif key
+          cipher.key = key
+        else
+          raise(ArgumentError,"the the key: or password: keyword argument must be given")
         end
 
         return cipher

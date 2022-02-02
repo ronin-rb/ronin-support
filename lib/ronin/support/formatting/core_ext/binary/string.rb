@@ -102,6 +102,9 @@ class String
   #
   # Hex-escapes characters in the String.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {#format_bytes}.
+  #
   # @return [String]
   #   The hex escaped version of the String.
   #
@@ -113,8 +116,8 @@ class String
   #
   # @api public
   #
-  def hex_escape(options={})
-    format_bytes(options) { |b| b.hex_escape }
+  def hex_escape(**kwargs)
+    format_bytes(**kwargs) { |b| b.hex_escape }
   end
 
   alias hex_unescape unescape
@@ -249,14 +252,15 @@ class String
   #
   # Converts a multitude of hexdump formats back into raw-data.
   #
-  # @param [Hash] options
-  #   Additional options.
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for
+  #   {Ronin::Support::Binary::Hexdump::Parser#initialize}.
   #
-  # @option options [Symbol] :format
+  # @option kwargs [Symbol] :format
   #   The expected format of the hexdump. Must be either `:od` or
   #   `:hexdump`.
   #
-  # @option options [Symbol] :encoding
+  # @option kwargs [Symbol] :encoding
   #   Denotes the encoding used for the bytes within the hexdump.
   #   Must be one of the following:
   #
@@ -281,10 +285,10 @@ class String
   #   * `:floats`
   #   * `:doubles`
   #
-  # @option options [:little, :big, :network] :endian (:little)
+  # @option kwargs [:little, :big, :network] :endian (:little)
   #   The endianness of the words.
   #
-  # @option options [Integer] :segment (16)
+  # @option kwargs [Integer] :segment (16)
   #   The length in bytes of each segment in the hexdump.
   #
   # @return [String]
@@ -292,8 +296,8 @@ class String
   #
   # @api public
   #
-  def unhexdump(options={})
-    Ronin::Support::Binary::Hexdump::Parser.new(options).parse(self)
+  def unhexdump(**kwargs)
+    Ronin::Support::Binary::Hexdump::Parser.new(**kwargs).parse(self)
   end
 
 end

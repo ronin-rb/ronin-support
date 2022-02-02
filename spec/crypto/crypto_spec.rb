@@ -61,12 +61,7 @@ describe Crypto do
   describe "cipher" do
     let(:name)     { 'aes-256-cbc' }
     let(:password) { 'secret'      }
-
-    subject { described_class.cipher(name) }
-
-    it "should return a new OpenSSL::Cipher" do
-      expect(subject).to be_kind_of(OpenSSL::Cipher)
-    end
+    let(:mode)     { :decrypt      }
 
     context "when :key is set" do
       let(:key)         { Digest::MD5.hexdigest(password) }
@@ -78,7 +73,11 @@ describe Crypto do
         cipher.update(clear_text) + cipher.final
       end
 
-      subject { described_class.cipher(name, mode: :decrypt, key: key) }
+      subject { described_class.cipher(name, mode: mode, key: key) }
+
+      it "should return a new OpenSSL::Cipher" do
+        expect(subject).to be_kind_of(OpenSSL::Cipher)
+      end
 
       it "should use the given key" do
         expect(subject.update(cipher_text) + subject.final).to eq(clear_text)
@@ -96,7 +95,7 @@ describe Crypto do
         end
 
         subject do
-          described_class.cipher(name, mode: :decrypt, key: key, iv: iv)
+          described_class.cipher(name, mode: mode, key: key, iv: iv)
         end
 
         it "should set the IV" do
@@ -116,7 +115,11 @@ describe Crypto do
       end
 
       subject do
-        described_class.cipher(name, mode: :decrypt,  password: password)
+        described_class.cipher(name, mode: mode,  password: password)
+      end
+
+      it "should return a new OpenSSL::Cipher" do
+        expect(subject).to be_kind_of(OpenSSL::Cipher)
       end
 
       it "should default :hash to :sha256" do
@@ -142,6 +145,14 @@ describe Crypto do
         it "should derive the key from the hash and password" do
           expect(subject.update(cipher_text) + subject.final).to eq(clear_text)
         end
+      end
+    end
+
+    context "when either key: nor password: are given" do
+      it do
+        expect {
+          described_class.cipher(name, mode: :decrypt)
+        }.to raise_error(ArgumentError,"the the key: or password: keyword argument must be given")
       end
     end
   end

@@ -19,20 +19,22 @@ describe Network::IMAP do
     let(:port) { 993 }
 
     describe "#imap_connect" do
-      pending "need valid IMAP credentials" do
-        it "should return a Net::IMAP object" do
-          imap = subject.imap_connect(host, port: port, ssl: true)
+      it "should return a Net::IMAP object" do
+        pending "need valid IMAP credentials"
 
-          imap.should be_kind_of(Net::IMAP)
+        imap = subject.imap_connect(host,user,password, port: port, ssl: true)
 
-          imap.close
-          imap.disconnect
-        end
+        imap.should be_kind_of(Net::IMAP)
+
+        imap.close
+        imap.disconnect
       end
 
       pending "need valid IMAP credentials" do
         it "should connect to an IMAP service" do
-          imap = subject.imap_connect(host, port: port, ssl: true)
+          pending "need valid IMAP credentials"
+
+          imap = subject.imap_connect(host,user,password, port: port, ssl: true)
 
           imap.close
           imap.disconnect
@@ -42,7 +44,10 @@ describe Network::IMAP do
       context "when given a block" do
         pending "need valid IMAP credentials" do
           it "should yield the new Net::IMAP object" do
-            imap = subject.imap_connect(host, port: port, ssl: true) do |imap|
+            pending "need valid IMAP credentials"
+
+            imap = subject.imap_connect(host,user,password, port: port,
+                                                            ssl: true) do |imap|
               imap.should be_kind_of(Net::IMAP)
             end
 
@@ -56,9 +61,12 @@ describe Network::IMAP do
     describe "#imap_session" do
       pending "need valid IMAP credentials" do
         it "should yield a new Net::IMAP object" do
+          pending "need valid IMAP credentials"
+
           yielded_imap = nil
 
-          subject.imap_session(host, port: port, ssl: true) do |imap|
+          subject.imap_session(host,user,password, port: port,
+                                                   ssl: true) do |imap|
             yielded_imap = imap
           end
 
@@ -68,10 +76,13 @@ describe Network::IMAP do
 
       pending "need valid IMAP credentials" do
         it "should disconnect the IMAP session after yielding it" do
+          pending "need valid IMAP credentials"
+
           imap          = nil
           was_connected = nil
 
-          subject.imap_session(host, port: port, ssl: true) do |yielded_imap|
+          subject.imap_session(host,user,password, port: port,
+                                                   ssl: true) do |yielded_imap|
             imap          = yielded_imap
             was_connected = !imap.disconnected?
           end

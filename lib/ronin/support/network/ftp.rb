@@ -69,22 +69,19 @@ module Ronin
         # @param [String] host
         #   The host to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Integer] :port (FTP.default_port)
+        # @param [Integer] port
         #   The port to connect to.
         #
-        # @option options [String] :user (DEFAULT_USER)
+        # @param [String] user
         #   The user to authenticate with.
         #
-        # @option options [String] :password
+        # @param [String] password
         #   The password to authenticate with.
         #
-        # @option options [String] :account
+        # @param [String] account
         #   The FTP account information to send via the `ACCT` command.
         #
-        # @option options [Boolean] :passive (true)
+        # @param [Boolean] passive
         #   Specifies whether the FTP session should use passive mode.
         #
         # @yield [ftp]
@@ -101,17 +98,17 @@ module Ronin
         #
         # @api public
         #
-        def ftp_connect(host,options={})
+        def ftp_connect(host, port:     FTP.default_port,
+                              user:     DEFAULT_USER,
+                              password: nil,
+                              account:  nil,
+                              passive:  true)
           host     = host.to_s
-          port     = (options[:port] || FTP.default_port)
-          user     = (options[:user] || DEFAULT_USER)
-          password = options[:password]
-          acct     = options[:account]
 
           ftp = Net::FTP.new
           ftp.connect(host,port)
-          ftp.login(user,password,acct)
-          ftp.passive = options.fetch(:passive,true)
+          ftp.login(user,password,account)
+          ftp.passive = passive
 
           yield ftp if block_given?
           return ftp
@@ -123,22 +120,22 @@ module Ronin
         # @param [String] host
         #   The host to connect to.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#ftp_connect}.
         #
-        # @option options [Integer] :port (FTP.default_port)
+        # @option kwargs [Integer] :port (FTP.default_port)
         #   The port to connect to.
         #
-        # @option options [String] :user (DEFAULT_USER)
+        # @option kwargs [String] :user (DEFAULT_USER)
         #   The user to authenticate with.
         #
-        # @option options [String] :password
+        # @option kwargs [String] :password
         #   The password to authenticate with.
         #
-        # @option options [String] :account
+        # @option kwargs [String] :account
         #   The FTP account information to send via the `ACCT` command.
         #
-        # @option options [Boolean] :passive (true)
+        # @option kwargs [Boolean] :passive (true)
         #   Specifies whether the FTP session should use passive mode.
         #
         # @yield [ftp]
@@ -157,8 +154,8 @@ module Ronin
         #
         # @api public
         #
-        def ftp_session(host,options={})
-          ftp = ftp_connect(host,options)
+        def ftp_session(host,**kwargs)
+          ftp = ftp_connect(host,**kwargs)
 
           yield ftp if block_given?
 

@@ -53,10 +53,7 @@ module Ronin
         #
         # Creates a new SSL Context.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Symbol, Boolean] :verify (:none)
+        # @param [Symbol, Boolean] verify
         #   Specifies whether to verify the SSL certificate.
         #   May be one of the following:
         #
@@ -81,25 +78,25 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_context(options={})
+        def ssl_context(verify: :none, cert: nil, key: nil, certs: nil)
           context = OpenSSL::SSL::SSLContext.new()
-          context.verify_mode = SSL::VERIFY[options.fetch(:verify,:none)]
+          context.verify_mode = SSL::VERIFY[verify]
 
-          if options[:cert]
-            file = File.new(options[:cert])
+          if cert
+            file = File.new(cert)
             context.cert = OpenSSL::X509::Certificate.new(file)
           end
 
-          if options[:key]
-            file = File.new(options[:key])
+          if key
+            file = File.new(key)
             context.key = OpenSSL::PKey::RSA.new(file)
           end
 
-          if options[:certs]
-            if File.file?(options[:certs])
-              context.ca_file = options[:certs]
-            elsif File.directory?(options[:certs])
-              context.ca_path = options[:certs]
+          if certs
+            if File.file?(certs)
+              context.ca_file = certs
+            elsif File.directory?(certs)
+              context.ca_path = certs
             end
           end
 
@@ -112,10 +109,10 @@ module Ronin
         # @param [TCPSocket] socket
         #   The existing TCP socket.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#ssl_context}.
         #
-        # @option options [Symbol, Boolean] :verify
+        # @option kwargs [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   May be one of the following:
         #
@@ -124,10 +121,10 @@ module Ronin
         #   * `:fail_if_no_peer_cert`
         #   * `:client_once`
         #
-        # @option options [String] :cert
+        # @option kwargs [String] :cert
         #   The path to the SSL `.crt` file.
         #
-        # @option options [String] :key
+        # @option kwargs [String] :key
         #   The path to the SSL `.key` file.
         #
         # @return [OpenSSL::SSL::SSLSocket]
@@ -137,8 +134,8 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_socket(socket,options={})
-          ssl_socket = OpenSSL::SSL::SSLSocket.new(socket,ssl_context(options))
+        def ssl_socket(socket,**kwargs)
+          ssl_socket = OpenSSL::SSL::SSLSocket.new(socket,ssl_context(**kwargs))
           ssl_socket.sync_close = true
           return ssl_socket
         end
@@ -158,8 +155,11 @@ module Ronin
         # @param [Integer] local_port
         #   The local port to bind to.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Integer] timeout (5)
+        #   The maximum time to attempt connecting.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#ssl_session}.
         #
         # @option options [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
@@ -176,9 +176,6 @@ module Ronin
         # @option options [String] :key
         #   The path to the SSL `.key` file.
         #
-        # @option options [Integer] :timeout (5)
-        #   The maximum time to attempt connecting.
-        #
         # @return [Boolean, nil]
         #   Specifies whether the remote SSLed TCP port is open.
         #   If the connection was not accepted, `nil` will be returned.
@@ -194,12 +191,11 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_open?(host,port,local_host=nil,local_port=nil,options={})
-          timeout = options.fetch(:timeout,5)
-
+        def ssl_open?(host,port,local_host=nil,local_port=nil, timeout: 5,
+                                                               **kwargs)
           begin
             Timeout.timeout(timeout) do
-              ssl_session(host,port,local_host,local_port,options)
+              ssl_session(host,port,local_host,local_port,**kwargs)
             end
 
             return true
@@ -225,10 +221,10 @@ module Ronin
         # @param [Integer] local_port
         #   The local port to bind to.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#ssl_socket}.
         #
-        # @option options [Symbol, Boolean] :verify
+        # @option kwargs [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   May be one of the following:
         #
@@ -237,10 +233,10 @@ module Ronin
         #   * `:fail_if_no_peer_cert`
         #   * `:client_once`
         #
-        # @option options [String] :cert
+        # @option kwargs [String] :cert
         #   The path to the SSL `.crt` file.
         #
-        # @option options [String] :key
+        # @option kwargs [String] :key
         #   The path to the SSL `.key` file.
         #
         # @yield [ssl_socket]
@@ -259,9 +255,9 @@ module Ronin
         #
         # @api public
         #
-        def ssl_connect(host,port,local_host=nil,local_port=nil,options={})
+        def ssl_connect(host,port,local_host=nil,local_port=nil,**kwargs)
           socket     = tcp_connect(host,port,local_host,local_port)
-          ssl_socket = ssl_socket(socket,options)
+          ssl_socket = ssl_socket(socket,**kwargs)
           ssl_socket.connect
 
           yield ssl_socket if block_given?
@@ -286,10 +282,10 @@ module Ronin
         # @param [Integer] local_port
         #   The local port to bind to.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#ssl_connect}.
         #
-        # @option options [Symbol, Boolean] :verify
+        # @option kwargs [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   May be one of the following:
         #
@@ -298,10 +294,10 @@ module Ronin
         #   * `:fail_if_no_peer_cert`
         #   * `:client_once`
         #
-        # @option options [String] :cert
+        # @option kwargs [String] :cert
         #   The path to the SSL `.crt` file.
         #
-        # @option options [String] :key
+        # @option kwargs [String] :key
         #   The path to the SSL `.key` file.
         #
         # @yield [ssl_socket]
@@ -314,8 +310,8 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_connect_and_send(data,host,port,local_host=nil,local_port=nil,options={})
-          socket = ssl_connect(host,port,local_host,local_port,options)
+        def ssl_connect_and_send(data,host,port,local_host=nil,local_port=nil,**kwargs)
+          socket = ssl_connect(host,port,local_host,local_port,**kwargs)
           socket.write(data)
 
           yield socket if block_given?
@@ -337,10 +333,10 @@ module Ronin
         # @param [Integer] local_port
         #   The local port to bind to.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#ssl_connect}.
         #
-        # @option options [Symbol, Boolean] :verify
+        # @option kwargs [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   May be one of the following:
         #
@@ -349,10 +345,10 @@ module Ronin
         #   * `:fail_if_no_peer_cert`
         #   * `:client_once`
         #
-        # @option options [String] :cert
+        # @option kwargs [String] :cert
         #   The path to the SSL `.crt` file.
         #
-        # @option options [String] :key
+        # @option kwargs [String] :key
         #   The path to the SSL `.key` file.
         #
         # @yield [ssl_socket]
@@ -374,8 +370,8 @@ module Ronin
         #
         # @api public
         #
-        def ssl_session(host,port,local_host=nil,local_port=nil,options={},&block)
-          socket = ssl_connect(host,port,local_host,local_port,options,&block)
+        def ssl_session(host,port,local_host=nil,local_port=nil,**kwargs,&block)
+          socket = ssl_connect(host,port,local_host,local_port,**kwargs,&block)
           socket.close
           return nil
         end
@@ -395,10 +391,10 @@ module Ronin
         # @param [Integer] local_port
         #   The local port to bind to.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#ssl_session}.
         #
-        # @option options [Symbol, Boolean] :verify
+        # @option kwargs [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   May be one of the following:
         #
@@ -407,10 +403,10 @@ module Ronin
         #   * `:fail_if_no_peer_cert`
         #   * `:client_once`
         #
-        # @option options [String] :cert
+        # @option kwargs [String] :cert
         #   The path to the SSL `.crt` file.
         #
-        # @option options [String] :key
+        # @option kwargs [String] :key
         #   The path to the SSL `.key` file.
         #
         # @yield [banner]
@@ -430,10 +426,10 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_banner(host,port,local_host=nil,local_port=nil,options={})
+        def ssl_banner(host,port,local_host=nil,local_port=nil,**kwargs)
           banner = nil
 
-          ssl_session(host,port,local_host,local_port,options) do |ssl_socket|
+          ssl_session(host,port,local_host,local_port,**kwargs) do |ssl_socket|
             banner = ssl_socket.readline.strip
           end
 
@@ -460,10 +456,10 @@ module Ronin
         # @param [Integer] local_port
         #   The local port to bind to.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#ssl_session}.
         #
-        # @option options [Symbol, Boolean] :verify
+        # @option kwargs [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   May be one of the following:
         #
@@ -472,10 +468,10 @@ module Ronin
         #   * `:fail_if_no_peer_cert`
         #   * `:client_once`
         #
-        # @option options [String] :cert
+        # @option kwargs [String] :cert
         #   The path to the SSL `.crt` file.
         #
-        # @option options [String] :key
+        # @option kwargs [String] :key
         #   The path to the SSL `.key` file.
         #
         # @return [true]
@@ -490,8 +486,8 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_send(data,host,port,local_host=nil,local_port=nil,options={})
-          ssl_session(host,port,local_host,local_port,options) do |socket|
+        def ssl_send(data,host,port,local_host=nil,local_port=nil,**kwargs)
+          ssl_session(host,port,local_host,local_port,**kwargs) do |socket|
             socket.write(data)
           end
 
@@ -504,10 +500,10 @@ module Ronin
         # @param [TCPSocket] socket
         #   The existing TCP socket.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#ssl_socket}.
         #
-        # @option options [Symbol, Boolean] :verify
+        # @option kwargs [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   May be one of the following:
         #
@@ -516,10 +512,10 @@ module Ronin
         #   * `:fail_if_no_peer_cert`
         #   * `:client_once`
         #
-        # @option options [String] :cert (DEFAULT_CERT_FILE)
+        # @option kwargs [String] :cert (DEFAULT_CERT_FILE)
         #   The path to the SSL `.crt` file.
         #
-        # @option options [String] :key (DEFAULT_KEY_FILE)
+        # @option kwargs [String] :key (DEFAULT_KEY_FILE)
         #   The path to the SSL `.key` file.
         #
         # @return [OpenSSL::SSL::SSLSocket]
@@ -529,13 +525,10 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_server_socket(socket,options={})
-          options = {
-            cert: DEFAULT_CERT_FILE,
-            key:  DEFAULT_KEY_FILE
-          }.merge(options)
-
-          return ssl_socket(socket,options)
+        def ssl_server_socket(socket, cert: DEFAULT_CERT_FILE,
+                                      key:  DEFAULT_KEY_FILE,
+                                      **kwargs)
+          return ssl_socket(socket, cert: cert, key: key, **kwargs)
         end
 
         #
@@ -548,13 +541,13 @@ module Ronin
         # @param [String] host
         #   The host to bind to.
         #
-        # @param [Hash] options
-        #   Additional options.
-        #
-        # @option options [Integer] :backlog (5)
+        # @param [Integer] backlog (5)
         #   The maximum backlog of pending connections.
         #
-        # @option options [Symbol, Boolean] :verify
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#ssl_server_socket}.
+        #
+        # @option kwargs [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   May be one of the following:
         #
@@ -563,10 +556,10 @@ module Ronin
         #   * `:fail_if_no_peer_cert`
         #   * `:client_once`
         #
-        # @option options [String] :cert (DEFAULT_CERT_FILE)
+        # @option kwargs [String] :cert (DEFAULT_CERT_FILE)
         #   The path to the SSL `.crt` file.
         #
-        # @option options [String] :key (DEFAULT_KEY_FILE)
+        # @option kwargs [String] :key (DEFAULT_KEY_FILE)
         #   The path to the SSL `.key` file.
         #
         # @yield [client]
@@ -591,13 +584,11 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_server_loop(port=nil,host=nil,options={})
-          backlog = options[:backlog]
-
+        def ssl_server_loop(port=nil,host=nil, backlog: 5, **kwargs)
           return tcp_server_session(port,host,backlog) do |server|
             loop do
               client     = server.accept
-              ssl_client = ssl_server_socket(client,options)
+              ssl_client = ssl_server_socket(client,**kwargs)
               ssl_client.accept
 
               yield ssl_client if block_given?
@@ -616,13 +607,10 @@ module Ronin
         # @param [String] host
         #   The host to bind to.
         #
-        # @param [Hash] options
-        #   Additional options.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#ssl_server_socket}.
         #
-        # @option options [Integer] :backlog (5)
-        #   The maximum backlog of pending connections.
-        #
-        # @option options [Symbol, Boolean] :verify
+        # @option kwargs [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
         #   May be one of the following:
         #
@@ -631,10 +619,10 @@ module Ronin
         #   * `:fail_if_no_peer_cert`
         #   * `:client_once`
         #
-        # @option options [String] :cert (DEFAULT_CERT_FILE)
+        # @option kwargs [String] :cert (DEFAULT_CERT_FILE)
         #   The path to the SSL `.crt` file.
         #
-        # @option options [String] :key (DEFAULT_KEY_FILE)
+        # @option kwargs [String] :key (DEFAULT_KEY_FILE)
         #   The path to the SSL `.key` file.
         #
         # @example
@@ -665,7 +653,7 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def ssl_accept(port=nil,host=nil,options={})
+        def ssl_accept(port=nil,host=nil,**kwargs)
           tcp_server_session(port,host,1) do |server|
             client     = server.accept
             ssl_client = ssl_server_socket(client,options)
