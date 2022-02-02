@@ -56,22 +56,32 @@ module Ronin
           # Word-sizes for various encodings
           WORD_SIZES = {
             binary:           1,
-            octal_bytes:      1,
+            binary_bytes:     1,
+            binary_shorts:    2,
+            binary_ints:      4,
+            binary_quads:     8,
+
+            decimal:          1,
             decimal_bytes:    1,
+            decimal_shorts:   2,
+            decimal_ints:     4,
+            decimal_quads:    8,
+
+            floats:           4,
+            doubles:          8,
+
+            hex:              1,
             hex_bytes:        1,
             hex_chars:        1,
-            named_chars:      1,
-            octal_shorts:     2,
-            decimal_shorts:   2,
             hex_shorts:       2,
-            octal_ints:       4,
-            decimal_ints:     4,
             hex_ints:         4,
-            octal_quads:      8,
-            decimal_quads:    8,
             hex_quads:        8,
-            floats:           4,
-            doubles:          8
+
+            named_chars:      1,
+            octal_bytes:      1,
+            octal_shorts:     2,
+            octal_ints:       4,
+            octal_quads:      8
           }
 
           # The format to parse (`:hexdump` / `:od`)
