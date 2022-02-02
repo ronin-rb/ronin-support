@@ -147,12 +147,6 @@ describe Network::SSL do
     end
 
     describe "#ssl_connect" do
-      it "should connect to an SSL protected port" do
-        expect {
-          subject.ssl_connect(host,port)
-        }.to raise_error(OpenSSL::SSL::SSLError)
-      end
-
       it "should return an OpenSSL::SSL::SSLSocket" do
         socket = subject.ssl_connect(host,port)
 
@@ -174,14 +168,16 @@ describe Network::SSL do
 
     describe "#ssl_connect_and_send" do
       let(:data) { "HELO ronin\n" }
-      let(:expected_response) { "250 mx.google.com at your service\r\n" }
+      let(:expected_response) do
+        /^250 (smtp\.gmail\.com|mx\.google\.com) at your service\r\n$/
+      end
 
       it "should connect and then send data" do
         socket   = subject.ssl_connect_and_send(data,host,port)
         banner   = socket.readline
         response = socket.readline
 
-        expect(response).to eq(expected_response)
+        expect(response).to be =~ expected_response
 
         socket.close
        end
@@ -194,7 +190,7 @@ describe Network::SSL do
           response = socket.readline
         end
 
-        expect(response).to eq(expected_response)
+        expect(response).to be =~ expected_response
 
         socket.close
       end
@@ -214,7 +210,7 @@ describe Network::SSL do
     end
 
     describe "#ssl_banner" do
-      let(:expected_banner) { /^220 mx\.google\.com ESMTP/ }
+      let(:expected_banner) { /^220 (smtp\.gmail\.com|mx\.google\.com) ESMTP/ }
 
       it "should return the read service banner" do
         banner = subject.ssl_banner(host,port)
