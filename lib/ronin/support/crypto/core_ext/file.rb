@@ -38,7 +38,7 @@ class File
   #
   # @api public
   #
-  def File.md5(path)
+  def self.md5(path)
     Digest::MD5.file(path).hexdigest
   end
 
@@ -57,7 +57,7 @@ class File
   #
   # @api public
   #
-  def File.sha1(path)
+  def self.sha1(path)
     Digest::SHA1.file(path).hexdigest
   end
 
@@ -66,7 +66,7 @@ class File
   #
   # @api public
   #
-  def File.sha128(path)
+  def self.sha128(path)
     File.sha1(path)
   end
 
@@ -85,7 +85,7 @@ class File
   #
   # @api public
   #
-  def File.sha256(path)
+  def self.sha256(path)
     Digest::SHA256.file(path).hexdigest
   end
 
@@ -94,7 +94,7 @@ class File
   #
   # @api public
   #
-  def File.sha2(path)
+  def self.sha2(path)
     File.sha256(path)
   end
 
@@ -113,7 +113,7 @@ class File
   #
   # @api public
   #
-  def File.sha512(path)
+  def self.sha512(path)
     Digest::SHA512.file(path).hexdigest
   end
 
@@ -122,7 +122,7 @@ class File
   #
   # @api public
   #
-  def File.sha5(path)
+  def self.sha5(path)
     File.sha512(path)
   end
 
@@ -145,7 +145,7 @@ class File
   #
   # @note JRuby and TruffleRuby do not yet support RMD160.
   #
-  def File.rmd160(path)
+  def self.rmd160(path)
     Digest::RMD160.file(path).hexdigest
   end
 

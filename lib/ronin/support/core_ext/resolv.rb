@@ -69,7 +69,7 @@ class Resolv
   #
   # @api public
   #
-  def Resolv.resolver(*nameservers)
+  def self.resolver(*nameservers)
     unless nameservers.empty?
       DNS.new(nameserver: nameservers)
     else

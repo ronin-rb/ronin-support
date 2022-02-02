@@ -62,7 +62,7 @@ class IPAddr
   #   
   # @api public
   #
-  def IPAddr.extract(text,version=nil,&block)
+  def self.extract(text,version=nil,&block)
     return enum_for(__method__,text,version).to_a unless block_given?
 
     regexp = case version
@@ -112,7 +112,7 @@ class IPAddr
   #
   # @api public
   #
-  def IPAddr.each(cidr_or_glob,&block)
+  def self.each(cidr_or_glob,&block)
     unless (cidr_or_glob.include?('*') ||
             cidr_or_glob.include?(',') ||
             cidr_or_glob.include?('-'))
