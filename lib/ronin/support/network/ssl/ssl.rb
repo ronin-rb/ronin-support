@@ -45,10 +45,10 @@ module Ronin
         }
 
         # Default SSL key file
-        DEFAULT_KEY_FILE = File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','data','ronin','network','ssl','ssl.key'))
+        DEFAULT_KEY_FILE = File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','..','data','ronin','network','ssl','ssl.key'))
 
         # Default SSL cert file
-        DEFAULT_CERT_FILE = File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','data','ronin','network','ssl','ssl.pem'))
+        DEFAULT_CERT_FILE = File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','..','data','ronin','network','ssl','ssl.pem'))
 
         #
         # Creates a new SSL Context.
