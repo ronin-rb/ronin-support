@@ -518,7 +518,8 @@ module Ronin
         #
         # @option kwargs [Hash] :headers
         #   The Hash of the HTTP headers to send with the request.
-        #   May contain either Strings or Symbols, lower-case or camel-case keys.
+        #   May contain either Strings or Symbols, lower-case or camel-case
+        #   keys.
         #
         # @option kwargs [String] :body
         #   The body of the request.
