@@ -58,6 +58,12 @@ module Ronin
           @default_port = port
         end
 
+        # Authentication types.
+        AUTH_TYPES = {
+          login:    'LOGIN',
+          cram_md5: 'CRAM_MD5'
+        }
+
         #
         # Creates a connection to the IMAP server.
         #
@@ -96,12 +102,18 @@ module Ronin
         # @return [Net::IMAP]
         #   The newly created IMAP session object.
         #
+        # @raise [ArgumentType]
+        #   The `auth:` keyword argument must be either `:login` or `:cram_md5`.
+        #
         # @api public
         #
         def imap_connect(host,user,password, port: IMAP.default_port,
                                              ssl:  nil,
                                              auth: :login)
-          host = host.to_s
+          host      = host.to_s
+          auth_type = AUTH_TYPES.fetch(auth) do
+            raise(ArgumentError,"auth: must be either :login or :cram_md5")
+          end
 
           case ssl
           when Hash
@@ -119,11 +131,7 @@ module Ronin
           end
 
           imap = Net::IMAP.new(host,port,ssl,ssl_certs,ssl_verify)
-
-          case auth
-          when :cram_md5 then imap.authenticate('CRAM-MD5',user,passwd)
-          else                imap.authenticate('LOGIN',user,passwd)
-          end
+          imap.authenticate(auth_type,user,passwd)
 
           yield imap if block_given?
           return imap
