@@ -508,6 +508,15 @@ module Ronin
         # @option kwargs [Symbol, String] :method
         #   The HTTP method to use in the request.
         #
+        # @option kwargs [String, URI::HTTP] :url
+        #   The full URL to request.
+        #
+        # @option kwargs [String] :host
+        #   The host the HTTP server is running on.
+        #
+        # @option kwargs [Integer] :port (DEFAULT_PORT)
+        #   The port the HTTP server is listening on.
+        #
         # @option kwargs [String] :path ('/')
         #   The path to request from the HTTP server.
         #
