@@ -2,12 +2,6 @@ require 'spec_helper'
 require 'ronin/support/network/smtp'
 
 describe Network::SMTP do
-  describe "default_port" do
-    it "must default to 25" do
-      expect(subject.default_port).to eq(25)
-    end
-  end
-
   describe "helpers", :network do
     subject do
       obj = Object.new

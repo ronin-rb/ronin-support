@@ -40,28 +40,6 @@ module Ronin
         DEFAULT_PORT = 25
 
         #
-        # @return [Integer]
-        #   The default Ronin SMTP port.
-        #
-        # @api public
-        #
-        def self.default_port
-          @default_port ||= DEFAULT_PORT
-        end
-
-        #
-        # Sets the default Ronin SMTP port.
-        #
-        # @param [Integer] port
-        #   The new default Ronin SMTP port.
-        #
-        # @api public
-        #
-        def self.default_port=(port)
-          @default_port = port
-        end
-
-        #
         # Creates a properly formatted email.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -117,7 +95,7 @@ module Ronin
         # @param [String] password
         #   The password to authenticate with.
         #
-        # @param [Integer] port (SMTP.default_port)
+        # @param [Integer] port
         #   The port to connect to.
         #
         # @param [Boolean, Hash] ssl
@@ -150,7 +128,7 @@ module Ronin
         #
         # @api public
         #
-        def smtp_connect(host,user,password, port: SMTP.default_port,
+        def smtp_connect(host,user,password, port: DEFAULT_PORT,
                                                ssl:  nil,
                                                helo: 'localhost',
                                                auth: :login)
@@ -215,7 +193,7 @@ module Ronin
         # @param [String] host
         #   The host to connect to.
         #
-        # @param [Integer] port (SMTP.default_port)
+        # @param [Integer] port
         #   The port to connect to.
         #
         # @param [Boolean, Hash] ssl
@@ -284,7 +262,7 @@ module Ronin
         # @api public
         #
         def smtp_send_message(host,user,password, # smtp options
-                                                  port: SMTP.default_port,
+                                                  port: DEFAULT_PORT,
                                                   ssl:  nil,
                                                   helo: 'localhost',
                                                   auth: :login,

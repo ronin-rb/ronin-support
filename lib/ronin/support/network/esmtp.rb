@@ -46,7 +46,7 @@ module Ronin
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#smtp_connect}.
         #
-        # @option kwargs [Integer] :port (SMTP.default_port)
+        # @option kwargs [Integer] :port (SMTP::DEFAULT_PORT)
         #   The port to connect to.
         #
         # @option kwargs [Boolean, Hash] :ssl
@@ -104,7 +104,7 @@ module Ronin
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#smtp_session}.
         #
-        # @option kwargs [Integer] :port (SMTP.default_port)
+        # @option kwargs [Integer] :port (SMTP::DEFAULT_PORT)
         #   The port to connect to.
         #
         # @option kwargs [Boolean, Hash] :ssl
