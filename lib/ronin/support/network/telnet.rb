@@ -43,28 +43,6 @@ module Ronin
         DEFAULT_TIMEOUT = 10
 
         #
-        # @return [Regexp]
-        #   The default Ronin Telnet prompt pattern.
-        #
-        # @api public
-        #
-        def self.default_prompt
-          @default_prompt ||= DEFAULT_PROMPT
-        end
-
-        #
-        # Sets the default Ronin Telnet prompt pattern.
-        #
-        # @param [Regexp] prompt
-        #   The new default Ronin Telnet prompt pattern.
-        #
-        # @api public
-        #
-        def self.default_prompt=(prompt)
-          @default_prompt = prompt
-        end
-
-        #
         # @return [Integer]
         #   The default Ronin Telnet timeout.
         #
@@ -178,7 +156,7 @@ module Ronin
                                  port:      DEFAULT_PORT,
                                  binmode:   false,
                                  wait_time: 0,
-                                 prompt:    Telnet.default_prompt,
+                                 prompt:    DEFAULT_PROMPT,
                                  timeout:   Telnet.default_timeout,
                                  telnet:    nil,
                                  plain:     nil,
