@@ -40,30 +40,6 @@ module Ronin
         DEFAULT_USER = 'anonymous'
 
         #
-        # Default port used by {FTP}.
-        #
-        # @return [Integer]
-        #   The default Ronin FTP port.
-        #
-        # @api public
-        #
-        def self.default_port
-          @default_port ||= DEFAULT_PORT
-        end
-
-        #
-        # Sets the default port used by {FTP}.
-        #
-        # @param [Integer] new_port
-        #   The new default Ronin FTP port.
-        #
-        # @api public
-        #
-        def self.default_port=(new_port)
-          @default_port = new_port
-        end
-
-        #
         # Creates a connection to the FTP server.
         #
         # @param [String] host
@@ -98,12 +74,12 @@ module Ronin
         #
         # @api public
         #
-        def ftp_connect(host, port:     FTP.default_port,
+        def ftp_connect(host, port:     DEFAULT_PORT,
                               user:     DEFAULT_USER,
                               password: nil,
                               account:  nil,
                               passive:  true)
-          host     = host.to_s
+          host = host.to_s
 
           ftp = Net::FTP.new
           ftp.connect(host,port)
@@ -123,7 +99,7 @@ module Ronin
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#ftp_connect}.
         #
-        # @option kwargs [Integer] :port (FTP.default_port)
+        # @option kwargs [Integer] :port (DEFAULT_PORT)
         #   The port to connect to.
         #
         # @option kwargs [String] :user (DEFAULT_USER)

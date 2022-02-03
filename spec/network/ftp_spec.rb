@@ -2,12 +2,6 @@ require 'spec_helper'
 require 'ronin/support/network/ftp'
 
 describe Network::FTP do
-  describe "default_port" do
-    it "must default to 21" do
-      expect(subject.default_port).to eq(21)
-    end
-  end
-
   describe "helpers", :network do
     subject do
       obj = Object.new
