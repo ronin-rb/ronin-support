@@ -36,6 +36,13 @@ module Ronin
       # Provides helper methods for communicating with HTTP Servers.
       #
       module HTTP
+        # The default `http://` port.
+        #
+        # @return [80]
+        #
+        # @since 1.0.0
+        DEFAULT_PORT = Net::HTTP.default_port
+
         #
         # The Ronin HTTP proxy to use.
         #
@@ -147,7 +154,7 @@ module Ronin
         # @option options [String] :host
         #   The host to connect to.
         #
-        # @option options [String] :port (Net::HTTP.default_port)
+        # @option options [String] :port (DEFAULT_PORT)
         #   The port to connect to.
         #
         # @option options [String] :user
@@ -173,7 +180,7 @@ module Ronin
         def self.normalize_options(options={})
           new_options = options.dup
 
-          new_options[:port] ||= Net::HTTP.default_port
+          new_options[:port] ||= DEFAULT_PORT
           new_options[:path] ||= '/'
 
           if new_options[:ssl] == true
@@ -371,7 +378,7 @@ module Ronin
         # @option kwargs [String] :host
         #   The host the HTTP server is running on.
         #
-        # @option kwargs [Integer] :port (Net::HTTP.default_port)
+        # @option kwargs [Integer] :port (DEFAULT_PORT)
         #   The port the HTTP server is listening on.
         #
         # @option kwargs [URI::HTTP, String, nil] :proxy (HTTP.proxy)
@@ -447,7 +454,7 @@ module Ronin
         # @option kwargs [String] :host
         #   The host the HTTP server is running on.
         #
-        # @option kwargs [Integer] :port (Net::HTTP.default_port)
+        # @option kwargs [Integer] :port (DEFAULT_PORT)
         #   The port the HTTP server is listening on.
         #
         # @option kwargs [String] :user
