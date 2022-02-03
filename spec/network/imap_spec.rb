@@ -2,12 +2,6 @@ require 'spec_helper'
 require 'ronin/support/network/imap'
 
 describe Network::IMAP do
-  describe "default_port" do
-    it "must default to 143" do
-      expect(subject.default_port).to eq(143)
-    end
-  end
-
   describe "helpers", :network do
     subject do
       obj = Object.new

@@ -36,28 +36,6 @@ module Ronin
         # Default IMAP port
         DEFAULT_PORT = 143
 
-        #
-        # @return [Integer]
-        #   The default Ronin IMAP port.
-        #
-        # @api public
-        #
-        def self.default_port
-          @default_port ||= DEFAULT_PORT
-        end
-
-        #
-        # Sets the default Ronin IMAP port.
-        #
-        # @param [Integer] port
-        #   The new default Ronin IMAP port.
-        #
-        # @api public
-        #
-        def self.default_port=(port)
-          @default_port = port
-        end
-
         # Authentication types.
         AUTH_TYPES = {
           login:    'LOGIN',
@@ -107,7 +85,7 @@ module Ronin
         #
         # @api public
         #
-        def imap_connect(host,user,password, port: IMAP.default_port,
+        def imap_connect(host,user,password, port: DEFAULT_PORT,
                                              ssl:  nil,
                                              auth: :login)
           host      = host.to_s
