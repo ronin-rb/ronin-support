@@ -35,28 +35,6 @@ module Ronin
         DEFAULT_PORT = 110
 
         #
-        # @return [Integer]
-        #   The default Ronin POP3 port.
-        #
-        # @api public
-        #
-        def self.default_port
-          @default_port ||= DEFAULT_PORT
-        end
-
-        #
-        # Sets the default Ronin POP3 port.
-        #
-        # @param [Integer] port
-        #   The new default Ronin POP3 port.
-        #
-        # @api public
-        #
-        def self.default_port=(port)
-          @default_port = port
-        end
-
-        #
         # Creates a connection to the POP3 server.
         #
         # @param [String] host
@@ -93,7 +71,7 @@ module Ronin
         #
         # @api public
         #
-        def pop3_connect(host, port: POP3.default_port,
+        def pop3_connect(host, port: DEFAULT_PORT,
                                ssl:  nil,
                                user: ,
                                password: )
