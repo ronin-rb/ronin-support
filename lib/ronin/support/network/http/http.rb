@@ -193,9 +193,11 @@ module Ronin
 
           new_options[:proxy] = if new_options.has_key?(:proxy)
                                   case options[:proxy]
-                                  when URI::HTTP then options[:proxy]
-                                  when String    then URI.parse(options[:proxy])
-                                  when nil       then nil
+                                  when URI::HTTP
+                                    options[:proxy]
+                                  when String
+                                    URI.parse(options[:proxy])
+                                  when nil
                                   else
                                     raise(ArgumentError,":proxy option must be a URI::HTTP, String, or nil")
                                   end
@@ -388,7 +390,8 @@ module Ronin
         #   The user to authenticate with when connecting to the HTTP server.
         #
         # @option kwargs [String] :password
-        #   The password to authenticate with when connecting to the HTTP server.
+        #   The password to authenticate with when connecting to the HTTP
+        #   server.
         #
         # @option kwargs [Boolean, Hash] :ssl
         #   Enables SSL for the HTTP connection.
@@ -461,7 +464,8 @@ module Ronin
         #   The user to authenticate with when connecting to the HTTP server.
         #
         # @option kwargs [String] :password
-        #   The password to authenticate with when connecting to the HTTP server.
+        #   The password to authenticate with when connecting to the HTTP
+        #   server.
         #
         # @option kwargs [URI::HTTP, String, nil] :proxy (HTTP.proxy)
         #   A Hash of proxy settings to use when connecting to the HTTP server.
