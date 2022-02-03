@@ -43,28 +43,6 @@ module Ronin
         DEFAULT_TIMEOUT = 10
 
         #
-        # @return [Integer]
-        #   The default Ronin Telnet port.
-        #
-        # @api public
-        #
-        def self.default_port
-          @default_port ||= DEFAULT_PORT
-        end
-
-        #
-        # Sets the default Ronin Telnet port.
-        #
-        # @param [Integer] port
-        #   The new default Ronin Telnet port.
-        #
-        # @api public
-        #
-        def self.default_port=(port)
-          @default_port = port
-        end
-
-        #
         # @return [Regexp]
         #   The default Ronin Telnet prompt pattern.
         #
@@ -197,7 +175,7 @@ module Ronin
         #
         def telnet_connect(host, # connection options
                                  proxy:     Telnet.proxy,
-                                 port:      Telnet.default_port,
+                                 port:      DEFAULT_PORT,
                                  binmode:   false,
                                  wait_time: 0,
                                  prompt:    Telnet.default_prompt,

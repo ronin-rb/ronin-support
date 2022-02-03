@@ -2,12 +2,6 @@ require 'spec_helper'
 require 'ronin/support/network/telnet'
 
 describe Network::Telnet do
-  describe "default_port" do
-    it "must default to 23" do
-      expect(subject.default_port).to eq(23)
-    end
-  end
-
   describe "helpers", :network do
     let(:host) { 'towel.blinkenlights.nl' }
 
