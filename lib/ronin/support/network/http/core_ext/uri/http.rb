@@ -27,6 +27,15 @@ module URI
     include Ronin::Support::Network::HTTP
 
     #
+    # Returns the Status Code of the HTTP Response for the URI.
+    #
+    # @param [Hash{Symbol => Object}] kwargs
+    #   Additional keyword arguments for
+    #   {Ronin::Support::Network::HTTP#http_status}.
+    #
+    # @return [Integer]
+    #   The HTTP Response Status.
+    #
     # @see Ronin::Support::Network::HTTP#http_status
     #
     # @since 0.3.0
@@ -35,6 +44,15 @@ module URI
       http_status(url: self)
     end
 
+    #
+    # Checks if the HTTP response for the URI has an HTTP `OK` status code.
+    #
+    # @param [Hash{Symbol => Object}] kwargs
+    #   Additional keyword arguments for
+    #   {Ronin::Support::Network::HTTP#http_status}.
+    #
+    # @return [Boolean]
+    #   Specifies whether the response had an HTTP OK status code or not.
     #
     # @see Ronin::Support::Network::HTTP#http_ok?
     #
