@@ -20,7 +20,7 @@
   `Ronin::Network::HTTP.request`.
 * No longer append the query String to the path in
   `Ronin::Network::HTTP.expand_url`.
-* Support escaping `"\`"` tick-marks in {String#sql_escape}.
+* Support escaping `"\`"` tick-marks in `String#sql_escape`.
 * Allow setting the request body or form-data in `Ronin::Network::HTTP.request`,
   even for request types that typically do not use a body or form-data.
 
@@ -42,8 +42,8 @@
 
 * Require uri-query_params ~> 0.6.
 * Added {Float#pack}.
-* Added {Regexp::WORD}.
-* Added {Regexp::PHONE_NUMBER}.
+* Added `Regexp::WORD`.
+* Added `Regexp::PHONE_NUMBER`.
 * Added `Ronin::Binary::Template`.
 * Added `Ronin::Binary::Struct`.
 * Added `Ronin::Binary::Hexdump::Parser`.
@@ -95,7 +95,7 @@
 * Use `$stdout` instead of calling `Kernel.puts` or `STDOUT`.
   Prevents infinite recursion if another library overrides `Kernel.puts`.
 * Allow `Ronin::Network::DNS` methods to yield resolved addresses.
-* Inject `Ronin::Network::DNS` into {Net} for backwards compatibility.
+* Inject `Ronin::Network::DNS` into `Net` for backwards compatibility.
 * Allow `Ronin::Network::TCP#tcp_server` to accept a `backlog` argument.
 * Default the server host to `0.0.0.0` in
   `Ronin::Network::TCP#tcp_accept`.
@@ -107,22 +107,22 @@
 
 * Require uri-query_params ~> 0.6.
 * Require parameters ~> 0.4.
-* Added {Regexp::DELIM}.
-* Added {Regexp::IDENTIFIER}.
-* Added {Regexp::OCTET}.
-* Added {Regexp::FILE_EXT}.
-* Added {Regexp::FILE_NAME}.
-* Added {Regexp::FILE}.
-* Added {Regexp::DIRECTORY}.
-* Added {Regexp::RELATIVE_UNIX_PATH}.
-* Added {Regexp::ABSOLUTE_UNIX_PATH}.
-* Added {Regexp::UNIX_PATH}.
-* Added {Regexp::RELATIVE_WINDOWS_PATH}.
-* Added {Regexp::ABSOLUTE_WINDOWS_PATH}.
-* Added {Regexp::WINDOWS_PATH}.
-* Added {Regexp::RELATIVE_PATH}.
-* Added {Regexp::ABSOLUTE_PATH}.
-* Added {Regexp::PATH}.
+* Added `Regexp::DELIM`.
+* Added `Regexp::IDENTIFIER`.
+* Added `Regexp::OCTET`.
+* Added `Regexp::FILE_EXT`.
+* Added `Regexp::FILE_NAME`.
+* Added `Regexp::FILE`.
+* Added `Regexp::DIRECTORY`.
+* Added `Regexp::RELATIVE_UNIX_PATH`.
+* Added `Regexp::ABSOLUTE_UNIX_PATH`.
+* Added `Regexp::UNIX_PATH`.
+* Added `Regexp::RELATIVE_WINDOWS_PATH`.
+* Added `Regexp::ABSOLUTE_WINDOWS_PATH`.
+* Added `Regexp::WINDOWS_PATH`.
+* Added `Regexp::RELATIVE_PATH`.
+* Added `Regexp::ABSOLUTE_PATH`.
+* Added `Regexp::PATH`.
 * Added `String#repeating`.
 * Added `String#sql_inject`.
 * Added `String#mutate`.
@@ -153,8 +153,8 @@
 * Added missing `Ronin::Network::UDP#udp_send` and
   `Ronin::Network::Mixins::UDP#udp_send` methods.
 * Added `Ronin::UI::Output::Helpers#print_exception`.
-* Made {Regexp::HOST_NAME} case-insensitive.
-* Refactored {Regexp::IPv4} to not match invalid IPv4 addresses.
+* Made `Regexp::HOST_NAME` case-insensitive.
+* Refactored `Regexp::IPv4` to not match invalid IPv4 addresses.
 * Require `ronin/formatting/html` in `ronin/formatting`.
 * Allow {String#base64_encode} and {String#base64_decode} to accept a formatting
   argument.
@@ -216,11 +216,11 @@
 * Added {URI::HTTP#prop_match}.
 * Added {URI::HTTP#trace}.
 * Added {URI::HTTP#unlock}.
-* Added {Regexp::MAC}.
-* Added {Regexp::IPv6}, {Regexp::IPv4} and {Regexp::IP}.
-* Added {Regexp::HOST_NAME}.
-* Added {Regexp::USER_NAME}.
-* Added {Regexp::EMAIL_ADDR}.
+* Added `Regexp::MAC`.
+* Added `Regexp::IPv6`, `Regexp::IPv4` and `Regexp::IP`.
+* Added `Regexp::HOST_NAME`.
+* Added `Regexp::USER_NAME`.
+* Added `Regexp::EMAIL_ADDR`.
 * Moved `Ronin::UI::Output`, `Ronin::UI::Shell` and `Ronin::Network::Mixins`
   from ronin into ronin-support.
 * Refactored `Ronin::UI::Shell` into a Class where commands are defined as
