@@ -87,7 +87,7 @@ module Ronin
         end
 
         #
-        # The default Ronin HTTP User-Agent string.
+        # The default Ronin HTTP `User-Agent` string.
         #
         # @return [String, nil]
         #   The default Ronin HTTP User-Agent.
@@ -99,7 +99,7 @@ module Ronin
         end
 
         #
-        # Sets the default Ronin HTTP User-Agent string.
+        # Sets the default Ronin HTTP `User-Agent` string.
         #
         # @param [String] agent
         #   The new User-Agent string to use.
@@ -590,7 +590,7 @@ module Ronin
         end
 
         #
-        # Checks if the response has an HTTP OK status code.
+        # Checks if the response has an HTTP `OK` status code.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_status}.
@@ -610,7 +610,7 @@ module Ronin
         end
 
         #
-        # Sends a HTTP Head request and returns the HTTP Server header.
+        # Sends a HTTP Head request and returns the HTTP `Server` header.
         #
         # @param [Symbol, String] method
         #   The method to use for the request.
@@ -630,7 +630,8 @@ module Ronin
         end
 
         #
-        # Sends an HTTP Head request and returns the HTTP X-Powered-By header.
+        # Sends an HTTP Head request and returns the HTTP `X-Powered-By`
+        # header.
         #
         # @param [Symbol, String] method
         #   The method to use for the request.
@@ -650,7 +651,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Copy request.
+        # Performs an HTTP `COPY` request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_request}.
@@ -677,7 +678,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Delete request.
+        # Performs an HTTP `DELETE` request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_request}.
@@ -717,7 +718,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Get request.
+        # Performs an HTTP `GET` request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_request}.
@@ -744,7 +745,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Get request and returns the Response Headers.
+        # Performs an HTTP `GET` request and returns the Response Headers.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_get}.
@@ -769,7 +770,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Get request and returns the Respond Body.
+        # Performs an HTTP `GET` request and returns the Respond Body.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_get}.
@@ -786,7 +787,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Head request.
+        # Performs an HTTP `HEAD` request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_request}.
@@ -813,7 +814,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Lock request.
+        # Performs an HTTP `LOCK` request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_request}.
@@ -840,7 +841,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Mkcol request.
+        # Performs an HTTP `MKCOL` request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_request}.
@@ -867,7 +868,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Move request.
+        # Performs an HTTP `MOVE` request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_request}.
@@ -894,7 +895,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Options request.
+        # Performs an HTTP `OPTIONS` request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_request}.
@@ -921,7 +922,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Post request.
+        # Performs an HTTP `POST` request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_request}.
@@ -951,7 +952,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Post request and returns the Response Headers.
+        # Performs an HTTP `POST` request and returns the Response Headers.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_post}.
@@ -979,7 +980,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Post request and returns the Response Body.
+        # Performs an HTTP `POST` request and returns the Response Body.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_post}.
@@ -999,7 +1000,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP PUT request.
+        # Performs an HTTP `PUT` request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_request}.
@@ -1034,7 +1035,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Propfind request.
+        # Performs an HTTP `PROPFIND` request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_request}.
@@ -1071,7 +1072,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Proppatch request.
+        # Performs an HTTP `PROPPATCH` request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_request}.
@@ -1098,7 +1099,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Trace request.
+        # Performs an HTTP `TRACE` request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_request}.
@@ -1125,7 +1126,7 @@ module Ronin
         end
 
         #
-        # Performs an HTTP Unlock request.
+        # Performs an HTTP `UNLOCK` request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#http_request}.
