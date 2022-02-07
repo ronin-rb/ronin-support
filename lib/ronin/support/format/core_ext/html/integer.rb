@@ -17,20 +17,51 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/core_ext'
-require 'ronin/support/format'
-require 'ronin/support/binary'
-require 'ronin/support/text'
-require 'ronin/support/crypto'
-require 'ronin/support/network'
-require 'ronin/support/path'
-require 'ronin/support/templates'
-require 'ronin/support/cli/printing'
-require 'ronin/support/version'
+require 'ronin/support/format/core_ext/xml/integer'
+require 'ronin/support/format/core_ext/js/integer'
 
-module Ronin
-  module Support
-    include Network
-    include CLI::Printing
+require 'cgi'
+
+class Integer
+
+  #
+  # Escapes the Integer as an HTML String.
+  #
+  # @return [String]
+  #   The escaped HTML String.
+  #
+  # @example
+  #   0x26.html_escape
+  #   # => "&amp;"
+  #
+  # @since 0.2.0
+  #
+  # @see #xml_escape
+  #
+  # @api public
+  #
+  def html_escape
+    xml_escape
   end
+
+  #
+  # Formats the Integer as a HTML String.
+  #
+  # @return [String]
+  #   The HTML String.
+  #
+  # @example
+  #   0x41.format_html
+  #   # => "&#65;"
+  #
+  # @since 0.2.0
+  #
+  # @see #format_xml
+  #
+  # @api public
+  #
+  def format_html
+    format_xml
+  end
+
 end

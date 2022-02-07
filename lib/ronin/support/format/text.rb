@@ -17,20 +17,4 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/core_ext'
-require 'ronin/support/format'
-require 'ronin/support/binary'
-require 'ronin/support/text'
-require 'ronin/support/crypto'
-require 'ronin/support/network'
-require 'ronin/support/path'
-require 'ronin/support/templates'
-require 'ronin/support/cli/printing'
-require 'ronin/support/version'
-
-module Ronin
-  module Support
-    include Network
-    include CLI::Printing
-  end
-end
+require 'ronin/support/format/core_ext/text'
