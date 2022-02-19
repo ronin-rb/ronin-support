@@ -17,6 +17,7 @@ metadata:
   source_code_uri:   https://github.com/ronin-rb/ronin-support
   bug_tracker_uri:   https://github.com/ronin-rb/ronin-support/issues
   changelog_uri:     https://github.com/ronin-rb/ronin-support/blob/master/ChangeLog.md
+  rubygems_mfa_required: 'true'
 
 required_ruby_version: ">= 2.6.0"
 
