@@ -67,7 +67,6 @@ please see [Everyday Ronin].
 * [hexdump] ~> 1.0
 * [combinatorics] ~> 0.4
 * [uri-query_params] ~> 0.8
-* [data_paths] ~> 0.3
 
 ## Install
 
@@ -117,4 +116,3 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [hexdump]: https://github.com/postmodern/hexdump#readme
 [combinatorics]: https://github.com/postmodern/combinatorics#readme
 [uri-query_params]: https://github.com/postmodern/uri-query_params#readme
-[data_paths]: https://github.com/postmodern/data_paths#readme
