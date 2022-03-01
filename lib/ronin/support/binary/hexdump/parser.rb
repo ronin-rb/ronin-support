@@ -18,6 +18,7 @@
 #
 
 require 'chars'
+require 'set'
 
 module Ronin
   module Support
@@ -30,208 +31,226 @@ module Ronin
         #
         class Parser
 
-          # Bases for various encodings
-          BASES = {
-            binary:           2,
-            octal:            8,
-            octal_bytes:      8,
-            octal_shorts:     8,
-            octal_ints:       8,
-            octal_quads:      8,
-            decimal:          10,
-            decimal_bytes:    10,
-            decimal_shorts:   10,
-            decimal_ints:     10,
-            decimal_quads:    10,
-            hex:              16,
-            hex_bytes:        16,
-            hex_shorts:       16,
-            hex_ints:         16,
-            hex_quads:        16,
-            named_chars:      16,
-            floats:           10,
-            doubles:          10
-          }
+          TYPES = Set[
+            :byte,
+            :char,
 
-          # Word-sizes for various encodings
+            :uint8,
+            :uint16,
+            :uint32,
+            :uint64,
+
+            :int8,
+            :int16,
+            :int32,
+            :int64,
+
+            :uchar,
+            :ushort,
+            :uint,
+            :ulong,
+            :ulong_long,
+
+            :short,
+            :int,
+            :long,
+            :long_long,
+
+            :float,
+            :double,
+
+            :float_le,
+            :double_le,
+
+            :float_be,
+            :double_be,
+
+            :uint16_le,
+            :uint32_le,
+            :uint64_le,
+
+            :int16_le,
+            :int32_le,
+            :int64_le,
+
+            :uint16_be,
+            :uint32_be,
+            :uint64_be,
+
+            :int16_be,
+            :int32_be,
+            :int64_be,
+
+            :ushort_le,
+            :uint_le,
+            :ulong_le,
+            :ulong_long_le,
+
+            :short_le,
+            :int_le,
+            :long_le,
+            :long_long_le,
+
+            :ushort_be,
+            :uint_be,
+            :ulong_be,
+            :ulong_long_be,
+
+            :short_be,
+            :int_be,
+            :long_be,
+            :long_long_be
+          ]
+
+          # Word-sizes for various C types
           WORD_SIZES = {
-            binary:           1,
-            binary_bytes:     1,
-            binary_shorts:    2,
-            binary_ints:      4,
-            binary_quads:     8,
+            byte:       1,
+            char:       1,
 
-            decimal:          1,
-            decimal_bytes:    1,
-            decimal_shorts:   2,
-            decimal_ints:     4,
-            decimal_quads:    8,
+            uint8:  1,
+            uint16: 2,
+            uint32: 4,
+            uint64: 8,
 
-            floats:           4,
-            doubles:          8,
+            int8:  1,
+            int16: 2,
+            int32: 4,
+            int64: 8,
 
-            hex:              1,
-            hex_bytes:        1,
-            hex_chars:        1,
-            hex_shorts:       2,
-            hex_ints:         4,
-            hex_quads:        8,
+            ushort:     2,
+            uint:       4,
+            ulong:      8,
+            ulong_long: 8,
 
-            named_chars:      1,
-            octal_bytes:      1,
-            octal_shorts:     2,
-            octal_ints:       4,
-            octal_quads:      8
+            short:     2,
+            int:       4,
+            long:      8,
+            long_long: 8,
+
+            float:  4,
+            double: 8,
+
+            float_le:  4,
+            double_le: 8,
+
+            float_be:  4,
+            double_be: 8,
+
+            uint16_le: 2,
+            uint32_le: 4,
+            uint64_le: 8,
+
+            int16_le: 2,
+            int32_le: 4,
+            int64_le: 8,
+
+            uint16_be: 2,
+            uint32_be: 4,
+            uint64_be: 8,
+
+            int16_be: 2,
+            int32_be: 4,
+            int64_be: 8,
+
+            ushort_le:     2,
+            uint_le:       4,
+            ulong_le:      8,
+            ulong_long_le: 8,
+
+            short_le:     2,
+            int_le:       4,
+            long_le:      8,
+            long_long_le: 8,
+
+            ushort_be:     2,
+            uint_be:       4,
+            ulong_be:      8,
+            ulong_long_be: 8,
+
+            short_be:     2,
+            int_be:       4,
+            long_be:      8,
+            long_long_be: 8
           }
 
-          # The format to parse (`:hexdump` / `:od`)
-          attr_reader :format
+          # Pack strings for supported C types
+          PACK_STRINGS = {
+            byte:       'C',
+            char:       'C',
 
-          # The encoding of the hexdump data
-          attr_reader :encoding
+            uint8:  'C',
+            uint16: 'S',
+            uint32: 'L',
+            uint64: 'Q',
 
-          # The type of data to parse (`:integer` / `:float`)
-          attr_reader :type
+            int8:  'c',
+            int16: 's',
+            int32: 'l',
+            int64: 'q',
 
-          # The endianness of data to parse (`:little`, `:big`, `:network`)
-          attr_reader :endian
+            ushort:     'S!',
+            uint:       'I!',
+            ulong:      'L!',
+            ulong_long: 'Q',
 
-          # The size of words to parse
-          attr_reader :word_size
+            short:     's!',
+            int:       'i!',
+            long:      'l!',
+            long_long: 'q',
 
-          # The base of all addresses to parse
-          attr_reader :address_base
+            float:  'F',
+            double: 'D',
 
-          # The base of all words to parse
-          attr_reader :base
+            float_le:  'e',
+            double_le: 'E',
 
-          #
-          # Initializes the hexdump parser.
-          #
-          # @param [Symbol] format
-          #   The expected format of the hexdump. Must be either `:od` or
-          #   `:hexdump`.
-          #
-          # @param [Symbol] encoding
-          #   Denotes the encoding used for the bytes within the hexdump.
-          #   Must be one of the following:
-          #
-          #   * `:binary`
-          #   * `:octal`
-          #   * `:octal_bytes`
-          #   * `:octal_shorts`
-          #   * `:octal_ints`
-          #   * `:octal_quads` (Ruby 1.9 only)
-          #   * `:decimal`
-          #   * `:decimal_bytes`
-          #   * `:decimal_shorts`
-          #   * `:decimal_ints`
-          #   * `:decimal_quads` (Ruby 1.9 only)
-          #   * `:hex`
-          #   * `:hex_chars`
-          #   * `:hex_bytes`
-          #   * `:hex_shorts`
-          #   * `:hex_ints`
-          #   * `:hex_quads` (Ruby 1.9 only)
-          #   * `:named_chars`
-          #   * `:floats`
-          #   * `:doubles`
-          #
-          # @param [:little, :big, :network] endian
-          #   The endianness of the words.
-          #
-          def initialize(format:   :hexdump,
-                         encoding: :hex_bytes,
-                         endian:   :little)
-            @format   = format
-            @encoding = encoding
-            @endian   = endian
+            float_be:  'g',
+            double_be: 'G',
 
-            @type = case @encoding
-                    when :floats, :doubles then :float
-                    else                        :integer
-                    end
+            uint16_le: 'S<',
+            uint32_le: 'L<',
+            uint64_le: 'Q<',
 
-            case @format
-            when :od
-              @address_base = 8
-              @base         = 8
-              @word_size    = 2
-            when :hexdump
-              @address_base = 16
-              @base         = 16
-              @word_size    = 2
-            else
-              @address_base = 16
-              @base         = 16
-              @word_size    = 1
-            end
+            int16_le: 's<',
+            int32_le: 'l<',
+            int64_le: 'q<',
 
-            if @encoding
-              @base      = BASES.fetch(encoding)
-              @word_size = WORD_SIZES.fetch(encoding)
-            end
+            uint16_be: 'S>',
+            uint32_be: 'L>',
+            uint64_be: 'Q>',
 
-            @chars = case @encoding
-                     when :hex_chars   then CHARS.merge(ESCAPED_CHARS)
-                     when :named_chars then CHARS.merge(NAMED_CHARS)
-                     end
-          end
+            int16_be: 's>',
+            int32_be: 'l>',
+            int64_be: 'q>',
 
-          #
-          # Parses a hexdump.
-          #
-          # @param [#each_line] hexdump
-          #   The hexdump output.
-          #
-          # @return [String]
-          #   The raw-data from the hexdump.
-          #
-          def parse(hexdump)
-            current_addr = last_addr = first_addr = nil
-            repeated = false
+            ushort_le:     'S!<',
+            uint_le:       'I!<',
+            ulong_le:      'L!<',
+            ulong_long_le: 'Q<',
 
-            segment = ''
-            buffer  = ''
+            short_le:     's!<',
+            int_le:       'i!<',
+            long_le:      'l!<',
+            long_long_le: 'q<',
 
-            hexdump.each_line do |line|
-              if @format == :hexdump
-                line = line.gsub(/\s+\|.+\|\s*$/,'')
-              end
+            ushort_be:     'S!>',
+            uint_be:       'I!>',
+            ulong_be:      'L!>',
+            ulong_long_be: 'Q>',
 
-              words = line.split
-
-              if words.first == '*'
-                repeated = true
-              elsif words.length > 0
-                current_addr = parse_address(words.shift)
-                first_addr ||= current_addr
-
-                if repeated
-                  (((current_addr - last_addr) / segment.length) - 1).times do
-                    buffer << segment
-                  end
-
-                  repeated = false
-                end
-
-                segment = pack(words.map { |word| parse_word(word) })
-
-                buffer   << segment
-                last_addr = current_addr
-              end
-            end
-
-            return buffer[0,last_addr - first_addr]
-          end
-
-          protected
+            short_be:     's!>',
+            int_be:       'i!>',
+            long_be:      'l!>',
+            long_long_be: 'q>'
+          }
 
           # Visible characters
-          CHARS = Hash[Chars::VISIBLE.chars.sort.zip(Chars::VISIBLE.bytes.sort)]
+          VISIBLE_CHARS = Hash[
+            Chars::VISIBLE.chars.sort.zip(Chars::VISIBLE.bytes.sort)
+          ]
 
           # Escaped characters
-          ESCAPED_CHARS = {
+          CHARS = {
             '\0' => 0x00,
             '\a' => 0x07,
             '\b' => 0x08,
@@ -239,8 +258,9 @@ module Ronin
             '\n' => 0x0a,
             '\v' => 0x0b,
             '\f' => 0x0c,
-            '\r' => 0x0d
-          }
+            '\r' => 0x0d,
+            ' '  => 0x20
+          }.merge(VISIBLE_CHARS)
 
           # od named characters
           NAMED_CHARS = {
@@ -279,42 +299,274 @@ module Ronin
             'us'  => 0x1f,
             'sp'  => 0x20,
             'del' => 0x7f
-          }
+          }.merge(VISIBLE_CHARS)
 
-          # `Array#pack` codes for various types/endianness/word-sizes
-          FORMATS = {
-            integer: {
-              little: {
-                1 => 'C',
-                2 => 'S<',
-                4 => 'L<',
-                8 => 'Q<'
-              },
+          # The format to parse.
+          #
+          # @return [:hexdump, :od]
+          attr_reader :format
 
-              big: {
-                1 => 'C',
-                2 => 'S>',
-                4 => 'L>',
-                8 => 'Q>'
-              }
-            },
+          # The type of data to parse.
+          #
+          # @return [:integer, :float]
+          attr_reader :type
 
-            float: {
-              little: {
-                4 => 'e',
-                8 => 'E'
-              },
+          # The base of all addresses to parse
+          #
+          # @return [2, 8, 10, 16]
+          attr_reader :address_base
 
-              big: {
-                4 => 'g',
-                8 => 'G'
-              }
-            }
-          }
+          # The base of all words to parse
+          #
+          # @return [2, 8, 10, 16]
+          attr_reader :base
 
-          # alias network endianness to big endian
-          FORMATS[:integer][:network] = FORMATS[:integer][:big]
-          FORMATS[:float][:network]   = FORMATS[:float][:big]
+          # The size of words to parse
+          #
+          # @return [1, 2, 4, 8]
+          attr_reader :word_size
+
+          # The `Array#unpack` string.
+          #
+          # @return [String]
+          attr_reader :pack_string
+
+          #
+          # Initializes the hexdump parser.
+          #
+          # @param [:od, :hexdump] format
+          #   The expected format of the hexdump. Must be either `:od` or
+          #   `:hexdump`.
+          #
+          # @param [Symbol] type
+          #   Denotes the encoding used for the bytes within the hexdump.
+          #   Must be one of the following:
+          #   * `:byte`
+          #   * `:char`
+          #   * `:uint8`
+          #   * `:uint16`
+          #   * `:uint32`
+          #   * `:uint64`
+          #   * `:int8`
+          #   * `:int16`
+          #   * `:int32`
+          #   * `:int64`
+          #   * `:uchar`
+          #   * `:ushort`
+          #   * `:uint`
+          #   * `:ulong`
+          #   * `:ulong_long`
+          #   * `:short`
+          #   * `:int`
+          #   * `:long`
+          #   * `:long_long`
+          #   * `:float`
+          #   * `:double`
+          #   * `:float_le`
+          #   * `:double_le`
+          #   * `:float_be`
+          #   * `:double_be`
+          #   * `:uint16_le`
+          #   * `:uint32_le`
+          #   * `:uint64_le`
+          #   * `:int16_le`
+          #   * `:int32_le`
+          #   * `:int64_le`
+          #   * `:uint16_be`
+          #   * `:uint32_be`
+          #   * `:uint64_be`
+          #   * `:int16_be`
+          #   * `:int32_be`
+          #   * `:int64_be`
+          #   * `:ushort_le`
+          #   * `:uint_le`
+          #   * `:ulong_le`
+          #   * `:ulong_long_le`
+          #   * `:short_le`
+          #   * `:int_le`
+          #   * `:long_le`
+          #   * `:long_long_le`
+          #   * `:ushort_be`
+          #   * `:uint_be`
+          #   * `:ulong_be`
+          #   * `:ulong_long_be`
+          #   * `:short_be`
+          #   * `:int_be`
+          #   * `:long_be`
+          #   * `:long_long_be`
+          #
+          # @param [2, 8, 10, 16, nil] address_base
+          #   The numerical base that the offset addresses are encoded in.
+          #
+          # @param [2, 8, 10, 16, nil] base
+          #   The numerical base that the hexdumped numbers are encoded in.
+          #
+          # @param [Boolean] named_chars
+          #   Indicates to parse `od`-style named characters (ex: `nul`,
+          #   `del`, etc).
+          #
+          # @raise [ArgumentError]
+          #   Unsupported `type:` value, or the `format:` was not `:hexdump` or
+          #   `:od`.
+          #
+          def initialize(format:         :hexdump,
+                         type:           :byte,
+                         address_base:   nil,
+                         base:           nil,
+                         named_chars:    nil)
+            unless TYPES.include?(type)
+              raise(ArgumentError,"unsupported C type: value (#{type.inspect})")
+            end
+
+            @type = type
+
+            @base         = base
+            @address_base = address_base
+
+            case format
+            when :od      then initialize_od(named_chars: named_chars)
+            when :hexdump then initialize_hexdump
+            else
+              raise(ArgumentError,"format: must be either :hexdump or :od, was #{format.inspect}")
+            end
+
+            case @type
+            when :float, :float_le, :float_be, :double, :double_le, :double_be
+              @parse_method = method(:parse_float)
+            when :char
+              @parse_method = method(:parse_char_or_int)
+            else
+              @parse_method = method(:parse_int)
+            end
+
+            @word_size   = WORD_SIZES.fetch(@type)
+            @pack_string = PACK_STRINGS.fetch(@type)
+          end
+
+          private
+
+          #
+          # Initializes instance variables for the `od` hexdump format.
+          #
+          def initialize_od(named_chars: nil)
+            @format = :od
+
+            @base         ||= 8
+            @address_base ||= 8
+
+            if @type == :char
+              @chars = if named_chars then NAMED_CHARS
+                       else                CHARS
+                       end
+            end
+          end
+
+          #
+          # Initializes instance variables for the `hexdump` hexdump format.
+          #
+          def initialize_hexdump
+            @format = :hexdump
+
+            @base         ||= 16
+            @address_base ||= 16
+
+            if @type == :char
+              @base  = 8
+              @chars = CHARS 
+            end
+          end
+
+          public
+
+          #
+          # Parses a hexdump.
+          #
+          # @param [#each_line] hexdump
+          #   The hexdump output.
+          #
+          # @yield [address, values]
+          #   If a block is given, it will be passed each parsed line of the
+          #   hexdump.
+          #
+          # @yieldparam [Integer] address
+          #   The parsed address from the hexdump line.
+          #
+          # @yieldparam [Array<Integer, Float>] values
+          #   The parsed values from a line in the hexdump.
+          #
+          # @return [Integer, Enumerator]
+          #   If a block is given, then the last address will be returned
+          #   representing the total length of the hexdump.
+          #   If no block is given, an Enumerator will be returned.
+          #
+          def parse(hexdump)
+            return enum_for(__method__,hexdump) unless block_given?
+
+            previous_address = nil
+            first_address    = nil
+
+            previous_row         = nil
+            previous_row_repeats = false
+            previous_row_size    = nil
+            starts_repeating_at  = nil
+
+            hexdump.each_line do |line|
+              line.chomp!
+              # remove GNU hexdump's ASCII column
+              line.sub!(/\s+\|.{1,16}\|\s*$/,'') if @format == :hexdump
+
+              if line == '*'
+                previous_row_repeats = true
+                previous_row_size    = (previous_row.length * @word_size)
+                starts_repeating_at  = previous_address + previous_row_size
+              else
+                address, row = parse_line(line)
+                first_address ||= address
+
+                if previous_row_repeats
+                  # fill in the omitted repeating rows
+                  range     = starts_repeating_at...address
+                  addresses = range.step(previous_row_size)
+
+                  addresses.each do |address|
+                    yield address, previous_row
+                  end
+
+                  previous_row_repeats = false
+                end
+
+                yield address, row if row
+
+                previous_address = address
+                previous_row     = row
+              end
+            end
+
+            # return the last address as the length
+            return previous_address - first_address
+          end
+
+          #
+          # Unhexdumps a hexdump and returns the raw data.
+          #
+          # @param [String] hexdump
+          #   The contents of the hexdump.
+          #
+          # @return [String]
+          #   The raw data from the hexdump.
+          #
+          # @since 1.0.0
+          #
+          def unhexdump(hexdump)
+            buffer = String.new(encoding: Encoding::ASCII_8BIT)
+
+            length = parse(hexdump) do |address,row|
+              first_address ||= address
+              buffer << pack(row)
+            end
+
+            return buffer.byteslice(0,length)
+          end
 
           #
           # Parses an address.
@@ -332,63 +584,82 @@ module Ronin
           end
 
           #
-          # Parses a character or hex-byte.
-          #
-          # @param [String] char
-          #   The character to parse.
-          #
-          # @return [Integer]
-          #   The parsed byte.
-          #
-          def parse_char(char)
-            @chars.fetch(char) do |hex_byte|
-              hex_byte.to_i(16)
-            end
-          end
-
-          #
           # Parses an Integer.
           #
-          # @param [String] int
+          # @param [String] string
           #   The text of the Integer.
           #
           # @return [Integer]
-          #   The parsed word.
+          #   The parsed Integer.
           #
           # @api private
           #   
-          def parse_int(int)
-            if @chars then parse_char(int)
-            else           int.to_i(@base)
+          def parse_int(string)
+            string.to_i(@base)
+          end
+
+          #
+          # Parses an integer or a ASCII character.
+          #
+          # @param [String] string
+          #   The text of the integer or character.
+          #
+          # @return [Integer]
+          #   The parsed integer or byte value of the character.
+          #
+          def parse_char_or_int(string)
+            @chars.fetch(string) do |string|
+              string.to_i(@base)
             end
           end
 
           #
           # Parses a float.
           #
-          # @param [String] float
+          # @param [String] string
           #   The text of the float.
           #
           # @return [Float]
           #   The parsed float.
           #
-          def parse_float(float)
-            float.to_f
+          def parse_float(string)
+            string.to_f
           end
 
           #
-          # Parses a word within a segment.
+          # Parses a line from the hexdump.
           #
-          # @param [String] word
-          #   The word to parse.
+          # @param [String] line
+          #   A line from a hexdump.
           #
-          # @return [Integer, Float]
-          #   The value of the word.
-          #  
-          def parse_word(word)
-            case @type
-            when :integer then parse_int(word)
-            when :float   then parse_float(word)
+          # @return [(Integer, Array<Integer, Float>)]
+          #   The parse address and the parsed numbers from the line.
+          #
+          def parse_line(line)
+            if @type == :char
+              # because od/hexdump print the ' ' char as white space,
+              # we need special parsing logic here.
+              if (start_index = line.index(' '))
+                address = parse_address(line[0,start_index])
+                rest    = line[start_index..]
+                numbers = rest.scan(/   ( )|([^\s]+)/)
+                numbers.map! { |(sp,char)| sp || char }
+                numbers.map!(&@parse_method)
+
+                return address, numbers
+              else
+                return parse_address(line)
+              end
+            else
+              address, *numbers = line.split
+              address = parse_address(address)
+              numbers.map!(&@parse_method)
+
+              unless numbers.empty?
+                return address, numbers
+              else
+                return address
+              end
             end
           end
 
@@ -404,7 +675,7 @@ module Ronin
           # @api private
           #   
           def pack(values)
-            values.pack(FORMATS[@type][@endian][@word_size] * values.length)
+            values.pack(@pack_string * values.length)
           end
 
         end
