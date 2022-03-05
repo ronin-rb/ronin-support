@@ -72,7 +72,7 @@ class File
   # @api public
   #
   def self.unhexdump(path,**kwargs)
-    Ronin::Support::Binary::Hexdump::Parser.new(**kwargs).parse(File.new(path))
+    Ronin::Support::Binary::Hexdump::Parser.new(**kwargs).unhexdump(new(path))
   end
 
 end
