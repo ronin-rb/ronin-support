@@ -124,6 +124,40 @@ module Ronin
             names
           end
 
+          #
+          # Queries a single matching DNS record for the host name.
+          #
+          # @param [String] name
+          #   The host name to query.
+          #
+          # @param [Class<Resolv::DNS::Resource>] type
+          #   The record type class.
+          #
+          # @return [Resolv::DNS::Resource, nil]
+          #   The matching DNS records or `nil` if no matching DNS records
+          #   could be found.
+          #
+          def get_record(name,type)
+            @resolver.getresource(name,type)
+          rescue Resolv::ResolvError
+          end
+
+          #
+          # Queries all matching DNS records for the host name.
+          #
+          # @param [String] name
+          #   The host name to query.
+          #
+          # @param [Class<Resolv::DNS::Resource>] type
+          #   The record type class.
+          #
+          # @return [Array<Resolv::DNS::Resource>]
+          #   All matching DNS records.
+          #
+          def get_records(name,type)
+            @resolver.getresources(name,type)
+          end
+
         end
       end
     end

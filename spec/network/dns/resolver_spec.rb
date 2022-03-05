@@ -105,4 +105,55 @@ describe Ronin::Support::Network::DNS::Resolver do
       end
     end
   end
+
+  describe "#get_record", :network do
+    let(:record_type) { Resolv::DNS::Resource::IN::TXT }
+
+    it "must return a DNS record of the matching type for the host name" do
+      record = subject.get_record(hostname,record_type)
+
+      expect(record).to be_kind_of(record_type)
+      expect(record.strings).to eq(["v=spf1 -all"])
+    end
+
+    context "when the host name does not exist" do
+      it "must return nil" do
+        expect(subject.get_record(bad_hostname,record_type)).to be(nil)
+      end
+    end
+
+    context "when the host name has no matching records" do
+    let(:record_type) { Resolv::DNS::Resource::IN::CNAME }
+
+      it "must return nil" do
+        expect(subject.get_record(hostname,record_type)).to be(nil)
+      end
+    end
+  end
+
+  describe "#get_records", :network do
+    let(:record_type) { Resolv::DNS::Resource::IN::TXT }
+
+    it "must return a DNS record of the matching type for the host name" do
+      records = subject.get_records(hostname,record_type)
+
+      expect(records).to_not be_empty
+      expect(records).to all(be_kind_of(record_type))
+      expect(records.first.strings).to eq(["v=spf1 -all"])
+    end
+
+    context "when the host name does not exist" do
+      it "must return an empty Array" do
+        expect(subject.get_records(bad_hostname,record_type)).to eq([])
+      end
+    end
+
+    context "when the host name has no matching records" do
+    let(:record_type) { Resolv::DNS::Resource::IN::CNAME }
+
+      it "must return an empty Array" do
+        expect(subject.get_records(hostname,record_type)).to eq([])
+      end
+    end
+  end
 end
