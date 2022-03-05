@@ -31,43 +31,83 @@ class File
   #   Additional keyword arguments for
   #   {Ronin::Support::Binary::Hexdump::Parser#initialize}.
   #
-  # @option kwargs [Symbol] :format
+  # @option kwargs [:od, :hexdump] :format (:hexdump)
   #   The expected format of the hexdump. Must be either `:od` or
   #   `:hexdump`.
   #
-  # @option kwargs [Symbol] :encoding
+  # @option kwargs [Symbol] :type (:byte)
   #   Denotes the encoding used for the bytes within the hexdump.
   #   Must be one of the following:
+  #   * `:byte`
+  #   * `:char`
+  #   * `:uint8`
+  #   * `:uint16`
+  #   * `:uint32`
+  #   * `:uint64`
+  #   * `:int8`
+  #   * `:int16`
+  #   * `:int32`
+  #   * `:int64`
+  #   * `:uchar`
+  #   * `:ushort`
+  #   * `:uint`
+  #   * `:ulong`
+  #   * `:ulong_long`
+  #   * `:short`
+  #   * `:int`
+  #   * `:long`
+  #   * `:long_long`
+  #   * `:float`
+  #   * `:double`
+  #   * `:float_le`
+  #   * `:double_le`
+  #   * `:float_be`
+  #   * `:double_be`
+  #   * `:uint16_le`
+  #   * `:uint32_le`
+  #   * `:uint64_le`
+  #   * `:int16_le`
+  #   * `:int32_le`
+  #   * `:int64_le`
+  #   * `:uint16_be`
+  #   * `:uint32_be`
+  #   * `:uint64_be`
+  #   * `:int16_be`
+  #   * `:int32_be`
+  #   * `:int64_be`
+  #   * `:ushort_le`
+  #   * `:uint_le`
+  #   * `:ulong_le`
+  #   * `:ulong_long_le`
+  #   * `:short_le`
+  #   * `:int_le`
+  #   * `:long_le`
+  #   * `:long_long_le`
+  #   * `:ushort_be`
+  #   * `:uint_be`
+  #   * `:ulong_be`
+  #   * `:ulong_long_be`
+  #   * `:short_be`
+  #   * `:int_be`
+  #   * `:long_be`
+  #   * `:long_long_be`
   #
-  #   * `:binary`
-  #   * `:octal`
-  #   * `:octal_bytes`
-  #   * `:octal_shorts`
-  #   * `:octal_ints`
-  #   * `:octal_quads` (Ruby 1.9 only)
-  #   * `:decimal`
-  #   * `:decimal_bytes`
-  #   * `:decimal_shorts`
-  #   * `:decimal_ints`
-  #   * `:decimal_quads` (Ruby 1.9 only)
-  #   * `:hex`
-  #   * `:hex_chars`
-  #   * `:hex_bytes`
-  #   * `:hex_shorts`
-  #   * `:hex_ints`
-  #   * `:hex_quads`
-  #   * `:named_chars` (Ruby 1.9 only)
-  #   * `:floats`
-  #   * `:doubles`
+  # @option kwargs [2, 8, 10, 16, nil] :address_base
+  #   The numerical base that the offset addresses are encoded in.
   #
-  # @option kwargs [:little, :big, :network] :endian (:little)
-  #   The endianness of the words.
+  # @option kwargs [2, 8, 10, 16, nil] base
+  #   The numerical base that the hexdumped numbers are encoded in.
   #
-  # @option kwargs [Integer] :segment (16)
-  #   The length in bytes of each segment in the hexdump.
+  # @option kwargs [Boolean] named_chars
+  #   Indicates to parse `od`-style named characters (ex: `nul`,
+  #   `del`, etc).
   #
   # @return [String]
   #   The raw-data from the hexdump.
+  #
+  # @raise [ArgumentError]
+  #   Unsupported `type:` value, or the `format:` was not `:hexdump` or
+  #   `:od`.
   #
   # @api public
   #
