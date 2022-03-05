@@ -18,3 +18,4 @@
 #
 
 require 'ronin/support/binary/hexdump/core_ext/string'
+require 'ronin/support/binary/hexdump/core_ext/file'

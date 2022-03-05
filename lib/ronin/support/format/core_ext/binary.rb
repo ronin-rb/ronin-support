@@ -21,6 +21,5 @@ require 'ronin/support/format/core_ext/binary/integer'
 require 'ronin/support/format/core_ext/binary/float'
 require 'ronin/support/format/core_ext/binary/string'
 require 'ronin/support/format/core_ext/binary/array'
-require 'ronin/support/format/core_ext/binary/file'
 
 require 'hexdump/core_ext'
