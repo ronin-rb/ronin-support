@@ -29,5 +29,23 @@ describe Network::IP do
         expect(subject.internal_ip).to_not be(nil)
       end
     end
+
+    describe "#ip" do
+      it "must return either #external_ip or #internal_ip" do
+        expect(subject.ip).to eq(subject.external_ip).or(eq(subject.internal_ip))
+      end
+
+      context "when #external_ip raises an exception" do
+        before do
+          allow(subject).to receive(:external_ip) do
+            raise("network error!")
+          end
+        end
+
+        it "must fallback to #internal_ip" do
+          expect(subject.ip.to_s).to eq(subject.internal_ip.to_s)
+        end
+      end
+    end
   end
 end
