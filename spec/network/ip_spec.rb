@@ -2,6 +2,15 @@ require 'spec_helper'
 require 'ronin/support/network/ip'
 
 describe Network::IP do
+  describe "IPINFO_URI" do
+    subject { described_class::IPINFO_URI }
+
+    it "must return a URI for 'https://ipinfo.io/ip'" do
+      expect(subject).to be_kind_of(URI::HTTPS)
+      expect(subject.to_s).to eq('https://ipinfo.io/ip')
+    end
+  end
+
   describe "helper methods", :network do
     subject do
       obj = Object.new

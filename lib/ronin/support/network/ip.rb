@@ -20,7 +20,7 @@
 require 'ronin/support/core_ext/ip_addr'
 
 require 'socket'
-require 'net/http'
+require 'net/https'
 
 module Ronin
   module Support
@@ -29,6 +29,9 @@ module Ronin
       # @since 0.6.0
       #
       module IP
+        # The URI for https://ipinfo.io/ip
+        IPINFO_URI = URI::HTTPS.build(host: 'ipinfo.io', path: '/ip')
+
         #
         # Determines the current external IP Address.
         #
@@ -38,7 +41,7 @@ module Ronin
         # @api public
         #
         def external_ip
-          IPAddr.extract(Net::HTTP.get('checkip.dyndns.org','/')).first
+          Net::HTTP.get(IPINFO_URI)
         end
 
         #
