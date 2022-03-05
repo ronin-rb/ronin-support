@@ -69,7 +69,8 @@ class String
   # @api public
   #
   def unhexdump(**kwargs)
-    Ronin::Support::Binary::Hexdump::Parser.new(**kwargs).unhexdump(self)
+    parser = Ronin::Support::Binary::Hexdump::Parser.new(**kwargs)
+    parser.unhexdump(self)
   end
 
 end
