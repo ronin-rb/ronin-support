@@ -481,7 +481,7 @@ module Ronin
           #
           # Parses a hexdump.
           #
-          # @param [#each_line] hexdump
+          # @param [String, IO] hexdump
           #   The hexdump output.
           #
           # @yield [address, values]
@@ -549,7 +549,7 @@ module Ronin
           #
           # Unhexdumps a hexdump and returns the raw data.
           #
-          # @param [String] hexdump
+          # @param [String, IO] hexdump
           #   The contents of the hexdump.
           #
           # @return [String]
