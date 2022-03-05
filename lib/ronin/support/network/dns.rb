@@ -116,7 +116,7 @@ module Ronin
         #
         # @api public
         #
-        def dns_lookup(host, nameservers: DNS.nameservers)
+        def dns_get_address(host, nameservers: DNS.nameservers)
           host     = host.to_s
           resolver = dns_resolver(nameservers)
           address  = resolver.get_address(host)
@@ -124,6 +124,8 @@ module Ronin
           yield(address) if (block_given? && address)
           return address
         end
+
+        alias dns_lookup dns_get_address
 
         #
         # Looks up all addresses of a hostname.
@@ -146,7 +148,7 @@ module Ronin
         #
         # @api public
         #
-        def dns_lookup_all(host, nameservers: DNS.nameservers, &block)
+        def dns_get_addresses(host, nameservers: DNS.nameservers, &block)
           host      = host.to_s
           resolver  = dns_resolver(nameservers)
           addresses = resolver.get_addresses(host)
@@ -176,7 +178,7 @@ module Ronin
         #
         # @api public
         #
-        def dns_reverse_lookup(ip, nameservers: DNS.nameservers)
+        def dns_get_name(ip, nameservers: DNS.nameservers)
           ip       = ip.to_s
           resolver = dns_resolver(nameservers)
           host     = resolver.get_name(ip)
@@ -184,6 +186,8 @@ module Ronin
           yield(host) if (block_given? && host)
           return host
         end
+
+        alias dns_reverse_lookup dns_get_name
 
         #
         # Looks up all hostnames associated with the address.
@@ -206,7 +210,7 @@ module Ronin
         #
         # @api public
         #
-        def dns_reverse_lookup_all(ip, nameservers: DNS.nameservers, &block)
+        def dns_get_names(ip, nameservers: DNS.nameservers, &block)
           ip       = ip.to_s
           resolver = dns_resolver(nameservers)
           hosts    = resolver.get_names(ip)
