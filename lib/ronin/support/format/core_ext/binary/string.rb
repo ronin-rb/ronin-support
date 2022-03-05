@@ -19,7 +19,6 @@
 
 require 'ronin/support/format/core_ext/binary/integer'
 require 'ronin/support/format/core_ext/text/string'
-require 'ronin/support/binary/hexdump/parser'
 require 'ronin/support/binary/template'
 
 require 'base64'
@@ -247,57 +246,6 @@ class String
   #
   def zlib_deflate
     Zlib::Deflate.deflate(self)
-  end
-
-  #
-  # Converts a multitude of hexdump formats back into raw-data.
-  #
-  # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for
-  #   {Ronin::Support::Binary::Hexdump::Parser#initialize}.
-  #
-  # @option kwargs [Symbol] :format
-  #   The expected format of the hexdump. Must be either `:od` or
-  #   `:hexdump`.
-  #
-  # @option kwargs [Symbol] :encoding
-  #   Denotes the encoding used for the bytes within the hexdump.
-  #   Must be one of the following:
-  #
-  #   * `:binary`
-  #   * `:octal`
-  #   * `:octal_bytes`
-  #   * `:octal_shorts`
-  #   * `:octal_ints`
-  #   * `:octal_quads` (Ruby 1.9 only)
-  #   * `:decimal`
-  #   * `:decimal_bytes`
-  #   * `:decimal_shorts`
-  #   * `:decimal_ints`
-  #   * `:decimal_quads` (Ruby 1.9 only)
-  #   * `:hex`
-  #   * `:hex_chars`
-  #   * `:hex_bytes`
-  #   * `:hex_shorts`
-  #   * `:hex_ints`
-  #   * `:hex_quads`
-  #   * `:named_chars` (Ruby 1.9 only)
-  #   * `:floats`
-  #   * `:doubles`
-  #
-  # @option kwargs [:little, :big, :network] :endian (:little)
-  #   The endianness of the words.
-  #
-  # @option kwargs [Integer] :segment (16)
-  #   The length in bytes of each segment in the hexdump.
-  #
-  # @return [String]
-  #   The raw-data from the hexdump.
-  #
-  # @api public
-  #
-  def unhexdump(**kwargs)
-    Ronin::Support::Binary::Hexdump::Parser.new(**kwargs).unhexdump(self)
   end
 
 end

@@ -17,5 +17,4 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/hexdump/parser'
-require 'ronin/support/binary/hexdump/core_ext'
+require 'ronin/support/binary/hexdump/core_ext/string'

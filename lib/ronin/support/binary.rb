@@ -19,3 +19,4 @@
 
 require 'ronin/support/binary/template'
 require 'ronin/support/binary/struct'
+require 'ronin/support/binary/hexdump'

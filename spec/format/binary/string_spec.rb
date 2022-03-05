@@ -40,10 +40,6 @@ describe String do
     expect(subject).to respond_to(:xor)
   end
 
-  it "should provide String#unhexdump" do
-    expect(subject).to respond_to(:unhexdump)
-  end
-
   describe "#unpack" do
     subject { "\x34\x12\x00\x00hello\0" }
 
@@ -144,16 +140,6 @@ describe String do
 
     it "should allow xoring against multiple keys" do
       expect(subject.xor(keys)).to eq("80<9?")
-    end
-  end
-
-  describe "#unhexdump" do
-    subject { "00000000  23 20 52 6f 6e 69 6e 20  53 75 70 70 6f 72 74 0a  |# Ronin Support.|\n00000010\n" }
-
-    let(:raw) { "# Ronin Support\n" }
-
-    it "should unhexdump a String" do
-      expect(subject.unhexdump).to eq(raw)
     end
   end
 end
