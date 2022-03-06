@@ -17,7 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/proxy'
+require 'ronin/support/network/tcp/proxy'
 require 'ronin/support/network/ssl/ssl'
 
 module Ronin
