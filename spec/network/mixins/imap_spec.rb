@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/network/imap'
+require 'ronin/support/network/mixins/imap'
 
-describe Network::IMAP do
+describe Ronin::Support::Network::Mixins::IMAP do
   describe "helpers", :network do
     subject do
       obj = Object.new
