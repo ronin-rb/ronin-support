@@ -293,7 +293,7 @@ module Ronin
         #   The `:method` option must be specified.
         #
         # @raise [UnknownRequest]
-        #   The `:method` option did not match a known Net::HTTP request
+        #   The `:method` option did not match a known `Net::HTTP` request
         #   class.
         #
         # @see HTTP.normalize_options
