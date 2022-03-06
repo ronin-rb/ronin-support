@@ -24,7 +24,6 @@ require 'ronin/support/text'
 require 'ronin/support/crypto'
 require 'ronin/support/network'
 require 'ronin/support/path'
-require 'ronin/support/templates'
 require 'ronin/support/cli/printing'
 require 'ronin/support/version'
 
