@@ -26,7 +26,7 @@ describe Ronin::Support::Network::DNS do
     after { subject.nameservers = original_nameservers }
   end
 
-  describe "resolver" do
+  describe ".resolver" do
     it "should return #{described_class::Resolver}" do
       expect(subject.resolver).to be_kind_of(described_class::Resolver)
     end
