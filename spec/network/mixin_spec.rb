@@ -2,8 +2,8 @@ require 'spec_helper'
 require 'ronin/support/network/mixin'
 
 describe Ronin::Support::Network::Mixin do
-  it "must include `Ronin::Support::Network::IP`" do
-    expect(subject).to include(Ronin::Support::Network::IP)
+  it "must include `Ronin::Support::Network::Mixins::IP`" do
+    expect(subject).to include(Ronin::Support::Network::Mixins::IP)
   end
 
   it "must include `Ronin::Support::Network::Mixins::DNS`" do

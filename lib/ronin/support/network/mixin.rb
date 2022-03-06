@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/ip'
+require 'ronin/support/network/mixins/ip'
 require 'ronin/support/network/mixins/dns'
 require 'ronin/support/network/mixins/tcp'
 require 'ronin/support/network/mixins/udp'
@@ -34,7 +34,7 @@ module Ronin
   module Support
     module Network
       module Mixin
-        include IP
+        include Mixins::IP
         include Mixins::DNS
         include Mixins::TCP
         include Mixins::UDP

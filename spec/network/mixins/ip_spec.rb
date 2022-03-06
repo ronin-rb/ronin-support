@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/network/ip'
+require 'ronin/support/network/mixins/ip'
 
-describe Network::IP do
+describe Ronin::Support::Network::Mixins::IP do
   describe "IPINFO_URI" do
     subject { described_class::IPINFO_URI }
 
