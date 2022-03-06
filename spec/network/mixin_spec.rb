@@ -38,8 +38,8 @@ describe Ronin::Support::Network::Mixin do
     expect(subject).to include(Ronin::Support::Network::Mixins::SMTP)
   end
 
-  it "must include `Ronin::Support::Network::ESMTP`" do
-    expect(subject).to include(Ronin::Support::Network::ESMTP)
+  it "must include `Ronin::Support::Network::Mixins::ESMTP`" do
+    expect(subject).to include(Ronin::Support::Network::Mixins::ESMTP)
   end
 
   it "must include `Ronin::Support::Network::POP3`" do
