@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/network/pop3'
+require 'ronin/support/network/mixins/pop3'
 
-describe Network::POP3 do
+describe Ronin::Support::Network::Mixins::POP3 do
   describe "helpers", :network do
     subject do
       obj = Object.new

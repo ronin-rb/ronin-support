@@ -25,7 +25,7 @@ require 'ronin/support/network/mixins/ssl'
 require 'ronin/support/network/unix'
 require 'ronin/support/network/http'
 require 'ronin/support/network/ftp'
-require 'ronin/support/network/pop3'
+require 'ronin/support/network/mixins/pop3'
 require 'ronin/support/network/imap'
 require 'ronin/support/network/mixins/smtp'
 require 'ronin/support/network/mixins/esmtp'
@@ -44,7 +44,7 @@ module Ronin
         include FTP
         include Mixins::SMTP
         include Mixins::ESMTP
-        include POP3
+        include Mixins::POP3
         include IMAP
       end
     end
