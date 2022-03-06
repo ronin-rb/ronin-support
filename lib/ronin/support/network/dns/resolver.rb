@@ -132,7 +132,7 @@ module Ronin
           # @param [String] name
           #   The host name to query.
           #
-          # @param [Class<Resolv::DNS::Resource>] type
+          # @param [Class<Resolv::DNS::Resource>] type_class
           #   The record type class.
           #
           # @return [Resolv::DNS::Resource, nil]
@@ -152,7 +152,7 @@ module Ronin
           # @param [String] name
           #   The host name to query.
           #
-          # @param [Class<Resolv::DNS::Resource>] type
+          # @param [Class<Resolv::DNS::Resource>] type_class
           #   The record type class.
           #
           # @return [Array<Resolv::DNS::Resource>]
@@ -479,7 +479,7 @@ module Ronin
           # @param [String] ip
           #   The IP address to query.
           #
-          # @eturrn [Resolv::DNS::Resource::PTR, nil]
+          # @return [Resolv::DNS::Resource::PTR, nil]
           #   The first `PTR` DNS record of the host name or `nil` if the host
           #   name has no `PTR` records.
           #

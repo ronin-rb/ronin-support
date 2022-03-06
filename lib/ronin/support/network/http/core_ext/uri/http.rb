@@ -31,12 +31,12 @@ module URI
     #
     # @param [Hash{Symbol => Object}] kwargs
     #   Additional keyword arguments for
-    #   {Ronin::Support::Network::HTTP#http_status}.
+    #   {Ronin::Support::Network::Mixins::HTTP#http_status}.
     #
     # @return [Integer]
     #   The HTTP Response Status.
     #
-    # @see Ronin::Support::Network::HTTP#http_status
+    # @see Ronin::Support::Network::Mixins::HTTP#http_status
     #
     # @since 0.3.0
     #
@@ -49,12 +49,12 @@ module URI
     #
     # @param [Hash{Symbol => Object}] kwargs
     #   Additional keyword arguments for
-    #   {Ronin::Support::Network::HTTP#http_status}.
+    #   {Ronin::Support::Network::Mixins::HTTP#http_status}.
     #
     # @return [Boolean]
     #   Specifies whether the response had an HTTP OK status code or not.
     #
-    # @see Ronin::Support::Network::HTTP#http_ok?
+    # @see Ronin::Support::Network::Mixins::HTTP#http_ok?
     #
     # @since 0.3.0
     #

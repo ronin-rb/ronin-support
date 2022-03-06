@@ -44,11 +44,12 @@ module Ronin
           # Creates a properly formatted email.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {Email#initialize}.
+          #   Additional keyword arguments for
+          #   {Network::SMTP::Email#initialize}.
           #
           # @yield [email]
-          #   If a block is given, it will be passed the newly created Email
-          #   object.
+          #   If a block is given, it will be passed the newly created
+          #   {Network::SMTP::Email} object.
           #
           # @yieldparam [Email] email
           #   The new Email object.
@@ -68,7 +69,8 @@ module Ronin
           # Creates a new email message.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {Email#initialize}.
+          #   Additional keyword arguments for
+          #   {Network::SMTP::Email#initialize}.
           #
           # @yield [email]
           #   The given block will be passed the new email.

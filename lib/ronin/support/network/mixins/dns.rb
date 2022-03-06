@@ -34,7 +34,7 @@ module Ronin
           #
           # Creates a DNS Resolver for the nameserver.
           #
-          # @param [Array<String>, String] nameserver
+          # @param [Array<String>, String] nameservers
           #   Optional DNS nameserver(s) to query.
           #
           # @return [Resolv, Resolv::DNS]
