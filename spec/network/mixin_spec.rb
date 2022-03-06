@@ -22,8 +22,8 @@ describe Ronin::Support::Network::Mixin do
     expect(subject).to include(Ronin::Support::Network::Mixins::SSL)
   end
 
-  it "must include `Ronin::Support::Network::UNIX`" do
-    expect(subject).to include(Ronin::Support::Network::UNIX)
+  it "must include `Ronin::Support::Network::Mixins::UNIX`" do
+    expect(subject).to include(Ronin::Support::Network::Mixins::UNIX)
   end
 
   it "must include `Ronin::Support::Network::HTTP`" do

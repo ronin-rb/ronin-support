@@ -22,7 +22,7 @@ require 'ronin/support/network/mixins/dns'
 require 'ronin/support/network/mixins/tcp'
 require 'ronin/support/network/mixins/udp'
 require 'ronin/support/network/mixins/ssl'
-require 'ronin/support/network/unix'
+require 'ronin/support/network/mixins/unix'
 require 'ronin/support/network/http'
 require 'ronin/support/network/mixins/ftp'
 require 'ronin/support/network/mixins/pop3'
@@ -39,7 +39,7 @@ module Ronin
         include Mixins::TCP
         include Mixins::UDP
         include Mixins::SSL
-        include UNIX
+        include Mixins::UNIX
         include HTTP
         include Mixins::FTP
         include Mixins::SMTP

@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'network/shared/unix_server'
-require 'ronin/support/network/unix'
+require 'ronin/support/network/mixins/unix'
 
 require 'fileutils'
 
-describe Network::UNIX do
+describe Ronin::Support::Network::Mixins::UNIX do
   describe "helper methods", :network do
     subject do
       obj = Object.new
