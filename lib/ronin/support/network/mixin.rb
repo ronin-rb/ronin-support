@@ -17,19 +17,36 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/core_ext'
-require 'ronin/support/format'
-require 'ronin/support/binary'
-require 'ronin/support/text'
-require 'ronin/support/crypto'
-require 'ronin/support/network/mixin'
-require 'ronin/support/path'
-require 'ronin/support/cli/printing'
-require 'ronin/support/version'
+require 'ronin/support/network/ip'
+require 'ronin/support/network/dns'
+require 'ronin/support/network/tcp'
+require 'ronin/support/network/udp'
+require 'ronin/support/network/ssl'
+require 'ronin/support/network/unix'
+require 'ronin/support/network/http'
+require 'ronin/support/network/ftp'
+require 'ronin/support/network/pop3'
+require 'ronin/support/network/imap'
+require 'ronin/support/network/smtp'
+require 'ronin/support/network/esmtp'
 
 module Ronin
   module Support
-    include Network::Mixin
-    include CLI::Printing
+    module Network
+      module Mixin
+        include IP
+        include DNS
+        include TCP
+        include UDP
+        include SSL
+        include UNIX
+        include HTTP
+        include FTP
+        include SMTP
+        include ESMTP
+        include POP3
+        include IMAP
+      end
+    end
   end
 end

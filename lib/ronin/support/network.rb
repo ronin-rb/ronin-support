@@ -29,24 +29,4 @@ require 'ronin/support/network/pop3'
 require 'ronin/support/network/imap'
 require 'ronin/support/network/smtp'
 require 'ronin/support/network/esmtp'
-
-module Ronin
-  module Support
-    module Network
-      module_function
-
-      include IP
-      include DNS
-      include TCP
-      include UDP
-      include SSL
-      include UNIX
-      include HTTP
-      include FTP
-      include SMTP
-      include ESMTP
-      include POP3
-      include IMAP
-    end
-  end
-end
+require 'ronin/support/network/mixin'
