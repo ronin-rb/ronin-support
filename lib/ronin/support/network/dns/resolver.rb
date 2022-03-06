@@ -32,6 +32,8 @@ module Ronin
         #
         # @api semipublic
         #
+        # @since 1.0.0
+        #
         class Resolver
 
           # The nameserver(s) to query.
