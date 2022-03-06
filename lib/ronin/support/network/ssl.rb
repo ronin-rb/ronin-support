@@ -17,5 +17,35 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/ssl/ssl'
+
 require 'ronin/support/network/ssl/proxy'
+
+begin
+  require 'openssl'
+rescue ::LoadError
+  warn "WARNING: Ruby was not compiled with OpenSSL support"
+end
+
+module Ronin
+  module Support
+    module Network
+      module SSL
+        # SSL verify modes
+        VERIFY = {
+          none:                 OpenSSL::SSL::VERIFY_NONE,
+          peer:                 OpenSSL::SSL::VERIFY_PEER,
+          fail_if_no_peer_cert: OpenSSL::SSL::VERIFY_FAIL_IF_NO_PEER_CERT,
+          client_once:          OpenSSL::SSL::VERIFY_CLIENT_ONCE,
+          true               => OpenSSL::SSL::VERIFY_PEER,
+          false              => OpenSSL::SSL::VERIFY_NONE
+        }
+
+        # Default SSL key file
+        DEFAULT_KEY_FILE = File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','data','ronin','network','ssl','ssl.key'))
+
+        # Default SSL cert file
+        DEFAULT_CERT_FILE = File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','data','ronin','network','ssl','ssl.pem'))
+      end
+    end
+  end
+end

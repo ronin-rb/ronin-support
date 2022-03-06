@@ -18,7 +18,7 @@
 #
 
 require 'ronin/support/network/tcp/proxy'
-require 'ronin/support/network/ssl/ssl'
+require 'ronin/support/network/ssl'
 
 module Ronin
   module Support

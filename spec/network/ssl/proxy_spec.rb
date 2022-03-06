@@ -1,8 +1,9 @@
 require 'spec_helper'
 require 'ronin/support/network/ssl/proxy'
+require 'ronin/support/network/mixins/ssl'
 
 describe Network::SSL::Proxy, network: true do
-  include Ronin::Support::Network::SSL
+  include Ronin::Support::Network::Mixins::SSL
 
   let(:port)   { 1337                  }
   let(:host)   { 'localhost'           }
