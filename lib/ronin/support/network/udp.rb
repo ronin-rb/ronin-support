@@ -17,5 +17,4 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/udp/udp'
 require 'ronin/support/network/udp/proxy'

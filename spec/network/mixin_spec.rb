@@ -14,8 +14,8 @@ describe Ronin::Support::Network::Mixin do
     expect(subject).to include(Ronin::Support::Network::Mixins::TCP)
   end
 
-  it "must include `Ronin::Support::Network::UDP`" do
-    expect(subject).to include(Ronin::Support::Network::UDP)
+  it "must include `Ronin::Support::Network::Mixins::UDP`" do
+    expect(subject).to include(Ronin::Support::Network::Mixins::UDP)
   end
 
   it "must include `Ronin::Support::Network::SSL`" do
