@@ -49,7 +49,7 @@ module URI
     #
     # @param [Hash{Symbol => Object}] kwargs
     #   Additional keyword arguments for
-    #   {Ronin::Support::Network::Mixins::HTTP#http_status}.
+    #   {Ronin::Support::Network::Mixins::HTTP#http_ok?}.
     #
     # @return [Boolean]
     #   Specifies whether the response had an HTTP OK status code or not.
