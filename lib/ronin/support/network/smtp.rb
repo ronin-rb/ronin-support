@@ -18,4 +18,3 @@
 #
 
 require 'ronin/support/network/smtp/email'
-require 'ronin/support/network/smtp/smtp'

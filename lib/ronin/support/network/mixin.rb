@@ -27,7 +27,7 @@ require 'ronin/support/network/http'
 require 'ronin/support/network/ftp'
 require 'ronin/support/network/pop3'
 require 'ronin/support/network/imap'
-require 'ronin/support/network/smtp'
+require 'ronin/support/network/mixins/smtp'
 require 'ronin/support/network/esmtp'
 
 module Ronin
@@ -42,7 +42,7 @@ module Ronin
         include UNIX
         include HTTP
         include FTP
-        include SMTP
+        include Mixins::SMTP
         include ESMTP
         include POP3
         include IMAP
