@@ -17,5 +17,4 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/tcp/tcp'
 require 'ronin/support/network/tcp/proxy'

@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'ronin/support/network/tcp'
+require 'ronin/support/network/mixins/tcp'
 
 require 'resolv'
 
-describe Network::TCP do
+describe Ronin::Support::Network::Mixins::TCP do
   describe "helper methods", :network do
     let(:host) { 'smtp.gmail.com' }
     let(:port) { 587 }
