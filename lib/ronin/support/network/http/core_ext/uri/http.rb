@@ -17,14 +17,14 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/http'
+require 'ronin/support/network/mixins/http'
 
 require 'uri/http'
 
 module URI
   class HTTP < Generic
 
-    include Ronin::Support::Network::HTTP
+    include Ronin::Support::Network::Mixins::HTTP
 
     #
     # Returns the Status Code of the HTTP Response for the URI.
