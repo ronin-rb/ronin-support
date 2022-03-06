@@ -59,7 +59,7 @@ module URI
     # @since 0.3.0
     #
     def ok?(**kwargs)
-      http_ok?(url: self)
+      http_ok?(url: self, **kwargs)
     end
 
   end
