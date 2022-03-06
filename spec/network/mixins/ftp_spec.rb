@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/network/ftp'
+require 'ronin/support/network/mixins/ftp'
 
-describe Network::FTP do
+describe Ronin::Support::Network::Mixins::FTP do
   describe "helpers", :network do
     subject do
       obj = Object.new

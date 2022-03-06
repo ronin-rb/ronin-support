@@ -30,8 +30,8 @@ describe Ronin::Support::Network::Mixin do
     expect(subject).to include(Ronin::Support::Network::HTTP)
   end
 
-  it "must include `Ronin::Support::Network::FTP`" do
-    expect(subject).to include(Ronin::Support::Network::FTP)
+  it "must include `Ronin::Support::Network::Mixins::FTP`" do
+    expect(subject).to include(Ronin::Support::Network::Mixins::FTP)
   end
 
   it "must include `Ronin::Support::Network::Mixins::SMTP`" do
