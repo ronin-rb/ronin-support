@@ -204,13 +204,13 @@ module Ronin
           # @yield [request, (options)]
           #   If a block is given, it will be passed the HTTP request object.
           #   If the block has an arity of 2, it will also be passed the
-          #   expanded version of the given _options_.
+          #   expanded version of the given `kwargs`.
           #
           # @yieldparam [Net::HTTPRequest] request
           #   The HTTP request object to use in the request.
           #
           # @yieldparam [Hash] options
-          #   The expanded version of the given _options_.
+          #   The expanded version of the given `kwargs`.
           #
           # @return [Net::HTTPResponse]
           #   The response of the HTTP request.
