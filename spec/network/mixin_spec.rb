@@ -6,8 +6,8 @@ describe Ronin::Support::Network::Mixin do
     expect(subject).to include(Ronin::Support::Network::IP)
   end
 
-  it "must include `Ronin::Support::Network::DNS`" do
-    expect(subject).to include(Ronin::Support::Network::DNS)
+  it "must include `Ronin::Support::Network::Mixins::DNS`" do
+    expect(subject).to include(Ronin::Support::Network::Mixins::DNS)
   end
 
   it "must include `Ronin::Support::Network::TCP`" do
