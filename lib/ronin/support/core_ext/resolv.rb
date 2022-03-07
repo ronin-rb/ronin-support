@@ -53,28 +53,4 @@ class Resolv
     za zm zw
   ]
 
-  #
-  # Creates a new resolver or uses the system's resolver.
-  #
-  # @param [Array<String>, String, nil] nameservers
-  #   The nameserver(s) to query.
-  #
-  # @return [Resolv::DNS, Resolv]
-  #   A new resolver for the given nameservers, or the system's resolver.
-  #
-  # @example
-  #   Resolv.resolver('4.2.2.1')
-  #
-  # @since 0.3.0
-  #
-  # @api public
-  #
-  def self.resolver(*nameservers)
-    unless nameservers.empty?
-      DNS.new(nameserver: nameservers)
-    else
-      self
-    end
-  end
-
 end
