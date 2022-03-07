@@ -124,18 +124,19 @@ module Ronin
 
           return enum_for(__method__,cidr_or_glob) unless block
 
-          if cidr_or_glob.include?('::')
-            separator = '::'
+          if cidr_or_glob.include?(':') # IPv6
+            separator = ':'
             base      = 16
 
-            prefix = if cidr_or_glob.start_with?('::') then '::'
-                     else                                   ''
-                     end
-
             format = lambda { |address|
-              prefix + address.map { |i| '%.2x' % i }.join('::')
+              address.map { |number|
+                case number
+                when Integer then number.to_s(16)
+                else              number
+                end
+              }.join(':')
             }
-          else
+          else # IPv4
             separator = '.'
             base      = 10
             format    = lambda { |address| address.join('.') }
@@ -147,21 +148,24 @@ module Ronin
 
           # map the components of the address to numeric ranges
           segments.each do |segment|
-            next if segment.empty?
-
-            ranges << if segment == '*'
+            ranges << case segment
+                      when '*'
                         (1..254)
-            else
-              segment.split(',').map { |octet|
-                if octet.include?('-')
-                  start, stop = octet.split('-',2)
+                      when /[,-]/
+                        segment.split(',').flat_map do |octet|
+                          if octet.include?('-')
+                            start, stop = octet.split('-',2)
+                            start = start.to_i(base)
+                            stop  = stop.to_i(base)
 
-                  (start.to_i(base)..stop.to_i(base)).to_a
-                else
-                  octet.to_i(base)
-                end
-              }.flatten
-            end
+                            (start..stop).to_a
+                          else
+                            octet.to_i(base)
+                          end
+                        end
+                      else
+                        [segment]
+                      end
           end
 
           # cycle through the address ranges
