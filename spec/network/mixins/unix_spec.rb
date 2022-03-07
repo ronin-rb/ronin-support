@@ -5,14 +5,14 @@ require 'ronin/support/network/mixins/unix'
 require 'fileutils'
 
 describe Ronin::Support::Network::Mixins::UNIX do
-  describe "helper methods", :network do
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
+  subject do
+    obj = Object.new
+    obj.extend described_class
+    obj
+  end
 
-    describe "#unix_open?" do
+  describe "#unix_open?" do
+    context "integration", :network do
       include_context "UNIX Server"
 
       it "should return true for listening UNIX sockets" do
@@ -39,8 +39,10 @@ describe Ronin::Support::Network::Mixins::UNIX do
         expect((t2 - t1).to_i).to be <= timeout
       end
     end
+  end
 
-    describe "#unix_connect" do
+  describe "#unix_connect" do
+    context "integration", :network do
       include_context "UNIX Server"
 
       it "should open a UNIXSocket" do
@@ -63,8 +65,10 @@ describe Ronin::Support::Network::Mixins::UNIX do
         socket.close
       end
     end
+  end
 
-    describe "#unix_connect_and_send" do
+  describe "#unix_connect_and_send" do
+    context "integration", :network do
       include_context "UNIX Server"
 
       let(:data) { "HELO ronin\n" }
@@ -76,7 +80,7 @@ describe Ronin::Support::Network::Mixins::UNIX do
         expect(response).to eq(data)
 
         socket.close
-       end
+      end
 
       it "should yield the UNIXSocket" do
         response = nil
@@ -90,8 +94,10 @@ describe Ronin::Support::Network::Mixins::UNIX do
         socket.close
       end
     end
+  end
 
-    describe "#unix_session" do
+  describe "#unix_session" do
+    context "integration", :network do
       include_context "UNIX Server"
 
       it "should open then close a UNIXSocket" do
@@ -105,8 +111,10 @@ describe Ronin::Support::Network::Mixins::UNIX do
         expect(socket).to be_closed
       end
     end
+  end
 
-    describe "#unix_send" do
+  describe "#unix_send" do
+    context "integration", :network do
       let(:server_path) { File.join(Dir.tmpdir,'ronin_unix_server') }
       let(:data)        { "hello\n" }
 
@@ -129,8 +137,10 @@ describe Ronin::Support::Network::Mixins::UNIX do
         FileUtils.rm(server_path)
       end
     end
+  end
 
-    describe "#unix_server" do
+  describe "#unix_server" do
+    context "integration", :network do
       let(:server_path) { File.join(Dir.tmpdir,'ronin_unix_server') }
 
       it "should create a new UNIXServer" do
@@ -144,7 +154,7 @@ describe Ronin::Support::Network::Mixins::UNIX do
 
       it "should yield the new UNIXServer" do
         server = nil
-        
+
         subject.unix_server(server_path) do |yielded_server|
           server = yielded_server
         end
@@ -157,13 +167,15 @@ describe Ronin::Support::Network::Mixins::UNIX do
 
       after(:each) { FileUtils.rm(server_path) }
     end
+  end
 
-    describe "#unix_server_session" do
+  describe "#unix_server_session" do
+    context "integration", :network do
       let(:server_path) { File.join(Dir.tmpdir,'ronin_unix_server') }
 
       it "should create a temporary UNIXServer" do
         server = nil
-        
+
         subject.unix_server_session(server_path) do |yielded_server|
           server = yielded_server
         end
@@ -174,8 +186,10 @@ describe Ronin::Support::Network::Mixins::UNIX do
 
       after(:each) { FileUtils.rm(server_path) }
     end
+  end
 
-    describe "#unix_accept" do
+  describe "#unix_accept" do
+    context "integration", :network do
       pending "need to automate connecting to the UNIXServer"
     end
   end

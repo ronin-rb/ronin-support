@@ -185,19 +185,21 @@ describe IPAddr do
   let(:ip) { IPAddr.new('127.0.0.1') }
   let(:bad_ip) { IPAddr.new('0.0.0.0') }
 
-  describe "#lookup", :network do
-    let(:nameserver) { '4.2.2.1' }
+  describe "#lookup" do
+    context "integration", :network do
+      let(:nameserver) { '4.2.2.1' }
 
-    it "should lookup the host-name for an IP" do
-      expect(ip.lookup).to include('localhost')
-    end
+      it "should lookup the host-name for an IP" do
+        expect(ip.lookup).to include('localhost')
+      end
 
-    it "may lookup host-names via other nameservers" do
-      expect(ip.lookup(nameserver)).to be_empty
-    end
+      it "may lookup host-names via other nameservers" do
+        expect(ip.lookup(nameserver)).to be_empty
+      end
 
-    it "should return an empty Array for unknown IP addresses" do
-      expect(bad_ip.lookup).to be_empty
+      it "should return an empty Array for unknown IP addresses" do
+        expect(bad_ip.lookup).to be_empty
+      end
     end
   end
 end

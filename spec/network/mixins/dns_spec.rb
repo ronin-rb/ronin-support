@@ -4,23 +4,23 @@ require 'ronin/support/network/mixins/dns'
 require 'ipaddr'
 
 describe Ronin::Support::Network::Mixins::DNS do
-  describe "helper methods", :network do
-    let(:nameservers)      { %w[8.8.8.8] }
-    let(:hostname)         { 'example.com' }
-    let(:bad_hostname)     { 'foo.bar' }
-    let(:address)          { '93.184.216.34' }
-    let(:bad_address)      { '0.0.0.0' }
-    let(:reverse_address)  { '192.0.43.10' }
-    let(:reverse_ipaddr)   { IPAddr.new(reverse_address) }
-    let(:reverse_hostname) { '43-10.any.icann.org' }
+  let(:nameservers)      { %w[8.8.8.8] }
+  let(:hostname)         { 'example.com' }
+  let(:bad_hostname)     { 'foo.bar' }
+  let(:address)          { '93.184.216.34' }
+  let(:bad_address)      { '0.0.0.0' }
+  let(:reverse_address)  { '192.0.43.10' }
+  let(:reverse_ipaddr)   { IPAddr.new(reverse_address) }
+  let(:reverse_hostname) { '43-10.any.icann.org' }
 
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
+  subject do
+    obj = Object.new
+    obj.extend described_class
+    obj
+  end
 
-    describe "#dns_get_address" do
+  describe "#dns_get_address" do
+    context "integration", :network do
       it "should lookup the address for a hostname" do
         expect(subject.dns_get_address(hostname)).to eq(address)
       end
@@ -53,8 +53,10 @@ describe Ronin::Support::Network::Mixins::DNS do
         end
       end
     end
+  end
 
-    describe "#dns_get_addresses" do
+  describe "#dns_get_addresses" do
+    context "integration", :network do
       it "should lookup all addresses for a hostname" do
         expect(subject.dns_get_addresses(hostname)).to include(address)
       end
@@ -87,8 +89,10 @@ describe Ronin::Support::Network::Mixins::DNS do
         end
       end
     end
+  end
 
-    describe "#dns_get_name" do
+  describe "#dns_get_name" do
+    context "integration", :network do
       it "should lookup the address for a hostname" do
         expect(subject.dns_get_name(reverse_address)).to eq(reverse_hostname)
       end
@@ -123,8 +127,10 @@ describe Ronin::Support::Network::Mixins::DNS do
         end
       end
     end
+  end
 
-    describe "#dns_get_names" do
+  describe "#dns_get_names" do
+    context "integration", :network do
       it "should lookup all addresses for a hostname" do
         expect(subject.dns_get_names(reverse_address)).to include(reverse_hostname)
       end

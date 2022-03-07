@@ -2,16 +2,16 @@ require 'spec_helper'
 require 'ronin/support/network/mixins/smtp'
 
 describe Ronin::Support::Network::Mixins::SMTP do
-  describe "helpers", :network do
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
+  subject do
+    obj = Object.new
+    obj.extend described_class
+    obj
+  end
 
-    let(:host) { 'smtp.gmail.com' }
+  let(:host) { 'smtp.gmail.com' }
 
-    describe "#smtp_connect" do
+  describe "#smtp_connect" do
+    context "integration", :network do
       it "should return a Net::SMTP object" do
         pending "need valid SMTP credentials"
 
@@ -55,8 +55,10 @@ describe Ronin::Support::Network::Mixins::SMTP do
         end
       end
     end
+  end
 
-    describe "#smtp_session" do
+  describe "#smtp_session" do
+    context "integration", :network do
       it "should yield a new Net::SMTP object" do
         pending "need valid SMTP credentials"
 

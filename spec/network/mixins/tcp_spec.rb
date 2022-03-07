@@ -4,29 +4,29 @@ require 'ronin/support/network/mixins/tcp'
 require 'resolv'
 
 describe Ronin::Support::Network::Mixins::TCP do
-  describe "helper methods", :network do
-    let(:host) { 'smtp.gmail.com' }
-    let(:port) { 587 }
+  let(:host) { 'smtp.gmail.com' }
+  let(:port) { 587 }
 
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
+  subject do
+    obj = Object.new
+    obj.extend described_class
+    obj
+  end
 
-    shared_examples "TCP Server" do
-      let(:server_host) { 'localhost' }
-      let(:server_port) { 1024 + rand(65535 - 1024) }
-      let(:server_ip)   { Resolv.getaddress(server_host) }
-      let(:server) { TCPServer.new(server_host,server_port) }
-      let(:server_bind_ip)   { server.addr[3] }
-      let(:server_bind_port) { server.addr[1] }
+  shared_examples "TCP Server" do
+    let(:server_host) { 'localhost' }
+    let(:server_port) { 1024 + rand(65535 - 1024) }
+    let(:server_ip)   { Resolv.getaddress(server_host) }
+    let(:server) { TCPServer.new(server_host,server_port) }
+    let(:server_bind_ip)   { server.addr[3] }
+    let(:server_bind_port) { server.addr[1] }
 
-      before(:each) { server.listen(1) }
-      after(:each)  { server.close }
-    end
+    before(:each) { server.listen(1) }
+    after(:each)  { server.close }
+  end
 
-    describe "#tcp_open?" do
+  describe "#tcp_open?" do
+    context "integration", :network do
       include_examples "TCP Server"
 
       let(:host) { server_bind_ip }
@@ -54,8 +54,10 @@ describe Ronin::Support::Network::Mixins::TCP do
         end
       end
     end
+  end
 
-    describe "#tcp_connect" do
+  describe "#tcp_connect" do
+    context "integration", :network do
       let(:host) { 'example.com' }
       let(:port) { 80 }
 
@@ -94,8 +96,10 @@ describe Ronin::Support::Network::Mixins::TCP do
         end
       end
     end
+  end
 
-    describe "#tcp_connect_and_send" do
+  describe "#tcp_connect_and_send" do
+    context "integration", :network do
       let(:data) { "HELO ronin-support\n" }
 
       let(:expected_response) { "250 #{host} at your service\r\n" }
@@ -108,7 +112,7 @@ describe Ronin::Support::Network::Mixins::TCP do
         expect(response).to eq(expected_response)
 
         socket.close
-       end
+      end
 
       context "when given a local host and port" do
         let(:local_port) { 1024 + rand(65535 - 1024) }
@@ -138,8 +142,10 @@ describe Ronin::Support::Network::Mixins::TCP do
         end
       end
     end
+  end
 
-    describe "#tcp_session" do
+  describe "#tcp_session" do
+    context "integration", :network do
       it "should open then close a TCPSocket" do
         socket = nil
 
@@ -165,12 +171,16 @@ describe Ronin::Support::Network::Mixins::TCP do
         end
       end
     end
+  end
 
-    describe "#tcp_banner" do
+  describe "#tcp_banner" do
+    context "integration", :network do
       let(:host)       { 'smtp.gmail.com' }
       let(:port)       { 587 }
 
-      let(:expected_banner) { /^220 #{Regexp.escape(host)} ESMTP [^\s]+ - gsmtp$/ }
+      let(:expected_banner) do
+        /^220 #{Regexp.escape(host)} ESMTP [^\s]+ - gsmtp$/
+      end
 
       it "should return the read service banner" do
         banner = subject.tcp_banner(host,port)
@@ -200,11 +210,13 @@ describe Ronin::Support::Network::Mixins::TCP do
         end
       end
     end
+  end
 
-    let(:local_host) { 'localhost' }
-    let(:local_ip)   { Resolv.getaddress(local_host) }
+  let(:local_host) { 'localhost' }
+  let(:local_ip)   { Resolv.getaddress(local_host) }
 
-    describe "#tcp_send" do
+  describe "#tcp_send" do
+    context "integration", :network do
       include_context "TCP Server"
 
       let(:data) { "hello\n" }
@@ -235,8 +247,10 @@ describe Ronin::Support::Network::Mixins::TCP do
         end
       end
     end
+  end
 
-    describe "#tcp_server" do
+  describe "#tcp_server" do
+    context "integration", :network do
       it "should create a new TCPServer" do
         server = subject.tcp_server
 
@@ -276,11 +290,13 @@ describe Ronin::Support::Network::Mixins::TCP do
         end
       end
     end
+  end
 
-    describe "#tcp_server_session" do
+  describe "#tcp_server_session" do
+    context "integration", :network do
       it "should create a temporary TCPServer" do
         server = nil
-        
+
         subject.tcp_server_session do |yielded_server|
           server = yielded_server
         end
@@ -306,8 +322,10 @@ describe Ronin::Support::Network::Mixins::TCP do
         end
       end
     end
+  end
 
-    describe "#tcp_accept" do
+  describe "#tcp_accept" do
+    context "integration", :network do
       let(:server_port) { 1024 + rand(65535 - 1024) }
 
       pending "need to automate connecting to the TCPServer"

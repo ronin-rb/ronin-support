@@ -2,22 +2,22 @@ require 'spec_helper'
 require 'ronin/support/network/mixins/http'
 
 describe Ronin::Support::Network::Mixins::HTTP do
-  describe "helper methods", :network do
-    let(:host) { 'www.google.com' }
-    let(:port) { 80 }
-    let(:path) { '/' }
-    let(:uri)  { URI::HTTP.build(host: host, port: 80, path: path) }
+  let(:host) { 'www.google.com' }
+  let(:port) { 80 }
+  let(:path) { '/' }
+  let(:uri)  { URI::HTTP.build(host: host, port: 80, path: path) }
 
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
+  subject do
+    obj = Object.new
+    obj.extend described_class
+    obj
+  end
 
-    describe "#http_connect" do
+  describe "#http_connect" do
+    context "integration", :network do
       it "should create a Net::HTTP session" do
         http = subject.http_connect(host: host, port: port)
-        
+
         expect(http).to be_kind_of(Net::HTTP)
         expect(http).to be_started
 
@@ -46,15 +46,17 @@ describe Ronin::Support::Network::Mixins::HTTP do
         expect(expanded_options[:path]).to eq(path)
       end
     end
+  end
 
-    describe "#http_session" do
+  describe "#http_session" do
+    context "integration", :network do
       it "should start and then finish a Net::HTTP session" do
         http = nil
-        
+
         subject.http_session(host: host, port: port) do |session|
           http = session
         end
-        
+
         expect(http).to be_kind_of(Net::HTTP)
         expect(http).not_to be_started
       end
@@ -65,12 +67,14 @@ describe Ronin::Support::Network::Mixins::HTTP do
         subject.http_session(url: uri) do |session|
           http = session
         end
-        
+
         expect(http).to be_kind_of(Net::HTTP)
       end
     end
+  end
 
-    describe "#http_request" do
+  describe "#http_request" do
+    context "integration", :network do
       it "should send an arbitrary request and return the response" do
         response = subject.http_request(url: uri, method: :options)
 
@@ -87,8 +91,10 @@ describe Ronin::Support::Network::Mixins::HTTP do
         expect(request).to be_kind_of(Net::HTTP::Options)
       end
     end
+  end
 
-    describe "#http_status" do
+  describe "#http_status" do
+    context "integration", :network do
       it "should return an Integer" do
         expect(subject.http_status(url: uri)).to be_kind_of(Integer)
       end
@@ -97,14 +103,18 @@ describe Ronin::Support::Network::Mixins::HTTP do
         expect(subject.http_status(url: uri)).to eq(200)
       end
     end
+  end
 
-    describe "#http_ok?" do
+  describe "#http_ok?" do
+    context "integration", :network do
       it "should check if the Response has code 200" do
         expect(subject.http_ok?(url: uri)).to be(true)
       end
     end
+  end
 
-    describe "#http_server" do
+  describe "#http_server" do
+    context "integration", :network do
       let(:url)     { "http://www.php.net/" }
       let(:headers) { subject.http_get_headers(url: url) }
 
@@ -112,8 +122,10 @@ describe Ronin::Support::Network::Mixins::HTTP do
         expect(subject.http_server(url: url)).to eq(headers['Server'])
       end
     end
+  end
 
-    describe "#http_powered_by" do
+  describe "#http_powered_by" do
+    context "integration", :network do
       let(:url)     { "http://www.php.net/" }
       let(:headers) { subject.http_get_headers(url: url) }
 
@@ -121,8 +133,10 @@ describe Ronin::Support::Network::Mixins::HTTP do
         expect(subject.http_powered_by(url: url)).to eq(headers['X-Powered-By'])
       end
     end
+  end
 
-    describe "#http_get_headers" do
+  describe "#http_get_headers" do
+    context "integration", :network do
       let(:headers) { subject.http_get_headers(url: uri) }
 
       it "should return HTTP Headers" do
@@ -136,8 +150,10 @@ describe Ronin::Support::Network::Mixins::HTTP do
         expect(bad_headers).to eq([])
       end
     end
+  end
 
-    describe "#http_get_body" do
+  describe "#http_get_body" do
+    context "integration", :network do
       it "should return the response body" do
         body = subject.http_get_body(url: uri)
 
@@ -145,8 +161,10 @@ describe Ronin::Support::Network::Mixins::HTTP do
         expect(body).not_to be_empty
       end
     end
+  end
 
-    describe "#http_post_headers" do
+  describe "#http_post_headers" do
+    context "integration", :network do
       let(:headers) { subject.http_post_headers(url: uri) }
 
       it "should return HTTP Headers" do
@@ -160,8 +178,10 @@ describe Ronin::Support::Network::Mixins::HTTP do
         expect(bad_headers).to eq([])
       end
     end
+  end
 
-    describe "#http_post_body" do
+  describe "#http_post_body" do
+    context "integration", :network do
       it "should return the response body" do
         body = subject.http_post_body(url: uri)
 

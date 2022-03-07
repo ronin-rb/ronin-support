@@ -4,28 +4,28 @@ require 'ronin/support/network/mixins/udp'
 require 'resolv'
 
 describe Ronin::Support::Network::Mixins::UDP do
-  describe "helper methods", :network do
-    let(:host) { 'scanme.nmap.org' }
-    let(:port) { 123 }
+  let(:host) { 'scanme.nmap.org' }
+  let(:port) { 123 }
 
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
+  subject do
+    obj = Object.new
+    obj.extend described_class
+    obj
+  end
 
-    shared_examples "UDP Server" do
-      let(:server_host) { local_host }
-      let(:server_port) { 1024 + rand(65535 - 1024) }
-      let(:server)      { UDPSocket.new }
-      let(:server_bind_ip)   { server.addr[3] }
-      let(:server_bind_port) { server.addr[1] }
+  shared_examples "UDP Server" do
+    let(:server_host) { local_host }
+    let(:server_port) { 1024 + rand(65535 - 1024) }
+    let(:server)      { UDPSocket.new }
+    let(:server_bind_ip)   { server.addr[3] }
+    let(:server_bind_port) { server.addr[1] }
 
-      before(:each) { server.bind(server_host,server_port) }
-      after(:each)  { server.close }
-    end
+    before(:each) { server.bind(server_host,server_port) }
+    after(:each)  { server.close }
+  end
 
-    describe "#udp_open?" do
+  describe "#udp_open?" do
+    context "integration", :network do
       let(:host) { server_bind_ip   }
       let(:port) { server_bind_port }
 
@@ -51,8 +51,10 @@ describe Ronin::Support::Network::Mixins::UDP do
         expect((t2 - t1).to_i).to be <= timeout
       end
     end
+  end
 
-    describe "#udp_connect" do
+  describe "#udp_connect" do
+    context "integration", :network do
       it "should open a UDPSocket" do
         socket = subject.udp_connect(host,port)
 
@@ -88,8 +90,10 @@ describe Ronin::Support::Network::Mixins::UDP do
         end
       end
     end
+  end
 
-    describe "#udp_connect_and_send" do
+  describe "#udp_connect_and_send" do
+    context "integration", :network do
       pending "need to find a UDP Service for these specs" do
         let(:data) { "HELO ronin\n" }
         let(:local_port) { 1024 + rand(65535 - 1024) }
@@ -127,8 +131,10 @@ describe Ronin::Support::Network::Mixins::UDP do
         end
       end
     end
+  end
 
-    describe "#udp_session" do
+  describe "#udp_session" do
+    context "integration", :network do
       let(:local_port) { 1024 + rand(65535 - 1024) }
 
       it "should open then close a UDPSocket" do
@@ -154,8 +160,10 @@ describe Ronin::Support::Network::Mixins::UDP do
         end
       end
     end
+  end
 
-    describe "#udp_banner" do
+  describe "#udp_banner" do
+    context "integration", :network do
       pending "need to find a UDP service that sends a banner" do
         let(:host) { 'smtp.gmail.com' }
         let(:port) { 25 }
@@ -189,11 +197,13 @@ describe Ronin::Support::Network::Mixins::UDP do
         end
       end
     end
+  end
 
-    let(:local_host) { 'localhost' }
-    let(:local_ip)   { '127.0.0.1' } # XXX: UPDSocket defaults to using IPv4
+  let(:local_host) { 'localhost' }
+  let(:local_ip)   { '127.0.0.1' } # XXX: UPDSocket defaults to using IPv4
 
-    describe "#udp_send" do
+  describe "#udp_send" do
+    context "integration", :network do
       include_context "UDP Server"
 
       let(:data) { "hello\n" }
@@ -219,8 +229,10 @@ describe Ronin::Support::Network::Mixins::UDP do
         end
       end
     end
+  end
 
-    describe "#udp_server" do
+  describe "#udp_server" do
+    context "integration", :network do
       it "should create a new UDPSocket" do
         server = subject.udp_server
 
@@ -260,11 +272,13 @@ describe Ronin::Support::Network::Mixins::UDP do
         end
       end
     end
+  end
 
-    describe "#udp_server_session" do
+  describe "#udp_server_session" do
+    context "integration", :network do
       it "should create a temporary UDPSocket" do
         server = nil
-        
+
         subject.udp_server_session do |yielded_server|
           server = yielded_server
         end
@@ -290,8 +304,10 @@ describe Ronin::Support::Network::Mixins::UDP do
         end
       end
     end
+  end
 
-    describe "#udp_recv" do
+  describe "#udp_recv" do
+    context "integration", :network do
       let(:server_port) { 1024 + rand(65535 - 1024) }
     end
   end

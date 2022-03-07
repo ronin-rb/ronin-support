@@ -2,16 +2,16 @@ require 'spec_helper'
 require 'ronin/support/network/telnet'
 
 describe Network::Telnet do
-  describe "helpers", :network do
-    let(:host) { 'towel.blinkenlights.nl' }
+  let(:host) { 'towel.blinkenlights.nl' }
 
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
+  subject do
+    obj = Object.new
+    obj.extend described_class
+    obj
+  end
 
-    describe "#telnet_connect" do
+  describe "#telnet_connect" do
+    context "integration", :network do
       it "should return a Net::Telnet object" do
         telnet = subject.telnet_connect(host)
 
@@ -38,8 +38,10 @@ describe Network::Telnet do
         end
       end
     end
+  end
 
-    describe "#telnet_session" do
+  describe "#telnet_session" do
+    context "integration", :network do
       it "should yield a new Net::Telnet object" do
         yielded_telnet = nil
 

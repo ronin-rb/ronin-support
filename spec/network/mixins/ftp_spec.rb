@@ -2,16 +2,16 @@ require 'spec_helper'
 require 'ronin/support/network/mixins/ftp'
 
 describe Ronin::Support::Network::Mixins::FTP do
-  describe "helpers", :network do
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
+  subject do
+    obj = Object.new
+    obj.extend described_class
+    obj
+  end
 
-    let(:host) { 'ftp.osuosl.org' }
+  let(:host) { 'ftp.osuosl.org' }
 
-    describe "#ftp_connect" do
+  describe "#ftp_connect" do
+    context "integration", :network do
       it "should return a Net::FTP object" do
         ftp = subject.ftp_connect(host)
 
@@ -52,8 +52,10 @@ describe Ronin::Support::Network::Mixins::FTP do
         end
       end
     end
+  end
 
-    describe "#ftp_session" do
+  describe "#ftp_session" do
+    context "integration", :network do
       it "should yield a new Net::FTP object" do
         yielded_ftp = nil
 
