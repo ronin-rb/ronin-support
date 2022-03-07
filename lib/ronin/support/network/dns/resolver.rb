@@ -49,11 +49,7 @@ module Ronin
           #
           def initialize(nameservers=self.class.default_nameservers)
             @nameservers = nameservers
-            @resolver    = unless @nameservers.empty?
-                             Resolv::DNS.new(nameserver: @nameservers)
-                           else
-                             Resolv::DNS.new
-                           end
+            @resolver    = Resolv::DNS.new(nameserver: @nameservers)
           end
 
           #

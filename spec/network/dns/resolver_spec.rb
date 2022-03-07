@@ -37,14 +37,6 @@ describe Ronin::Support::Network::DNS::Resolver do
 
         described_class.new(nameservers)
       end
-
-      context "but the nameservers are empty" do
-        it "must initialize Resolv::DNS without arguments" do
-          expect(Resolv::DNS).to receive(:new).with(no_args)
-
-          described_class.new([])
-        end
-      end
     end
   end
 
