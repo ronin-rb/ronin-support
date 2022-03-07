@@ -63,8 +63,10 @@ module Ronin
           def local_ip
             addresses = Socket.ip_address_list
   
-            addresses.find { |addr| addr.ipv4_private? || addr.ipv4_loopback? } ||
-            addresses.find { |addr| addr.ipv6_linklocal? || addr.ipv6_loopback? }
+            addresses.find(&:ipv4_private?) ||
+            addresses.find(&:ipv6_linklocal?) ||
+            addresses.find(&:ipv4_loopback?)  ||
+            addresses.find(&:ipv6_loopback?)
           end
   
           #
