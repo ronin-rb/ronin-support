@@ -36,13 +36,14 @@ module Ronin
           #
           # Determines the current external IP Address.
           #
-          # @return [String]
+          # @return [String, nil]
           #   The external IP Address according to {http://checkip.dyndns.org}.
           #
           # @api public
           #
           def public_ip
             Net::HTTP.get(IPINFO_URI)
+          rescue
           end
   
           #
@@ -70,11 +71,7 @@ module Ronin
           # @api public
           #
           def ip
-            begin
-              public_ip
-            rescue
-              local_ip
-            end
+            public_ip || local_ip
           end
         end
       end

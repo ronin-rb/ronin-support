@@ -22,6 +22,18 @@ describe Ronin::Support::Network::Mixins::IP do
       it "should determine our public facing IP Address" do
         expect(subject.public_ip).to_not be(nil)
       end
+
+      context "when a network exception is raised" do
+        before do
+          allow(Net::HTTP).to receive(:get) do
+            raise(SocketError,"ailed to open TCP connection to ipinfo.io:443 (getaddrinfo: Name or service not known)")
+          end
+        end
+
+        it "must return nil" do
+          expect(subject.public_ip).to be(nil)
+        end
+      end
     end
 
     describe "#local_ip" do
@@ -37,8 +49,8 @@ describe Ronin::Support::Network::Mixins::IP do
 
       context "when #public_ip raises an exception" do
         before do
-          allow(subject).to receive(:public_ip) do
-            raise("network error!")
+          allow(Net::HTTP).to receive(:get) do
+            raise(SocketError,"ailed to open TCP connection to ipinfo.io:443 (getaddrinfo: Name or service not known)")
           end
         end
 
