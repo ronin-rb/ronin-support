@@ -51,15 +51,18 @@ describe Ronin::Support::Network::Mixins::IP do
     end
 
     describe "#local_ip" do
-      it "should determine our internal IP Address" do
-        expect(subject.local_ip).to_not be(nil)
+      it "should determine our internal IP address" do
+        expect(subject.local_ip).to be_kind_of(String)
       end
 
       context "when the host has an IPv4 private address" do
-        let(:ipv4_private_address)  { Addrinfo.ip('192.168.1.42') }
-        let(:ipv4_loopback_address) { Addrinfo.ip('127.0.0.1')    }
+        let(:ipv4_private_address)  { '192.168.1.42' }
+        let(:ipv4_loopback_address) { '127.0.0.1'    }
         let(:addresses) do
-          [ipv4_loopback_address, ipv4_private_address]
+          [
+            Addrinfo.ip(ipv4_loopback_address),
+            Addrinfo.ip(ipv4_private_address)
+          ]
         end
 
         before do
@@ -73,12 +76,13 @@ describe Ronin::Support::Network::Mixins::IP do
 
       context "when the host has no IPv4 private address" do
         context "but has a IPv6 link-local address" do
-          let(:ipv6_private_address) do
-            Addrinfo.ip('fe80::1111:2222:3333')
-          end
-          let(:ipv6_loopback_address) { Addrinfo.ip('::1') }
+          let(:ipv6_private_address)  { 'fe80::1111:2222:3333' }
+          let(:ipv6_loopback_address) { '::1' }
           let(:addresses) do
-            [ipv6_loopback_address, ipv6_private_address]
+            [
+              Addrinfo.ip(ipv6_loopback_address),
+              Addrinfo.ip(ipv6_private_address)
+            ]
           end
 
           before do
@@ -91,9 +95,9 @@ describe Ronin::Support::Network::Mixins::IP do
         end
 
         context "but has no IPv6 link-local address" do
-          let(:ipv6_loopback_address) { Addrinfo.ip('::1') }
+          let(:ipv6_loopback_address) { '::1' }
           let(:addresses) do
-            [ipv6_loopback_address]
+            [Addrinfo.ip(ipv6_loopback_address)]
           end
 
           before do
@@ -106,9 +110,9 @@ describe Ronin::Support::Network::Mixins::IP do
         end
 
         context "but has no IPv6 addresses" do
-          let(:ipv4_loopback_address) { Addrinfo.ip('127.0.0.1') }
+          let(:ipv4_loopback_address) { '127.0.0.1' }
           let(:addresses) do
-            [ipv4_loopback_address]
+            [Addrinfo.ip(ipv4_loopback_address)]
           end
 
           before do
@@ -135,7 +139,7 @@ describe Ronin::Support::Network::Mixins::IP do
         end
 
         it "must fallback to #local_ip" do
-          expect(subject.ip.to_s).to eq(subject.local_ip.to_s)
+          expect(subject.ip).to eq(subject.local_ip)
         end
       end
     end
