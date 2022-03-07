@@ -19,7 +19,6 @@
 
 require 'ronin/support/core_ext/string'
 require 'ronin/support/core_ext/file'
-require 'ronin/support/core_ext/ip_addr'
 require 'ronin/support/core_ext/resolv'
 require 'ronin/support/core_ext/kernel'
 require 'ronin/support/crypto/core_ext'
