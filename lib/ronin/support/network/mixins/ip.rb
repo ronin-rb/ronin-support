@@ -79,7 +79,7 @@ module Ronin
           #
           # @api public
           #
-          def ip
+          def current_ip
             public_ip || local_ip
           end
         end

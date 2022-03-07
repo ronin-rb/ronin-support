@@ -126,9 +126,11 @@ describe Ronin::Support::Network::Mixins::IP do
       end
     end
 
-    describe "#ip" do
+    describe "#current_ip" do
       it "must return either #public_ip or #local_ip" do
-        expect(subject.ip).to eq(subject.public_ip).or(eq(subject.local_ip))
+        expect(subject.current_ip).to eq(subject.public_ip).or(
+          eq(subject.local_ip)
+        )
       end
 
       context "when #public_ip raises an exception" do
@@ -139,7 +141,7 @@ describe Ronin::Support::Network::Mixins::IP do
         end
 
         it "must fallback to #local_ip" do
-          expect(subject.ip).to eq(subject.local_ip)
+          expect(subject.current_ip).to eq(subject.local_ip)
         end
       end
     end
