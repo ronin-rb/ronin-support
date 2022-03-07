@@ -42,8 +42,14 @@ module Ronin
           # @api public
           #
           def public_ip
-            Net::HTTP.get(IPINFO_URI)
-          rescue
+            response = begin
+                         Net::HTTP.get_response(IPINFO_URI)
+                       rescue
+                       end
+
+            if response && response.code == '200'
+              return response.body
+            end
           end
   
           #

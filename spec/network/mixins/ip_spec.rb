@@ -23,9 +23,23 @@ describe Ronin::Support::Network::Mixins::IP do
         expect(subject.public_ip).to_not be(nil)
       end
 
+      context "when the HTTP response status is not 200" do
+        let(:response) { double('Net::HTTPServerError', code: '500') }
+
+        before do
+          allow(Net::HTTP).to receive(:get_response).with(
+            described_class::IPINFO_URI
+          ).and_return(response)
+        end
+
+        it "must return nil" do
+          expect(subject.public_ip).to be(nil)
+        end
+      end
+
       context "when a network exception is raised" do
         before do
-          allow(Net::HTTP).to receive(:get) do
+          allow(Net::HTTP).to receive(:get_response) do
             raise(SocketError,"ailed to open TCP connection to ipinfo.io:443 (getaddrinfo: Name or service not known)")
           end
         end
@@ -49,7 +63,7 @@ describe Ronin::Support::Network::Mixins::IP do
 
       context "when #public_ip raises an exception" do
         before do
-          allow(Net::HTTP).to receive(:get) do
+          allow(Net::HTTP).to receive(:get_response) do
             raise(SocketError,"ailed to open TCP connection to ipinfo.io:443 (getaddrinfo: Name or service not known)")
           end
         end
