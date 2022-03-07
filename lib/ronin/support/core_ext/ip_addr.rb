@@ -116,7 +116,7 @@ class IPAddr
     unless (cidr_or_glob.include?('*') ||
             cidr_or_glob.include?(',') ||
             cidr_or_glob.include?('-'))
-      return IPAddr.new(cidr_or_glob).each(&block)
+      return new(cidr_or_glob).each(&block)
     end
 
     return enum_for(__method__,cidr_or_glob) unless block
