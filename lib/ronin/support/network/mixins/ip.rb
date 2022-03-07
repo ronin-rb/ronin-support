@@ -74,8 +74,8 @@ module Ronin
           # Determines the accessible IP Address.
           #
           # @return [String]
-          #   The accessible IP Address according to {#external_ip} or
-          #   {#internal_ip}.
+          #   The accessible IP Address according to {#public_ip} or
+          #   {#local_ip}.
           #
           # @api public
           #
