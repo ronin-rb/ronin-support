@@ -60,7 +60,7 @@ module Ronin
         #
         # Creates a DNS Resolver for the given nameserver(s).
         #
-        # @param [Array<String>, nil] nameservers
+        # @param [Array<String>, String, nil] nameservers
         #   Optional DNS nameserver(s) to query.
         #
         # @return [Resolver]
