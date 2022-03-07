@@ -54,6 +54,72 @@ describe Ronin::Support::Network::Mixins::IP do
       it "should determine our internal IP Address" do
         expect(subject.local_ip).to_not be(nil)
       end
+
+      context "when the host has an IPv4 private address" do
+        let(:ipv4_private_address)  { Addrinfo.ip('192.168.1.42') }
+        let(:ipv4_loopback_address) { Addrinfo.ip('127.0.0.1')    }
+        let(:addresses) do
+          [ipv4_loopback_address, ipv4_private_address]
+        end
+
+        before do
+          allow(Socket).to receive(:ip_address_list).and_return(addresses)
+        end
+
+        it "must return the IPv4 private address instead of the loopback" do
+          expect(subject.local_ip).to eq(ipv4_private_address)
+        end
+      end
+
+      context "when the host has no IPv4 private address" do
+        context "but has a IPv6 link-local address" do
+          let(:ipv6_private_address) do
+            Addrinfo.ip('fe80::1111:2222:3333')
+          end
+          let(:ipv6_loopback_address) { Addrinfo.ip('::1') }
+          let(:addresses) do
+            [ipv6_loopback_address, ipv6_private_address]
+          end
+
+          before do
+            allow(Socket).to receive(:ip_address_list).and_return(addresses)
+          end
+
+          it "must return the IPv6 link-local address" do
+            expect(subject.local_ip).to eq(ipv6_private_address)
+          end
+        end
+
+        context "but has no IPv6 link-local address" do
+          let(:ipv6_loopback_address) { Addrinfo.ip('::1') }
+          let(:addresses) do
+            [ipv6_loopback_address]
+          end
+
+          before do
+            allow(Socket).to receive(:ip_address_list).and_return(addresses)
+          end
+
+          it "must return the IPv6 loopback address instead" do
+            expect(subject.local_ip).to eq(ipv6_loopback_address)
+          end
+        end
+
+        context "but has no IPv6 addresses" do
+          let(:ipv4_loopback_address) { Addrinfo.ip('127.0.0.1') }
+          let(:addresses) do
+            [ipv4_loopback_address]
+          end
+
+          before do
+            allow(Socket).to receive(:ip_address_list).and_return(addresses)
+          end
+
+          it "must return the IPv4 loopback address instead" do
+            expect(subject.local_ip).to eq(ipv4_loopback_address)
+          end
+        end
+      end
     end
 
     describe "#ip" do
