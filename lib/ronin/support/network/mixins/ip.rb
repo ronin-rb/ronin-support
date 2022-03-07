@@ -34,10 +34,10 @@ module Ronin
           IPINFO_URI = URI::HTTPS.build(host: 'ipinfo.io', path: '/ip')
   
           #
-          # Determines the current external IP Address.
+          # Determines the current public IP Address.
           #
           # @return [String, nil]
-          #   The external IP Address according to {http://checkip.dyndns.org}.
+          #   The public IP Address according to {https://ipinfo.io/ip}.
           #
           # @api public
           #
@@ -53,10 +53,10 @@ module Ronin
           end
   
           #
-          # Determines the internal IP Address.
+          # Determines the local IP Address.
           #
           # @return [String]
-          #   The non-loopback / non-multicast internal IP Address.
+          #   The non-loopback / non-multicast local IP Address.
           #
           # @api public
           #
