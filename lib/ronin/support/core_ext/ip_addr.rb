@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/core_ext/resolv'
+require 'ronin/support/network/dns'
 require 'ronin/support/text/patterns'
 
 require 'ipaddr'
@@ -169,7 +169,7 @@ class IPAddr
   #
   # Resolves the host-names for the IP address.
   #
-  # @param [String] nameserver
+  # @param [Array<String>, String, nil] nameservers
   #   The optional nameserver to query.
   #
   # @return [Array<String>]
@@ -177,8 +177,8 @@ class IPAddr
   #
   # @api public
   #
-  def lookup(nameserver=nil)
-    Resolv.resolver(nameserver).getnames(self.to_s)
+  def lookup(nameservers=nil)
+    Ronin::Support::Network::DNS.resolver(nameservers).get_names(self.to_s)
   end
 
   #
