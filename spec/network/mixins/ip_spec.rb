@@ -18,32 +18,32 @@ describe Ronin::Support::Network::Mixins::IP do
       obj
     end
 
-    describe "#external_ip" do
+    describe "#public_ip" do
       it "should determine our public facing IP Address" do
-        expect(subject.external_ip).to_not be(nil)
+        expect(subject.public_ip).to_not be(nil)
       end
     end
 
-    describe "#internal_ip" do
+    describe "#local_ip" do
       it "should determine our internal IP Address" do
-        expect(subject.internal_ip).to_not be(nil)
+        expect(subject.local_ip).to_not be(nil)
       end
     end
 
     describe "#ip" do
-      it "must return either #external_ip or #internal_ip" do
-        expect(subject.ip).to eq(subject.external_ip).or(eq(subject.internal_ip))
+      it "must return either #public_ip or #local_ip" do
+        expect(subject.ip).to eq(subject.public_ip).or(eq(subject.local_ip))
       end
 
-      context "when #external_ip raises an exception" do
+      context "when #public_ip raises an exception" do
         before do
-          allow(subject).to receive(:external_ip) do
+          allow(subject).to receive(:public_ip) do
             raise("network error!")
           end
         end
 
-        it "must fallback to #internal_ip" do
-          expect(subject.ip.to_s).to eq(subject.internal_ip.to_s)
+        it "must fallback to #local_ip" do
+          expect(subject.ip.to_s).to eq(subject.local_ip.to_s)
         end
       end
     end

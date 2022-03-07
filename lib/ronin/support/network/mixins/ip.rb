@@ -41,7 +41,7 @@ module Ronin
           #
           # @api public
           #
-          def external_ip
+          def public_ip
             Net::HTTP.get(IPINFO_URI)
           end
   
@@ -53,7 +53,7 @@ module Ronin
           #
           # @api public
           #
-          def internal_ip
+          def local_ip
             addresses = Socket.ip_address_list
   
             addresses.find { |addr| addr.ipv4_private? || addr.ipv4_loopback? } ||
@@ -71,9 +71,9 @@ module Ronin
           #
           def ip
             begin
-              external_ip
+              public_ip
             rescue
-              internal_ip
+              local_ip
             end
           end
         end
