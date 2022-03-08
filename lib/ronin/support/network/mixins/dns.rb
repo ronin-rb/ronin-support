@@ -61,10 +61,7 @@ module Ronin
           # @api public
           #
           def dns_get_address(host, nameservers: Network::DNS.nameservers)
-            host     = host.to_s
-            resolver = dns_resolver(nameservers)
-
-            return resolver.get_address(host)
+            dns_resolver(nameservers).get_address(host.to_s)
           end
 
           alias dns_lookup dns_get_address
@@ -84,10 +81,7 @@ module Ronin
           # @api public
           #
           def dns_get_addresses(host, nameservers: Network::DNS.nameservers)
-            host     = host.to_s
-            resolver = dns_resolver(nameservers)
-
-            return resolver.get_addresses(host)
+            dns_resolver(nameservers).get_addresses(host.to_s)
           end
 
           #
@@ -105,10 +99,7 @@ module Ronin
           # @api public
           #
           def dns_get_name(ip, nameservers: Network::DNS.nameservers)
-            ip       = ip.to_s
-            resolver = dns_resolver(nameservers)
-
-            return resolver.get_name(ip)
+            dns_resolver(nameservers).get_name(ip.to_s)
           end
 
           alias dns_reverse_lookup dns_get_name
@@ -128,10 +119,7 @@ module Ronin
           # @api public
           #
           def dns_get_names(ip, nameservers: Network::DNS.nameservers)
-            ip       = ip.to_s
-            resolver = dns_resolver(nameservers)
-
-            return resolver.get_names(ip)
+            dns_resolver(nameservers).get_names(ip.to_s)
           end
         end
       end
