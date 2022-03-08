@@ -55,13 +55,6 @@ module Ronin
           # @param [Array<String>] nameservers
           #   Optional DNS nameserver to query.
           #
-          # @yield [address]
-          #   If a block is given and the hostname was resolved, the address
-          #   will be passed to the block.
-          #
-          # @yieldparam [String] address
-          #   The address of the hostname.
-          #
           # @return [String, nil]
           #   The address of the hostname.
           #
@@ -70,10 +63,8 @@ module Ronin
           def dns_get_address(host, nameservers: Network::DNS.nameservers)
             host     = host.to_s
             resolver = dns_resolver(nameservers)
-            address  = resolver.get_address(host)
 
-            yield(address) if (block_given? && address)
-            return address
+            return resolver.get_address(host)
           end
 
           alias dns_lookup dns_get_address
@@ -87,26 +78,16 @@ module Ronin
           # @param [Array<String>, String] nameservers
           #   Optional DNS nameserver(s) to query.
           #
-          # @yield [address]
-          #   If a block is given, each resolved address will be passed to the
-          #   block.
-          #
-          # @yieldparam [String] address
-          #   A address of the hostname.
-          #
           # @return [Array<String>]
           #   The addresses of the hostname.
           #
           # @api public
           #
-          def dns_get_addresses(host, nameservers: Network::DNS.nameservers,
-                                      &block)
-            host      = host.to_s
-            resolver  = dns_resolver(nameservers)
-            addresses = resolver.get_addresses(host)
+          def dns_get_addresses(host, nameservers: Network::DNS.nameservers)
+            host     = host.to_s
+            resolver = dns_resolver(nameservers)
 
-            addresses.each(&block) if block
-            return addresses
+            return resolver.get_addresses(host)
           end
 
           #
@@ -118,13 +99,6 @@ module Ronin
           # @param [Array<String>, String] nameservers
           #   Optional DNS nameserver(s) to query.
           #
-          # @yield [hostname]
-          #   If a block is given and a hostname was found for the address,
-          #   the resolved hostname will be passed to the block.
-          #
-          # @yieldparam [String] hostname
-          #   The hostname of the address.
-          #
           # @return [String, nil]
           #   The hostname of the address.
           #
@@ -133,10 +107,8 @@ module Ronin
           def dns_get_name(ip, nameservers: Network::DNS.nameservers)
             ip       = ip.to_s
             resolver = dns_resolver(nameservers)
-            host     = resolver.get_name(ip)
 
-            yield(host) if (block_given? && host)
-            return host
+            return resolver.get_name(ip)
           end
 
           alias dns_reverse_lookup dns_get_name
@@ -150,25 +122,16 @@ module Ronin
           # @param [Array<String>, String] nameservers
           #   Optional DNS nameserver to query.
           #
-          # @yield [hostname]
-          #   If a block is given and hostnames were found for the address,
-          #   each hostname will be passed to the block.
-          #
-          # @yieldparam [String] hostname
-          #   A hostname of the address.
-          #
           # @return [Array<String>]
           #   The hostnames of the address.
           #
           # @api public
           #
-          def dns_get_names(ip, nameservers: Network::DNS.nameservers, &block)
+          def dns_get_names(ip, nameservers: Network::DNS.nameservers)
             ip       = ip.to_s
             resolver = dns_resolver(nameservers)
-            hosts    = resolver.get_names(ip)
 
-            hosts.each(&block) if block
-            return hosts
+            return resolver.get_names(ip)
           end
         end
       end

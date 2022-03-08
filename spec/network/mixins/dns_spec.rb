@@ -38,20 +38,6 @@ describe Ronin::Support::Network::Mixins::DNS do
           expect(subject.dns_get_address(bad_hostname)).to be(nil)
         end
       end
-
-      context "when given a block" do
-        it "must yield the resolved address" do
-          expect { |b|
-            subject.dns_get_address(hostname,&b)
-          }.to yield_successive_args(address)
-        end
-
-        it "must not yield unresolved addresses" do
-          expect { |b|
-            subject.dns_get_address(bad_hostname,&b)
-          }.to_not yield_control
-        end
-      end
     end
   end
 
@@ -72,20 +58,6 @@ describe Ronin::Support::Network::Mixins::DNS do
       context "when the host nmae has no IP addresses" do
         it "should return an empty Array for unknown hostnames" do
           expect(subject.dns_get_addresses(bad_hostname)).to eq([])
-        end
-      end
-
-      context "when given a block" do
-        it "should yield the resolved address" do
-          expect { |b|
-            subject.dns_get_addresses(hostname,&b)
-          }.to yield_successive_args(address)
-        end
-
-        it "should not yield unresolved addresses" do
-          expect { |b|
-            subject.dns_get_addresses(bad_hostname,&b)
-          }.to_not yield_control
         end
       end
     end
@@ -110,22 +82,6 @@ describe Ronin::Support::Network::Mixins::DNS do
           expect(subject.dns_get_name(bad_address)).to be(nil)
         end
       end
-
-      context "when given a block" do
-        it "should yield the resolved hostname" do
-          expect { |b|
-            subject.dns_get_name(reverse_address,&b)
-          }.to yield_successive_args(reverse_hostname)
-        end
-
-        it "should not yield unresolved hostnames" do
-          resolved_hostname = nil
-
-          expect { |b|
-            subject.dns_get_name(bad_address,&b)
-          }.to_not yield_control
-        end
-      end
     end
   end
 
@@ -146,20 +102,6 @@ describe Ronin::Support::Network::Mixins::DNS do
       context "when the IP address has no host names associated with it" do
         it "should return an empty Array for unknown hostnames" do
           expect(subject.dns_get_names(bad_address)).to eq([])
-        end
-      end
-
-      context "when given a block" do
-        it "should yield the resolved hostnames" do
-          expect { |b|
-            subject.dns_get_names(reverse_address,&b)
-          }.to yield_successive_args(reverse_hostname)
-        end
-
-        it "should not yield unresolved hostnames" do
-          expect { |b|
-            subject.dns_get_names(bad_address,&b)
-          }.to_not yield_control
         end
       end
     end
