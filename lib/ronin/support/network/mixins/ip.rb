@@ -17,8 +17,6 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/core_ext/ip_addr'
-
 require 'socket'
 require 'net/https'
 
