@@ -24,6 +24,20 @@ describe Ronin::Support::Network::DNS do
     after { subject.nameservers = original_nameservers }
   end
 
+  describe ".nameserver=" do
+    let(:original_nameservers) { subject.nameservers }
+
+    let(:new_nameserver) { '42.42.42.42' }
+
+    it "must override the system's default nameservers to the new nameserver" do
+      subject.nameserver = new_nameserver
+
+      expect(subject.nameservers).to eq([new_nameserver])
+    end
+
+    after { subject.nameservers = original_nameservers }
+  end
+
   describe ".resolver" do
     it "should return #{described_class::Resolver}" do
       expect(subject.resolver).to be_kind_of(described_class::Resolver)
@@ -37,14 +51,25 @@ describe Ronin::Support::Network::DNS do
       end
     end
 
-    context "when an argument is given" do
+    context "when given the nameservers: keyword argument" do
       let(:nameservers) { %w[42.42.42.42] }
 
       it "must return a #{described_class::Resolver} object with the given nameservers" do
-        resolver = subject.resolver(nameservers)
+        resolver = subject.resolver(nameservers: nameservers)
 
         expect(resolver).to be_kind_of(described_class::Resolver)
         expect(resolver.nameservers).to eq(nameservers)
+      end
+    end
+
+    context "when given the nameservers: keyword argument" do
+      let(:nameserver) { '42.42.42.42' }
+
+      it "must return a #{described_class::Resolver} object with the given nameserver" do
+        resolver = subject.resolver(nameserver: nameserver)
+
+        expect(resolver).to be_kind_of(described_class::Resolver)
+        expect(resolver.nameservers).to eq([nameserver])
       end
     end
   end

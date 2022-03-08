@@ -23,10 +23,10 @@ describe Ronin::Support::Network::DNS::Resolver do
       end
     end
 
-    context "when initialized with custom nameservers" do
+    context "when initialized with the nameservers: keyword argument" do
       let(:nameservers) { %w[42.42.42.42] }
 
-      subject { described_class.new(nameservers) }
+      subject { described_class.new(nameservers: nameservers) }
 
       it "must set #nameservers" do
         expect(subject.nameservers).to eq(nameservers)
@@ -35,7 +35,23 @@ describe Ronin::Support::Network::DNS::Resolver do
       it "must initialize Resolv::DNS with the nameservers" do
         expect(Resolv::DNS).to receive(:new).with(nameserver: nameservers)
 
-        described_class.new(nameservers)
+        described_class.new(nameservers: nameservers)
+      end
+    end
+
+    context "when initialized with the nameserver: keyword argument" do
+      let(:nameserver) { '42.42.42.42' }
+
+      subject { described_class.new(nameserver: nameserver) }
+
+      it "must set #nameservers" do
+        expect(subject.nameservers).to eq([nameserver])
+      end
+
+      it "must initialize Resolv::DNS with the nameserver" do
+        expect(Resolv::DNS).to receive(:new).with(nameserver: [nameserver])
+
+        described_class.new(nameserver: nameserver)
       end
     end
   end
@@ -48,7 +64,7 @@ describe Ronin::Support::Network::DNS::Resolver do
   let(:reverse_address)  { '142.251.33.110' }
   let(:reverse_hostname) { 'sea30s10-in-f14.1e100.net' }
 
-  subject { described_class.new(nameservers) }
+  subject { described_class.new(nameservers: nameservers) }
 
   describe "#get_address" do
     context "integration", :network do
@@ -632,7 +648,7 @@ describe Ronin::Support::Network::DNS::Resolver do
   describe "#get_ptr_names" do
     context "integration", :network do
       let(:ip)       { '142.251.33.110' }
-      let(:hostname) { 'sea30s10-in-f14.1e100.net' }
+      let(:ptr_name) { 'sea30s10-in-f14.1e100.net' }
 
       it "must return all PTR names for the IP" do
         pending "need to figure out why Resolv::DNS cannot query PTR records"

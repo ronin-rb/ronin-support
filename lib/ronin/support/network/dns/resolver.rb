@@ -47,9 +47,22 @@ module Ronin
           # @param [Array<String>] nameservers
           #   The nameserver(s) to query.
           #
-          def initialize(nameservers=self.class.default_nameservers)
-            @nameservers = nameservers
-            @resolver    = Resolv::DNS.new(nameserver: @nameservers)
+          # @param [String, nil] nameserver
+          #   The optional singular nameserver to query.
+          #
+          # @example Creating a DNS resolver with a single nameserver:
+          #   resolver = Resolver.new(nameserver: '1.1.1.1')
+          #
+          # @example Creating a DNS resolver with multiple nameservers:
+          #   resolver = Resolver.new(nameservers: ['1.1.1.1', '8.8.8.8'])
+          #
+          def initialize(nameservers: self.class.default_nameservers,
+                         nameserver:  nil)
+            @nameservers = if nameserver then [nameserver]
+                           else               nameservers
+                           end
+
+            @resolver = Resolv::DNS.new(nameserver: @nameservers)
           end
 
           #

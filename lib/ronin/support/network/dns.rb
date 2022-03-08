@@ -43,7 +43,7 @@ module Ronin
         #
         # Sets the DNS nameserver to be queried.
         #
-        # @param [Array<String>, String] new_nameservers
+        # @param [Array<String>] new_nameservers
         #   The addresses of the new nameservers.
         #
         # @return [Array<String>]
@@ -52,9 +52,23 @@ module Ronin
         # @api public
         #
         def self.nameservers=(new_nameservers)
-          @nameservers = Array(new_nameservers).map(&:to_s)
-          @resolver    = Resolver.new(@nameservers)
+          @nameservers = new_nameservers.map(&:to_s)
+          @resolver    = Resolver.new(nameservers: @nameservers)
           return new_nameservers
+        end
+
+        #
+        # Sets the primary DNS nameserver to be queried.
+        #
+        # @param [String] new_nameserver
+        #   The new primary nameserver address.
+        #
+        # @return [String]
+        #   The address of the primary nameserver.
+        #
+        def self.nameserver=(new_nameserver)
+          self.nameservers = [new_nameserver]
+          return new_nameserver
         end
 
         #
@@ -63,6 +77,9 @@ module Ronin
         # @param [Array<String>, String, nil] nameservers
         #   Optional DNS nameserver(s) to query.
         #
+        # @param [String, nil] nameserver
+        #   Optional DNS nameserver to query.
+        #
         # @return [Resolver]
         #   The DNS Resolver.
         #
@@ -70,11 +87,13 @@ module Ronin
         #
         # @since 0.6.0
         #
-        def self.resolver(nameservers=nil)
-          if nameservers
-            Resolver.new(Array(nameservers).map(&:to_s))
+        def self.resolver(nameservers: nil, nameserver: nil)
+          if nameserver
+            Resolver.new(nameserver: nameserver.to_s)
+          elsif nameservers
+            Resolver.new(nameservers: nameservers.map(&:to_s))
           else
-            @resolver ||= Resolver.new(self.nameservers)
+            @resolver ||= Resolver.new(nameservers: self.nameservers)
           end
         end
       end
