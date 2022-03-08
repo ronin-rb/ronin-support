@@ -174,21 +174,6 @@ module Ronin
         end
 
         #
-        # Resolves the host-names for the IP address.
-        #
-        # @param [Array<String>, String, nil] nameservers
-        #   The optional nameserver to query.
-        #
-        # @return [Array<String>]
-        #   The host-names for the IP address.
-        #
-        # @api public
-        #
-        def lookup(nameservers=nil)
-          DNS.resolver(nameservers).get_names(self.to_s)
-        end
-
-        #
         # Iterates over each IP address that is included in the addresses
         # netmask. Supports both IPv4 and IPv6 addresses.
         #
@@ -218,6 +203,136 @@ module Ronin
           end
 
           return self
+        end
+
+        #
+        # Looks up the hostname of the address.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option [Array<String>, String, nil] :nameservers
+        #   Optional DNS nameserver(s) to query.
+        #
+        # @option [String, nil] :nameserver
+        #   Optional DNS nameserver to query.
+        #
+        # @return [String, nil]
+        #   The hostname of the address.
+        #
+        # @api public
+        #
+        def get_name(**kwargs)
+          DNS.get_name(self,**kwargs)
+        end
+
+        #
+        # @see #get_name
+        #
+        def reverse_lookup(**kwargs)
+          get_name(**kwargs)
+        end
+
+        #
+        # Looks up all hostnames associated with the IP.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option [Array<String>, String, nil] :nameservers
+        #   Optional DNS nameserver(s) to query.
+        #
+        # @option [String, nil] :nameserver
+        #   Optional DNS nameserver to query.
+        #
+        # @return [Array<String>]
+        #   The hostnames of the address.
+        #
+        # @api public
+        #
+        def get_names(**kwargs)
+          DNS.get_names(self,**kwargs)
+        end
+
+        #
+        # Queries the first `PTR` DNS record for the IP address.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option [Array<String>, String, nil] :nameservers
+        #   Optional DNS nameserver(s) to query.
+        #
+        # @option [String, nil] :nameserver
+        #   Optional DNS nameserver to query.
+        #
+        # @return [Resolv::DNS::Resource::PTR, nil]
+        #   The first `PTR` DNS record of the host name or `nil` if the host
+        #   name has no `PTR` records.
+        #
+        # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/PTR
+        #
+        def get_ptr_record(**kwargs)
+          DNS.get_ptr_record(self,**kwargs)
+        end
+
+        #
+        # Queries the `PTR` host name for the IP address.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option [Array<String>, String, nil] :nameservers
+        #   Optional DNS nameserver(s) to query.
+        #
+        # @option [String, nil] :nameserver
+        #   Optional DNS nameserver to query.
+        #
+        # @return [String, nil]
+        #   The host name that points to the given IP.
+        #
+        def get_ptr_name(**kwargs)
+          DNS.get_ptr_name(self,**kwargs)
+        end
+
+        #
+        # Queries all `PTR` DNS records for the IP address.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option [Array<String>, String, nil] :nameservers
+        #   Optional DNS nameserver(s) to query.
+        #
+        # @option [String, nil] :nameserver
+        #   Optional DNS nameserver to query.
+        #
+        # @return [Array<Resolv::DNS::Resource::PTR>]
+        #   All `PTR` DNS records for the given IP.
+        #
+        # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/PTR
+        #
+        def get_ptr_records(**kwargs)
+          DNS.get_ptr_records(self,**kwargs)
+        end
+
+        #
+        # Queries all `PTR` names for the IP address.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option [Array<String>, String, nil] :nameservers
+        #   Optional DNS nameserver(s) to query.
+        #
+        # @option [String, nil] :nameserver
+        #   Optional DNS nameserver to query.
+        #
+        # @return [Array<String>]
+        #   The `PTR` names for the given IP.
+        #
+        def get_ptr_names(**kwargs)
+          DNS.get_ptr_names(self,**kwargs)
         end
 
       end

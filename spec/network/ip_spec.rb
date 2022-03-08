@@ -506,21 +506,70 @@ describe Ronin::Support::Network::IP do
     end
   end
 
-  describe "#lookup" do
+  let(:address)          { '93.184.216.34' }
+  let(:bad_address)      { '0.0.0.0' }
+  let(:reverse_address)  { '142.251.33.110' }
+  let(:reverse_hostname) { 'sea30s10-in-f14.1e100.net' }
+
+  subject { described_class.new(address) }
+
+  describe "#get_name"  do
     context "integration", :network do
-      subject { described_class.new('142.250.217.110') }
+      let(:address) { reverse_address }
 
-      let(:host_name) { 'sea09s30-in-f14.1e100.net' }
-
-      it "must lookup the host-name for an IP" do
-        expect(subject.lookup).to eq([host_name])
+      it "should lookup the address for a hostname" do
+        expect(subject.get_name).to eq(reverse_hostname)
       end
 
-      context "when given an alternate nameserver argument" do
+      context "when the IP address has no host names associated with it" do
+        let(:address) { bad_address }
+
+        it "must return nil" do
+          expect(subject.get_name).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe "#get_names"  do
+    context "integration", :network do
+      let(:address) { reverse_address }
+
+      it "should lookup all addresses for a hostname" do
+        expect(subject.get_names).to include(reverse_hostname)
+      end
+
+      context "when the IP address has no host names associated with it" do
+        let(:address) { bad_address }
+
+        it "should return an empty Array" do
+          expect(subject.get_names).to eq([])
+        end
+      end
+    end
+  end
+
+  describe "#reverse_lookup" do
+    context "integration", :network do
+      let(:address)   { reverse_address }
+
+      it "must lookup the host-name for an IP" do
+        expect(subject.reverse_lookup).to eq(reverse_hostname)
+      end
+
+      context "when given the nameservers: keyword argument" do
         let(:nameserver) { '8.8.8.8' }
 
         it "may lookup host-names via other nameservers" do
-          expect(subject.lookup(nameserver)).to eq([host_name])
+          expect(subject.reverse_lookup(nameservers: [nameserver])).to eq(reverse_hostname)
+        end
+      end
+
+      context "when given the nameserver: keyword argument" do
+        let(:nameserver) { '8.8.8.8' }
+
+        it "may lookup host-names via other nameserver" do
+          expect(subject.reverse_lookup(nameserver: nameserver)).to eq(reverse_hostname)
         end
       end
 
@@ -528,7 +577,98 @@ describe Ronin::Support::Network::IP do
         subject { described_class.new('0.0.0.0') }
 
         it "must return an empty Array" do
-          expect(subject.lookup).to be_empty
+          expect(subject.reverse_lookup).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe "#get_ptr_record" do
+    context "integration", :network do
+      let(:address)  { '142.251.33.110' }
+      let(:ptr_name) { 'sea30s10-in-f14.1e100.net' }
+
+      it "must return the first Resolv::DNS::Resource::IN::PTR record for the IP" do
+        pending "need to figure out why Resolv::DNS cannot query PTR records"
+
+        ptr_record = subject.get_ptr_record
+
+        expect(ptr_record).to be_kind_of(Resolv::DNS::Resource::IN::PTR)
+        expect(ptr_record.address.to_s).to eq(ptr_name)
+      end
+
+      context "when the host name does not have any PTR records" do
+        let(:address) { '127.0.0.1' }
+
+        it "must return nil" do
+          expect(subject.get_ptr_record).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe "#get_ptr_name" do
+    context "integration", :network do
+      let(:address)  { '142.251.33.110' }
+      let(:ptr_name) { 'sea30s10-in-f14.1e100.net' }
+
+      it "must return the first PTR name for the IP" do
+        pending "need to figure out why Resolv::DNS cannot query PTR records"
+
+        expect(subject.get_ptr_name).to eq(ptr_name)
+      end
+
+      context "when the host name does not have any PTR records" do
+        let(:address) { '127.0.0.1' }
+
+        it "must return nil" do
+          expect(subject.get_ptr_name).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe "#get_ptr_records" do
+    context "integration", :network do
+      let(:address)  { '142.251.33.110' }
+      let(:ptr_name) { 'sea30s10-in-f14.1e100.net' }
+
+      it "must return all Resolv::DNS::Resource::IN::PTR records for the IP" do
+        pending "need to figure out why Resolv::DNS cannot query PTR records"
+
+        ptr_records = subject.get_ptr_records
+
+        expect(ptr_records).to_not be_empty
+        expect(ptr_records).to all(be_kind_of(Resolv::DNS::Resource::IN::PTR))
+        expect(ptr_records.first.address.to_s).to eq(ptr_name)
+      end
+
+      context "when the host name does not have any PTR records" do
+        let(:address) { '127.0.0.1' }
+
+        it "must return an empty Array" do
+          expect(subject.get_ptr_records).to eq([])
+        end
+      end
+    end
+  end
+
+  describe "#get_ptr_names" do
+    context "integration", :network do
+      let(:address)  { '142.251.33.110' }
+      let(:ptr_name) { 'sea30s10-in-f14.1e100.net' }
+
+      it "must return all PTR names for the IP" do
+        pending "need to figure out why Resolv::DNS cannot query PTR records"
+
+        expect(subject.get_ptr_names).to eq([ptr_name])
+      end
+
+      context "when the host name does not have any PTR records" do
+        let(:ip) { '127.0.0.1' }
+
+        it "must return an empty Array" do
+          expect(subject.get_ptr_names).to eq([])
         end
       end
     end
