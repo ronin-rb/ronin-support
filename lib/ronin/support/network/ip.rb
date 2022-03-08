@@ -42,8 +42,8 @@ module Ronin
         # @param [String] text
         #   The text to scan for IP Addresses.
         #
-        # @param [Integer, Symbol] version
-        #   The version of IP Address to scan for (`4`, `6`, `:v4` or `:v6`).
+        # @param [4, :v4, :ipv4, 6, :v6, :ipv6] version
+        #   The version of IP Address to extract.
         #
         # @yield [ip]
         #   The given block will be passed each extracted IP Address.
