@@ -673,4 +673,10 @@ describe Ronin::Support::Network::IP do
       end
     end
   end
+
+  describe "#to_str" do
+    it "must return the address String" do
+      expect(subject.to_str).to eq(address)
+    end
+  end
 end

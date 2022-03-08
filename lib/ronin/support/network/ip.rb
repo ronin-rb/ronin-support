@@ -335,6 +335,8 @@ module Ronin
           DNS.get_ptr_names(self,**kwargs)
         end
 
+        alias to_str to_s
+
       end
     end
   end
