@@ -42,7 +42,7 @@ module Ronin
           #
           # @api public
           #
-          def dns_resolver(nameservers=Network::DNS.nameserver)
+          def dns_resolver(nameservers=Network::DNS.nameservers)
             Network::DNS.resolver(nameservers)
           end
 
