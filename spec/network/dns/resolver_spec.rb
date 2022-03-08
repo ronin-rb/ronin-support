@@ -130,7 +130,9 @@ describe Ronin::Support::Network::DNS::Resolver do
         record = subject.get_record(hostname,record_type)
 
         expect(record).to be_kind_of(record_type)
-        expect(record.strings).to eq(["v=spf1 -all"])
+        expect(record.strings).to eq(["v=spf1 -all"]).or(eq(
+          ["yxvy9m4blrswgrsz8ndjh467n2y7mgl2"]
+        ))
       end
 
       context "when the host name does not exist" do
@@ -158,7 +160,9 @@ describe Ronin::Support::Network::DNS::Resolver do
 
         expect(records).to_not be_empty
         expect(records).to all(be_kind_of(record_type))
-        expect(records.first.strings).to eq(["v=spf1 -all"])
+        expect(records.first.strings).to eq(["v=spf1 -all"]).or(eq(
+          ["yxvy9m4blrswgrsz8ndjh467n2y7mgl2"]
+        ))
       end
 
       context "when the host name does not exist" do
@@ -694,7 +698,9 @@ describe Ronin::Support::Network::DNS::Resolver do
         txt_record = subject.get_txt_record(hostname)
 
         expect(txt_record).to be_kind_of(Resolv::DNS::Resource::IN::TXT)
-        expect(txt_record.strings).to eq(['v=spf1 -all'])
+        expect(txt_record.strings).to eq(['v=spf1 -all']).or(eq(
+          ["yxvy9m4blrswgrsz8ndjh467n2y7mgl2"]
+        ))
       end
 
       context "when the host name does not have any TXT records" do
@@ -712,7 +718,9 @@ describe Ronin::Support::Network::DNS::Resolver do
       let(:hostname) { 'example.com' }
 
       it "must return the first TXT string" do
-        expect(subject.get_txt_string(hostname)).to eq('v=spf1 -all')
+        expect(subject.get_txt_string(hostname)).to eq('v=spf1 -all').or(eq(
+          "yxvy9m4blrswgrsz8ndjh467n2y7mgl2"
+        ))
       end
 
       context "when the host name does not have any TXT records" do
@@ -733,7 +741,9 @@ describe Ronin::Support::Network::DNS::Resolver do
         txt_records = subject.get_txt_records(hostname)
 
         expect(txt_records).to all(be_kind_of(Resolv::DNS::Resource::IN::TXT))
-        expect(txt_records.first.strings).to eq(['v=spf1 -all'])
+        expect(txt_records.first.strings).to eq(['v=spf1 -all']).or(eq(
+          ["yxvy9m4blrswgrsz8ndjh467n2y7mgl2"]
+        ))
       end
 
       context "when the host name does not have any TXT records" do
@@ -751,7 +761,7 @@ describe Ronin::Support::Network::DNS::Resolver do
       let(:hostname) { 'example.com' }
 
       it "must return all TXT string" do
-        expect(subject.get_txt_strings(hostname)).to eq(
+        expect(subject.get_txt_strings(hostname)).to match_array(
           [
             'v=spf1 -all',
             'yxvy9m4blrswgrsz8ndjh467n2y7mgl2'
