@@ -19,6 +19,40 @@ describe Ronin::Support::Network::Mixins::DNS do
     obj
   end
 
+  describe "#dns_resolver" do
+    context "when given no arguments" do
+      subject { super().dns_resolver }
+
+      it "must return a Ronin::Support::Network::DNS::Resolver" do
+        expect(subject).to be_kind_of(
+          Ronin::Support::Network::DNS::Resolver
+        )
+      end
+
+      it "must set the resolver's #nameservers to Network::DNS.nameservers" do
+        expect(subject.nameservers).to eq(
+          Ronin::Support::Network::DNS.nameservers
+        )
+      end
+    end
+
+    context "when given custom nameservers" do
+      let(:nameservers) { %w[1.1.1.1 4.2.2.1] }
+
+      subject { super().dns_resolver(nameservers) }
+
+      it "must return a Ronin::Support::Network::DNS::Resolver" do
+        expect(subject).to be_kind_of(
+          Ronin::Support::Network::DNS::Resolver
+        )
+      end
+
+      it "must set the resolver's #nameservers to the custom nameservers" do
+        expect(subject.nameservers).to eq(nameservers)
+      end
+    end
+  end
+
   describe "#dns_get_address" do
     context "integration", :network do
       it "should lookup the address for a hostname" do
