@@ -17,8 +17,8 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/dns'
 require 'ronin/support/text/patterns'
+require 'ronin/support/network/dns'
 
 require 'combinatorics/list_comprehension'
 require 'ipaddr'
@@ -26,15 +26,14 @@ require 'ipaddr'
 module Ronin
   module Support
     module Network
+      #
+      # Represents a single IP address.
+      #
+      # @api public
+      #
+      # @since 1.0.0
+      #
       class IP < IPAddr
-
-        include Enumerable
-
-        # Socket families and IP address masks
-        MASKS = {
-          Socket::AF_INET  => IN4MASK,
-          Socket::AF_INET6 => IN6MASK
-        }
 
         #
         # Extracts IP Addresses from text.
@@ -63,8 +62,6 @@ module Ronin
         #     puts ip
         #   end
         #   
-        # @api public
-        #
         def self.extract(text,version=nil,&block)
           return enum_for(__method__,text,version).to_a unless block_given?
 
@@ -82,130 +79,6 @@ module Ronin
         end
 
         #
-        # Iterates over each IP address within the IP Address range. Supports
-        # both IPv4 and IPv6 address ranges.
-        #
-        # @param [String] cidr_or_glob
-        #   The IP address range to iterate over.
-        #   May be in standard CIDR notation or globbed format.
-        #
-        # @yield [ip]
-        #   The block which will be passed each IP address contained within the
-        #   IP address range.
-        #
-        # @yieldparam [String] ip
-        #   An IP address within the IP address range.
-        #
-        # @return [nil]
-        #
-        # @example Enumerate through a CIDR range
-        #   IPAddr.each('10.1.1.1/24') do |ip|
-        #     puts ip
-        #   end
-        #
-        # @example Enumerate through a globbed IP range
-        #   IPAddr.each('10.1.1-5,10-20.*') do |ip|
-        #     puts ip
-        #   end
-        #
-        # @example Enumerate through a globbed IPv6 range
-        #   IPAddr.each('::ff::02-0a::c3') do |ip|
-        #     puts ip
-        #   end
-        #
-        # @api public
-        #
-        def self.each(cidr_or_glob,&block)
-          unless (cidr_or_glob.include?('*') ||
-                  cidr_or_glob.include?(',') ||
-                  cidr_or_glob.include?('-'))
-            return new(cidr_or_glob).each(&block)
-          end
-
-          return enum_for(__method__,cidr_or_glob) unless block
-
-          if cidr_or_glob.include?(':') # IPv6
-            separator = ':'
-            base      = 16
-
-            format = lambda { |address|
-              address.map { |number|
-                case number
-                when Integer then number.to_s(16)
-                else              number
-                end
-              }.join(':')
-            }
-          else # IPv4
-            separator = '.'
-            base      = 10
-            format    = lambda { |address| address.join('.') }
-          end
-
-          # split the address
-          segments = cidr_or_glob.split(separator)
-          ranges   = []
-
-          # map the components of the address to numeric ranges
-          segments.each do |segment|
-            ranges << case segment
-                      when '*'
-                        (1..254)
-                      when /[,-]/
-                        segment.split(',').flat_map do |octet|
-                          if octet.include?('-')
-                            start, stop = octet.split('-',2)
-                            start = start.to_i(base)
-                            stop  = stop.to_i(base)
-
-                            (start..stop).to_a
-                          else
-                            octet.to_i(base)
-                          end
-                        end
-                      else
-                        [segment]
-                      end
-          end
-
-          # cycle through the address ranges
-          ranges.comprehension { |address| yield format[address] }
-          return nil
-        end
-
-        #
-        # Iterates over each IP address that is included in the addresses
-        # netmask. Supports both IPv4 and IPv6 addresses.
-        #
-        # @yield [ip]
-        #   The block which will be passed every IP address covered be the
-        #   netmask of the IPAddr object.
-        #
-        # @yieldparam [String] ip
-        #   An IP address.
-        #
-        # @example
-        #   netblock = IPAddr.new('10.1.1.1/24')
-        #
-        #   netblock.each do |ip|
-        #     puts ip
-        #   end
-        #
-        # @api public
-        #
-        def each
-          return enum_for(__method__) unless block_given?
-
-          family_mask = MASKS[@family]
-
-          (0..((~@mask_addr) & family_mask)).each do |i|
-            yield _to_string(@addr | i)
-          end
-
-          return self
-        end
-
-        #
         # Looks up the hostname of the address.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -219,8 +92,6 @@ module Ronin
         #
         # @return [String, nil]
         #   The hostname of the address.
-        #
-        # @api public
         #
         def get_name(**kwargs)
           DNS.get_name(self,**kwargs)
@@ -247,8 +118,6 @@ module Ronin
         #
         # @return [Array<String>]
         #   The hostnames of the address.
-        #
-        # @api public
         #
         def get_names(**kwargs)
           DNS.get_names(self,**kwargs)
