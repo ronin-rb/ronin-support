@@ -29,18 +29,20 @@ describe Ronin::Support::Network::IPRange::CIDR do
   end
 
   describe ".each" do
+    subject { described_class }
+
     context "when initialized with a class-D IP address" do
       let(:cidr) { '10.1.1.2' }
 
       it "must only iterate over one IP address for an address" do
         expect { |b|
-          described_class.each(cidr,&b)
+          subject.each(cidr,&b)
         }.to yield_successive_args(cidr)
       end
 
       context "but no block is given" do
         it "must return an Enumerator" do
-          expect(described_class.each(cidr).to_a).to eq([cidr])
+          expect(subject.each(cidr).to_a).to eq([cidr])
         end
       end
     end
@@ -51,17 +53,15 @@ describe Ronin::Support::Network::IPRange::CIDR do
         (0..255).map { |d| "10.1.1.#{d}" }
       end
 
-      subject { described_class.new(cidr) }
-
       it "must iterate over every IP address within the IP range" do
         expect { |b|
-          described_class.each(cidr,&b)
+          subject.each(cidr,&b)
         }.to yield_successive_args(*addresses)
       end
 
       context "when no block is given" do
         it "must return an Enumerator" do
-          expect(described_class.each(cidr).to_a).to eq(addresses)
+          expect(subject.each(cidr).to_a).to eq(addresses)
         end
       end
     end
