@@ -533,12 +533,22 @@ describe Ronin::Support::Network::DNS do
   describe ".get_mx_records" do
     context "integration", :network do
       let(:hostname) { 'gmail.com' }
+      let(:mailservers) do
+        %w[
+          alt1.gmail-smtp-in.l.google.com
+          alt2.gmail-smtp-in.l.google.com
+          alt3.gmail-smtp-in.l.google.com
+          gmail-smtp-in.l.google.com
+          alt4.gmail-smtp-in.l.google.com
+        ]
+      end
 
       it "must return all Resolv::DNS::Resource::IN::MX records" do
         mx_records = subject.get_mx_records(hostname)
 
         expect(mx_records).to_not be_empty
         expect(mx_records).to all(be_kind_of(Resolv::DNS::Resource::IN::MX))
+        expect(mx_records.map(&:exchange).map(&:to_s)).to match_array(mailservers)
       end
 
       context "when the host name does not have any MX records" do
