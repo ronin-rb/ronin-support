@@ -141,6 +141,8 @@ module Ronin
         #   The IPs of the host or an empty Array if the host has no IP
         #   addresses.
         #
+        # @note This method returns memoized data.
+        #
         def ips
           @ips ||= get_ips
         end
@@ -718,6 +720,8 @@ module Ronin
         # @return [Array<String>]
         #   The mailserver host names for the host.
         #
+        # @note This method returns memoized data.
+        #
         def mailservers
           @mailservers ||= get_mailservers
         end
@@ -774,6 +778,8 @@ module Ronin
         #
         # @return [Array<String>]
         #   The nameserver IP addresses for the host.
+        #
+        # @note This method returns memoized data.
         #
         def nameservers
           @nameservers ||= get_nameservers

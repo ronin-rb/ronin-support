@@ -183,6 +183,8 @@ module Ronin
         #   The host names of the address or an empty Array if the IP address
         #   has no host names.
         #
+        # @note This method returns memoized data.
+        #
         def hosts
           @hosts ||= get_hosts
         end
