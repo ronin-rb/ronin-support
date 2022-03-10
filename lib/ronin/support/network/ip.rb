@@ -112,7 +112,7 @@ module Ronin
         #   The hostname of the address.
         #
         def get_name(**kwargs)
-          DNS.get_name(self,**kwargs)
+          DNS.get_name(@address,**kwargs)
         end
 
         alias reverse_lookup get_name
@@ -133,7 +133,7 @@ module Ronin
         #   The hostnames of the address.
         #
         def get_names(**kwargs)
-          DNS.get_names(self,**kwargs)
+          DNS.get_names(@address,**kwargs)
         end
 
         #
@@ -216,7 +216,7 @@ module Ronin
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/PTR
         #
         def get_ptr_record(**kwargs)
-          DNS.get_ptr_record(self,**kwargs)
+          DNS.get_ptr_record(@address,**kwargs)
         end
 
         #
@@ -235,7 +235,7 @@ module Ronin
         #   The host name that points to the given IP.
         #
         def get_ptr_name(**kwargs)
-          DNS.get_ptr_name(self,**kwargs)
+          DNS.get_ptr_name(@address,**kwargs)
         end
 
         #
@@ -256,7 +256,7 @@ module Ronin
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/PTR
         #
         def get_ptr_records(**kwargs)
-          DNS.get_ptr_records(self,**kwargs)
+          DNS.get_ptr_records(@address,**kwargs)
         end
 
         #
@@ -275,7 +275,7 @@ module Ronin
         #   The `PTR` names for the given IP.
         #
         def get_ptr_names(**kwargs)
-          DNS.get_ptr_names(self,**kwargs)
+          DNS.get_ptr_names(@address,**kwargs)
         end
 
         #
