@@ -61,9 +61,9 @@ module Ronin
           #   The CIDR range string to parse.
           #
           def initialize(string)
-            @string = string
-
             super(string)
+
+            @string = string
           end
 
           #
