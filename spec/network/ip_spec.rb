@@ -338,6 +338,95 @@ describe Ronin::Support::Network::IP do
     end
   end
 
+  describe "#get_host"  do
+    context "integration", :network do
+      let(:address) { reverse_address }
+
+      it "should lookup the address for a hostname" do
+        host = subject.get_host
+
+        expect(host).to be_kind_of(Ronin::Support::Network::Host)
+        expect(host.name).to eq(reverse_hostname)
+      end
+
+      context "when the IP address has no host names associated with it" do
+        let(:address) { bad_address }
+
+        it "must return nil" do
+          expect(subject.get_host).to be(nil)
+        end
+      end
+
+      context "when given the nameservers: keyword argument" do
+        let(:nameserver) { '8.8.8.8' }
+
+        it "may lookup host-name via other nameservers" do
+          host = subject.get_host(nameservers: [nameserver])
+
+          expect(host).to be_kind_of(Ronin::Support::Network::Host)
+          expect(host.name).to eq(reverse_hostname)
+        end
+      end
+
+      context "when given the nameserver: keyword argument" do
+        let(:nameserver) { '8.8.8.8' }
+
+        it "may lookup host-name via other nameserver" do
+          host = subject.get_host(nameserver: nameserver)
+
+          expect(host).to be_kind_of(Ronin::Support::Network::Host)
+          expect(host.name).to eq(reverse_hostname)
+        end
+      end
+    end
+  end
+
+  describe "#get_hosts"  do
+    context "integration", :network do
+      let(:address) { reverse_address }
+
+      it "should lookup all addresses for a hostname" do
+        hosts = subject.get_hosts
+
+        expect(hosts).to_not be_empty
+        expect(hosts).to all(be_kind_of(Ronin::Support::Network::Host))
+        expect(hosts.map(&:name)).to include(reverse_hostname)
+      end
+
+      context "when the IP address has no host names associated with it" do
+        let(:address) { bad_address }
+
+        it "should return an empty Array" do
+          expect(subject.get_hosts).to eq([])
+        end
+      end
+
+      context "when given the nameservers: keyword argument" do
+        let(:nameserver) { '8.8.8.8' }
+
+        it "may lookup host-names via other nameservers" do
+          hosts = subject.get_hosts(nameservers: [nameserver])
+
+          expect(hosts).to_not be_empty
+          expect(hosts).to all(be_kind_of(Ronin::Support::Network::Host))
+          expect(hosts.map(&:name)).to eq([reverse_hostname])
+        end
+      end
+
+      context "when given the nameserver: keyword argument" do
+        let(:nameserver) { '8.8.8.8' }
+
+        it "may lookup host-names via other nameserver" do
+          hosts = subject.get_hosts(nameserver: nameserver)
+
+          expect(hosts).to_not be_empty
+          expect(hosts).to all(be_kind_of(Ronin::Support::Network::Host))
+          expect(hosts.map(&:name)).to eq([reverse_hostname])
+        end
+      end
+    end
+  end
+
   describe "#get_ptr_record" do
     context "integration", :network do
       let(:address)  { '142.251.33.110' }

@@ -17,8 +17,9 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/text/patterns'
 require 'ronin/support/network/dns'
+require 'ronin/support/network/host'
+require 'ronin/support/text/patterns'
 
 require 'combinatorics/list_comprehension'
 require 'ipaddr'
@@ -116,6 +117,46 @@ module Ronin
         #
         def get_names(**kwargs)
           DNS.get_names(self,**kwargs)
+        end
+
+        #
+        # Looks up the hostname of the address.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option [Array<String>, String, nil] :nameservers
+        #   Optional DNS nameserver(s) to query.
+        #
+        # @option [String, nil] :nameserver
+        #   Optional DNS nameserver to query.
+        #
+        # @return [Host, nil]
+        #   The hostname of the address.
+        #
+        def get_host(**kwargs)
+          if (name = get_name(**kwargs))
+            Host.new(name)
+          end
+        end
+
+        #
+        # Looks up all hostnames associated with the IP.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option [Array<String>, String, nil] :nameservers
+        #   Optional DNS nameserver(s) to query.
+        #
+        # @option [String, nil] :nameserver
+        #   Optional DNS nameserver to query.
+        #
+        # @return [Array<Host>]
+        #   The hostnames of the address.
+        #
+        def get_hosts(**kwargs)
+          get_names(**kwargs).map { |name| Host.new(name) }
         end
 
         #
