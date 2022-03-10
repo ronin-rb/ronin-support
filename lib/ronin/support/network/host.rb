@@ -135,6 +135,27 @@ module Ronin
         end
 
         #
+        # The IPs for the host.
+        #
+        # @return [Array<IP>]
+        #   The IPs of the host or an empty Array if the host has no IP
+        #   addresses.
+        #
+        def ips
+          @ips ||= get_ips
+        end
+
+        #
+        # The IP for the host.
+        #
+        # @return [IP, nil]
+        #   The IP for the host or `nil` if the host has no IP addresses.
+        #
+        def ip
+          ips.first
+        end
+
+        #
         # Queries a single matching DNS record for the host name.
         #
         # @param [String, nil] name
