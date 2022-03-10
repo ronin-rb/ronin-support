@@ -352,6 +352,8 @@ module Ronin
         #   The `HINFO` DNS record or `nil` if the host name has no `HINFO`
         #   record.
         #
+        # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/HINFO
+        #
         # @note This method returns memoized data.
         #
         def hinfo_record
@@ -846,9 +848,9 @@ module Ronin
         #   The first `SOA` DNS record for the host name or `nil` if the host
         #   name has no `SOA` records.
         #
-        # @note This method returns memoized data.
-        #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/SOA
+        #
+        # @note This method returns memoized data.
         #
         def soa_record
           @soa_record ||= get_soa_record
