@@ -36,6 +36,23 @@ module Ronin
       #
       class IP < IPAddr
 
+        # The address of the IP.
+        #
+        # @return [String]
+        attr_reader :address
+
+        #
+        # Initializes the IP address.
+        #
+        # @param [String] address
+        #   The address of the IP.
+        #
+        def initialize(address)
+          super(address)
+
+          @address = address
+        end
+
         #
         # Extracts IP Addresses from text.
         #

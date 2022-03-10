@@ -2,6 +2,19 @@ require 'spec_helper'
 require 'ronin/support/network/ip'
 
 describe Ronin::Support::Network::IP do
+  let(:address)          { '93.184.216.34' }
+  let(:bad_address)      { '0.0.0.0' }
+  let(:reverse_address)  { '142.251.33.110' }
+  let(:reverse_hostname) { 'sea30s10-in-f14.1e100.net' }
+
+  subject { described_class.new(address) }
+
+  describe "#initialize" do
+    it "must set #address" do
+      expect(subject.address).to eq(address)
+    end
+  end
+
   describe ".extract" do
     subject { described_class }
 
@@ -262,13 +275,6 @@ describe Ronin::Support::Network::IP do
       end
     end
   end
-
-  let(:address)          { '93.184.216.34' }
-  let(:bad_address)      { '0.0.0.0' }
-  let(:reverse_address)  { '142.251.33.110' }
-  let(:reverse_hostname) { 'sea30s10-in-f14.1e100.net' }
-
-  subject { described_class.new(address) }
 
   describe "#get_name"  do
     context "integration", :network do
