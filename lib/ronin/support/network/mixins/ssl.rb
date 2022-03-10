@@ -29,7 +29,7 @@ module Ronin
         #
         module SSL
           include Mixins::TCP
-  
+
           #
           # Creates a new SSL Context.
           #
@@ -61,17 +61,17 @@ module Ronin
           def ssl_context(verify: :none, cert: nil, key: nil, certs: nil)
             context = OpenSSL::SSL::SSLContext.new()
             context.verify_mode = Network::SSL::VERIFY[verify]
-  
+
             if cert
               file = File.new(cert)
               context.cert = OpenSSL::X509::Certificate.new(file)
             end
-  
+
             if key
               file = File.new(key)
               context.key = OpenSSL::PKey::RSA.new(file)
             end
-  
+
             if certs
               if File.file?(certs)
                 context.ca_file = certs
@@ -79,10 +79,10 @@ module Ronin
                 context.ca_path = certs
               end
             end
-  
+
             return context
           end
-  
+
           #
           # Initiates an SSL session with an existing TCP socket.
           #
@@ -119,7 +119,7 @@ module Ronin
             ssl_socket.sync_close = true
             return ssl_socket
           end
-  
+
           #
           # Tests whether a remote SSLed TCP port is open.
           #
@@ -177,7 +177,7 @@ module Ronin
               Timeout.timeout(timeout) do
                 ssl_session(host,port,local_host,local_port,**kwargs)
               end
-  
+
               return true
             rescue Timeout::Error
               return nil
@@ -185,7 +185,7 @@ module Ronin
               return false
             end
           end
-  
+
           #
           # Establishes a SSL connection.
           #
@@ -239,11 +239,11 @@ module Ronin
             socket     = tcp_connect(host,port,local_host,local_port)
             ssl_socket = ssl_socket(socket,**kwargs)
             ssl_socket.connect
-  
+
             yield ssl_socket if block_given?
             return ssl_socket
           end
-  
+
           #
           # Creates a new SSL connection and sends the given data.
           #
@@ -293,11 +293,11 @@ module Ronin
           def ssl_connect_and_send(data,host,port,local_host=nil,local_port=nil,**kwargs)
             socket = ssl_connect(host,port,local_host,local_port,**kwargs)
             socket.write(data)
-  
+
             yield socket if block_given?
             return socket
           end
-  
+
           #
           # Creates a new temporary SSL connection.
           #
@@ -355,7 +355,7 @@ module Ronin
             socket.close
             return nil
           end
-  
+
           #
           # Reads the banner from the service running on the given host and
           # port.
@@ -409,15 +409,15 @@ module Ronin
           #
           def ssl_banner(host,port,local_host=nil,local_port=nil,**kwargs)
             banner = nil
-  
+
             ssl_session(host,port,local_host,local_port,**kwargs) do |ssl_socket|
               banner = ssl_socket.readline.strip
             end
-  
+
             yield banner if block_given?
             return banner
           end
-  
+
           #
           # Connects to a specified host and port, sends the given data and then
           # closes the connection.
@@ -471,10 +471,10 @@ module Ronin
             ssl_session(host,port,local_host,local_port,**kwargs) do |socket|
               socket.write(data)
             end
-  
+
             return true
           end
-  
+
           #
           # Accepts an SSL session from an existing TCP socket.
           #
@@ -511,7 +511,7 @@ module Ronin
                                         **kwargs)
             return ssl_socket(socket, cert: cert, key: key, **kwargs)
           end
-  
+
           #
           # Creates a new SSL socket listening on a given host and port,
           # accepting clients in a loop.
@@ -571,13 +571,13 @@ module Ronin
                 client     = server.accept
                 ssl_client = ssl_server_socket(client,**kwargs)
                 ssl_client.accept
-  
+
                 yield ssl_client if block_given?
                 ssl_client.close
               end
             end
           end
-  
+
           #
           # Creates a new SSL socket listening on a given host and port,
           # accepts only one client and then stops listening.
@@ -639,7 +639,7 @@ module Ronin
               client     = server.accept
               ssl_client = ssl_server_socket(client,options)
               ssl_client.accept
-  
+
               yield ssl_client if block_given?
               ssl_client.close
             end

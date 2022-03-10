@@ -486,7 +486,7 @@ describe Binary::Struct do
 
       it "must unpack the nested fields" do
         subject.unpack(packed)
-        
+
         expect(subject.int).to           eq(10)
         expect(subject.struct[0].int).to eq(20)
         expect(subject.struct[1].int).to eq(30)

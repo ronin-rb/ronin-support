@@ -28,7 +28,7 @@ module Ronin
         #
         module ESMTP
           include Mixins::SMTP
-  
+
           #
           # @see SMTP.message
           #
@@ -37,7 +37,7 @@ module Ronin
           def esmtp_message(**kwargs,&block)
             smtp_message(**kwargs,&block)
           end
-  
+
           #
           # Creates a connection to the ESMTP server.
           #
@@ -91,11 +91,11 @@ module Ronin
           def esmtp_connect(host,**kwargs)
             smtp = smtp_connect(host,**kwargs)
             smtp.esmtp = true
-  
+
             yield smtp if block_given?
             return smtp
           end
-  
+
           #
           # Starts an ESMTP session with the ESMTP enabled server.
           #
@@ -148,7 +148,7 @@ module Ronin
           def esmtp_session(host,**kwargs)
             smtp_session(host,**kwargs) do |smtp|
               smtp.esmtp = true
-  
+
               yield smtp if block_given?
             end
           end

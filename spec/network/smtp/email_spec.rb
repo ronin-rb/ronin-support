@@ -78,7 +78,7 @@ describe Network::SMTP::Email do
       subject.headers['X-Baz'] = 'Quix'
 
       lines = subject.to_s.split("\n\r")
-      
+
       expect(lines).to include('X-Foo: Bar')
       expect(lines).to include('X-Baz: Quix')
     end

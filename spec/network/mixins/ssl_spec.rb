@@ -202,7 +202,7 @@ describe Ronin::Support::Network::Mixins::SSL do
 
       it "must yield the banner" do
         banner = nil
-        
+
         subject.ssl_banner(host,port) do |yielded_banner|
           banner = yielded_banner
         end

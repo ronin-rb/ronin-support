@@ -36,10 +36,10 @@ module Ronin
         module FTP
           # Default FTP port
           DEFAULT_PORT = 21
-  
+
           # Default FTP user
           DEFAULT_USER = 'anonymous'
-  
+
           #
           # Creates a connection to the FTP server.
           #
@@ -81,16 +81,16 @@ module Ronin
                                 account:  nil,
                                 passive:  true)
             host = host.to_s
-  
+
             ftp = Net::FTP.new
             ftp.connect(host,port)
             ftp.login(user,password,account)
             ftp.passive = passive
-  
+
             yield ftp if block_given?
             return ftp
           end
-  
+
           #
           # Starts a session with the FTP server.
           #
@@ -133,9 +133,9 @@ module Ronin
           #
           def ftp_session(host,**kwargs)
             ftp = ftp_connect(host,**kwargs)
-  
+
             yield ftp if block_given?
-  
+
             ftp.close
             return nil
           end

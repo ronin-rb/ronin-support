@@ -36,13 +36,13 @@ module Ronin
         module IMAP
           # Default IMAP port
           DEFAULT_PORT = 143
-  
+
           # Authentication types.
           AUTH_TYPES = {
             login:    'LOGIN',
             cram_md5: 'CRAM_MD5'
           }
-  
+
           #
           # Creates a connection to the IMAP server.
           #
@@ -94,7 +94,7 @@ module Ronin
             auth_type = AUTH_TYPES.fetch(auth) do
               raise(ArgumentError,"auth: must be either :login or :cram_md5")
             end
-  
+
             case ssl
             when Hash
               ssl        = true
@@ -109,14 +109,14 @@ module Ronin
               ssl_certs  = nil
               ssl_verify = false
             end
-  
+
             imap = Net::IMAP.new(host,port,ssl,ssl_certs,ssl_verify)
             imap.authenticate(auth_type,user,passwd)
-  
+
             yield imap if block_given?
             return imap
           end
-  
+
           #
           # Starts an IMAP session with the IMAP server.
           #
@@ -141,9 +141,9 @@ module Ronin
           #
           def imap_session(host,user,password,**kwargs)
             imap = imap_connect(host,**kwargs)
-  
+
             yield imap if block_given?
-  
+
             imap.logout
             imap.close
             imap.disconnect

@@ -34,7 +34,7 @@ module Ronin
         module POP3
           # Default POP3 port
           DEFAULT_PORT = 110
-  
+
           #
           # Creates a connection to the POP3 server.
           #
@@ -77,7 +77,7 @@ module Ronin
                                  user: ,
                                  password: )
             host = host.to_s
-  
+
             case ssl
             when Hash
               ssl        = true
@@ -92,15 +92,15 @@ module Ronin
               ssl_certs  = nil
               ssl_verify = false
             end
-  
+
             pop3 = Net::POP3.new(host,port)
             pop3.enable_ssl(ssl_verify,ssl_certs) if ssl
             pop3.start(user,password)
-  
+
             yield pop3 if block_given?
             return pop3
           end
-  
+
           #
           # Starts a session with the POP3 server.
           #
@@ -123,9 +123,9 @@ module Ronin
           #
           def pop3_session(host,**kwargs)
             pop3 = pop3_connect(host,**kwargs)
-  
+
             yield pop3 if block_given?
-  
+
             pop3.finish
             return nil
           end

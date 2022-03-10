@@ -73,11 +73,11 @@ module Ronin
           #
           def http_connect(**kwargs,&block)
             options = Network::HTTP.normalize_options(kwargs)
-  
+
             host  = options[:host].to_s
             port  = options[:port]
             proxy = options[:proxy]
-  
+
             http = if proxy
                      Net::HTTP.new(
                        host, port,
@@ -86,14 +86,14 @@ module Ronin
                    else
                      Net::HTTP.new(host,port)
                    end
-  
+
             if options[:ssl]
               http.use_ssl     = true
               http.verify_mode = SSL::VERIFY[options[:ssl][:verify]]
             end
-  
+
             http.start()
-  
+
             if block
               if block.arity == 2
                 block.call(http,options)
@@ -101,10 +101,10 @@ module Ronin
                 block.call(http)
               end
             end
-  
+
             return http
           end
-  
+
           #
           # Creates a new temporary HTTP session with the server.
           #
@@ -153,13 +153,13 @@ module Ronin
           def http_session(**kwargs)
             http_connect(**kwargs) do |http|
               yield http if block_given?
-  
+
               http.finish
             end
-  
+
             return nil
           end
-  
+
           #
           # Connects to the HTTP server and sends an HTTP Request.
           #
@@ -229,18 +229,18 @@ module Ronin
           #
           def http_request(**kwargs)
             response = nil
-  
+
             http_session(**kwargs) do |http|
               req = Network::HTTP.request(**kwargs)
-  
+
               yield req if block_given?
-  
+
               response = http.request(req)
             end
-  
+
             return response
           end
-  
+
           #
           # Returns the Status Code of the Response.
           #
@@ -262,7 +262,7 @@ module Ronin
           def http_status(method: :head, **kwargs)
             return http_request(method: method, **kwargs).code.to_i
           end
-  
+
           #
           # Checks if the response has an HTTP `OK` status code.
           #
@@ -282,7 +282,7 @@ module Ronin
           def http_ok?(**kwargs)
             http_status(**kwargs) == 200
           end
-  
+
           #
           # Sends a HTTP Head request and returns the HTTP `Server` header.
           #
@@ -302,7 +302,7 @@ module Ronin
           def http_server(method: :head, **kwargs)
             http_request(method: method, **kwargs)['server']
           end
-  
+
           #
           # Sends an HTTP Head request and returns the HTTP `X-Powered-By`
           # header.
@@ -323,7 +323,7 @@ module Ronin
           def http_powered_by(method: :head, **kwargs)
             return http_request(method: method, **kwargs)['x-powered-by']
           end
-  
+
           #
           # Performs an HTTP `COPY` request.
           #
@@ -346,11 +346,11 @@ module Ronin
           #
           def http_copy(**kwargs)
             response = http_request(method: :copy, **kwargs)
-  
+
             yield response if block_given?
             return response
           end
-  
+
           #
           # Performs an HTTP `DELETE` request.
           #
@@ -376,21 +376,21 @@ module Ronin
           #
           def http_delete(headers: nil, **kwargs, &block)
             original_headers = headers
-  
+
             # set the HTTP Depth header
             headers = {depth: 'Infinity'}
             headers.merge!(original_headers) if original_headers
-  
+
             response = http_request(
               method: :delete,
               headers: headers,
               **kwargs
             )
-  
+
             yield response if block_given?
             return response
           end
-  
+
           #
           # Performs an HTTP `GET` request.
           #
@@ -413,11 +413,11 @@ module Ronin
           #
           def http_get(**kwargs,&block)
             response = http_request(method: :get, **kwargs)
-  
+
             yield response if block_given?
             return response
           end
-  
+
           #
           # Performs an HTTP `GET` request and returns the Response Headers.
           #
@@ -435,14 +435,14 @@ module Ronin
           #
           def http_get_headers(**kwargs)
             headers = {}
-  
+
             http_get(**kwargs).each_header do |name,value|
               headers[Network::HTTP.header_name(name)] = value
             end
-  
+
             return headers
           end
-  
+
           #
           # Performs an HTTP `GET` request and returns the Respond Body.
           #
@@ -459,7 +459,7 @@ module Ronin
           def http_get_body(**kwargs)
             http_get(**kwargs).body
           end
-  
+
           #
           # Performs an HTTP `HEAD` request.
           #
@@ -482,11 +482,11 @@ module Ronin
           #
           def http_head(**kwargs,&block)
             response = http_request(method: :head, **kwargs)
-  
+
             yield response if block_given?
             return response
           end
-  
+
           #
           # Performs an HTTP `LOCK` request.
           #
@@ -509,11 +509,11 @@ module Ronin
           #
           def http_lock(**kwargs,&block)
             response = http_request(method: :lock, **kwargs)
-  
+
             yield response if block_given?
             return response
           end
-  
+
           #
           # Performs an HTTP `MKCOL` request.
           #
@@ -536,11 +536,11 @@ module Ronin
           #
           def http_mkcol(**kwargs,&block)
             response = http_request(method: :mkcol, **kwargs)
-  
+
             yield response if block_given?
             return response
           end
-  
+
           #
           # Performs an HTTP `MOVE` request.
           #
@@ -563,11 +563,11 @@ module Ronin
           #
           def http_move(**kwargs,&block)
             response = http_request(method: :move, **kwargs)
-  
+
             yield response if block_given?
             return response
           end
-  
+
           #
           # Performs an HTTP `OPTIONS` request.
           #
@@ -590,11 +590,11 @@ module Ronin
           #
           def http_options(**kwargs,&block)
             response = http_request(method: :options, **kwargs)
-  
+
             yield response if block_given?
             return response
           end
-  
+
           #
           # Performs an HTTP `POST` request.
           #
@@ -620,11 +620,11 @@ module Ronin
           #
           def http_post(**kwargs,&block)
             response = http_request(method: :post, **kwargs)
-  
+
             yield response if block_given?
             return response
           end
-  
+
           #
           # Performs an HTTP `POST` request and returns the Response Headers.
           #
@@ -645,14 +645,14 @@ module Ronin
           #
           def http_post_headers(**kwargs)
             headers = {}
-  
+
             http_post(**kwargs).each_header do |name,value|
               headers[Network::HTTP.header_name(name)] = value
             end
-  
+
             return headers
           end
-  
+
           #
           # Performs an HTTP `POST` request and returns the Response Body.
           #
@@ -672,7 +672,7 @@ module Ronin
           def http_post_body(**kwargs)
             http_post(**kwargs).body
           end
-  
+
           #
           # Performs an HTTP `PUT` request.
           #
@@ -703,11 +703,11 @@ module Ronin
           #
           def http_put(**kwargs)
             response = http_request(method: :put, **kwargs)
-  
+
             yield response if block_given?
             return response
           end
-  
+
           #
           # Performs an HTTP `PROPFIND` request.
           #
@@ -730,21 +730,21 @@ module Ronin
           #
           def http_prop_find(headers: nil, **kwargs,&block)
             original_headers = headers
-  
+
             # set the HTTP Depth header
             headers = {depth: '0'}
             headers.merge!(original_headers) if original_headers
-  
+
             response = http_request(
               method: :propfind,
               headers: headers,
               **kwargs
             )
-  
+
             yield response if block_given?
             return response
           end
-  
+
           #
           # Performs an HTTP `PROPPATCH` request.
           #
@@ -767,11 +767,11 @@ module Ronin
           #
           def http_prop_patch(**kwargs,&block)
             response = http_request(method: :proppatch, **kwargs)
-  
+
             yield response if block_given?
             return response
           end
-  
+
           #
           # Performs an HTTP `TRACE` request.
           #
@@ -794,11 +794,11 @@ module Ronin
           #
           def http_trace(**kwargs,&block)
             response = http_request(method: :trace, **kwargs)
-  
+
             yield response if block_given?
             return response
           end
-  
+
           #
           # Performs an HTTP `UNLOCK` request.
           #
@@ -821,7 +821,7 @@ module Ronin
           #
           def http_unlock(**kwargs,&block)
             response = http_request(method: :unlock, **kwargs)
-  
+
             yield response if block_given?
             return response
           end

@@ -41,7 +41,7 @@ describe Crypto do
     it "must use the key when calculating the HMAC" do
       hmac = subject.hmac(key)
       hmac.update(clear_text)
-      
+
       expect(hmac.hexdigest).to eq(hash)
     end
 

@@ -30,7 +30,7 @@ module Ronin
         module IP
           # The URI for https://ipinfo.io/ip
           IPINFO_URI = URI::HTTPS.build(host: 'ipinfo.io', path: '/ip')
-  
+
           #
           # Determines the current public IP Address.
           #
@@ -49,7 +49,7 @@ module Ronin
               return response.body
             end
           end
-  
+
           #
           # Determines the local IP Address.
           #
@@ -67,7 +67,7 @@ module Ronin
 
             return address.ip_address
           end
-  
+
           #
           # Determines the accessible IP Address.
           #

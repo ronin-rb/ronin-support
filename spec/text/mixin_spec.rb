@@ -23,7 +23,7 @@ describe Ronin::Support::Text::Mixin do
       subject.x = x
       subject.y = y
     end
-    
+
     let(:fixtures_dir) { File.join(__dir__,'fixtures')          }
     let(:erb_file)     { File.join(fixtures_dir,'erb_file.erb') }
 

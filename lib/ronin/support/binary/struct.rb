@@ -485,7 +485,7 @@ module Ronin
             end
           end
         end
-        
+
         #
         # Enumerates the fields of the structure, and all nested structures.
         #

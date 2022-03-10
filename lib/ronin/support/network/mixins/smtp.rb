@@ -36,10 +36,10 @@ module Ronin
         #
         module SMTP
           include Mixins::SSL
-  
+
           # Default SMTP port
           DEFAULT_PORT = 25
-  
+
           #
           # Creates a properly formatted email.
           #
@@ -64,7 +64,7 @@ module Ronin
           def self.message(**kwargs,&block)
             Email.new(**kwargs,&block).to_s
           end
-  
+
           #
           # Creates a new email message.
           #
@@ -85,7 +85,7 @@ module Ronin
           def smtp_message(**kwargs,&block)
             Email.new(**kwargs,&block)
           end
-  
+
           #
           # Creates a connection to the SMTP server.
           #
@@ -138,7 +138,7 @@ module Ronin
             host = host.to_s
             user = user.to_s
             password = password.to_s
-  
+
             case ssl
             when Hash
               ssl     = true
@@ -147,15 +147,15 @@ module Ronin
               ssl     = true
               context = ssl_context
             end
-  
+
             smtp = Net::SMTP.new(host,port)
             smtp.enable_starttls(context) if ssl
             smtp.start(helo,user,password,auth)
-  
+
             yield smtp if block_given?
             return smtp
           end
-  
+
           #
           # Starts a session with the SMTP server.
           #
@@ -183,13 +183,13 @@ module Ronin
           #
           def smtp_session(host,user,password, **kwargs)
             smtp = smtp_connect(host,**kwargs)
-  
+
             yield smtp if block_given?
-  
+
             smtp.finish
             return nil
           end
-  
+
           #
           # Connects to an SMTP server and sends a message.
           #
@@ -288,7 +288,7 @@ module Ronin
               body:       body,
               &block
             )
-  
+
             smtp_session(host,user,password,
                          port: port, ssl: ssl, helo: helo, auth: auth) do |smtp|
               smtp.send_message(email.to_s, email.from, email.to)

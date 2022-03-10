@@ -49,7 +49,7 @@ module Ronin
           #
           def unix_open?(path,timeout=nil)
             timeout ||= 5
-  
+
             begin
               Timeout.timeout(timeout) { unix_session(path) }
               return true
@@ -59,7 +59,7 @@ module Ronin
               return false
             end
           end
-  
+
           #
           # Connects to a UNIX socket.
           #
@@ -84,11 +84,11 @@ module Ronin
           #
           def unix_connect(path)
             socket = UNIXSocket.new(path)
-  
+
             yield socket if block_given?
             return socket
           end
-  
+
           #
           # Connects to a UNIX Socket and sends the given data.
           #
@@ -112,11 +112,11 @@ module Ronin
           def unix_connect_and_send(data,path)
             socket = unix_connect(path)
             socket.write(data)
-  
+
             yield socket if block_given?
             return socket
           end
-  
+
           #
           # Temporarily connects to a UNIX socket.
           #
@@ -138,12 +138,12 @@ module Ronin
           #
           def unix_session(path)
             socket = unix_connect(path)
-  
+
             yield socket if block_given?
             socket.close
             return nil
           end
-  
+
           #
           # Connects to a UNIX socket, sends the given data and then closes the
           # socket.
@@ -168,10 +168,10 @@ module Ronin
             unix_session(path) do |socket|
               socket.write(data)
             end
-  
+
             return true
           end
-  
+
           #
           # Opens a UNIX socket.
           #
@@ -196,11 +196,11 @@ module Ronin
           #
           def unix_server(path)
             socket = UNIXServer.new(path)
-  
+
             yield socket if block_given?
             return socket
           end
-  
+
           #
           # Temporarily opens a UNIX socket.
           #
@@ -225,7 +225,7 @@ module Ronin
             socket.close
             return nil
           end
-  
+
           #
           # Opens a UNIX socket, accepts connections in a loop.
           #
@@ -249,13 +249,13 @@ module Ronin
             unix_server_session(path) do |server|
               loop do
                 client = server.accept
-  
+
                 yield client if block_given?
                 client.close
               end
             end
           end
-  
+
           #
           # Opens a UNIX socket, accepts a connection, then closes the socket.
           #
@@ -278,7 +278,7 @@ module Ronin
           def unix_accept(path)
             unix_server_session(path) do |server|
               client = server.accept
-  
+
               yield client if block_given?
               client.close
             end

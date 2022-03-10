@@ -29,7 +29,7 @@ describe String do
 
     it "must return an Enumerator when no block is given" do
       substrings = subject.each_substring
-      
+
       expect(substrings.all? { |sub_string|
         subject.include?(sub_string)
       }).to be(true)
