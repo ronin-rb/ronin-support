@@ -346,6 +346,19 @@ module Ronin
         end
 
         #
+        # The `HINFO` record for the host.
+        #
+        # @return [Resolv::DNS::Resource::IN::HINFO, nil]
+        #   The `HINFO` DNS record or `nil` if the host name has no `HINFO`
+        #   record.
+        #
+        # @note This method returns memoized data.
+        #
+        def hinfo_record
+          @hinfo_record ||= get_hinfo_record
+        end
+
+        #
         # Queries the first `A` record belonging to the host name.
         #
         # @param [String, nil] name

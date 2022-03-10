@@ -352,6 +352,28 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#hinfo_record" do
+    context "integration", :network do
+      let(:hostname) { "hinfo-example.lookup.dog" }
+
+      it "must return the Resolv::DNS::Resource::IN::HINFO record" do
+        hinfo_record = subject.hinfo_record
+
+        expect(hinfo_record).to be_kind_of(Resolv::DNS::Resource::IN::HINFO)
+        expect(hinfo_record.cpu).to eq("some-kinda-cpu")
+        expect(hinfo_record.os).to  eq("some-kinda-os")
+      end
+
+      context "when the host name does not have a HINFO record" do
+        let(:hostname) { 'example.com' }
+
+        it "must return nil" do
+          expect(subject.hinfo_record).to be(nil)
+        end
+      end
+    end
+  end
+
   describe "#get_a_record" do
     context "integration", :network do
       let(:hostname)     { 'example.com'   }
