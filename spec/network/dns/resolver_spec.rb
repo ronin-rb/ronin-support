@@ -96,7 +96,7 @@ describe Ronin::Support::Network::DNS::Resolver do
 
   describe "#get_name"  do
     context "integration", :network do
-      it "should lookup the address for a hostname" do
+      it "must lookup the address for a hostname" do
         expect(subject.get_name(reverse_address)).to eq(reverse_hostname)
       end
 
@@ -110,12 +110,12 @@ describe Ronin::Support::Network::DNS::Resolver do
 
   describe "#get_names"  do
     context "integration", :network do
-      it "should lookup all addresses for a hostname" do
+      it "must lookup all addresses for a hostname" do
         expect(subject.get_names(reverse_address)).to include(reverse_hostname)
       end
 
       context "when the IP address has no host names associated with it" do
-        it "should return an empty Array" do
+        it "must return an empty Array" do
           expect(subject.get_names(bad_address)).to eq([])
         end
       end

@@ -7,27 +7,27 @@ describe Ronin::Support::Text::Patterns do
 
     subject { described_class::WORD }
 
-    it "should not match single letters" do
+    it "must not match single letters" do
       expect(subject.match('A')).to be_nil
     end
 
-    it "should not match numeric letters" do
+    it "must not match numeric letters" do
       expect(subject.match("123#{word}123")[0]).to eq(word)
     end
 
-    it "should not include ending periods" do
+    it "must not include ending periods" do
       expect(subject.match("#{word}.")[0]).to eq(word)
     end
 
-    it "should not include leading punctuation" do
+    it "must not include leading punctuation" do
       expect(subject.match("'#{word}")[0]).to eq(word)
     end
 
-    it "should not include tailing punctuation" do
+    it "must not include tailing punctuation" do
       expect(subject.match("#{word}'")[0]).to eq(word)
     end
 
-    it "should include punctuation in the middle of the word" do
+    it "must include punctuation in the middle of the word" do
       name = "O'Brian"
 
       expect(subject.match(name)[0]).to eq(name)
@@ -37,13 +37,13 @@ describe Ronin::Support::Text::Patterns do
   describe "OCTET" do
     subject { described_class::OCTET }
 
-    it "should match 0 - 255" do
+    it "must match 0 - 255" do
       expect((0..255).all? { |n|
         subject.match(n.to_s)[0] == n.to_s
       }).to be(true)
     end
 
-    it "should not match numbers greater than 255" do
+    it "must not match numbers greater than 255" do
       expect(subject.match('256')[0]).to eq('25')
     end
   end
@@ -51,7 +51,7 @@ describe Ronin::Support::Text::Patterns do
   describe "MAC" do
     subject { described_class::MAC }
 
-    it "should match six hexadecimal bytes" do
+    it "must match six hexadecimal bytes" do
       mac = '12:34:56:78:9a:bc'
 
       expect(subject.match(mac)[0]).to eq(mac)
@@ -61,37 +61,37 @@ describe Ronin::Support::Text::Patterns do
   describe "IPv4" do
     subject { described_class::IPv4 }
 
-    it "should match valid addresses" do
+    it "must match valid addresses" do
       ip = '127.0.0.1'
 
       expect(subject.match(ip)[0]).to eq(ip)
     end
 
-    it "should match the Any address" do
+    it "must match the Any address" do
       ip = '0.0.0.0'
 
       expect(subject.match(ip)[0]).to eq(ip)
     end
 
-    it "should match the broadcast address" do
+    it "must match the broadcast address" do
       ip = '255.255.255.255'
 
       expect(subject.match(ip)[0]).to eq(ip)
     end
 
-    it "should match addresses with netmasks" do
+    it "must match addresses with netmasks" do
       ip = '10.1.1.1/24'
 
       expect(subject.match(ip)[0]).to eq(ip)
     end
 
-    it "should not match addresses with octets > 255" do
+    it "must not match addresses with octets > 255" do
       ip = '10.1.256.1'
 
       expect(subject.match(ip)).to be_nil
     end
 
-    it "should not match addresses with more than three digits per octet" do
+    it "must not match addresses with more than three digits per octet" do
       ip = '10.1111.1.1'
 
       expect(subject.match(ip)).to be_nil
@@ -101,25 +101,25 @@ describe Ronin::Support::Text::Patterns do
   describe "IPv6" do
     subject { described_class::IPv6 }
 
-    it "should match valid IPv6 addresses" do
+    it "must match valid IPv6 addresses" do
       ip = '2001:db8:85a3:0:0:8a2e:370:7334'
 
       expect(subject.match(ip)[0]).to eq(ip)
     end
 
-    it "should match IPv6 addresses with netmasks" do
+    it "must match IPv6 addresses with netmasks" do
       ip = '2001:db8:1234::/48'
 
       expect(subject.match(ip)[0]).to eq(ip)
     end
 
-    it "should match truncated IPv6 addresses" do
+    it "must match truncated IPv6 addresses" do
       ip = '2001:db8:85a3::8a2e:370:7334'
 
       expect(subject.match(ip)[0]).to eq(ip)
     end
 
-    it "should match IPv4-mapped IPv6 addresses" do
+    it "must match IPv4-mapped IPv6 addresses" do
       ip = '::ffff:192.0.2.128'
 
       expect(subject.match(ip)[0]).to eq(ip)
@@ -129,13 +129,13 @@ describe Ronin::Support::Text::Patterns do
   describe "IP" do
     subject { described_class::IP }
 
-    it "should match IPv4 addresses" do
+    it "must match IPv4 addresses" do
       ip = '10.1.1.1'
 
       expect(subject.match(ip)[0]).to eq(ip)
     end
 
-    it "should match IPv6 addresses" do
+    it "must match IPv6 addresses" do
       ip = '2001:db8:85a3:0:0:8a2e:370:7334'
 
       expect(subject.match(ip)[0]).to eq(ip)
@@ -145,17 +145,17 @@ describe Ronin::Support::Text::Patterns do
   describe "HOST_NAME" do
     subject { described_class::HOST_NAME }
 
-    it "should match valid hostnames" do
+    it "must match valid hostnames" do
       hostname = 'www.google.com'
 
       expect(subject.match(hostname)[0]).to eq(hostname)
     end
 
-    it "should not match hostnames without a TLD" do
+    it "must not match hostnames without a TLD" do
       expect(subject.match('foo')).to be_nil
     end
 
-    it "should not match hostnames with unknown TLDs" do
+    it "must not match hostnames with unknown TLDs" do
       expect(subject.match('foo.zzz')).to be_nil
     end
   end
@@ -163,33 +163,33 @@ describe Ronin::Support::Text::Patterns do
   describe "USER_NAME" do
     subject { described_class::USER_NAME }
 
-    it "should match valid user-names" do
+    it "must match valid user-names" do
       username = 'alice1234'
 
       expect(subject.match(username)[0]).to eq(username)
     end
 
-    it "should match user-names containing '_' characters" do
+    it "must match user-names containing '_' characters" do
       username = 'alice_1234'
 
       expect(subject.match(username)[0]).to eq(username)
     end
 
-    it "should match user-names containing '.' characters" do
+    it "must match user-names containing '.' characters" do
       username = 'alice.1234'
 
       expect(subject.match(username)[0]).to eq(username)
     end
 
-    it "should not match user-names beginning with numbers" do
+    it "must not match user-names beginning with numbers" do
       expect(subject.match('1234bob')[0]).to eq('bob')
     end
 
-    it "should not match user-names containing spaces" do
+    it "must not match user-names containing spaces" do
       expect(subject.match('alice eve')[0]).to eq('alice')
     end
 
-    it "should not match user-names containing other symbols" do
+    it "must not match user-names containing other symbols" do
       expect(subject.match('alice^eve')[0]).to eq('alice')
     end
   end
@@ -197,7 +197,7 @@ describe Ronin::Support::Text::Patterns do
   describe "EMAIL_ADDR" do
     subject { described_class::EMAIL_ADDR }
 
-    it "should match valid email addresses" do
+    it "must match valid email addresses" do
       email = 'alice@example.com'
 
       expect(subject.match(email)[0]).to eq(email)
@@ -207,25 +207,25 @@ describe Ronin::Support::Text::Patterns do
   describe "PHONE_NUMBER" do
     subject { described_class::PHONE_NUMBER }
 
-    it "should match 111-2222" do
+    it "must match 111-2222" do
       number = '111-2222'
 
       expect(subject.match(number)[0]).to eq(number)
     end
 
-    it "should match 111-2222x9" do
+    it "must match 111-2222x9" do
       number = '111-2222x9'
 
       expect(subject.match(number)[0]).to eq(number)
     end
 
-    it "should match 800-111-2222" do
+    it "must match 800-111-2222" do
       number = '800-111-2222'
 
       expect(subject.match(number)[0]).to eq(number)
     end
 
-    it "should match 1-800-111-2222" do
+    it "must match 1-800-111-2222" do
       number = '1-800-111-2222'
 
       expect(subject.match(number)[0]).to eq(number)
@@ -235,23 +235,23 @@ describe Ronin::Support::Text::Patterns do
   describe "IDENTIFIER" do
     subject { described_class::IDENTIFIER }
 
-    it "should match Strings beginning with a '_' character" do
+    it "must match Strings beginning with a '_' character" do
       identifier = '_foo'
 
       expect(subject.match(identifier)[0]).to eq(identifier)
     end
 
-    it "should match Strings ending with a '_' character" do
+    it "must match Strings ending with a '_' character" do
       identifier = 'foo_'
 
       expect(subject.match(identifier)[0]).to eq(identifier)
     end
 
-    it "should not match Strings beginning with numberic characters" do
+    it "must not match Strings beginning with numberic characters" do
       expect(subject.match('1234foo')[0]).to eq('foo')
     end
 
-    it "should not match Strings not containing any alpha characters" do
+    it "must not match Strings not containing any alpha characters" do
       identifier = '_1234_'
 
       expect(subject.match(identifier)).to be_nil
@@ -261,17 +261,17 @@ describe Ronin::Support::Text::Patterns do
   describe "FILE_EXT" do
     subject { described_class::FILE_EXT }
 
-    it "should match the '.' separator character" do
+    it "must match the '.' separator character" do
       ext = '.txt'
 
       expect(subject.match(ext)[0]).to eq(ext)
     end
 
-    it "should not allow '_' characters" do
+    it "must not allow '_' characters" do
       expect(subject.match('.foo_bar')[0]).to eq('.foo')
     end
 
-    it "should not allow '-' characters" do
+    it "must not allow '-' characters" do
       expect(subject.match('.foo-bar')[0]).to eq('.foo')
     end
   end
@@ -279,13 +279,13 @@ describe Ronin::Support::Text::Patterns do
   describe "FILE_NAME" do
     subject { described_class::FILE_NAME }
 
-    it "should match file names" do
+    it "must match file names" do
       filename = 'foo_bar'
 
       expect(subject.match(filename)[0]).to eq(filename)
     end
 
-    it "should match '\\' escapped characters" do
+    it "must match '\\' escapped characters" do
       filename = 'foo\\ bar'
 
       expect(subject.match(filename)[0]).to eq(filename)
@@ -295,7 +295,7 @@ describe Ronin::Support::Text::Patterns do
   describe "FILE" do
     subject { described_class::FILE }
 
-    it "should match the filename and extension" do
+    it "must match the filename and extension" do
       filename = 'foo_bar.txt'
 
       expect(subject.match(filename)[0]).to eq(filename)
@@ -305,19 +305,19 @@ describe Ronin::Support::Text::Patterns do
   describe "DIRECTORY" do
     subject { described_class::DIRECTORY }
 
-    it "should match directory names" do
+    it "must match directory names" do
       dir = 'foo_bar'
 
       expect(subject.match(dir)[0]).to eq(dir)
     end
 
-    it "should match '.'" do
+    it "must match '.'" do
       dir = '.'
 
       expect(subject.match(dir)[0]).to eq(dir)
     end
 
-    it "should match '..'" do
+    it "must match '..'" do
       dir = '..'
 
       expect(subject.match(dir)[0]).to eq(dir)
@@ -327,7 +327,7 @@ describe Ronin::Support::Text::Patterns do
   describe "RELATIVE_UNIX_PATH" do
     subject { described_class::RELATIVE_UNIX_PATH }
 
-    it "should match multiple directories" do
+    it "must match multiple directories" do
       path = 'foo/./bar/../baz'
 
       expect(subject.match(path)[0]).to eq(path)
@@ -337,19 +337,19 @@ describe Ronin::Support::Text::Patterns do
   describe "ABSOLUTE_UNIX_PATH" do
     subject { described_class::ABSOLUTE_UNIX_PATH }
 
-    it "should match absolute paths" do
+    it "must match absolute paths" do
       path = '/foo/bar/baz'
 
       expect(subject.match(path)[0]).to eq(path)
     end
 
-    it "should match trailing '/' characters" do
+    it "must match trailing '/' characters" do
       path = '/foo/bar/baz/'
 
       expect(subject.match(path)[0]).to eq(path)
     end
 
-    it "should not match relative directories" do
+    it "must not match relative directories" do
       path = '/foo/./bar/../baz'
 
       expect(subject.match(path)[0]).to eq('/foo/')
@@ -359,13 +359,13 @@ describe Ronin::Support::Text::Patterns do
   describe "UNIX_PATH" do
     subject { described_class::UNIX_PATH }
 
-    it "should match relative paths" do
+    it "must match relative paths" do
       path = 'foo/./bar/../baz'
 
       expect(subject.match(path)[0]).to eq(path)
     end
 
-    it "should match absolute paths" do
+    it "must match absolute paths" do
       path = '/foo/bar/baz'
 
       expect(subject.match(path)[0]).to eq(path)
@@ -375,7 +375,7 @@ describe Ronin::Support::Text::Patterns do
   describe "RELATIVE_WINDOWS_PATH" do
     subject { described_class::RELATIVE_WINDOWS_PATH }
 
-    it "should match multiple directories" do
+    it "must match multiple directories" do
       path = 'foo\\.\\bar\\..\\baz'
 
       expect(subject.match(path)[0]).to eq(path)
@@ -385,19 +385,19 @@ describe Ronin::Support::Text::Patterns do
   describe "ABSOLUTE_WINDOWS_PATH" do
     subject { described_class::ABSOLUTE_WINDOWS_PATH }
 
-    it "should match absolute paths" do
+    it "must match absolute paths" do
       path = 'C:\\foo\\bar\\baz'
 
       expect(subject.match(path)[0]).to eq(path)
     end
 
-    it "should match trailing '/' characters" do
+    it "must match trailing '/' characters" do
       path = 'C:\\foo\\bar\\baz\\'
 
       expect(subject.match(path)[0]).to eq(path)
     end
 
-    it "should not match relative directories" do
+    it "must not match relative directories" do
       path = 'C:\\foo\\.\\bar\\..\\baz'
 
       expect(subject.match(path)[0]).to eq('C:\\foo\\')
@@ -407,13 +407,13 @@ describe Ronin::Support::Text::Patterns do
   describe "WINDOWS_PATH" do
     subject { described_class::WINDOWS_PATH }
 
-    it "should match relative paths" do
+    it "must match relative paths" do
       path = 'foo\\.\\bar\\..\\baz'
 
       expect(subject.match(path)[0]).to eq(path)
     end
 
-    it "should match absolute paths" do
+    it "must match absolute paths" do
       path = 'C:\\foo\\bar\\baz'
 
       expect(subject.match(path)[0]).to eq(path)
@@ -423,13 +423,13 @@ describe Ronin::Support::Text::Patterns do
   describe "RELATIVE_PATH" do
     subject { described_class::RELATIVE_PATH }
 
-    it "should match relative UNIX paths" do
+    it "must match relative UNIX paths" do
       path = 'foo/./bar/../baz'
 
       expect(subject.match(path)[0]).to eq(path)
     end
 
-    it "should match relative Windows paths" do
+    it "must match relative Windows paths" do
       path = 'foo\\.\\bar\\..\\baz'
 
       expect(subject.match(path)[0]).to eq(path)
@@ -439,13 +439,13 @@ describe Ronin::Support::Text::Patterns do
   describe "ABSOLUTE_PATH" do
     subject { described_class::ABSOLUTE_PATH }
 
-    it "should match absolute UNIX paths" do
+    it "must match absolute UNIX paths" do
       path = '/foo/bar/baz'
 
       expect(subject.match(path)[0]).to eq(path)
     end
 
-    it "should match absolute Windows paths" do
+    it "must match absolute Windows paths" do
       path = 'C:\\foo\\bar\\baz'
 
       expect(subject.match(path)[0]).to eq(path)
@@ -455,25 +455,25 @@ describe Ronin::Support::Text::Patterns do
   describe "PATH" do
     subject { described_class::PATH }
 
-    it "should match relative UNIX paths" do
+    it "must match relative UNIX paths" do
       path = 'foo/./bar/../baz'
 
       expect(subject.match(path)[0]).to eq(path)
     end
 
-    it "should match absolute UNIX paths" do
+    it "must match absolute UNIX paths" do
       path = '/foo/bar/baz'
 
       expect(subject.match(path)[0]).to eq(path)
     end
 
-    it "should match relative Windows paths" do
+    it "must match relative Windows paths" do
       path = 'foo\\.\\bar\\..\\baz'
 
       expect(subject.match(path)[0]).to eq(path)
     end
 
-    it "should match absolute Windows paths" do
+    it "must match absolute Windows paths" do
       path = 'C:\\foo\\bar\\baz'
 
       expect(subject.match(path)[0]).to eq(path)

@@ -72,19 +72,19 @@ describe Binary::Template do
 
     subject { described_class }
 
-    it "should translate types to their pack codes" do
+    it "must translate types to their pack codes" do
       expect(subject.compile([type])).to eq(code)
     end
 
-    it "should support specifying the length of a field" do
+    it "must support specifying the length of a field" do
       expect(subject.compile([[type, 10]])).to eq("#{code}10")
     end
 
-    it "should allow fields of arbitrary length" do
+    it "must allow fields of arbitrary length" do
       expect(subject.compile([[type]])).to eq("#{code}*")
     end
 
-    it "should raise ArgumentError for unknown types" do
+    it "must raise ArgumentError for unknown types" do
       expect {
         subject.compile([:foo])
       }.to raise_error(ArgumentError)
@@ -94,11 +94,11 @@ describe Binary::Template do
       let(:endian) { :big  }
       let(:code)   { 'I!>' }
 
-      it "should translate endian types" do
+      it "must translate endian types" do
         expect(subject.compile([type], endian: endian)).to eq(code)
       end
 
-      it "should not translate non-endian types" do
+      it "must not translate non-endian types" do
         expect(subject.compile([:byte], endian: endian)).to eq('c')
       end
     end
@@ -107,14 +107,14 @@ describe Binary::Template do
   describe "#initialize" do
     subject { described_class.new [:uint32, :string] }
 
-    it "should store the types" do
+    it "must store the types" do
       expect(subject.fields).to eq([
         :uint32,
         :string
       ])
     end
 
-    it "should raise ArgumentError for unknown types" do
+    it "must raise ArgumentError for unknown types" do
       expect {
         described_class.new [:foo]
       }.to raise_error(ArgumentError)
@@ -149,7 +149,7 @@ describe Binary::Template do
     context ":byte" do
       subject { described_class.new [:byte] }
 
-      it "should pack a signed byte" do
+      it "must pack a signed byte" do
         expect(subject.pack(byte)).to eq(char)
       end
     end
@@ -158,7 +158,7 @@ describe Binary::Template do
       let(:n) { string.length }
       subject { described_class.new [[:byte, n]] }
 
-      it "should pack multiple signed characters" do
+      it "must pack multiple signed characters" do
         expect(subject.pack(*bytes)).to eq(chars)
       end
     end
@@ -166,7 +166,7 @@ describe Binary::Template do
     context ":char" do
       subject { described_class.new [:char] }
 
-      it "should pack a signed character" do
+      it "must pack a signed character" do
         expect(subject.pack(char)).to eq(char)
       end
     end
@@ -175,7 +175,7 @@ describe Binary::Template do
       let(:n) { string.length }
       subject { described_class.new [[:char, n]] }
 
-      it "should pack multiple signed characters" do
+      it "must pack multiple signed characters" do
         expect(subject.pack(*chars)).to eq(string)
       end
 
@@ -183,7 +183,7 @@ describe Binary::Template do
         let(:padding) { 10 }
         subject { described_class.new [[:char, n + padding]] }
 
-        it "should pad the string with '\\0' characters" do
+        it "must pad the string with '\\0' characters" do
           expect(subject.pack(*chars)).to eq((string + ("\0" * padding)))
         end
       end
@@ -192,7 +192,7 @@ describe Binary::Template do
     context ":uint8" do
       subject { described_class.new [:uint8] }
 
-      it "should pack an unsigned 8bit integer" do
+      it "must pack an unsigned 8bit integer" do
         expect(subject.pack(uint8)).to eq("\xff")
       end
     end
@@ -200,7 +200,7 @@ describe Binary::Template do
     context ":uint16" do
       subject { described_class.new [:uint16] }
 
-      it "should pack an unsigned 16bit integer" do
+      it "must pack an unsigned 16bit integer" do
         expect(subject.pack(uint16)).to eq("\xff\xff")
       end
     end
@@ -208,7 +208,7 @@ describe Binary::Template do
     context ":uint32" do
       subject { described_class.new [:uint32] }
 
-      it "should pack an unsigned 32bit integer" do
+      it "must pack an unsigned 32bit integer" do
         expect(subject.pack(uint32)).to eq("\xff\xff\xff\xff")
       end
     end
@@ -216,7 +216,7 @@ describe Binary::Template do
     context ":uint64" do
       subject { described_class.new [:uint64] }
 
-      it "should pack an unsigned 64bit integer" do
+      it "must pack an unsigned 64bit integer" do
         expect(subject.pack(uint64)).to eq("\xff\xff\xff\xff\xff\xff\xff\xff")
       end
     end
@@ -224,7 +224,7 @@ describe Binary::Template do
     context ":int8" do
       subject { described_class.new [:int8] }
 
-      it "should pack an signed 8bit integer" do
+      it "must pack an signed 8bit integer" do
         expect(subject.pack(int8)).to eq("\xff")
       end
     end
@@ -232,7 +232,7 @@ describe Binary::Template do
     context ":int16" do
       subject { described_class.new [:int16] }
 
-      it "should pack an unsigned 16bit integer" do
+      it "must pack an unsigned 16bit integer" do
         expect(subject.pack(int16)).to eq("\xff\xff")
       end
     end
@@ -240,7 +240,7 @@ describe Binary::Template do
     context ":int32" do
       subject { described_class.new [:int32] }
 
-      it "should pack an unsigned 32bit integer" do
+      it "must pack an unsigned 32bit integer" do
         expect(subject.pack(int32)).to eq("\xff\xff\xff\xff")
       end
     end
@@ -248,7 +248,7 @@ describe Binary::Template do
     context ":int64" do
       subject { described_class.new [:int64] }
 
-      it "should pack an unsigned 64bit integer" do
+      it "must pack an unsigned 64bit integer" do
         expect(subject.pack(int64)).to eq("\xff\xff\xff\xff\xff\xff\xff\xff")
       end
     end
@@ -256,7 +256,7 @@ describe Binary::Template do
     context ":string" do
       subject { described_class.new [:string] }
 
-      it "should pack a string" do
+      it "must pack a string" do
         expect(subject.pack(string)).to eq("#{string}\0")
       end
     end
@@ -266,7 +266,7 @@ describe Binary::Template do
     context ":byte" do
       subject { described_class.new [:byte] }
 
-      it "should unpack a signed byte" do
+      it "must unpack a signed byte" do
         expect(subject.unpack(char)).to eq([byte])
       end
     end
@@ -275,7 +275,7 @@ describe Binary::Template do
       let(:n) { string.length }
       subject { described_class.new [[:byte, n]] }
 
-      it "should pack multiple signed characters" do
+      it "must pack multiple signed characters" do
         expect(subject.unpack(chars)).to eq(bytes)
       end
     end
@@ -283,7 +283,7 @@ describe Binary::Template do
     context ":char" do
       subject { described_class.new [:char] }
 
-      it "should unpack a signed character" do
+      it "must unpack a signed character" do
         expect(subject.unpack(char)).to eq([char])
       end
     end
@@ -292,7 +292,7 @@ describe Binary::Template do
       let(:n) { string.length }
       subject { described_class.new [[:char, n]] }
 
-      it "should unpack multiple signed characters" do
+      it "must unpack multiple signed characters" do
         expect(subject.unpack(string)).to eq([chars])
       end
 
@@ -300,7 +300,7 @@ describe Binary::Template do
         let(:padding) { 10 }
         subject { described_class.new [[:char, n + padding]] }
 
-        it "should strip '\\0' padding characters" do
+        it "must strip '\\0' padding characters" do
           expect(subject.unpack(string + ("\0" * padding))).to eq([chars])
         end
       end
@@ -309,7 +309,7 @@ describe Binary::Template do
     context ":uint8" do
       subject { described_class.new [:uint8] }
 
-      it "should unpack an unsigned 8bit integer" do
+      it "must unpack an unsigned 8bit integer" do
         expect(subject.unpack("\xff")).to eq([uint8])
       end
     end
@@ -319,7 +319,7 @@ describe Binary::Template do
 
       let(:n) { 4 }
 
-      it "should unpack an arbitrary number of 8bit integers" do
+      it "must unpack an arbitrary number of 8bit integers" do
         expect(subject.unpack("\xff" * n)).to eq([uint8] * n)
       end
     end
@@ -327,7 +327,7 @@ describe Binary::Template do
     context ":uint16" do
       subject { described_class.new [:uint16] }
 
-      it "should unpack an unsigned 16bit integer" do
+      it "must unpack an unsigned 16bit integer" do
         expect(subject.unpack("\xff\xff")).to eq([uint16])
       end
     end
@@ -335,7 +335,7 @@ describe Binary::Template do
     context ":uint32" do
       subject { described_class.new [:uint32] }
 
-      it "should unpack an unsigned 32bit integer" do
+      it "must unpack an unsigned 32bit integer" do
         expect(subject.unpack("\xff\xff\xff\xff")).to eq([uint32])
       end
     end
@@ -343,7 +343,7 @@ describe Binary::Template do
     context ":uint64" do
       subject { described_class.new [:uint64] }
 
-      it "should unpack an unsigned 64bit integer" do
+      it "must unpack an unsigned 64bit integer" do
         expect(subject.unpack("\xff\xff\xff\xff\xff\xff\xff\xff")).to eq([uint64])
       end
     end
@@ -351,7 +351,7 @@ describe Binary::Template do
     context ":int8" do
       subject { described_class.new [:int8] }
 
-      it "should unpack an signed 8bit integer" do
+      it "must unpack an signed 8bit integer" do
         expect(subject.unpack("\xff")).to eq([int8])
       end
     end
@@ -359,7 +359,7 @@ describe Binary::Template do
     context ":int16" do
       subject { described_class.new [:int16] }
 
-      it "should unpack an unsigned 16bit integer" do
+      it "must unpack an unsigned 16bit integer" do
         expect(subject.unpack("\xff\xff")).to eq([int16])
       end
     end
@@ -367,7 +367,7 @@ describe Binary::Template do
     context ":int32" do
       subject { described_class.new [:int32] }
 
-      it "should unpack an unsigned 32bit integer" do
+      it "must unpack an unsigned 32bit integer" do
         expect(subject.unpack("\xff\xff\xff\xff")).to eq([int32])
       end
     end
@@ -375,7 +375,7 @@ describe Binary::Template do
     context ":int64" do
       subject { described_class.new [:int64] }
 
-      it "should unpack an unsigned 64bit integer" do
+      it "must unpack an unsigned 64bit integer" do
         expect(subject.unpack("\xff\xff\xff\xff\xff\xff\xff\xff")).to eq([int64])
       end
     end
@@ -383,7 +383,7 @@ describe Binary::Template do
     context ":string" do
       subject { described_class.new [:string] }
 
-      it "should unpack a string" do
+      it "must unpack a string" do
         expect(subject.unpack("#{string}\0")).to eq([string])
       end
     end
@@ -392,7 +392,7 @@ describe Binary::Template do
   describe "#to_s" do
     subject { described_class.new [:uint32, :string] }
 
-    it "should return the pack format String" do
+    it "must return the pack format String" do
       expect(subject.to_s).to eq("LZ*")
     end
   end
@@ -402,11 +402,11 @@ describe Binary::Template do
 
     subject { template.inspect }
 
-    it "should inspect the class" do
+    it "must inspect the class" do
       expect(subject).to include(described_class.name)
     end
 
-    it "should inspect the template" do
+    it "must inspect the template" do
       expect(subject).to include(template.fields.inspect)
     end
   end

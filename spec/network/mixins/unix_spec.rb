@@ -15,11 +15,11 @@ describe Ronin::Support::Network::Mixins::UNIX do
     context "integration", :network do
       include_context "UNIX Server"
 
-      it "should return true for listening UNIX sockets" do
+      it "must return true for listening UNIX sockets" do
         expect(subject.unix_open?(path)).to be(true)
       end
 
-      it "should return false for closed UNIX sockets" do
+      it "must return false for closed UNIX sockets" do
         old_path = socket_path('ronin_old_unix_socket')
         UNIXServer.new(old_path).close
 
@@ -28,7 +28,7 @@ describe Ronin::Support::Network::Mixins::UNIX do
         FileUtils.rm(old_path)
       end
 
-      it "should have a timeout for non-existent UNIX sockets" do
+      it "must have a timeout for non-existent UNIX sockets" do
         bad_path = socket_path('ronin_bad_unix_socket')
         timeout  = 2
 
@@ -45,7 +45,7 @@ describe Ronin::Support::Network::Mixins::UNIX do
     context "integration", :network do
       include_context "UNIX Server"
 
-      it "should open a UNIXSocket" do
+      it "must open a UNIXSocket" do
         socket = subject.unix_connect(path)
 
         expect(socket).to be_kind_of(UNIXSocket)
@@ -54,7 +54,7 @@ describe Ronin::Support::Network::Mixins::UNIX do
         socket.close
       end
 
-      it "should yield the new UNIXSocket" do
+      it "must yield the new UNIXSocket" do
         socket = nil
 
         subject.unix_connect(path) do |yielded_socket|
@@ -73,7 +73,7 @@ describe Ronin::Support::Network::Mixins::UNIX do
 
       let(:data) { "HELO ronin\n" }
 
-      it "should connect and then send data" do
+      it "must connect and then send data" do
         socket   = subject.unix_connect_and_send(data,path)
         response = socket.readline
 
@@ -82,7 +82,7 @@ describe Ronin::Support::Network::Mixins::UNIX do
         socket.close
       end
 
-      it "should yield the UNIXSocket" do
+      it "must yield the UNIXSocket" do
         response = nil
 
         socket = subject.unix_connect_and_send(data,path) do |socket|
@@ -100,7 +100,7 @@ describe Ronin::Support::Network::Mixins::UNIX do
     context "integration", :network do
       include_context "UNIX Server"
 
-      it "should open then close a UNIXSocket" do
+      it "must open then close a UNIXSocket" do
         socket = nil
 
         subject.unix_session(path) do |yielded_socket|
@@ -120,7 +120,7 @@ describe Ronin::Support::Network::Mixins::UNIX do
 
       before(:each) { @server = UNIXServer.new(server_path) }
 
-      it "should send data to a service" do
+      it "must send data to a service" do
         subject.unix_send(data,server_path)
 
         client = @server.accept
@@ -143,7 +143,7 @@ describe Ronin::Support::Network::Mixins::UNIX do
     context "integration", :network do
       let(:server_path) { File.join(Dir.tmpdir,'ronin_unix_server') }
 
-      it "should create a new UNIXServer" do
+      it "must create a new UNIXServer" do
         server = subject.unix_server(server_path)
 
         expect(server).to be_kind_of(UNIXServer)
@@ -152,7 +152,7 @@ describe Ronin::Support::Network::Mixins::UNIX do
         server.close
       end
 
-      it "should yield the new UNIXServer" do
+      it "must yield the new UNIXServer" do
         server = nil
 
         subject.unix_server(server_path) do |yielded_server|
@@ -173,7 +173,7 @@ describe Ronin::Support::Network::Mixins::UNIX do
     context "integration", :network do
       let(:server_path) { File.join(Dir.tmpdir,'ronin_unix_server') }
 
-      it "should create a temporary UNIXServer" do
+      it "must create a temporary UNIXServer" do
         server = nil
 
         subject.unix_server_session(server_path) do |yielded_server|

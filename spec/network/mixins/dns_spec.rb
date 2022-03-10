@@ -114,30 +114,30 @@ describe Ronin::Support::Network::Mixins::DNS do
 
   describe "#dns_get_address" do
     context "integration", :network do
-      it "should lookup the address for a hostname" do
+      it "must lookup the address for a hostname" do
         expect(subject.dns_get_address(hostname)).to eq(address)
       end
 
       context "when given a non-String hostname" do
-        it "should query the non-String hostname" do
+        it "must query the non-String hostname" do
           expect(subject.dns_get_address(hostname.to_sym)).to eq(address)
         end
       end
 
       context "when given the nameservers: keyword argument" do
-        it "should query the nameservers" do
+        it "must query the nameservers" do
           expect(subject.dns_get_address(hostname, nameservers: nameservers)).to eq(address)
         end
       end
 
       context "when given the nameserver: keyword argument" do
-        it "should query the nameserver" do
+        it "must query the nameserver" do
           expect(subject.dns_get_address(hostname, nameserver: nameserver)).to eq(address)
         end
       end
 
       context "when the host nmae has no IP addresses" do
-        it "should return nil for unknown hostnames" do
+        it "must return nil for unknown hostnames" do
           expect(subject.dns_get_address(bad_hostname)).to be(nil)
         end
       end
@@ -146,30 +146,30 @@ describe Ronin::Support::Network::Mixins::DNS do
 
   describe "#dns_get_addresses" do
     context "integration", :network do
-      it "should lookup all addresses for a hostname" do
+      it "must lookup all addresses for a hostname" do
         expect(subject.dns_get_addresses(hostname)).to include(address)
       end
 
       context "when given a non-String hostname" do
-        it "should query the non-String hostname" do
+        it "must query the non-String hostname" do
           expect(subject.dns_get_addresses(hostname.to_sym)).to include(address)
         end
       end
 
       context "when given the nameservers: keyword argument" do
-        it "should query the nameservers" do
+        it "must query the nameservers" do
           expect(subject.dns_get_addresses(hostname, nameservers: nameservers)).to include(address)
         end
       end
 
       context "when given the nameserver: keyword argument" do
-        it "should query the nameserver" do
+        it "must query the nameserver" do
           expect(subject.dns_get_addresses(hostname, nameserver: nameserver)).to include(address)
         end
       end
 
       context "when the host nmae has no IP addresses" do
-        it "should return an empty Array for unknown hostnames" do
+        it "must return an empty Array for unknown hostnames" do
           expect(subject.dns_get_addresses(bad_hostname)).to eq([])
         end
       end
@@ -178,30 +178,30 @@ describe Ronin::Support::Network::Mixins::DNS do
 
   describe "#dns_get_name" do
     context "integration", :network do
-      it "should lookup the address for a hostname" do
+      it "must lookup the address for a hostname" do
         expect(subject.dns_get_name(reverse_address)).to eq(reverse_hostname)
       end
 
       context "when given a non-String hostname" do
-        it "should query the non-String hostname" do
+        it "must query the non-String hostname" do
           expect(subject.dns_get_name(reverse_ipaddr)).to eq(reverse_hostname)
         end
       end
 
       context "when given the nameservers: keyword argument" do
-        it "should query the nameservers" do
+        it "must query the nameservers" do
           expect(subject.dns_get_name(reverse_address, nameservers: nameservers)).to eq(reverse_hostname)
         end
       end
 
       context "when given the nameserver: keyword argument" do
-        it "should query the nameserver" do
+        it "must query the nameserver" do
           expect(subject.dns_get_name(reverse_address, nameserver: nameserver)).to eq(reverse_hostname)
         end
       end
 
       context "when the IP address has no host names associated with it" do
-        it "should return nil for unknown hostnames" do
+        it "must return nil for unknown hostnames" do
           expect(subject.dns_get_name(bad_address)).to be(nil)
         end
       end
@@ -210,30 +210,30 @@ describe Ronin::Support::Network::Mixins::DNS do
 
   describe "#dns_get_names" do
     context "integration", :network do
-      it "should lookup all addresses for a hostname" do
+      it "must lookup all addresses for a hostname" do
         expect(subject.dns_get_names(reverse_address)).to include(reverse_hostname)
       end
 
       context "when given a non-String hostname" do
-        it "should query the non-String hostname" do
+        it "must query the non-String hostname" do
           expect(subject.dns_get_names(reverse_ipaddr)).to include(reverse_hostname)
         end
       end
 
       context "when given the nameservers: keyword argument" do
-        it "should query the nameservers" do
+        it "must query the nameservers" do
           expect(subject.dns_get_names(reverse_address, nameservers: nameservers)).to include(reverse_hostname)
         end
       end
 
       context "when given the nameserver: keyword argument" do
-        it "should query the nameserver" do
+        it "must query the nameserver" do
           expect(subject.dns_get_names(reverse_address, nameserver: nameserver)).to include(reverse_hostname)
         end
       end
 
       context "when the IP address has no host names associated with it" do
-        it "should return an empty Array for unknown hostnames" do
+        it "must return an empty Array for unknown hostnames" do
           expect(subject.dns_get_names(bad_address)).to eq([])
         end
       end

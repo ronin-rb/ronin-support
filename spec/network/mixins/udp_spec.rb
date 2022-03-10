@@ -31,17 +31,17 @@ describe Ronin::Support::Network::Mixins::UDP do
 
       include_context "UDP Server"
 
-      it "should return true for open ports" do
+      it "must return true for open ports" do
         expect(subject.udp_open?(host,port)).to be(true)
       end
 
       let(:closed_port) { port + 1 }
 
-      it "should return false for closed ports" do
+      it "must return false for closed ports" do
         expect(subject.udp_open?(host,closed_port)).to be(false)
       end
 
-      it "should have a timeout for firewalled ports" do
+      it "must have a timeout for firewalled ports" do
         timeout = 2
 
         t1 = Time.now
@@ -55,7 +55,7 @@ describe Ronin::Support::Network::Mixins::UDP do
 
   describe "#udp_connect" do
     context "integration", :network do
-      it "should open a UDPSocket" do
+      it "must open a UDPSocket" do
         socket = subject.udp_connect(host,port)
 
         expect(socket).to be_kind_of(UDPSocket)
@@ -67,7 +67,7 @@ describe Ronin::Support::Network::Mixins::UDP do
       context "when given a local port" do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        it "should bind to a local port" do
+        it "must bind to a local port" do
           socket      = subject.udp_connect(host,port,nil,local_port)
           bound_port = socket.addr[1]
 
@@ -78,7 +78,7 @@ describe Ronin::Support::Network::Mixins::UDP do
       end
 
       context "when given a block" do
-        it "should yield the new UDPSocket" do
+        it "must yield the new UDPSocket" do
           socket = nil
 
           subject.udp_connect(host,port) do |yielded_socket|
@@ -98,7 +98,7 @@ describe Ronin::Support::Network::Mixins::UDP do
         let(:data) { "HELO ronin\n" }
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        it "should connect and then send data" do
+        it "must connect and then send data" do
           socket   = subject.udp_connect_and_send(data,host,port)
           banner   = socket.readline
           response = socket.readline
@@ -108,7 +108,7 @@ describe Ronin::Support::Network::Mixins::UDP do
           socket.close
         end
 
-        it "should bind to a local port" do
+        it "must bind to a local port" do
           socket      = subject.udp_connect_and_send(data,host,port,nil,local_port)
           bound_port = socket.addr[1]
 
@@ -117,7 +117,7 @@ describe Ronin::Support::Network::Mixins::UDP do
           socket.close
         end
 
-        it "should yield the UDPSocket" do
+        it "must yield the UDPSocket" do
           response = nil
 
           socket = subject.udp_connect_and_send(data,host,port) do |socket|
@@ -137,7 +137,7 @@ describe Ronin::Support::Network::Mixins::UDP do
     context "integration", :network do
       let(:local_port) { 1024 + rand(65535 - 1024) }
 
-      it "should open then close a UDPSocket" do
+      it "must open then close a UDPSocket" do
         socket = nil
 
         subject.udp_session(host,port) do |yielded_socket|
@@ -149,7 +149,7 @@ describe Ronin::Support::Network::Mixins::UDP do
       end
 
       context "when given a local host and port" do
-        it "should bind to a local host and port" do
+        it "must bind to a local host and port" do
           bound_port = nil
 
           subject.udp_session(host,port,nil,local_port) do |socket|
@@ -170,14 +170,14 @@ describe Ronin::Support::Network::Mixins::UDP do
 
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        it "should read the service banner" do
+        it "must read the service banner" do
           banner = subject.udp_banner(host,port)
 
           expect(banner.start_with?('220')).to be_true
         end
 
         context "when given a local host and port" do
-          it "should bind to a local host and port" do
+          it "must bind to a local host and port" do
             banner = subject.udp_banner(host,port,nil,local_port)
 
             expect(banner.start_with?('220')).to be_true
@@ -185,7 +185,7 @@ describe Ronin::Support::Network::Mixins::UDP do
         end
 
         context "when given a block" do
-          it "should yield the banner" do
+          it "must yield the banner" do
             banner = nil
 
             subject.udp_banner(host,port) do |yielded_banner|
@@ -208,7 +208,7 @@ describe Ronin::Support::Network::Mixins::UDP do
 
       let(:data) { "hello\n" }
 
-      it "should send data to a service" do
+      it "must send data to a service" do
         subject.udp_send(data,server_bind_ip,server_bind_port)
 
         mesg = server.recvfrom(data.length)
@@ -219,7 +219,7 @@ describe Ronin::Support::Network::Mixins::UDP do
       context "when given a local host and port" do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        it "should bind to a local host and port" do
+        it "must bind to a local host and port" do
           subject.udp_send(data,server_bind_ip,server_bind_port,server_bind_ip,local_port)
 
           mesg = server.recvfrom(data.length)
@@ -233,7 +233,7 @@ describe Ronin::Support::Network::Mixins::UDP do
 
   describe "#udp_server" do
     context "integration", :network do
-      it "should create a new UDPSocket" do
+      it "must create a new UDPSocket" do
         server = subject.udp_server
 
         expect(server).to be_kind_of(UDPSocket)
@@ -245,7 +245,7 @@ describe Ronin::Support::Network::Mixins::UDP do
       context "when given a port and host" do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        it "should bind to a specific port and host" do
+        it "must bind to a specific port and host" do
           server      = subject.udp_server(local_port,local_host)
           bound_host = server.addr[3]
           bound_port = server.addr[1]
@@ -258,7 +258,7 @@ describe Ronin::Support::Network::Mixins::UDP do
       end
 
       context "when a block is given" do
-        it "should yield the new UDPSocket" do
+        it "must yield the new UDPSocket" do
           server = nil
 
           subject.udp_server do |yielded_server|
@@ -276,7 +276,7 @@ describe Ronin::Support::Network::Mixins::UDP do
 
   describe "#udp_server_session" do
     context "integration", :network do
-      it "should create a temporary UDPSocket" do
+      it "must create a temporary UDPSocket" do
         server = nil
 
         subject.udp_server_session do |yielded_server|
@@ -290,7 +290,7 @@ describe Ronin::Support::Network::Mixins::UDP do
       context "when given a port and a host" do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        it "should bind to a specific port and host" do
+        it "must bind to a specific port and host" do
           bound_host = nil
           bound_port = nil
 

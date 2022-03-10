@@ -12,21 +12,21 @@ describe Network::Telnet do
 
   describe "#telnet_connect" do
     context "integration", :network do
-      it "should return a Net::Telnet object" do
+      it "must return a Net::Telnet object" do
         telnet = subject.telnet_connect(host)
 
         expect(telnet).to be_kind_of(Net::Telnet)
         telnet.close
       end
 
-      it "should connect to a telnet service on port 23" do
+      it "must connect to a telnet service on port 23" do
         telnet = subject.telnet_connect(host)
 
         telnet.close
       end
 
       context "when given a block" do
-        it "should yield the new Net::Telnet object" do
+        it "must yield the new Net::Telnet object" do
           telnet = nil
 
           subject.telnet_connect(host) do |telnet_object|
@@ -42,7 +42,7 @@ describe Network::Telnet do
 
   describe "#telnet_session" do
     context "integration", :network do
-      it "should yield a new Net::Telnet object" do
+      it "must yield a new Net::Telnet object" do
         yielded_telnet = nil
 
         subject.telnet_session(host) do |telnet|
@@ -52,7 +52,7 @@ describe Network::Telnet do
         expect(yielded_telnet).to be_kind_of(Net::Telnet)
       end
 
-      it "should close the Telnet session after yielding it" do
+      it "must close the Telnet session after yielding it" do
         session  = nil
         was_open = nil
 

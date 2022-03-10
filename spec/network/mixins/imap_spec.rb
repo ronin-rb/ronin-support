@@ -13,7 +13,7 @@ describe Ronin::Support::Network::Mixins::IMAP do
     let(:port) { 993 }
 
     describe "#imap_connect" do
-      it "should return a Net::IMAP object" do
+      it "must return a Net::IMAP object" do
         pending "need valid IMAP credentials"
 
         imap = subject.imap_connect(host,user,password, port: port, ssl: true)
@@ -25,7 +25,7 @@ describe Ronin::Support::Network::Mixins::IMAP do
       end
 
       pending "need valid IMAP credentials" do
-        it "should connect to an IMAP service" do
+        it "must connect to an IMAP service" do
           pending "need valid IMAP credentials"
 
           imap = subject.imap_connect(host,user,password, port: port, ssl: true)
@@ -37,7 +37,7 @@ describe Ronin::Support::Network::Mixins::IMAP do
 
       context "when given a block" do
         pending "need valid IMAP credentials" do
-          it "should yield the new Net::IMAP object" do
+          it "must yield the new Net::IMAP object" do
             pending "need valid IMAP credentials"
 
             imap = subject.imap_connect(host,user,password, port: port,
@@ -54,7 +54,7 @@ describe Ronin::Support::Network::Mixins::IMAP do
 
     describe "#imap_session" do
       pending "need valid IMAP credentials" do
-        it "should yield a new Net::IMAP object" do
+        it "must yield a new Net::IMAP object" do
           pending "need valid IMAP credentials"
 
           yielded_imap = nil
@@ -69,7 +69,7 @@ describe Ronin::Support::Network::Mixins::IMAP do
       end
 
       pending "need valid IMAP credentials" do
-        it "should disconnect the IMAP session after yielding it" do
+        it "must disconnect the IMAP session after yielding it" do
           pending "need valid IMAP credentials"
 
           imap          = nil

@@ -12,14 +12,14 @@ describe Ronin::Support::Network::Mixins::FTP do
 
   describe "#ftp_connect" do
     context "integration", :network do
-      it "should return a Net::FTP object" do
+      it "must return a Net::FTP object" do
         ftp = subject.ftp_connect(host)
 
         expect(ftp).to be_kind_of(Net::FTP)
         ftp.close
       end
 
-      it "should connect to an FTP service" do
+      it "must connect to an FTP service" do
         ftp = subject.ftp_connect(host)
 
         expect(ftp).not_to be_closed
@@ -27,14 +27,14 @@ describe Ronin::Support::Network::Mixins::FTP do
       end
 
       describe ":passive" do
-        it "should set passive mode by default" do
+        it "must set passive mode by default" do
           ftp = subject.ftp_connect(host)
 
           expect(ftp.passive).to be(true)
           ftp.close
         end
 
-        it "should allow disabling passive mode" do
+        it "must allow disabling passive mode" do
           ftp = subject.ftp_connect(host, passive: false)
 
           expect(ftp.passive).to be(false)
@@ -43,7 +43,7 @@ describe Ronin::Support::Network::Mixins::FTP do
       end
 
       context "when given a block" do
-        it "should yield the new Net::FTP object" do
+        it "must yield the new Net::FTP object" do
           ftp = subject.ftp_connect(host) do |ftp|
             expect(ftp).to be_kind_of(Net::FTP)
           end
@@ -56,7 +56,7 @@ describe Ronin::Support::Network::Mixins::FTP do
 
   describe "#ftp_session" do
     context "integration", :network do
-      it "should yield a new Net::FTP object" do
+      it "must yield a new Net::FTP object" do
         yielded_ftp = nil
 
         subject.ftp_session(host) do |ftp|
@@ -66,7 +66,7 @@ describe Ronin::Support::Network::Mixins::FTP do
         expect(yielded_ftp).to be_kind_of(Net::FTP)
       end
 
-      it "should close the FTP session after yielding it" do
+      it "must close the FTP session after yielding it" do
         session  = nil
         was_open = nil
 

@@ -29,7 +29,7 @@ describe Network::TCP::Proxy do
         @socket = TCPSocket.new(host,port)
       end
 
-      it "should trigger when a new client connects" do
+      it "must trigger when a new client connects" do
         expect(@socket.readline).to eq(injection)
       end
 
@@ -47,7 +47,7 @@ describe Network::TCP::Proxy do
         @socket = TCPSocket.new(host,port)
       end
 
-      it "should trigger after a new client connects" do
+      it "must trigger after a new client connects" do
         expect(@socket.readline).to eq(injection)
       end
 
@@ -65,7 +65,7 @@ describe Network::TCP::Proxy do
         @socket = TCPSocket.new(host,port)
       end
 
-      it "should trigger when the client sends data" do
+      it "must trigger when the client sends data" do
         @socket.write("GET /placeholder HTTP/1.0\r\n\r\n")
 
         expect(@socket.readline).to eq("HTTP 1.0 detected!\r\n")
@@ -83,7 +83,7 @@ describe Network::TCP::Proxy do
         @socket = TCPSocket.new(host,port)
       end
 
-      it "should trigger when the server sends data" do
+      it "must trigger when the server sends data" do
         @socket.write("GET / HTTP/1.0\r\n\r\n")
 
         expect(@socket.read).to include("Connection: keep-alive\r\n")
@@ -103,7 +103,7 @@ describe Network::TCP::Proxy do
         @socket = TCPSocket.new(host,port)
       end
 
-      it "should trigger when the server closes the connection" do
+      it "must trigger when the server closes the connection" do
         @socket.write("GET / HTTP/1.0\r\n\r\n")
 
         expect(@socket.read.end_with?(injection)).to be(true)

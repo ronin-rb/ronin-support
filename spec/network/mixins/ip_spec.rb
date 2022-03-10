@@ -70,7 +70,7 @@ describe Ronin::Support::Network::Mixins::IP do
   end
 
   describe "#local_ip" do
-    it "should determine our internal IP address" do
+    it "must determine our internal IP address" do
       local_ip = subject.local_ip
 
       expect(local_ip).to be_kind_of(String)

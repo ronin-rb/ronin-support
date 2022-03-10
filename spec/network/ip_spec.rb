@@ -280,7 +280,7 @@ describe Ronin::Support::Network::IP do
     context "integration", :network do
       let(:address) { reverse_address }
 
-      it "should lookup the address for a hostname" do
+      it "must lookup the address for a hostname" do
         expect(subject.get_name).to eq(reverse_hostname)
       end
 
@@ -314,14 +314,14 @@ describe Ronin::Support::Network::IP do
     context "integration", :network do
       let(:address) { reverse_address }
 
-      it "should lookup all addresses for a hostname" do
+      it "must lookup all addresses for a hostname" do
         expect(subject.get_names).to include(reverse_hostname)
       end
 
       context "when the IP address has no host names associated with it" do
         let(:address) { bad_address }
 
-        it "should return an empty Array" do
+        it "must return an empty Array" do
           expect(subject.get_names).to eq([])
         end
       end
@@ -348,7 +348,7 @@ describe Ronin::Support::Network::IP do
     context "integration", :network do
       let(:address) { reverse_address }
 
-      it "should lookup the address for a hostname" do
+      it "must lookup the address for a hostname" do
         host = subject.get_host
 
         expect(host).to be_kind_of(Ronin::Support::Network::Host)
@@ -391,7 +391,7 @@ describe Ronin::Support::Network::IP do
     context "integration", :network do
       let(:address) { reverse_address }
 
-      it "should lookup all addresses for a hostname" do
+      it "must lookup all addresses for a hostname" do
         hosts = subject.get_hosts
 
         expect(hosts).to_not be_empty
@@ -402,7 +402,7 @@ describe Ronin::Support::Network::IP do
       context "when the IP address has no host names associated with it" do
         let(:address) { bad_address }
 
-        it "should return an empty Array" do
+        it "must return an empty Array" do
           expect(subject.get_hosts).to eq([])
         end
       end

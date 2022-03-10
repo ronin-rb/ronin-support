@@ -6,30 +6,30 @@ require 'ostruct'
 describe Integer do
   subject { 0x41 }
 
-  it "should provide Integer#bytes" do
+  it "must provide Integer#bytes" do
     expect(subject).to respond_to(:bytes)
   end
 
-  it "should provide Integer#pack" do
+  it "must provide Integer#pack" do
     expect(subject).to respond_to(:pack)
   end
 
-  it "should provide Integer#hex_encode" do
+  it "must provide Integer#hex_encode" do
     should respond_to(:hex_encode)
   end
 
-  it "should provide Integer#hex_escape" do
+  it "must provide Integer#hex_escape" do
     expect(subject).to respond_to(:hex_escape)
   end
 
-  it "should alias char to the #chr method" do
+  it "must alias char to the #chr method" do
     expect(subject.char).to eq(subject.chr)
   end
 
   describe "#hex_encode" do
     subject { 42 }
 
-    it "should hex encode an Integer" do
+    it "must hex encode an Integer" do
       expect(subject.hex_encode).to eq("2a")
     end
   end
@@ -37,7 +37,7 @@ describe Integer do
   describe "#hex_escape" do
     subject { 42 }
 
-    it "should hex escape an Integer" do
+    it "must hex escape an Integer" do
       expect(subject.hex_escape).to eq("\\x2a")
     end
   end
@@ -55,39 +55,39 @@ describe Integer do
 
     subject { 0x1337 }
 
-    it "should return the bytes in little endian ordering by default" do
+    it "must return the bytes in little endian ordering by default" do
       expect(subject.bytes(4)).to eq(little_endian_long)
     end
 
-    it "should return the bytes for a char in little endian ordering" do
+    it "must return the bytes for a char in little endian ordering" do
       expect(subject.bytes(1, :little)).to eq(little_endian_char)
     end
 
-    it "should return the bytes for a short in little endian ordering" do
+    it "must return the bytes for a short in little endian ordering" do
       expect(subject.bytes(2, :little)).to eq(little_endian_short)
     end
 
-    it "should return the bytes for a long in little endian ordering" do
+    it "must return the bytes for a long in little endian ordering" do
       expect(subject.bytes(4, :little)).to eq(little_endian_long)
     end
 
-    it "should return the bytes for a quad in little endian ordering" do
+    it "must return the bytes for a quad in little endian ordering" do
       expect(subject.bytes(8, :little)).to eq(little_endian_quad)
     end
 
-    it "should return the bytes for a char in big endian ordering" do
+    it "must return the bytes for a char in big endian ordering" do
       expect(subject.bytes(1, :big)).to eq(big_endian_char)
     end
 
-    it "should return the bytes for a short in big endian ordering" do
+    it "must return the bytes for a short in big endian ordering" do
       expect(subject.bytes(2, :big)).to eq(big_endian_short)
     end
 
-    it "should return the bytes for a long in big endian ordering" do
+    it "must return the bytes for a long in big endian ordering" do
       expect(subject.bytes(4, :big)).to eq(big_endian_long)
     end
 
-    it "should return the bytes for a quad in big endian ordering" do
+    it "must return the bytes for a quad in big endian ordering" do
       expect(subject.bytes(8, :big)).to eq(big_endian_quad)
     end
   end
@@ -98,19 +98,19 @@ describe Integer do
     let(:packed) { "7\023\000\000" }
 
     context "when only given a String" do
-      it "should pack Integers using Array#pack codes" do
+      it "must pack Integers using Array#pack codes" do
         expect(subject.pack('V')).to eq(packed)
       end
     end
 
     context "when given a Binary::Template Integer type" do
-      it "should pack Integers using Binary::Template" do
+      it "must pack Integers using Binary::Template" do
         expect(subject.pack(:uint32_le)).to eq(packed)
       end
     end
 
     context "when given non-Integer Binary::Template types" do
-      it "should raise an ArgumentError" do
+      it "must raise an ArgumentError" do
         expect {
           subject.pack(:float)
         }.to raise_error(ArgumentError)
@@ -118,7 +118,7 @@ describe Integer do
     end
 
     context "when given more than 1 or 2 arguments" do
-      it "should raise an ArgumentError" do
+      it "must raise an ArgumentError" do
         expect {
           subject.pack(1,2,3)
         }.to raise_error(ArgumentError)

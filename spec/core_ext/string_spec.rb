@@ -5,13 +5,13 @@ describe String do
   describe "#each_substring" do
     subject { 'hello' }
 
-    it "should enumerate over each sub-string within the String" do
+    it "must enumerate over each sub-string within the String" do
       subject.each_substring do |sub_string|
         expect(subject).to include(sub_string)
       end
     end
 
-    it "should allow passing the string index back" do
+    it "must allow passing the string index back" do
       subject.each_substring do |sub_string,index|
         expect(subject[index,sub_string.length]).to eq(sub_string)
 
@@ -19,7 +19,7 @@ describe String do
       end
     end
 
-    it "should enumerate over each sub-string of a minimum length" do
+    it "must enumerate over each sub-string of a minimum length" do
       subject.each_substring(2) do |sub_string|
         expect(sub_string.length).to be >= 2
 
@@ -27,7 +27,7 @@ describe String do
       end
     end
 
-    it "should return an Enumerator when no block is given" do
+    it "must return an Enumerator when no block is given" do
       substrings = subject.each_substring
       
       expect(substrings.all? { |sub_string|
@@ -39,7 +39,7 @@ describe String do
   describe "#each_unique_substring" do
     subject { 'abablol' }
 
-    it "should enumerate over each unique sub-string within the String" do
+    it "must enumerate over each unique sub-string within the String" do
       seen = []
 
       subject.each_unique_substring do |sub_string|
@@ -50,7 +50,7 @@ describe String do
       end
     end
 
-    it "should enumerate over each sub-string of a minimum length" do
+    it "must enumerate over each sub-string of a minimum length" do
       seen = []
 
       subject.each_unique_substring(2) do |sub_string|
@@ -63,7 +63,7 @@ describe String do
       end
     end
 
-    it "should return an Enumerator when no block is given" do
+    it "must return an Enumerator when no block is given" do
       seen = subject.each_unique_substring
 
       expect(seen.all? { |sub_string|
@@ -77,7 +77,7 @@ describe String do
   end
 
   describe "#common_prefix" do
-    it "should find the common prefix between two Strings" do
+    it "must find the common prefix between two Strings" do
       one = 'What is puzzling you is the nature of my game'
       two = 'What is puzzling you is the nature of my name'
       common = 'What is puzzling you is the nature of my '
@@ -85,7 +85,7 @@ describe String do
       expect(one.common_prefix(two)).to eq(common)
     end
 
-    it "should return the common prefix between two Strings with no uncommon postfix" do
+    it "must return the common prefix between two Strings with no uncommon postfix" do
       one = "1234"
       two = "12345"
       common = "1234"
@@ -93,14 +93,14 @@ describe String do
       expect(one.common_prefix(two)).to eq(common)
     end
 
-    it "should return an empty String if there is no common prefix" do
+    it "must return an empty String if there is no common prefix" do
       one = 'Tell me people'
       two = 'Whats my name'
 
       expect(one.common_prefix(two)).to eq('')
     end
 
-    it "should return an empty String if one of the strings is also empty" do
+    it "must return an empty String if one of the strings is also empty" do
       one = 'Haha'
       two = ''
 
@@ -109,7 +109,7 @@ describe String do
   end
 
   describe "#common_suffix" do
-    it "should find the common postfix between two Strings" do
+    it "must find the common postfix between two Strings" do
       one = 'Tell me baby whats my name'
       two = "Can't you guess my name"
       common = 's my name'
@@ -117,14 +117,14 @@ describe String do
       expect(one.common_suffix(two)).to eq(common)
     end
 
-    it "should return an empty String if there is no common postfix" do
+    it "must return an empty String if there is no common postfix" do
       one = 'You got to right up, stand up'
       two = 'stand up for your rights'
 
       expect(one.common_suffix(two)).to eq('')
     end
 
-    it "should return an empty String if one of the strings is also empty" do
+    it "must return an empty String if one of the strings is also empty" do
       one = 'You and I must fight for our rights'
       two = ''
 
@@ -133,7 +133,7 @@ describe String do
   end
 
   describe "#uncommon_substring" do
-    it "should find the uncommon substring between two Strings" do
+    it "must find the uncommon substring between two Strings" do
       one = "Tell me baby whats my name"
       two = "Tell me honey whats my name"
       uncommon = 'bab'
@@ -141,7 +141,7 @@ describe String do
       expect(one.uncommon_substring(two)).to eq(uncommon)
     end
 
-    it "should find the uncommon substring between two Strings with a common prefix" do
+    it "must find the uncommon substring between two Strings with a common prefix" do
       one = 'You and I must fight for our rights'
       two = 'You and I must fight to survive'
       uncommon = 'for our rights'
@@ -149,7 +149,7 @@ describe String do
       expect(one.uncommon_substring(two)).to eq(uncommon)
     end
 
-    it "should find the uncommon substring between two Strings with a common postfix" do
+    it "must find the uncommon substring between two Strings with a common postfix" do
       one = 'Tell me baby whats my name'
       two = "Can't you guess my name"
       uncommon = 'Tell me baby what'

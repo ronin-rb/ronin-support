@@ -6,7 +6,7 @@ require 'tempfile'
 describe File do
   subject { described_class }
 
-  it "should provide File.escape_path" do
+  it "must provide File.escape_path" do
     expect(subject).to respond_to(:escape_path)
   end
 
@@ -18,7 +18,7 @@ describe File do
       File.open(path,'w') { |file| file.puts(*lines) }
     end
 
-    it "should enumerate over each line in the file" do
+    it "must enumerate over each line in the file" do
       expect(File.each_line(path).to_a).to eq(lines)
     end
   end
@@ -40,21 +40,21 @@ describe File do
       File.open(path,'w') { |file| file.puts(*lines) }
     end
 
-    it "should enumerate over each row from each line" do
+    it "must enumerate over each row from each line" do
       expect(File.each_row(path,separator).to_a).to eq(rows)
     end
   end
 
   describe "escape_path" do
-    it "should remove null-bytes" do
+    it "must remove null-bytes" do
       expect(File.escape_path("hello\0world\0")).to eq("helloworld")
     end
 
-    it "should escape home-dir expansions" do
+    it "must escape home-dir expansions" do
       expect(File.escape_path("hello/~world")).to eq("hello/\\~world")
     end
 
-    it "should remove '.' and '..' directories" do
+    it "must remove '.' and '..' directories" do
       expect(File.escape_path("hello/./../world")).to eq("world")
     end
   end

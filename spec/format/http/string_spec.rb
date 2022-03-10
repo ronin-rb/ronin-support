@@ -4,23 +4,23 @@ require 'ronin/support/format/core_ext/http/string'
 describe String do
   subject { "hello" }
 
-  it "should provide String#uri_encode" do
+  it "must provide String#uri_encode" do
     expect(subject).to respond_to(:uri_encode)
   end
 
-  it "should provide String#uri_decode" do
+  it "must provide String#uri_decode" do
     expect(subject).to respond_to(:uri_decode)
   end
 
-  it "should provide String#uri_escape" do
+  it "must provide String#uri_escape" do
     expect(subject).to respond_to(:uri_escape)
   end
 
-  it "should provide String#uri_unescape" do
+  it "must provide String#uri_unescape" do
     expect(subject).to respond_to(:uri_unescape)
   end
 
-  it "should provide String#format_http" do
+  it "must provide String#format_http" do
     expect(subject).to respond_to(:format_http)
   end
 
@@ -29,14 +29,14 @@ describe String do
 
     let(:uri_encoded) { "mod%20%25%203" }
 
-    it "should URI encode itself" do
+    it "must URI encode itself" do
       expect(subject.uri_encode).to eq(uri_encoded)
     end
 
     context "when given unsafe characters" do
       let(:uri_unsafe_encoded) { "mod %25 3" }
 
-      it "should encode the characters listed as unsafe" do
+      it "must encode the characters listed as unsafe" do
         expect(subject.uri_encode('%')).to eq(uri_unsafe_encoded)
       end
     end
@@ -47,7 +47,7 @@ describe String do
 
     let(:uri_decoded) { "mod % 3" }
 
-    it "should URI decode itself" do
+    it "must URI decode itself" do
       expect(subject.uri_decode).to eq(uri_decoded)
     end
   end
@@ -57,7 +57,7 @@ describe String do
 
     let(:uri_escaped) { "x+%2B+y" }
 
-    it "should URI escape itself" do
+    it "must URI escape itself" do
       expect(subject.uri_escape).to eq(uri_escaped)
     end
   end
@@ -67,7 +67,7 @@ describe String do
 
     let(:uri_unescaped) { "x + y" }
 
-    it "should URI unescape itself" do
+    it "must URI unescape itself" do
       expect(subject.uri_unescape).to eq(uri_unescaped)
     end
   end
@@ -77,7 +77,7 @@ describe String do
 
     let(:http_formatted) { "%6D%6F%64%20%25%20%33" }
 
-    it "should format each byte of the String" do
+    it "must format each byte of the String" do
       expect(subject.format_http).to eq(http_formatted)
     end
   end

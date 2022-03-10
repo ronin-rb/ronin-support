@@ -12,7 +12,7 @@ describe Ronin::Support::Network::Mixins::SMTP do
 
   describe "#smtp_connect" do
     context "integration", :network do
-      it "should return a Net::SMTP object" do
+      it "must return a Net::SMTP object" do
         pending "need valid SMTP credentials"
 
         smtp = subject.smtp_connect(host,user,password)
@@ -21,7 +21,7 @@ describe Ronin::Support::Network::Mixins::SMTP do
         smtp.finish
       end
 
-      it "should connect to an SMTP service" do
+      it "must connect to an SMTP service" do
         pending "need valid SMTP credentials"
 
         smtp = subject.smtp_connect(host,user,password)
@@ -31,7 +31,7 @@ describe Ronin::Support::Network::Mixins::SMTP do
       end
 
       context "when given a block" do
-        it "should yield the new Net::SMTP object" do
+        it "must yield the new Net::SMTP object" do
           pending "need valid SMTP credentials"
 
           smtp = subject.smtp_connect(host,user,password) do |smtp|
@@ -45,7 +45,7 @@ describe Ronin::Support::Network::Mixins::SMTP do
       context "when :ssl is given" do
         let(:port) { 587 }
 
-        it "should initiate a SSL connection" do
+        it "must initiate a SSL connection" do
           pending "need valid SMTP credentials"
 
           smtp = subject.smtp_connect(host,user,password, port: port, ssl: true)
@@ -59,7 +59,7 @@ describe Ronin::Support::Network::Mixins::SMTP do
 
   describe "#smtp_session" do
     context "integration", :network do
-      it "should yield a new Net::SMTP object" do
+      it "must yield a new Net::SMTP object" do
         pending "need valid SMTP credentials"
 
         yielded_smtp = nil
@@ -71,7 +71,7 @@ describe Ronin::Support::Network::Mixins::SMTP do
         yielded_smtp.should be_kind_of(Net::SMTP)
       end
 
-      it "should finish the SMTP session after yielding it" do
+      it "must finish the SMTP session after yielding it" do
         pending "need valid SMTP credentials"
 
         smtp        = nil

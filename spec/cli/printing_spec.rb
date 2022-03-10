@@ -42,7 +42,7 @@ describe CLI::Printing do
         allow($stdout).to receive(:tty?).and_return(true)
       end
 
-      it "should print ANSI colour codes" do
+      it "must print ANSI colour codes" do
         expect($stdout).to receive(:puts).with("#{green}#{bold_on}[-]#{bold_off} #{message}#{reset_color}")
 
         expect(subject.print_info(message)).to be(true)
@@ -52,7 +52,7 @@ describe CLI::Printing do
     context "when $stdout is not a TTY" do
       before { $stdout = StringIO.new }
 
-      it "should print ANSI colour codes" do
+      it "must print ANSI colour codes" do
         expect($stdout).to receive(:puts).with("[-] #{message}")
 
         expect(subject.print_info(message)).to be(true)
@@ -71,7 +71,7 @@ describe CLI::Printing do
           allow($stdout).to receive(:tty?).and_return(true)
         end
 
-        it "should print ANSI colour codes" do
+        it "must print ANSI colour codes" do
           expect($stdout).to receive(:puts).with("#{cyan}#{bold_on}[?]#{bold_off} #{message}#{reset_color}")
 
           expect(subject.print_debug(message)).to be(true)
@@ -81,7 +81,7 @@ describe CLI::Printing do
       context "when $stdout is not a TTY" do
         before { $stdout = StringIO.new }
 
-        it "should print ANSI colour codes" do
+        it "must print ANSI colour codes" do
           expect($stdout).to receive(:puts).with("[?] #{message}")
 
           expect(subject.print_debug(message)).to be(true)
@@ -96,7 +96,7 @@ describe CLI::Printing do
     context "when Printing.debug? is false" do
       before { described_class.debug = false }
 
-      it "should return false" do
+      it "must return false" do
         expect(subject.print_debug(message)).to be(false)
       end
     end
@@ -108,7 +108,7 @@ describe CLI::Printing do
         allow($stdout).to receive(:tty?).and_return(true)
       end
 
-      it "should print ANSI colour codes" do
+      it "must print ANSI colour codes" do
         expect($stdout).to receive(:puts).with("#{yellow}#{bold_on}[*]#{bold_off} #{message}#{reset_color}")
 
         expect(subject.print_warning(message)).to be(true)
@@ -118,7 +118,7 @@ describe CLI::Printing do
     context "when $stdout is not a TTY" do
       before { $stdout = StringIO.new }
 
-      it "should print ANSI colour codes" do
+      it "must print ANSI colour codes" do
         expect($stdout).to receive(:puts).with("[*] #{message}")
 
         expect(subject.print_warning(message)).to be(true)
@@ -134,7 +134,7 @@ describe CLI::Printing do
         allow($stdout).to receive(:tty?).and_return(true)
       end
 
-      it "should print ANSI colour codes" do
+      it "must print ANSI colour codes" do
         expect($stdout).to receive(:puts).with("#{red}#{bold_on}[!]#{bold_off} #{message}#{reset_color}")
 
         expect(subject.print_error(message)).to be(true)
@@ -144,7 +144,7 @@ describe CLI::Printing do
     context "when $stdout is not a TTY" do
       before { $stdout = StringIO.new }
 
-      it "should print ANSI colour codes" do
+      it "must print ANSI colour codes" do
         expect($stdout).to receive(:puts).with("[!] #{message}")
 
         expect(subject.print_error(message)).to be(true)
@@ -160,7 +160,7 @@ describe CLI::Printing do
         allow($stdout).to receive(:tty?).and_return(true)
       end
 
-      it "should print ANSI colour codes" do
+      it "must print ANSI colour codes" do
         expect($stdout).to receive(:puts).with("#{white}#{bold_on}[+]#{bold_off} #{message}#{reset_color}")
 
         expect(subject.print_success(message)).to be(true)
@@ -170,7 +170,7 @@ describe CLI::Printing do
     context "when $stdout is not a TTY" do
       before { $stdout = StringIO.new }
 
-      it "should print ANSI colour codes" do
+      it "must print ANSI colour codes" do
         expect($stdout).to receive(:puts).with("[+] #{message}")
 
         expect(subject.print_success(message)).to be(true)

@@ -8,7 +8,7 @@ describe String do
 
   subject { described_class.new(hexdump) }
 
-  it "should provide String#unhexdump" do
+  it "must provide String#unhexdump" do
     expect(subject).to respond_to(:unhexdump)
   end
 
@@ -16,7 +16,7 @@ describe String do
     let(:binary_path)  { File.join(fixtures_dir,'ascii.bin') }
     let(:raw_data)     { File.binread(binary_path) }
 
-    it "should unhexdump a String" do
+    it "must unhexdump a String" do
       expect(subject.unhexdump).to eq(raw_data)
     end
   end

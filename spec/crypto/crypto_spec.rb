@@ -8,7 +8,7 @@ describe Crypto do
     context "when given a lower-case name" do
       let(:name) { :md5 }
 
-      it "should return the OpenSSL::Digest:: class" do
+      it "must return the OpenSSL::Digest:: class" do
         expect(subject.digest(name)).to eq(OpenSSL::Digest::MD5)
       end
     end
@@ -16,7 +16,7 @@ describe Crypto do
     context "when given a upper-case name" do
       let(:name) { :MD5 }
 
-      it "should return the OpenSSL::Digest:: class" do
+      it "must return the OpenSSL::Digest:: class" do
         expect(subject.digest(name)).to eq(OpenSSL::Digest::MD5)
       end
     end
@@ -24,7 +24,7 @@ describe Crypto do
     context "when given a unknown name" do
       let(:name) { :foo }
 
-      it "should raise a NameError" do
+      it "must raise a NameError" do
         expect { subject.digest(name) }.to raise_error(NameError)
       end
     end
@@ -34,11 +34,11 @@ describe Crypto do
     let(:key)  { 'secret' }
     let(:hash) { 'cf5073193fae1bfdaa1b31355076f99bfb249f51' }
 
-    it "should return an OpenSSL::HMAC" do
+    it "must return an OpenSSL::HMAC" do
       expect(subject.hmac(key)).to be_kind_of(OpenSSL::HMAC)
     end
 
-    it "should use the key when calculating the HMAC" do
+    it "must use the key when calculating the HMAC" do
       hmac = subject.hmac(key)
       hmac.update(clear_text)
       
@@ -49,7 +49,7 @@ describe Crypto do
       let(:digest) { :md5 }
       let(:hash) { '8319187ae2b6c1623205354d8f5d1a6e' }
 
-      it "should use the digest algorithm when calculating the HMAC" do
+      it "must use the digest algorithm when calculating the HMAC" do
         hmac = subject.hmac(key,digest)
         hmac.update(clear_text)
 
@@ -75,11 +75,11 @@ describe Crypto do
 
       subject { described_class.cipher(name, mode: mode, key: key) }
 
-      it "should return a new OpenSSL::Cipher" do
+      it "must return a new OpenSSL::Cipher" do
         expect(subject).to be_kind_of(OpenSSL::Cipher)
       end
 
-      it "should use the given key" do
+      it "must use the given key" do
         expect(subject.update(cipher_text) + subject.final).to eq(clear_text)
       end
 
@@ -98,7 +98,7 @@ describe Crypto do
           described_class.cipher(name, mode: mode, key: key, iv: iv)
         end
 
-        it "should set the IV" do
+        it "must set the IV" do
           expect(subject.update(cipher_text) + subject.final).to eq(clear_text)
         end
       end
@@ -118,11 +118,11 @@ describe Crypto do
         described_class.cipher(name, mode: mode,  password: password)
       end
 
-      it "should return a new OpenSSL::Cipher" do
+      it "must return a new OpenSSL::Cipher" do
         expect(subject).to be_kind_of(OpenSSL::Cipher)
       end
 
-      it "should default :hash to :sha256" do
+      it "must default :hash to :sha256" do
         expect(subject.update(cipher_text) + subject.final).to eq(clear_text)
       end
 
@@ -142,7 +142,7 @@ describe Crypto do
                                        password: password)
         end
 
-        it "should derive the key from the hash and password" do
+        it "must derive the key from the hash and password" do
           expect(subject.update(cipher_text) + subject.final).to eq(clear_text)
         end
       end

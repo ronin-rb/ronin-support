@@ -33,7 +33,7 @@ describe Network::SSL::Proxy, network: true do
       @socket = ssl_connect(host,port)
     end
 
-    it "should trigger when a new client connects" do
+    it "must trigger when a new client connects" do
       @socket.readline.should == injection
     end
 
@@ -51,7 +51,7 @@ describe Network::SSL::Proxy, network: true do
       @socket = ssl_connect(host,port)
     end
 
-    it "should trigger after a new client connects" do
+    it "must trigger after a new client connects" do
       @socket.readline.should == injection
     end
 
@@ -67,7 +67,7 @@ describe Network::SSL::Proxy, network: true do
       @socket = ssl_connect(host,port)
     end
 
-    it "should trigger when the client sends data" do
+    it "must trigger when the client sends data" do
       @socket.write(request)
 
       @socket.readline.should == "HTTP/1.1 404 NOT FOUND\r\n"
@@ -85,7 +85,7 @@ describe Network::SSL::Proxy, network: true do
       @socket = ssl_connect(host,port)
     end
 
-    it "should trigger when the server sends data" do
+    it "must trigger when the server sends data" do
       @socket.write(request)
 
       @socket.read.should include("Connection: keep-alive\r\n")
@@ -105,7 +105,7 @@ describe Network::SSL::Proxy, network: true do
       @socket = ssl_connect(host,port)
     end
 
-    it "should trigger when the server closes the connection" do
+    it "must trigger when the server closes the connection" do
       @socket.write(request)
 
       @socket.read.end_with?(injection).should be_true

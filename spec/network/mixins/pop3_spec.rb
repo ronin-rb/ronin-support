@@ -13,7 +13,7 @@ describe Ronin::Support::Network::Mixins::POP3 do
 
   describe "#pop3_connect" do
     context "integration", :network do
-      it "should return a Net::POP3 object" do
+      it "must return a Net::POP3 object" do
         pending "need valid POP3 credentials"
 
         pop3 = subject.pop3_connect(host, port: port, ssl: true)
@@ -22,7 +22,7 @@ describe Ronin::Support::Network::Mixins::POP3 do
         pop3.finish
       end
 
-      it "should connect to an POP3 service" do
+      it "must connect to an POP3 service" do
         pending "need valid POP3 credentials"
         pop3 = subject.pop3_connect(host, port: port, ssl: true)
 
@@ -31,7 +31,7 @@ describe Ronin::Support::Network::Mixins::POP3 do
       end
 
       context "when given a block" do
-        it "should yield the new Net::POP3 object" do
+        it "must yield the new Net::POP3 object" do
           pending "need valid POP3 credentials"
           pop3 = subject.pop3_connect(host, port: port, ssl: true) do |pop3|
             pop3.should be_kind_of(Net::POP3)
@@ -45,7 +45,7 @@ describe Ronin::Support::Network::Mixins::POP3 do
 
   describe "#pop3_session" do
     context "integration", :network do
-      it "should yield a new Net::POP3 object" do
+      it "must yield a new Net::POP3 object" do
         pending "need valid POP3 credentials"
 
         yielded_pop3 = nil
@@ -57,7 +57,7 @@ describe Ronin::Support::Network::Mixins::POP3 do
         yielded_pop3.should be_kind_of(Net::POP3)
       end
 
-      it "should finish the POP3 session after yielding it" do
+      it "must finish the POP3 session after yielding it" do
         pending "need valid POP3 credentials"
 
         pop3        = nil

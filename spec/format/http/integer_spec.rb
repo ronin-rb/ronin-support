@@ -4,33 +4,33 @@ require 'ronin/support/format/core_ext/http/integer'
 describe Integer do
   subject { 0x20 }
 
-  it "should provide String#uri_encode" do
+  it "must provide String#uri_encode" do
     expect(subject).to respond_to(:uri_encode)
   end
 
-  it "should provide String#uri_escape" do
+  it "must provide String#uri_escape" do
     expect(subject).to respond_to(:uri_escape)
   end
 
-  it "should provide String#format_http" do
+  it "must provide String#format_http" do
     expect(subject).to respond_to(:format_http)
   end
 
   describe "#uri_encode" do
     let(:uri_encoded) { '%20' }
 
-    it "should URI encode itself" do
+    it "must URI encode itself" do
       expect(subject.uri_encode).to eq(uri_encoded)
     end
 
     context "when given unsafe characters" do
       let(:not_encoded) { ' ' }
 
-      it "should encode itself if listed as unsafe" do
+      it "must encode itself if listed as unsafe" do
         expect(subject.uri_encode(' ', "\n", "\r")).to eq(uri_encoded)
       end
 
-      it "should not encode itself if not listed as unsafe" do
+      it "must not encode itself if not listed as unsafe" do
         expect(subject.uri_encode('A', 'B', 'C')).to eq(not_encoded)
       end
     end
@@ -39,7 +39,7 @@ describe Integer do
   describe "#uri_escape" do
     let(:uri_escaped) { '+' }
 
-    it "should URI escape itself" do
+    it "must URI escape itself" do
       expect(subject.uri_escape).to eq(uri_escaped)
     end
   end
@@ -47,7 +47,7 @@ describe Integer do
   describe "#format_http" do
     let(:http_formatted) { '%20' }
 
-    it "should format the byte" do
+    it "must format the byte" do
       expect(subject.format_http).to eq(http_formatted)
     end
   end
@@ -55,7 +55,7 @@ describe Integer do
   describe "#http_escape" do
     let(:http_escaped) { '+' }
 
-    it "should format the byte" do
+    it "must format the byte" do
       expect(subject.http_escape).to eq(http_escaped)
     end
   end

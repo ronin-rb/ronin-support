@@ -32,18 +32,18 @@ describe Ronin::Support::Network::Mixins::TCP do
       let(:host) { server_bind_ip }
       let(:port) { server_bind_port }
 
-      it "should return true for open ports" do
+      it "must return true for open ports" do
         expect(subject.tcp_open?(host,port)).to be(true)
       end
 
       let(:closed_port) { port + 1 }
 
-      it "should return false for closed ports" do
+      it "must return false for closed ports" do
         expect(subject.tcp_open?(host,closed_port)).to be(false)
       end
 
       context "when given a timeout" do
-        it "should have a timeout for firewalled ports" do
+        it "must have a timeout for firewalled ports" do
           timeout = 2
 
           t1 = Time.now
@@ -61,7 +61,7 @@ describe Ronin::Support::Network::Mixins::TCP do
       let(:host) { 'example.com' }
       let(:port) { 80 }
 
-      it "should open a TCPSocket" do
+      it "must open a TCPSocket" do
         socket = subject.tcp_connect(host,port)
 
         expect(socket).to be_kind_of(TCPSocket)
@@ -73,7 +73,7 @@ describe Ronin::Support::Network::Mixins::TCP do
       context "when given a local host and port" do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        it "should bind to a local host and port" do
+        it "must bind to a local host and port" do
           socket     = subject.tcp_connect(host,port,nil,local_port)
           bound_port = socket.addr[1]
 
@@ -84,7 +84,7 @@ describe Ronin::Support::Network::Mixins::TCP do
       end
 
       context "when given a block" do
-        it "should yield the new TCPSocket" do
+        it "must yield the new TCPSocket" do
           socket = nil
 
           subject.tcp_connect(host,port) do |yielded_socket|
@@ -104,7 +104,7 @@ describe Ronin::Support::Network::Mixins::TCP do
 
       let(:expected_response) { "250 #{host} at your service\r\n" }
 
-      it "should connect and then send data" do
+      it "must connect and then send data" do
         socket   = subject.tcp_connect_and_send(data,host,port)
         banner   = socket.readline
         response = socket.readline
@@ -117,7 +117,7 @@ describe Ronin::Support::Network::Mixins::TCP do
       context "when given a local host and port" do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        it "should bind to a local host and port" do
+        it "must bind to a local host and port" do
           socket     = subject.tcp_connect_and_send(data,host,port,nil,local_port)
           bound_port = socket.addr[1]
 
@@ -128,7 +128,7 @@ describe Ronin::Support::Network::Mixins::TCP do
       end
 
       context "when given a block" do
-        it "should yield the TCPSocket" do
+        it "must yield the TCPSocket" do
           response = nil
 
           socket = subject.tcp_connect_and_send(data,host,port) do |socket|
@@ -146,7 +146,7 @@ describe Ronin::Support::Network::Mixins::TCP do
 
   describe "#tcp_session" do
     context "integration", :network do
-      it "should open then close a TCPSocket" do
+      it "must open then close a TCPSocket" do
         socket = nil
 
         subject.tcp_session(host,port) do |yielded_socket|
@@ -160,7 +160,7 @@ describe Ronin::Support::Network::Mixins::TCP do
       context "when given a local host and port" do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        it "should bind to a local host and port" do
+        it "must bind to a local host and port" do
           bound_port = nil
 
           subject.tcp_session(host,port,nil,local_port) do |socket|
@@ -182,7 +182,7 @@ describe Ronin::Support::Network::Mixins::TCP do
         /^220 #{Regexp.escape(host)} ESMTP [^\s]+ - gsmtp$/
       end
 
-      it "should return the read service banner" do
+      it "must return the read service banner" do
         banner = subject.tcp_banner(host,port)
 
         expect(banner).to match(expected_banner)
@@ -191,7 +191,7 @@ describe Ronin::Support::Network::Mixins::TCP do
       context "when given a local host and port" do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        it "should bind to a local host and port" do
+        it "must bind to a local host and port" do
           banner = subject.tcp_banner(host,port,nil,local_port)
 
           expect(banner).to match(expected_banner)
@@ -199,7 +199,7 @@ describe Ronin::Support::Network::Mixins::TCP do
       end
 
       context "when given a block" do
-        it "should yield the banner" do
+        it "must yield the banner" do
           banner = nil
 
           subject.tcp_banner(host,port) do |yielded_banner|
@@ -221,7 +221,7 @@ describe Ronin::Support::Network::Mixins::TCP do
 
       let(:data) { "hello\n" }
 
-      it "should send data to a service" do
+      it "must send data to a service" do
         subject.tcp_send(data,server_bind_ip,server_bind_port)
 
         client = server.accept
@@ -235,7 +235,7 @@ describe Ronin::Support::Network::Mixins::TCP do
       context "when given a local host and port" do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        it "should bind to a local host and port" do
+        it "must bind to a local host and port" do
           subject.tcp_send(data,server_bind_ip,server_bind_port,server_bind_ip,local_port)
 
           client      = server.accept
@@ -251,7 +251,7 @@ describe Ronin::Support::Network::Mixins::TCP do
 
   describe "#tcp_server" do
     context "integration", :network do
-      it "should create a new TCPServer" do
+      it "must create a new TCPServer" do
         server = subject.tcp_server
 
         expect(server).to be_kind_of(TCPServer)
@@ -263,7 +263,7 @@ describe Ronin::Support::Network::Mixins::TCP do
       context "when given a local host and port" do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        it "should bind to a specific port and host" do
+        it "must bind to a specific port and host" do
           server     = subject.tcp_server(local_port,local_host)
           bound_host = server.addr[3]
           bound_port = server.addr[1]
@@ -276,7 +276,7 @@ describe Ronin::Support::Network::Mixins::TCP do
       end
 
       context "when given a block" do
-        it "should yield the new TCPServer" do
+        it "must yield the new TCPServer" do
           server = nil
 
           subject.tcp_server do |yielded_server|
@@ -294,7 +294,7 @@ describe Ronin::Support::Network::Mixins::TCP do
 
   describe "#tcp_server_session" do
     context "integration", :network do
-      it "should create a temporary TCPServer" do
+      it "must create a temporary TCPServer" do
         server = nil
 
         subject.tcp_server_session do |yielded_server|
@@ -308,7 +308,7 @@ describe Ronin::Support::Network::Mixins::TCP do
       context "when given a block" do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
-        it "should bind to a specific port and host" do
+        it "must bind to a specific port and host" do
           bound_host = nil
           bound_port = nil
 

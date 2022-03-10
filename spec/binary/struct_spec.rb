@@ -13,7 +13,7 @@ describe Binary::Struct do
       struct.new
     end
 
-    it "should return the layout" do
+    it "must return the layout" do
       expect(subject.class.layout).to eq([
         :x,
         :y
@@ -21,19 +21,19 @@ describe Binary::Struct do
     end
 
     context "when given fields" do
-      it "should populate fields" do
+      it "must populate fields" do
         expect(subject.class.fields).to eq({
           x: [:uint, nil],
           y: [:uint, nil]
         })
       end
 
-      it "should define reader methods" do
+      it "must define reader methods" do
         expect(subject).to respond_to(:x)
         expect(subject).to respond_to(:y)
       end
 
-      it "should define writer methods" do
+      it "must define writer methods" do
         expect(subject).to respond_to(:x=)
         expect(subject).to respond_to(:y=)
       end
@@ -47,7 +47,7 @@ describe Binary::Struct do
       struct
     end
 
-    it "should determine if fields exist" do
+    it "must determine if fields exist" do
       expect(subject.field?(:x)).to be(true)
       expect(subject.field?(:foo)).to be(false)
     end
@@ -60,12 +60,12 @@ describe Binary::Struct do
       struct
     end
 
-    it "should return the endianness of the Struct" do
+    it "must return the endianness of the Struct" do
       expect(subject.endian).to eq(:little)
     end
 
     context "when given an argument" do
-      it "should set the endianness" do
+      it "must set the endianness" do
         subject.endian :big
 
         expect(subject.endian).to eq(:big)
@@ -86,11 +86,11 @@ describe Binary::Struct do
       struct
     end
 
-    it "should register a new type in typedefs" do
+    it "must register a new type in typedefs" do
       expect(subject.typedefs).to have_key(:test_t)
     end
 
-    it "should resolve the existing type" do
+    it "must resolve the existing type" do
       expect(subject.typedefs[:test_t]).to eq(:uint32)
     end
   end
@@ -118,39 +118,39 @@ describe Binary::Struct do
       struct.new
     end
 
-    it "should set integers to 0" do
+    it "must set integers to 0" do
       expect(subject[:int]).to eq(0)
     end
 
-    it "should set arrays of integers to [0, ...]" do
+    it "must set arrays of integers to [0, ...]" do
       expect(subject[:int_array]).to eq([0, 0])
     end
 
-    it "should set floats to 0.0" do
+    it "must set floats to 0.0" do
       expect(subject[:float]).to eq(0.0)
     end
 
-    it "should set arrays of floats to [0.0, ...]" do
+    it "must set arrays of floats to [0.0, ...]" do
       expect(subject[:float_array]).to eq([0.0, 0.0])
     end
 
-    it "should set chars to '\\0'" do
+    it "must set chars to '\\0'" do
       expect(subject[:char]).to eq("\0")
     end
 
-    it "should set arrays of chars to ''" do
+    it "must set arrays of chars to ''" do
       expect(subject[:char_array]).to eq('')
     end
 
-    it "should set strings to ''" do
+    it "must set strings to ''" do
       expect(subject[:string]).to eq('')
     end
 
-    it "should initialize nested structs" do
+    it "must initialize nested structs" do
       expect(subject[:struct][:int]).to eq(0)
     end
 
-    it "should initialize arrays of nested structs" do
+    it "must initialize arrays of nested structs" do
       expect(subject[:struct_array][0][:int]).to eq(0)
       expect(subject[:struct_array][1][:int]).to eq(0)
     end
@@ -171,17 +171,17 @@ describe Binary::Struct do
       subject.instance_variable_set('@x',10)
     end
 
-    it "should access the instance variable" do
+    it "must access the instance variable" do
       expect(subject[:x]).to eq(10)
     end
 
-    it "should still call the underlying reader method" do
+    it "must still call the underlying reader method" do
       expect(subject).to receive(:x).and_return(10)
 
       subject[:x]
     end
 
-    it "should raise ArgumentError for unknown fields" do
+    it "must raise ArgumentError for unknown fields" do
       expect {
         subject[:foo]
       }.to raise_error(ArgumentError)
@@ -203,19 +203,19 @@ describe Binary::Struct do
       subject.instance_variable_set('@x',0)
     end
 
-    it "should set the underlying instance variable" do
+    it "must set the underlying instance variable" do
       subject[:x] = 20
 
       expect(subject.instance_variable_get('@x')).to eq(20)
     end
 
-    it "should still call the underlying writer method" do
+    it "must still call the underlying writer method" do
       expect(subject).to receive(:x=).with(20)
 
       subject[:x] = 20
     end
 
-    it "should raise ArgumentError for unknown fields" do
+    it "must raise ArgumentError for unknown fields" do
       expect {
         subject[:foo] = 20
       }.to raise_error(ArgumentError)
@@ -241,7 +241,7 @@ describe Binary::Struct do
       subject.y = y
     end
 
-    it "should return the values of the fields" do
+    it "must return the values of the fields" do
       expect(subject.values).to eq([x, y])
     end
 
@@ -268,7 +268,7 @@ describe Binary::Struct do
         subject.z.int = z
       end
 
-      it "should nest the values of nested structs" do
+      it "must nest the values of nested structs" do
         expect(subject.values).to eq([x, y, [z]])
       end
     end
@@ -297,7 +297,7 @@ describe Binary::Struct do
         subject.z[1].int = z
       end
 
-      it "should nest the values of nested structs" do
+      it "must nest the values of nested structs" do
         expect(subject.values).to eq([x, y, [[z], [z]]])
       end
     end
@@ -328,12 +328,12 @@ describe Binary::Struct do
       subject.clear
     end
 
-    it "should reset fields to their default values" do
+    it "must reset fields to their default values" do
       expect(subject.x).to eq(0)
       expect(subject.y).to eq(0.0)
     end
 
-    it "should reinitialize nested structs" do
+    it "must reinitialize nested structs" do
       expect(subject.z.int).to eq(0)
     end
   end
@@ -356,7 +356,7 @@ describe Binary::Struct do
         subject.chars = string
       end
 
-      it "should pack arrays of chars into a String" do
+      it "must pack arrays of chars into a String" do
         expect(subject.pack).to eq(packed)
       end
     end
@@ -384,7 +384,7 @@ describe Binary::Struct do
         subject.struct.int = 20
       end
 
-      it "should pack the nested struct fields" do
+      it "must pack the nested struct fields" do
         expect(subject.pack).to eq(packed)
       end
     end
@@ -413,7 +413,7 @@ describe Binary::Struct do
         subject.struct[1].int = 30
       end
 
-      it "should pack the nested fields" do
+      it "must pack the nested fields" do
         expect(subject.pack).to eq(packed)
       end
     end
@@ -433,7 +433,7 @@ describe Binary::Struct do
         struct.new
       end
 
-      it "should unpack arrays of chars into a String" do
+      it "must unpack arrays of chars into a String" do
         subject.unpack(packed)
 
         expect(subject.chars).to eq(string)
@@ -458,7 +458,7 @@ describe Binary::Struct do
         struct.new
       end
 
-      it "should unpack the nested struct fields" do
+      it "must unpack the nested struct fields" do
         subject.unpack(packed)
 
         expect(subject.int).to        eq(10)
@@ -484,7 +484,7 @@ describe Binary::Struct do
         struct.new
       end
 
-      it "should unpack the nested fields" do
+      it "must unpack the nested fields" do
         subject.unpack(packed)
         
         expect(subject.int).to           eq(10)
