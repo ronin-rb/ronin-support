@@ -18,6 +18,7 @@
 #
 
 require 'ronin/support/network/dns'
+require 'ronin/support/network/ip'
 
 module Ronin
   module Support
@@ -87,6 +88,50 @@ module Ronin
         #
         def get_addresses(**kwargs)
           DNS.resolver(**kwargs).get_addresses(@name)
+        end
+
+        #
+        # Looks up the IPs of the host.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option [Array<String>, String, nil] :nameservers
+        #   Optional DNS nameserver(s) to query.
+        #
+        # @option [String, nil] :nameserver
+        #   Optional DNS nameserver to query.
+        #
+        # @return [String, nil]
+        #   The IP for the host.
+        #
+        # @api public
+        #
+        def get_ip(**kwargs)
+          if (address = get_address(**kwargs))
+            IP.new(address)
+          end
+        end
+
+        #
+        # Looks up all IPs for the host.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option [Array<String>, String, nil] :nameservers
+        #   Optional DNS nameserver(s) to query.
+        #
+        # @option [String, nil] :nameserver
+        #   Optional DNS nameserver to query.
+        #
+        # @return [Array<IP>]
+        #   The IPs for the host.
+        #
+        # @api public
+        #
+        def get_ips(**kwargs)
+          get_addresses(**kwargs).map { |address| IP.new(address) }
         end
 
         #

@@ -66,6 +66,45 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#get_ip" do
+    context "integration", :network do
+      it "must return an IP for the host" do
+        ip = subject.get_ip
+
+        expect(ip).to be_kind_of(Ronin::Support::Network::IP)
+        expect(ip.address).to eq(address)
+      end
+
+      context "when the host nmae has no IP addresses" do
+        let(:hostname) { bad_hostname }
+
+        it "must return nil for unknown hostnames" do
+          expect(subject.get_ip).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe "#get_ips"  do
+    context "integration", :network do
+      it "must return all IPs for the hostname" do
+        ips = subject.get_ips
+
+        expect(ips).to_not be_empty
+        expect(ips).to all(be_kind_of(Ronin::Support::Network::IP))
+        expect(ips.map(&:address)).to include(address)
+      end
+
+      context "when the host nmae has no IP addresses" do
+        let(:hostname) { bad_hostname }
+
+        it "must return an empty Array" do
+          expect(subject.get_addresses).to eq([])
+        end
+      end
+    end
+  end
+
   describe "#get_record" do
     context "integration", :network do
       let(:record_type) { Resolv::DNS::Resource::IN::TXT }
