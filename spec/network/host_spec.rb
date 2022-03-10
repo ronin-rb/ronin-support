@@ -18,7 +18,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_address" do
+  describe "#get_address" do
     context "integration", :network do
       it "must lookup the address for a hostname" do
         expect(subject.get_address).to eq(address)
@@ -34,7 +34,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".lookup" do
+  describe "#lookup" do
     context "integration", :network do
       it "must lookup the address for a hostname" do
         expect(subject.lookup).to eq(address)
@@ -50,7 +50,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_addresses"  do
+  describe "#get_addresses"  do
     context "integration", :network do
       it "must lookup all addresses for a hostname" do
         expect(subject.get_addresses).to include(address)
@@ -66,7 +66,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_record" do
+  describe "#get_record" do
     context "integration", :network do
       let(:record_type) { Resolv::DNS::Resource::IN::TXT }
 
@@ -110,7 +110,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_records" do
+  describe "#get_records" do
     context "integration", :network do
       let(:record_type) { Resolv::DNS::Resource::IN::TXT }
 
@@ -156,7 +156,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_cname_record" do
+  describe "#get_cname_record" do
     context "integration", :network do
       let(:domain)   { 'twitter.com'   }
       let(:hostname) { "www.#{domain}" }
@@ -191,7 +191,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_cname" do
+  describe "#get_cname" do
     context "integration", :network do
       let(:domain)   { 'twitter.com'   }
       let(:hostname) { "www.#{domain}" }
@@ -220,7 +220,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_hinfo_record" do
+  describe "#get_hinfo_record" do
     context "integration", :network do
       let(:hostname) { "hinfo-example.lookup.dog" }
 
@@ -255,7 +255,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_a_record" do
+  describe "#get_a_record" do
     context "integration", :network do
       let(:hostname)     { 'example.com'   }
       let(:ipv4_address) { '93.184.216.34' }
@@ -290,7 +290,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_a_address" do
+  describe "#get_a_address" do
     context "integration", :network do
       let(:hostname)     { 'example.com'   }
       let(:ipv4_address) { '93.184.216.34' }
@@ -319,7 +319,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_a_records" do
+  describe "#get_a_records" do
     context "integration", :network do
       let(:hostname)     { 'example.com'   }
       let(:ipv4_address) { '93.184.216.34' }
@@ -355,7 +355,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_a_addresses" do
+  describe "#get_a_addresses" do
     context "integration", :network do
       let(:hostname)     { 'example.com'   }
       let(:ipv4_address) { '93.184.216.34' }
@@ -384,7 +384,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_aaaa_record" do
+  describe "#get_aaaa_record" do
     context "integration", :network do
       let(:hostname)     { 'example.com'   }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
@@ -419,7 +419,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_aaaa_address" do
+  describe "#get_aaaa_address" do
     context "integration", :network do
       let(:hostname)     { 'example.com'   }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
@@ -448,7 +448,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_aaaa_records" do
+  describe "#get_aaaa_records" do
     context "integration", :network do
       let(:hostname)     { 'example.com'   }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
@@ -484,7 +484,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_aaaa_addresses" do
+  describe "#get_aaaa_addresses" do
     context "integration", :network do
       let(:hostname)     { 'example.com'   }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
@@ -513,7 +513,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_srv_records" do
+  describe "#get_srv_records" do
     context "integration", :network do
       let(:hostname) { '_xmpp-server._tcp.gmail.com' }
 
@@ -546,7 +546,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_wks_records" do
+  describe "#get_wks_records" do
     context "integration", :network do
       it "must return all Resolv::DNS::Resource::IN::WKS records" do
         pending "cannot find a host that still has a WKS record"
@@ -578,7 +578,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_loc_record" do
+  describe "#get_loc_record" do
     context "integration", :network do
       it "must return the Resolv::DNS::Resource::IN::LOC record" do
         pending "cannot find a host that still has a LOC record"
@@ -607,7 +607,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_minfo_record" do
+  describe "#get_minfo_record" do
     context "integration", :network do
       it "must return the Resolv::DNS::Resource::IN::MINFO record" do
         pending "cannot find a host that still has a MINFO record"
@@ -636,7 +636,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_mx_records" do
+  describe "#get_mx_records" do
     context "integration", :network do
       let(:hostname) { 'gmail.com' }
       let(:mailservers) do
@@ -678,7 +678,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_mailservers" do
+  describe "#get_mailservers" do
     context "integration", :network do
       let(:hostname) { 'gmail.com' }
       let(:mailservers) do
@@ -713,7 +713,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_ns_records" do
+  describe "#get_ns_records" do
     context "integration", :network do
       let(:hostname) { 'example.com' }
 
@@ -745,7 +745,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_nameservers" do
+  describe "#get_nameservers" do
     context "integration", :network do
       let(:hostname) { 'example.com' }
       let(:nameserver_names) do
@@ -777,7 +777,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_soa_record" do
+  describe "#get_soa_record" do
     context "integration", :network do
       let(:hostname) { 'example.com' }
 
@@ -807,7 +807,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_txt_record" do
+  describe "#get_txt_record" do
     context "integration", :network do
       let(:hostname) { 'example.com' }
 
@@ -844,7 +844,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_txt_string" do
+  describe "#get_txt_string" do
     context "integration", :network do
       let(:hostname) { 'example.com' }
 
@@ -875,7 +875,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_txt_records" do
+  describe "#get_txt_records" do
     context "integration", :network do
       let(:hostname) { 'example.com' }
 
@@ -913,7 +913,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe ".get_txt_strings" do
+  describe "#get_txt_strings" do
     context "integration", :network do
       let(:hostname) { 'example.com' }
 
