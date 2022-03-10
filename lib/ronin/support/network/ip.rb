@@ -137,7 +137,7 @@ module Ronin
         end
 
         #
-        # Looks up the hostname of the address.
+        # Looks up the host for the IP.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments.
@@ -149,7 +149,7 @@ module Ronin
         #   Optional DNS nameserver to query.
         #
         # @return [Host, nil]
-        #   The hostname of the address.
+        #   The host for the IP.
         #
         def get_host(**kwargs)
           if (name = get_name(**kwargs))
@@ -158,7 +158,7 @@ module Ronin
         end
 
         #
-        # Looks up all hostnames associated with the IP.
+        # Looks up all hosts associated with the IP.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments.
@@ -170,7 +170,7 @@ module Ronin
         #   Optional DNS nameserver to query.
         #
         # @return [Array<Host>]
-        #   The hostnames of the address.
+        #   The hosts for the IP.
         #
         def get_hosts(**kwargs)
           get_names(**kwargs).map { |name| Host.new(name) }
