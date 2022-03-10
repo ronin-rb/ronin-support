@@ -445,6 +445,10 @@ describe Ronin::Support::Network::IP do
         expect(hosts.map(&:name)).to include(reverse_hostname)
       end
 
+      it "must memoize the value" do
+        expect(subject.hosts).to be(subject.hosts)
+      end
+
       context "when the IP address has no host names associated with it" do
         let(:address) { bad_address }
 
@@ -464,6 +468,10 @@ describe Ronin::Support::Network::IP do
 
         expect(host).to be_kind_of(Ronin::Support::Network::Host)
         expect(host.name).to eq(reverse_hostname)
+      end
+
+      it "must memoize the value" do
+        expect(subject.host).to be(subject.host)
       end
 
       context "when the IP address has no host names associated with it" do

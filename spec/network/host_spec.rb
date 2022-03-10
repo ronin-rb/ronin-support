@@ -307,6 +307,10 @@ describe Ronin::Support::Network::Host do
         expect(subject.cname).to eq(domain)
       end
 
+      it "must memoize the value" do
+        expect(subject.cname).to be(subject.cname)
+      end
+
       context "when the host name does not have a CNAME record" do
         let(:hostname) { domain }
 
@@ -362,6 +366,10 @@ describe Ronin::Support::Network::Host do
         expect(hinfo_record).to be_kind_of(Resolv::DNS::Resource::IN::HINFO)
         expect(hinfo_record.cpu).to eq("some-kinda-cpu")
         expect(hinfo_record.os).to  eq("some-kinda-os")
+      end
+
+      it "must memoize the value" do
+        expect(subject.hinfo_record).to be(subject.hinfo_record)
       end
 
       context "when the host name does not have a HINFO record" do
@@ -841,6 +849,10 @@ describe Ronin::Support::Network::Host do
         expect(subject.mailservers).to match_array(mailservers)
       end
 
+      it "must memoize the value" do
+        expect(subject.mailservers).to be(subject.mailservers)
+      end
+
       context "when the host name does not have any MX records" do
         let(:hostname) { 'www.example.com' }
 
@@ -921,6 +933,10 @@ describe Ronin::Support::Network::Host do
         expect(p(subject.nameservers)).to match_array(nameserver_names)
       end
 
+      it "must memoize the value" do
+        expect(subject.nameservers).to be(subject.nameservers)
+      end
+
       context "when the host name does not have any NS records" do
         let(:hostname) { 'www.example.com' }
 
@@ -969,6 +985,10 @@ describe Ronin::Support::Network::Host do
         soa_record = subject.soa_record
 
         expect(soa_record).to be_kind_of(Resolv::DNS::Resource::IN::SOA)
+      end
+
+      it "must memoize the value" do
+        expect(subject.soa_record).to be(subject.soa_record)
       end
 
       context "when the host name does not have any SOA records" do
@@ -1132,6 +1152,10 @@ describe Ronin::Support::Network::Host do
             'yxvy9m4blrswgrsz8ndjh467n2y7mgl2'
           ]
         )
+      end
+
+      it "must memoize the value" do
+        expect(subject.txt_strings).to be(subject.txt_strings)
       end
 
       context "when the host name does not have any TXT records" do
