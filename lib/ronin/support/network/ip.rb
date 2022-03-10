@@ -97,12 +97,7 @@ module Ronin
           DNS.get_name(self,**kwargs)
         end
 
-        #
-        # @see #get_name
-        #
-        def reverse_lookup(**kwargs)
-          get_name(**kwargs)
-        end
+        alias reverse_lookup get_name
 
         #
         # Looks up all hostnames associated with the IP.
