@@ -61,8 +61,6 @@ module Ronin
         # @return [String, nil]
         #   The address of the hostname.
         #
-        # @api public
-        #
         def get_address(**kwargs)
           DNS.resolver(**kwargs).get_address(@name)
         end
@@ -84,8 +82,6 @@ module Ronin
         # @return [Array<String>]
         #   The addresses of the hostname.
         #
-        # @api public
-        #
         def get_addresses(**kwargs)
           DNS.resolver(**kwargs).get_addresses(@name)
         end
@@ -104,8 +100,6 @@ module Ronin
         #
         # @return [String, nil]
         #   The IP for the host.
-        #
-        # @api public
         #
         def get_ip(**kwargs)
           if (address = get_address(**kwargs))
@@ -127,8 +121,6 @@ module Ronin
         #
         # @return [Array<IP>]
         #   The IPs for the host.
-        #
-        # @api public
         #
         def get_ips(**kwargs)
           get_addresses(**kwargs).map { |address| IP.new(address) }
