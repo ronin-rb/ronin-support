@@ -285,6 +285,22 @@ describe Ronin::Support::Network::IP do
           expect(subject.get_name).to be(nil)
         end
       end
+
+      context "when given the nameservers: keyword argument" do
+        let(:nameserver) { '8.8.8.8' }
+
+        it "may lookup host-name via other nameservers" do
+          expect(subject.get_name(nameservers: [nameserver])).to eq(reverse_hostname)
+        end
+      end
+
+      context "when given the nameserver: keyword argument" do
+        let(:nameserver) { '8.8.8.8' }
+
+        it "may lookup host-name via other nameserver" do
+          expect(subject.get_name(nameserver: nameserver)).to eq(reverse_hostname)
+        end
+      end
     end
   end
 
@@ -303,22 +319,12 @@ describe Ronin::Support::Network::IP do
           expect(subject.get_names).to eq([])
         end
       end
-    end
-  end
-
-  describe "#reverse_lookup" do
-    context "integration", :network do
-      let(:address)   { reverse_address }
-
-      it "must lookup the host-name for an IP" do
-        expect(subject.reverse_lookup).to eq(reverse_hostname)
-      end
 
       context "when given the nameservers: keyword argument" do
         let(:nameserver) { '8.8.8.8' }
 
         it "may lookup host-names via other nameservers" do
-          expect(subject.reverse_lookup(nameservers: [nameserver])).to eq(reverse_hostname)
+          expect(subject.get_names(nameservers: [nameserver])).to eq([reverse_hostname])
         end
       end
 
@@ -326,15 +332,7 @@ describe Ronin::Support::Network::IP do
         let(:nameserver) { '8.8.8.8' }
 
         it "may lookup host-names via other nameserver" do
-          expect(subject.reverse_lookup(nameserver: nameserver)).to eq(reverse_hostname)
-        end
-      end
-
-      context "when given an IP address that does not map back to a host" do
-        subject { described_class.new('0.0.0.0') }
-
-        it "must return an empty Array" do
-          expect(subject.reverse_lookup).to be(nil)
+          expect(subject.get_names(nameserver: nameserver)).to eq([reverse_hostname])
         end
       end
     end
