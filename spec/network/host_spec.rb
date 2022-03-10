@@ -791,6 +791,33 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#mailservers" do
+    context "integration", :network do
+      let(:hostname) { 'gmail.com' }
+      let(:mailservers) do
+        %w[
+          alt1.gmail-smtp-in.l.google.com
+          alt2.gmail-smtp-in.l.google.com
+          alt3.gmail-smtp-in.l.google.com
+          gmail-smtp-in.l.google.com
+          alt4.gmail-smtp-in.l.google.com
+        ]
+      end
+
+      it "must return the Array of mailserver host names" do
+        expect(subject.mailservers).to match_array(mailservers)
+      end
+
+      context "when the host name does not have any MX records" do
+        let(:hostname) { 'www.example.com' }
+
+        it "must return an empty Array" do
+          expect(subject.mailservers).to eq([])
+        end
+      end
+    end
+  end
+
   describe "#get_ns_records" do
     context "integration", :network do
       let(:hostname) { 'example.com' }

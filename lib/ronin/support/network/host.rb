@@ -720,6 +720,16 @@ module Ronin
         end
 
         #
+        # The mailservers for the host.
+        #
+        # @return [Array<String>]
+        #   The mailserver host names for the host.
+        #
+        def mailservers
+          @mailservers ||= get_mailservers
+        end
+
+        #
         # Queries all `NS` DNS records belonging to the host name.
         #
         # @param [String, nil] name
