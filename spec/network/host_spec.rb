@@ -1121,6 +1121,29 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#txt_strings" do
+    context "integration", :network do
+      let(:hostname) { 'example.com' }
+
+      it "must return all TXT string" do
+        expect(subject.txt_strings).to match_array(
+          [
+            'v=spf1 -all',
+            'yxvy9m4blrswgrsz8ndjh467n2y7mgl2'
+          ]
+        )
+      end
+
+      context "when the host name does not have any TXT records" do
+        let(:hostname) { 'a.iana-servers.net' }
+
+        it "must return an empty Array" do
+          expect(subject.txt_strings).to eq([])
+        end
+      end
+    end
+  end
+
   describe "#to_s" do
     it "must return the host name String" do
       expect(subject.to_s).to eq(hostname)

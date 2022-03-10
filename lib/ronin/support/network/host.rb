@@ -965,6 +965,18 @@ module Ronin
         end
 
         #
+        # The `TXT` strings for the host.
+        #
+        # @return [Array<String>]
+        #   All `TXT` string values belonging of the host name.
+        #
+        # @note This method returns memoized data.
+        #
+        def txt_strings
+          @txt_strings ||= get_txt_strings
+        end
+
+        #
         # Converts the host to a String.
         #
         # @return [String]
