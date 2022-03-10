@@ -774,6 +774,16 @@ module Ronin
         end
 
         #
+        # The nameservers for the host.
+        #
+        # @return [Array<String>]
+        #   The nameserver IP addresses for the host.
+        #
+        def nameservers
+          @nameservers ||= get_nameservers
+        end
+
+        #
         # Queries the first `SOA` DNS record belonging to the host name.
         #
         # @param [String, nil] name

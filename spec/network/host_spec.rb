@@ -855,6 +855,30 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#nameservers" do
+    context "integration", :network do
+      let(:hostname) { 'example.com' }
+      let(:nameserver_names) do
+        %w[
+          b.iana-servers.net
+          a.iana-servers.net
+        ]
+      end
+
+      it "must return the Array of nameserver host names" do
+        expect(p(subject.nameservers)).to match_array(nameserver_names)
+      end
+
+      context "when the host name does not have any NS records" do
+        let(:hostname) { 'www.example.com' }
+
+        it "must return an empty Array" do
+          expect(subject.nameservers).to eq([])
+        end
+      end
+    end
+  end
+
   describe "#get_soa_record" do
     context "integration", :network do
       let(:hostname) { 'example.com' }
