@@ -427,6 +427,49 @@ describe Ronin::Support::Network::IP do
     end
   end
 
+  describe "#hosts" do
+    context "integration", :network do
+      let(:address) { reverse_address }
+
+      it "must return all host names associated with the IP address" do
+        hosts = subject.hosts
+
+        expect(hosts).to_not be_empty
+        expect(hosts).to all(be_kind_of(Ronin::Support::Network::Host))
+        expect(hosts.map(&:name)).to include(reverse_hostname)
+      end
+
+      context "when the IP address has no host names associated with it" do
+        let(:address) { bad_address }
+
+        it "must return an empty Array" do
+          expect(subject.hosts).to eq([])
+        end
+      end
+    end
+  end
+
+  describe "#host" do
+    context "integration", :network do
+      let(:address) { reverse_address }
+
+      it "must return the primary host name for the IP address" do
+        host = subject.host
+
+        expect(host).to be_kind_of(Ronin::Support::Network::Host)
+        expect(host.name).to eq(reverse_hostname)
+      end
+
+      context "when the IP address has no host names associated with it" do
+        let(:address) { bad_address }
+
+        it "must return nil" do
+          expect(subject.host).to be(nil)
+        end
+      end
+    end
+  end
+
   describe "#get_ptr_record" do
     context "integration", :network do
       let(:address)  { '142.251.33.110' }

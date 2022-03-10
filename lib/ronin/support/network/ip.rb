@@ -160,6 +160,27 @@ module Ronin
         end
 
         #
+        # The host names of the address.
+        #
+        # @return [Array<Host>]
+        #   The host names of the address or an empty Array if the IP address
+        #   has no host names.
+        #
+        def hosts
+          @hosts ||= get_hosts
+        end
+
+        #
+        # The primary host name of the address.
+        #
+        # @return [Host, nil]
+        #   The host name or `nil` if the IP address has no host names.
+        #
+        def host
+          hosts.first
+        end
+
+        #
         # Queries the first `PTR` DNS record for the IP address.
         #
         # @param [Hash{Symbol => Object}] kwargs
