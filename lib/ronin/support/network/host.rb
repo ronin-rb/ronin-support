@@ -696,9 +696,6 @@ module Ronin
         #
         # Queries the mailservers for the host name.
         #
-        # @param [String, nil] name
-        #   The optional record name to query.
-        #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments.
         #
@@ -711,12 +708,8 @@ module Ronin
         # @return [Array<String>]
         #   The host names of the mailservers serving the given host name.
         #
-        def get_mailservers(name=nil,**kwargs)
-          name = if name then "#{name}.#{@name}"
-                 else         @name
-                 end
-
-          DNS.resolver(**kwargs).get_mailservers(name.to_s)
+        def get_mailservers(**kwargs)
+          DNS.resolver(**kwargs).get_mailservers(@name)
         end
 
         #
@@ -760,9 +753,6 @@ module Ronin
         #
         # Queries the nameservers for the host name.
         #
-        # @param [String, nil] name
-        #   The optional record name to query.
-        #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments.
         #
@@ -775,12 +765,8 @@ module Ronin
         # @return [Array<String>]
         #   The host names of the nameservers serving the given host name.
         #
-        def get_nameservers(name=nil,**kwargs)
-          name = if name then "#{name}.#{@name}"
-                 else         @name
-                 end
-
-          DNS.resolver(**kwargs).get_nameservers(name.to_s)
+        def get_nameservers(**kwargs)
+          DNS.resolver(**kwargs).get_nameservers(@name)
         end
 
         #

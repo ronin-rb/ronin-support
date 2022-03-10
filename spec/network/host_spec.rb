@@ -780,14 +780,6 @@ describe Ronin::Support::Network::Host do
           expect(subject.get_mailservers).to eq([])
         end
       end
-
-      context "when a record name is given" do
-        it "must query the MX records for the name under the host name" do
-          pending "cannot find a sub-domain that has a MX record"
-
-          expect(subject.get_minfo_records(name)).to eq(mailservers)
-        end
-      end
     end
   end
 
@@ -869,14 +861,6 @@ describe Ronin::Support::Network::Host do
 
         it "must return an empty Array" do
           expect(subject.get_nameservers).to eq([])
-        end
-      end
-
-      context "when a record name is given" do
-        it "must query the NS records for the name under the host name" do
-          pending "cannot find a sub-domain that has a NS record"
-
-          expect(subject.get_minfo_records(name)).to eq(mailservers)
         end
       end
     end
