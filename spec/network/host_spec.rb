@@ -282,7 +282,7 @@ describe Ronin::Support::Network::Host do
         let(:hostname) { domain }
 
         it "must return nil" do
-          expect(subject.get_cname_record).to be(nil)
+          expect(subject.get_cname).to be(nil)
         end
       end
 
