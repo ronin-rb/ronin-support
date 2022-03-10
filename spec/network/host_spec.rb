@@ -99,7 +99,7 @@ describe Ronin::Support::Network::Host do
         let(:hostname) { bad_hostname }
 
         it "must return an empty Array" do
-          expect(subject.get_addresses).to eq([])
+          expect(subject.get_ips).to eq([])
         end
       end
     end
