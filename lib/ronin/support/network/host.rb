@@ -278,6 +278,18 @@ module Ronin
         end
 
         #
+        # The `CNAME` record for the host.
+        #
+        # @return [String, nil]
+        #   The `CNAME` host name.
+        #
+        # @note This method returns memoized data.
+        #
+        def cname
+          @cname ||= get_cname
+        end
+
+        #
         # Queries the canonical name for the host name.
         #
         # @param [String, nil] name

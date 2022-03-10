@@ -298,6 +298,25 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#cname" do
+    context "integration", :network do
+      let(:domain)   { 'twitter.com'   }
+      let(:hostname) { "www.#{domain}" }
+
+      it "must return the CNAME string" do
+        expect(subject.cname).to eq(domain)
+      end
+
+      context "when the host name does not have a CNAME record" do
+        let(:hostname) { domain }
+
+        it "must return nil" do
+          expect(subject.cname).to be(nil)
+        end
+      end
+    end
+  end
+
   describe "#get_hinfo_record" do
     context "integration", :network do
       let(:hostname) { "hinfo-example.lookup.dog" }
