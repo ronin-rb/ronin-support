@@ -96,6 +96,20 @@ describe Ronin::Support::Network::DNS do
     end
   end
 
+  describe ".lookup" do
+    context "integration", :network do
+      it "must lookup the address for a hostname" do
+        expect(subject.lookup(hostname)).to eq(address)
+      end
+
+      context "when the host nmae has no IP addresses" do
+        it "must return nil for unknown hostnames" do
+          expect(subject.lookup(bad_hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
   describe ".get_addresses"  do
     context "integration", :network do
       it "must lookup all addresses for a hostname" do
@@ -119,6 +133,20 @@ describe Ronin::Support::Network::DNS do
       context "when the IP address has no host names associated with it" do
         it "must return nil" do
           expect(subject.get_name(bad_address)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".reverse_lookup"  do
+    context "integration", :network do
+      it "should lookup the address for a hostname" do
+        expect(subject.reverse_lookup(reverse_address)).to eq(reverse_hostname)
+      end
+
+      context "when the IP address has no host names associated with it" do
+        it "must return nil" do
+          expect(subject.reverse_lookup(bad_address)).to be(nil)
         end
       end
     end

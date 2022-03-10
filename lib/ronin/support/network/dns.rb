@@ -124,7 +124,7 @@ module Ronin
         #
         # @see get_address
         #
-        def lookup(host,**kwargs)
+        def self.lookup(host,**kwargs)
           get_address(host,**kwargs)
         end
 
@@ -179,7 +179,7 @@ module Ronin
         #
         # @see get_name
         #
-        def reverse_lookup(ip,**kwargs)
+        def self.reverse_lookup(ip,**kwargs)
           get_name(ip,**kwargs)
         end
 
