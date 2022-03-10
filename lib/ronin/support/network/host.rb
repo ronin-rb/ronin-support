@@ -840,6 +840,21 @@ module Ronin
         end
 
         #
+        # The `SOA` record for the host.
+        #
+        # @return [Resolv::DNS::Resource::SOA, nil]
+        #   The first `SOA` DNS record for the host name or `nil` if the host
+        #   name has no `SOA` records.
+        #
+        # @note This method returns memoized data.
+        #
+        # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/SOA
+        #
+        def soa_record
+          @soa_record ||= get_soa_record
+        end
+
+        #
         # Queiries the first `TXT` DNS record belonging to the host name.
         #
         # @param [String, nil] name

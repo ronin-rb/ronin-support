@@ -961,6 +961,26 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#soa_record" do
+    context "integration", :network do
+      let(:hostname) { 'example.com' }
+
+      it "must return the Resolv::DNS::Resource::IN::SOA record" do
+        soa_record = subject.soa_record
+
+        expect(soa_record).to be_kind_of(Resolv::DNS::Resource::IN::SOA)
+      end
+
+      context "when the host name does not have any SOA records" do
+        let(:hostname) { 'www.example.com' }
+
+        it "must return nil" do
+          expect(subject.soa_record).to be(nil)
+        end
+      end
+    end
+  end
+
   describe "#get_txt_record" do
     context "integration", :network do
       let(:hostname) { 'example.com' }
