@@ -184,7 +184,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_record(name.to_s,type_class)
+          DNS.resolver(**kwargs).get_record(name,type_class)
         end
 
         #
@@ -215,7 +215,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_records(name.to_s,type_class)
+          DNS.resolver(**kwargs).get_records(name,type_class)
         end
 
         #
@@ -243,7 +243,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_any_records(name.to_s)
+          DNS.resolver(**kwargs).get_any_records(name)
         end
 
         #
@@ -272,7 +272,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_cname_record(name.to_s)
+          DNS.resolver(**kwargs).get_cname_record(name)
         end
 
         #
@@ -299,7 +299,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_cname(name.to_s)
+          DNS.resolver(**kwargs).get_cname(name)
         end
 
         #
@@ -328,7 +328,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_hinfo_record(name.to_s)
+          DNS.resolver(**kwargs).get_hinfo_record(name)
         end
 
         #
@@ -357,7 +357,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_a_record(name.to_s)
+          DNS.resolver(**kwargs).get_a_record(name)
         end
 
         #
@@ -383,7 +383,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_a_address(name.to_s)
+          DNS.resolver(**kwargs).get_a_address(name)
         end
 
         #
@@ -411,7 +411,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_a_records(name.to_s)
+          DNS.resolver(**kwargs).get_a_records(name)
         end
 
         #
@@ -437,7 +437,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_a_addresses(name.to_s)
+          DNS.resolver(**kwargs).get_a_addresses(name)
         end
 
         #
@@ -466,7 +466,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_aaaa_record(name.to_s)
+          DNS.resolver(**kwargs).get_aaaa_record(name)
         end
 
         #
@@ -493,7 +493,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_aaaa_address(name.to_s)
+          DNS.resolver(**kwargs).get_aaaa_address(name)
         end
 
         #
@@ -521,7 +521,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_aaaa_records(name.to_s)
+          DNS.resolver(**kwargs).get_aaaa_records(name)
         end
 
         #
@@ -547,7 +547,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_aaaa_addresses(name.to_s)
+          DNS.resolver(**kwargs).get_aaaa_addresses(name)
         end
 
         #
@@ -575,7 +575,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_srv_records(name.to_s)
+          DNS.resolver(**kwargs).get_srv_records(name)
         end
 
         #
@@ -604,7 +604,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_wks_records(name.to_s)
+          DNS.resolver(**kwargs).get_wks_records(name)
         end
 
         #
@@ -633,7 +633,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_loc_record(name.to_s)
+          DNS.resolver(**kwargs).get_loc_record(name)
         end
 
         #
@@ -662,7 +662,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_minfo_record(name.to_s)
+          DNS.resolver(**kwargs).get_minfo_record(name)
         end
 
         #
@@ -690,7 +690,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_mx_records(name.to_s)
+          DNS.resolver(**kwargs).get_mx_records(name)
         end
 
         #
@@ -747,7 +747,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_ns_records(name.to_s)
+          DNS.resolver(**kwargs).get_ns_records(name)
         end
 
         #
@@ -805,7 +805,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_soa_record(name.to_s)
+          DNS.resolver(**kwargs).get_soa_record(name)
         end
 
         #
@@ -834,7 +834,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_txt_record(name.to_s)
+          DNS.resolver(**kwargs).get_txt_record(name)
         end
 
         #
@@ -861,7 +861,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_txt_string(name.to_s)
+          DNS.resolver(**kwargs).get_txt_string(name)
         end
 
         #
@@ -889,7 +889,7 @@ module Ronin
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_txt_records(name.to_s)
+          DNS.resolver(**kwargs).get_txt_records(name)
         end
 
         #
