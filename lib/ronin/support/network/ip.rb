@@ -278,7 +278,25 @@ module Ronin
           DNS.get_ptr_names(self,**kwargs)
         end
 
-        alias to_str to_s
+        #
+        # Converts the IP into a String.
+        #
+        # @return [String]
+        #   The IP address.
+        #
+        def to_s
+          @address.to_s
+        end
+
+        #
+        # Converts the IP into a String.
+        #
+        # @return [String]
+        #   The IP address.
+        #
+        def to_str
+          @address.to_str
+        end
 
       end
     end
