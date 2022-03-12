@@ -81,6 +81,17 @@ module Ronin
         Float32_NE = Network::Float32
         Float64_NE = Network::Float64
 
+        Int16_Net = Network::Int16
+        Int32_Net = Network::Int32
+        Int64_Net = Network::Int64
+
+        UInt16_Net = Network::UInt16
+        UInt32_Net = Network::UInt32
+        UInt64_Net = Network::UInt64
+
+        Float32_Net = Network::Float32
+        Float64_Net = Network::Float64
+
         # All types (native, little-endian, big-endian, and network byte-order).
         TYPES = {
           int8:  Native::Int8,
@@ -189,7 +200,32 @@ module Ronin
           float64_ne: Network::Float64,
 
           float_ne:   Network::Float32,
-          double_ne:  Network::Float64
+          double_ne:  Network::Float64,
+
+          # _net -> _ne aliases
+          int16_net: Network::Int16,
+          int32_net: Network::Int32,
+          int64_net: Network::Int64,
+
+          short_net:     Network::Int16,
+          int_net:       Network::Int32,
+          long_net:      Network::Int32,
+          long_long_net: Network::Int64,
+
+          uint16_net: Network::UInt16,
+          uint32_net: Network::UInt32,
+          uint64_net: Network::UInt64,
+
+          ushort_net:     Network::UInt16,
+          uint_net:       Network::UInt32,
+          ulong_net:      Network::UInt32,
+          ulong_long_net: Network::UInt64,
+
+          float32_net: Network::Float32,
+          float64_net: Network::Float64,
+
+          float_net:   Network::Float32,
+          double_net:  Network::Float64
         }
 
         #
