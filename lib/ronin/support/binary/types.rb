@@ -26,6 +26,61 @@ module Ronin
   module Support
     module Binary
       module Types
+        Int8  = Native::Int8
+        Int16 = Native::Int16
+        Int32 = Native::Int32
+        Int64 = Native::Int64
+
+        UInt8  = Native::UInt8
+        UInt16 = Native::UInt16
+        UInt32 = Native::UInt32
+        UInt64 = Native::UInt64
+
+        Byte  = Native::UInt8
+        Char  = Native::Char
+        UChar = Native::UChar
+
+        CString = Native::CString
+
+        Float32 = Native::Float32
+        Float64 = Native::Float64
+
+        # little-endian types
+        Int16_LE = LittleEndian::Int16
+        Int32_LE = LittleEndian::Int32
+        Int64_LE = LittleEndian::Int64
+
+        UInt16_LE = LittleEndian::UInt16
+        UInt32_LE = LittleEndian::UInt32
+        UInt64_LE = LittleEndian::UInt64
+
+        Float32_LE = LittleEndian::Float32
+        Float64_LE = LittleEndian::Float64
+
+        # big-endian types
+        Int16_BE = BigEndian::Int16
+        Int32_BE = BigEndian::Int32
+        Int64_BE = BigEndian::Int64
+
+        UInt16_BE = BigEndian::UInt16
+        UInt32_BE = BigEndian::UInt32
+        UInt64_BE = BigEndian::UInt64
+
+        Float32_BE = BigEndian::Float32
+        Float64_BE = BigEndian::Float64
+
+        # network byte-order types
+        Int16_NE = Network::Int16
+        Int32_NE = Network::Int32
+        Int64_NE = Network::Int64
+
+        UInt16_NE = Network::UInt16
+        UInt32_NE = Network::UInt32
+        UInt64_NE = Network::UInt64
+
+        Float32_NE = Network::Float32
+        Float64_NE = Network::Float64
+
         # All types (native, little-endian, big-endian, and network byte-order).
         TYPES = {
           int8:  Native::Int8,

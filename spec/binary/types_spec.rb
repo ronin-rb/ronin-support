@@ -2,6 +2,234 @@ require 'spec_helper'
 require 'ronin/support/binary/types'
 
 describe Ronin::Support::Binary::Types do
+  describe "Int8" do
+    subject { described_class::Int8 }
+
+    it { expect(subject).to eq(described_class::Native::Int8) }
+  end
+
+  describe "Int16" do
+    subject { described_class::Int16 }
+
+    it { expect(subject).to eq(described_class::Native::Int16) }
+  end
+
+  describe "Int32" do
+    subject { described_class::Int32 }
+
+    it { expect(subject).to eq(described_class::Native::Int32) }
+  end
+
+  describe "Int64" do
+    subject { described_class::Int64 }
+
+    it { expect(subject).to eq(described_class::Native::Int64) }
+  end
+
+  describe "UInt8" do
+    subject { described_class::UInt8 }
+
+    it { expect(subject).to eq(described_class::Native::UInt8) }
+  end
+
+  describe "UInt16" do
+    subject { described_class::UInt16 }
+
+    it { expect(subject).to eq(described_class::Native::UInt16) }
+  end
+
+  describe "UInt32" do
+    subject { described_class::UInt32 }
+
+    it { expect(subject).to eq(described_class::Native::UInt32) }
+  end
+
+  describe "UInt64" do
+    subject { described_class::UInt64 }
+
+    it { expect(subject).to eq(described_class::Native::UInt64) }
+  end
+
+  describe "Float32" do
+    subject { described_class::Float32 }
+
+    it { expect(subject).to eq(described_class::Native::Float32) }
+  end
+
+  describe "Float64" do
+    subject { described_class::Float64 }
+
+    it { expect(subject).to eq(described_class::Native::Float64) }
+  end
+
+  describe "Char" do
+    subject { described_class::Char }
+
+    it { expect(subject).to eq(described_class::Native::Char) }
+  end
+
+  describe "UChar" do
+    subject { described_class::UChar }
+
+    it { expect(subject).to eq(described_class::Native::UChar) }
+  end
+
+  describe "Byte" do
+    subject { described_class::Byte }
+
+    it { expect(subject).to eq(described_class::Native::Byte) }
+  end
+
+  describe "CString" do
+    subject { described_class::CString }
+
+    it { expect(subject).to eq(described_class::Native::CString) }
+  end
+
+  describe "Int16_LE" do
+    subject { described_class::Int16_LE }
+
+    it { expect(subject).to eq(described_class::LittleEndian::Int16) }
+  end
+
+  describe "Int32_LE" do
+    subject { described_class::Int32_LE }
+
+    it { expect(subject).to eq(described_class::LittleEndian::Int32) }
+  end
+
+  describe "Int64_LE" do
+    subject { described_class::Int64_LE }
+
+    it { expect(subject).to eq(described_class::LittleEndian::Int64) }
+  end
+
+  describe "UInt16_LE" do
+    subject { described_class::UInt16_LE }
+
+    it { expect(subject).to eq(described_class::LittleEndian::UInt16) }
+  end
+
+  describe "UInt32_LE" do
+    subject { described_class::UInt32_LE }
+
+    it { expect(subject).to eq(described_class::LittleEndian::UInt32) }
+  end
+
+  describe "UInt64_LE" do
+    subject { described_class::UInt64_LE }
+
+    it { expect(subject).to eq(described_class::LittleEndian::UInt64) }
+  end
+
+  describe "Float32_LE" do
+    subject { described_class::Float32_LE }
+
+    it { expect(subject).to eq(described_class::LittleEndian::Float32) }
+  end
+
+  describe "Float64_LE" do
+    subject { described_class::Float64_LE }
+
+    it { expect(subject).to eq(described_class::LittleEndian::Float64) }
+  end
+
+  describe "Int16_BE" do
+    subject { described_class::Int16_BE }
+
+    it { expect(subject).to eq(described_class::BigEndian::Int16) }
+  end
+
+  describe "Int32_BE" do
+    subject { described_class::Int32_BE }
+
+    it { expect(subject).to eq(described_class::BigEndian::Int32) }
+  end
+
+  describe "Int64_BE" do
+    subject { described_class::Int64_BE }
+
+    it { expect(subject).to eq(described_class::BigEndian::Int64) }
+  end
+
+  describe "UInt16_BE" do
+    subject { described_class::UInt16_BE }
+
+    it { expect(subject).to eq(described_class::BigEndian::UInt16) }
+  end
+
+  describe "UInt32_BE" do
+    subject { described_class::UInt32_BE }
+
+    it { expect(subject).to eq(described_class::BigEndian::UInt32) }
+  end
+
+  describe "UInt64_BE" do
+    subject { described_class::UInt64_BE }
+
+    it { expect(subject).to eq(described_class::BigEndian::UInt64) }
+  end
+
+  describe "Float32_BE" do
+    subject { described_class::Float32_BE }
+
+    it { expect(subject).to eq(described_class::BigEndian::Float32) }
+  end
+
+  describe "Float64_BE" do
+    subject { described_class::Float64_BE }
+
+    it { expect(subject).to eq(described_class::BigEndian::Float64) }
+  end
+
+  describe "Int16_NE" do
+    subject { described_class::Int16_NE }
+
+    it { expect(subject).to eq(described_class::Network::Int16) }
+  end
+
+  describe "Int32_NE" do
+    subject { described_class::Int32_NE }
+
+    it { expect(subject).to eq(described_class::Network::Int32) }
+  end
+
+  describe "Int64_NE" do
+    subject { described_class::Int64_NE }
+
+    it { expect(subject).to eq(described_class::Network::Int64) }
+  end
+
+  describe "UInt16_NE" do
+    subject { described_class::UInt16_NE }
+
+    it { expect(subject).to eq(described_class::Network::UInt16) }
+  end
+
+  describe "UInt32_NE" do
+    subject { described_class::UInt32_NE }
+
+    it { expect(subject).to eq(described_class::Network::UInt32) }
+  end
+
+  describe "UInt64_NE" do
+    subject { described_class::UInt64_NE }
+
+    it { expect(subject).to eq(described_class::Network::UInt64) }
+  end
+
+  describe "Float32_NE" do
+    subject { described_class::Float32_NE }
+
+    it { expect(subject).to eq(described_class::Network::Float32) }
+  end
+
+  describe "Float64_NE" do
+    subject { described_class::Float64_NE }
+
+    it { expect(subject).to eq(described_class::Network::Float64) }
+  end
+
   describe "TYPES" do
     subject { described_class::TYPES }
 
