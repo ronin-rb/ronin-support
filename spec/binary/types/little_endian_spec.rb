@@ -259,45 +259,9 @@ describe Ronin::Support::Binary::Types::LittleEndian do
       end
     end
 
-    describe "short_le" do
-      it "must be an alias to int16_le" do
-        expect(subject[:short_le]).to be(subject[:int16_le])
-      end
-    end
-
-    describe "short_be" do
-      it "must be an alias to int16_be" do
-        expect(subject[:short_be]).to be(subject[:int16_be])
-      end
-    end
-
-    describe "short_net" do
-      it "must be an alias to int16_net" do
-        expect(subject[:short_net]).to be(subject[:int16_net])
-      end
-    end
-
     describe "ushort" do
       it "must be an alias to uint16" do
         expect(subject[:ushort]).to be(subject[:uint16])
-      end
-    end
-
-    describe "ushort_le" do
-      it "must be an alias to uint16_le" do
-        expect(subject[:ushort_le]).to be(subject[:uint16_le])
-      end
-    end
-
-    describe "ushort_be" do
-      it "must be an alias to uint16_be" do
-        expect(subject[:ushort_be]).to be(subject[:uint16_be])
-      end
-    end
-
-    describe "ushort_net" do
-      it "must be an alias to uint16_net" do
-        expect(subject[:ushort_net]).to be(subject[:uint16_net])
       end
     end
 
@@ -323,45 +287,9 @@ describe Ronin::Support::Binary::Types::LittleEndian do
       end
     end
 
-    describe "int_le" do
-      it "must be an alias to int32_le" do
-        expect(subject[:int_le]).to be(subject[:int32_le])
-      end
-    end
-
-    describe "int_be" do
-      it "must be an alias to int32_be" do
-        expect(subject[:int_be]).to be(subject[:int32_be])
-      end
-    end
-
-    describe "int_net" do
-      it "must be an alias to int32_net" do
-        expect(subject[:int_net]).to be(subject[:int32_net])
-      end
-    end
-
     describe "long" do
       it "must be an alias to int32" do
         expect(subject[:long]).to be(subject[:int32])
-      end
-    end
-
-    describe "long_le" do
-      it "must be an alias to int32_le" do
-        expect(subject[:long_le]).to be(subject[:int32_le])
-      end
-    end
-
-    describe "long_be" do
-      it "must be an alias to int32_be" do
-        expect(subject[:long_be]).to be(subject[:int32_be])
-      end
-    end
-
-    describe "long_net" do
-      it "must be an alias to int32_net" do
-        expect(subject[:long_net]).to be(subject[:int32_net])
       end
     end
 
@@ -371,45 +299,9 @@ describe Ronin::Support::Binary::Types::LittleEndian do
       end
     end
 
-    describe "uint_le" do
-      it "must be an alias to uint32_le" do
-        expect(subject[:uint_le]).to be(subject[:uint32_le])
-      end
-    end
-
-    describe "uint_be" do
-      it "must be an alias to uint32_be" do
-        expect(subject[:uint_be]).to be(subject[:uint32_be])
-      end
-    end
-
-    describe "uint_net" do
-      it "must be an alias to uint32_net" do
-        expect(subject[:uint_net]).to be(subject[:uint32_net])
-      end
-    end
-
     describe "ulong" do
       it "must be an alias to uint32" do
         expect(subject[:ulong]).to be(subject[:uint32])
-      end
-    end
-
-    describe "ulong_le" do
-      it "must be an alias to uint32_le" do
-        expect(subject[:ulong_le]).to be(subject[:uint32_le])
-      end
-    end
-
-    describe "ulong_be" do
-      it "must be an alias to uint32_be" do
-        expect(subject[:ulong_be]).to be(subject[:uint32_be])
-      end
-    end
-
-    describe "ulong_net" do
-      it "must be an alias to uint32_net" do
-        expect(subject[:ulong_net]).to be(subject[:uint32_net])
       end
     end
 
@@ -435,45 +327,9 @@ describe Ronin::Support::Binary::Types::LittleEndian do
       end
     end
 
-    describe "long_long_le" do
-      it "must be an alias to int64_le" do
-        expect(subject[:long_long_le]).to be(subject[:int64_le])
-      end
-    end
-
-    describe "long_long_be" do
-      it "must be an alias to int64_be" do
-        expect(subject[:long_long_be]).to be(subject[:int64_be])
-      end
-    end
-
-    describe "long_long_net" do
-      it "must be an alias to int64_net" do
-        expect(subject[:long_long_net]).to be(subject[:int64_net])
-      end
-    end
-
     describe "ulong_long" do
       it "must be an alias to uint64" do
         expect(subject[:ulong_long]).to be(subject[:uint64])
-      end
-    end
-
-    describe "ulong_long_le" do
-      it "must be an alias to uint64_le" do
-        expect(subject[:ulong_long_le]).to be(subject[:uint64_le])
-      end
-    end
-
-    describe "ulong_long_be" do
-      it "must be an alias to uint64_be" do
-        expect(subject[:ulong_long_be]).to be(subject[:uint64_be])
-      end
-    end
-
-    describe "ulong_long_net" do
-      it "must be an alias to uint64_net" do
-        expect(subject[:ulong_long_net]).to be(subject[:uint64_net])
       end
     end
 
@@ -499,45 +355,9 @@ describe Ronin::Support::Binary::Types::LittleEndian do
       end
     end
 
-    describe "float_le" do
-      it "must be an alias to float32_le" do
-        expect(subject[:float_le]).to be(subject[:float32_le])
-      end
-    end
-
-    describe "float_be" do
-      it "must be an alias to float32_be" do
-        expect(subject[:float_be]).to be(subject[:float32_be])
-      end
-    end
-
-    describe "float_net" do
-      it "must be an alias to float32_net" do
-        expect(subject[:float_net]).to be(subject[:float32_net])
-      end
-    end
-
     describe "double" do
       it "must be an alias to float64" do
         expect(subject[:double]).to be(subject[:float64])
-      end
-    end
-
-    describe "double_le" do
-      it "must be an alias to float64_le" do
-        expect(subject[:double_le]).to be(subject[:float64_le])
-      end
-    end
-
-    describe "double_be" do
-      it "must be an alias to float64_be" do
-        expect(subject[:double_be]).to be(subject[:float64_be])
-      end
-    end
-
-    describe "double_net" do
-      it "must be an alias to float64_net" do
-        expect(subject[:double_net]).to be(subject[:float64_net])
       end
     end
   end
