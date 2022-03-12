@@ -178,6 +178,12 @@ describe Ronin::Support::Binary::Types::BigEndian do
     end
   end
 
+  describe "Byte" do
+    subject { described_class::Byte }
+
+    it { expect(subject).to eq(described_class::UInt8) }
+  end
+
   describe "CString" do
     subject { described_class::CString }
 

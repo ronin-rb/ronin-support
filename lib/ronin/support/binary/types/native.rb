@@ -84,6 +84,9 @@ module Ronin
           # The `unsigned char` type.
           UChar = CharType.new(signed: false, pack_string: 'A')
 
+          # The `byte` type.
+          Byte = UInt8
+
           # The null-terminated C string type.
           CString = UnboundedArrayType.new(Char)
 
