@@ -430,7 +430,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "#float32" do
+    describe "float32" do
       subject { super()[:float32] }
 
       it "must equal #{described_class}::Native::Float32" do
@@ -438,7 +438,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "#float64" do
+    describe "float64" do
       subject { super()[:float64] }
 
       it "must equal #{described_class}::Native::Float64" do
@@ -509,7 +509,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "#float32_le" do
+    describe "float32_le" do
       subject { super()[:float32_le] }
 
       it "must equal #{described_class}::LittleEndian::Float32" do
@@ -517,7 +517,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "#float64_le" do
+    describe "float64_le" do
       subject { super()[:float64_le] }
 
       it "must equal #{described_class}::LittleEndian::Float64" do
@@ -636,7 +636,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "#float32_be" do
+    describe "float32_be" do
       subject { super()[:float32_be] }
 
       it "must equal #{described_class}::BigEndian::Float32" do
@@ -644,7 +644,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "#float64_be" do
+    describe "float64_be" do
       subject { super()[:float64_be] }
 
       it "must equal #{described_class}::BigEndian::Float64" do
@@ -763,7 +763,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "#float32_ne" do
+    describe "float32_ne" do
       subject { super()[:float32_ne] }
 
       it "must equal #{described_class}::Network::Float32" do
@@ -771,7 +771,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "#float64_ne" do
+    describe "float64_ne" do
       subject { super()[:float64_ne] }
 
       it "must equal #{described_class}::Network::Float64" do
@@ -887,7 +887,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "#float32_net" do
+    describe "float32_net" do
       subject { super()[:float32_net] }
 
       it "must equal #{described_class}::Network::Float32" do
@@ -895,7 +895,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "#float64_net" do
+    describe "float64_net" do
       subject { super()[:float64_net] }
 
       it "must equal #{described_class}::Network::Float64" do
