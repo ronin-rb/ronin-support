@@ -99,7 +99,7 @@ module Ronin
 
             short:     Int16,
             int:       Int32,
-            long:      Int32,
+            long:      Int64,
             long_long: Int64,
 
             uint8:  UInt8,
@@ -110,7 +110,7 @@ module Ronin
             byte:       UInt8,
             ushort:     UInt16,
             uint:       UInt32,
-            ulong:      UInt32,
+            ulong:      UInt64,
             ulong_long: UInt64,
 
             float32: Float32,

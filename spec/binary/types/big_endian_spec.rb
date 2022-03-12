@@ -289,7 +289,7 @@ describe Ronin::Support::Binary::Types::BigEndian do
 
     describe "long" do
       it "must be an alias to int32" do
-        expect(subject[:long]).to be(subject[:int32])
+        expect(subject[:long]).to be(subject[:int64])
       end
     end
 
@@ -301,7 +301,7 @@ describe Ronin::Support::Binary::Types::BigEndian do
 
     describe "ulong" do
       it "must be an alias to uint32" do
-        expect(subject[:ulong]).to be(subject[:uint32])
+        expect(subject[:ulong]).to be(subject[:uint64])
       end
     end
 

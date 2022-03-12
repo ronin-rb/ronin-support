@@ -101,7 +101,7 @@ module Ronin
 
           short:     Native::Int16,
           int:       Native::Int32,
-          long:      Native::Int32,
+          long:      Native::Int64,
           long_long: Native::Int64,
 
           uint8:  Native::UInt8,
@@ -112,7 +112,7 @@ module Ronin
           byte:       Native::UInt8,
           ushort:     Native::UInt16,
           uint:       Native::UInt32,
-          ulong:      Native::UInt32,
+          ulong:      Native::UInt64,
           ulong_long: Native::UInt64,
 
           char:  Native::Char,
@@ -134,7 +134,7 @@ module Ronin
 
           short_le:     LittleEndian::Int16,
           int_le:       LittleEndian::Int32,
-          long_le:      LittleEndian::Int32,
+          long_le:      LittleEndian::Int64,
           long_long_le: LittleEndian::Int64,
 
           uint16_le: LittleEndian::UInt16,
@@ -143,7 +143,7 @@ module Ronin
 
           ushort_le:     LittleEndian::UInt16,
           uint_le:       LittleEndian::UInt32,
-          ulong_le:      LittleEndian::UInt32,
+          ulong_le:      LittleEndian::UInt64,
           ulong_long_le: LittleEndian::UInt64,
 
           float32_le: LittleEndian::Float32,
@@ -159,7 +159,7 @@ module Ronin
 
           short_be:     BigEndian::Int16,
           int_be:       BigEndian::Int32,
-          long_be:      BigEndian::Int32,
+          long_be:      BigEndian::Int64,
           long_long_be: BigEndian::Int64,
 
           uint16_be: BigEndian::UInt16,
@@ -168,7 +168,7 @@ module Ronin
 
           ushort_be:     BigEndian::UInt16,
           uint_be:       BigEndian::UInt32,
-          ulong_be:      BigEndian::UInt32,
+          ulong_be:      BigEndian::UInt64,
           ulong_long_be: BigEndian::UInt64,
 
           float32_be: BigEndian::Float32,
@@ -184,7 +184,7 @@ module Ronin
 
           short_ne:     Network::Int16,
           int_ne:       Network::Int32,
-          long_ne:      Network::Int32,
+          long_ne:      Network::Int64,
           long_long_ne: Network::Int64,
 
           uint16_ne: Network::UInt16,
@@ -193,7 +193,7 @@ module Ronin
 
           ushort_ne:     Network::UInt16,
           uint_ne:       Network::UInt32,
-          ulong_ne:      Network::UInt32,
+          ulong_ne:      Network::UInt64,
           ulong_long_ne: Network::UInt64,
 
           float32_ne: Network::Float32,
@@ -209,7 +209,7 @@ module Ronin
 
           short_net:     Network::Int16,
           int_net:       Network::Int32,
-          long_net:      Network::Int32,
+          long_net:      Network::Int64,
           long_long_net: Network::Int64,
 
           uint16_net: Network::UInt16,
@@ -218,7 +218,7 @@ module Ronin
 
           ushort_net:     Network::UInt16,
           uint_net:       Network::UInt32,
-          ulong_net:      Network::UInt32,
+          ulong_net:      Network::UInt64,
           ulong_long_net: Network::UInt64,
 
           float32_net: Network::Float32,
