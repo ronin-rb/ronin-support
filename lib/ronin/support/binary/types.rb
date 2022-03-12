@@ -202,7 +202,7 @@ module Ronin
           float_ne:   Network::Float32,
           double_ne:  Network::Float64,
 
-          # _net -> _ne aliases
+          # `_net` -> `_ne` aliases
           int16_net: Network::Int16,
           int32_net: Network::Int32,
           int64_net: Network::Int64,
