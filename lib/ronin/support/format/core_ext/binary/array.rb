@@ -27,13 +27,15 @@ class Array
   # Packs the Array into a String.
   #
   # @param [String, Array<Symbol, (Symbol, Integer)>] arguments
-  #   The `Array#pack` template or a list of {Ronin::Support::Binary::Template} types.
+  #   The `Array#pack` template or a list of {Ronin::Support::Binary::Template}
+  #   types.
   #
   # @return [String]
   #   The packed Array.
   #
   # @raise [ArgumentError]
-  #   One of the arguments was not a known {Ronin::Support::Binary::Template} type.
+  #   One of the arguments was not a known {Ronin::Support::Binary::Template}
+  #   type.
   #
   # @example using {Ronin::Support::Binary::Template} types:
   #   [0x1234, "hello"].pack(:uint16_le, :string)
