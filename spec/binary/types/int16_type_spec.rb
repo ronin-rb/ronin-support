@@ -5,7 +5,7 @@ describe Ronin::Support::Binary::Types::Int16Type do
   it { expect(described_class).to be < Ronin::Support::Binary::Types::IntType }
 
   let(:endian)      { :little }
-  let(:pack_string) { 'l<' }
+  let(:pack_string) { 's<' }
 
   subject do
     described_class.new(
