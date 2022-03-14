@@ -21,6 +21,7 @@ require 'ronin/support/binary/types/native'
 require 'ronin/support/binary/types/little_endian'
 require 'ronin/support/binary/types/big_endian'
 require 'ronin/support/binary/types/network'
+require 'ronin/support/binary/types/arch'
 
 module Ronin
   module Support
