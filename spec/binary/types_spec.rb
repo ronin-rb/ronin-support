@@ -296,13 +296,13 @@ describe Ronin::Support::Binary::Types do
     #
     # Native types specs
     #
-    describe "byte" do
+    describe ":byte" do
       it "must be an alias to uint8" do
         expect(subject[:byte]).to be(subject[:uint8])
       end
     end
 
-    describe "char" do
+    describe ":char" do
       subject { super()[:char] }
 
       it "must equal #{described_class}::Native::Char" do
@@ -310,7 +310,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uchar" do
+    describe ":uchar" do
       subject { super()[:uchar] }
 
       it "must equal #{described_class}::Native::UChar" do
@@ -318,7 +318,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "int8" do
+    describe ":int8" do
       subject { super()[:int8] }
 
       it "must equal #{described_class}::Native::Int8" do
@@ -326,7 +326,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint8" do
+    describe ":uint8" do
       subject { super()[:uint8] }
 
       it "must equal #{described_class}::Native::UInt8" do
@@ -334,7 +334,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "int16" do
+    describe ":int16" do
       subject { super()[:int16] }
 
       it "must equal #{described_class}::Native::Int16" do
@@ -342,7 +342,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint16" do
+    describe ":uint16" do
       subject { super()[:uint16] }
 
       it "must equal #{described_class}::Native::UInt16" do
@@ -350,19 +350,19 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "short" do
+    describe ":short" do
       it "must be an alias to int16" do
         expect(subject[:short]).to be(subject[:int16])
       end
     end
 
-    describe "ushort" do
+    describe ":ushort" do
       it "must be an alias to uint16" do
         expect(subject[:ushort]).to be(subject[:uint16])
       end
     end
 
-    describe "int32" do
+    describe ":int32" do
       subject { super()[:int32] }
 
       it "must equal #{described_class}::Native::Int32" do
@@ -370,7 +370,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint32" do
+    describe ":uint32" do
       subject { super()[:uint32] }
 
       it "must equal #{described_class}::Native::UInt32" do
@@ -378,31 +378,31 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "int" do
+    describe ":int" do
       it "must be an alias to int32" do
         expect(subject[:int]).to be(subject[:int32])
       end
     end
 
-    describe "long" do
+    describe ":long" do
       it "must be an alias to int64" do
         expect(subject[:long]).to be(subject[:int64])
       end
     end
 
-    describe "uint" do
+    describe ":uint" do
       it "must be an alias to uint32" do
         expect(subject[:uint]).to be(subject[:uint32])
       end
     end
 
-    describe "ulong" do
+    describe ":ulong" do
       it "must be an alias to uint64" do
         expect(subject[:ulong]).to be(subject[:uint64])
       end
     end
 
-    describe "int64" do
+    describe ":int64" do
       subject { super()[:int64] }
 
       it "must equal #{described_class}::Native::Int64" do
@@ -410,7 +410,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint64" do
+    describe ":uint64" do
       subject { super()[:uint64] }
 
       it "must equal #{described_class}::Native::UInt64" do
@@ -418,19 +418,19 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "long_long" do
+    describe ":long_long" do
       it "must be an alias to int64" do
         expect(subject[:long_long]).to be(subject[:int64])
       end
     end
 
-    describe "ulong_long" do
+    describe ":ulong_long" do
       it "must be an alias to uint64" do
         expect(subject[:ulong_long]).to be(subject[:uint64])
       end
     end
 
-    describe "float32" do
+    describe ":float32" do
       subject { super()[:float32] }
 
       it "must equal #{described_class}::Native::Float32" do
@@ -438,7 +438,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "float64" do
+    describe ":float64" do
       subject { super()[:float64] }
 
       it "must equal #{described_class}::Native::Float64" do
@@ -446,13 +446,13 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "float" do
+    describe ":float" do
       it "must be an alias to float32" do
         expect(subject[:float]).to be(subject[:float32])
       end
     end
 
-    describe "double" do
+    describe ":double" do
       it "must be an alias to float64" do
         expect(subject[:double]).to be(subject[:float64])
       end
@@ -461,7 +461,7 @@ describe Ronin::Support::Binary::Types do
     #
     # Little-endian specs
     #
-    describe "int16_le" do
+    describe ":int16_le" do
       subject { super()[:int16_le] }
 
       it "must equal #{described_class}::LittleEndian::Int16" do
@@ -469,7 +469,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "int32_le" do
+    describe ":int32_le" do
       subject { super()[:int32_le] }
 
       it "must equal #{described_class}::LittleEndian::Int32" do
@@ -477,7 +477,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "int64_le" do
+    describe ":int64_le" do
       subject { super()[:int64_le] }
 
       it "must equal #{described_class}::LittleEndian::Int64" do
@@ -485,7 +485,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint16_le" do
+    describe ":uint16_le" do
       subject { super()[:uint16_le] }
 
       it "must equal #{described_class}::LittleEndian::UInt16" do
@@ -493,7 +493,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint32_le" do
+    describe ":uint32_le" do
       subject { super()[:uint32_le] }
 
       it "must equal #{described_class}::LittleEndian::UInt32" do
@@ -501,7 +501,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint64_le" do
+    describe ":uint64_le" do
       subject { super()[:uint64_le] }
 
       it "must equal #{described_class}::LittleEndian::UInt64" do
@@ -509,7 +509,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "float32_le" do
+    describe ":float32_le" do
       subject { super()[:float32_le] }
 
       it "must equal #{described_class}::LittleEndian::Float32" do
@@ -517,7 +517,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "float64_le" do
+    describe ":float64_le" do
       subject { super()[:float64_le] }
 
       it "must equal #{described_class}::LittleEndian::Float64" do
@@ -525,61 +525,61 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "short_le" do
+    describe ":short_le" do
       it "must be an alias to int16_le" do
         expect(subject[:short_le]).to be(subject[:int16_le])
       end
     end
 
-    describe "int_le" do
+    describe ":int_le" do
       it "must be an alias to int32_le" do
         expect(subject[:int_le]).to be(subject[:int32_le])
       end
     end
 
-    describe "long_le" do
+    describe ":long_le" do
       it "must be an alias to int64_le" do
         expect(subject[:long_le]).to be(subject[:int64_le])
       end
     end
 
-    describe "long_long_le" do
+    describe ":long_long_le" do
       it "must be an alias to int64_le" do
         expect(subject[:long_long_le]).to be(subject[:int64_le])
       end
     end
 
-    describe "ushort_le" do
+    describe ":ushort_le" do
       it "must be an alias to uint16_le" do
         expect(subject[:ushort_le]).to be(subject[:uint16_le])
       end
     end
 
-    describe "uint_le" do
+    describe ":uint_le" do
       it "must be an alias to uint32_le" do
         expect(subject[:uint_le]).to be(subject[:uint32_le])
       end
     end
 
-    describe "ulong_le" do
+    describe ":ulong_le" do
       it "must be an alias to uint64_le" do
         expect(subject[:ulong_le]).to be(subject[:uint64_le])
       end
     end
 
-    describe "ulong_long_le" do
+    describe ":ulong_long_le" do
       it "must be an alias to uint64_le" do
         expect(subject[:ulong_long_le]).to be(subject[:uint64_le])
       end
     end
 
-    describe "float_le" do
+    describe ":float_le" do
       it "must be an alias to float32_le" do
         expect(subject[:float_le]).to be(subject[:float32_le])
       end
     end
 
-    describe "double_le" do
+    describe ":double_le" do
       it "must be an alias to float64_le" do
         expect(subject[:double_le]).to be(subject[:float64_le])
       end
@@ -588,7 +588,7 @@ describe Ronin::Support::Binary::Types do
     #
     # Big-endian specs
     #
-    describe "int16_be" do
+    describe ":int16_be" do
       subject { super()[:int16_be] }
 
       it "must equal #{described_class}::BigEndian::Int16" do
@@ -596,7 +596,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "int32_be" do
+    describe ":int32_be" do
       subject { super()[:int32_be] }
 
       it "must equal #{described_class}::BigEndian::Int32" do
@@ -604,7 +604,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "int64_be" do
+    describe ":int64_be" do
       subject { super()[:int64_be] }
 
       it "must equal #{described_class}::BigEndian::Int64" do
@@ -612,7 +612,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint16_be" do
+    describe ":uint16_be" do
       subject { super()[:uint16_be] }
 
       it "must equal #{described_class}::BigEndian::UInt16" do
@@ -620,7 +620,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint32_be" do
+    describe ":uint32_be" do
       subject { super()[:uint32_be] }
 
       it "must equal #{described_class}::BigEndian::UInt32" do
@@ -628,7 +628,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint64_be" do
+    describe ":uint64_be" do
       subject { super()[:uint64_be] }
 
       it "must equal #{described_class}::BigEndian::UInt64" do
@@ -636,7 +636,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "float32_be" do
+    describe ":float32_be" do
       subject { super()[:float32_be] }
 
       it "must equal #{described_class}::BigEndian::Float32" do
@@ -644,7 +644,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "float64_be" do
+    describe ":float64_be" do
       subject { super()[:float64_be] }
 
       it "must equal #{described_class}::BigEndian::Float64" do
@@ -652,61 +652,61 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "short_be" do
+    describe ":short_be" do
       it "must be an alias to int16_be" do
         expect(subject[:short_be]).to be(subject[:int16_be])
       end
     end
 
-    describe "int_be" do
+    describe ":int_be" do
       it "must be an alias to int32_be" do
         expect(subject[:int_be]).to be(subject[:int32_be])
       end
     end
 
-    describe "long_be" do
+    describe ":long_be" do
       it "must be an alias to int64_be" do
         expect(subject[:long_be]).to be(subject[:int64_be])
       end
     end
 
-    describe "long_long_be" do
+    describe ":long_long_be" do
       it "must be an alias to int64_be" do
         expect(subject[:long_long_be]).to be(subject[:int64_be])
       end
     end
 
-    describe "ushort_be" do
+    describe ":ushort_be" do
       it "must be an alias to uint16_be" do
         expect(subject[:ushort_be]).to be(subject[:uint16_be])
       end
     end
 
-    describe "uint_be" do
+    describe ":uint_be" do
       it "must be an alias to uint32_be" do
         expect(subject[:uint_be]).to be(subject[:uint32_be])
       end
     end
 
-    describe "ulong_be" do
+    describe ":ulong_be" do
       it "must be an alias to uint64_be" do
         expect(subject[:ulong_be]).to be(subject[:uint64_be])
       end
     end
 
-    describe "ulong_long_be" do
+    describe ":ulong_long_be" do
       it "must be an alias to uint64_be" do
         expect(subject[:ulong_long_be]).to be(subject[:uint64_be])
       end
     end
 
-    describe "float_be" do
+    describe ":float_be" do
       it "must be an alias to float32_be" do
         expect(subject[:float_be]).to be(subject[:float32_be])
       end
     end
 
-    describe "double_be" do
+    describe ":double_be" do
       it "must be an alias to float64_be" do
         expect(subject[:double_be]).to be(subject[:float64_be])
       end
@@ -715,7 +715,7 @@ describe Ronin::Support::Binary::Types do
     #
     # Network-endian specs
     #
-    describe "int16_ne" do
+    describe ":int16_ne" do
       subject { super()[:int16_ne] }
 
       it "must equal #{described_class}::Network::Int16" do
@@ -723,7 +723,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "int32_ne" do
+    describe ":int32_ne" do
       subject { super()[:int32_ne] }
 
       it "must equal #{described_class}::Network::Int32" do
@@ -731,7 +731,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "int64_ne" do
+    describe ":int64_ne" do
       subject { super()[:int64_ne] }
 
       it "must equal #{described_class}::Network::Int64" do
@@ -739,7 +739,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint16_ne" do
+    describe ":uint16_ne" do
       subject { super()[:uint16_ne] }
 
       it "must equal #{described_class}::Network::UInt16" do
@@ -747,7 +747,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint32_ne" do
+    describe ":uint32_ne" do
       subject { super()[:uint32_ne] }
 
       it "must equal #{described_class}::Network::UInt32" do
@@ -755,7 +755,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint64_ne" do
+    describe ":uint64_ne" do
       subject { super()[:uint64_ne] }
 
       it "must equal #{described_class}::Network::UInt64" do
@@ -763,7 +763,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "float32_ne" do
+    describe ":float32_ne" do
       subject { super()[:float32_ne] }
 
       it "must equal #{described_class}::Network::Float32" do
@@ -771,7 +771,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "float64_ne" do
+    describe ":float64_ne" do
       subject { super()[:float64_ne] }
 
       it "must equal #{described_class}::Network::Float64" do
@@ -779,67 +779,67 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "short_ne" do
+    describe ":short_ne" do
       it "must be an alias to int16_ne" do
         expect(subject[:short_ne]).to be(subject[:int16_ne])
       end
     end
 
-    describe "int_ne" do
+    describe ":int_ne" do
       it "must be an alias to int32_ne" do
         expect(subject[:int_ne]).to be(subject[:int32_ne])
       end
     end
 
-    describe "long_ne" do
+    describe ":long_ne" do
       it "must be an alias to int64_ne" do
         expect(subject[:long_ne]).to be(subject[:int64_ne])
       end
     end
 
-    describe "long_long_ne" do
+    describe ":long_long_ne" do
       it "must be an alias to int64_ne" do
         expect(subject[:long_long_ne]).to be(subject[:int64_ne])
       end
     end
 
-    describe "ushort_ne" do
+    describe ":ushort_ne" do
       it "must be an alias to uint16_ne" do
         expect(subject[:ushort_ne]).to be(subject[:uint16_ne])
       end
     end
 
-    describe "uint_ne" do
+    describe ":uint_ne" do
       it "must be an alias to uint32_ne" do
         expect(subject[:uint_ne]).to be(subject[:uint32_ne])
       end
     end
 
-    describe "ulong_ne" do
+    describe ":ulong_ne" do
       it "must be an alias to uint64_ne" do
         expect(subject[:ulong_ne]).to be(subject[:uint64_ne])
       end
     end
 
-    describe "ulong_long_ne" do
+    describe ":ulong_long_ne" do
       it "must be an alias to uint64_ne" do
         expect(subject[:ulong_long_ne]).to be(subject[:uint64_ne])
       end
     end
 
-    describe "float_ne" do
+    describe ":float_ne" do
       it "must be an alias to float32_ne" do
         expect(subject[:float_ne]).to be(subject[:float32_ne])
       end
     end
 
-    describe "double_ne" do
+    describe ":double_ne" do
       it "must be an alias to float64_ne" do
         expect(subject[:double_ne]).to be(subject[:float64_ne])
       end
     end
 
-    describe "int16_net" do
+    describe ":int16_net" do
       subject { super()[:int16_net] }
 
       it "must equal #{described_class}::Network::Int16" do
@@ -847,7 +847,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "int32_net" do
+    describe ":int32_net" do
       subject { super()[:int32_net] }
 
       it "must equal #{described_class}::Network::Int32" do
@@ -855,7 +855,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "int64_net" do
+    describe ":int64_net" do
       subject { super()[:int64_net] }
 
       it "must equal #{described_class}::Network::Int64" do
@@ -863,7 +863,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint16_net" do
+    describe ":uint16_net" do
       subject { super()[:uint16_net] }
 
       it "must equal #{described_class}::Network::UInt16" do
@@ -871,7 +871,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint32_net" do
+    describe ":uint32_net" do
       subject { super()[:uint32_net] }
 
       it "must equal #{described_class}::Network::UInt32" do
@@ -879,7 +879,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "uint64_net" do
+    describe ":uint64_net" do
       subject { super()[:uint64_net] }
 
       it "must equal #{described_class}::Network::UInt64" do
@@ -887,7 +887,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "float32_net" do
+    describe ":float32_net" do
       subject { super()[:float32_net] }
 
       it "must equal #{described_class}::Network::Float32" do
@@ -895,7 +895,7 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "float64_net" do
+    describe ":float64_net" do
       subject { super()[:float64_net] }
 
       it "must equal #{described_class}::Network::Float64" do
@@ -903,61 +903,61 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
-    describe "short_net" do
+    describe ":short_net" do
       it "must be an alias to int16_net" do
         expect(subject[:short_net]).to be(subject[:int16_net])
       end
     end
 
-    describe "int_net" do
+    describe ":int_net" do
       it "must be an alias to int32_net" do
         expect(subject[:int_net]).to be(subject[:int32_net])
       end
     end
 
-    describe "long_net" do
+    describe ":long_net" do
       it "must be an alias to int64_net" do
         expect(subject[:long_net]).to be(subject[:int64_net])
       end
     end
 
-    describe "long_long_net" do
+    describe ":long_long_net" do
       it "must be an alias to int64_net" do
         expect(subject[:long_long_net]).to be(subject[:int64_net])
       end
     end
 
-    describe "ushort_net" do
+    describe ":ushort_net" do
       it "must be an alias to uint16_net" do
         expect(subject[:ushort_net]).to be(subject[:uint16_net])
       end
     end
 
-    describe "uint_net" do
+    describe ":uint_net" do
       it "must be an alias to uint32_net" do
         expect(subject[:uint_net]).to be(subject[:uint32_net])
       end
     end
 
-    describe "ulong_net" do
+    describe ":ulong_net" do
       it "must be an alias to uint64_net" do
         expect(subject[:ulong_net]).to be(subject[:uint64_net])
       end
     end
 
-    describe "ulong_long_net" do
+    describe ":ulong_long_net" do
       it "must be an alias to uint64_net" do
         expect(subject[:ulong_long_net]).to be(subject[:uint64_net])
       end
     end
 
-    describe "float_net" do
+    describe ":float_net" do
       it "must be an alias to float32_net" do
         expect(subject[:float_net]).to be(subject[:float32_net])
       end
     end
 
-    describe "double_net" do
+    describe ":double_net" do
       it "must be an alias to float64_net" do
         expect(subject[:double_net]).to be(subject[:float64_net])
       end
