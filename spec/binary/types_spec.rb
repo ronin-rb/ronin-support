@@ -981,4 +981,68 @@ describe Ronin::Support::Binary::Types do
       end
     end
   end
+
+  describe "ENDIAN" do
+    subject { described_class::ENDIAN }
+
+    describe ":little" do
+      subject { super()[:little] }
+
+      it { expect(subject).to be(described_class::LittleEndian) }
+    end
+
+    describe ":big" do
+      subject { super()[:big] }
+
+      it { expect(subject).to be(described_class::BigEndian) }
+    end
+
+    describe ":net" do
+      subject { super()[:net] }
+
+      it { expect(subject).to be(described_class::Network) }
+    end
+
+    describe "nil" do
+      subject { super()[nil] }
+
+      it { expect(subject).to be(described_class) }
+    end
+  end
+
+  describe ".endian" do
+    context "when given :little" do
+      it "must return #{described_class::LittleEndian}" do
+        expect(subject.endian(:little)).to be(described_class::LittleEndian)
+      end
+    end
+
+    context "when given :big" do
+      it "must return #{described_class::BigEndian}" do
+        expect(subject.endian(:big)).to be(described_class::BigEndian)
+      end
+    end
+
+    context "when given :net" do
+      it "must return #{described_class::Network}" do
+        expect(subject.endian(:net)).to be(described_class::Network)
+      end
+    end
+
+    context "when given nil" do
+      it "must return self" do
+        expect(subject.endian(nil)).to be(subject)
+      end
+    end
+
+    context "when given an unknown endian" do
+      let(:endian) { :foo }
+
+      it do
+        expect {
+          subject.endian(endian)
+        }.to raise_error(ArgumentError,"unknown endian: #{endian.inspect}")
+      end
+    end
+  end
 end

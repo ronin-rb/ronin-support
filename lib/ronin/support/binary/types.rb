@@ -228,6 +228,15 @@ module Ronin
           double_net:  Network::Float64
         }
 
+        # Represents the different endian type systems.
+        ENDIAN = {
+          little: LittleEndian,
+          big:    BigEndian,
+          net:    Network,
+
+          nil => self
+        }
+
         #
         # Fetches the type from {TYPES}.
         #
@@ -243,6 +252,24 @@ module Ronin
         def self.[](name)
           TYPES.fetch(name) do
             raise(ArgumentError,"unknown type: #{name.inspect}")
+          end
+        end
+
+        #
+        # Fetches the type system for the given endianness.
+        #
+        # @param [:little, :big, :net, nil] endian
+        #   The endianness.
+        #
+        # @return [LittleEndian, BigEndian, Network, self]
+        #   The type system for the given endianness.
+        #
+        # @raise [ArgumentError]
+        #   The endian was unknown.
+        #
+        def self.endian(endian)
+          ENDIAN.fetch(endian) do
+            raise(ArgumentError,"unknown endian: #{endian.inspect}")
           end
         end
       end
