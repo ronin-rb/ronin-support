@@ -56,9 +56,6 @@ module Ronin
           #
           # Initializes the type.
           #
-          # @param [Symbol] name
-          #   The type's name.
-          #
           # @param [:little, :big, nil] endian
           #   The endianness of the type. `nil` indicates the type has no
           #   endianness.
