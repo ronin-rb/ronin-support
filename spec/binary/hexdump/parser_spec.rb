@@ -17,12 +17,18 @@ describe Binary::Hexdump::Parser do
       expect(subject.format).to eq(:hexdump)
     end
 
-    it "must default #type to :byte" do
-      expect(subject.type).to eq(:byte)
+    it "must default #type to the :byte type" do
+      expect(subject.type).to be(described_class::TYPES[:byte])
     end
 
-    it "must default #word_size to 1" do
-      expect(subject.word_size).to eq(1)
+    context "when the type: keyword argument is given" do
+      let(:type) { :uint32 }
+
+      subject { described_class.new(type: type) }
+
+      it "must set #type by looking up the type: keyword value in TYPES" do
+        expect(subject.type).to be(described_class::TYPES[type])
+      end
     end
 
     context "when the given format: is :hexdump" do
@@ -379,11 +385,15 @@ describe Binary::Hexdump::Parser do
     let(:raw_data) { ascii }
 
     let(:pack_strings) do
-      subject.pack_string * (raw_data.bytesize / subject.word_size)
+      subject.type.pack_string * (raw_data.bytesize / subject.type.size)
     end
 
     let(:parsed_numbers) { raw_data.unpack(pack_strings) }
-    let(:parsed_rows)    { parsed_numbers.each_slice(16 / subject.word_size) }
+
+    let(:parsed_rows) do
+      parsed_numbers.each_slice(16 / subject.type.size)
+    end
+
     let(:parsed_data) do
       parsed_rows.each_with_index.map do |numbers,index|
         [index * 16, numbers]
@@ -694,19 +704,15 @@ describe Binary::Hexdump::Parser do
 
   describe "#pack" do
     let(:values)      { [*0x00..0x0f] }
-    let(:packed_data) { values.pack(pack_string * values.length) }
+    let(:type_name)   { :uint32     }
+    let(:type)        { Ronin::Support::Binary::Types[type_name] }
 
-    described_class::PACK_STRINGS.each do |type,pack_string|
-      context "when initialized with `type: #{type.inspect}`" do
-        let(:type)        { type        }
-        let(:pack_string) { pack_string }
+    subject { described_class.new(type: type_name) }
 
-        subject { described_class.new(type: type) }
+    let(:packed_data) { values.pack(type.pack_string * values.length) }
 
-        it "must pack the values using the '#{pack_string}' pack string" do
-          expect(subject.pack(values)).to eq(packed_data)
-        end
-      end
+    it "must pack the values using the type's #pack_string" do
+      expect(subject.pack(values)).to eq(packed_data)
     end
   end
 
