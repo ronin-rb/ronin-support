@@ -24,13 +24,5 @@ describe Float do
         expect(subject.pack(:double_le)).to eq(packed)
       end
     end
-
-    context "when given non-Float Ronin::Support::Binary::Format types" do
-      it "must raise an ArgumentError" do
-        expect {
-          subject.pack(:int)
-        }.to raise_error(ArgumentError)
-      end
-    end
   end
 end

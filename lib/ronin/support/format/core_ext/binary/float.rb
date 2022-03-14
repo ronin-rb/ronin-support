@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/format'
+require 'ronin/support/binary/types'
 
 class Float
 
@@ -27,12 +27,19 @@ class Float
   # @param [String, Symbol] argument
   #   The `Array#pack` format string or {Ronin::Support::Binary::Format} type.
   #
+  # @param [:little, :big, :net, nil] endian
+  #   The desired endianness of the packed float.
+  #
+  # @param [:x86, :x86_64, :ppc, :ppc64,
+  #         :arm, :arm_be, :arm64, :arm64_be,
+  #         :mips, :mips_le, :mips64, :mips64_le, nil] arch
+  #   The desired architecture to pack the float for.
+  #
   # @return [String]
   #   The packed float.
   #
   # @raise [ArgumentError]
-  #   The given Symbol could not be found in
-  #   {Ronin::Support::Binary::Format::FLOAT_TYPES}.
+  #   The given argument was not a `String`, `Symbol`, or valid type name.
   #
   # @example using `Array#pack` format string:
   #   0.42.pack('F')
@@ -49,16 +56,16 @@ class Float
   #
   # @api public
   #
-  def pack(argument)
+  def pack(argument, endian: nil, arch: nil)
     case argument
     when String
       [self].pack(argument)
     else
-      unless Ronin::Support::Binary::Format::FLOAT_TYPES.include?(argument)
-        raise(ArgumentError,"unsupported integer type: #{argument}")
-      end
-
-      [self].pack(Ronin::Support::Binary::Format::TYPES[argument])
+      types = if arch then Ronin::Support::Binary::Types.arch(arch)
+              else         Ronin::Support::Binary::Types.endian(endian)
+              end
+      type = types[argument]
+      type.pack(self)
     end
   end
 
