@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'set'
+require 'ronin/support/binary/types'
 
 module Ronin
   module Support
@@ -26,68 +26,66 @@ module Ronin
       # Provides a translation layer between C-types and Ruby `Array#pack`
       # codes.
       #
-      # ## Types
+      # ## Supported Types
       #
-      # * `:uint8` (`C`) - unsigned 8-bit integer.
-      # * `:uint16` (`S`) - unsigned 16-bit integer.
-      # * `:uint32` (`L`) - unsigned 32-bit integer.
-      # * `:uint64` (`Q`) - unsigned 64-bit integer.
-      # * `:int8` (`c`) - signed 8-bit integer.
-      # * `:int16` (`s`) - signed 16-bit integer.
-      # * `:int32` (`l`) - signed 32-bit integer.
-      # * `:int64` (`q`) - signed 64-bit integer.
-      # * `:uint16_le` (`v`) - unsigned 16-bit integer, little endian.
-      # * `:uint32_le` (`V`) - unsigned 32-bit integer, little endian.
-      # * `:uint16_be` (`n`) - unsigned 16-bit integer, big endian.
-      # * `:uint32_be` (`N`) - unsigned 32-bit integer, big endian.
-      # * `:uchar` (`Z`) - unsigned character.
-      # * `:ushort` (`S!`) - unsigned short integer, native endian.
-      # * `:uint` (`I!`) - unsigned integer, native endian.
-      # * `:ulong` (`L!`) - unsigned long integer, native endian.
-      # * `:ulong_long` (`Q`) - unsigned quad integer, native endian.
-      # * `:char` (`Z`) - signed character.
-      # * `:short` (`s!`) - signed short integer, native endian.
-      # * `:int` (`i!`) - signed integer, native endian.
-      # * `:long` (`l!`) - signed long integer, native endian.
-      # * `:long_long` (`q`) - signed quad integer, native endian.
-      # * `:utf8` (`U`) - UTF8 character.
-      # * `:float` (`F`) - single-precision float, native format.
-      # * `:double` (`D`) - double-precision float, native format.
-      # * `:float_le` (`e`) - single-precision float, little endian.
-      # * `:double_le` (`E`) - double-precision float, little endian.
-      # * `:float_be` (`g`) - single-precision float, big endian.
-      # * `:double_be` (`G`) - double-precision float, big endian.
-      # * `:ubyte` (`C`) - unsigned byte.
-      # * `:byte` (`c`) - signed byte.
-      # * `:string` (`Z*`) - binary String, `\0` terminated.
-      # * `:uint16_le` (`S<`) - unsigned 16-bit integer, little endian.
-      # * `:uint32_le` (`L<`) - unsigned 32-bit integer, little endian.
-      # * `:uint64_le` (`Q<`) - unsigned 64-bit integer, little endian.
-      # * `:int16_le` (`s<`) - signed 16-bit integer, little endian.
-      # * `:int32_le` (`l<`) - signed 32-bit integer, little endian.
-      # * `:int64_le` (`q<`) - signed 64-bit integer, little endian.
-      # * `:uint16_be` (`S>`) - unsigned 16-bit integer, big endian.
-      # * `:uint32_be` (`L>`) - unsigned 32-bit integer, big endian.
-      # * `:uint64_be` (`Q>`) - unsigned 64-bit integer, big endian.
-      # * `:int16_be` (`s>`) - signed 16-bit integer, big endian.
-      # * `:int32_be` (`l>`) - signed 32-bit integer, big endian.
-      # * `:int64_be` (`q>`) - signed 64-bit integer, big endian.
-      # * `:ushort_le` (`S<`) - unsigned short integer, little endian.
-      # * `:uint_le` (`I<`) - unsigned integer, little endian.
-      # * `:ulong_le` (`L<`) - unsigned long integer, little endian.
-      # * `:ulong_long_le` (`Q<`) - unsigned quad integer, little endian.
-      # * `:short_le` (`s<`) - signed short integer, little endian.
-      # * `:int_le` (`i<`) - signed integer, little endian.
-      # * `:long_le` (`l<`) - signed long integer, little endian.
-      # * `:long_long_le` (`q<`) - signed quad integer, little endian.
-      # * `:ushort_be` (`S>`) - unsigned short integer, little endian.
-      # * `:uint_be` (`I>`) - unsigned integer, little endian.
-      # * `:ulong_be` (`L>`) - unsigned long integer, little endian.
-      # * `:ulong_long_be` (`Q>`) - unsigned quad integer, little endian.
-      # * `:short_be` (`s>`) - signed short integer, little endian.
-      # * `:int_be` (`i>`) - signed integer, little endian.
-      # * `:long_be` (`l>`) - signed long integer, little endian.
-      # * `:long_long_be` (`q>`) - signed quad integer, little endian.
+      # * `:uint8` - unsigned 8-bit integer.
+      # * `:uint16` - unsigned 16-bit integer.
+      # * `:uint32` - unsigned 32-bit integer.
+      # * `:uint64` - unsigned 64-bit integer.
+      # * `:int8` - signed 8-bit integer.
+      # * `:int16` - signed 16-bit integer.
+      # * `:int32` - signed 32-bit integer.
+      # * `:int64` - signed 64-bit integer.
+      # * `:uint16_le` - unsigned 16-bit integer, little endian.
+      # * `:uint32_le` - unsigned 32-bit integer, little endian.
+      # * `:uint16_be` - unsigned 16-bit integer, big endian.
+      # * `:uint32_be` - unsigned 32-bit integer, big endian.
+      # * `:uchar` - unsigned character.
+      # * `:ushort` - unsigned short integer, native endian.
+      # * `:uint` - unsigned integer, native endian.
+      # * `:ulong` - unsigned long integer, native endian.
+      # * `:ulong_long` - unsigned quad integer, native endian.
+      # * `:char` - signed character.
+      # * `:short` - signed short integer, native endian.
+      # * `:int` - signed integer, native endian.
+      # * `:long` - signed long integer, native endian.
+      # * `:long_long` - signed quad integer, native endian.
+      # * `:float` - single-precision float, native format.
+      # * `:double` - double-precision float, native format.
+      # * `:float_le` - single-precision float, little endian.
+      # * `:double_le` - double-precision float, little endian.
+      # * `:float_be` - single-precision float, big endian.
+      # * `:double_be` - double-precision float, big endian.
+      # * `:byte` - signed byte.
+      # * `:string` - binary String, `\0` terminated.
+      # * `:uint16_le` - unsigned 16-bit integer, little endian.
+      # * `:uint32_le` - unsigned 32-bit integer, little endian.
+      # * `:uint64_le` - unsigned 64-bit integer, little endian.
+      # * `:int16_le` - signed 16-bit integer, little endian.
+      # * `:int32_le` - signed 32-bit integer, little endian.
+      # * `:int64_le` - signed 64-bit integer, little endian.
+      # * `:uint16_be` - unsigned 16-bit integer, big endian.
+      # * `:uint32_be` - unsigned 32-bit integer, big endian.
+      # * `:uint64_be` - unsigned 64-bit integer, big endian.
+      # * `:int16_be` - signed 16-bit integer, big endian.
+      # * `:int32_be` - signed 32-bit integer, big endian.
+      # * `:int64_be` - signed 64-bit integer, big endian.
+      # * `:ushort_le` - unsigned short integer, little endian.
+      # * `:uint_le` - unsigned integer, little endian.
+      # * `:ulong_le` - unsigned long integer, little endian.
+      # * `:ulong_long_le` - unsigned quad integer, little endian.
+      # * `:short_le` - signed short integer, little endian.
+      # * `:int_le` - signed integer, little endian.
+      # * `:long_le` - signed long integer, little endian.
+      # * `:long_long_le` - signed quad integer, little endian.
+      # * `:ushort_be` - unsigned short integer, little endian.
+      # * `:uint_be` - unsigned integer, little endian.
+      # * `:ulong_be` - unsigned long integer, little endian.
+      # * `:ulong_long_be` - unsigned quad integer, little endian.
+      # * `:short_be` - signed short integer, little endian.
+      # * `:int_be` - signed integer, little endian.
+      # * `:long_be` - signed long integer, little endian.
+      # * `:long_long_be` - signed quad integer, little endian.
       #
       # @see https://rubydoc.info/stdlib/core/Array:pack
       #
@@ -97,162 +95,44 @@ module Ronin
       #
       class Format
 
-        # Supported C-types and corresponding `Array#pack` codes.
-        TYPES = {
-          uint8:  'C',
-          uint16: 'S',
-          uint32: 'L',
-          uint64: 'Q',
+        # The endianness of the binary format.
+        #
+        # @return [:little, :big, :net, nil]
+        attr_reader :endian
 
-          int8:  'c',
-          int16: 's',
-          int32: 'l',
-          int64: 'q',
+        # The desired architecture of the binary format.
+        #
+        # @return [:x86, :x86_64, :ppc, :ppc64, :arm, :arm_be, :arm64,
+        #          :arm64_be, :mips, :mips_le, :mips64, :mips64_le, nil]
+        attr_reader :arch
 
-          uchar:      'Z',
-          ushort:     'S!',
-          uint:       'I!',
-          ulong:      'L!',
-          ulong_long: 'Q',
+        # The type system of the binary format.
+        #
+        # @return [Types, Types::LittleEndian, Types::BigEndian, Types::Network,
+        #          Types::Arch::X86, Types::Arch::X86_64,
+        #          Types::Arch::PPC, Types::Arch::PPC64,
+        #          Types::Arch::ARM, Types::Arch::ARM::BigEndian,
+        #          Types::Arch::ARM64, Types::Arch::ARM64::BigEndian,
+        #          Types::Arch::MIPS, Types::Arch::MIPS::LittleEndian,
+        #          Types::Arch::MIPS64, Types::Arch::MIPS64::LittleEndian]
+        attr_reader :type_system
 
-          char:      'Z',
-          short:     's!',
-          int:       'i!',
-          long:      'l!',
-          long_long: 'q',
-
-          utf8: 'U',
-
-          float:  'F',
-          double: 'D',
-
-          float_le:  'e',
-          double_le: 'E',
-
-          float_be:  'g',
-          double_be: 'G',
-
-          ubyte:  'C',
-          byte:   'c',
-          string: 'Z*',
-
-          uint16_le: 'S<',
-          uint32_le: 'L<',
-          uint64_le: 'Q<',
-
-          int16_le: 's<',
-          int32_le: 'l<',
-          int64_le: 'q<',
-
-          uint16_be: 'S>',
-          uint32_be: 'L>',
-          uint64_be: 'Q>',
-
-          int16_be: 's>',
-          int32_be: 'l>',
-          int64_be: 'q>',
-
-          ushort_le:     'S!<',
-          uint_le:       'I!<',
-          ulong_le:      'L!<',
-          ulong_long_le: 'Q<',
-
-          short_le:     's!<',
-          int_le:       'i!<',
-          long_le:      'l!<',
-          long_long_le: 'q<',
-
-          ushort_be:     'S!>',
-          uint_be:       'I!>',
-          ulong_be:      'L!>',
-          ulong_long_be: 'Q>',
-
-          short_be:     's!>',
-          int_be:       'i!>',
-          long_be:      'l!>',
-          long_long_be: 'q>'
-        }
-
-        # Big and little endian types
-        ENDIAN_TYPES = {
-          big: {
-            uint16:     :uint16_be,
-            uint32:     :uint32_be,
-            uint64:     :uint64_be,
-
-            int16_be:   :int16_be,
-            int32_be:   :int32_be,
-            int64_be:   :int64_be,
-
-            ushort:     :ushort_be,
-            uint:       :uint_be,
-            ulong:      :ulong_be,
-            ulong_long: :ulong_long_be,
-
-            short:      :short_be,
-            int:        :int_be,
-            long:       :long_be,
-            long_long:  :long_long_be,
-
-            float:      :float_be,
-            double:     :double_be
-          },
-
-          little: {
-            uint16:     :uint16_le,
-            uint32:     :uint32_le,
-            uint64:     :uint64_le,
-
-            int16_le:   :int16_le,
-            int32_le:   :int32_le,
-            int64_le:   :int64_le,
-
-            ushort:     :ushort_le,
-            uint:       :uint_le,
-            ulong:      :ulong_le,
-            ulong_long: :ulong_long_le,
-
-            short:      :short_le,
-            int:        :int_le,
-            long:       :long_le,
-            long_long:  :long_long_le,
-
-            float:      :float_le,
-            double:     :double_le
-          }
-        }
-
-        # Integer C-types
-        INT_TYPES = Set[
-          :uint8, :uint16, :uint32, :uint64,
-          :int8, :int16, :int32, :int64,
-          :ubyte, :ushort, :uint, :ulong, :ulong_long,
-          :byte, :short, :int, :long, :long_long,
-          :uint16_le, :uint32_le, :uint64_le,
-          :int16_le, :int32_le, :int64_le,
-          :ushort_le, :uint_le, :ulong_le, :ulong_long_le,
-          :short_le, :int_le, :long_le, :long_long_le,
-          :uint16_be, :uint32_be, :uint64_be,
-          :int16_be, :int32_be, :int64_be,
-          :ushort_be, :uint_be, :ulong_be, :ulong_long_be,
-          :short_be, :int_be, :long_be, :long_long_be
-        ]
-
-        # Float C-types
-        FLOAT_TYPES = Set[
-          :float,    :double,
-          :float_le, :double_le,
-          :float_be, :double_be
-        ]
-
-        # Character C-types
-        CHAR_TYPES = Set[:uchar, :char]
-
-        # String C-types
-        STRING_TYPES = CHAR_TYPES + Set[:string]
-
-        # The fields of the template
+        # The fields of the binary format.
+        #
+        # @return [Array<Symbol, (Symbol, Integer), Range(Symbol)>]
         attr_reader :fields
+
+        # The field types of the binary format.
+        #
+        # @return [Array<Types::Type,
+        #                Types::ArrayType,
+        #                Types::UnboundArrayType>]
+        attr_reader :types
+
+        # The `Array#pack` string for the binary format.
+        #
+        # @return [String]
+        attr_reader :pack_string
 
         #
         # Creates a new Binary format.
@@ -260,11 +140,12 @@ module Ronin
         # @param [Array<type, (type, length)>] fields
         #   The C-types which the packer will use.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {compile}.
+        # @param [:little, :big, :net, nil] endian
+        #   The desired endianness of the binary format.
         #
-        # @option kwargs [:little, :big, :network] :endian
-        #   The endianness to apply to the C-types.
+        # @param [:x86, :x86_64, :ppc, :ppc64, :arm, :arm_be, :arm64, :arm64_be,
+        #         :mips, :mips_le, :mips64, :mips64_le, nil] arch
+        #   The desired architecture of the binary format.
         #
         # @raise [ArgumentError]
         #   A given type is not known.
@@ -272,68 +153,45 @@ module Ronin
         # @example
         #   Format.new(:uint32, [:char, 100])
         #
-        def initialize(fields,**kwargs)
-          @fields   = fields
-          @template = self.class.compile(@fields,**kwargs)
+        def initialize(fields, endian: nil, arch: nil)
+          @endian = endian
+          @arch   = arch
+
+          @type_system = if arch then Types.arch(arch)
+                         else         Types.endian(endian)
+                         end
+
+          @fields = []
+          @types  = []
+          @pack_string = String.new
+
+          fields.each do |field|
+            type = translate(field)
+
+            @fields      << field
+            @types       << type
+            @pack_string << type.pack_string
+          end
         end
 
         #
         # @see #initialize
         #
-        def self.[](*fields)
-          new(fields)
-        end
-
-        #
-        # Compiles C-types into an `Array#pack` / `String#unpack`
-        # template.
-        #
-        # @param [Array<type, (type), (type, length)>] fields
-        #   The C-types which the packer will use.
-        #
-        # @param [:little, :big, :network] endian
-        #   The endianness to apply to the C-types.
-        #
-        # @return [String]
-        #   The `Array#pack` / `String#unpack` template.
-        #
-        # @raise [ArgumentError]
-        #   A given type is not known.
-        #
-        def self.compile(fields, endian: nil)
-          string = ''
-
-          fields.each do |field|
-            type, length = case field
-                           when Array then [field[0], field.fetch(1,'*')]
-                           else            field
-                           end
-
-            if endian
-              type = ENDIAN_TYPES[endian].fetch(type,type)
-            end
-
-            unless (code = TYPES[type])
-              raise(ArgumentError,"#{type.inspect} not supported")
-            end
-
-            string << code << length.to_s
-          end
-
-          return string
+        def self.[](*fields,**kwargs)
+          new(fields,**kwargs)
         end
 
         #
         # Packs the data.
         #
-        # @param [Array] data
-        #   The data to pack.
+        # @param [Array] values
+        #   The values to pack.
         #
         # @return [String]
         #   The packed data.
         #
-        def pack(*data)
-          data.pack(@template)
+        def pack(*values)
+          values.pack(@pack_string)
         end
 
         #
@@ -346,7 +204,7 @@ module Ronin
         #   The unpacked data.
         #
         def unpack(string)
-          string.unpack(@template)
+          string.unpack(@pack_string)
         end
 
         #
@@ -358,19 +216,45 @@ module Ronin
         # @see https://rubydoc.info/stdlib/core/Array:pack
         #
         def to_s
-          @template
+          @pack_string
         end
 
+        alias to_str to_s
+
+        private
+
         #
-        # Inspects the template.
+        # Translates C type names into an Array of {Types} objects.
         #
-        # @return [String]
-        #   The inspected template.
+        # @param [Symbol, (Symbol, Integer), Range(Symbol)] field
+        #   The C type value. The value can be one of the following:
+        #   * `Symbol` - represents a single type (ex: `:int32`)
+        #   * `(Symbol, Integer)` - represents an Array type with the given
+        #     element type and length (ex: `[:int32, 10]`)
+        #   * `Range(Symbol)` - represents an unbounded Array type with the
+        #     given element type. (ex: `:int32..`)
         #
-        # @since 1.5.1
+        # @return [Types::Type, Types::ArrayType, Types::UnboundedArrayType]
+        #   The translated type.
         #
-        def inspect
-          "<#{self.class}: #{@fields.inspect}>"
+        # @raise [ArgumentError]
+        #   A given type is not known.
+        #
+        def translate(field)
+          type_name, length = case field
+                              when Array then [field[0], field[1]]
+                              when Range then [field.begin, Float::INFINITY]
+                              else            field
+                              end
+
+          type = @type_system[type_name]
+
+          case length
+          when Float::INFINITY then type = type[]
+          when Integer         then type = type[length]
+          end
+
+          return type
         end
 
       end
