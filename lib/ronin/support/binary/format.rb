@@ -91,7 +91,7 @@ module Ronin
       #
       # @see https://rubydoc.info/stdlib/core/Array:pack
       #
-      # @api semipbulic
+      # @api pbulic
       #
       # @since 1.0.0
       #
