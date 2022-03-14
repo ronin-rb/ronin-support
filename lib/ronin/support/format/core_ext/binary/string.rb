@@ -40,6 +40,18 @@ class String
   #   The `String#unpack` format string or a list of
   #   {Ronin::Support::Binary::Format} types.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for
+  #   {Ronin::Support::Binary::Format#initialize}.
+  #
+  # @option kwargs [:little, :big, :net, nil] :endian
+  #   The desired endianness of the packed data.
+  #
+  # @option kwargs [:x86, :x86_64, :ppc, :ppc64,
+  #                 :arm, :arm_be, :arm64, :arm64_be,
+  #                 :mips, :mips_le, :mips64, :mips64_le, nil] :arch
+  #   The desired architecture that the data was packed for.
+  #
   # @return [Array]
   #   The values unpacked from the String.
   #
@@ -62,11 +74,12 @@ class String
   #
   # @api public
   #
-  def unpack(*arguments)
+  def unpack(*arguments,**kwargs)
     if (arguments.length == 1 && arguments.first.kind_of?(String))
       unpack_original(arguments.first)
     else
-      unpack_original(Ronin::Support::Binary::Format.compile(arguments))
+      format = Ronin::Support::Binary::Format.new(arguments,**kwargs)
+      unpack_original(format.pack_string)
     end
   end
 
