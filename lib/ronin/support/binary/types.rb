@@ -273,6 +273,13 @@ module Ronin
             raise(ArgumentError,"unknown endian: #{endian.inspect}")
           end
         end
+
+        #
+        # @see Arch.[]
+        #
+        def self.arch(arch)
+          Arch[arch]
+        end
       end
     end
   end

@@ -1045,4 +1045,22 @@ describe Ronin::Support::Binary::Types do
       end
     end
   end
+
+  describe ".arch" do
+    context "when given a valid arch name" do
+      it "must return the #{described_class::Arch}:: module" do
+        expect(subject.arch(:x86_64)).to be(described_class::Arch::X86_64)
+      end
+    end
+
+    context "when given an unknown arch name" do
+      let(:arch) { :foo }
+
+      it do
+        expect {
+          subject.arch(arch)
+        }.to raise_error(ArgumentError,"unknown arch: #{arch.inspect}")
+      end
+    end
+  end
 end
