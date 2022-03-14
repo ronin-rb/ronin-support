@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/format'
+require 'ronin/support/binary/types'
 
 class Integer
 
@@ -90,15 +90,22 @@ class Integer
   #
   # Packs the Integer into a String.
   #
-  # @param [String, Symbol] type
+  # @param [String, Symbol] argument
   #   The `Array#pack` String or {Ronin::Support::Binary::Format} type.
+  #
+  # @param [:little, :big, :net, nil] endian
+  #   The desired endianness of the packed integer.
+  #
+  # @param [:x86, :x86_64, :ppc, :ppc64,
+  #         :arm, :arm_be, :arm64, :arm64_be,
+  #         :mips, :mips_le, :mips64, :mips64_le, nil] arch
+  #   The desired architecture to pack the integer for.
   #
   # @return [String]
   #   The packed Integer.
   #
   # @raise [ArgumentError]
-  #   The given Symbol could not be found in
-  #   {Ronin::Support::Binary::Format::INT_TYPES}.
+  #   The given argument was not a `String`, `Symbol`, or valid type name.
   #
   # @example using a `Array#pack` format string:
   #   0x41.pack('V')
@@ -112,18 +119,18 @@ class Integer
   #
   # @api public
   #
-  def pack(type)
-    case type
+  def pack(argument, endian: nil, arch: nil)
+    case argument
     when String
-      [self].pack(type)
+      [self].pack(argument)
     when Symbol
-      unless Ronin::Support::Binary::Format::INT_TYPES.include?(type)
-        raise(ArgumentError,"unsupported integer type: #{type}")
-      end
-
-      [self].pack(Ronin::Support::Binary::Format::TYPES[type])
+      types = if arch then Ronin::Support::Binary::Types.arch(arch)
+              else         Ronin::Support::Binary::Types.endian(endian)
+              end
+      type = types[argument]
+      type.pack(self)
     else
-      raise(ArgumentError,"invalid pack type: #{type}")
+      raise(ArgumentError,"invalid pack argument: #{argument}")
     end
   end
 
