@@ -40,7 +40,7 @@ module Ronin
             #   The type name was unknown.
             #
             def self.[](name)
-              TYPES.fetch(name) do
+              self::TYPES.fetch(name) do
                 raise(ArgumentError,"unknown ARM64 type: #{name.inspect}")
               end
             end

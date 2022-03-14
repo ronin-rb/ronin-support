@@ -29,8 +29,8 @@ module Ronin
 
             # The x86 types.
             TYPES = LittleEndian::TYPES.merge(
-              long:  Int32,
-              ulong: UInt32
+              long:  LittleEndian::Int32,
+              ulong: LittleEndian::UInt32
             )
 
             #
