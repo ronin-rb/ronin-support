@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/template'
+require 'ronin/support/binary/format'
 
 class Array
 
@@ -27,26 +27,26 @@ class Array
   # Packs the Array into a String.
   #
   # @param [String, Array<Symbol, (Symbol, Integer)>] arguments
-  #   The `Array#pack` template or a list of {Ronin::Support::Binary::Template}
-  #   types.
+  #   The `Array#pack` format string or a list of
+  #   {Ronin::Support::Binary::Format} types.
   #
   # @return [String]
   #   The packed Array.
   #
   # @raise [ArgumentError]
-  #   One of the arguments was not a known {Ronin::Support::Binary::Template}
+  #   One of the arguments was not a known {Ronin::Support::Binary::Format}
   #   type.
   #
-  # @example using {Ronin::Support::Binary::Template} types:
+  # @example using {Ronin::Support::Binary::Format} types:
   #   [0x1234, "hello"].pack(:uint16_le, :string)
   #   # => "\x34\x12hello\0"
   #
-  # @example using a `String#unpack` template:
+  # @example using a `String#unpack` format string:
   #   [0x1234, "hello"].pack('vZ*')
   #   # => "\x34\x12hello\0"
   #
   # @see https://rubydoc.info/stdlib/core/Array:pack
-  # @see Ronin::Support::Binary::Template
+  # @see Ronin::Support::Binary::Format
   #
   # @since 0.5.0
   #
@@ -56,7 +56,7 @@ class Array
     if (arguments.length == 1 && arguments.first.kind_of?(String))
       pack_original(arguments.first)
     else
-      pack_original(Ronin::Support::Binary::Template.compile(arguments))
+      pack_original(Ronin::Support::Binary::Format.compile(arguments))
     end
   end
 

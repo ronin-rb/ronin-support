@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/template'
+require 'ronin/support/binary/format'
 
 class Integer
 
@@ -91,24 +91,24 @@ class Integer
   # Packs the Integer into a String.
   #
   # @param [String, Symbol] type
-  #   The `Array#pack` String or {Ronin::Support::Binary::Template} type.
+  #   The `Array#pack` String or {Ronin::Support::Binary::Format} type.
   #
   # @return [String]
   #   The packed Integer.
   #
   # @raise [ArgumentError]
   #   The given Symbol could not be found in
-  #   {Ronin::Support::Binary::Template::INT_TYPES}.
+  #   {Ronin::Support::Binary::Format::INT_TYPES}.
   #
-  # @example using a `Array#pack` template:
+  # @example using a `Array#pack` format string:
   #   0x41.pack('V')
   #   # => "A\0\0\0"
   #
-  # @example using {Ronin::Support::Binary::Template} types:
+  # @example using {Ronin::Support::Binary::Format} types:
   #   0x41.pack(:uint32_le)
   #
   # @see http://rubydoc.info/stdlib/core/Array:pack
-  # @see Ronin::Support::Binary::Template
+  # @see Ronin::Support::Binary::Format
   #
   # @api public
   #
@@ -117,11 +117,11 @@ class Integer
     when String
       [self].pack(type)
     when Symbol
-      unless Ronin::Support::Binary::Template::INT_TYPES.include?(type)
+      unless Ronin::Support::Binary::Format::INT_TYPES.include?(type)
         raise(ArgumentError,"unsupported integer type: #{type}")
       end
 
-      [self].pack(Ronin::Support::Binary::Template::TYPES[type])
+      [self].pack(Ronin::Support::Binary::Format::TYPES[type])
     else
       raise(ArgumentError,"invalid pack type: #{type}")
     end

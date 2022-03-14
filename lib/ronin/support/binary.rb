@@ -17,6 +17,6 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/template'
+require 'ronin/support/binary/format'
 require 'ronin/support/binary/struct'
 require 'ronin/support/binary/hexdump'

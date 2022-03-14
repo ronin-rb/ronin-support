@@ -1,9 +1,9 @@
 # encoding: US-ASCII
 
 require 'spec_helper'
-require 'ronin/support/binary/template'
+require 'ronin/support/binary/format'
 
-describe Binary::Template do
+describe Ronin::Support::Binary::Format do
   describe "TYPES" do
     subject { described_class::TYPES }
 

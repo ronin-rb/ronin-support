@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/template'
+require 'ronin/support/binary/format'
 
 class Float
 
@@ -25,25 +25,25 @@ class Float
   # Packs the Float into a String.
   #
   # @param [String, Symbol] argument
-  #   The `Array#pack` String code or {Ronin::Support::Binary::Template} type.
+  #   The `Array#pack` format string or {Ronin::Support::Binary::Format} type.
   #
   # @return [String]
   #   The packed float.
   #
   # @raise [ArgumentError]
   #   The given Symbol could not be found in
-  #   {Ronin::Support::Binary::Template::FLOAT_TYPES}.
+  #   {Ronin::Support::Binary::Format::FLOAT_TYPES}.
   #
-  # @example using `Array#pack` template:
+  # @example using `Array#pack` format string:
   #   0.42.pack('F')
   #   # => =\n\xD7>"
   #
-  # @example using {Ronin::Support::Binary::Template} types:
+  # @example using {Ronin::Support::Binary::Format} types:
   #   0x42.pack(:float_be)
   #   # => ">\xD7\n="
   #
   # @see https://rubydoc.info/stdlib/core/Array:pack
-  # @see Ronin::Support::Binary::Template
+  # @see Ronin::Support::Binary::Format
   #
   # @since 0.5.0
   #
@@ -54,11 +54,11 @@ class Float
     when String
       [self].pack(argument)
     else
-      unless Ronin::Support::Binary::Template::FLOAT_TYPES.include?(argument)
+      unless Ronin::Support::Binary::Format::FLOAT_TYPES.include?(argument)
         raise(ArgumentError,"unsupported integer type: #{argument}")
       end
 
-      [self].pack(Ronin::Support::Binary::Template::TYPES[argument])
+      [self].pack(Ronin::Support::Binary::Format::TYPES[argument])
     end
   end
 

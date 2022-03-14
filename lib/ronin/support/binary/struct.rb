@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/template'
+require 'ronin/support/binary/format'
 
 require 'set'
 
@@ -207,7 +207,7 @@ module Ronin
         #   The packed structure.
         #
         def pack(**kwargs)
-          self.class.templates[kwargs].pack(*values.flatten)
+          self.class.formats[kwargs].pack(*values.flatten)
         end
 
         #
@@ -226,11 +226,11 @@ module Ronin
         #   The unpacked structure.
         #
         def unpack(data,**kwargs)
-          values = self.class.templates[kwargs].unpack(data)
+          values = self.class.formats[kwargs].unpack(data)
 
           each_field do |struct,name,(type,length)|
             struct[name] = if length
-                             if Template::STRING_TYPES.include?(type)
+                             if Format::STRING_TYPES.include?(type)
                                # string types are combined into a single String
                                values.shift
                              else
@@ -417,19 +417,19 @@ module Ronin
         end
 
         #
-        # The templates for the structure.
+        # The formats for the structure.
         #
-        # @return [Hash{Hash{Symbol => Object} => Template}]
-        #   The templates and their binary format options.
+        # @return [Hash{Hash{Symbol => Object} => Format}]
+        #   The mapping of options to binary formats.
         #
         # @api semipublic
         #
-        def self.templates
-          @templates ||= Hash.new do |hash,kwargs|
+        def self.formats
+          @formats ||= Hash.new do |hash,kwargs|
             fields = each_field.map { |struct,name,field| field }
             kwargs = {endian: self.endian}.merge(kwargs)
 
-            hash[kwargs] = template(fields,**kwargs)
+            hash[kwargs] = format(fields,**kwargs)
           end
         end
 
@@ -440,15 +440,15 @@ module Ronin
         #   The fields of the structure.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {Template#initialize}.
+        #   Additional keyword arguments for {Format#initialize}.
         #
-        # @return [Template]
+        # @return [Format]
         #   The new template.
         #
         # @api semipublic
         #
-        def self.template(fields,**kwargs)
-          Template.new(fields,**kwargs)
+        def self.format(fields,**kwargs)
+          Format.new(fields,**kwargs)
         end
 
         #
@@ -466,7 +466,7 @@ module Ronin
           type, length = type
 
           if length
-            if Template::STRING_TYPES.include?(type)
+            if Format::STRING_TYPES.include?(type)
               # arrays of chars should be Strings
               String.new
             else
@@ -475,10 +475,10 @@ module Ronin
             end
           else
             if type.kind_of?(Symbol)
-              if    Template::INT_TYPES.include?(type)    then 0
-              elsif Template::FLOAT_TYPES.include?(type)  then 0.0
-              elsif Template::CHAR_TYPES.include?(type)   then "\0"
-              elsif Template::STRING_TYPES.include?(type) then ''
+              if    Format::INT_TYPES.include?(type)    then 0
+              elsif Format::FLOAT_TYPES.include?(type)  then 0.0
+              elsif Format::CHAR_TYPES.include?(type)   then "\0"
+              elsif Format::STRING_TYPES.include?(type) then ''
               end
             elsif type < Struct
               type.new

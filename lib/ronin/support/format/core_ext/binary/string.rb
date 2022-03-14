@@ -19,7 +19,7 @@
 
 require 'ronin/support/format/core_ext/binary/integer'
 require 'ronin/support/format/core_ext/text/string'
-require 'ronin/support/binary/template'
+require 'ronin/support/binary/format'
 
 require 'base64'
 
@@ -37,24 +37,26 @@ class String
   # Unpacks the String.
   #
   # @param [String, Array<Symbol, (Symbol, Integer)>] arguments
-  #   The `String#unpack` template or a list of {Ronin::Support::Binary::Template} types.
+  #   The `String#unpack` format string or a list of
+  #   {Ronin::Support::Binary::Format} types.
   #
   # @return [Array]
   #   The values unpacked from the String.
   #
   # @raise [ArgumentError]
-  #   One of the arguments was not a known {Ronin::Support::Binary::Template} type.
+  #   One of the arguments was not a known {Ronin::Support::Binary::Format}
+  #   type.
   #
-  # @example using {Ronin::Support::Binary::Template} types:
+  # @example using {Ronin::Support::Binary::Format} types:
   #   "A\0\0\0hello\0".unpack(:uint32_le, :string)
   #   # => [10, "hello"]
   #
-  # @example using a `String#unpack` template:
+  # @example using a `String#unpack` format string:
   #   "A\0\0\0".unpack('V')
   #   # => 65
   #
   # @see https://rubydoc.info/stdlib/core/String:unpack
-  # @see Ronin::Support::Binary::Template
+  # @see Ronin::Support::Binary::Format
   #
   # @since 0.5.0
   #
@@ -64,7 +66,7 @@ class String
     if (arguments.length == 1 && arguments.first.kind_of?(String))
       unpack_original(arguments.first)
     else
-      unpack_original(Ronin::Support::Binary::Template.compile(arguments))
+      unpack_original(Ronin::Support::Binary::Format.compile(arguments))
     end
   end
 

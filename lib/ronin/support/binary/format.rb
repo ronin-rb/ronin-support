@@ -95,7 +95,7 @@ module Ronin
       #
       # @since 0.5.0
       #
-      class Template
+      class Format
 
         # Supported C-types and corresponding `Array#pack` codes.
         TYPES = {
@@ -255,7 +255,7 @@ module Ronin
         attr_reader :fields
 
         #
-        # Creates a new Binary Template.
+        # Creates a new Binary format.
         #
         # @param [Array<type, (type, length)>] fields
         #   The C-types which the packer will use.
@@ -270,7 +270,7 @@ module Ronin
         #   A given type is not known.
         #
         # @example
-        #   Template.new(:uint32, [:char, 100])
+        #   Format.new(:uint32, [:char, 100])
         #
         def initialize(fields,**kwargs)
           @fields   = fields

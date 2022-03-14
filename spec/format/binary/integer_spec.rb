@@ -103,13 +103,13 @@ describe Integer do
       end
     end
 
-    context "when given a Binary::Template Integer type" do
-      it "must pack Integers using Binary::Template" do
+    context "when given a Ronin::Support::Binary::Format Integer type" do
+      it "must pack Integers using Ronin::Support::Binary::Format" do
         expect(subject.pack(:uint32_le)).to eq(packed)
       end
     end
 
-    context "when given non-Integer Binary::Template types" do
+    context "when given non-Integer Ronin::Support::Binary::Format types" do
       it "must raise an ArgumentError" do
         expect {
           subject.pack(:float)

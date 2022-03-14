@@ -18,7 +18,7 @@ describe Array do
     end
 
     context "otherwise" do
-      it "must pack fields using Binary::Template" do
+      it "must pack fields using Ronin::Support::Binary::Format" do
         expect(subject.pack(:uint16_le, :string)).to eq(packed)
       end
     end
