@@ -94,40 +94,7 @@ module Ronin
         Float64_Net = Network::Float64
 
         # All types (native, little-endian, big-endian, and network byte-order).
-        TYPES = {
-          int8:  Native::Int8,
-          int16: Native::Int16,
-          int32: Native::Int32,
-          int64: Native::Int64,
-
-          short:     Native::Int16,
-          int:       Native::Int32,
-          long:      Native::Int64,
-          long_long: Native::Int64,
-
-          uint8:  Native::UInt8,
-          uint16: Native::UInt16,
-          uint32: Native::UInt32,
-          uint64: Native::UInt64,
-
-          byte:       Native::UInt8,
-          ushort:     Native::UInt16,
-          uint:       Native::UInt32,
-          ulong:      Native::UInt64,
-          ulong_long: Native::UInt64,
-
-          char:  Native::Char,
-          uchar: Native::UChar,
-
-          cstring: Native::CString,
-          string:  Native::CString,
-
-          float32: Native::Float32,
-          float64: Native::Float64,
-
-          float:   Native::Float32,
-          double:  Native::Float64,
-
+        TYPES = Native::TYPES.merge(
           # little-endian types
           int16_le: LittleEndian::Int16,
           int32_le: LittleEndian::Int32,
@@ -227,7 +194,7 @@ module Ronin
 
           float_net:   Network::Float32,
           double_net:  Network::Float64
-        }
+        )
 
         # Represents the different endian type systems.
         ENDIAN = {
