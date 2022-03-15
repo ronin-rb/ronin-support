@@ -72,16 +72,10 @@ module Ronin
           UInt64 = UInt64Type.new(endian: ENDIAN, pack_string: 'Q')
 
           # The `float` type (native-endianness).
-          Float32 = Float32Type.new(
-            endian: ENDIAN,
-            pack_string: 'f'
-          )
+          Float32 = Float32Type.new(endian: ENDIAN, pack_string: 'f')
 
           # The `double` type (native-endianness).
-          Float64 = Float64Type.new(
-            endian: ENDIAN,
-            pack_string: 'd'
-          )
+          Float64 = Float64Type.new(endian: ENDIAN,pack_string: 'd')
 
           # The `char` type.
           Char = CharType.new(signed: true, pack_string: 'Z')
