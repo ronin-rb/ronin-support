@@ -122,6 +122,10 @@ module Ronin
                         end,
             ulong_long: UInt64,
 
+            pointer:    if POINTER_SIZE == 8 then UInt64
+                        else                      UInt32
+                        end,
+
             float32: Float32,
             float64: Float64,
 

@@ -430,6 +430,22 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
+    describe ":pointer" do
+      if described_class::POINTER_SIZE == 8
+        context "when POINTER_SIZE is 8" do
+          it "must be an alias to uint64" do
+            expect(subject[:pointer]).to be(subject[:uint64])
+          end
+        end
+      else
+        context "when the POINTER_SIZE is #{described_class::POINTER_SIZE}" do
+          it "must be an alias to uint32" do
+            expect(subject[:pointer]).to be(subject[:uint32])
+          end
+        end
+      end
+    end
+
     describe ":float32" do
       subject { super()[:float32] }
 
