@@ -42,6 +42,11 @@ module Ronin
                      :little
                    end
 
+          # The size of a native pointer in bytes.
+          #
+          # @return [4, 8]
+          POINTER_SIZE = ['a'].pack('p').bytesize
+
           # The `int8_t` type.
           Int8 = Int8Type.new
 

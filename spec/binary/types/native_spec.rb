@@ -12,6 +12,14 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
+  describe "POINTER_SIZE" do
+    subject { described_class::POINTER_SIZE }
+
+    it "must be equal ['...'].pack('p')" do
+      expect(subject).to eq(['a'].pack('p').bytesize)
+    end
+  end
+
   describe "Int8" do
     subject { described_class::Int8 }
 
