@@ -66,7 +66,12 @@ module Ronin
           #
           # Fetches the arch from {ARCHES}.
           #
-          # @param [Symbol] name
+          # @param [:x86, :x86_64,
+          #         :ppc, :ppc64,
+          #         :mips, :mips_le, :mips_be,
+          #         :mips64, :mips64_le, :mips64_be,
+          #         :arm, :arm_le, :arm_be,
+          #         :arm64, :arm64_le, :arm64_be] name
           #   The architecture name to lookup.
           #
           # @return [Module]
