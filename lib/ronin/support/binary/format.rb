@@ -143,8 +143,12 @@ module Ronin
         # @param [:little, :big, :net, nil] endian
         #   The desired endianness of the binary format.
         #
-        # @param [:x86, :x86_64, :ppc, :ppc64, :arm, :arm_be, :arm64, :arm64_be,
-        #         :mips, :mips_le, :mips64, :mips64_le, nil] arch
+        # @param [:x86, :x86_64,
+        #         :ppc, :ppc64,
+        #         :mips, :mips_le, :mips_be,
+        #         :mips64, :mips64_le, :mips64_be,
+        #         :arm, :arm_le, :arm_be,
+        #         :arm64, :arm64_le, :arm64_be] arch
         #   The desired architecture of the binary format.
         #
         # @raise [ArgumentError]
