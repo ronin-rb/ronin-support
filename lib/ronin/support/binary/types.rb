@@ -27,24 +27,7 @@ module Ronin
   module Support
     module Binary
       module Types
-        Int8  = Native::Int8
-        Int16 = Native::Int16
-        Int32 = Native::Int32
-        Int64 = Native::Int64
-
-        UInt8  = Native::UInt8
-        UInt16 = Native::UInt16
-        UInt32 = Native::UInt32
-        UInt64 = Native::UInt64
-
-        Byte  = Native::UInt8
-        Char  = Native::Char
-        UChar = Native::UChar
-
-        CString = Native::CString
-
-        Float32 = Native::Float32
-        Float64 = Native::Float64
+        include Native
 
         # little-endian types
         Int16_LE = LittleEndian::Int16
