@@ -351,7 +351,7 @@ describe Ronin::Support::Binary::Types::Native do
       end
     end
 
-    describe "#float32" do
+    describe "float32" do
       subject { super()[:float32] }
 
       it "must equal #{described_class}::Float32" do
@@ -359,7 +359,7 @@ describe Ronin::Support::Binary::Types::Native do
       end
     end
 
-    describe "#float64" do
+    describe "float64" do
       subject { super()[:float64] }
 
       it "must equal #{described_class}::Float64" do
