@@ -104,7 +104,9 @@ module Ronin
 
             short:     Int16,
             int:       Int32,
-            long:      Int64,
+            long:      if POINTER_SIZE == 8 then Int64
+                       else                      Int32
+                       end,
             long_long: Int64,
 
             uint8:  UInt8,
@@ -115,7 +117,9 @@ module Ronin
             byte:       UInt8,
             ushort:     UInt16,
             uint:       UInt32,
-            ulong:      UInt64,
+            ulong:      if POINTER_SIZE == 8 then UInt64
+                        else                      UInt32
+                        end,
             ulong_long: UInt64,
 
             float32: Float32,
