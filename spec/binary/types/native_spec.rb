@@ -15,7 +15,7 @@ describe Ronin::Support::Binary::Types::Native do
   describe "ADDRESS_SIZE" do
     subject { described_class::ADDRESS_SIZE }
 
-    it "must be equal ['...'].pack('p')" do
+    it "must be equal the size of a pointer" do
       expect(subject).to eq(['a'].pack('p').bytesize)
     end
   end

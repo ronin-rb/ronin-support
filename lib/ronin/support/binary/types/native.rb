@@ -45,7 +45,11 @@ module Ronin
           # The size of a native pointer in bytes.
           #
           # @return [4, 8]
-          ADDRESS_SIZE = ['a'].pack('p').bytesize
+          ADDRESS_SIZE = if RbConfig::CONFIG['host_cpu'].include?('64')
+                           8
+                         else
+                           4
+                         end
 
           # The `int8_t` type.
           Int8 = Int8Type.new
