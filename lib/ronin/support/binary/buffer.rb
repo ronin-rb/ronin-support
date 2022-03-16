@@ -619,11 +619,11 @@ module Ronin
         #
         # @see #get_array_of
         #
-        def get_bytes(offset,count)
+        def get_array_of_byte(offset,count)
           get_array_of(:byte,offset,count)
         end
 
-        alias get_array_of_byte get_bytes
+        alias get_bytes get_array_of_byte
 
         #
         # Alias to `get_array_of(:char,offset,count)`.
@@ -639,11 +639,11 @@ module Ronin
         #
         # @see #get_array_of
         #
-        def get_chars(offset,count)
+        def get_array_of_char(offset,count)
           get_array_of(:char,offset,count)
         end
 
-        alias get_array_of_char get_chars
+        alias get_chars get_array_of_char
 
         #
         # Writes a value of the given type to the given offset.
@@ -1135,11 +1135,11 @@ module Ronin
         #
         # @see #put_array_of
         #
-        def put_bytes(offset,bytes)
+        def put_array_of_byte(offset,bytes)
           put_array_of(:byte,offset,bytes)
         end
 
-        alias put_array_of_bytes put_bytes
+        alias put_bytes put_array_of_bytes
 
         #
         # Converts the buffer to a String.
