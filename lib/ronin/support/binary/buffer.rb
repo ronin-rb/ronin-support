@@ -191,6 +191,45 @@ module Ronin
         end
 
         #
+        # Reads a value of the given type at the given offset.
+        #
+        # @param [Symbol] type
+        #   The type of the value to read.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to read.
+        #
+        # @return [Integer, Float, String]
+        #   The decoded value.
+        #
+        def get(type,offset)
+          type = @type_system[type]
+
+          slice = @string[offset,type.size]
+          return type.unpack(slice)
+        end
+
+        #
+        # Writes a value of the given type to the given offset.
+        #
+        # @param [Symbol] type
+        #   The type of the value to write.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to write.
+        #
+        # @param [Integer, Float, String] value
+        #   The value to write.
+        #
+        def put(type,offset,value)
+          type = @type_system[type]
+          data = type.pack(value)
+
+          @string[offset,type.size] = data
+          return value
+        end
+
+        #
         # Converts the buffer to a String.
         #
         # @return [String]

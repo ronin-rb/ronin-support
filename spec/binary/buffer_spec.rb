@@ -203,6 +203,38 @@ describe Ronin::Support::Binary::Buffer do
     end
   end
 
+  describe "#get" do
+    let(:type_name) { :int32_le }
+    let(:offset)    { 1  }
+    let(:value)     { -1 }
+
+    before do
+      subject[1] = 0xff
+      subject[2] = 0xff
+      subject[3] = 0xff
+      subject[4] = 0xff
+    end
+
+    it "must read and decode a value at the given offset with the given type" do
+      expect(subject.get(type_name,offset)).to eq(value)
+    end
+  end
+
+  describe "#put" do
+    let(:type_name) { :int32_le }
+    let(:type)      { Ronin::Support::Binary::Types[type_name] }
+    let(:offset)    { 1 }
+    let(:value)     { -1 }
+
+    let(:packed_value) { type.pack(value) }
+
+    it "must write the given value at the given offset with the given type" do
+      subject.put(type_name,offset,value)
+
+      expect(subject.string[offset,type.size]).to eq(packed_value)
+    end
+  end
+
   describe "#to_s" do
     it "must return #string" do
       expect(subject.to_s).to be(subject.string)
