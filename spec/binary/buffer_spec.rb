@@ -235,6 +235,28 @@ describe Ronin::Support::Binary::Buffer do
     end
   end
 
+  [
+    :byte,
+    :char, :uchar,
+    :int8, :int16, :int32, :int64,
+    :short, :int, :long, :long_long,
+    :uint8, :uint16, :uint32, :uint64,
+    :ushort, :uint, :ulong, :ulong_long,
+    :float32, :float64,
+    :float, :double
+  ].each do |type_name|
+    describe "#get_#{type_name}" do
+      let(:type_name) { type_name }
+      let(:offset)    { double("offset") }
+
+      it "must call #get with :#{type_name} and the given offset" do
+        expect(subject).to receive(:get).with(type_name,offset)
+
+        subject.send("get_#{type_name}",offset)
+      end
+    end
+  end
+
   describe "#to_s" do
     it "must return #string" do
       expect(subject.to_s).to be(subject.string)

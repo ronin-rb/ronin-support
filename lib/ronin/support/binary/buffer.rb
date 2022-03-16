@@ -210,6 +210,351 @@ module Ronin
         end
 
         #
+        # Alias for `get(:byte,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `byte` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `byte`.
+        #
+        # @see #get
+        #
+        def get_byte(offset)
+          get(:byte,offset)
+        end
+
+        #
+        # Alias for `get(:char,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `char` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `char`.
+        #
+        # @see #get
+        #
+        def get_char(offset)
+          get(:char,offset)
+        end
+
+        #
+        # Alias for `get(:uchar,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `uchar` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `uchar`.
+        #
+        # @see #get
+        #
+        def get_uchar(offset)
+          get(:uchar,offset)
+        end
+
+        #
+        # Alias for `get(:int8,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `int8` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `int8`.
+        #
+        # @see #get
+        #
+        def get_int8(offset)
+          get(:int8,offset)
+        end
+
+        #
+        # Alias for `get(:int16,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `int16` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `int16`.
+        #
+        # @see #get
+        #
+        def get_int16(offset)
+          get(:int16,offset)
+        end
+
+        #
+        # Alias for `get(:int32,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `int32` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `int32`.
+        #
+        # @see #get
+        #
+        def get_int32(offset)
+          get(:int32,offset)
+        end
+
+        #
+        # Alias for `get(:int64,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `int64` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `int64`.
+        #
+        # @see #get
+        #
+        def get_int64(offset)
+          get(:int64,offset)
+        end
+
+        #
+        # Alias for `get(:uint8,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `uint8` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `uint8`.
+        #
+        # @see #get
+        #
+        def get_uint8(offset)
+          get(:uint8,offset)
+        end
+
+        #
+        # Alias for `get(:uint16,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `uint16` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `uint16`.
+        #
+        # @see #get
+        #
+        def get_uint16(offset)
+          get(:uint16,offset)
+        end
+
+        #
+        # Alias for `get(:uint32,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `uint32` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `uint32`.
+        #
+        # @see #get
+        #
+        def get_uint32(offset)
+          get(:uint32,offset)
+        end
+
+        #
+        # Alias for `get(:uint64,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `uint64` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `uint64`.
+        #
+        # @see #get
+        #
+        def get_uint64(offset)
+          get(:uint64,offset)
+        end
+
+        #
+        # Alias for `get(:short,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `short` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `short`.
+        #
+        # @see #get
+        #
+        def get_short(offset)
+          get(:short,offset)
+        end
+
+        #
+        # Alias for `get(:int,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `int` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `int`.
+        #
+        # @see #get
+        #
+        def get_int(offset)
+          get(:int,offset)
+        end
+
+        #
+        # Alias for `get(:long,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `long` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `long`.
+        #
+        # @see #get
+        #
+        def get_long(offset)
+          get(:long,offset)
+        end
+
+        #
+        # Alias for `get(:long_long,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `long_long` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `long_long`.
+        #
+        # @see #get
+        #
+        def get_long_long(offset)
+          get(:long_long,offset)
+        end
+
+        #
+        # Alias for `get(:ushort,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `ushort` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `ushort`.
+        #
+        # @see #get
+        #
+        def get_ushort(offset)
+          get(:ushort,offset)
+        end
+
+        #
+        # Alias for `get(:uint,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `uint` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `uint`.
+        #
+        # @see #get
+        #
+        def get_uint(offset)
+          get(:uint,offset)
+        end
+
+        #
+        # Alias for `get(:ulong,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `ulong` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `ulong`.
+        #
+        # @see #get
+        #
+        def get_ulong(offset)
+          get(:ulong,offset)
+        end
+
+        #
+        # Alias for `get(:ulong_long,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `ulong_long` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `ulong_long`.
+        #
+        # @see #get
+        #
+        def get_ulong_long(offset)
+          get(:ulong_long,offset)
+        end
+
+        #
+        # Alias for `get(:float32,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `float32` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `float32`.
+        #
+        # @see #get
+        #
+        def get_float32(offset)
+          get(:float32,offset)
+        end
+
+        #
+        # Alias for `get(:float64,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `float64` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `float64`.
+        #
+        # @see #get
+        #
+        def get_float64(offset)
+          get(:float64,offset)
+        end
+
+        #
+        # Alias for `get(:float,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `float` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `float`.
+        #
+        # @see #get
+        #
+        def get_float(offset)
+          get(:float,offset)
+        end
+
+        #
+        # Alias for `get(:double,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `double` within the buffer.
+        #
+        # @return [Integer]
+        #   The read `double`.
+        #
+        # @see #get
+        #
+        def get_double(offset)
+          get(:double,offset)
+        end
+
+        #
         # Writes a value of the given type to the given offset.
         #
         # @param [Symbol] type
