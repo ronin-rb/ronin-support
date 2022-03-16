@@ -646,6 +646,394 @@ module Ronin
         alias get_chars get_array_of_char
 
         #
+        # Alias to `get_array_of(:uchar,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of unsigned chars to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of unsigned chars.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_uchar(offset,count)
+          get_array_of(:uchar,offset,count)
+        end
+
+        alias get_uchars get_array_of_uchar
+
+        #
+        # Alias to `get_array_of(:int8,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `int8` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `int8` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_int8(offset,count)
+          get_array_of(:int8,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:int16,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `int16` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `int16` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_int16(offset,count)
+          get_array_of(:int16,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:int32,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `int32` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `int32` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_int32(offset,count)
+          get_array_of(:int32,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:int64,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `int64` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `int64` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_int64(offset,count)
+          get_array_of(:int64,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:uint8,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `uint8` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `uint8` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_uint8(offset,count)
+          get_array_of(:uint8,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:uint16,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `uint16` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `uint16` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_uint16(offset,count)
+          get_array_of(:uint16,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:uint32,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `uint32` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `uint32` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_uint32(offset,count)
+          get_array_of(:uint32,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:uint64,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `uint64` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `uint64` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_uint64(offset,count)
+          get_array_of(:uint64,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:short,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `short` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `short` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_short(offset,count)
+          get_array_of(:short,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:int,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `int` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `int` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_int(offset,count)
+          get_array_of(:int,offset,count)
+        end
+
+        alias get_ints get_array_of_int
+
+        #
+        # Alias to `get_array_of(:long,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `long` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `long` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_long(offset,count)
+          get_array_of(:long,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:long_long,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `long_long` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `long_long` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_long_long(offset,count)
+          get_array_of(:long_long,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:ushort,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `ushort` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `ushort` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_ushort(offset,count)
+          get_array_of(:ushort,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:uint,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `uint` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `uint` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_uint(offset,count)
+          get_array_of(:uint,offset,count)
+        end
+
+        alias get_uints get_array_of_uint
+
+        #
+        # Alias to `get_array_of(:ulong,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `ulong` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `ulong` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_ulong(offset,count)
+          get_array_of(:ulong,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:ulong_long,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `ulong_long` values to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of `ulong_long` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_ulong_long(offset,count)
+          get_array_of(:ulong_long,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:float32,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `float32` values to read.
+        #
+        # @return [Array<Float>]
+        #   The read array of `float32` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_float32(offset,count)
+          get_array_of(:float32,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:float64,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `float64` values to read.
+        #
+        # @return [Array<Float>]
+        #   The read array of `float64` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_float64(offset,count)
+          get_array_of(:float64,offset,count)
+        end
+
+        #
+        # Alias to `get_array_of(:float,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `float` values to read.
+        #
+        # @return [Array<Float>]
+        #   The read array of `float` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_float(offset,count)
+          get_array_of(:float,offset,count)
+        end
+
+        alias get_floats get_array_of_float
+
+        #
+        # Alias to `get_array_of(:double,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of `double` values to read.
+        #
+        # @return [Array<Float>]
+        #   The read array of `double` values.
+        #
+        # @see #get_array_of
+        #
+        def get_array_of_double(offset,count)
+          get_array_of(:double,offset,count)
+        end
+
+        alias get_doubles get_array_of_double
+
+        #
         # Writes a value of the given type to the given offset.
         #
         # @param [Symbol] type
@@ -1139,7 +1527,407 @@ module Ronin
           put_array_of(:byte,offset,bytes)
         end
 
-        alias put_bytes put_array_of_bytes
+        alias put_bytes put_array_of_byte
+
+        #
+        # Alias to `put_array_of(:char,offset,bytes)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [String] chars
+        #   The array of characters to write.
+        #
+        # @return [String]
+        #   The wrriten array of chars.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_char(offset,chars)
+          put_array_of(:char,offset,chars)
+        end
+
+        alias put_chars put_array_of_char
+
+        #
+        # Alias to `put_array_of(:uchar,offset,bytes)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [String] chars
+        #   The array of unsigned characters to write.
+        #
+        # @return [String]
+        #   The wrriten array of unsigned chars.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_uchar(offset,chars)
+          put_array_of(:uchar,offset,chars)
+        end
+
+        alias put_uchars put_array_of_uchar
+
+        #
+        # Alias to `put_array_of(:int8,offset,ints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `int8` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `int8` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_int8(offset,ints)
+          put_array_of(:int8,offset,ints)
+        end
+
+        #
+        # Alias to `put_array_of(:int16,offset,ints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `int16` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `int16` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_int16(offset,ints)
+          put_array_of(:int16,offset,ints)
+        end
+
+        #
+        # Alias to `put_array_of(:int32,offset,ints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `int32` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `int32` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_int32(offset,ints)
+          put_array_of(:int32,offset,ints)
+        end
+
+        #
+        # Alias to `put_array_of(:int64,offset,ints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `int64` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `int64` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_int64(offset,ints)
+          put_array_of(:int64,offset,ints)
+        end
+
+        #
+        # Alias to `put_array_of(:uint8,offset,uints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `uint8` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `uint8` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_uint8(offset,uints)
+          put_array_of(:uint8,offset,uints)
+        end
+
+        #
+        # Alias to `put_array_of(:uint16,offset,uints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `uint16` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `uint16` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_uint16(offset,uints)
+          put_array_of(:uint16,offset,uints)
+        end
+
+        #
+        # Alias to `put_array_of(:uint32,offset,uints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `uint32` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `uint32` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_uint32(offset,uints)
+          put_array_of(:uint32,offset,uints)
+        end
+
+        #
+        # Alias to `put_array_of(:uint64,offset,uints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `uint64` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `uint64` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_uint64(offset,uints)
+          put_array_of(:uint64,offset,uints)
+        end
+
+        #
+        # Alias to `put_array_of(:short,offset,ints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `short` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `short` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_short(offset,ints)
+          put_array_of(:short,offset,ints)
+        end
+
+        #
+        # Alias to `put_array_of(:int,offset,ints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `int` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `int` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_int(offset,ints)
+          put_array_of(:int,offset,ints)
+        end
+
+        #
+        # Alias to `put_array_of(:long,offset,ints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `long` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `long` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_long(offset,ints)
+          put_array_of(:long,offset,ints)
+        end
+
+        #
+        # Alias to `put_array_of(:long_long,offset,ints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `long_long` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `long_long` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_long_long(offset,ints)
+          put_array_of(:long_long,offset,ints)
+        end
+
+        #
+        # Alias to `put_array_of(:ushort,offset,uints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `ushort` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `ushort` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_ushort(offset,uints)
+          put_array_of(:ushort,offset,uints)
+        end
+
+        #
+        # Alias to `put_array_of(:uint,offset,uints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `uint` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `uint` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_uint(offset,uints)
+          put_array_of(:uint,offset,uints)
+        end
+
+        #
+        # Alias to `put_array_of(:ulong,offset,uints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `ulong` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `ulong` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_ulong(offset,uints)
+          put_array_of(:ulong,offset,uints)
+        end
+
+        #
+        # Alias to `put_array_of(:ulong_long,offset,uints)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] chars
+        #   The array of `ulong_long` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `ulong_long` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_ulong_long(offset,uints)
+          put_array_of(:ulong_long,offset,uints)
+        end
+
+        #
+        # Alias to `put_array_of(:float32,offset,floats)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Float>] floats
+        #   The array of `float32` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `float32` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_float32(offset,floats)
+          put_array_of(:float32,offset,floats)
+        end
+
+        #
+        # Alias to `put_array_of(:float64,offset,floats)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Float>] floats
+        #   The array of `float64` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `float64` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_float64(offset,floats)
+          put_array_of(:float64,offset,floats)
+        end
+
+        #
+        # Alias to `put_array_of(:float,offset,floats)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Float>] floats
+        #   The array of `float` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `float` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_float(offset,floats)
+          put_array_of(:float,offset,floats)
+        end
+
+        #
+        # Alias to `put_array_of(:double,offset,floats)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Float>] floats
+        #   The array of `double` values to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of `double` values.
+        #
+        # @see #put_array_of
+        #
+        def put_array_of_double(offset,floats)
+          put_array_of(:double,offset,floats)
+        end
 
         #
         # Converts the buffer to a String.

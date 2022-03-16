@@ -309,14 +309,49 @@ describe Ronin::Support::Binary::Buffer do
     end
   end
 
-  describe "#get_bytes" do
+  describe "#get_array_of_byte" do
     let(:offset) { double("offset") }
     let(:count)  { double("count")  }
 
     it "must call #get_array_of with :byte, the given offset, and count" do
       expect(subject).to receive(:get_array_of).with(:byte,offset,count)
 
-      subject.get_bytes(offset,count)
+      subject.get_array_of_byte(offset,count)
+    end
+  end
+
+  [
+    :byte,
+    :char, :uchar,
+    :int8, :int16, :int32, :int64,
+    :short, :int, :long, :long_long,
+    :uint8, :uint16, :uint32, :uint64,
+    :ushort, :uint, :ulong, :ulong_long,
+    :float32, :float64,
+    :float, :double
+  ].each do |type_name|
+    describe "#get_#{type_name}" do
+      let(:type_name) { type_name }
+      let(:offset)    { double("offset") }
+      let(:count)     { double('count')  }
+
+      it "must call #get with :#{type_name} and the given offset" do
+        expect(subject).to receive(:get_array_of).with(type_name,offset,count)
+
+        subject.send("get_array_of_#{type_name}",offset,count)
+      end
+    end
+
+    describe "#put_#{type_name}" do
+      let(:type_name) { type_name }
+      let(:offset)    { double("offset") }
+      let(:array)     { double("#{type_name} array") }
+
+      it "must call #put with :#{type_name}, the given offset, and value" do
+        expect(subject).to receive(:put_array_of).with(type_name,offset,array)
+
+        subject.send("put_array_of_#{type_name}",offset,array)
+      end
     end
   end
 
@@ -369,14 +404,14 @@ describe Ronin::Support::Binary::Buffer do
     end
   end
 
-  describe "#put_bytes" do
+  describe "#put_array_of_byte" do
     let(:offset) { double("offset") }
     let(:bytes)  { double("bytes")  }
 
     it "must call #put_array_of with :byte, the given offset, and bytes" do
       expect(subject).to receive(:put_array_of).with(:byte,offset,bytes)
 
-      subject.put_bytes(offset,bytes)
+      subject.put_array_of_byte(offset,bytes)
     end
   end
 
