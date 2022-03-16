@@ -29,6 +29,7 @@ require 'ronin/support/binary/types/char_type'
 require 'ronin/support/binary/types/float32_type'
 require 'ronin/support/binary/types/float64_type'
 require 'ronin/support/binary/types/unbounded_array_type'
+require 'ronin/support/binary/types/native'
 
 module Ronin
   module Support
@@ -86,7 +87,11 @@ module Ronin
 
             short:     Int16,
             int:       Int32,
-            long:      Int64,
+            long:      if Native::ADDRESS_SIZE == 8
+                          Int64
+                        else
+                          Int32
+                        end,
             long_long: Int64,
 
             uint8:  UInt8,
@@ -98,6 +103,11 @@ module Ronin
             ushort:     UInt16,
             uint:       UInt32,
             ulong:      UInt64,
+            ulong:      if Native::ADDRESS_SIZE == 8
+                           UInt64
+                         else
+                           UInt32
+                         end,
             ulong_long: UInt64,
 
             float32: Float32,

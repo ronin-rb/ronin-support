@@ -288,8 +288,18 @@ describe Ronin::Support::Binary::Types::LittleEndian do
     end
 
     describe ":long" do
-      it "must be an alias to int32" do
-        expect(subject[:long]).to be(subject[:int64])
+      if Ronin::Support::Binary::Types::Native::ADDRESS_SIZE == 8
+        context "when ADDRESS_SIZE is 8" do
+          it "must be an alias to int64" do
+            expect(subject[:long]).to be(subject[:int64])
+          end
+        end
+      else
+        context "when the ADDRESS_SIZE is #{Ronin::Support::Binary::Types::Native::ADDRESS_SIZE}" do
+          it "must be an alias to int32" do
+            expect(subject[:long]).to be(subject[:int32])
+          end
+        end
       end
     end
 
@@ -300,8 +310,18 @@ describe Ronin::Support::Binary::Types::LittleEndian do
     end
 
     describe ":ulong" do
-      it "must be an alias to uint32" do
-        expect(subject[:ulong]).to be(subject[:uint64])
+      if Ronin::Support::Binary::Types::Native::ADDRESS_SIZE == 8
+        context "when ADDRESS_SIZE is 8" do
+          it "must be an alias to uint64" do
+            expect(subject[:ulong]).to be(subject[:uint64])
+          end
+        end
+      else
+        context "when the ADDRESS_SIZE is #{Ronin::Support::Binary::Types::Native::ADDRESS_SIZE}" do
+          it "must be an alias to uint32" do
+            expect(subject[:ulong]).to be(subject[:uint32])
+          end
+        end
       end
     end
 
