@@ -320,6 +320,17 @@ describe Ronin::Support::Binary::Buffer do
     end
   end
 
+  describe "#put_bytes" do
+    let(:offset) { double("offset") }
+    let(:bytes)  { double("bytes")  }
+
+    it "must call #put_array_of with :byte, the given offset, and bytes" do
+      expect(subject).to receive(:put_array_of).with(:byte,offset,bytes)
+
+      subject.put_bytes(offset,bytes)
+    end
+  end
+
   describe "#to_s" do
     it "must return #string" do
       expect(subject.to_s).to be(subject.string)

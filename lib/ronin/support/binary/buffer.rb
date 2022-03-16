@@ -1056,6 +1056,24 @@ module Ronin
         end
 
         #
+        # Alias to `put_array_of(:byte,offset,bytes)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Array<Integer>] bytes
+        #   The array of bytes to write.
+        #
+        # @return [Array<Integer>]
+        #   The wrriten array of bytes.
+        #
+        # @see #put_array_of
+        #
+        def put_bytes(offset,bytes)
+          put_array_of(:byte,offset,bytes)
+        end
+
+        #
         # Converts the buffer to a String.
         #
         # @return [String]
