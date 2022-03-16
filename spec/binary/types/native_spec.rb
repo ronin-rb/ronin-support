@@ -315,7 +315,7 @@ describe Ronin::Support::Binary::Types::Native do
       else
         context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
           it "must be an alias to int32" do
-            expect(subject[:ulong]).to be(subject[:int32])
+            expect(subject[:long]).to be(subject[:int32])
           end
         end
       end
