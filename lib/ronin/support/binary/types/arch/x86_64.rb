@@ -27,6 +27,12 @@ module Ronin
           module X86_64
             include LittleEndian
 
+            # The x86-64 types.
+            TYPES = LittleEndian::TYPES.merge(
+              long:  LittleEndian::Int64,
+              ulong: LittleEndian::UInt64
+            )
+
             #
             # Fetches the type from {TYPES}.
             #

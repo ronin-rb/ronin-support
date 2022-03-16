@@ -28,6 +28,12 @@ module Ronin
             module LittleEndian
               include Types::LittleEndian
 
+              # The MIPS64 types.
+              TYPES = LittleEndian::TYPES.merge(
+                long:  LittleEndian::Int64,
+                ulong: LittleEndian::UInt64
+              )
+
               #
               # Fetches the type from {TYPES}.
               #

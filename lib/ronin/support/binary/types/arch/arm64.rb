@@ -27,6 +27,12 @@ module Ronin
           module ARM64
             include LittleEndian
 
+            # The ARM64 types.
+            TYPES = LittleEndian::TYPES.merge(
+              long:  Int64,
+              ulong: UInt64
+            )
+
             #
             # Fetches the type from {TYPES}.
             #

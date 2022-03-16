@@ -28,6 +28,12 @@ module Ronin
             module BigEndian
               include Types::BigEndian
 
+              # The ARM64 types.
+              TYPES = BigEndian::TYPES.merge(
+                long:  BigEndian::Int64,
+                ulong: BigEndian::UInt64
+              )
+
               #
               # Fetches the type from {TYPES}.
               #
