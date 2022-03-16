@@ -240,6 +240,33 @@ module Ronin
         end
 
         #
+        # Reads a null-byte terminated C string from the buffer, at the given
+        # offset.
+        #
+        # @param [Integer] offset
+        #   The offset of the `string` within the buffer.
+        #
+        # @param [Integer, nil] length
+        #   The optional maximum desired length of the string.
+        #
+        # @return [String]
+        #   The read C string, without the null-byte.
+        #
+        def get_string(offset,length=nil)
+          range = if length then (offset...(offset+length))
+                  else           (offset...@string.length)
+                  end
+
+          substring = @string.byteslice(range)
+
+          if (null_byte = substring.index("\0"))
+            substring = substring.byteslice(0,null_byte)
+          end
+
+          return substring
+        end
+
+        #
         # Alias for `get(:uchar,offset)`.
         #
         # @param [Integer] offset

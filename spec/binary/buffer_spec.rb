@@ -320,6 +320,31 @@ describe Ronin::Support::Binary::Buffer do
     end
   end
 
+  describe "#get_string" do
+    let(:offset) { 1 }
+    let(:string) { "abc" }
+    let(:bytes)  { string.bytes }
+
+    before do
+      subject[offset]   = bytes[0]
+      subject[offset+1] = bytes[1]
+      subject[offset+2] = bytes[2]
+      subject[offset+3] = 0x00
+    end
+
+    it "must read the string at the given offset, until a null-byte is read" do
+      expect(subject.get_string(offset)).to eq(string)
+    end
+
+    context "when a maximum lenght is given" do
+      let(:max) { 2 }
+
+      it "must only read that many bytes" do
+        expect(subject.get_string(offset,max)).to eq(string[0,max])
+      end
+    end
+  end
+
   describe "#put_bytes" do
     let(:offset) { double("offset") }
     let(:bytes)  { double("bytes")  }
