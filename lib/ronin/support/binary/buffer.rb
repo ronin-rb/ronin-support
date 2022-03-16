@@ -230,7 +230,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset of the `char` within the buffer.
         #
-        # @return [Integer]
+        # @return [String]
         #   The read `char`.
         #
         # @see #get
@@ -245,7 +245,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset of the `uchar` within the buffer.
         #
-        # @return [Integer]
+        # @return [String]
         #   The read `uchar`.
         #
         # @see #get
@@ -500,7 +500,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset of the `float32` within the buffer.
         #
-        # @return [Integer]
+        # @return [Float]
         #   The read `float32`.
         #
         # @see #get
@@ -515,7 +515,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset of the `float64` within the buffer.
         #
-        # @return [Integer]
+        # @return [Float]
         #   The read `float64`.
         #
         # @see #get
@@ -530,7 +530,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset of the `float` within the buffer.
         #
-        # @return [Integer]
+        # @return [Float]
         #   The read `float`.
         #
         # @see #get
@@ -545,7 +545,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset of the `double` within the buffer.
         #
-        # @return [Integer]
+        # @return [Float]
         #   The read `double`.
         #
         # @see #get
