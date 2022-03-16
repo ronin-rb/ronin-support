@@ -623,6 +623,28 @@ module Ronin
           get_array_of(:byte,offset,count)
         end
 
+        alias get_array_of_byte get_bytes
+
+        #
+        # Alias to `get_array_of(:char,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of chars to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of chars.
+        #
+        # @see #get_array_of
+        #
+        def get_chars(offset,count)
+          get_array_of(:char,offset,count)
+        end
+
+        alias get_array_of_char get_chars
+
         #
         # Writes a value of the given type to the given offset.
         #
@@ -1116,6 +1138,8 @@ module Ronin
         def put_bytes(offset,bytes)
           put_array_of(:byte,offset,bytes)
         end
+
+        alias put_array_of_bytes put_bytes
 
         #
         # Converts the buffer to a String.
