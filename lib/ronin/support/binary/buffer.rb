@@ -1013,6 +1013,31 @@ module Ronin
         end
 
         #
+        # Writes an array of the given type, to the given offset within the
+        # buffer.
+        #
+        # @param [Symbol] type_name
+        #   The type of the value to write.
+        #
+        # @param [Integer] offset
+        #   The offset that the array should start at within the buffer.
+        #
+        # @param [Array<Object>] array
+        #   The array of values to write.
+        #
+        # @return [Array<Object>]
+        #   The written array of values.
+        #
+        def put_array_of(type,offset,array)
+          type       = @type_system[type]
+          array_type = type[array.length]
+          data       = array_type.pack(*array)
+
+          @string[offset,array_type.size] = data
+          return array
+        end
+
+        #
         # Converts the buffer to a String.
         #
         # @return [String]

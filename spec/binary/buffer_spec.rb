@@ -290,6 +290,25 @@ describe Ronin::Support::Binary::Buffer do
     end
   end
 
+  describe "#put_array_of" do
+    let(:type_name)  { :int32_le }
+    let(:type)       { Ronin::Support::Binary::Types[type_name] }
+    let(:array)      { [-1, -2, -3] }
+    let(:array_type) { type[array.length] }
+    let(:offset)     { 1 }
+    let(:count)      { array.length }
+
+    let(:length)     { 1 + (type.size*count) }
+
+    let(:packed_array) { array_type.pack(*array) }
+
+    it "must read an Array of types at the given offset of the given count" do
+      subject.put_array_of(type_name,offset,array)
+
+      expect(subject.string[offset,array_type.size]).to eq(packed_array)
+    end
+  end
+
   describe "#to_s" do
     it "must return #string" do
       expect(subject.to_s).to be(subject.string)
