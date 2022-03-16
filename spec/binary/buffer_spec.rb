@@ -345,6 +345,30 @@ describe Ronin::Support::Binary::Buffer do
     end
   end
 
+  describe "#put_string" do
+    let(:offset) { 1 }
+    let(:string) { "abc" }
+
+    before do
+      subject[0] = 0x41
+      subject[1] = 0x41
+      subject[2] = 0x41
+      subject[3] = 0x41
+      subject[4] = 0x41
+      subject[5] = 0x41
+
+      subject.put_string(offset,string)
+    end
+
+    it "must write the string at the given offset" do
+      expect(subject.string[offset,string.bytesize]).to eq(string)
+    end
+
+    it "must append a null-byte after the last byte of the string" do
+      expect(subject.string[offset+string.bytesize]).to eq("\0")
+    end
+  end
+
   describe "#put_bytes" do
     let(:offset) { double("offset") }
     let(:bytes)  { double("bytes")  }

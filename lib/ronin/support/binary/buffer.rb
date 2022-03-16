@@ -680,6 +680,23 @@ module Ronin
         end
 
         #
+        # Writes a null-terminated C string into the buffer at the given
+        # offset.
+        #
+        # @param [Integer] offset
+        #   The offset to start writing the string into the buffer.
+        #
+        # @param [String] string
+        #   The String to write into the buffer.
+        #
+        def put_string(offset,string)
+          ascii_string = string.encode(@string.encoding)
+          cstring      = "#{ascii_string}\0"
+
+          @string[offset,cstring.bytesize] = cstring
+        end
+
+        #
         # Alias for `put(:uchar,offset,value)`.
         #
         # @param [Integer] offset
