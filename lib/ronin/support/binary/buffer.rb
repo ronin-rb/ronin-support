@@ -555,6 +555,30 @@ module Ronin
         end
 
         #
+        # Reads an array of the given type, starting at the given offset, with
+        # the given length.
+        #
+        # @param [Symbol] type_name
+        #   The type of the value to read.
+        #
+        # @param [Integer] offset
+        #   The offset that the array starts at within the buffer.
+        #
+        # @param [Integer] count
+        #   The number of desired elements within the array.
+        #
+        # @return [Array<Object>]
+        #   The read array of types.
+        #
+        def get_array_of(type,offset,count)
+          type       = @type_system[type]
+          array_type = type[count]
+
+          slice = @string[offset,array_type.size]
+          return array_type.unpack(slice)
+        end
+
+        #
         # Writes a value of the given type to the given offset.
         #
         # @param [Symbol] type

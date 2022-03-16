@@ -205,6 +205,7 @@ describe Ronin::Support::Binary::Buffer do
 
   describe "#get" do
     let(:type_name) { :int32_le }
+    let(:type)      { Ronin::Support::Binary::Types[type_name] }
     let(:offset)    { 1  }
     let(:value)     { -1 }
 
@@ -266,6 +267,26 @@ describe Ronin::Support::Binary::Buffer do
 
         subject.send("put_#{type_name}",offset,value)
       end
+    end
+  end
+
+  describe "#get_array_of" do
+    let(:type_name) { :int32_le }
+    let(:type)      { Ronin::Support::Binary::Types[type_name] }
+    let(:array)     { [-1, -2, -3] }
+    let(:offset)    { 1 }
+    let(:count)     { array.length }
+
+    let(:length)    { 1 + (type.size*count) }
+
+    before do
+      subject.put(type_name, 1,               array[0])
+      subject.put(type_name, 1+type.size,     array[1])
+      subject.put(type_name, 1+(type.size*2), array[2])
+    end
+
+    it "must read an Array of types at the given offset of the given count" do
+      expect(subject.get_array_of(type_name,offset,count)).to eq(array)
     end
   end
 
