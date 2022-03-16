@@ -240,6 +240,21 @@ module Ronin
         end
 
         #
+        # Alias for `get(:uchar,offset)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `uchar` within the buffer.
+        #
+        # @return [String]
+        #   The read `uchar`.
+        #
+        # @see #get
+        #
+        def get_uchar(offset)
+          get(:uchar,offset)
+        end
+
+        #
         # Reads a null-byte terminated C string from the buffer, at the given
         # offset.
         #
@@ -264,21 +279,6 @@ module Ronin
           end
 
           return substring
-        end
-
-        #
-        # Alias for `get(:uchar,offset)`.
-        #
-        # @param [Integer] offset
-        #   The offset of the `uchar` within the buffer.
-        #
-        # @return [String]
-        #   The read `uchar`.
-        #
-        # @see #get
-        #
-        def get_uchar(offset)
-          get(:uchar,offset)
         end
 
         #
