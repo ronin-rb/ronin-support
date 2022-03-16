@@ -575,6 +575,420 @@ module Ronin
         end
 
         #
+        # Alias for `put(:byte,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `byte` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `char` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `byte`.
+        #
+        # @see #put
+        #
+        def put_byte(offset,value)
+          put(:byte,offset,value)
+        end
+
+        #
+        # Alias for `put(:char,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `char` within the buffer.
+        #
+        # @param [String] value
+        #   The `char` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `char`.
+        #
+        # @see #put
+        #
+        def put_char(offset,value)
+          put(:char,offset,value)
+        end
+
+        #
+        # Alias for `put(:uchar,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `uchar` within the buffer.
+        #
+        # @param [String] value
+        #   The `uchar` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `uchar`.
+        #
+        # @see #put
+        #
+        def put_uchar(offset,value)
+          put(:uchar,offset,value)
+        end
+
+        #
+        # Alias for `put(:int8,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `int8` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `int8` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `int8`.
+        #
+        # @see #put
+        #
+        def put_int8(offset,value)
+          put(:int8,offset,value)
+        end
+
+        #
+        # Alias for `put(:int16,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `int16` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `int16` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `int16`.
+        #
+        # @see #put
+        #
+        def put_int16(offset,value)
+          put(:int16,offset,value)
+        end
+
+        #
+        # Alias for `put(:int32,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `int32` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `int32` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `int32`.
+        #
+        # @see #put
+        #
+        def put_int32(offset,value)
+          put(:int32,offset,value)
+        end
+
+        #
+        # Alias for `put(:int64,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `int64` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `int64` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `int64`.
+        #
+        # @see #put
+        #
+        def put_int64(offset,value)
+          put(:int64,offset,value)
+        end
+
+        #
+        # Alias for `put(:uint8,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `uint8` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `uint8` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `uint8`.
+        #
+        # @see #put
+        #
+        def put_uint8(offset,value)
+          put(:uint8,offset,value)
+        end
+
+        #
+        # Alias for `put(:uint16,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `uint16` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `uint16` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `uint16`.
+        #
+        # @see #put
+        #
+        def put_uint16(offset,value)
+          put(:uint16,offset,value)
+        end
+
+        #
+        # Alias for `put(:uint32,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `uint32` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `uint32` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `uint32`.
+        #
+        # @see #put
+        #
+        def put_uint32(offset,value)
+          put(:uint32,offset,value)
+        end
+
+        #
+        # Alias for `put(:uint64,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `uint64` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `uint64` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `uint64`.
+        #
+        # @see #put
+        #
+        def put_uint64(offset,value)
+          put(:uint64,offset,value)
+        end
+
+        #
+        # Alias for `put(:short,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `short` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `short` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `short`.
+        #
+        # @see #put
+        #
+        def put_short(offset,value)
+          put(:short,offset,value)
+        end
+
+        #
+        # Alias for `put(:int,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `int` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `int` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `int`.
+        #
+        # @see #put
+        #
+        def put_int(offset,value)
+          put(:int,offset,value)
+        end
+
+        #
+        # Alias for `put(:long,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `long` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `long` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `long`.
+        #
+        # @see #put
+        #
+        def put_long(offset,value)
+          put(:long,offset,value)
+        end
+
+        #
+        # Alias for `put(:long_long,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `long_long` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `long_long` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `long_long`.
+        #
+        # @see #put
+        #
+        def put_long_long(offset,value)
+          put(:long_long,offset,value)
+        end
+
+        #
+        # Alias for `put(:ushort,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `ushort` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `ushort` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `ushort`.
+        #
+        # @see #put
+        #
+        def put_ushort(offset,value)
+          put(:ushort,offset,value)
+        end
+
+        #
+        # Alias for `put(:uint,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `uint` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `uint` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `uint`.
+        #
+        # @see #put
+        #
+        def put_uint(offset,value)
+          put(:uint,offset,value)
+        end
+
+        #
+        # Alias for `put(:ulong,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `ulong` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `ulong` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `ulong`.
+        #
+        # @see #put
+        #
+        def put_ulong(offset,value)
+          put(:ulong,offset,value)
+        end
+
+        #
+        # Alias for `put(:ulong_long,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `ulong_long` within the buffer.
+        #
+        # @param [Integer] value
+        #   The `ulong_long` value to write into the buffer.
+        #
+        # @return [Integer]
+        #   The written `ulong_long`.
+        #
+        # @see #put
+        #
+        def put_ulong_long(offset,value)
+          put(:ulong_long,offset,value)
+        end
+
+        #
+        # Alias for `put(:float32,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `float32` within the buffer.
+        #
+        # @param [Float] value
+        #   The `float32` value to write into the buffer.
+        #
+        # @return [Float]
+        #   The written `float32` value.
+        #
+        # @see #put
+        #
+        def put_float32(offset,value)
+          put(:float32,offset,value)
+        end
+
+        #
+        # Alias for `put(:float64,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `float64` within the buffer.
+        #
+        # @param [Float] value
+        #   The `float64` value to write into the buffer.
+        #
+        # @return [Float]
+        #   The written `float64` value.
+        #
+        # @see #put
+        #
+        def put_float64(offset,value)
+          put(:float64,offset,value)
+        end
+
+        #
+        # Alias for `put(:float,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `float` within the buffer.
+        #
+        # @param [Float] value
+        #   The `float` value to write into the buffer.
+        #
+        # @return [Float]
+        #   The written `float` value.
+        #
+        # @see #put
+        #
+        def put_float(offset,value)
+          put(:float,offset,value)
+        end
+
+        #
+        # Alias for `put(:double,offset,value)`.
+        #
+        # @param [Integer] offset
+        #   The offset of the `double` within the buffer.
+        #
+        # @param [Float] value
+        #   The `double` value to write into the buffer.
+        #
+        # @return [Float]
+        #   The written `double` value.
+        #
+        # @see #put
+        #
+        def put_double(offset,value)
+          put(:double,offset,value)
+        end
+
+        #
         # Converts the buffer to a String.
         #
         # @return [String]

@@ -255,6 +255,18 @@ describe Ronin::Support::Binary::Buffer do
         subject.send("get_#{type_name}",offset)
       end
     end
+
+    describe "#put_#{type_name}" do
+      let(:type_name) { type_name }
+      let(:offset)    { double("offset") }
+      let(:value)     { double("#{type_name} value}") }
+
+      it "must call #put with :#{type_name}, the given offset, and value" do
+        expect(subject).to receive(:put).with(type_name,offset,value)
+
+        subject.send("put_#{type_name}",offset,value)
+      end
+    end
   end
 
   describe "#to_s" do
