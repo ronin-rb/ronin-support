@@ -27,6 +27,9 @@ module Ronin
           module ARM
             include LittleEndian
 
+            # The size of a pointer in bytes on ARM.
+            ADDRESS_SIZE = 4
+
             # The ARM types.
             TYPES = LittleEndian::TYPES.merge(
               long:  Int32,

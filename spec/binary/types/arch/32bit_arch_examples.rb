@@ -1,6 +1,12 @@
 require 'rspec'
 
 shared_examples_for "32bit Arch examples" do
+  describe "ADDRESS_SIZE" do
+    subject { described_class::ADDRESS_SIZE }
+
+    it { expect(subject).to eq(4) }
+  end
+
   describe "TYPES" do
     subject { described_class::TYPES }
 

@@ -27,6 +27,9 @@ module Ronin
           module PPC64
             include BigEndian
 
+            # The size of a pointer in bytes on PPC64.
+            ADDRESS_SIZE = 8
+
             # The PPC64 types.
             TYPES = BigEndian::TYPES.merge(
               long:  BigEndian::Int64,

@@ -27,6 +27,9 @@ module Ronin
           module X86
             include LittleEndian
 
+            # The size of a pointer in bytes on x86.
+            ADDRESS_SIZE = 4
+
             # The x86 types.
             TYPES = LittleEndian::TYPES.merge(
               long:  LittleEndian::Int32,

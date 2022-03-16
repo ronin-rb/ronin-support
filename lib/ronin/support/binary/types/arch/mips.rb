@@ -27,6 +27,9 @@ module Ronin
           module MIPS
             include BigEndian
 
+            # The size of a pointer in bytes on MIPS.
+            ADDRESS_SIZE = 4
+
             # The MIPS types.
             TYPES = BigEndian::TYPES.merge(
               long:  Int32,

@@ -28,6 +28,9 @@ module Ronin
             module LittleEndian
               include Types::LittleEndian
 
+              # The size of a pointer in bytes on MIPS (little-endian).
+              ADDRESS_SIZE = 4
+
               # The MIPS (little-endian) types.
               TYPES = Types::LittleEndian::TYPES.merge(
                 long:  Int32,

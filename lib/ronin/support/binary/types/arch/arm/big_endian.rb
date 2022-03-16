@@ -28,6 +28,9 @@ module Ronin
             module BigEndian
               include Types::BigEndian
 
+              # The size of a pointer in bytes on ARM (big-endian).
+              ADDRESS_SIZE = 4
+
               # The ARM (big-endian) types.
               TYPES = Types::BigEndian::TYPES.merge(
                 long:  Int32,
