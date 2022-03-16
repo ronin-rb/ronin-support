@@ -579,6 +579,24 @@ module Ronin
         end
 
         #
+        # Alias to `get_array_of(:byte,offset,count)`.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer to start reading at.
+        #
+        # @param [Integer] count
+        #   The number of bytes to read.
+        #
+        # @return [Array<Integer>]
+        #   The read array of bytes.
+        #
+        # @see #get_array_of
+        #
+        def get_bytes(offset,count)
+          get_array_of(:byte,offset,count)
+        end
+
+        #
         # Writes a value of the given type to the given offset.
         #
         # @param [Symbol] type

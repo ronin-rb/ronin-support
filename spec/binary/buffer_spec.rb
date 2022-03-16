@@ -309,6 +309,17 @@ describe Ronin::Support::Binary::Buffer do
     end
   end
 
+  describe "#get_bytes" do
+    let(:offset) { double("offset") }
+    let(:count)  { double("count")  }
+
+    it "must call #get_array_of with :byte, the given offset, and count" do
+      expect(subject).to receive(:get_array_of).with(:byte,offset,count)
+
+      subject.get_bytes(offset,count)
+    end
+  end
+
   describe "#to_s" do
     it "must return #string" do
       expect(subject.to_s).to be(subject.string)
