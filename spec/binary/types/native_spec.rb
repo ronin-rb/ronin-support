@@ -12,8 +12,8 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
-  describe "POINTER_SIZE" do
-    subject { described_class::POINTER_SIZE }
+  describe "ADDRESS_SIZE" do
+    subject { described_class::ADDRESS_SIZE }
 
     it "must be equal ['...'].pack('p')" do
       expect(subject).to eq(['a'].pack('p').bytesize)
@@ -306,14 +306,14 @@ describe Ronin::Support::Binary::Types::Native do
     end
 
     describe ":long" do
-      if described_class::POINTER_SIZE == 8
-        context "when POINTER_SIZE is 8" do
+      if described_class::ADDRESS_SIZE == 8
+        context "when ADDRESS_SIZE is 8" do
           it "must be an alias to int64" do
             expect(subject[:long]).to be(subject[:int64])
           end
         end
       else
-        context "when the POINTER_SIZE is #{described_class::POINTER_SIZE}" do
+        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
           it "must be an alias to int32" do
             expect(subject[:ulong]).to be(subject[:int32])
           end
@@ -328,14 +328,14 @@ describe Ronin::Support::Binary::Types::Native do
     end
 
     describe ":ulong" do
-      if described_class::POINTER_SIZE == 8
-        context "when POINTER_SIZE is 8" do
+      if described_class::ADDRESS_SIZE == 8
+        context "when ADDRESS_SIZE is 8" do
           it "must be an alias to uint64" do
             expect(subject[:ulong]).to be(subject[:uint64])
           end
         end
       else
-        context "when the POINTER_SIZE is #{described_class::POINTER_SIZE}" do
+        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
           it "must be an alias to uint32" do
             expect(subject[:ulong]).to be(subject[:uint32])
           end
@@ -372,14 +372,14 @@ describe Ronin::Support::Binary::Types::Native do
     end
 
     describe ":pointer" do
-      if described_class::POINTER_SIZE == 8
-        context "when POINTER_SIZE is 8" do
+      if described_class::ADDRESS_SIZE == 8
+        context "when ADDRESS_SIZE is 8" do
           it "must be an alias to uint64" do
             expect(subject[:pointer]).to be(subject[:uint64])
           end
         end
       else
-        context "when the POINTER_SIZE is #{described_class::POINTER_SIZE}" do
+        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
           it "must be an alias to uint32" do
             expect(subject[:pointer]).to be(subject[:uint32])
           end

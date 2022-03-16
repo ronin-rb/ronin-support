@@ -45,7 +45,7 @@ module Ronin
           # The size of a native pointer in bytes.
           #
           # @return [4, 8]
-          POINTER_SIZE = ['a'].pack('p').bytesize
+          ADDRESS_SIZE = ['a'].pack('p').bytesize
 
           # The `int8_t` type.
           Int8 = Int8Type.new
@@ -98,7 +98,7 @@ module Ronin
 
             short:     Int16,
             int:       Int32,
-            long:      if POINTER_SIZE == 8 then Int64
+            long:      if ADDRESS_SIZE == 8 then Int64
                        else                      Int32
                        end,
             long_long: Int64,
@@ -111,12 +111,12 @@ module Ronin
             byte:       UInt8,
             ushort:     UInt16,
             uint:       UInt32,
-            ulong:      if POINTER_SIZE == 8 then UInt64
+            ulong:      if ADDRESS_SIZE == 8 then UInt64
                         else                      UInt32
                         end,
             ulong_long: UInt64,
 
-            pointer:    if POINTER_SIZE == 8 then UInt64
+            pointer:    if ADDRESS_SIZE == 8 then UInt64
                         else                      UInt32
                         end,
 
