@@ -46,6 +46,16 @@ module Ronin
       #     buffer.to_s
       #     # => "\x11\x11\x11\x11\"\"\"\"3333\xFF\xFF\xFF\xFF"
       #
+      # Writing different types of data to a buffer:
+      #
+      #     buffer = Buffer.new(16)
+      #     buffer.put_uint32(0,0x11223344)
+      #     buffer.put_int32(4,-1)
+      #     buffer.put_string(8,"ABC")
+      #     buffer.put_float32(12,0.5)
+      #     buffer.to_s
+      #     # => "D3\"\x11\xFF\xFF\xFF\xFFABC\x00\x00\x00\x00?"
+      #
       # Creating a buffer from an existing String:
       #
       #     buffer = Buffer.new(:uint32_le, "\x41\x00\x00\x00\x42\x00\x00\x00")
