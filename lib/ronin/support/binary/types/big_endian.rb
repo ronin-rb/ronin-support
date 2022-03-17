@@ -102,7 +102,6 @@ module Ronin
             byte:       UInt8,
             ushort:     UInt16,
             uint:       UInt32,
-            ulong:      UInt64,
             ulong:      if Native::ADDRESS_SIZE == 8
                            UInt64
                          else
