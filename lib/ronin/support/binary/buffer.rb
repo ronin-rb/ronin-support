@@ -585,7 +585,7 @@ module Ronin
         # Reads an array of the given type, starting at the given offset, with
         # the given length.
         #
-        # @param [Symbol] type_name
+        # @param [Symbol] type
         #   The type of the value to read.
         #
         # @param [Integer] offset
@@ -1488,7 +1488,7 @@ module Ronin
         # Writes an array of the given type, to the given offset within the
         # buffer.
         #
-        # @param [Symbol] type_name
+        # @param [Symbol] type
         #   The type of the value to write.
         #
         # @param [Integer] offset
@@ -1575,7 +1575,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] ints
         #   The array of `int8` values to write.
         #
         # @return [Array<Integer>]
@@ -1593,7 +1593,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] ints
         #   The array of `int16` values to write.
         #
         # @return [Array<Integer>]
@@ -1611,7 +1611,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] ints
         #   The array of `int32` values to write.
         #
         # @return [Array<Integer>]
@@ -1629,7 +1629,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] ints
         #   The array of `int64` values to write.
         #
         # @return [Array<Integer>]
@@ -1647,7 +1647,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] uints
         #   The array of `uint8` values to write.
         #
         # @return [Array<Integer>]
@@ -1665,7 +1665,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] uints
         #   The array of `uint16` values to write.
         #
         # @return [Array<Integer>]
@@ -1683,7 +1683,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] uints
         #   The array of `uint32` values to write.
         #
         # @return [Array<Integer>]
@@ -1701,7 +1701,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] uints
         #   The array of `uint64` values to write.
         #
         # @return [Array<Integer>]
@@ -1719,7 +1719,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] ints
         #   The array of `short` values to write.
         #
         # @return [Array<Integer>]
@@ -1737,7 +1737,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] ints
         #   The array of `int` values to write.
         #
         # @return [Array<Integer>]
@@ -1749,13 +1749,15 @@ module Ronin
           put_array_of(:int,offset,ints)
         end
 
+        alias put_ints put_array_of_int
+
         #
         # Alias to `put_array_of(:long,offset,ints)`.
         #
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] ints
         #   The array of `long` values to write.
         #
         # @return [Array<Integer>]
@@ -1773,7 +1775,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] ints
         #   The array of `long_long` values to write.
         #
         # @return [Array<Integer>]
@@ -1791,7 +1793,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] uints
         #   The array of `ushort` values to write.
         #
         # @return [Array<Integer>]
@@ -1809,7 +1811,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] uints
         #   The array of `uint` values to write.
         #
         # @return [Array<Integer>]
@@ -1821,13 +1823,15 @@ module Ronin
           put_array_of(:uint,offset,uints)
         end
 
+        alias put_uints put_array_of_uint
+
         #
         # Alias to `put_array_of(:ulong,offset,uints)`.
         #
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] uints
         #   The array of `ulong` values to write.
         #
         # @return [Array<Integer>]
@@ -1845,7 +1849,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] chars
+        # @param [Array<Integer>] uints
         #   The array of `ulong_long` values to write.
         #
         # @return [Array<Integer>]
@@ -1911,6 +1915,8 @@ module Ronin
           put_array_of(:float,offset,floats)
         end
 
+        alias put_floats put_array_of_float
+
         #
         # Alias to `put_array_of(:double,offset,floats)`.
         #
@@ -1928,6 +1934,8 @@ module Ronin
         def put_array_of_double(offset,floats)
           put_array_of(:double,offset,floats)
         end
+
+        alias put_doubles put_array_of_double
 
         #
         # Converts the buffer to a String.
