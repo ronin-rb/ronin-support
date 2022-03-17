@@ -72,7 +72,9 @@ module Ronin
 
         # The type system that the buffer is using.
         #
-        # @return [Types, Types::LittleEndian, Types::BigEndian, Types::Network]
+        # @return [Types, Types::LittleEndian,
+        #                 Types::BigEndian,
+        #                 Types::Network]
         attr_reader :type_system
 
         # The underlying type of the data within the buffer.
