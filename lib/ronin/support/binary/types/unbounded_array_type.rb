@@ -50,6 +50,15 @@ module Ronin
           end
 
           #
+          # The "size" in bytes of the unbounded array type.
+          #
+          # @return [Float::INFINITY]
+          #
+          def size
+            Float::INFINITY
+          end
+
+          #
           # The "length" of the unbounded array type.
           #
           # @return [Float::INFINITY]
@@ -59,11 +68,12 @@ module Ronin
           end
 
           #
-          # The "size" in bytes of the unbounded array type.
+          # The "total length" of the unbounded array type, as if it were
+          # a flattened array.
           #
           # @return [Float::INFINITY]
           #
-          def size
+          def total_length
             Float::INFINITY
           end
 

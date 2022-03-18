@@ -75,6 +75,36 @@ module Ronin
             }]
           end
 
+          #
+          # The number of members within the structure.
+          #
+          # @return [Integer]
+          #
+          def length
+            @members.length
+          end
+
+          #
+          # Calculates the total number of members that can exist within the
+          # structure or it's array members or nested structures.
+          #
+          # @return [Integer, Float::INFINITY]
+          #
+          def total_length
+            count = 0
+
+            @members.each_value do |type|
+              case type
+              when AggregateType
+                count += type.total_length
+              else
+                count += 1
+              end
+            end
+
+            return count
+          end
+
         end
       end
     end

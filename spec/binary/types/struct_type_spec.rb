@@ -74,4 +74,49 @@ describe Ronin::Support::Binary::Types::StructType do
       )
     end
   end
+
+  describe "#length" do
+    it "must return the number of values within #members" do
+      expect(subject.length).to eq(members.length)
+    end
+  end
+
+  describe "#total_length" do
+    context "when none of the #members are AggregateTypes" do
+      it "must return #length" do
+        expect(subject.total_length).to eq(subject.length)
+      end
+    end
+
+    context "when one of the #members is an AggregateType" do
+      let(:array_length) { 10 }
+      let(:members) do
+        {
+          a: Ronin::Support::Binary::Types::Char,
+          b: Ronin::Support::Binary::Types::Int16,
+          c: Ronin::Support::Binary::Types::UInt32[array_length]
+        }
+      end
+
+      it "must add the AggregateType's #total_length to the count of members" do
+        expect(subject.total_length).to eq(
+          1 + 1 + members[:c].total_length
+        )
+      end
+    end
+
+    context "when one of the #members is an UnboundedArrayType" do
+      let(:members) do
+        {
+          a: Ronin::Support::Binary::Types::Char,
+          b: Ronin::Support::Binary::Types::Int16,
+          c: Ronin::Support::Binary::Types::UInt32[]
+        }
+      end
+
+      it "must return Float::INFINITY" do
+        expect(subject.total_length).to eq(Float::INFINITY)
+      end
+    end
+  end
 end

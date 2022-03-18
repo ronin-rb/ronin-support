@@ -13,4 +13,20 @@ describe Ronin::Support::Binary::Types::AggregateType do
       }.to raise_error(NotImplementedError,"#{described_class}#size was not implemented")
     end
   end
+
+  describe "#length" do
+    it do
+      expect {
+        subject.length
+      }.to raise_error(NotImplementedError,"#{described_class}#length was not implemented")
+    end
+  end
+
+  describe "#total_length" do
+    it do
+      expect {
+        subject.total_length
+      }.to raise_error(NotImplementedError,"#{described_class}#total_length was not implemented")
+    end
+  end
 end

@@ -42,6 +42,29 @@ module Ronin
           end
 
           #
+          # The number of elements within the aggregate type.
+          #
+          # @return [Integer, Float::INFINITY]
+          #
+          # @abstract
+          #
+          def length
+            raise(NotImplementedError,"#{self.class}##{__method__} was not implemented")
+          end
+
+          #
+          # Calculates the total number of elements within the aggregate type,
+          # as if it were flattened.
+          #
+          # @return [Integer, Float::INFINITY]
+          #
+          # @abstract
+          #
+          def total_length
+            raise(NotImplementedError,"#{self.class}##{__method__} was not implemented")
+          end
+
+          #
           # Creates an Array type around the aggregate type.
           #
           # @param [Integer, nil] length

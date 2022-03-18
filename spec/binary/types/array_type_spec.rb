@@ -66,6 +66,64 @@ describe Ronin::Support::Binary::Types::ArrayType do
     end
   end
 
+  describe "#total_length" do
+    context "when #type is not an AggregateType" do
+      it "must return #length" do
+        expect(subject.total_length).to eq(subject.length)
+      end
+    end
+
+    context "when #type is an ArrayType" do
+      let(:length1) { 2  }
+      let(:length2) { 10 }
+      let(:type) do
+        Ronin::Support::Binary::Types::ArrayType.new(
+          Ronin::Support::Binary::Types::ScalarType.new(
+            size:        size,
+            endian:      endian,
+            signed:      signed,
+            pack_string: pack_string
+          ),
+          length2
+        )
+      end
+
+      subject { described_class.new(type,length1) }
+
+      it "must return #length * #type.length" do
+        expect(subject.total_length).to eq(subject.length * type.length)
+      end
+
+      context "when #type is another ArrayType of an ArrayType" do
+        let(:length1) { 2  }
+        let(:length2) { 3  }
+        let(:length3) { 10 }
+        let(:type) do
+          Ronin::Support::Binary::Types::ArrayType.new(
+            Ronin::Support::Binary::Types::ArrayType.new(
+              Ronin::Support::Binary::Types::ScalarType.new(
+                size:        size,
+                endian:      endian,
+                signed:      signed,
+                pack_string: pack_string
+              ),
+              length3
+            ),
+            length2
+          )
+        end
+
+        subject { described_class.new(type,length1) }
+
+        it "must return #length * #type.length * #type.type.length" do
+          expect(subject.total_length).to eq(
+            subject.length * type.length * type.type.length
+          )
+        end
+      end
+    end
+  end
+
   describe "#pack" do
     let(:values) { (1..10).to_a }
 

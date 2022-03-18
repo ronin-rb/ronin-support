@@ -43,6 +43,12 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
     end
   end
 
+  describe "#total_length" do
+    it "must return Float::INFINITY" do
+      expect(subject.total_length).to eq(Float::INFINITY)
+    end
+  end
+
   describe "#endian" do
     it "must return #type.endian" do
       expect(subject.endian).to eq(type.endian)

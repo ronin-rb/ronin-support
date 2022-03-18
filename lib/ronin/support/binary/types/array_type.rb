@@ -103,6 +103,21 @@ module Ronin
           end
 
           #
+          # Calculates the total length of elements if the Array of values were
+          # flattened.
+          #
+          # @return [Integer, Float::INFINITY]
+          #
+          def total_length
+            case type
+            when AggregateType
+              @length * type.total_length
+            else
+              @length
+            end
+          end
+
+          #
           # Packs multiple values into binary data.
           #
           # @param [Array<Integer, Float, String>] values
