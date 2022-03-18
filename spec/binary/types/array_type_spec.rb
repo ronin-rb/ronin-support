@@ -33,8 +33,8 @@ describe Ronin::Support::Binary::Types::ArrayType do
       expect(subject.size).to eq(type.size * length)
     end
 
-    it "must set #pack_string to '\#{type.pack_string}\#{length}'" do
-      expect(subject.pack_string).to eq("#{type.pack_string}#{length}")
+    it "must set #pack_string to type.pack_string * length'" do
+      expect(subject.pack_string).to eq(type.pack_string * length)
     end
   end
 

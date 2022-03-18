@@ -64,7 +64,7 @@ module Ronin
             @length = length
             @size   = @type.size * @length
 
-            @pack_string = "#{@type.pack_string}#{@length}"
+            @pack_string = @type.pack_string * @length
           end
 
           #
