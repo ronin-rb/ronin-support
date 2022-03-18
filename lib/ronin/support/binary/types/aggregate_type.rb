@@ -39,8 +39,27 @@ module Ronin
             raise(NotImplementedError,"#{self.class}##{__method__} was not implemented")
           end
 
+          #
+          # Creates an Array type around the aggregate type.
+          #
+          # @param [Integer, nil] length
+          #   The length of the Array.
+          #
+          # @return [ArrayType, UnboundedArrayType]
+          #   The new Array type or an unbounded Array type if `length` was not
+          #   given.
+          #
+          def [](length=nil)
+            if length then ArrayType.new(self,length)
+            else           UnboundedArrayType.new(self)
+            end
+          end
+
         end
       end
     end
   end
 end
+
+require 'ronin/support/binary/types/array_type'
+require 'ronin/support/binary/types/unbounded_array_type'

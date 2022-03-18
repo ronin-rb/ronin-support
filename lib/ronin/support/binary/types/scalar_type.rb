@@ -95,7 +95,7 @@ module Ronin
           end
 
           #
-          # Creates an Array type around the type.
+          # Creates an Array type around the scalar type.
           #
           # @param [Integer, nil] length
           #   The length of the Array.

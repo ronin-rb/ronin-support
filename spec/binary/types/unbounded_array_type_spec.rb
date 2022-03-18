@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'ronin/support/binary/types/unbounded_array_type'
 require 'ronin/support/binary/types/scalar_type'
 
+require_relative 'aggregate_type_examples'
+
 describe Ronin::Support::Binary::Types::UnboundedArrayType do
   let(:size)        { 4       }
   let(:endian)      { :little }
@@ -87,4 +89,6 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
       expect(subject.unpack(data)).to eq(data.unpack(subject.pack_string))
     end
   end
+
+  include_examples "AggregateType examples"
 end
