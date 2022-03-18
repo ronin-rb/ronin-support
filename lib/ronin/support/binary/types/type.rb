@@ -33,21 +33,6 @@ module Ronin
         #
         class Type
 
-          # The size in bytes of the type.
-          #
-          # @return [1, 2, 4, 8]
-          attr_reader :size
-
-          # The endian-ness of the type.
-          #
-          # @return [:little, :big, nil]
-          attr_reader :endian
-
-          # Indicates whether the type is signed.
-          #
-          # @return [Boolean]
-          attr_reader :signed
-
           # The String for `Array#pack` or `String#unpack`.
           #
           # @return [String]
@@ -56,46 +41,11 @@ module Ronin
           #
           # Initializes the type.
           #
-          # @param [:little, :big, nil] endian
-          #   The endianness of the type. `nil` indicates the type has no
-          #   endianness.
-          #
-          # @param [1, 2, 4, 8] size
-          #   The type's size in bytes.
-          #
-          # @param [Boolean] signed
-          #   Indicates whether the type is signed or unsigned.
-          #
           # @param [String] pack_string
           #   The String for `Array#pack` or `String#unpack`.
           #
-          # @raise [ArgumentError]
-          #   Invalid `endian:` or `size:` values.
-          #
-          def initialize(size: , endian: , signed: , pack_string: )
-            @endian = endian
-            @size   = size
-            @signed = signed
-
+          def initialize(pack_string: )
             @pack_string = pack_string
-          end
-
-          # 
-          # Whether the type is signed.
-          #
-          # @return [Boolean]
-          #
-          def signed?
-            @signed
-          end
-
-          # 
-          # Whether the type is unsigned.
-          #
-          # @return [Boolean]
-          #
-          def unsigned?
-            !@signed
           end
 
           #
@@ -121,22 +71,6 @@ module Ronin
           #
           def unpack(data)
             data.unpack1(@pack_string)
-          end
-
-          #
-          # Creates an Array type around the type.
-          #
-          # @param [Integer, nil] length
-          #   The length of the Array.
-          #
-          # @return [ArrayType, UnboundedArrayType]
-          #   The new Array type or an unbounded Array type if `length` was not
-          #   given.
-          #
-          def [](length=nil)
-            if length then ArrayType.new(self,length)
-            else           UnboundedArrayType.new(self)
-            end
           end
 
         end

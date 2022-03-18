@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types/type'
+require 'ronin/support/binary/types/scalar_type'
 
 module Ronin
   module Support
@@ -26,7 +26,7 @@ module Ronin
         #
         # Base class for all unsigned integer types.
         #
-        class UIntType < Type
+        class UIntType < ScalarType
 
           #
           # Initializes the unsigned integer type.

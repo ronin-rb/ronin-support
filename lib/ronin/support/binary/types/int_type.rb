@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types/type'
+require 'ronin/support/binary/types/scalar_type'
 
 module Ronin
   module Support
@@ -26,7 +26,7 @@ module Ronin
         #
         # Base class for all signed integer types.
         #
-        class IntType < Type
+        class IntType < ScalarType
 
           #
           # Initializes the integer type.
