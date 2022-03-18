@@ -14,6 +14,7 @@ describe Ronin::Support::Binary::Types::Type do
     it "must set #pack_string" do
       expect(subject.pack_string).to eq(pack_string)
     end
+
     context "when the pack_string: keyword is not given" do
       it do
         expect {
