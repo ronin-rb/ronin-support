@@ -95,6 +95,35 @@ describe Ronin::Support::Binary::Format do
       end
     end
 
+    context "when given an Array of an Array of the type name and length" do
+      let(:length1) { 2  }
+      let(:length2) { 10 }
+      let(:fields) { [ [[type_name, length2], length1] ] }
+
+      let(:array_type) do
+        Ronin::Support::Binary::Types::ArrayType.new(
+          Ronin::Support::Binary::Types::ArrayType.new(type,length2),
+          length1
+        )
+      end
+
+      it "must set #type_system to Ronin::Support::Binary::Types" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::Types)
+      end
+
+      it "must add a nested Ronin::Support::Binary::Types::ArrayType to #types" do
+        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::Types::ArrayType)
+        expect(subject.types.first.type).to be_kind_of(Ronin::Support::Binary::Types::ArrayType)
+        expect(subject.types.first.type.type).to eq(type)
+        expect(subject.types.first.type.length).to eq(length2)
+        expect(subject.types.first.length).to eq(length1)
+      end
+
+      it "must set #pack_string to the ArrayType's #pack_string" do
+        expect(subject.pack_string).to eq(array_type.pack_string)
+      end
+    end
+
     context "when given an infinite range" do
       let(:fields) { [type_name..] }
       let(:unbounded_array_type) do

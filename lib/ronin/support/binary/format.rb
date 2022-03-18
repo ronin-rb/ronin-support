@@ -242,16 +242,23 @@ module Ronin
         #   The translated type.
         #
         # @raise [ArgumentError]
-        #   A given type is not known.
+        #   The given type name was not known or not a `Symbol`,
+        #   `[Symbol, Integer]`, `(Symbol..)`, or a {Type}.
         #
         def translate(field)
-          type_name, length = case field
-                              when Array then [field[0], field[1]]
-                              when Range then [field.begin, Float::INFINITY]
-                              else            field
-                              end
+          type, length = case field
+                         when Array then [field[0], field[1]]
+                         when Range then [field.begin, Float::INFINITY]
+                         else            field
+                         end
 
-          type = @type_system[type_name]
+          type = case type
+                 when Symbol       then @type_system[type]
+                 when Array, Range then translate(type)
+                 when Type         then type
+                 else
+                   raise(ArgumentError,"field type must be a Symbol, [Symbol, Integer], (Symbol..), or a #{Type}: #{field.inspect}")
+                 end
 
           case length
           when Float::INFINITY then type = type[]
