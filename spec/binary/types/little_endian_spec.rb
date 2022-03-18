@@ -173,8 +173,8 @@ describe Ronin::Support::Binary::Types::LittleEndian do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::CharType)
     end
 
-    it "must have a #pack_string of 'A'" do
-      expect(subject.pack_string).to eq('A')
+    it "must have a #pack_string of 'a'" do
+      expect(subject.pack_string).to eq('a')
     end
   end
 

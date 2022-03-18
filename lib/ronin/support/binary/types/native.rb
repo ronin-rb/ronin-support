@@ -85,7 +85,7 @@ module Ronin
           Char = CharType.new(signed: true, pack_string: 'Z')
 
           # The `unsigned char` type.
-          UChar = CharType.new(signed: false, pack_string: 'A')
+          UChar = CharType.new(signed: false, pack_string: 'a')
 
           # The `byte` type.
           Byte = UInt8
