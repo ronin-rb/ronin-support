@@ -33,6 +33,8 @@ module Ronin
         class AggregateType < Type
 
           #
+          # The size of the aggregate type.
+          #
           # @abstract
           #
           def size
