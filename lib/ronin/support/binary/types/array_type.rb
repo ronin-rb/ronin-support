@@ -112,7 +112,7 @@ module Ronin
           #   The packed binary data.
           #
           def pack(*values)
-            values.pack(@pack_string)
+            values.flatten.pack(@pack_string)
           end
 
           #
@@ -125,7 +125,30 @@ module Ronin
           #   The unpacked values.
           #
           def unpack(data)
-            data.unpack(@pack_string)
+            partion_array(@type,data.unpack(@pack_string))
+          end
+
+          private
+
+          #
+          # Recursively partions the array of values based on whether the given
+          # type is an {ArrayType} or not.
+          #
+          # @param [Type] type
+          #   The type of the elements in the Array.
+          #
+          # @param [Array] values
+          #   The array of values to partion.
+          #
+          def partion_array(type,values)
+            case type
+            when ArrayType
+              # recursively partion the Array depth-first
+              value = partion_array(type.type,values)
+              values.each_slice(type.length).to_a
+            else
+              values
+            end
           end
 
         end
