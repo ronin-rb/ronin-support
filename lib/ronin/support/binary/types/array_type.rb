@@ -126,7 +126,7 @@ module Ronin
           # @return [String]
           #   The packed binary data.
           #
-          def pack(*values)
+          def pack(values)
             values.flatten.pack(@pack_string)
           end
 

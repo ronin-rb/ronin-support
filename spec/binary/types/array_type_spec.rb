@@ -128,7 +128,7 @@ describe Ronin::Support::Binary::Types::ArrayType do
     let(:values) { (1..10).to_a }
 
     it "must pack multiple values using Array#pack and #pack_string" do
-      expect(subject.pack(*values)).to eq(values.pack(subject.pack_string))
+      expect(subject.pack(values)).to eq(values.pack(subject.pack_string))
     end
 
     context "when given a multi-dimensional Array of values" do
@@ -151,7 +151,7 @@ describe Ronin::Support::Binary::Types::ArrayType do
       let(:values) { [(0..9).to_a, (10..19).to_a] }
 
       it "must flatten then pack the multi-dimensional Array of values" do
-        expect(subject.pack(*values)).to eq(values.flatten.pack(subject.pack_string))
+        expect(subject.pack(values)).to eq(values.flatten.pack(subject.pack_string))
       end
 
       context "when initialized with an ArrayType of another ArrayType" do
@@ -192,7 +192,7 @@ describe Ronin::Support::Binary::Types::ArrayType do
         end
 
         it "must unpack multiple values and return a multi-dimensional Array" do
-          expect(subject.pack(*values)).to eq(values.flatten.pack(subject.pack_string))
+          expect(subject.pack(values)).to eq(values.flatten.pack(subject.pack_string))
         end
       end
     end
