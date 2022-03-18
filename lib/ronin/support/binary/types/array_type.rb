@@ -144,7 +144,7 @@ module Ronin
             case type
             when ArrayType
               # recursively partion the Array depth-first
-              value = partion_array(type.type,values)
+              values = partion_array(type.type,values)
               values.each_slice(type.length).to_a
             else
               values

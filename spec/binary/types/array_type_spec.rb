@@ -95,6 +95,48 @@ describe Ronin::Support::Binary::Types::ArrayType do
       it "must flatten then pack the multi-dimensional Array of values" do
         expect(subject.pack(*values)).to eq(values.flatten.pack(subject.pack_string))
       end
+
+      context "when initialized with an ArrayType of another ArrayType" do
+        let(:length1) { 2  }
+        let(:length2) { 3  }
+        let(:length3) { 10 }
+        let(:type) do
+          Ronin::Support::Binary::Types::ArrayType.new(
+            Ronin::Support::Binary::Types::ArrayType.new(
+              Ronin::Support::Binary::Types::ScalarType.new(
+                size:        size,
+                endian:      endian,
+                signed:      signed,
+                pack_string: pack_string
+              ),
+              length3
+            ),
+            length2
+          )
+        end
+
+        subject { described_class.new(type,length1) }
+
+        let(:values) do
+          [
+            [
+              (0..9).to_a,
+              (10..19).to_a,
+              (20..29).to_a
+            ],
+
+            [
+              (30..39).to_a,
+              (40..49).to_a,
+              (50..59).to_a
+            ]
+          ]
+        end
+
+        it "must unpack multiple values and return a multi-dimensional Array" do
+          expect(subject.pack(*values)).to eq(values.flatten.pack(subject.pack_string))
+        end
+      end
     end
   end
 
@@ -128,6 +170,48 @@ describe Ronin::Support::Binary::Types::ArrayType do
 
       it "must unpack multiple values and return a multi-dimensional Array" do
         expect(subject.unpack(data)).to eq(values)
+      end
+
+      context "when initialized with an ArrayType of another ArrayType" do
+        let(:length1) { 2  }
+        let(:length2) { 3  }
+        let(:length3) { 10 }
+        let(:type) do
+          Ronin::Support::Binary::Types::ArrayType.new(
+            Ronin::Support::Binary::Types::ArrayType.new(
+              Ronin::Support::Binary::Types::ScalarType.new(
+                size:        size,
+                endian:      endian,
+                signed:      signed,
+                pack_string: pack_string
+              ),
+              length3
+            ),
+            length2
+          )
+        end
+
+        subject { described_class.new(type,length1) }
+
+        let(:values) do
+          [
+            [
+              (0..9).to_a,
+              (10..19).to_a,
+              (20..29).to_a
+            ],
+
+            [
+              (30..39).to_a,
+              (40..49).to_a,
+              (50..59).to_a
+            ]
+          ]
+        end
+
+        it "must unpack multiple values and return a multi-dimensional Array" do
+          expect(subject.unpack(data)).to eq(values)
+        end
       end
     end
   end
