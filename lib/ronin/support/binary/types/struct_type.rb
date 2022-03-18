@@ -49,15 +49,16 @@ module Ronin
           #   The members names and types of the structure type.
           #
           def initialize(members={})
-            @members = members
-            @size    = 0
-
+            size = 0
             pack_string = ''
 
             members.each_value do |member|
-              @size       += member.size
+              size        += member.size
               pack_string << member.pack_string
             end
+
+            @members = members
+            @size    = size
 
             super(pack_string: pack_string)
           end
