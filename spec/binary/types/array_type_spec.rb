@@ -40,6 +40,14 @@ describe Ronin::Support::Binary::Types::ArrayType do
     end
   end
 
+  describe "#initialize_value" do
+    it "must return an Array of #length and of the #type's #initialize_value" do
+      expect(subject.initialize_value).to eq(
+        Array.new(length) { type.initialize_value }
+      )
+    end
+  end
+
   describe "#endian" do
     it "must return #type.endian" do
       expect(subject.endian).to eq(type.endian)

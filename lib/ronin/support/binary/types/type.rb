@@ -46,6 +46,17 @@ module Ronin
           end
 
           #
+          # The default iniitalized value for the type.
+          #
+          # @return [nil]
+          #
+          # @abstract
+          #
+          def initialize_value
+            nil
+          end
+
+          #
           # Packs the value into the type's binary format.
           #
           # @param [Integer, Float, String] value

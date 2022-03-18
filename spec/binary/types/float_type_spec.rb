@@ -67,6 +67,12 @@ describe Ronin::Support::Binary::Types::FloatType do
     end
   end
 
+  describe "#initialize_value" do
+    it "must return 0.0" do
+      expect(subject.initialize_value).to be(0.0)
+    end
+  end
+
   describe "#signed?" do
     it "must return true" do
       expect(subject.signed?).to be(true)

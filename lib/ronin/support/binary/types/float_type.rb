@@ -47,6 +47,15 @@ module Ronin
             super(signed: true, **kwargs)
           end
 
+          #
+          # Initializes a new value for a floating-points type.
+          #
+          # @return [0.0]
+          #
+          def initialize_value
+            0.0
+          end
+
         end
       end
     end

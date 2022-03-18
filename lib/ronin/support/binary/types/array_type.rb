@@ -65,6 +65,15 @@ module Ronin
           end
 
           #
+          # Initializes a new value for an array type.
+          #
+          # @return [Array]
+          #
+          def initialize_value
+            Array.new(@length) { @type.initialize_value }
+          end
+
+          #
           # The endianness of each element in the bounded array type.
           #
           # @return [:little, :big, nil]

@@ -47,6 +47,15 @@ module Ronin
             super(signed: true, **kwargs)
           end
 
+          #
+          # Initializes a new value for an integer type.
+          #
+          # @return [0]
+          #
+          def initialize_value
+            0
+          end
+
         end
       end
     end
