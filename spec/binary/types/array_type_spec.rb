@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'ronin/support/binary/types/array_type'
-require 'ronin/support/binary/types/type'
+require 'ronin/support/binary/types/scalar_type'
 
 describe Ronin::Support::Binary::Types::ArrayType do
   let(:size)        { 4       }
@@ -9,7 +9,7 @@ describe Ronin::Support::Binary::Types::ArrayType do
   let(:pack_string) { 'L<'    }
 
   let(:type) do
-    Ronin::Support::Binary::Types::Type.new(
+    Ronin::Support::Binary::Types::ScalarType.new(
       size:        size,
       endian:      endian,
       signed:      signed,

@@ -17,9 +17,6 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types/array_type'
-require 'ronin/support/binary/types/unbounded_array_type'
-
 module Ronin
   module Support
     module Binary

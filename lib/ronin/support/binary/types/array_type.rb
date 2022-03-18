@@ -17,6 +17,8 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/binary/types/aggregate_type'
+
 module Ronin
   module Support
     module Binary
@@ -28,7 +30,7 @@ module Ronin
         #
         # @since 1.0.0
         #
-        class ArrayType
+        class ArrayType < AggregateType
 
           # The type of each element in the array type.
           #
@@ -45,11 +47,6 @@ module Ronin
           # @return [Integer]
           attr_reader :size
 
-          # The `Array#pack`/`String#unpack` string for the array type.
-          #
-          # @return [String]
-          attr_reader :pack_string
-
           #
           # Initializes the array type.
           #
@@ -64,7 +61,7 @@ module Ronin
             @length = length
             @size   = @type.size * @length
 
-            @pack_string = @type.pack_string * @length
+            super(pack_string: @type.pack_string * @length)
           end
 
           #

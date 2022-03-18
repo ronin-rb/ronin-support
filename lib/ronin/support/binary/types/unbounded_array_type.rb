@@ -17,6 +17,8 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/binary/types/aggregate_type'
+
 module Ronin
   module Support
     module Binary
@@ -28,17 +30,12 @@ module Ronin
         #
         # @since 1.0.0
         #
-        class UnboundedArrayType
+        class UnboundedArrayType < AggregateType
 
           # The type of each element in the unbounded array type.
           #
           # @return [Type]
           attr_reader :type
-
-          # The `Array#pack`/`String#unpack` string for the array type.
-          #
-          # @return [String]
-          attr_reader :pack_string
 
           #
           # Initializes the unbounded array type.
@@ -49,7 +46,7 @@ module Ronin
           def initialize(type)
             @type = type
 
-            @pack_string = "#{@type.pack_string}*"
+            super(pack_string: "#{@type.pack_string}*")
           end
 
           #
