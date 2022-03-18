@@ -25,10 +25,9 @@ require 'ronin/support/binary/types/uint8_type'
 require 'ronin/support/binary/types/uint16_type'
 require 'ronin/support/binary/types/uint32_type'
 require 'ronin/support/binary/types/uint64_type'
-require 'ronin/support/binary/types/char_type'
 require 'ronin/support/binary/types/float32_type'
 require 'ronin/support/binary/types/float64_type'
-require 'ronin/support/binary/types/unbounded_array_type'
+require 'ronin/support/binary/types/char_types'
 require 'ronin/support/binary/types/native'
 
 module Ronin
@@ -36,6 +35,8 @@ module Ronin
     module Binary
       module Types
         module LittleEndian
+          include CharTypes
+
           # The `int8_t` type.
           Int8 = Int8Type.new
 
@@ -51,6 +52,9 @@ module Ronin
           # The `uint8_t` type.
           UInt8 = UInt8Type.new
 
+          # The `byte` type.
+          Byte = UInt8
+
           # The `uint16_t` type (little-endianness).
           UInt16 = UInt16Type.new(endian: :little, pack_string: 'S<')
 
@@ -65,18 +69,6 @@ module Ronin
 
           # The `double` type (little-endianness).
           Float64 = Float64Type.new(endian: :little, pack_string: 'E')
-
-          # The `char` type.
-          Char = CharType.new(signed: true, pack_string: 'Z')
-
-          # The `unsigned char` type.
-          UChar = CharType.new(signed: false, pack_string: 'a')
-
-          # The `byte` type.
-          Byte = UInt8
-
-          # The null-terminated C string type.
-          CString = UnboundedArrayType.new(Char)
 
           # The little-endian types.
           TYPES = {

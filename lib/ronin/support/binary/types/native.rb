@@ -25,16 +25,17 @@ require 'ronin/support/binary/types/uint8_type'
 require 'ronin/support/binary/types/uint16_type'
 require 'ronin/support/binary/types/uint32_type'
 require 'ronin/support/binary/types/uint64_type'
-require 'ronin/support/binary/types/char_type'
 require 'ronin/support/binary/types/float32_type'
 require 'ronin/support/binary/types/float64_type'
-require 'ronin/support/binary/types/unbounded_array_type'
+require 'ronin/support/binary/types/char_types'
 
 module Ronin
   module Support
     module Binary
       module Types
         module Native
+          include CharTypes
+
           # The native endian-ness.
           ENDIAN = if [0x1].pack('S') == [0x1].pack('S>')
                      :big
@@ -66,6 +67,9 @@ module Ronin
           # The `uint8_t` type.
           UInt8 = UInt8Type.new
 
+          # The `byte` type.
+          Byte = UInt8
+
           # The `uint16_t` type (native-endianness).
           UInt16 = UInt16Type.new(endian: ENDIAN, pack_string: 'S')
 
@@ -80,18 +84,6 @@ module Ronin
 
           # The `double` type (native-endianness).
           Float64 = Float64Type.new(endian: ENDIAN,pack_string: 'd')
-
-          # The `char` type.
-          Char = CharType.new(signed: true, pack_string: 'Z')
-
-          # The `unsigned char` type.
-          UChar = CharType.new(signed: false, pack_string: 'a')
-
-          # The `byte` type.
-          Byte = UInt8
-
-          # The null-terminated C string type.
-          CString = UnboundedArrayType.new(Char)
 
           # The native types.
           TYPES = {

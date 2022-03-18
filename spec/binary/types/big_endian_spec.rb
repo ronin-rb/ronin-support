@@ -2,6 +2,10 @@ require 'spec_helper'
 require 'ronin/support/binary/types/big_endian'
 
 describe Ronin::Support::Binary::Types::BigEndian do
+  it do
+    expect(described_class).to include(Ronin::Support::Binary::Types::CharTypes)
+  end
+
   describe "Int8" do
     subject { described_class::Int8 }
 
@@ -72,6 +76,12 @@ describe Ronin::Support::Binary::Types::BigEndian do
     it "must have a #pack_string of 'C'" do
       expect(subject.pack_string).to eq('C')
     end
+  end
+
+  describe "Byte" do
+    subject { described_class::Byte }
+
+    it { expect(subject).to eq(described_class::UInt8) }
   end
 
   describe "UInt16" do
@@ -151,48 +161,6 @@ describe Ronin::Support::Binary::Types::BigEndian do
 
     it "must have a #pack_string of 'G'" do
       expect(subject.pack_string).to eq('G')
-    end
-  end
-
-  describe "Char" do
-    subject { described_class::Char }
-
-    it do
-      expect(subject).to be_kind_of(Ronin::Support::Binary::Types::CharType)
-    end
-
-    it "must have a #pack_string of 'Z'" do
-      expect(subject.pack_string).to eq('Z')
-    end
-  end
-
-  describe "UChar" do
-    subject { described_class::UChar }
-
-    it do
-      expect(subject).to be_kind_of(Ronin::Support::Binary::Types::CharType)
-    end
-
-    it "must have a #pack_string of 'a'" do
-      expect(subject.pack_string).to eq('a')
-    end
-  end
-
-  describe "Byte" do
-    subject { described_class::Byte }
-
-    it { expect(subject).to eq(described_class::UInt8) }
-  end
-
-  describe "CString" do
-    subject { described_class::CString }
-
-    it do
-      expect(subject).to be_kind_of(Ronin::Support::Binary::Types::UnboundedArrayType)
-    end
-
-    it "must have a #type of Char" do
-      expect(subject.type).to be(described_class::Char)
     end
   end
 
