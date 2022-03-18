@@ -24,9 +24,9 @@ describe Ronin::Support::Binary::Types::Type do
     end
   end
 
-  describe "#initialize_value" do
+  describe "#uninitialized_value" do
     it "must return nil by default" do
-      expect(subject.initialize_value).to be(nil)
+      expect(subject.uninitialized_value).to be(nil)
     end
   end
 

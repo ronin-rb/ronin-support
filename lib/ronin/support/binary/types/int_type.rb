@@ -48,11 +48,11 @@ module Ronin
           end
 
           #
-          # Initializes a new value for an integer type.
+          # Returns an uninitialized signed integer value.
           #
           # @return [0]
           #
-          def initialize_value
+          def uninitialized_value
             0
           end
 

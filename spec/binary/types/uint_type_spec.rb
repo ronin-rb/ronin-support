@@ -67,9 +67,9 @@ describe Ronin::Support::Binary::Types::UIntType do
     end
   end
 
-  describe "#initialize_value" do
+  describe "#uninitialized_value" do
     it "must return 0" do
-      expect(subject.initialize_value).to be(0)
+      expect(subject.uninitialized_value).to be(0)
     end
   end
 

@@ -63,13 +63,13 @@ describe Ronin::Support::Binary::Types::StructType do
     end
   end
 
-  describe "#initialize_value" do
-    it "must return a Hash of the struct's type's #initialize_value" do
-      expect(subject.initialize_value).to eq(
+  describe "#uninitialized_value" do
+    it "must return a Hash of the struct's #type.uninitialized_value" do
+      expect(subject.uninitialized_value).to eq(
         {
-          a: members[:a].initialize_value,
-          b: members[:b].initialize_value,
-          c: members[:c].initialize_value
+          a: members[:a].uninitialized_value,
+          b: members[:b].uninitialized_value,
+          c: members[:c].uninitialized_value
         }
       )
     end

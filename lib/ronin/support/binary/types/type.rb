@@ -46,13 +46,13 @@ module Ronin
           end
 
           #
-          # The default iniitalized value for the type.
+          # The default uniniitalized value for the type.
           #
           # @return [nil]
           #
           # @abstract
           #
-          def initialize_value
+          def uninitialized_value
             nil
           end
 

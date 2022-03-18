@@ -65,12 +65,12 @@ module Ronin
           end
 
           #
-          # Initializes a new value for an array type.
+          # Initializes an Array of uninitialized values.
           #
           # @return [Array]
           #
-          def initialize_value
-            Array.new(@length) { @type.initialize_value }
+          def uninitialized_value
+            Array.new(@length) { @type.uninitialized_value }
           end
 
           #

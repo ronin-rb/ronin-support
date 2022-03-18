@@ -64,14 +64,14 @@ module Ronin
           end
 
           #
-          # Initializes a new Hash for the structure's members.
+          # Creates a new Hash of the structure's uninitialized members.
           #
           # @return [Hash{Symbol => Object}]
-          #   The default values for the new structure's members.
+          #   The uninitialized values for the new structure's members.
           #
-          def initialize_value
+          def uninitialized_value
             Hash[@members.map { |name,type|
-              [name, type.initialize_value]
+              [name, type.uninitialized_value]
             }]
           end
 

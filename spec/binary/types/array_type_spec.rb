@@ -40,10 +40,10 @@ describe Ronin::Support::Binary::Types::ArrayType do
     end
   end
 
-  describe "#initialize_value" do
-    it "must return an Array of #length and of the #type's #initialize_value" do
-      expect(subject.initialize_value).to eq(
-        Array.new(length) { type.initialize_value }
+  describe "#uninitialized_value" do
+    it "must return an Array of #length of #type.uninitialized_value" do
+      expect(subject.uninitialized_value).to eq(
+        Array.new(length) { type.uninitialized_value }
       )
     end
   end

@@ -48,11 +48,11 @@ module Ronin
           end
 
           #
-          # Initializes a new value for a floating-points type.
+          # Returns an uninitialized Float value.
           #
           # @return [0.0]
           #
-          def initialize_value
+          def uninitialized_value
             0.0
           end
 
