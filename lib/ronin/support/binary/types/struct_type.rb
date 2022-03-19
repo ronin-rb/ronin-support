@@ -24,7 +24,7 @@ module Ronin
     module Binary
       module Types
         #
-        # Represents a bounded array type.
+        # Represents a `struct` type.
         #
         # @api private
         #
