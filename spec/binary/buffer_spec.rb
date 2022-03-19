@@ -174,15 +174,35 @@ describe Ronin::Support::Binary::Buffer do
         end
       end
     end
+
+    context "when the index is less than 0" do
+      let(:index) { -1 }
+
+      it do
+        expect {
+          subject[index]
+        }.to raise_error(IndexError,"index #{index} is out of bounds: 0...#{subject.length}")
+      end
+    end
+
+    context "when the index is greater or equal to the length of the buffer" do
+      let(:index) { subject.length }
+
+      it do
+        expect {
+          subject[index]
+        }.to raise_error(IndexError,"index #{index} is out of bounds: 0...#{subject.length}")
+      end
+    end
   end
 
   describe "#[]=" do
     let(:index) { 1    }
     let(:value) { 0x41 }
 
-    before { subject[index] = value }
-
     it "must write the byte value to the given index within #string" do
+      subject[index] = value
+
       expect(subject.string[index]).to eq(value.chr)
     end
 
@@ -191,6 +211,8 @@ describe Ronin::Support::Binary::Buffer do
       let(:value) { 0x11223344 }
 
       subject { described_class.new(type,length) }
+
+      before { subject[index] = value }
 
       it "must write the multi-byte value to the given index within #string" do
         offset = index*subject.type.size
@@ -201,6 +223,26 @@ describe Ronin::Support::Binary::Buffer do
         expect(subject.string[offset,size]).to eq(packed_value)
       end
     end
+
+    context "when the index is less than 0" do
+      let(:index) { -1 }
+
+      it do
+        expect {
+          subject[index] = value
+        }.to raise_error(IndexError,"index #{index} is out of bounds: 0...#{subject.length}")
+      end
+    end
+
+    context "when the index is greater or equal to the length of the buffer" do
+      let(:index) { subject.length }
+
+      it do
+        expect {
+          subject[index] = value
+        }.to raise_error(IndexError,"index #{index} is out of bounds: 0...#{subject.length}")
+      end
+    end
   end
 
   describe "#get" do
@@ -209,15 +251,57 @@ describe Ronin::Support::Binary::Buffer do
     let(:offset)    { 1  }
     let(:value)     { -1 }
 
-    before do
-      subject[1] = 0xff
-      subject[2] = 0xff
-      subject[3] = 0xff
-      subject[4] = 0xff
+    context "when the offset + type size is within bounds" do
+      before do
+        subject[1] = 0xff
+        subject[2] = 0xff
+        subject[3] = 0xff
+        subject[4] = 0xff
+      end
+
+      it "must read and unpack the value at the given offset with the given type" do
+        expect(subject.get(type_name,offset)).to eq(value)
+      end
     end
 
-    it "must read and decode a value at the given offset with the given type" do
-      expect(subject.get(type_name,offset)).to eq(value)
+    context "when the offset is less than 0" do
+      let(:offset) { -1 }
+
+      it do
+        expect {
+          subject.get(type_name,offset)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - type.size}")
+      end
+    end
+
+    context "when the offset + type size exceeds the buffer's size" do
+      let(:offset) { subject.size - type.size + 1 }
+
+      it do
+        expect {
+          subject.get(type_name,offset)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - type.size}")
+      end
+    end
+
+    context "when the offset is equal to the size of the buffer" do
+      let(:offset) { subject.size }
+
+      it do
+        expect {
+          subject.get(type_name,offset)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - type.size}")
+      end
+    end
+
+    context "when the offset is greater than the size of the buffer" do
+      let(:offset) { subject.size + 1 }
+
+      it do
+        expect {
+          subject.get(type_name,offset)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - type.size}")
+      end
     end
   end
 
@@ -229,10 +313,52 @@ describe Ronin::Support::Binary::Buffer do
 
     let(:packed_value) { type.pack(value) }
 
-    it "must write the given value at the given offset with the given type" do
-      subject.put(type_name,offset,value)
+    context "when the offset + type size is within bounds" do
+      before { subject.put(type_name,offset,value) }
 
-      expect(subject.string[offset,type.size]).to eq(packed_value)
+      it "must write the given value at the given offset with the given type" do
+        expect(subject.string[offset,type.size]).to eq(packed_value)
+      end
+    end
+
+    context "when the offset is less than 0" do
+      let(:offset) { -1 }
+
+      it do
+        expect {
+          subject.put(type_name,offset,value)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - type.size}")
+      end
+    end
+
+    context "when the offset + type size exceeds the buffer's size" do
+      let(:offset) { subject.size - type.size + 1 }
+
+      it do
+        expect {
+          subject.put(type_name,offset,value)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - type.size}")
+      end
+    end
+
+    context "when the offset is equal to the size of the buffer" do
+      let(:offset) { subject.size }
+
+      it do
+        expect {
+          subject.put(type_name,offset,value)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - type.size}")
+      end
+    end
+
+    context "when the offset is greater than the size of the buffer" do
+      let(:offset) { subject.size + 1 }
+
+      it do
+        expect {
+          subject.put(type_name,offset,value)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - type.size}")
+      end
     end
   end
 
@@ -271,41 +397,128 @@ describe Ronin::Support::Binary::Buffer do
   end
 
   describe "#get_array_of" do
-    let(:type_name) { :int32_le }
-    let(:type)      { Ronin::Support::Binary::Types[type_name] }
-    let(:array)     { [-1, -2, -3] }
-    let(:offset)    { 1 }
-    let(:count)     { array.length }
+    let(:type_name)  { :int32_le }
+    let(:type)       { Ronin::Support::Binary::Types[type_name] }
+    let(:array_type) { type[array.length]  }
+    let(:array)      { [-1, -2, -3] }
+    let(:offset)     { 1 }
+    let(:count)      { array.length }
 
-    let(:length)    { 1 + (type.size*count) }
+    let(:length)     { 1 + (type.size*count) }
 
-    before do
-      subject.put(type_name, 1,               array[0])
-      subject.put(type_name, 1+type.size,     array[1])
-      subject.put(type_name, 1+(type.size*2), array[2])
+    context "when the offset + array type size is within bounds" do
+      before do
+        subject.put(type_name, 1,               array[0])
+        subject.put(type_name, 1+type.size,     array[1])
+        subject.put(type_name, 1+(type.size*2), array[2])
+      end
+
+      it "must read an Array of types at the given offset of the given count" do
+        expect(subject.get_array_of(type_name,offset,count)).to eq(array)
+      end
     end
 
-    it "must read an Array of types at the given offset of the given count" do
-      expect(subject.get_array_of(type_name,offset,count)).to eq(array)
+    context "when the offset is less than 0" do
+      let(:offset) { -1 }
+
+      it do
+        expect {
+          subject.get_array_of(type_name,offset,count)
+        }.to raise_error(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{subject.size - type.size}")
+      end
+    end
+
+    context "when the offset + array type size exceeds the buffer's size" do
+      let(:offset) { subject.size - type.size + 1 }
+
+      it do
+        expect {
+          subject.get_array_of(type_name,offset,count)
+        }.to raise_error(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{subject.size - type.size}")
+      end
+    end
+
+    context "when the offset is equal to the size of the buffer" do
+      let(:offset) { subject.size }
+
+      it do
+        expect {
+          subject.get_array_of(type_name,offset,count)
+        }.to raise_error(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{subject.size - type.size}")
+      end
+    end
+
+    context "when the offset is greater than the size of the buffer" do
+      let(:offset) { subject.size + 1 }
+
+      it do
+        expect {
+          subject.get_array_of(type_name,offset,count)
+        }.to raise_error(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{subject.size - type.size}")
+      end
     end
   end
 
   describe "#put_array_of" do
     let(:type_name)  { :int32_le }
     let(:type)       { Ronin::Support::Binary::Types[type_name] }
+    let(:array_type) { type[array.length]  }
     let(:array)      { [-1, -2, -3] }
     let(:array_type) { type[array.length] }
     let(:offset)     { 1 }
     let(:count)      { array.length }
-
     let(:length)     { 1 + (type.size*count) }
 
-    let(:packed_array) { array_type.pack(*array) }
+    let(:packed_array) { array_type.pack(array) }
 
-    it "must read an Array of types at the given offset of the given count" do
-      subject.put_array_of(type_name,offset,array)
+    context "when the offset + array type size is within bounds" do
+      before do
+        subject.put_array_of(type_name,offset,array)
+      end
 
-      expect(subject.string[offset,array_type.size]).to eq(packed_array)
+      it "must read an Array of types at the given offset of the given count" do
+        expect(subject.string[offset,array_type.size]).to eq(packed_array)
+      end
+    end
+
+    context "when the offset is less than 0" do
+      let(:offset) { -1 }
+
+      it do
+        expect {
+          subject.put_array_of(type_name,offset,array)
+        }.to raise_error(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{subject.size - type.size}")
+      end
+    end
+
+    context "when the offset + array type size exceeds the buffer's size" do
+      let(:offset) { subject.size - type.size + 1 }
+
+      it do
+        expect {
+          subject.put_array_of(type_name,offset,array)
+        }.to raise_error(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{subject.size - type.size}")
+      end
+    end
+
+    context "when the offset is equal to the size of the buffer" do
+      let(:offset) { subject.size }
+
+      it do
+        expect {
+          subject.put_array_of(type_name,offset,array)
+        }.to raise_error(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{subject.size - type.size}")
+      end
+    end
+
+    context "when the offset is greater than the size of the buffer" do
+      let(:offset) { subject.size + 1 }
+
+      it do
+        expect {
+          subject.put_array_of(type_name,offset,array)
+        }.to raise_error(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{subject.size - type.size}")
+      end
     end
   end
 
@@ -360,22 +573,67 @@ describe Ronin::Support::Binary::Buffer do
     let(:string) { "abc" }
     let(:bytes)  { string.bytes }
 
-    before do
-      subject[offset]   = bytes[0]
-      subject[offset+1] = bytes[1]
-      subject[offset+2] = bytes[2]
-      subject[offset+3] = 0x00
+    context "when the offset and length are within bounds" do
+      before do
+        subject[offset]   = bytes[0]
+        subject[offset+1] = bytes[1]
+        subject[offset+2] = bytes[2]
+        subject[offset+3] = 0x00
+      end
+
+      it "must read the string at the given offset, until a null-byte is read" do
+        expect(subject.get_string(offset)).to eq(string)
+      end
+
+      context "when a maximum length is given" do
+        let(:max_length) { 2 }
+
+        it "must only read that many bytes" do
+          expect(subject.get_string(offset,max_length)).to eq(
+            string[0,max_length]
+          )
+        end
+      end
     end
 
-    it "must read the string at the given offset, until a null-byte is read" do
-      expect(subject.get_string(offset)).to eq(string)
+    context "when the offset is less than 0" do
+      let(:offset) { -1 }
+
+      it do
+        expect {
+          subject.get_string(offset)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - 1}")
+      end
     end
 
-    context "when a maximum lenght is given" do
-      let(:max) { 2 }
+    context "when the offset + the max length exceeds the buffer's size" do
+      let(:max_length) { 2 }
+      let(:offset) { subject.size - max_length + 1 }
 
-      it "must only read that many bytes" do
-        expect(subject.get_string(offset,max)).to eq(string[0,max])
+      it do
+        expect {
+          subject.get_string(offset,max_length)
+        }.to raise_error(IndexError,"offset #{offset} or length #{max_length} is out of bounds: 0...#{subject.size - 1}")
+      end
+    end
+
+    context "when the offset is equal to the size of the buffer" do
+      let(:offset) { subject.size }
+
+      it do
+        expect {
+          subject.get_string(offset)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - 1}")
+      end
+    end
+
+    context "when the offset is greater than the size of the buffer" do
+      let(:offset) { subject.size + 1 }
+
+      it do
+        expect {
+          subject.get_string(offset)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - 1}")
       end
     end
   end
@@ -384,23 +642,65 @@ describe Ronin::Support::Binary::Buffer do
     let(:offset) { 1 }
     let(:string) { "abc" }
 
-    before do
-      subject[0] = 0x41
-      subject[1] = 0x41
-      subject[2] = 0x41
-      subject[3] = 0x41
-      subject[4] = 0x41
-      subject[5] = 0x41
+    context "when the offset + string length are within bounds" do
+      before do
+        subject[0] = 0x41
+        subject[1] = 0x41
+        subject[2] = 0x41
+        subject[3] = 0x41
+        subject[4] = 0x41
+        subject[5] = 0x41
 
-      subject.put_string(offset,string)
+        subject.put_string(offset,string)
+      end
+
+      it "must write the string at the given offset" do
+        expect(subject.string[offset,string.bytesize]).to eq(string)
+      end
+
+      it "must append a null-byte after the last byte of the string" do
+        expect(subject.string[offset+string.bytesize]).to eq("\0")
+      end
     end
 
-    it "must write the string at the given offset" do
-      expect(subject.string[offset,string.bytesize]).to eq(string)
+    context "when the offset is less than 0" do
+      let(:offset) { -1 }
+
+      it do
+        expect {
+          subject.put_string(offset,string)
+        }.to raise_error(IndexError,"offset #{offset} or C string size #{string.bytesize+1} is out of bounds: 0...#{subject.size - 1}")
+      end
     end
 
-    it "must append a null-byte after the last byte of the string" do
-      expect(subject.string[offset+string.bytesize]).to eq("\0")
+    context "when the offset + the string length exceeds the buffer's size" do
+      let(:offset) { subject.size - string.bytesize + 1 }
+
+      it do
+        expect {
+          subject.put_string(offset,string)
+        }.to raise_error(IndexError,"offset #{offset} or C string size #{string.bytesize+1} is out of bounds: 0...#{subject.size - 1}")
+      end
+    end
+
+    context "when the offset is equal to the size of the buffer" do
+      let(:offset) { subject.size }
+
+      it do
+        expect {
+          subject.put_string(offset,string)
+        }.to raise_error(IndexError,"offset #{offset} or C string size #{string.bytesize+1} is out of bounds: 0...#{subject.size - 1}")
+      end
+    end
+
+    context "when the offset is greater than the size of the buffer" do
+      let(:offset) { subject.size + 1 }
+
+      it do
+        expect {
+          subject.put_string(offset,string)
+        }.to raise_error(IndexError,"offset #{offset} or C string size #{string.bytesize+1} is out of bounds: 0...#{subject.size - 1}")
+      end
     end
   end
 

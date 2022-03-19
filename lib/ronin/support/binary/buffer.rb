@@ -178,6 +178,11 @@ module Ronin
         #
         def [](index)
           offset = index * @type.size
+
+          if (index< 0 || offset+@type.size > @size)
+            raise(IndexError,"index #{index} is out of bounds: 0...#{@length}")
+          end
+
           slice  = @string[offset,@type.size]
 
           return @type.unpack(slice)
@@ -196,7 +201,12 @@ module Ronin
         #   
         def []=(index,value)
           offset = index * @type.size
-          data   = @type.pack(value)
+
+          if (index < 0 || offset+@type.size > @size)
+            raise(IndexError,"index #{index} is out of bounds: 0...#{@length}")
+          end
+
+          data = @type.pack(value)
 
           @string[offset,@type.size] = data
           return value
@@ -216,6 +226,10 @@ module Ronin
         #
         def get(type,offset)
           type = @type_system[type]
+
+          if (offset < 0 || offset+type.size > @size)
+            raise(IndexError,"offset #{offset} is out of bounds: 0...#{@size-type.size}")
+          end
 
           slice = @string[offset,type.size]
           return type.unpack(slice)
@@ -280,14 +294,24 @@ module Ronin
         #   The read C string, without the null-byte.
         #
         def get_string(offset,length=nil)
-          range = if length then (offset...(offset+length))
-                  else           (offset...@string.length)
-                  end
+          if (offset < 0 || offset >= @size)
+            raise(IndexError,"offset #{offset} is out of bounds: 0...#{@size-1}")
+          elsif (length && offset+length > @size)
+            raise(IndexError,"offset #{offset} or length #{length} is out of bounds: 0...#{@size-1}")
+          end
 
-          substring = @string.byteslice(range)
+          if length
+            substring = @string[offset,length]
 
-          if (null_byte = substring.index("\0"))
-            substring = substring.byteslice(0,null_byte)
+            if (null_byte = substring.index("\0"))
+              substring[0...null_byte]
+            end
+          else
+            if (null_byte = @string.index("\0",offset))
+              substring = @string[offset...null_byte]
+            else
+              substring = @string[offset..]
+            end
           end
 
           return substring
@@ -612,6 +636,10 @@ module Ronin
         def get_array_of(type,offset,count)
           type       = @type_system[type]
           array_type = type[count]
+
+          if (offset < 0 || offset+array_type.size > @size)
+            raise(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{@size-type.size}")
+          end
 
           slice = @string[offset,array_type.size]
           return array_type.unpack(slice)
@@ -1059,6 +1087,11 @@ module Ronin
         #
         def put(type,offset,value)
           type = @type_system[type]
+
+          if (offset < 0 || offset+type.size > @size)
+            raise(IndexError,"offset #{offset} is out of bounds: 0...#{@size-type.size}")
+          end
+
           data = type.pack(value)
 
           @string[offset,type.size] = data
@@ -1114,6 +1147,10 @@ module Ronin
         def put_string(offset,string)
           ascii_string = string.encode(@string.encoding)
           cstring      = "#{ascii_string}\0"
+
+          if (offset < 0 || offset+cstring.bytesize >= @size)
+            raise(IndexError,"offset #{offset} or C string size #{cstring.bytesize} is out of bounds: 0...#{@size-1}")
+          end
 
           @string[offset,cstring.bytesize] = cstring
         end
@@ -1515,7 +1552,12 @@ module Ronin
         def put_array_of(type,offset,array)
           type       = @type_system[type]
           array_type = type[array.length]
-          data       = array_type.pack(*array)
+          
+          if (offset < 0 || offset+array_type.size > @size)
+            raise(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{@size-type.size}")
+          end
+
+          data = array_type.pack(array)
 
           @string[offset,array_type.size] = data
           return array
