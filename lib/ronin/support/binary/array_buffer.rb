@@ -31,6 +31,7 @@ module Ronin
       # Creating a buffer of `int32`s:
       #
       #     buffer = Buffer.new(:int32, 4)
+      #     # => #<Ronin::Support::Binary::ArrayBuffer: "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00">
       #     buffer[0] = 0x11111111
       #     buffer[1] = 0x22222222
       #     buffer[2] = 0x33333333
@@ -41,6 +42,7 @@ module Ronin
       # Creating a buffer from an existing String:
       #
       #     buffer = Buffer.new(:uint32_le, "\x41\x00\x00\x00\x42\x00\x00\x00")
+      #     # => #<Ronin::Support::Binary::ArrayBuffer: "A\u0000\u0000\u0000B\u0000\u0000\u0000">
       #     buffer[0]
       #     # => 65
       #     buffer[1]
@@ -118,9 +120,11 @@ module Ronin
         #
         # @example Creating a new array buffer:
         #   array = ArrayBuffer.new(:uint32_le, 10)
+        #   # => #<Ronin::Support::Binary::ArrayBuffer: "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00">
         #
         # @example Creating a new array buffer from a String:
         #   array = ArrayBuffer.new(:uint32_le, "\x41\x00\x00\x00\x42\x00\x00\x00")
+        #   # => #<Ronin::Support::Binary::ArrayBuffer: "A\u0000\u0000\u0000B\u0000\u0000\u0000">
         #
         def initialize(type, length_or_string, endian: nil, arch: nil)
           @endian = endian
