@@ -54,12 +54,12 @@ module Ronin
 
         include Enumerable
 
-        # The endianness of data within the buffer.
+        # The endianness of data within the array buffer.
         #
         # @return [:little, :big, :net, nil]
         attr_reader :endian
 
-        # The desired architecture for the buffer.
+        # The desired architecture for the array buffer.
         #
         # @return [Symbol, nil]
         attr_reader :arch
@@ -71,22 +71,22 @@ module Ronin
         #                 Types::Network]
         attr_reader :type_system
 
-        # The underlying type of the data within the buffer.
+        # The underlying type of the data within the array buffer.
         #
         # @return [Types::Type]
         attr_reader :type
 
-        # The length of the buffer.
+        # The number of elements in the array buffer.
         #
         # @return [Integer]
         attr_reader :length
 
-        # The size of the buffer in bytes.
+        # The size of the array buffer in bytes.
         #
         # @return [Integer]
         attr_reader :size
 
-        # The underlying String buffer.
+        # The underlying buffer String.
         #
         # @return [String]
         attr_accessor :string
@@ -95,6 +95,7 @@ module Ronin
         # Initializes the array buffer.
         #
         # @param [Symbol] type
+        #   The type of each element in the array buffer.
         #
         # @param [Integer, String] length_or_string
         #   The length of the buffer or an existing String which will be used
@@ -213,7 +214,7 @@ module Ronin
         end
 
         #
-        # Converts the buffer to a String.
+        # Converts the array buffer to a String.
         #
         # @return [String]
         #   The raw binary buffer.
