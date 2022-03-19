@@ -27,7 +27,7 @@ module Ronin
       #
       # ## Examples
       #
-      # Creating a buffer of bytes:
+      # Writing bytes into an empty buffer:
       #
       #     buffer = Buffer.new(10)
       #     buffer[0] = 0x41
@@ -35,16 +35,6 @@ module Ronin
       #     buffer[2] = 0x43
       #     buffer.to_s
       #     # => "ABC\x00\x00\x00\x00\x00\x00\x00"
-      #
-      # Creating a buffer of `int32`s:
-      #
-      #     buffer = Buffer.new(:int32, 4)
-      #     buffer[0] = 0x11111111
-      #     buffer[1] = 0x22222222
-      #     buffer[2] = 0x33333333
-      #     buffer[3] = -1
-      #     buffer.to_s
-      #     # => "\x11\x11\x11\x11\"\"\"\"3333\xFF\xFF\xFF\xFF"
       #
       # Writing different types of data to a buffer:
       #
@@ -58,10 +48,10 @@ module Ronin
       #
       # Creating a buffer from an existing String:
       #
-      #     buffer = Buffer.new(:uint32_le, "\x41\x00\x00\x00\x42\x00\x00\x00")
-      #     buffer[0]
+      #     buffer = Buffer.new("\x41\x00\x00\x00\x42\x00\x00\x00")
+      #     buffer.get_uint32(0)
       #     # => 65
-      #     buffer[1]
+      #     buffer.get_uint32(1)
       #     # => 66
       #
       # @api public
@@ -97,10 +87,7 @@ module Ronin
         # @return [Integer]
         attr_reader :length
 
-        # The size of the buffer in bytes.
-        #
-        # @return [Integer]
-        attr_reader :size
+        alias size length
 
         # The underlying String buffer.
         #
@@ -109,8 +96,6 @@ module Ronin
 
         #
         # Initializes the buffer.
-        #
-        # @param [Symbol] type
         #
         # @param [Integer, String] length_or_string
         #   The length of the buffer or an existing String which will be used
@@ -128,88 +113,109 @@ module Ronin
         #   The desired architecture for the values within the buffer.
         #
         # @raise [ArgumentError]
-        #   Either the `length` or `string:` keyword argument must be given.
+        #   Either the `length_or_string` argument was not an Integer or a
+        #   String.
         #
         # @example Creating a new blank buffer:
         #   buffer = Buffer.new(1024)
         #
-        # @example Creating a new buffer with the given type:
-        #   buffer = Buffer.new(:uint32_le, 10)
-        #
         # @example Creating a new buffer from a String:
-        #   buffer = Buffer.new(:uint32_le, "\x41\x00\x00\x00\x42\x00\x00\x00")
+        #   buffer = Buffer.new("\x41\x00\x00\x00\x42\x00\x00\x00")
         #
-        def initialize(type=:byte,length_or_string, endian: nil, arch: nil)
+        def initialize(length_or_string, endian: nil, arch: nil)
           @endian = endian
           @arch   = arch
 
           @type_system = if arch then Types.arch(arch)
                          else         Types.endian(endian)
                          end
-          @type = @type_system[type]
 
           case length_or_string
           when String
             @string = length_or_string
-            @size   = @string.bytesize
-            @length = @size / @type.size
+            @length = @string.bytesize
           when Integer
             @length = length_or_string
-            @size   = @type.size * @length
-
-            @string = String.new("\0" * @size, encoding: Encoding::ASCII_8BIT)
+            @string = String.new("\0" * @length, encoding: Encoding::ASCII_8BIT)
           else
-            raise(ArgumentError,"argument must be either a length (Integer) or a buffer (String): #{length_or_string.inspect}")
+            raise(ArgumentError,"string_or_length argument must be either a length (Integer) or a buffer (String): #{length_or_string.inspect}")
           end
         end
 
-        def self.from(string, type: :byte, **kwargs)
-          buffer = new(**kwargs)
-        end
-
         #
-        # Reads a value from the buffer at the given index.
+        # Reads a character or a substring from the buffer at the given index.
         #
-        # @param [Integer] index
-        #   The index to read from.
+        # @param [Integer, (Integer, Integer), Range(Integer)] arguments
+        #   The index or range within the buffer to read from.
         #
-        # @return [Integer, Float, String]
-        #   The integer, float, or character read from the given index.
+        # @return [String, nil]
+        #   The character or substring at the given index or range.
         #
-        def [](index)
-          offset = index * @type.size
-
-          if (index< 0 || offset+@type.size > @size)
-            raise(IndexError,"index #{index} is out of bounds: 0...#{@length}")
-          end
-
-          slice  = @string[offset,@type.size]
-
-          return @type.unpack(slice)
+        # @example Reading a single char at the given index:
+        #   buffer[0]
+        #   # => "\x00"
+        #
+        # @example Reading multiple chars at the range of indexes:
+        #   buffer[0..2]
+        #   # => "\x00\x00"
+        #
+        # @example Reading multiple chars at the given index and length:
+        #   buffer[0,2]
+        #   # => "\x00\x00"
+        #
+        def [](*arguments)
+          @string[*arguments]
         end
 
         #
         # Writes a value to the buffer at the given index.
         #
-        # @param [Integer] index
+        # @param [Integer, Range(Integer)] index
+        #   The index within the string to write to.
         #
-        # @param [Integer, Float, String] value
+        # @param [Integer, nil] length
+        #   Optional additional length argument.
+        #
+        # @param [String] value
         #   The integer, float, or character value to write to the buffer.
         #
-        # @return [Integer, Float, String]
-        #   The integer, float, or character value that was written.
-        #   
-        def []=(index,value)
-          offset = index * @type.size
-
-          if (index < 0 || offset+@type.size > @size)
-            raise(IndexError,"index #{index} is out of bounds: 0...#{@length}")
-          end
-
-          data = @type.pack(value)
-
-          @string[offset,@type.size] = data
-          return value
+        # @return [String]
+        #   The string written into the buffer.
+        #
+        # @example Writing a single byte:
+        #   buffer[0] = 0x41
+        #
+        # @example Writing a single char:
+        #   buffer[0] = 'A'
+        #
+        # @example Writing an Array of bytes to the given range of indexes:
+        #   buffer[0..3] = [0x41, 0x42, 0x43]
+        #
+        # @example Writing an Array of chars to the given range of indexes:
+        #   buffer[0..3] = ['A', 'B', 'C']
+        #
+        # @example Writing an Array of bytes to the given index and length:
+        #   buffer[0,3] = [0x41, 0x42, 0x43]
+        #
+        # @example Writing an Array of bytes to the given index and length:
+        #   buffer[0,3] = ['A', 'B', 'C']
+        #
+        def []=(index,length=nil,value)
+          @string[index,*length] = case value
+                                    when Integer
+                                      value.chr(@string.encoding)
+                                    when Array
+                                      value.map { |char_or_byte|
+                                        case char_or_byte
+                                        when Integer
+                                          char_or_byte.chr(@string.encoding)
+                                        else
+                                          char_or_byte
+                                        end
+                                      }.join
+                                    else
+                                      value
+                                    end
         end
 
         #
@@ -227,8 +233,8 @@ module Ronin
         def get(type,offset)
           type = @type_system[type]
 
-          if (offset < 0 || offset+type.size > @size)
-            raise(IndexError,"offset #{offset} is out of bounds: 0...#{@size-type.size}")
+          if (offset < 0 || offset+type.size > @length)
+            raise(IndexError,"offset #{offset} is out of bounds: 0...#{@length-type.size}")
           end
 
           slice = @string[offset,type.size]
@@ -294,10 +300,10 @@ module Ronin
         #   The read C string, without the null-byte.
         #
         def get_string(offset,length=nil)
-          if (offset < 0 || offset >= @size)
-            raise(IndexError,"offset #{offset} is out of bounds: 0...#{@size-1}")
-          elsif (length && offset+length > @size)
-            raise(IndexError,"offset #{offset} or length #{length} is out of bounds: 0...#{@size-1}")
+          if (offset < 0 || offset >= @length)
+            raise(IndexError,"offset #{offset} is out of bounds: 0...#{@length-1}")
+          elsif (length && offset+length > @length)
+            raise(IndexError,"offset #{offset} or length #{length} is out of bounds: 0...#{@length-1}")
           end
 
           if length
@@ -637,8 +643,8 @@ module Ronin
           type       = @type_system[type]
           array_type = type[count]
 
-          if (offset < 0 || offset+array_type.size > @size)
-            raise(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{@size-type.size}")
+          if (offset < 0 || offset+array_type.size > @length)
+            raise(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{@length-type.size}")
           end
 
           slice = @string[offset,array_type.size]
@@ -1088,8 +1094,8 @@ module Ronin
         def put(type,offset,value)
           type = @type_system[type]
 
-          if (offset < 0 || offset+type.size > @size)
-            raise(IndexError,"offset #{offset} is out of bounds: 0...#{@size-type.size}")
+          if (offset < 0 || offset+type.size > @length)
+            raise(IndexError,"offset #{offset} is out of bounds: 0...#{@length-type.size}")
           end
 
           data = type.pack(value)
@@ -1148,8 +1154,8 @@ module Ronin
           ascii_string = string.encode(@string.encoding)
           cstring      = "#{ascii_string}\0"
 
-          if (offset < 0 || offset+cstring.bytesize >= @size)
-            raise(IndexError,"offset #{offset} or C string size #{cstring.bytesize} is out of bounds: 0...#{@size-1}")
+          if (offset < 0 || offset+cstring.bytesize >= @length)
+            raise(IndexError,"offset #{offset} or C string size #{cstring.bytesize} is out of bounds: 0...#{@length-1}")
           end
 
           @string[offset,cstring.bytesize] = cstring
@@ -1553,8 +1559,8 @@ module Ronin
           type       = @type_system[type]
           array_type = type[array.length]
           
-          if (offset < 0 || offset+array_type.size > @size)
-            raise(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{@size-type.size}")
+          if (offset < 0 || offset+array_type.size > @length)
+            raise(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{@length-type.size}")
           end
 
           data = array_type.pack(array)

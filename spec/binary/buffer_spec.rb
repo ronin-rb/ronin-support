@@ -47,46 +47,23 @@ describe Ronin::Support::Binary::Buffer do
       expect(subject.type_system).to be(Ronin::Support::Binary::Types)
     end
 
-    it "must default #type to Ronin::Support::Binary::Types::Byte" do
-      expect(subject.type).to be(Ronin::Support::Binary::Types::Byte)
-    end
+    context "when an Integer argument is given instead of a String argument" do
+      subject { described_class.new(length) }
 
-    it "must set #length" do
-      expect(subject.length).to eq(length)
-    end
-
-    it "must set #size to #length" do
-      expect(subject.size).to eq(length)
-    end
-
-    it "must initialize #string with Encoding::ASCII_8BIT" do
-      expect(subject.string.encoding).to be(Encoding::ASCII_8BIT)
-    end
-
-    it "must initialize #string to length of #size" do
-      expect(subject.string.bytesize).to eq(subject.size)
-    end
-
-    it "must initialize #string to all null-bytes" do
-      expect(subject.string).to eq("\0" * subject.size)
-    end
-
-    context "when a type argument is given" do
-      let(:type_name) { :char }
-      let(:type)      { Ronin::Support::Binary::Types[type_name] }
-
-      subject { described_class.new(type_name,length) }
-
-      it "must set #type" do
-        expect(subject.type).to eq(type)
+      it "must set #length" do
+        expect(subject.length).to eq(length)
       end
 
-      context "and the type is a multi-byte type" do
-        let(:type_name) { :uint32_le }
+      it "must initialize #string with Encoding::ASCII_8BIT" do
+        expect(subject.string.encoding).to be(Encoding::ASCII_8BIT)
+      end
 
-        it "must set #size to length * type.size" do
-          expect(subject.size).to eq(length * type.size)
-        end
+      it "must initialize #string to the given length" do
+        expect(subject.string.bytesize).to eq(length)
+      end
+
+      it "must initialize #string to all null-bytes" do
+        expect(subject.string).to eq("\0" * length)
       end
     end
 
@@ -99,27 +76,8 @@ describe Ronin::Support::Binary::Buffer do
         expect(subject.string).to be(string)
       end
 
-      it "must set #size to the string's byte size" do
-        expect(subject.size).to eq(string.bytesize)
-      end
-
       it "must set #length to the string's byte size" do
         expect(subject.length).to eq(string.bytesize)
-      end
-
-      context "and when a type argument is given" do
-        let(:type_name) { :uint32_le }
-        let(:type)      { Ronin::Support::Binary::Types[type_name] }
-
-        subject { described_class.new(type_name,string) }
-
-        it "must set #type" do
-          expect(subject.type).to eq(type)
-        end
-
-        it "must set #length to string.bytesize / type.size" do
-          expect(subject.length).to eq(string.bytesize / type.size)
-        end
       end
     end
 
@@ -129,7 +87,7 @@ describe Ronin::Support::Binary::Buffer do
       it do
         expect {
           described_class.new(arg)
-        }.to raise_error(ArgumentError,"argument must be either a length (Integer) or a buffer (String): #{arg.inspect}")
+        }.to raise_error(ArgumentError,"string_or_length argument must be either a length (Integer) or a buffer (String): #{arg.inspect}")
       end
     end
   end
@@ -138,109 +96,92 @@ describe Ronin::Support::Binary::Buffer do
 
   describe "#[]" do
     context "when the index has not been previously written to" do
-      it "must decode a 0 value" do
-        expect(subject[1]).to eq(0)
-      end
-
-      context "and when #type is a multi-byte type" do
-        let(:type) { :uint32_le }
-
-        subject { described_class.new(type,length) }
-
-        it "must decode a 0 value" do
-          expect(subject[1]).to eq(0)
-        end
+      it "must return a null character" do
+        expect(subject[1]).to eq("\x00")
       end
     end
 
     context "when the index has been previously written to" do
       let(:index) { 1  }
-      let(:value) { 42 }
+      let(:value) { 0x41.chr }
 
       before { subject[index] = value }
 
       it "must decode the previously written value" do
         expect(subject[index]).to eq(value)
       end
-
-      context "and when #type is a multi-byte type" do
-        let(:type)  { :uint32_le }
-        let(:value) { 0x11223344 }
-
-        subject { described_class.new(type,length) }
-
-        it "must decode the previously written multi-byte value" do
-          expect(subject[index]).to eq(value)
-        end
-      end
-    end
-
-    context "when the index is less than 0" do
-      let(:index) { -1 }
-
-      it do
-        expect {
-          subject[index]
-        }.to raise_error(IndexError,"index #{index} is out of bounds: 0...#{subject.length}")
-      end
-    end
-
-    context "when the index is greater or equal to the length of the buffer" do
-      let(:index) { subject.length }
-
-      it do
-        expect {
-          subject[index]
-        }.to raise_error(IndexError,"index #{index} is out of bounds: 0...#{subject.length}")
-      end
     end
   end
 
   describe "#[]=" do
-    let(:index) { 1    }
-    let(:value) { 0x41 }
+    let(:index) { 1 }
 
-    it "must write the byte value to the given index within #string" do
-      subject[index] = value
-
-      expect(subject.string[index]).to eq(value.chr)
-    end
-
-    context "and when #type is a multi-byte type" do
-      let(:type)  { :uint32_le }
-      let(:value) { 0x11223344 }
-
-      subject { described_class.new(type,length) }
+    context "when given a character value" do
+      let(:value) { 0x41.chr }
 
       before { subject[index] = value }
 
-      it "must write the multi-byte value to the given index within #string" do
-        offset = index*subject.type.size
-        size   = subject.type.size
-
-        packed_value = subject.type.pack(value)
-
-        expect(subject.string[offset,size]).to eq(packed_value)
+      it "must write the character value to the given index within #string" do
+        expect(subject.string[index]).to eq(value)
       end
     end
 
-    context "when the index is less than 0" do
-      let(:index) { -1 }
+    context "when given an byte value" do
+      let(:value) { 0x41 }
 
-      it do
-        expect {
-          subject[index] = value
-        }.to raise_error(IndexError,"index #{index} is out of bounds: 0...#{subject.length}")
+      before { subject[index] = value }
+
+      it "must convert the byte into a character before writing" do
+        expect(subject.string[index]).to eq(value.chr)
       end
     end
 
-    context "when the index is greater or equal to the length of the buffer" do
-      let(:index) { subject.length }
+    context "when given a Range index" do
+      let(:range) { (1..3) }
 
-      it do
-        expect {
-          subject[index] = value
-        }.to raise_error(IndexError,"index #{index} is out of bounds: 0...#{subject.length}")
+      before { subject[range] = values }
+
+      context "and given an Array of bytes" do
+        let(:values) { [0x41, 0x42, 0x43]    }
+        let(:slice)  { values.map(&:chr).join }
+
+        it "must convert the byte into a character before writing" do
+          expect(subject.string[range]).to eq(slice)
+        end
+      end
+
+      context "and given an Array of chars" do
+        let(:values)  { %w[A B C]  }
+        let(:slice)  { values.join }
+
+        it "must combine the Array of chars into a String before writing" do
+          expect(subject.string[range]).to eq(slice)
+        end
+      end
+    end
+
+    context "when given an index and a length" do
+      let(:index)  { 1 }
+      let(:length) { 3 }
+
+      before { subject[index,length] = values }
+
+      context "and given an Array of bytes" do
+        let(:values) { [0x41, 0x42, 0x43]     }
+        let(:slice)  { values.map(&:chr).join }
+
+        it "must convert the byte into a character before writing" do
+          expect(subject.string[index,length]).to eq(slice)
+        end
+      end
+
+      context "and given an Array of chars" do
+        let(:values) { %w[A B C]  }
+        let(:slice)  { values.join }
+
+        it "must combine the Array of chars into a String before writing" do
+          expect(subject.string[index,length]).to eq(slice)
+        end
       end
     end
   end
