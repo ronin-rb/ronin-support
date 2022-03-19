@@ -37,7 +37,7 @@ describe Ronin::Support::Binary::Types::StructType do
         expect(subject.members).to eq(members)
       end
 
-      it "must set #size to the sum of the type's sizes" do
+      it "must set #size to the sum of the members type's sizes" do
         expect(subject.size).to eq(members.values.map(&:size).sum)
       end
 
@@ -64,7 +64,7 @@ describe Ronin::Support::Binary::Types::StructType do
   end
 
   describe "#uninitialized_value" do
-    it "must return a Hash of the struct's #type.uninitialized_value" do
+    it "must return a Hash of the members type's #uninitialized_value" do
       expect(subject.uninitialized_value).to eq(
         {
           a: members[:a].uninitialized_value,
