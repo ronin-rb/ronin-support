@@ -224,6 +224,15 @@ module Ronin
 
         alias to_str to_s
 
+        #
+        # Inspects the array buffer.
+        #
+        # @return [String]
+        #
+        def inspect
+          "<#{self.class}: #{@string.inspect}>"
+        end
+
       end
     end
   end
