@@ -522,17 +522,6 @@ describe Ronin::Support::Binary::Buffer do
     end
   end
 
-  describe "#get_array_of_byte" do
-    let(:offset) { double("offset") }
-    let(:count)  { double("count")  }
-
-    it "must call #get_array_of with :byte, the given offset, and count" do
-      expect(subject).to receive(:get_array_of).with(:byte,offset,count)
-
-      subject.get_array_of_byte(offset,count)
-    end
-  end
-
   [
     :byte,
     :char, :uchar,
@@ -701,17 +690,6 @@ describe Ronin::Support::Binary::Buffer do
           subject.put_string(offset,string)
         }.to raise_error(IndexError,"offset #{offset} or C string size #{string.bytesize+1} is out of bounds: 0...#{subject.size - 1}")
       end
-    end
-  end
-
-  describe "#put_array_of_byte" do
-    let(:offset) { double("offset") }
-    let(:bytes)  { double("bytes")  }
-
-    it "must call #put_array_of with :byte, the given offset, and bytes" do
-      expect(subject).to receive(:put_array_of).with(:byte,offset,bytes)
-
-      subject.put_array_of_byte(offset,bytes)
     end
   end
 
