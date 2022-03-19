@@ -231,7 +231,7 @@ module Ronin
         # @return [String]
         #
         def inspect
-          "<#{self.class}: #{@string.inspect}>"
+          "#<#{self.class}: #{@string.inspect}>"
         end
 
       end

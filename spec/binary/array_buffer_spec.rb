@@ -291,7 +291,7 @@ describe Ronin::Support::Binary::ArrayBuffer do
 
   describe "#inspect" do
     it "must return the class name and the buffer string" do
-      expect(subject.inspect).to eq("<#{described_class}: #{subject.string.inspect}>")
+      expect(subject.inspect).to eq("#<#{described_class}: #{subject.string.inspect}>")
     end
   end
 end
