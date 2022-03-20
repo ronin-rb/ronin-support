@@ -43,6 +43,7 @@ module Ronin
         QWORD_LE = LittleEndian::QWORD
 
         MACHINE_WORD_LE = LittleEndian::MACHINE_WORD
+        POINTER_LE      = LittleEndian::POINTER
 
         FLOAT32_LE = LittleEndian::FLOAT32
         FLOAT64_LE = LittleEndian::FLOAT64
@@ -64,6 +65,7 @@ module Ronin
         QWORD_BE = BigEndian::QWORD
 
         MACHINE_WORD_BE = BigEndian::MACHINE_WORD
+        POINTER_BE      = BigEndian::POINTER
 
         FLOAT32_BE = BigEndian::FLOAT32
         FLOAT64_BE = BigEndian::FLOAT64
@@ -85,6 +87,7 @@ module Ronin
         QWORD_NE = Network::QWORD
 
         MACHINE_WORD_NE = Network::MACHINE_WORD
+        POINTER_NE      = Network::POINTER
 
         FLOAT32_NE = Network::FLOAT32
         FLOAT64_NE = Network::FLOAT64
@@ -105,6 +108,7 @@ module Ronin
         QWORD_NET = Network::QWORD
 
         MACHINE_WORD_NET = Network::MACHINE_WORD
+        POINTER_NET      = Network::POINTER
 
         FLOAT32_NET = Network::FLOAT32
         FLOAT64_NET = Network::FLOAT64
@@ -142,7 +146,7 @@ module Ronin
           qword_le: QWORD_LE,
 
           machine_word_le: LittleEndian::MACHINE_WORD,
-          pointer_le:      LittleEndian::MACHINE_WORD,
+          pointer_le:      LittleEndian::POINTER,
 
           float32_le: LittleEndian::FLOAT32,
           float64_le: LittleEndian::FLOAT64,
@@ -178,7 +182,7 @@ module Ronin
           qword_be: QWORD_BE,
 
           machine_word_be: BigEndian::MACHINE_WORD,
-          pointer_be:      BigEndian::MACHINE_WORD,
+          pointer_be:      BigEndian::POINTER,
 
           float32_be: BigEndian::FLOAT32,
           float64_be: BigEndian::FLOAT64,
@@ -214,7 +218,7 @@ module Ronin
           qword_ne: QWORD_NE,
 
           machine_word_ne: Network::MACHINE_WORD,
-          pointer_ne:      Network::MACHINE_WORD,
+          pointer_ne:      Network::POINTER,
 
           float32_ne: Network::FLOAT32,
           float64_ne: Network::FLOAT64,
@@ -250,7 +254,7 @@ module Ronin
           qword_net: QWORD_NET,
 
           machine_word_net: Network::MACHINE_WORD,
-          pointer_net:      Network::MACHINE_WORD,
+          pointer_net:      Network::POINTER,
 
           float32_net: Network::FLOAT32,
           float64_net: Network::FLOAT64,

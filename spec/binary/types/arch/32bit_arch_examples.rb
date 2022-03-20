@@ -31,6 +31,14 @@ shared_examples_for "32bit Arch examples" do
     end
   end
 
+  describe "POINTER" do
+    subject { described_class::POINTER }
+
+    it "must equal MACHINE_WORD" do
+      expect(subject).to be(described_class::MACHINE_WORD)
+    end
+  end
+
   describe "TYPES" do
     subject { described_class::TYPES }
 
@@ -57,8 +65,8 @@ shared_examples_for "32bit Arch examples" do
     describe ":pointer" do
       subject { super()[:pointer] }
 
-      it "must equal MACHINE_WORD" do
-        expect(subject).to be(described_class::MACHINE_WORD)
+      it "must equal POINTER" do
+        expect(subject).to be(described_class::POINTER)
       end
     end
   end

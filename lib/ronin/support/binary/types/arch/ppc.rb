@@ -39,13 +39,16 @@ module Ronin
             # The "machine word" type.
             MACHINE_WORD = BigEndian::UINT32
 
+            # The `void *` type.
+            POINTER = MACHINE_WORD
+
             # The PPC types.
             TYPES = BigEndian::TYPES.merge(
               long:  self::LONG,
               ulong: self::ULONG,
 
               machine_word: self::MACHINE_WORD,
-              pointer:      self::MACHINE_WORD
+              pointer:      self::POINTER
             )
 
             #

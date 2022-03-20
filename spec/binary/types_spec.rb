@@ -67,6 +67,12 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::LittleEndian::MACHINE_WORD) }
   end
 
+  describe "POINTER_LE" do
+    subject { described_class::POINTER_LE }
+
+    it { expect(subject).to eq(described_class::LittleEndian::POINTER) }
+  end
+
   describe "FLOAT32_LE" do
     subject { described_class::FLOAT32_LE }
 
@@ -152,6 +158,12 @@ describe Ronin::Support::Binary::Types do
     subject { described_class::MACHINE_WORD_BE }
 
     it { expect(subject).to eq(described_class::BigEndian::MACHINE_WORD) }
+  end
+
+  describe "POINTER_BE" do
+    subject { described_class::POINTER_BE }
+
+    it { expect(subject).to eq(described_class::BigEndian::POINTER) }
   end
 
   describe "FLOAT32_BE" do
@@ -241,6 +253,12 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::Network::MACHINE_WORD) }
   end
 
+  describe "POINTER_NE" do
+    subject { described_class::POINTER_NE }
+
+    it { expect(subject).to eq(described_class::Network::POINTER) }
+  end
+
   describe "FLOAT32_NE" do
     subject { described_class::FLOAT32_NE }
 
@@ -323,6 +341,12 @@ describe Ronin::Support::Binary::Types do
     subject { described_class::MACHINE_WORD_NET }
 
     it { expect(subject).to eq(described_class::Network::MACHINE_WORD) }
+  end
+
+  describe "POINTER_NET" do
+    subject { described_class::POINTER_NET }
+
+    it { expect(subject).to eq(described_class::Network::POINTER) }
   end
 
   describe "FLOAT32_NET" do
@@ -536,16 +560,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":pointer" do
-      it "must be an alias to :machine_word" do
-        expect(subject[:pointer]).to be(subject[:machine_word])
-      end
-    end
+      subject { super()[:pointer] }
 
-    describe ":pointer" do
-      subject { super()[:machine_word] }
-
-      it "must equal #{described_class}::Native::MACHINE_WORD" do
-        expect(subject).to eq(described_class::Native::MACHINE_WORD)
+      it "must equal #{described_class}::Native::POINTER" do
+        expect(subject).to eq(described_class::Native::POINTER)
       end
     end
 
@@ -723,8 +741,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":pointer_le" do
-      it "must be an alias to :machine_word_le" do
-        expect(subject[:pointer_le]).to be(subject[:machine_word_le])
+      subject { super()[:pointer_le] }
+
+      it "must equal #{described_class}::LittleEndian::POINTER" do
+        expect(subject).to eq(described_class::LittleEndian::POINTER)
       end
     end
 
@@ -902,8 +922,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":pointer_be" do
-      it "must be an alias to :machine_word_be" do
-        expect(subject[:pointer_be]).to be(subject[:machine_word_be])
+      subject { super()[:pointer_be] }
+
+      it "must equal #{described_class}::BigEndian::POINTER" do
+        expect(subject).to eq(described_class::BigEndian::POINTER)
       end
     end
 
@@ -1081,8 +1103,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":pointer_ne" do
-      it "must be an alias to :machine_word_ne" do
-        expect(subject[:pointer_ne]).to be(subject[:machine_word_ne])
+      subject { super()[:pointer_ne] }
+
+      it "must equal #{described_class}::Network::POINTER" do
+        expect(subject).to eq(described_class::Network::POINTER)
       end
     end
 
@@ -1257,8 +1281,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":pointer_net" do
-      it "must be an alias to :machine_word_net" do
-        expect(subject[:pointer_net]).to be(subject[:machine_word_net])
+      subject { super()[:pointer_net] }
+
+      it "must equal #{described_class}::Network::POINTER" do
+        expect(subject).to eq(described_class::Network::POINTER)
       end
     end
 

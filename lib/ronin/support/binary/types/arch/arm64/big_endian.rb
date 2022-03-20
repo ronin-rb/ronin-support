@@ -40,13 +40,16 @@ module Ronin
               # The "machine word" type.
               MACHINE_WORD = Types::BigEndian::UINT64
 
+              # The `void *` type.
+              POINTER = MACHINE_WORD
+
               # The ARM64 types.
               TYPES = Types::BigEndian::TYPES.merge(
                 long:  self::LONG,
                 ulong: self::ULONG,
 
                 machine_word: self::MACHINE_WORD,
-                pointer:      self::MACHINE_WORD
+                pointer:      self::POINTER
               )
 
               #

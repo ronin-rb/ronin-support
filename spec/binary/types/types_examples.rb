@@ -115,6 +115,12 @@ shared_examples_for "Types examples" do
     end
   end
 
+  describe "POINTER" do
+    subject { described_class::POINTER }
+
+    it { expect(subject).to eq(described_class::MACHINE_WORD) }
+  end
+
   describe "FLOAT" do
     subject { described_class::FLOAT }
 

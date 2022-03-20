@@ -114,6 +114,9 @@ module Ronin
                          else                      UINT32
                          end
 
+          # The `void *` type.
+          POINTER = MACHINE_WORD
+
           # The `float` type (big-endianness).
           FLOAT32 = Float32Type.new(endian: :big, pack_string: 'g')
 
