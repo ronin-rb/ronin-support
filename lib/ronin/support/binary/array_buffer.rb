@@ -162,7 +162,7 @@ module Ronin
         def [](index)
           offset = index * @type.size
 
-          if (index< 0 || offset+@type.size > @size)
+          if (index < 0 || offset+@type.size > @size)
             raise(IndexError,"index #{index} is out of bounds: 0...#{@length}")
           end
 
