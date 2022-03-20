@@ -5,58 +5,58 @@ describe Ronin::Support::Binary::Types do
   #
   # Native constant specs
   #
-  describe "Int8" do
-    subject { described_class::Int8 }
+  describe "INT8" do
+    subject { described_class::INT8 }
 
-    it { expect(subject).to eq(described_class::Native::Int8) }
+    it { expect(subject).to eq(described_class::Native::INT8) }
   end
 
-  describe "Int16" do
-    subject { described_class::Int16 }
+  describe "INT16" do
+    subject { described_class::INT16 }
 
-    it { expect(subject).to eq(described_class::Native::Int16) }
+    it { expect(subject).to eq(described_class::Native::INT16) }
   end
 
-  describe "Int32" do
-    subject { described_class::Int32 }
+  describe "INT32" do
+    subject { described_class::INT32 }
 
-    it { expect(subject).to eq(described_class::Native::Int32) }
+    it { expect(subject).to eq(described_class::Native::INT32) }
   end
 
-  describe "Int64" do
-    subject { described_class::Int64 }
+  describe "INT64" do
+    subject { described_class::INT64 }
 
-    it { expect(subject).to eq(described_class::Native::Int64) }
+    it { expect(subject).to eq(described_class::Native::INT64) }
   end
 
-  describe "UInt8" do
-    subject { described_class::UInt8 }
+  describe "UINT8" do
+    subject { described_class::UINT8 }
 
-    it { expect(subject).to eq(described_class::Native::UInt8) }
+    it { expect(subject).to eq(described_class::Native::UINT8) }
   end
 
-  describe "Byte" do
-    subject { described_class::Byte }
+  describe "BYTE" do
+    subject { described_class::BYTE }
 
-    it { expect(subject).to eq(described_class::Native::Byte) }
+    it { expect(subject).to eq(described_class::Native::BYTE) }
   end
 
-  describe "UInt16" do
-    subject { described_class::UInt16 }
+  describe "UINT16" do
+    subject { described_class::UINT16 }
 
-    it { expect(subject).to eq(described_class::Native::UInt16) }
+    it { expect(subject).to eq(described_class::Native::UINT16) }
   end
 
-  describe "UInt32" do
-    subject { described_class::UInt32 }
+  describe "UINT32" do
+    subject { described_class::UINT32 }
 
-    it { expect(subject).to eq(described_class::Native::UInt32) }
+    it { expect(subject).to eq(described_class::Native::UINT32) }
   end
 
-  describe "UInt64" do
-    subject { described_class::UInt64 }
+  describe "UINT64" do
+    subject { described_class::UINT64 }
 
-    it { expect(subject).to eq(described_class::Native::UInt64) }
+    it { expect(subject).to eq(described_class::Native::UINT64) }
   end
 
   describe "WORD" do
@@ -83,73 +83,73 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::Native::MACHINE_WORD) }
   end
 
-  describe "Float32" do
-    subject { described_class::Float32 }
+  describe "FLOAT32" do
+    subject { described_class::FLOAT32 }
 
-    it { expect(subject).to eq(described_class::Native::Float32) }
+    it { expect(subject).to eq(described_class::Native::FLOAT32) }
   end
 
-  describe "Float64" do
-    subject { described_class::Float64 }
+  describe "FLOAT64" do
+    subject { described_class::FLOAT64 }
 
-    it { expect(subject).to eq(described_class::Native::Float64) }
+    it { expect(subject).to eq(described_class::Native::FLOAT64) }
   end
 
-  describe "Char" do
-    subject { described_class::Char }
+  describe "CHAR" do
+    subject { described_class::CHAR }
 
-    it { expect(subject).to eq(described_class::Native::Char) }
+    it { expect(subject).to eq(described_class::Native::CHAR) }
   end
 
-  describe "UChar" do
-    subject { described_class::UChar }
+  describe "UCHAR" do
+    subject { described_class::UCHAR }
 
-    it { expect(subject).to eq(described_class::Native::UChar) }
+    it { expect(subject).to eq(described_class::Native::UCHAR) }
   end
 
-  describe "CString" do
-    subject { described_class::CString }
+  describe "CSTRING" do
+    subject { described_class::CSTRING }
 
-    it { expect(subject).to eq(described_class::Native::CString) }
+    it { expect(subject).to eq(described_class::Native::CSTRING) }
   end
 
   #
   # Little-endian constant specs
   #
-  describe "Int16_LE" do
-    subject { described_class::Int16_LE }
+  describe "INT16_LE" do
+    subject { described_class::INT16_LE }
 
-    it { expect(subject).to eq(described_class::LittleEndian::Int16) }
+    it { expect(subject).to eq(described_class::LittleEndian::INT16) }
   end
 
-  describe "Int32_LE" do
-    subject { described_class::Int32_LE }
+  describe "INT32_LE" do
+    subject { described_class::INT32_LE }
 
-    it { expect(subject).to eq(described_class::LittleEndian::Int32) }
+    it { expect(subject).to eq(described_class::LittleEndian::INT32) }
   end
 
-  describe "Int64_LE" do
-    subject { described_class::Int64_LE }
+  describe "INT64_LE" do
+    subject { described_class::INT64_LE }
 
-    it { expect(subject).to eq(described_class::LittleEndian::Int64) }
+    it { expect(subject).to eq(described_class::LittleEndian::INT64) }
   end
 
-  describe "UInt16_LE" do
-    subject { described_class::UInt16_LE }
+  describe "UINT16_LE" do
+    subject { described_class::UINT16_LE }
 
-    it { expect(subject).to eq(described_class::LittleEndian::UInt16) }
+    it { expect(subject).to eq(described_class::LittleEndian::UINT16) }
   end
 
-  describe "UInt32_LE" do
-    subject { described_class::UInt32_LE }
+  describe "UINT32_LE" do
+    subject { described_class::UINT32_LE }
 
-    it { expect(subject).to eq(described_class::LittleEndian::UInt32) }
+    it { expect(subject).to eq(described_class::LittleEndian::UINT32) }
   end
 
-  describe "UInt64_LE" do
-    subject { described_class::UInt64_LE }
+  describe "UINT64_LE" do
+    subject { described_class::UINT64_LE }
 
-    it { expect(subject).to eq(described_class::LittleEndian::UInt64) }
+    it { expect(subject).to eq(described_class::LittleEndian::UINT64) }
   end
 
   describe "WORD_LE" do
@@ -176,55 +176,55 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::LittleEndian::MACHINE_WORD) }
   end
 
-  describe "Float32_LE" do
-    subject { described_class::Float32_LE }
+  describe "FLOAT32_LE" do
+    subject { described_class::FLOAT32_LE }
 
-    it { expect(subject).to eq(described_class::LittleEndian::Float32) }
+    it { expect(subject).to eq(described_class::LittleEndian::FLOAT32) }
   end
 
-  describe "Float64_LE" do
-    subject { described_class::Float64_LE }
+  describe "FLOAT64_LE" do
+    subject { described_class::FLOAT64_LE }
 
-    it { expect(subject).to eq(described_class::LittleEndian::Float64) }
+    it { expect(subject).to eq(described_class::LittleEndian::FLOAT64) }
   end
 
   #
   # Big-endian constant specs
   #
-  describe "Int16_BE" do
-    subject { described_class::Int16_BE }
+  describe "INT16_BE" do
+    subject { described_class::INT16_BE }
 
-    it { expect(subject).to eq(described_class::BigEndian::Int16) }
+    it { expect(subject).to eq(described_class::BigEndian::INT16) }
   end
 
-  describe "Int32_BE" do
-    subject { described_class::Int32_BE }
+  describe "INT32_BE" do
+    subject { described_class::INT32_BE }
 
-    it { expect(subject).to eq(described_class::BigEndian::Int32) }
+    it { expect(subject).to eq(described_class::BigEndian::INT32) }
   end
 
-  describe "Int64_BE" do
-    subject { described_class::Int64_BE }
+  describe "INT64_BE" do
+    subject { described_class::INT64_BE }
 
-    it { expect(subject).to eq(described_class::BigEndian::Int64) }
+    it { expect(subject).to eq(described_class::BigEndian::INT64) }
   end
 
-  describe "UInt16_BE" do
-    subject { described_class::UInt16_BE }
+  describe "UINT16_BE" do
+    subject { described_class::UINT16_BE }
 
-    it { expect(subject).to eq(described_class::BigEndian::UInt16) }
+    it { expect(subject).to eq(described_class::BigEndian::UINT16) }
   end
 
-  describe "UInt32_BE" do
-    subject { described_class::UInt32_BE }
+  describe "UINT32_BE" do
+    subject { described_class::UINT32_BE }
 
-    it { expect(subject).to eq(described_class::BigEndian::UInt32) }
+    it { expect(subject).to eq(described_class::BigEndian::UINT32) }
   end
 
-  describe "UInt64_BE" do
-    subject { described_class::UInt64_BE }
+  describe "UINT64_BE" do
+    subject { described_class::UINT64_BE }
 
-    it { expect(subject).to eq(described_class::BigEndian::UInt64) }
+    it { expect(subject).to eq(described_class::BigEndian::UINT64) }
   end
 
   describe "WORD_BE" do
@@ -251,55 +251,55 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::BigEndian::MACHINE_WORD) }
   end
 
-  describe "Float32_BE" do
-    subject { described_class::Float32_BE }
+  describe "FLOAT32_BE" do
+    subject { described_class::FLOAT32_BE }
 
-    it { expect(subject).to eq(described_class::BigEndian::Float32) }
+    it { expect(subject).to eq(described_class::BigEndian::FLOAT32) }
   end
 
-  describe "Float64_BE" do
-    subject { described_class::Float64_BE }
+  describe "FLOAT64_BE" do
+    subject { described_class::FLOAT64_BE }
 
-    it { expect(subject).to eq(described_class::BigEndian::Float64) }
+    it { expect(subject).to eq(described_class::BigEndian::FLOAT64) }
   end
 
   #
   # Network-endian constant specs
   #
-  describe "Int16_NE" do
-    subject { described_class::Int16_NE }
+  describe "INT16_NE" do
+    subject { described_class::INT16_NE }
 
-    it { expect(subject).to eq(described_class::Network::Int16) }
+    it { expect(subject).to eq(described_class::Network::INT16) }
   end
 
-  describe "Int32_NE" do
-    subject { described_class::Int32_NE }
+  describe "INT32_NE" do
+    subject { described_class::INT32_NE }
 
-    it { expect(subject).to eq(described_class::Network::Int32) }
+    it { expect(subject).to eq(described_class::Network::INT32) }
   end
 
-  describe "Int64_NE" do
-    subject { described_class::Int64_NE }
+  describe "INT64_NE" do
+    subject { described_class::INT64_NE }
 
-    it { expect(subject).to eq(described_class::Network::Int64) }
+    it { expect(subject).to eq(described_class::Network::INT64) }
   end
 
-  describe "UInt16_NE" do
-    subject { described_class::UInt16_NE }
+  describe "UINT16_NE" do
+    subject { described_class::UINT16_NE }
 
-    it { expect(subject).to eq(described_class::Network::UInt16) }
+    it { expect(subject).to eq(described_class::Network::UINT16) }
   end
 
-  describe "UInt32_NE" do
-    subject { described_class::UInt32_NE }
+  describe "UINT32_NE" do
+    subject { described_class::UINT32_NE }
 
-    it { expect(subject).to eq(described_class::Network::UInt32) }
+    it { expect(subject).to eq(described_class::Network::UINT32) }
   end
 
-  describe "UInt64_NE" do
-    subject { described_class::UInt64_NE }
+  describe "UINT64_NE" do
+    subject { described_class::UINT64_NE }
 
-    it { expect(subject).to eq(described_class::Network::UInt64) }
+    it { expect(subject).to eq(described_class::Network::UINT64) }
   end
 
   describe "WORD_NE" do
@@ -326,88 +326,88 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::Network::MACHINE_WORD) }
   end
 
-  describe "Float32_NE" do
-    subject { described_class::Float32_NE }
+  describe "FLOAT32_NE" do
+    subject { described_class::FLOAT32_NE }
 
-    it { expect(subject).to eq(described_class::Network::Float32) }
+    it { expect(subject).to eq(described_class::Network::FLOAT32) }
   end
 
-  describe "Float64_NE" do
-    subject { described_class::Float64_NE }
+  describe "FLOAT64_NE" do
+    subject { described_class::FLOAT64_NE }
 
-    it { expect(subject).to eq(described_class::Network::Float64) }
+    it { expect(subject).to eq(described_class::Network::FLOAT64) }
   end
 
-  describe "Int16_Net" do
-    subject { described_class::Int16_Net }
+  describe "INT16_NET" do
+    subject { described_class::INT16_NET }
 
-    it { expect(subject).to eq(described_class::Network::Int16) }
+    it { expect(subject).to eq(described_class::Network::INT16) }
   end
 
-  describe "Int32_Net" do
-    subject { described_class::Int32_Net }
+  describe "INT32_NET" do
+    subject { described_class::INT32_NET }
 
-    it { expect(subject).to eq(described_class::Network::Int32) }
+    it { expect(subject).to eq(described_class::Network::INT32) }
   end
 
-  describe "Int64_Net" do
-    subject { described_class::Int64_Net }
+  describe "INT64_NET" do
+    subject { described_class::INT64_NET }
 
-    it { expect(subject).to eq(described_class::Network::Int64) }
+    it { expect(subject).to eq(described_class::Network::INT64) }
   end
 
-  describe "UInt16_Net" do
-    subject { described_class::UInt16_Net }
+  describe "UINT16_NET" do
+    subject { described_class::UINT16_NET }
 
-    it { expect(subject).to eq(described_class::Network::UInt16) }
+    it { expect(subject).to eq(described_class::Network::UINT16) }
   end
 
-  describe "UInt32_Net" do
-    subject { described_class::UInt32_Net }
+  describe "UINT32_NET" do
+    subject { described_class::UINT32_NET }
 
-    it { expect(subject).to eq(described_class::Network::UInt32) }
+    it { expect(subject).to eq(described_class::Network::UINT32) }
   end
 
-  describe "UInt64_Net" do
-    subject { described_class::UInt64_Net }
+  describe "UINT64_NET" do
+    subject { described_class::UINT64_NET }
 
-    it { expect(subject).to eq(described_class::Network::UInt64) }
+    it { expect(subject).to eq(described_class::Network::UINT64) }
   end
 
-  describe "WORD_Net" do
-    subject { described_class::WORD_Net }
+  describe "WORD_NET" do
+    subject { described_class::WORD_NET }
 
     it { expect(subject).to eq(described_class::Network::WORD) }
   end
 
-  describe "DWORD_Net" do
-    subject { described_class::DWORD_Net }
+  describe "DWORD_NET" do
+    subject { described_class::DWORD_NET }
 
     it { expect(subject).to eq(described_class::Network::DWORD) }
   end
 
-  describe "QWORD_Net" do
-    subject { described_class::QWORD_Net }
+  describe "QWORD_NET" do
+    subject { described_class::QWORD_NET }
 
     it { expect(subject).to eq(described_class::Network::QWORD) }
   end
 
-  describe "MACHINE_WORD_Net" do
-    subject { described_class::MACHINE_WORD_Net }
+  describe "MACHINE_WORD_NET" do
+    subject { described_class::MACHINE_WORD_NET }
 
     it { expect(subject).to eq(described_class::Network::MACHINE_WORD) }
   end
 
-  describe "Float32_Net" do
-    subject { described_class::Float32_Net }
+  describe "FLOAT32_NET" do
+    subject { described_class::FLOAT32_NET }
 
-    it { expect(subject).to eq(described_class::Network::Float32) }
+    it { expect(subject).to eq(described_class::Network::FLOAT32) }
   end
 
-  describe "Float64_Net" do
-    subject { described_class::Float64_Net }
+  describe "FLOAT64_NET" do
+    subject { described_class::FLOAT64_NET }
 
-    it { expect(subject).to eq(described_class::Network::Float64) }
+    it { expect(subject).to eq(described_class::Network::FLOAT64) }
   end
 
   describe "TYPES" do
@@ -419,80 +419,80 @@ describe Ronin::Support::Binary::Types do
     describe ":char" do
       subject { super()[:char] }
 
-      it "must equal #{described_class}::Native::Char" do
-        expect(subject).to eq(described_class::Native::Char)
+      it "must equal #{described_class}::Native::CHAR" do
+        expect(subject).to eq(described_class::Native::CHAR)
       end
     end
 
     describe ":uchar" do
       subject { super()[:uchar] }
 
-      it "must equal #{described_class}::Native::UChar" do
-        expect(subject).to eq(described_class::Native::UChar)
+      it "must equal #{described_class}::Native::UCHAR" do
+        expect(subject).to eq(described_class::Native::UCHAR)
       end
     end
 
     describe ":int8" do
       subject { super()[:int8] }
 
-      it "must equal #{described_class}::Native::Int8" do
-        expect(subject).to eq(described_class::Native::Int8)
+      it "must equal #{described_class}::Native::INT8" do
+        expect(subject).to eq(described_class::Native::INT8)
       end
     end
 
     describe ":int16" do
       subject { super()[:int16] }
 
-      it "must equal #{described_class}::Native::Int16" do
-        expect(subject).to eq(described_class::Native::Int16)
+      it "must equal #{described_class}::Native::INT16" do
+        expect(subject).to eq(described_class::Native::INT16)
       end
     end
 
     describe ":int32" do
       subject { super()[:int32] }
 
-      it "must equal #{described_class}::Native::Int32" do
-        expect(subject).to eq(described_class::Native::Int32)
+      it "must equal #{described_class}::Native::INT32" do
+        expect(subject).to eq(described_class::Native::INT32)
       end
     end
 
     describe ":int64" do
       subject { super()[:int64] }
 
-      it "must equal #{described_class}::Native::Int64" do
-        expect(subject).to eq(described_class::Native::Int64)
+      it "must equal #{described_class}::Native::INT64" do
+        expect(subject).to eq(described_class::Native::INT64)
       end
     end
 
     describe ":uint8" do
       subject { super()[:uint8] }
 
-      it "must equal #{described_class}::Native::UInt8" do
-        expect(subject).to eq(described_class::Native::UInt8)
+      it "must equal #{described_class}::Native::UINT8" do
+        expect(subject).to eq(described_class::Native::UINT8)
       end
     end
 
     describe ":uint16" do
       subject { super()[:uint16] }
 
-      it "must equal #{described_class}::Native::UInt16" do
-        expect(subject).to eq(described_class::Native::UInt16)
+      it "must equal #{described_class}::Native::UINT16" do
+        expect(subject).to eq(described_class::Native::UINT16)
       end
     end
 
     describe ":uint32" do
       subject { super()[:uint32] }
 
-      it "must equal #{described_class}::Native::UInt32" do
-        expect(subject).to eq(described_class::Native::UInt32)
+      it "must equal #{described_class}::Native::UINT32" do
+        expect(subject).to eq(described_class::Native::UINT32)
       end
     end
 
     describe ":uint64" do
       subject { super()[:uint64] }
 
-      it "must equal #{described_class}::Native::UInt64" do
-        expect(subject).to eq(described_class::Native::UInt64)
+      it "must equal #{described_class}::Native::UINT64" do
+        expect(subject).to eq(described_class::Native::UINT64)
       end
     end
 
@@ -613,16 +613,16 @@ describe Ronin::Support::Binary::Types do
     describe ":float32" do
       subject { super()[:float32] }
 
-      it "must equal #{described_class}::Native::Float32" do
-        expect(subject).to eq(described_class::Native::Float32)
+      it "must equal #{described_class}::Native::FLOAT32" do
+        expect(subject).to eq(described_class::Native::FLOAT32)
       end
     end
 
     describe ":float64" do
       subject { super()[:float64] }
 
-      it "must equal #{described_class}::Native::Float64" do
-        expect(subject).to eq(described_class::Native::Float64)
+      it "must equal #{described_class}::Native::FLOAT64" do
+        expect(subject).to eq(described_class::Native::FLOAT64)
       end
     end
 
@@ -644,64 +644,64 @@ describe Ronin::Support::Binary::Types do
     describe ":int16_le" do
       subject { super()[:int16_le] }
 
-      it "must equal #{described_class}::LittleEndian::Int16" do
-        expect(subject).to eq(described_class::LittleEndian::Int16)
+      it "must equal #{described_class}::LittleEndian::INT16" do
+        expect(subject).to eq(described_class::LittleEndian::INT16)
       end
     end
 
     describe ":int32_le" do
       subject { super()[:int32_le] }
 
-      it "must equal #{described_class}::LittleEndian::Int32" do
-        expect(subject).to eq(described_class::LittleEndian::Int32)
+      it "must equal #{described_class}::LittleEndian::INT32" do
+        expect(subject).to eq(described_class::LittleEndian::INT32)
       end
     end
 
     describe ":int64_le" do
       subject { super()[:int64_le] }
 
-      it "must equal #{described_class}::LittleEndian::Int64" do
-        expect(subject).to eq(described_class::LittleEndian::Int64)
+      it "must equal #{described_class}::LittleEndian::INT64" do
+        expect(subject).to eq(described_class::LittleEndian::INT64)
       end
     end
 
     describe ":uint16_le" do
       subject { super()[:uint16_le] }
 
-      it "must equal #{described_class}::LittleEndian::UInt16" do
-        expect(subject).to eq(described_class::LittleEndian::UInt16)
+      it "must equal #{described_class}::LittleEndian::UINT16" do
+        expect(subject).to eq(described_class::LittleEndian::UINT16)
       end
     end
 
     describe ":uint32_le" do
       subject { super()[:uint32_le] }
 
-      it "must equal #{described_class}::LittleEndian::UInt32" do
-        expect(subject).to eq(described_class::LittleEndian::UInt32) 
+      it "must equal #{described_class}::LittleEndian::UINT32" do
+        expect(subject).to eq(described_class::LittleEndian::UINT32) 
       end
     end
 
     describe ":uint64_le" do
       subject { super()[:uint64_le] }
 
-      it "must equal #{described_class}::LittleEndian::UInt64" do
-        expect(subject).to eq(described_class::LittleEndian::UInt64)
+      it "must equal #{described_class}::LittleEndian::UINT64" do
+        expect(subject).to eq(described_class::LittleEndian::UINT64)
       end
     end
 
     describe ":float32_le" do
       subject { super()[:float32_le] }
 
-      it "must equal #{described_class}::LittleEndian::Float32" do
-        expect(subject).to eq(described_class::LittleEndian::Float32)
+      it "must equal #{described_class}::LittleEndian::FLOAT32" do
+        expect(subject).to eq(described_class::LittleEndian::FLOAT32)
       end
     end
 
     describe ":float64_le" do
       subject { super()[:float64_le] }
 
-      it "must equal #{described_class}::LittleEndian::Float64" do
-        expect(subject).to eq(described_class::LittleEndian::Float64)
+      it "must equal #{described_class}::LittleEndian::FLOAT64" do
+        expect(subject).to eq(described_class::LittleEndian::FLOAT64)
       end
     end
 
@@ -823,64 +823,64 @@ describe Ronin::Support::Binary::Types do
     describe ":int16_be" do
       subject { super()[:int16_be] }
 
-      it "must equal #{described_class}::BigEndian::Int16" do
-        expect(subject).to eq(described_class::BigEndian::Int16)
+      it "must equal #{described_class}::BigEndian::INT16" do
+        expect(subject).to eq(described_class::BigEndian::INT16)
       end
     end
 
     describe ":int32_be" do
       subject { super()[:int32_be] }
 
-      it "must equal #{described_class}::BigEndian::Int32" do
-        expect(subject).to eq(described_class::BigEndian::Int32)
+      it "must equal #{described_class}::BigEndian::INT32" do
+        expect(subject).to eq(described_class::BigEndian::INT32)
       end
     end
 
     describe ":int64_be" do
       subject { super()[:int64_be] }
 
-      it "must equal #{described_class}::BigEndian::Int64" do
-        expect(subject).to eq(described_class::BigEndian::Int64)
+      it "must equal #{described_class}::BigEndian::INT64" do
+        expect(subject).to eq(described_class::BigEndian::INT64)
       end
     end
 
     describe ":uint16_be" do
       subject { super()[:uint16_be] }
 
-      it "must equal #{described_class}::BigEndian::UInt16" do
-        expect(subject).to eq(described_class::BigEndian::UInt16)
+      it "must equal #{described_class}::BigEndian::UINT16" do
+        expect(subject).to eq(described_class::BigEndian::UINT16)
       end
     end
 
     describe ":uint32_be" do
       subject { super()[:uint32_be] }
 
-      it "must equal #{described_class}::BigEndian::UInt32" do
-        expect(subject).to eq(described_class::BigEndian::UInt32)
+      it "must equal #{described_class}::BigEndian::UINT32" do
+        expect(subject).to eq(described_class::BigEndian::UINT32)
       end
     end
 
     describe ":uint64_be" do
       subject { super()[:uint64_be] }
 
-      it "must equal #{described_class}::BigEndian::UInt64" do
-        expect(subject).to eq(described_class::BigEndian::UInt64)
+      it "must equal #{described_class}::BigEndian::UINT64" do
+        expect(subject).to eq(described_class::BigEndian::UINT64)
       end
     end
 
     describe ":float32_be" do
       subject { super()[:float32_be] }
 
-      it "must equal #{described_class}::BigEndian::Float32" do
-        expect(subject).to eq(described_class::BigEndian::Float32)
+      it "must equal #{described_class}::BigEndian::FLOAT32" do
+        expect(subject).to eq(described_class::BigEndian::FLOAT32)
       end
     end
 
     describe ":float64_be" do
       subject { super()[:float64_be] }
 
-      it "must equal #{described_class}::BigEndian::Float64" do
-        expect(subject).to eq(described_class::BigEndian::Float64)
+      it "must equal #{described_class}::BigEndian::FLOAT64" do
+        expect(subject).to eq(described_class::BigEndian::FLOAT64)
       end
     end
 
@@ -1002,64 +1002,64 @@ describe Ronin::Support::Binary::Types do
     describe ":int16_ne" do
       subject { super()[:int16_ne] }
 
-      it "must equal #{described_class}::Network::Int16" do
-        expect(subject).to eq(described_class::Network::Int16)
+      it "must equal #{described_class}::Network::INT16" do
+        expect(subject).to eq(described_class::Network::INT16)
       end
     end
 
     describe ":int32_ne" do
       subject { super()[:int32_ne] }
 
-      it "must equal #{described_class}::Network::Int32" do
-        expect(subject).to eq(described_class::Network::Int32)
+      it "must equal #{described_class}::Network::INT32" do
+        expect(subject).to eq(described_class::Network::INT32)
       end
     end
 
     describe ":int64_ne" do
       subject { super()[:int64_ne] }
 
-      it "must equal #{described_class}::Network::Int64" do
-        expect(subject).to eq(described_class::Network::Int64)
+      it "must equal #{described_class}::Network::INT64" do
+        expect(subject).to eq(described_class::Network::INT64)
       end
     end
 
     describe ":uint16_ne" do
       subject { super()[:uint16_ne] }
 
-      it "must equal #{described_class}::Network::UInt16" do
-        expect(subject).to eq(described_class::Network::UInt16)
+      it "must equal #{described_class}::Network::UINT16" do
+        expect(subject).to eq(described_class::Network::UINT16)
       end
     end
 
     describe ":uint32_ne" do
       subject { super()[:uint32_ne] }
 
-      it "must equal #{described_class}::Network::UInt32" do
-        expect(subject).to eq(described_class::Network::UInt32)
+      it "must equal #{described_class}::Network::UINT32" do
+        expect(subject).to eq(described_class::Network::UINT32)
       end
     end
 
     describe ":uint64_ne" do
       subject { super()[:uint64_ne] }
 
-      it "must equal #{described_class}::Network::UInt64" do
-        expect(subject).to eq(described_class::Network::UInt64)
+      it "must equal #{described_class}::Network::UINT64" do
+        expect(subject).to eq(described_class::Network::UINT64)
       end
     end
 
     describe ":float32_ne" do
       subject { super()[:float32_ne] }
 
-      it "must equal #{described_class}::Network::Float32" do
-        expect(subject).to eq(described_class::Network::Float32)
+      it "must equal #{described_class}::Network::FLOAT32" do
+        expect(subject).to eq(described_class::Network::FLOAT32)
       end
     end
 
     describe ":float64_ne" do
       subject { super()[:float64_ne] }
 
-      it "must equal #{described_class}::Network::Float64" do
-        expect(subject).to eq(described_class::Network::Float64)
+      it "must equal #{described_class}::Network::FLOAT64" do
+        expect(subject).to eq(described_class::Network::FLOAT64)
       end
     end
 
@@ -1178,64 +1178,64 @@ describe Ronin::Support::Binary::Types do
     describe ":int16_net" do
       subject { super()[:int16_net] }
 
-      it "must equal #{described_class}::Network::Int16" do
-        expect(subject).to eq(described_class::Network::Int16)
+      it "must equal #{described_class}::Network::INT16" do
+        expect(subject).to eq(described_class::Network::INT16)
       end
     end
 
     describe ":int32_net" do
       subject { super()[:int32_net] }
 
-      it "must equal #{described_class}::Network::Int32" do
-        expect(subject).to eq(described_class::Network::Int32)
+      it "must equal #{described_class}::Network::INT32" do
+        expect(subject).to eq(described_class::Network::INT32)
       end
     end
 
     describe ":int64_net" do
       subject { super()[:int64_net] }
 
-      it "must equal #{described_class}::Network::Int64" do
-        expect(subject).to eq(described_class::Network::Int64)
+      it "must equal #{described_class}::Network::INT64" do
+        expect(subject).to eq(described_class::Network::INT64)
       end
     end
 
     describe ":uint16_net" do
       subject { super()[:uint16_net] }
 
-      it "must equal #{described_class}::Network::UInt16" do
-        expect(subject).to eq(described_class::Network::UInt16)
+      it "must equal #{described_class}::Network::UINT16" do
+        expect(subject).to eq(described_class::Network::UINT16)
       end
     end
 
     describe ":uint32_net" do
       subject { super()[:uint32_net] }
 
-      it "must equal #{described_class}::Network::UInt32" do
-        expect(subject).to eq(described_class::Network::UInt32)
+      it "must equal #{described_class}::Network::UINT32" do
+        expect(subject).to eq(described_class::Network::UINT32)
       end
     end
 
     describe ":uint64_net" do
       subject { super()[:uint64_net] }
 
-      it "must equal #{described_class}::Network::UInt64" do
-        expect(subject).to eq(described_class::Network::UInt64)
+      it "must equal #{described_class}::Network::UINT64" do
+        expect(subject).to eq(described_class::Network::UINT64)
       end
     end
 
     describe ":float32_net" do
       subject { super()[:float32_net] }
 
-      it "must equal #{described_class}::Network::Float32" do
-        expect(subject).to eq(described_class::Network::Float32)
+      it "must equal #{described_class}::Network::FLOAT32" do
+        expect(subject).to eq(described_class::Network::FLOAT32)
       end
     end
 
     describe ":float64_net" do
       subject { super()[:float64_net] }
 
-      it "must equal #{described_class}::Network::Float64" do
-        expect(subject).to eq(described_class::Network::Float64)
+      it "must equal #{described_class}::Network::FLOAT64" do
+        expect(subject).to eq(described_class::Network::FLOAT64)
       end
     end
 
@@ -1355,7 +1355,7 @@ describe Ronin::Support::Binary::Types do
   describe "[]" do
     context "when given a valid type name" do
       it "must return the type constant value" do
-        expect(subject[:uint32]).to be(described_class::UInt32)
+        expect(subject[:uint32]).to be(described_class::UINT32)
       end
     end
 

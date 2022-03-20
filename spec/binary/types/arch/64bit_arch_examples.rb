@@ -10,8 +10,8 @@ shared_examples_for "64bit Arch examples" do
   describe "MACHINE_WORD" do
     subject { described_class::MACHINE_WORD }
 
-    it "must equal UInt64" do
-      expect(subject).to be(described_class::UInt64)
+    it "must equal UINT64" do
+      expect(subject).to be(described_class::UINT64)
     end
   end
 

@@ -30,13 +30,13 @@ module Ronin
         include Native
 
         # little-endian types
-        Int16_LE = LittleEndian::Int16
-        Int32_LE = LittleEndian::Int32
-        Int64_LE = LittleEndian::Int64
+        INT16_LE = LittleEndian::INT16
+        INT32_LE = LittleEndian::INT32
+        INT64_LE = LittleEndian::INT64
 
-        UInt16_LE = LittleEndian::UInt16
-        UInt32_LE = LittleEndian::UInt32
-        UInt64_LE = LittleEndian::UInt64
+        UINT16_LE = LittleEndian::UINT16
+        UINT32_LE = LittleEndian::UINT32
+        UINT64_LE = LittleEndian::UINT64
 
         WORD_LE  = LittleEndian::WORD
         DWORD_LE = LittleEndian::DWORD
@@ -44,17 +44,17 @@ module Ronin
 
         MACHINE_WORD_LE = LittleEndian::MACHINE_WORD
 
-        Float32_LE = LittleEndian::Float32
-        Float64_LE = LittleEndian::Float64
+        FLOAT32_LE = LittleEndian::FLOAT32
+        FLOAT64_LE = LittleEndian::FLOAT64
 
         # big-endian types
-        Int16_BE = BigEndian::Int16
-        Int32_BE = BigEndian::Int32
-        Int64_BE = BigEndian::Int64
+        INT16_BE = BigEndian::INT16
+        INT32_BE = BigEndian::INT32
+        INT64_BE = BigEndian::INT64
 
-        UInt16_BE = BigEndian::UInt16
-        UInt32_BE = BigEndian::UInt32
-        UInt64_BE = BigEndian::UInt64
+        UINT16_BE = BigEndian::UINT16
+        UINT32_BE = BigEndian::UINT32
+        UINT64_BE = BigEndian::UINT64
 
         WORD_BE  = BigEndian::WORD
         DWORD_BE = BigEndian::DWORD
@@ -62,17 +62,17 @@ module Ronin
 
         MACHINE_WORD_BE = BigEndian::MACHINE_WORD
 
-        Float32_BE = BigEndian::Float32
-        Float64_BE = BigEndian::Float64
+        FLOAT32_BE = BigEndian::FLOAT32
+        FLOAT64_BE = BigEndian::FLOAT64
 
         # network byte-order types
-        Int16_NE = Network::Int16
-        Int32_NE = Network::Int32
-        Int64_NE = Network::Int64
+        INT16_NE = Network::INT16
+        INT32_NE = Network::INT32
+        INT64_NE = Network::INT64
 
-        UInt16_NE = Network::UInt16
-        UInt32_NE = Network::UInt32
-        UInt64_NE = Network::UInt64
+        UINT16_NE = Network::UINT16
+        UINT32_NE = Network::UINT32
+        UINT64_NE = Network::UINT64
 
         WORD_NE  = Network::WORD
         DWORD_NE = Network::DWORD
@@ -80,50 +80,50 @@ module Ronin
 
         MACHINE_WORD_NE = Network::MACHINE_WORD
 
-        Float32_NE = Network::Float32
-        Float64_NE = Network::Float64
+        FLOAT32_NE = Network::FLOAT32
+        FLOAT64_NE = Network::FLOAT64
 
-        Int16_Net = Network::Int16
-        Int32_Net = Network::Int32
-        Int64_Net = Network::Int64
+        INT16_NET = Network::INT16
+        INT32_NET = Network::INT32
+        INT64_NET = Network::INT64
 
-        UInt16_Net = Network::UInt16
-        UInt32_Net = Network::UInt32
-        UInt64_Net = Network::UInt64
+        UINT16_NET = Network::UINT16
+        UINT32_NET = Network::UINT32
+        UINT64_NET = Network::UINT64
 
-        WORD_Net = Network::WORD
-        DWORD_Net = Network::DWORD
-        QWORD_Net = Network::QWORD
+        WORD_NET = Network::WORD
+        DWORD_NET = Network::DWORD
+        QWORD_NET = Network::QWORD
 
-        MACHINE_WORD_Net = Network::MACHINE_WORD
+        MACHINE_WORD_NET = Network::MACHINE_WORD
 
-        Float32_Net = Network::Float32
-        Float64_Net = Network::Float64
+        FLOAT32_NET = Network::FLOAT32
+        FLOAT64_NET = Network::FLOAT64
 
         # All types (native, little-endian, big-endian, and network byte-order).
         TYPES = Native::TYPES.merge(
           # little-endian types
-          int16_le: LittleEndian::Int16,
-          int32_le: LittleEndian::Int32,
-          int64_le: LittleEndian::Int64,
+          int16_le: LittleEndian::INT16,
+          int32_le: LittleEndian::INT32,
+          int64_le: LittleEndian::INT64,
 
-          short_le:     LittleEndian::Int16,
-          int_le:       LittleEndian::Int32,
-          long_le:      if Native::ADDRESS_SIZE == 8 then LittleEndian::Int64
-                        else                              LittleEndian::Int32
+          short_le:     LittleEndian::INT16,
+          int_le:       LittleEndian::INT32,
+          long_le:      if Native::ADDRESS_SIZE == 8 then LittleEndian::INT64
+                        else                              LittleEndian::INT32
                         end,
-          long_long_le: LittleEndian::Int64,
+          long_long_le: LittleEndian::INT64,
 
-          uint16_le: LittleEndian::UInt16,
-          uint32_le: LittleEndian::UInt32,
-          uint64_le: LittleEndian::UInt64,
+          uint16_le: LittleEndian::UINT16,
+          uint32_le: LittleEndian::UINT32,
+          uint64_le: LittleEndian::UINT64,
 
-          ushort_le:     LittleEndian::UInt16,
-          uint_le:       LittleEndian::UInt32,
-          ulong_le:      if Native::ADDRESS_SIZE == 8 then LittleEndian::UInt64
-                         else                              LittleEndian::UInt32
+          ushort_le:     LittleEndian::UINT16,
+          uint_le:       LittleEndian::UINT32,
+          ulong_le:      if Native::ADDRESS_SIZE == 8 then LittleEndian::UINT64
+                         else                              LittleEndian::UINT32
                          end,
-          ulong_long_le: LittleEndian::UInt64,
+          ulong_long_le: LittleEndian::UINT64,
 
           word_le:  WORD_LE,
           dword_le: DWORD_LE,
@@ -132,34 +132,34 @@ module Ronin
           machine_word_le: LittleEndian::MACHINE_WORD,
           pointer_le:      LittleEndian::MACHINE_WORD,
 
-          float32_le: LittleEndian::Float32,
-          float64_le: LittleEndian::Float64,
+          float32_le: LittleEndian::FLOAT32,
+          float64_le: LittleEndian::FLOAT64,
 
-          float_le:   LittleEndian::Float32,
-          double_le:  LittleEndian::Float64,
+          float_le:   LittleEndian::FLOAT32,
+          double_le:  LittleEndian::FLOAT64,
 
           # big-endian types
-          int16_be: BigEndian::Int16,
-          int32_be: BigEndian::Int32,
-          int64_be: BigEndian::Int64,
+          int16_be: BigEndian::INT16,
+          int32_be: BigEndian::INT32,
+          int64_be: BigEndian::INT64,
 
-          short_be:     BigEndian::Int16,
-          int_be:       BigEndian::Int32,
-          long_be:      if Native::ADDRESS_SIZE == 8 then BigEndian::Int64
-                        else                              BigEndian::Int32
+          short_be:     BigEndian::INT16,
+          int_be:       BigEndian::INT32,
+          long_be:      if Native::ADDRESS_SIZE == 8 then BigEndian::INT64
+                        else                              BigEndian::INT32
                         end,
-          long_long_be: BigEndian::Int64,
+          long_long_be: BigEndian::INT64,
 
-          uint16_be: BigEndian::UInt16,
-          uint32_be: BigEndian::UInt32,
-          uint64_be: BigEndian::UInt64,
+          uint16_be: BigEndian::UINT16,
+          uint32_be: BigEndian::UINT32,
+          uint64_be: BigEndian::UINT64,
 
-          ushort_be:     BigEndian::UInt16,
-          uint_be:       BigEndian::UInt32,
-          ulong_be:      if Native::ADDRESS_SIZE == 8 then BigEndian::UInt64
-                         else                              BigEndian::UInt32
+          ushort_be:     BigEndian::UINT16,
+          uint_be:       BigEndian::UINT32,
+          ulong_be:      if Native::ADDRESS_SIZE == 8 then BigEndian::UINT64
+                         else                              BigEndian::UINT32
                          end,
-          ulong_long_be: BigEndian::UInt64,
+          ulong_long_be: BigEndian::UINT64,
 
           word_be:  WORD_BE,
           dword_be: DWORD_BE,
@@ -168,34 +168,34 @@ module Ronin
           machine_word_be: BigEndian::MACHINE_WORD,
           pointer_be:      BigEndian::MACHINE_WORD,
 
-          float32_be: BigEndian::Float32,
-          float64_be: BigEndian::Float64,
+          float32_be: BigEndian::FLOAT32,
+          float64_be: BigEndian::FLOAT64,
 
-          float_be:   BigEndian::Float32,
-          double_be:  BigEndian::Float64,
+          float_be:   BigEndian::FLOAT32,
+          double_be:  BigEndian::FLOAT64,
 
           # network byte-order types
-          int16_ne: Network::Int16,
-          int32_ne: Network::Int32,
-          int64_ne: Network::Int64,
+          int16_ne: Network::INT16,
+          int32_ne: Network::INT32,
+          int64_ne: Network::INT64,
 
-          short_ne:     Network::Int16,
-          int_ne:       Network::Int32,
-          long_ne:      if Native::ADDRESS_SIZE == 8 then Network::Int64
-                        else                              Network::Int32
+          short_ne:     Network::INT16,
+          int_ne:       Network::INT32,
+          long_ne:      if Native::ADDRESS_SIZE == 8 then Network::INT64
+                        else                              Network::INT32
                         end,
-          long_long_ne: Network::Int64,
+          long_long_ne: Network::INT64,
 
-          uint16_ne: Network::UInt16,
-          uint32_ne: Network::UInt32,
-          uint64_ne: Network::UInt64,
+          uint16_ne: Network::UINT16,
+          uint32_ne: Network::UINT32,
+          uint64_ne: Network::UINT64,
 
-          ushort_ne:     Network::UInt16,
-          uint_ne:       Network::UInt32,
-          ulong_ne:      if Native::ADDRESS_SIZE == 8 then Network::UInt64
-                         else                              Network::UInt32
+          ushort_ne:     Network::UINT16,
+          uint_ne:       Network::UINT32,
+          ulong_ne:      if Native::ADDRESS_SIZE == 8 then Network::UINT64
+                         else                              Network::UINT32
                          end,
-          ulong_long_ne: Network::UInt64,
+          ulong_long_ne: Network::UINT64,
 
           word_ne:  WORD_NE,
           dword_ne: DWORD_NE,
@@ -204,47 +204,47 @@ module Ronin
           machine_word_ne: Network::MACHINE_WORD,
           pointer_ne:      Network::MACHINE_WORD,
 
-          float32_ne: Network::Float32,
-          float64_ne: Network::Float64,
+          float32_ne: Network::FLOAT32,
+          float64_ne: Network::FLOAT64,
 
-          float_ne:   Network::Float32,
-          double_ne:  Network::Float64,
+          float_ne:   Network::FLOAT32,
+          double_ne:  Network::FLOAT64,
 
           # `_net` -> `_ne` aliases
-          int16_net: Network::Int16,
-          int32_net: Network::Int32,
-          int64_net: Network::Int64,
+          int16_net: Network::INT16,
+          int32_net: Network::INT32,
+          int64_net: Network::INT64,
 
-          short_net:     Network::Int16,
-          int_net:       Network::Int32,
-          long_net:      if Native::ADDRESS_SIZE == 8 then Network::Int64
-                         else                              Network::Int32
+          short_net:     Network::INT16,
+          int_net:       Network::INT32,
+          long_net:      if Native::ADDRESS_SIZE == 8 then Network::INT64
+                         else                              Network::INT32
                          end,
-          long_long_net: Network::Int64,
+          long_long_net: Network::INT64,
 
-          uint16_net: Network::UInt16,
-          uint32_net: Network::UInt32,
-          uint64_net: Network::UInt64,
+          uint16_net: Network::UINT16,
+          uint32_net: Network::UINT32,
+          uint64_net: Network::UINT64,
 
-          ushort_net:     Network::UInt16,
-          uint_net:       Network::UInt32,
-          ulong_net:      if Native::ADDRESS_SIZE == 8 then Network::UInt64
-                          else                              Network::UInt32
+          ushort_net:     Network::UINT16,
+          uint_net:       Network::UINT32,
+          ulong_net:      if Native::ADDRESS_SIZE == 8 then Network::UINT64
+                          else                              Network::UINT32
                           end,
-          ulong_long_net: Network::UInt64,
+          ulong_long_net: Network::UINT64,
 
-          word_net:  WORD_Net,
-          dword_net: DWORD_Net,
-          qword_net: QWORD_Net,
+          word_net:  WORD_NET,
+          dword_net: DWORD_NET,
+          qword_net: QWORD_NET,
 
           machine_word_net: Network::MACHINE_WORD,
           pointer_net:      Network::MACHINE_WORD,
 
-          float32_net: Network::Float32,
-          float64_net: Network::Float64,
+          float32_net: Network::FLOAT32,
+          float64_net: Network::FLOAT64,
 
-          float_net:   Network::Float32,
-          double_net:  Network::Float64
+          float_net:   Network::FLOAT32,
+          double_net:  Network::FLOAT64
         )
 
         # Represents the different endian type systems.

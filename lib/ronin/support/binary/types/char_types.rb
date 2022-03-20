@@ -26,13 +26,13 @@ module Ronin
       module Types
         module CharTypes
           # The `char` type.
-          Char = CharType.new(signed: true, pack_string: 'Z')
+          CHAR = CharType.new(signed: true, pack_string: 'Z')
 
           # The `unsigned char` type.
-          UChar = CharType.new(signed: false, pack_string: 'a')
+          UCHAR = CharType.new(signed: false, pack_string: 'a')
 
           # The null-terminated C string type.
-          CString = StringType.new(Char)
+          CSTRING = StringType.new(CHAR)
         end
       end
     end

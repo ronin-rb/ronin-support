@@ -32,15 +32,15 @@ module Ronin
               ADDRESS_SIZE = 8
 
               # The "machine word" type.
-              MACHINE_WORD = LittleEndian::UInt64
+              MACHINE_WORD = LittleEndian::UINT64
 
               # The MIPS64 types.
               TYPES = LittleEndian::TYPES.merge(
-                long:  LittleEndian::Int64,
-                ulong: LittleEndian::UInt64,
+                long:  LittleEndian::INT64,
+                ulong: LittleEndian::UINT64,
 
-                machine_word: LittleEndian::UInt64,
-                pointer:      LittleEndian::UInt64
+                machine_word: LittleEndian::UINT64,
+                pointer:      LittleEndian::UINT64
               )
 
               #

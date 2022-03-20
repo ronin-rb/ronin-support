@@ -5,9 +5,9 @@ require 'ronin/support/binary/types'
 describe Ronin::Support::Binary::Types::StructType do
   let(:members) do
     {
-      a: Ronin::Support::Binary::Types::Char,
-      b: Ronin::Support::Binary::Types::Int16,
-      c: Ronin::Support::Binary::Types::UInt32
+      a: Ronin::Support::Binary::Types::CHAR,
+      b: Ronin::Support::Binary::Types::INT16,
+      c: Ronin::Support::Binary::Types::UINT32
     }
   end
 
@@ -50,9 +50,9 @@ describe Ronin::Support::Binary::Types::StructType do
       context "when one of the fields is a Ronin::Support::Binary::Types::UnboundedArrayType" do
         let(:members) do
           {
-            a: Ronin::Support::Binary::Types::Char,
-            b: Ronin::Support::Binary::Types::Int16,
-            c: Ronin::Support::Binary::Types::UInt32[]
+            a: Ronin::Support::Binary::Types::CHAR,
+            b: Ronin::Support::Binary::Types::INT16,
+            c: Ronin::Support::Binary::Types::UINT32[]
           }
         end
 
@@ -92,9 +92,9 @@ describe Ronin::Support::Binary::Types::StructType do
       let(:array_length) { 10 }
       let(:members) do
         {
-          a: Ronin::Support::Binary::Types::Char,
-          b: Ronin::Support::Binary::Types::Int16,
-          c: Ronin::Support::Binary::Types::UInt32[array_length]
+          a: Ronin::Support::Binary::Types::CHAR,
+          b: Ronin::Support::Binary::Types::INT16,
+          c: Ronin::Support::Binary::Types::UINT32[array_length]
         }
       end
 
@@ -108,9 +108,9 @@ describe Ronin::Support::Binary::Types::StructType do
     context "when one of the #members is an UnboundedArrayType" do
       let(:members) do
         {
-          a: Ronin::Support::Binary::Types::Char,
-          b: Ronin::Support::Binary::Types::Int16,
-          c: Ronin::Support::Binary::Types::UInt32[]
+          a: Ronin::Support::Binary::Types::CHAR,
+          b: Ronin::Support::Binary::Types::INT16,
+          c: Ronin::Support::Binary::Types::UINT32[]
         }
       end
 

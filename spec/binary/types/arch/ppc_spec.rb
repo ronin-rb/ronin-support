@@ -11,7 +11,7 @@ describe Ronin::Support::Binary::Types::Arch::PPC do
   describe "[]" do
     context "when given a valid type name" do
       it "must return the type constant value" do
-        expect(subject[:uint32]).to be(described_class::UInt32)
+        expect(subject[:uint32]).to be(described_class::UINT32)
       end
     end
 

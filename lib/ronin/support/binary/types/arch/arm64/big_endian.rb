@@ -32,15 +32,15 @@ module Ronin
               ADDRESS_SIZE = 8
 
               # The "machine word" type.
-              MACHINE_WORD = BigEndian::UInt64
+              MACHINE_WORD = BigEndian::UINT64
 
               # The ARM64 types.
               TYPES = BigEndian::TYPES.merge(
-                long:  BigEndian::Int64,
-                ulong: BigEndian::UInt64,
+                long:  BigEndian::INT64,
+                ulong: BigEndian::UINT64,
 
-                machine_word: BigEndian::UInt64,
-                pointer:      BigEndian::UInt64
+                machine_word: BigEndian::UINT64,
+                pointer:      BigEndian::UINT64
               )
 
               #

@@ -24,8 +24,8 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
-  describe "Int8" do
-    subject { described_class::Int8 }
+  describe "INT8" do
+    subject { described_class::INT8 }
 
     it do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::Int8Type)
@@ -36,8 +36,8 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
-  describe "Int16" do
-    subject { described_class::Int16 }
+  describe "INT16" do
+    subject { described_class::INT16 }
 
     it do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::Int16Type)
@@ -52,8 +52,8 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
-  describe "Int32" do
-    subject { described_class::Int32 }
+  describe "INT32" do
+    subject { described_class::INT32 }
 
     it do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::Int32Type)
@@ -68,8 +68,8 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
-  describe "Int64" do
-    subject { described_class::Int64 }
+  describe "INT64" do
+    subject { described_class::INT64 }
 
     it do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::Int64Type)
@@ -84,8 +84,8 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
-  describe "UInt8" do
-    subject { described_class::UInt8 }
+  describe "UINT8" do
+    subject { described_class::UINT8 }
 
     it do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::UInt8Type)
@@ -96,14 +96,14 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
-  describe "Byte" do
-    subject { described_class::Byte }
+  describe "BYTE" do
+    subject { described_class::BYTE }
 
-    it { expect(subject).to eq(described_class::UInt8) }
+    it { expect(subject).to eq(described_class::UINT8) }
   end
 
-  describe "UInt16" do
-    subject { described_class::UInt16 }
+  describe "UINT16" do
+    subject { described_class::UINT16 }
 
     it do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::UInt16Type)
@@ -118,8 +118,8 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
-  describe "UInt32" do
-    subject { described_class::UInt32 }
+  describe "UINT32" do
+    subject { described_class::UINT32 }
 
     it do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::UInt32Type)
@@ -134,8 +134,8 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
-  describe "UInt64" do
-    subject { described_class::UInt64 }
+  describe "UINT64" do
+    subject { described_class::UINT64 }
 
     it do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::UInt64Type)
@@ -150,8 +150,8 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
-  describe "Float32" do
-    subject { described_class::Float32 }
+  describe "FLOAT32" do
+    subject { described_class::FLOAT32 }
 
     it do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::Float32Type)
@@ -169,19 +169,19 @@ describe Ronin::Support::Binary::Types::Native do
   describe "WORD" do
     subject { described_class::WORD }
 
-    it { expect(subject).to eq(described_class::UInt16) }
+    it { expect(subject).to eq(described_class::UINT16) }
   end
 
   describe "DWORD" do
     subject { described_class::DWORD }
 
-    it { expect(subject).to eq(described_class::UInt32) }
+    it { expect(subject).to eq(described_class::UINT32) }
   end
 
   describe "QWORD" do
     subject { described_class::QWORD }
 
-    it { expect(subject).to eq(described_class::UInt64) }
+    it { expect(subject).to eq(described_class::UINT64) }
   end
 
   describe "MACHINE_WORD" do
@@ -189,21 +189,21 @@ describe Ronin::Support::Binary::Types::Native do
 
     if described_class::ADDRESS_SIZE == 8
       context "when ADDRESS_SIZE is 8" do
-        it "must return UInt64" do
-          expect(subject).to be(described_class::UInt64)
+        it "must return UINT64" do
+          expect(subject).to be(described_class::UINT64)
         end
       end
     else
       context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-        it "must be an alias to UInt32" do
-          expect(subject).to be(described_class::UInt32)
+        it "must be an alias to UINT32" do
+          expect(subject).to be(described_class::UINT32)
         end
       end
     end
   end
 
-  describe "Float64" do
-    subject { described_class::Float64 }
+  describe "FLOAT64" do
+    subject { described_class::FLOAT64 }
 
     it do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::Float64Type)
@@ -230,48 +230,48 @@ describe Ronin::Support::Binary::Types::Native do
     describe ":char" do
       subject { super()[:char] }
 
-      it "must equal #{described_class}::Char" do
-        expect(subject).to eq(described_class::Char)
+      it "must equal #{described_class}::CHAR" do
+        expect(subject).to eq(described_class::CHAR)
       end
     end
 
     describe ":uchar" do
       subject { super()[:uchar] }
 
-      it "must equal #{described_class}::UChar" do
-        expect(subject).to eq(described_class::UChar)
+      it "must equal #{described_class}::UCHAR" do
+        expect(subject).to eq(described_class::UCHAR)
       end
     end
 
     describe ":int8" do
       subject { super()[:int8] }
 
-      it "must equal #{described_class}::Int8" do
-        expect(subject).to eq(described_class::Int8)
+      it "must equal #{described_class}::INT8" do
+        expect(subject).to eq(described_class::INT8)
       end
     end
 
     describe ":uint8" do
       subject { super()[:uint8] }
 
-      it "must equal #{described_class}::UInt8" do
-        expect(subject).to eq(described_class::UInt8)
+      it "must equal #{described_class}::UINT8" do
+        expect(subject).to eq(described_class::UINT8)
       end
     end
 
     describe ":int16" do
       subject { super()[:int16] }
 
-      it "must equal #{described_class}::Int16" do
-        expect(subject).to eq(described_class::Int16)
+      it "must equal #{described_class}::INT16" do
+        expect(subject).to eq(described_class::INT16)
       end
     end
 
     describe ":uint16" do
       subject { super()[:uint16] }
 
-      it "must equal #{described_class}::UInt16" do
-        expect(subject).to eq(described_class::UInt16)
+      it "must equal #{described_class}::UINT16" do
+        expect(subject).to eq(described_class::UINT16)
       end
     end
 
@@ -290,16 +290,16 @@ describe Ronin::Support::Binary::Types::Native do
     describe ":int32" do
       subject { super()[:int32] }
 
-      it "must equal #{described_class}::Int32" do
-        expect(subject).to eq(described_class::Int32)
+      it "must equal #{described_class}::INT32" do
+        expect(subject).to eq(described_class::INT32)
       end
     end
 
     describe ":uint32" do
       subject { super()[:uint32] }
 
-      it "must equal #{described_class}::UInt32" do
-        expect(subject).to eq(described_class::UInt32)
+      it "must equal #{described_class}::UINT32" do
+        expect(subject).to eq(described_class::UINT32)
       end
     end
 
@@ -350,16 +350,16 @@ describe Ronin::Support::Binary::Types::Native do
     describe ":int64" do
       subject { super()[:int64] }
 
-      it "must equal #{described_class}::Int64" do
-        expect(subject).to eq(described_class::Int64)
+      it "must equal #{described_class}::INT64" do
+        expect(subject).to eq(described_class::INT64)
       end
     end
 
     describe ":uint64" do
       subject { super()[:uint64] }
 
-      it "must equal #{described_class}::UInt64" do
-        expect(subject).to eq(described_class::UInt64)
+      it "must equal #{described_class}::UINT64" do
+        expect(subject).to eq(described_class::UINT64)
       end
     end
 
@@ -418,16 +418,16 @@ describe Ronin::Support::Binary::Types::Native do
     describe ":float32" do
       subject { super()[:float32] }
 
-      it "must equal #{described_class}::Float32" do
-        expect(subject).to eq(described_class::Float32)
+      it "must equal #{described_class}::FLOAT32" do
+        expect(subject).to eq(described_class::FLOAT32)
       end
     end
 
     describe ":float64" do
       subject { super()[:float64] }
 
-      it "must equal #{described_class}::Float64" do
-        expect(subject).to eq(described_class::Float64)
+      it "must equal #{described_class}::FLOAT64" do
+        expect(subject).to eq(described_class::FLOAT64)
       end
     end
 
@@ -447,7 +447,7 @@ describe Ronin::Support::Binary::Types::Native do
   describe ".[]" do
     context "when given a valid type name" do
       it "must return the type constant value" do
-        expect(subject[:uint32]).to be(described_class::UInt32)
+        expect(subject[:uint32]).to be(described_class::UINT32)
       end
     end
 

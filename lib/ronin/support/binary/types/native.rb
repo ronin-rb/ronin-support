@@ -53,81 +53,81 @@ module Ronin
                          end
 
           # The `int8_t` type.
-          Int8 = Int8Type.new
+          INT8 = Int8Type.new
 
           # The `int16_t` type (native-endianness).
-          Int16 = Int16Type.new(endian: ENDIAN, pack_string: 's')
+          INT16 = Int16Type.new(endian: ENDIAN, pack_string: 's')
 
           # The `int32_t` type (native-endianness).
-          Int32 = Int32Type.new(endian: ENDIAN, pack_string: 'l')
+          INT32 = Int32Type.new(endian: ENDIAN, pack_string: 'l')
 
           # The `int64_t` type (native-endianness).
-          Int64 = Int64Type.new(endian: ENDIAN, pack_string: 'q')
+          INT64 = Int64Type.new(endian: ENDIAN, pack_string: 'q')
 
           # The `uint8_t` type.
-          UInt8 = UInt8Type.new
+          UINT8 = UInt8Type.new
 
           # The `byte` type.
-          Byte = UInt8
+          BYTE = UINT8
 
           # The `uint16_t` type (native-endianness).
-          UInt16 = UInt16Type.new(endian: ENDIAN, pack_string: 'S')
+          UINT16 = UInt16Type.new(endian: ENDIAN, pack_string: 'S')
 
           # The "word" type (16-bit unsigned integer).
-          WORD = UInt16
+          WORD = UINT16
 
           # The `uint32_t` type (native-endianness).
-          UInt32 = UInt32Type.new(endian: ENDIAN, pack_string: 'L')
+          UINT32 = UInt32Type.new(endian: ENDIAN, pack_string: 'L')
 
           # The "dword" type (32-bit unsigned integer).
-          DWORD = UInt32
+          DWORD = UINT32
 
           # The `uint64_t` type (native-endianness).
-          UInt64 = UInt64Type.new(endian: ENDIAN, pack_string: 'Q')
+          UINT64 = UInt64Type.new(endian: ENDIAN, pack_string: 'Q')
 
           # The "qword" type (64-bit unsigned integer).
-          QWORD = UInt64
+          QWORD = UINT64
 
           # The "machine word" type.
           #
           # @return [UInt64, UInt32]
           #   {UInt64} on 64-bit systems and {UInt32} on 32-bit systems.
-          MACHINE_WORD = if ADDRESS_SIZE == 8 then UInt64
-                         else                      UInt32
+          MACHINE_WORD = if ADDRESS_SIZE == 8 then UINT64
+                         else                      UINT32
                          end
 
           # The `float` type (native-endianness).
-          Float32 = Float32Type.new(endian: ENDIAN, pack_string: 'f')
+          FLOAT32 = Float32Type.new(endian: ENDIAN, pack_string: 'f')
 
           # The `double` type (native-endianness).
-          Float64 = Float64Type.new(endian: ENDIAN,pack_string: 'd')
+          FLOAT64 = Float64Type.new(endian: ENDIAN,pack_string: 'd')
 
           # The native types.
           TYPES = {
-            int8:  Int8,
-            int16: Int16,
-            int32: Int32,
-            int64: Int64,
+            int8:  INT8,
+            int16: INT16,
+            int32: INT32,
+            int64: INT64,
 
-            short:     Int16,
-            int:       Int32,
-            long:      if ADDRESS_SIZE == 8 then Int64
-                       else                      Int32
+            short:     INT16,
+            int:       INT32,
+            long:      if ADDRESS_SIZE == 8 then INT64
+                       else                      INT32
                        end,
-            long_long: Int64,
+            long_long: INT64,
 
-            uint8:  UInt8,
-            uint16: UInt16,
-            uint32: UInt32,
-            uint64: UInt64,
+            uint8:  UINT8,
+            uint16: UINT16,
+            uint32: UINT32,
+            uint64: UINT64,
 
-            byte:       UInt8,
-            ushort:     UInt16,
-            uint:       UInt32,
-            ulong:      if ADDRESS_SIZE == 8 then UInt64
-                        else                      UInt32
+            byte:       UINT8,
+            ushort:     UINT16,
+            uint:       UINT32,
+            ulong:      if ADDRESS_SIZE == 8 then UINT64
+                        else                      UINT32
                         end,
-            ulong_long: UInt64,
+            ulong_long: UINT64,
 
             word:  WORD,
             dword: DWORD,
@@ -136,17 +136,17 @@ module Ronin
             machine_word: MACHINE_WORD,
             pointer:      MACHINE_WORD,
 
-            float32: Float32,
-            float64: Float64,
+            float32: FLOAT32,
+            float64: FLOAT64,
 
-            float:   Float32,
-            double:  Float64,
+            float:   FLOAT32,
+            double:  FLOAT64,
 
-            char:  Char,
-            uchar: UChar,
+            char:  CHAR,
+            uchar: UCHAR,
 
-            cstring: CString,
-            string:  CString
+            cstring: CSTRING,
+            string:  CSTRING
           }
 
           #

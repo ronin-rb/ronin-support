@@ -31,15 +31,15 @@ module Ronin
             ADDRESS_SIZE = 4
 
             # The "machine word" type.
-            MACHINE_WORD = BigEndian::UInt32
+            MACHINE_WORD = BigEndian::UINT32
 
             # The MIPS types.
             TYPES = BigEndian::TYPES.merge(
-              long:  BigEndian::Int32,
-              ulong: BigEndian::UInt32,
+              long:  BigEndian::INT32,
+              ulong: BigEndian::UINT32,
 
-              machine_word: BigEndian::UInt32,
-              pointer:      BigEndian::UInt32
+              machine_word: BigEndian::UINT32,
+              pointer:      BigEndian::UINT32
             )
 
             #

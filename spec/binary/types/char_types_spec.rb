@@ -3,7 +3,7 @@ require 'ronin/support/binary/types/char_types'
 
 describe Ronin::Support::Binary::Types::CharTypes do
   describe "Char" do
-    subject { described_class::Char }
+    subject { described_class::CHAR }
 
     it do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::CharType)
@@ -15,7 +15,7 @@ describe Ronin::Support::Binary::Types::CharTypes do
   end
 
   describe "UChar" do
-    subject { described_class::UChar }
+    subject { described_class::UCHAR }
 
     it do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::CharType)
@@ -27,14 +27,14 @@ describe Ronin::Support::Binary::Types::CharTypes do
   end
 
   describe "CString" do
-    subject { described_class::CString }
+    subject { described_class::CSTRING }
 
     it do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::StringType)
     end
 
-    it "must have a #type of Char" do
-      expect(subject.type).to be(described_class::Char)
+    it "must have a #type of CHAR" do
+      expect(subject.type).to be(described_class::CHAR)
     end
   end
 end
