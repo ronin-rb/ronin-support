@@ -7,6 +7,22 @@ shared_examples_for "32bit Arch examples" do
     it { expect(subject).to eq(4) }
   end
 
+  describe "LONG" do
+    subject { described_class::LONG }
+
+    it "must equal INT32" do
+      expect(subject).to be(described_class::INT32)
+    end
+  end
+
+  describe "ULONG" do
+    subject { described_class::ULONG }
+
+    it "must equal UINT32" do
+      expect(subject).to be(described_class::UINT32)
+    end
+  end
+
   describe "MACHINE_WORD" do
     subject { described_class::MACHINE_WORD }
 
@@ -19,14 +35,14 @@ shared_examples_for "32bit Arch examples" do
     subject { described_class::TYPES }
 
     describe ":long" do
-      it "must be an alias to :int32" do
-        expect(subject[:long]).to be(subject[:int32])
+      it "must equal LONG" do
+        expect(subject[:long]).to eq(described_class::LONG)
       end
     end
 
     describe ":ulong" do
-      it "must be an alias to :uint32" do
-        expect(subject[:ulong]).to be(subject[:uint32])
+      it "must equal ULONG" do
+        expect(subject[:ulong]).to eq(described_class::ULONG)
       end
     end
 

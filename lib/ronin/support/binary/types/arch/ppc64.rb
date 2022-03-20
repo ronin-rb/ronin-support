@@ -30,16 +30,22 @@ module Ronin
             # The size of a pointer in bytes on PPC64.
             ADDRESS_SIZE = 8
 
+            # The `long` type.
+            LONG = BigEndian::INT64
+
+            # The `unsigned long` type.
+            ULONG = BigEndian::UINT64
+
             # The "machine word" type.
             MACHINE_WORD = BigEndian::UINT64
 
             # The PPC64 types.
             TYPES = BigEndian::TYPES.merge(
-              long:  BigEndian::INT64,
-              ulong: BigEndian::UINT64,
+              long:  self::LONG,
+              ulong: self::ULONG,
 
-              machine_word: BigEndian::UINT64,
-              pointer:      BigEndian::UINT64
+              machine_word: self::MACHINE_WORD,
+              pointer:      self::MACHINE_WORD
             )
 
             #

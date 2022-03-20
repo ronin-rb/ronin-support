@@ -30,16 +30,22 @@ module Ronin
             # The size of a pointer in bytes on ARM.
             ADDRESS_SIZE = 4
 
+            # The `long` type.
+            LONG = LittleEndian::INT32
+
+            # The `unsigned long` type.
+            ULONG = LittleEndian::UINT32
+
             # The "machine word" type.
-            MACHINE_WORD = UINT32
+            MACHINE_WORD = LittleEndian::UINT32
 
             # The ARM types.
             TYPES = LittleEndian::TYPES.merge(
-              long:  LittleEndian::INT32,
-              ulong: LittleEndian::UINT32,
+              long:  self::LONG,
+              ulong: self::ULONG,
 
-              machine_word: LittleEndian::UINT32,
-              pointer:      LittleEndian::UINT32
+              machine_word: self::MACHINE_WORD,
+              pointer:      self::MACHINE_WORD
             )
 
             #

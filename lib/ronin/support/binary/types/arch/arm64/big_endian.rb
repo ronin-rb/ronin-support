@@ -31,16 +31,22 @@ module Ronin
               # The size of a pointer in bytes on ARM64 (big-endian).
               ADDRESS_SIZE = 8
 
+              # The `long` type.
+              LONG = Types::BigEndian::INT64
+
+              # The `unsigned long` type.
+              ULONG = Types::BigEndian::UINT64
+
               # The "machine word" type.
-              MACHINE_WORD = BigEndian::UINT64
+              MACHINE_WORD = Types::BigEndian::UINT64
 
               # The ARM64 types.
-              TYPES = BigEndian::TYPES.merge(
-                long:  BigEndian::INT64,
-                ulong: BigEndian::UINT64,
+              TYPES = Types::BigEndian::TYPES.merge(
+                long:  self::LONG,
+                ulong: self::ULONG,
 
-                machine_word: BigEndian::UINT64,
-                pointer:      BigEndian::UINT64
+                machine_word: self::MACHINE_WORD,
+                pointer:      self::MACHINE_WORD
               )
 
               #

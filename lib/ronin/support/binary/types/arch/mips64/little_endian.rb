@@ -31,16 +31,22 @@ module Ronin
               # The size of a pointer in bytes on MIPS64 (little-endian).
               ADDRESS_SIZE = 8
 
+              # The `long` type.
+              LONG = Types::LittleEndian::INT64
+
+              # The `unsigned long` type.
+              ULONG = Types::LittleEndian::UINT64
+
               # The "machine word" type.
-              MACHINE_WORD = LittleEndian::UINT64
+              MACHINE_WORD = Types::LittleEndian::UINT64
 
               # The MIPS64 types.
-              TYPES = LittleEndian::TYPES.merge(
-                long:  LittleEndian::INT64,
-                ulong: LittleEndian::UINT64,
+              TYPES = Types::LittleEndian::TYPES.merge(
+                long:  self::LONG,
+                ulong: self::ULONG,
 
-                machine_word: LittleEndian::UINT64,
-                pointer:      LittleEndian::UINT64
+                machine_word: self::MACHINE_WORD,
+                pointer:      self::MACHINE_WORD
               )
 
               #

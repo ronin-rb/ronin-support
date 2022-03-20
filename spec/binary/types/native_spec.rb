@@ -84,6 +84,42 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
+  describe "SHORT" do
+    subject { described_class::SHORT }
+
+    it { expect(subject).to eq(described_class::INT16) }
+  end
+
+  describe "INT" do
+    subject { described_class::INT }
+
+    it { expect(subject).to eq(described_class::INT32) }
+  end
+
+  describe "LONG" do
+    subject { described_class::LONG }
+
+    if described_class::ADDRESS_SIZE == 8
+      context "when ADDRESS_SIZE is 8" do
+        it "must be an alias to INT64" do
+          expect(subject).to eq(described_class::INT64)
+        end
+      end
+    else
+      context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
+        it "must be an alias to INT32" do
+          expect(subject).to eq(described_class::INT32)
+        end
+      end
+    end
+  end
+
+  describe "LONG_LONG" do
+    subject { described_class::LONG_LONG }
+
+    it { expect(subject).to eq(described_class::INT64) }
+  end
+
   describe "UINT8" do
     subject { described_class::UINT8 }
 
@@ -94,12 +130,6 @@ describe Ronin::Support::Binary::Types::Native do
     it "must have a #pack_string of 'C'" do
       expect(subject.pack_string).to eq('C')
     end
-  end
-
-  describe "BYTE" do
-    subject { described_class::BYTE }
-
-    it { expect(subject).to eq(described_class::UINT8) }
   end
 
   describe "UINT16" do
@@ -148,6 +178,48 @@ describe Ronin::Support::Binary::Types::Native do
     it "must have a #pack_string of 'Q'" do
       expect(subject.pack_string).to eq('Q')
     end
+  end
+
+  describe "BYTE" do
+    subject { described_class::BYTE }
+
+    it { expect(subject).to eq(described_class::UINT8) }
+  end
+
+  describe "USHORT" do
+    subject { described_class::USHORT}
+
+    it { expect(subject).to eq(described_class::UINT16) }
+  end
+
+  describe "UINT" do
+    subject { described_class::UINT}
+
+    it { expect(subject).to eq(described_class::UINT32) }
+  end
+
+  describe "ULONG" do
+    subject { described_class::ULONG }
+
+    if described_class::ADDRESS_SIZE == 8
+      context "when ADDRESS_SIZE is 8" do
+        it "must be an alias to UINT64" do
+          expect(subject).to eq(described_class::UINT64)
+        end
+      end
+    else
+      context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
+        it "must be an alias to UINT32" do
+          expect(subject).to eq(described_class::UINT32)
+        end
+      end
+    end
+  end
+
+  describe "ULONG_LONG" do
+    subject { described_class::ULONG_LONG }
+
+    it { expect(subject).to eq(described_class::UINT64) }
   end
 
   describe "WORD" do
@@ -234,8 +306,10 @@ describe Ronin::Support::Binary::Types::Native do
     subject { described_class::TYPES }
 
     describe ":byte" do
-      it "must be an alias to uint8" do
-        expect(subject[:byte]).to be(subject[:uint8])
+      subject { super()[:byte] }
+
+      it "must equal #{described_class}::BYTE" do
+        expect(subject).to eq(described_class::BYTE)
       end
     end
 
@@ -287,18 +361,6 @@ describe Ronin::Support::Binary::Types::Native do
       end
     end
 
-    describe ":short" do
-      it "must be an alias to int16" do
-        expect(subject[:short]).to be(subject[:int16])
-      end
-    end
-
-    describe ":ushort" do
-      it "must be an alias to uint16" do
-        expect(subject[:ushort]).to be(subject[:uint16])
-      end
-    end
-
     describe ":int32" do
       subject { super()[:int32] }
 
@@ -312,50 +374,6 @@ describe Ronin::Support::Binary::Types::Native do
 
       it "must equal #{described_class}::UINT32" do
         expect(subject).to eq(described_class::UINT32)
-      end
-    end
-
-    describe ":int" do
-      it "must be an alias to int32" do
-        expect(subject[:int]).to be(subject[:int32])
-      end
-    end
-
-    describe ":long" do
-      if described_class::ADDRESS_SIZE == 8
-        context "when ADDRESS_SIZE is 8" do
-          it "must be an alias to int64" do
-            expect(subject[:long]).to be(subject[:int64])
-          end
-        end
-      else
-        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-          it "must be an alias to int32" do
-            expect(subject[:long]).to be(subject[:int32])
-          end
-        end
-      end
-    end
-
-    describe ":uint" do
-      it "must be an alias to uint32" do
-        expect(subject[:uint]).to be(subject[:uint32])
-      end
-    end
-
-    describe ":ulong" do
-      if described_class::ADDRESS_SIZE == 8
-        context "when ADDRESS_SIZE is 8" do
-          it "must be an alias to uint64" do
-            expect(subject[:ulong]).to be(subject[:uint64])
-          end
-        end
-      else
-        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-          it "must be an alias to uint32" do
-            expect(subject[:ulong]).to be(subject[:uint32])
-          end
-        end
       end
     end
 
@@ -375,49 +393,99 @@ describe Ronin::Support::Binary::Types::Native do
       end
     end
 
+    describe ":short" do
+      subject { super()[:short] }
+
+      it "must equal #{described_class}::SHORT" do
+        expect(subject).to eq(described_class::SHORT)
+      end
+    end
+
+    describe ":int" do
+      subject { super()[:int] }
+
+      it "must equal #{described_class}::INT" do
+        expect(subject).to eq(described_class::INT)
+      end
+    end
+
+    describe ":long" do
+      subject { super()[:long] }
+
+      it "must equal #{described_class}::LONG" do
+        expect(subject).to eq(described_class::LONG)
+      end
+    end
+
     describe ":long_long" do
-      it "must be an alias to int64" do
-        expect(subject[:long_long]).to be(subject[:int64])
+      subject { super()[:long_long] }
+
+      it "must equal #{described_class}::LONG_LONG" do
+        expect(subject).to eq(described_class::LONG_LONG)
+      end
+    end
+
+    describe ":ushort" do
+      subject { super()[:ushort] }
+
+      it "must equal #{described_class}::USHORT" do
+        expect(subject).to eq(described_class::USHORT)
+      end
+    end
+
+    describe ":uint" do
+      subject { super()[:uint] }
+
+      it "must equal #{described_class}::UINT" do
+        expect(subject).to eq(described_class::UINT)
+      end
+    end
+
+    describe ":ulong" do
+      subject { super()[:ulong] }
+
+      it "must equal #{described_class}::ULONG" do
+        expect(subject).to eq(described_class::ULONG)
       end
     end
 
     describe ":ulong_long" do
-      it "must be an alias to uint64" do
-        expect(subject[:ulong_long]).to be(subject[:uint64])
+      subject { super()[:ulong_long] }
+
+      it "must equal #{described_class}::ULONG_LONG" do
+        expect(subject).to eq(described_class::ULONG_LONG)
       end
     end
 
     describe ":word" do
-      it "must be an alias to uint16" do
-        expect(subject[:word]).to be(subject[:uint16])
+      subject { super()[:word] }
+
+      it "must equal #{described_class}::WORD" do
+        expect(subject).to eq(described_class::WORD)
       end
     end
 
     describe ":dword" do
-      it "must be an alias to uint32" do
-        expect(subject[:dword]).to be(subject[:uint32])
+      subject { super()[:dword] }
+
+      it "must equal #{described_class}::DWORD" do
+        expect(subject).to eq(described_class::DWORD)
       end
     end
 
     describe ":qword" do
-      it "must be an alias to uint64" do
-        expect(subject[:qword]).to be(subject[:uint64])
+      subject { super()[:qword] }
+
+      it "must equal #{described_class}::QWORD" do
+        expect(subject).to eq(described_class::QWORD)
       end
     end
 
     describe ":machine_word" do
-      if described_class::ADDRESS_SIZE == 8
-        context "when ADDRESS_SIZE is 8" do
-          it "must be an alias to uint64" do
-            expect(subject[:machine_word]).to be(subject[:uint64])
-          end
-        end
-      else
-        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-          it "must be an alias to uint32" do
-            expect(subject[:machine_word]).to be(subject[:uint32])
-          end
-        end
+      subject { super()[:machine_word] }
+
+      it "must equal #{described_class}::MACHINE_WORD" do
+        expect(subject).to eq(described_class::MACHINE_WORD)
       end
     end
 

@@ -54,26 +54,54 @@ module Ronin
           # The `int64_t` type (big-endianness).
           INT64 = Int64Type.new(endian: :big, pack_string: 'q>')
 
+          # The `short` type.
+          SHORT = INT16
+
+          # The `int` type.
+          INT = INT32
+
+          # The `long` type.
+          LONG = if ADDRESS_SIZE == 8 then INT64
+                 else                      INT32
+                 end
+
+          # The `long long` type.
+          LONG_LONG = INT64
+
           # The `uint8_t` type.
           UINT8 = UInt8Type.new
-
-          # The `byte` type.
-          BYTE = UINT8
 
           # The `uint16_t` type (big-endianness).
           UINT16 = UInt16Type.new(endian: :big, pack_string: 'S>')
 
-          # The "word" type (16-bit big-endian unsigned integer).
-          WORD = UINT16
-
           # The `uint32_t` type (big-endianness).
           UINT32 = UInt32Type.new(endian: :big, pack_string: 'L>')
 
-          # The "dword" type (32-bit big-endian unsigned integer).
-          DWORD = UINT32
-
           # The `uint64_t` type (big-endianness).
           UINT64 = UInt64Type.new(endian: :big, pack_string: 'Q>')
+
+          # The `byte` type.
+          BYTE = UINT8
+
+          # The `unsigned short` type.
+          USHORT = UINT16
+
+          # The `unsigned int` type.
+          UINT = UINT32
+
+          # The `unsigned long` type.
+          ULONG = if ADDRESS_SIZE == 8 then UINT64
+                  else                      UINT32
+                  end
+
+          # The `unsigned long long` type.
+          ULONG_LONG = UINT64
+
+          # The "word" type (16-bit big-endian unsigned integer).
+          WORD = UINT16
+
+          # The "dword" type (32-bit big-endian unsigned integer).
+          DWORD = UINT32
 
           # The "qword" type (64-bit big-endian unsigned integer).
           QWORD = UINT64
@@ -105,25 +133,21 @@ module Ronin
             int32: INT32,
             int64: INT64,
 
-            short:     INT16,
-            int:       INT32,
-            long:      if ADDRESS_SIZE == 8 then INT64
-                       else                      INT32
-                       end,
-            long_long: INT64,
+            short:     SHORT,
+            int:       INT,
+            long:      LONG,
+            long_long: LONG_LONG,
 
             uint8:  UINT8,
             uint16: UINT16,
             uint32: UINT32,
             uint64: UINT64,
 
-            byte:       UINT8,
-            ushort:     UINT16,
-            uint:       UINT32,
-            ulong:      if ADDRESS_SIZE == 8 then UINT64
-                        else                      UINT32
-                        end,
-            ulong_long: UINT64,
+            byte:       BYTE,
+            ushort:     USHORT,
+            uint:       UINT,
+            ulong:      ULONG,
+            ulong_long: ULONG_LONG,
 
             word:  WORD,
             dword: DWORD,
