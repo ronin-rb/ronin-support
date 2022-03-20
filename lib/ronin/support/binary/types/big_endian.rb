@@ -135,8 +135,8 @@ module Ronin
             char:  CHAR,
             uchar: UCHAR,
 
-            cstring: CSTRING,
-            string:  CSTRING
+            cstring: STRING,
+            string:  STRING
           }
 
           #

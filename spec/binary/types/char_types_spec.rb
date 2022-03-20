@@ -27,7 +27,7 @@ describe Ronin::Support::Binary::Types::CharTypes do
   end
 
   describe "CString" do
-    subject { described_class::CSTRING }
+    subject { described_class::STRING }
 
     it do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::StringType)

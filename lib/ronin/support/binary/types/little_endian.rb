@@ -129,8 +129,8 @@ module Ronin
             char:  CHAR,
             uchar: UCHAR,
 
-            cstring: CSTRING,
-            string:  CSTRING,
+            cstring: STRING,
+            string:  STRING,
 
             float32: FLOAT32,
             float64: FLOAT64,

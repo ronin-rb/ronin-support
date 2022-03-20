@@ -107,10 +107,10 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::Native::UCHAR) }
   end
 
-  describe "CSTRING" do
-    subject { described_class::CSTRING }
+  describe "STRING" do
+    subject { described_class::STRING }
 
-    it { expect(subject).to eq(described_class::Native::CSTRING) }
+    it { expect(subject).to eq(described_class::Native::STRING) }
   end
 
   #
