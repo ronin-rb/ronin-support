@@ -1,12 +1,10 @@
 require 'spec_helper'
 require 'ronin/support/binary/types/arch/mips'
 
-require_relative '32bit_arch_examples'
+require_relative '32bit_be_arch_examples'
 
 describe Ronin::Support::Binary::Types::Arch::MIPS do
-  it { expect(subject).to include(Ronin::Support::Binary::Types::BigEndian) }
-
-  include_examples "32bit Arch examples"
+  include_examples "32bit BE Arch examples"
 
   describe "[]" do
     context "when given a valid type name" do

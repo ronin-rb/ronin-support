@@ -1,17 +1,22 @@
 require 'rspec'
 
-shared_examples_for "32bit Arch examples" do
+shared_examples_for "32bit LE Arch examples" do
+  it { expect(subject).to include(Ronin::Support::Binary::Types::LittleEndian) }
+
   describe "ADDRESS_SIZE" do
     subject { described_class::ADDRESS_SIZE }
 
     it { expect(subject).to eq(4) }
   end
 
+  let(:int32)  { Ronin::Support::Binary::Types::LittleEndian::INT32  }
+  let(:uint32) { Ronin::Support::Binary::Types::LittleEndian::UINT32 }
+
   describe "LONG" do
     subject { described_class::LONG }
 
     it "must equal INT32" do
-      expect(subject).to be(described_class::INT32)
+      expect(subject).to be(int32)
     end
   end
 
@@ -19,7 +24,7 @@ shared_examples_for "32bit Arch examples" do
     subject { described_class::ULONG }
 
     it "must equal UINT32" do
-      expect(subject).to be(described_class::UINT32)
+      expect(subject).to be(uint32)
     end
   end
 
@@ -27,15 +32,15 @@ shared_examples_for "32bit Arch examples" do
     subject { described_class::MACHINE_WORD }
 
     it "must equal UINT32" do
-      expect(subject).to be(described_class::UINT32)
+      expect(subject).to be(uint32)
     end
   end
 
   describe "POINTER" do
     subject { described_class::POINTER }
 
-    it "must equal MACHINE_WORD" do
-      expect(subject).to be(described_class::MACHINE_WORD)
+    it "must equal UINT32" do
+      expect(subject).to be(uint32)
     end
   end
 
@@ -43,30 +48,34 @@ shared_examples_for "32bit Arch examples" do
     subject { described_class::TYPES }
 
     describe ":long" do
-      it "must equal LONG" do
-        expect(subject[:long]).to eq(described_class::LONG)
+      subject { super()[:long] }
+
+      it "must equal INT32" do
+        expect(subject).to be(int32)
       end
     end
 
     describe ":ulong" do
-      it "must equal ULONG" do
-        expect(subject[:ulong]).to eq(described_class::ULONG)
+      subject { super()[:ulong] }
+
+      it "must equal UINT32" do
+        expect(subject).to be(uint32)
       end
     end
 
     describe ":machine_word" do
       subject { super()[:machine_word] }
 
-      it "must equal MACHINE_WORD" do
-        expect(subject).to be(described_class::MACHINE_WORD)
+      it "must equal UINT32" do
+        expect(subject).to be(uint32)
       end
     end
 
     describe ":pointer" do
-      subject { super()[:pointer] }
+      subject { super()[:machine_word] }
 
-      it "must equal POINTER" do
-        expect(subject).to be(described_class::POINTER)
+      it "must equal UINT32" do
+        expect(subject).to be(uint32)
       end
     end
   end
