@@ -73,11 +73,20 @@ module Ronin
           # The `uint16_t` type (native-endianness).
           UInt16 = UInt16Type.new(endian: ENDIAN, pack_string: 'S')
 
+          # The "word" type (16-bit unsigned integer).
+          WORD = UInt16
+
           # The `uint32_t` type (native-endianness).
           UInt32 = UInt32Type.new(endian: ENDIAN, pack_string: 'L')
 
+          # The "dword" type (32-bit unsigned integer).
+          DWORD = UInt32
+
           # The `uint64_t` type (native-endianness).
           UInt64 = UInt64Type.new(endian: ENDIAN, pack_string: 'Q')
+
+          # The "qword" type (64-bit unsigned integer).
+          QWORD = UInt64
 
           # The `float` type (native-endianness).
           Float32 = Float32Type.new(endian: ENDIAN, pack_string: 'f')
@@ -115,6 +124,10 @@ module Ronin
             pointer:    if ADDRESS_SIZE == 8 then UInt64
                         else                      UInt32
                         end,
+
+            word:  WORD,
+            dword: DWORD,
+            qword: QWORD,
 
             float32: Float32,
             float64: Float64,

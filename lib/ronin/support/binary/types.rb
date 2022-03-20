@@ -38,6 +38,10 @@ module Ronin
         UInt32_LE = LittleEndian::UInt32
         UInt64_LE = LittleEndian::UInt64
 
+        WORD_LE  = LittleEndian::WORD
+        DWORD_LE = LittleEndian::DWORD
+        QWORD_LE = LittleEndian::QWORD
+
         Float32_LE = LittleEndian::Float32
         Float64_LE = LittleEndian::Float64
 
@@ -49,6 +53,10 @@ module Ronin
         UInt16_BE = BigEndian::UInt16
         UInt32_BE = BigEndian::UInt32
         UInt64_BE = BigEndian::UInt64
+
+        WORD_BE  = BigEndian::WORD
+        DWORD_BE = BigEndian::DWORD
+        QWORD_BE = BigEndian::QWORD
 
         Float32_BE = BigEndian::Float32
         Float64_BE = BigEndian::Float64
@@ -62,6 +70,10 @@ module Ronin
         UInt32_NE = Network::UInt32
         UInt64_NE = Network::UInt64
 
+        WORD_NE  = Network::WORD
+        DWORD_NE = Network::DWORD
+        QWORD_NE = Network::QWORD
+
         Float32_NE = Network::Float32
         Float64_NE = Network::Float64
 
@@ -72,6 +84,10 @@ module Ronin
         UInt16_Net = Network::UInt16
         UInt32_Net = Network::UInt32
         UInt64_Net = Network::UInt64
+
+        WORD_Net = Network::WORD
+        DWORD_Net = Network::DWORD
+        QWORD_Net = Network::QWORD
 
         Float32_Net = Network::Float32
         Float64_Net = Network::Float64
@@ -104,6 +120,10 @@ module Ronin
                            LittleEndian::UInt32
                          end,
           ulong_long_le: LittleEndian::UInt64,
+
+          word_le:  WORD_LE,
+          dword_le: DWORD_LE,
+          qword_le: QWORD_LE,
 
           float32_le: LittleEndian::Float32,
           float64_le: LittleEndian::Float64,
@@ -138,6 +158,10 @@ module Ronin
                          end,
           ulong_long_be: BigEndian::UInt64,
 
+          word_be:  WORD_BE,
+          dword_be: DWORD_BE,
+          qword_be: QWORD_BE,
+
           float32_be: BigEndian::Float32,
           float64_be: BigEndian::Float64,
 
@@ -171,6 +195,10 @@ module Ronin
                          end,
           ulong_long_ne: Network::UInt64,
 
+          word_ne:  WORD_NE,
+          dword_ne: DWORD_NE,
+          qword_ne: QWORD_NE,
+
           float32_ne: Network::Float32,
           float64_ne: Network::Float64,
 
@@ -203,6 +231,10 @@ module Ronin
                             Network::UInt32
                           end,
           ulong_long_net: Network::UInt64,
+
+          word_net:  WORD_Net,
+          dword_net: DWORD_Net,
+          qword_net: QWORD_Net,
 
           float32_net: Network::Float32,
           float64_net: Network::Float64,

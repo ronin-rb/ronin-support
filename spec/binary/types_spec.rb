@@ -35,10 +35,22 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::Native::UInt8) }
   end
 
+  describe "Byte" do
+    subject { described_class::Byte }
+
+    it { expect(subject).to eq(described_class::Native::Byte) }
+  end
+
   describe "UInt16" do
     subject { described_class::UInt16 }
 
     it { expect(subject).to eq(described_class::Native::UInt16) }
+  end
+
+  describe "WORD" do
+    subject { described_class::WORD }
+
+    it { expect(subject).to eq(described_class::Native::WORD) }
   end
 
   describe "UInt32" do
@@ -47,10 +59,22 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::Native::UInt32) }
   end
 
+  describe "DWORD" do
+    subject { described_class::DWORD }
+
+    it { expect(subject).to eq(described_class::Native::DWORD) }
+  end
+
   describe "UInt64" do
     subject { described_class::UInt64 }
 
     it { expect(subject).to eq(described_class::Native::UInt64) }
+  end
+
+  describe "QWORD" do
+    subject { described_class::QWORD }
+
+    it { expect(subject).to eq(described_class::Native::QWORD) }
   end
 
   describe "Float32" do
@@ -75,12 +99,6 @@ describe Ronin::Support::Binary::Types do
     subject { described_class::UChar }
 
     it { expect(subject).to eq(described_class::Native::UChar) }
-  end
-
-  describe "Byte" do
-    subject { described_class::Byte }
-
-    it { expect(subject).to eq(described_class::Native::Byte) }
   end
 
   describe "CString" do
@@ -116,16 +134,34 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::LittleEndian::UInt16) }
   end
 
+  describe "WORD_LE" do
+    subject { described_class::WORD_LE }
+
+    it { expect(subject).to eq(described_class::LittleEndian::WORD) }
+  end
+
   describe "UInt32_LE" do
     subject { described_class::UInt32_LE }
 
     it { expect(subject).to eq(described_class::LittleEndian::UInt32) }
   end
 
+  describe "DWORD_LE" do
+    subject { described_class::DWORD_LE }
+
+    it { expect(subject).to eq(described_class::LittleEndian::DWORD) }
+  end
+
   describe "UInt64_LE" do
     subject { described_class::UInt64_LE }
 
     it { expect(subject).to eq(described_class::LittleEndian::UInt64) }
+  end
+
+  describe "QWORD_LE" do
+    subject { described_class::QWORD_LE }
+
+    it { expect(subject).to eq(described_class::LittleEndian::QWORD) }
   end
 
   describe "Float32_LE" do
@@ -167,16 +203,34 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::BigEndian::UInt16) }
   end
 
+  describe "WORD_BE" do
+    subject { described_class::WORD_BE }
+
+    it { expect(subject).to eq(described_class::BigEndian::WORD) }
+  end
+
   describe "UInt32_BE" do
     subject { described_class::UInt32_BE }
 
     it { expect(subject).to eq(described_class::BigEndian::UInt32) }
   end
 
+  describe "DWORD_BE" do
+    subject { described_class::DWORD_BE }
+
+    it { expect(subject).to eq(described_class::BigEndian::DWORD) }
+  end
+
   describe "UInt64_BE" do
     subject { described_class::UInt64_BE }
 
     it { expect(subject).to eq(described_class::BigEndian::UInt64) }
+  end
+
+  describe "QWORD_BE" do
+    subject { described_class::QWORD_BE }
+
+    it { expect(subject).to eq(described_class::BigEndian::QWORD) }
   end
 
   describe "Float32_BE" do
@@ -218,16 +272,34 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::Network::UInt16) }
   end
 
+  describe "WORD_NE" do
+    subject { described_class::WORD_NE }
+
+    it { expect(subject).to eq(described_class::Network::WORD) }
+  end
+
   describe "UInt32_NE" do
     subject { described_class::UInt32_NE }
 
     it { expect(subject).to eq(described_class::Network::UInt32) }
   end
 
+  describe "DWORD_NE" do
+    subject { described_class::DWORD_NE }
+
+    it { expect(subject).to eq(described_class::Network::DWORD) }
+  end
+
   describe "UInt64_NE" do
     subject { described_class::UInt64_NE }
 
     it { expect(subject).to eq(described_class::Network::UInt64) }
+  end
+
+  describe "QWORD_NE" do
+    subject { described_class::QWORD_NE }
+
+    it { expect(subject).to eq(described_class::Network::QWORD) }
   end
 
   describe "Float32_NE" do
@@ -266,16 +338,34 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::Network::UInt16) }
   end
 
+  describe "WORD_Net" do
+    subject { described_class::WORD_Net }
+
+    it { expect(subject).to eq(described_class::Network::WORD) }
+  end
+
   describe "UInt32_Net" do
     subject { described_class::UInt32_Net }
 
     it { expect(subject).to eq(described_class::Network::UInt32) }
   end
 
+  describe "DWORD_Net" do
+    subject { described_class::DWORD_Net }
+
+    it { expect(subject).to eq(described_class::Network::DWORD) }
+  end
+
   describe "UInt64_Net" do
     subject { described_class::UInt64_Net }
 
     it { expect(subject).to eq(described_class::Network::UInt64) }
+  end
+
+  describe "QWORD_Net" do
+    subject { described_class::QWORD_Net }
+
+    it { expect(subject).to eq(described_class::Network::QWORD) }
   end
 
   describe "Float32_Net" do
@@ -362,6 +452,12 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
+    describe ":word" do
+      it "must be an alias to uint16" do
+        expect(subject[:word]).to be(subject[:uint16])
+      end
+    end
+
     describe ":int32" do
       subject { super()[:int32] }
 
@@ -406,6 +502,12 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
+    describe ":dword" do
+      it "must be an alias to uint32" do
+        expect(subject[:dword]).to be(subject[:uint32])
+      end
+    end
+
     describe ":ulong" do
       if described_class::ADDRESS_SIZE == 8
         context "when ADDRESS_SIZE is 8" do
@@ -447,6 +549,12 @@ describe Ronin::Support::Binary::Types do
     describe ":ulong_long" do
       it "must be an alias to uint64" do
         expect(subject[:ulong_long]).to be(subject[:uint64])
+      end
+    end
+
+    describe ":qword" do
+      it "must be an alias to uint64" do
+        expect(subject[:qword]).to be(subject[:uint64])
       end
     end
 
@@ -629,6 +737,24 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
+    describe ":word_le" do
+      it "must be an alias to uint16_le" do
+        expect(subject[:word_le]).to be(subject[:uint16_le])
+      end
+    end
+
+    describe ":dword_le" do
+      it "must be an alias to uint32_le" do
+        expect(subject[:dword_le]).to be(subject[:uint32_le])
+      end
+    end
+
+    describe ":qword_le" do
+      it "must be an alias to uint64_le" do
+        expect(subject[:qword_le]).to be(subject[:uint64_le])
+      end
+    end
+
     describe ":float_le" do
       it "must be an alias to float32_le" do
         expect(subject[:float_le]).to be(subject[:float32_le])
@@ -773,6 +899,24 @@ describe Ronin::Support::Binary::Types do
     describe ":ulong_long_be" do
       it "must be an alias to uint64_be" do
         expect(subject[:ulong_long_be]).to be(subject[:uint64_be])
+      end
+    end
+
+    describe ":word_be" do
+      it "must be an alias to uint16_be" do
+        expect(subject[:word_be]).to be(subject[:uint16_be])
+      end
+    end
+
+    describe ":dword_be" do
+      it "must be an alias to uint32_be" do
+        expect(subject[:dword_be]).to be(subject[:uint32_be])
+      end
+    end
+
+    describe ":qword_be" do
+      it "must be an alias to uint64_be" do
+        expect(subject[:qword_be]).to be(subject[:uint64_be])
       end
     end
 
@@ -923,6 +1067,24 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
+    describe ":word_ne" do
+      it "must be an alias to uint16_ne" do
+        expect(subject[:word_ne]).to be(subject[:uint16_ne])
+      end
+    end
+
+    describe ":dword_ne" do
+      it "must be an alias to uint32_ne" do
+        expect(subject[:dword_ne]).to be(subject[:uint32_ne])
+      end
+    end
+
+    describe ":qword_ne" do
+      it "must be an alias to uint64_ne" do
+        expect(subject[:qword_ne]).to be(subject[:uint64_ne])
+      end
+    end
+
     describe ":float_ne" do
       it "must be an alias to float32_ne" do
         expect(subject[:float_ne]).to be(subject[:float32_ne])
@@ -1064,6 +1226,24 @@ describe Ronin::Support::Binary::Types do
     describe ":ulong_long_net" do
       it "must be an alias to uint64_net" do
         expect(subject[:ulong_long_net]).to be(subject[:uint64_net])
+      end
+    end
+
+    describe ":word_net" do
+      it "must be an alias to uint16_net" do
+        expect(subject[:word_net]).to be(subject[:uint16_net])
+      end
+    end
+
+    describe ":dword_net" do
+      it "must be an alias to uint32_net" do
+        expect(subject[:dword_net]).to be(subject[:uint32_net])
+      end
+    end
+
+    describe ":qword_net" do
+      it "must be an alias to uint64_net" do
+        expect(subject[:qword_net]).to be(subject[:uint64_net])
       end
     end
 

@@ -58,11 +58,20 @@ module Ronin
           # The `uint16_t` type (little-endianness).
           UInt16 = UInt16Type.new(endian: :little, pack_string: 'S<')
 
+          # The "word" type (16-bit little-endian unsigned integer).
+          WORD = UInt16
+
           # The `uint32_t` type (little-endianness).
           UInt32 = UInt32Type.new(endian: :little, pack_string: 'L<')
 
+          # The "dword" type (32-bit little-endian unsigned integer).
+          DWORD = UInt32
+
           # The `uint64_t` type (little-endianness).
           UInt64 = UInt64Type.new(endian: :little, pack_string: 'Q<')
+
+          # The "qword" type (64-bit little-endian unsigned integer).
+          QWORD = UInt64
 
           # The `float` type (little-endianness).
           Float32 = Float32Type.new(endian: :little, pack_string: 'e')
@@ -100,6 +109,10 @@ module Ronin
                            UInt32
                          end,
             ulong_long: UInt64,
+
+            word:  WORD,
+            dword: DWORD,
+            qword: QWORD,
 
             char:  Char,
             uchar: UChar,

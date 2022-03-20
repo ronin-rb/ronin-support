@@ -166,6 +166,24 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
+  describe "WORD" do
+    subject { described_class::WORD }
+
+    it { expect(subject).to eq(described_class::UInt16) }
+  end
+
+  describe "DWORD" do
+    subject { described_class::DWORD }
+
+    it { expect(subject).to eq(described_class::UInt32) }
+  end
+
+  describe "QWORD" do
+    subject { described_class::QWORD }
+
+    it { expect(subject).to eq(described_class::UInt64) }
+  end
+
   describe "Float64" do
     subject { described_class::Float64 }
 
@@ -352,6 +370,24 @@ describe Ronin::Support::Binary::Types::Native do
             expect(subject[:pointer]).to be(subject[:uint32])
           end
         end
+      end
+    end
+
+    describe ":word" do
+      it "must be an alias to uint16" do
+        expect(subject[:word]).to be(subject[:uint16])
+      end
+    end
+
+    describe ":dword" do
+      it "must be an alias to uint32" do
+        expect(subject[:dword]).to be(subject[:uint32])
+      end
+    end
+
+    describe ":qword" do
+      it "must be an alias to uint64" do
+        expect(subject[:qword]).to be(subject[:uint64])
       end
     end
 
