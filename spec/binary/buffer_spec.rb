@@ -255,10 +255,14 @@ describe Ronin::Support::Binary::Buffer do
     let(:packed_value) { type.pack(value) }
 
     context "when the offset + type size is within bounds" do
-      before { subject.put(type_name,offset,value) }
-
       it "must write the given value at the given offset with the given type" do
+        subject.put(type_name,offset,value)
+
         expect(subject.string[offset,type.size]).to eq(packed_value)
+      end
+
+      it "must return self" do
+        expect(subject.put(type_name,offset,value)).to be(subject)
       end
     end
 
@@ -413,12 +417,14 @@ describe Ronin::Support::Binary::Buffer do
     let(:packed_array) { array_type.pack(array) }
 
     context "when the offset + array type size is within bounds" do
-      before do
+      it "must read an Array of types at the given offset of the given count" do
         subject.put_array_of(type_name,offset,array)
+
+        expect(subject.string[offset,array_type.size]).to eq(packed_array)
       end
 
-      it "must read an Array of types at the given offset of the given count" do
-        expect(subject.string[offset,array_type.size]).to eq(packed_array)
+      it "must return self" do
+        expect(subject.put_array_of(type_name,offset,array)).to be(subject)
       end
     end
 

@@ -1106,7 +1106,7 @@ module Ronin
           data = type.pack(value)
 
           @string[offset,type.size] = data
-          return value
+          return self
         end
 
         #
@@ -1118,8 +1118,7 @@ module Ronin
         # @param [Integer] value
         #   The `char` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `byte`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1136,8 +1135,7 @@ module Ronin
         # @param [String] value
         #   The `char` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `char`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1155,6 +1153,8 @@ module Ronin
         # @param [String] string
         #   The String to write into the buffer.
         #
+        # @return [self]
+        #
         def put_string(offset,string)
           ascii_string = string.encode(@string.encoding)
           cstring      = "#{ascii_string}\0"
@@ -1164,6 +1164,7 @@ module Ronin
           end
 
           @string[offset,cstring.bytesize] = cstring
+          return self
         end
 
         #
@@ -1175,8 +1176,7 @@ module Ronin
         # @param [String] value
         #   The `uchar` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `uchar`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1193,8 +1193,7 @@ module Ronin
         # @param [Integer] value
         #   The `int8` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `int8`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1211,8 +1210,7 @@ module Ronin
         # @param [Integer] value
         #   The `int16` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `int16`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1229,8 +1227,7 @@ module Ronin
         # @param [Integer] value
         #   The `int32` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `int32`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1247,8 +1244,7 @@ module Ronin
         # @param [Integer] value
         #   The `int64` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `int64`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1265,8 +1261,7 @@ module Ronin
         # @param [Integer] value
         #   The `uint8` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `uint8`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1283,8 +1278,7 @@ module Ronin
         # @param [Integer] value
         #   The `uint16` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `uint16`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1301,8 +1295,7 @@ module Ronin
         # @param [Integer] value
         #   The `uint32` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `uint32`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1319,8 +1312,7 @@ module Ronin
         # @param [Integer] value
         #   The `uint64` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `uint64`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1337,8 +1329,7 @@ module Ronin
         # @param [Integer] value
         #   The `short` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `short`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1355,8 +1346,7 @@ module Ronin
         # @param [Integer] value
         #   The `int` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `int`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1373,8 +1363,7 @@ module Ronin
         # @param [Integer] value
         #   The `long` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `long`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1391,8 +1380,7 @@ module Ronin
         # @param [Integer] value
         #   The `long_long` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `long_long`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1409,8 +1397,7 @@ module Ronin
         # @param [Integer] value
         #   The `ushort` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `ushort`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1427,8 +1414,7 @@ module Ronin
         # @param [Integer] value
         #   The `uint` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `uint`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1445,8 +1431,7 @@ module Ronin
         # @param [Integer] value
         #   The `ulong` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `ulong`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1463,8 +1448,7 @@ module Ronin
         # @param [Integer] value
         #   The `ulong_long` value to write into the buffer.
         #
-        # @return [Integer]
-        #   The written `ulong_long`.
+        # @return [self]
         #
         # @see #put
         #
@@ -1481,8 +1465,7 @@ module Ronin
         # @param [Float] value
         #   The `float32` value to write into the buffer.
         #
-        # @return [Float]
-        #   The written `float32` value.
+        # @return [self]
         #
         # @see #put
         #
@@ -1499,8 +1482,7 @@ module Ronin
         # @param [Float] value
         #   The `float64` value to write into the buffer.
         #
-        # @return [Float]
-        #   The written `float64` value.
+        # @return [self]
         #
         # @see #put
         #
@@ -1517,8 +1499,7 @@ module Ronin
         # @param [Float] value
         #   The `float` value to write into the buffer.
         #
-        # @return [Float]
-        #   The written `float` value.
+        # @return [self]
         #
         # @see #put
         #
@@ -1535,8 +1516,7 @@ module Ronin
         # @param [Float] value
         #   The `double` value to write into the buffer.
         #
-        # @return [Float]
-        #   The written `double` value.
+        # @return [self]
         #
         # @see #put
         #
@@ -1557,8 +1537,7 @@ module Ronin
         # @param [Array<Object>] array
         #   The array of values to write.
         #
-        # @return [Array<Object>]
-        #   The written array of values.
+        # @return [self]
         #
         def put_array_of(type,offset,array)
           type       = @type_system[type]
@@ -1571,7 +1550,7 @@ module Ronin
           data = array_type.pack(array)
 
           @string[offset,array_type.size] = data
-          return array
+          return self
         end
 
         #
@@ -1583,8 +1562,7 @@ module Ronin
         # @param [Array<Integer>] bytes
         #   The array of bytes to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of bytes.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1603,8 +1581,7 @@ module Ronin
         # @param [String] chars
         #   The array of characters to write.
         #
-        # @return [String]
-        #   The wrriten array of chars.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1623,8 +1600,7 @@ module Ronin
         # @param [String] chars
         #   The array of unsigned characters to write.
         #
-        # @return [String]
-        #   The wrriten array of unsigned chars.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1643,8 +1619,7 @@ module Ronin
         # @param [Array<Integer>] ints
         #   The array of `int8` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `int8` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1661,8 +1636,7 @@ module Ronin
         # @param [Array<Integer>] ints
         #   The array of `int16` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `int16` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1679,8 +1653,7 @@ module Ronin
         # @param [Array<Integer>] ints
         #   The array of `int32` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `int32` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1697,8 +1670,7 @@ module Ronin
         # @param [Array<Integer>] ints
         #   The array of `int64` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `int64` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1715,8 +1687,7 @@ module Ronin
         # @param [Array<Integer>] uints
         #   The array of `uint8` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `uint8` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1733,8 +1704,7 @@ module Ronin
         # @param [Array<Integer>] uints
         #   The array of `uint16` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `uint16` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1751,8 +1721,7 @@ module Ronin
         # @param [Array<Integer>] uints
         #   The array of `uint32` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `uint32` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1769,8 +1738,7 @@ module Ronin
         # @param [Array<Integer>] uints
         #   The array of `uint64` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `uint64` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1787,8 +1755,7 @@ module Ronin
         # @param [Array<Integer>] ints
         #   The array of `short` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `short` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1805,8 +1772,7 @@ module Ronin
         # @param [Array<Integer>] ints
         #   The array of `int` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `int` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1825,8 +1791,7 @@ module Ronin
         # @param [Array<Integer>] ints
         #   The array of `long` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `long` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1843,8 +1808,7 @@ module Ronin
         # @param [Array<Integer>] ints
         #   The array of `long_long` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `long_long` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1861,8 +1825,7 @@ module Ronin
         # @param [Array<Integer>] uints
         #   The array of `ushort` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `ushort` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1879,8 +1842,7 @@ module Ronin
         # @param [Array<Integer>] uints
         #   The array of `uint` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `uint` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1899,8 +1861,7 @@ module Ronin
         # @param [Array<Integer>] uints
         #   The array of `ulong` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `ulong` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1917,8 +1878,7 @@ module Ronin
         # @param [Array<Integer>] uints
         #   The array of `ulong_long` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `ulong_long` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1935,8 +1895,7 @@ module Ronin
         # @param [Array<Float>] floats
         #   The array of `float32` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `float32` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1953,8 +1912,7 @@ module Ronin
         # @param [Array<Float>] floats
         #   The array of `float64` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `float64` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1971,8 +1929,7 @@ module Ronin
         # @param [Array<Float>] floats
         #   The array of `float` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `float` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
@@ -1991,8 +1948,7 @@ module Ronin
         # @param [Array<Float>] floats
         #   The array of `double` values to write.
         #
-        # @return [Array<Integer>]
-        #   The wrriten array of `double` values.
+        # @return [self]
         #
         # @see #put_array_of
         #
