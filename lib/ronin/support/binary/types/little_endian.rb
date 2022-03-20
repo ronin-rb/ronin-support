@@ -108,8 +108,8 @@ module Ronin
 
           # The "machine word" type.
           #
-          # @return [UInt64, UInt32]
-          #   {UInt64} on 64-bit systems and {UInt32} on 32-bit systems.
+          # @return [UINT64, UINT32]
+          #   {UINT64} on 64-bit systems and {UINT32} on 32-bit systems.
           MACHINE_WORD = if ADDRESS_SIZE == 8 then UINT64
                          else                      UINT32
                          end
