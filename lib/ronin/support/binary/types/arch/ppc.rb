@@ -30,10 +30,16 @@ module Ronin
             # The size of a pointer in bytes on PPC.
             ADDRESS_SIZE = 4
 
+            # The "machine word" type.
+            MACHINE_WORD = BigEndian::UInt32
+
             # The PPC types.
             TYPES = BigEndian::TYPES.merge(
-              long:  Int32,
-              ulong: UInt32
+              long:  BigEndian::Int32,
+              ulong: BigEndian::UInt32,
+
+              machine_word: BigEndian::UInt32,
+              pointer:      BigEndian::UInt32
             )
 
             #

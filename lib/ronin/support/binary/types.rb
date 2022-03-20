@@ -42,6 +42,8 @@ module Ronin
         DWORD_LE = LittleEndian::DWORD
         QWORD_LE = LittleEndian::QWORD
 
+        MACHINE_WORD_LE = LittleEndian::MACHINE_WORD
+
         Float32_LE = LittleEndian::Float32
         Float64_LE = LittleEndian::Float64
 
@@ -57,6 +59,8 @@ module Ronin
         WORD_BE  = BigEndian::WORD
         DWORD_BE = BigEndian::DWORD
         QWORD_BE = BigEndian::QWORD
+
+        MACHINE_WORD_BE = BigEndian::MACHINE_WORD
 
         Float32_BE = BigEndian::Float32
         Float64_BE = BigEndian::Float64
@@ -74,6 +78,8 @@ module Ronin
         DWORD_NE = Network::DWORD
         QWORD_NE = Network::QWORD
 
+        MACHINE_WORD_NE = Network::MACHINE_WORD
+
         Float32_NE = Network::Float32
         Float64_NE = Network::Float64
 
@@ -89,6 +95,8 @@ module Ronin
         DWORD_Net = Network::DWORD
         QWORD_Net = Network::QWORD
 
+        MACHINE_WORD_Net = Network::MACHINE_WORD
+
         Float32_Net = Network::Float32
         Float64_Net = Network::Float64
 
@@ -101,10 +109,8 @@ module Ronin
 
           short_le:     LittleEndian::Int16,
           int_le:       LittleEndian::Int32,
-          long_le:      if Native::ADDRESS_SIZE == 8
-                          LittleEndian::Int64
-                        else
-                          LittleEndian::Int32
+          long_le:      if Native::ADDRESS_SIZE == 8 then LittleEndian::Int64
+                        else                              LittleEndian::Int32
                         end,
           long_long_le: LittleEndian::Int64,
 
@@ -114,16 +120,17 @@ module Ronin
 
           ushort_le:     LittleEndian::UInt16,
           uint_le:       LittleEndian::UInt32,
-          ulong_le:      if Native::ADDRESS_SIZE == 8
-                           LittleEndian::UInt64
-                         else
-                           LittleEndian::UInt32
+          ulong_le:      if Native::ADDRESS_SIZE == 8 then LittleEndian::UInt64
+                         else                              LittleEndian::UInt32
                          end,
           ulong_long_le: LittleEndian::UInt64,
 
           word_le:  WORD_LE,
           dword_le: DWORD_LE,
           qword_le: QWORD_LE,
+
+          machine_word_le: LittleEndian::MACHINE_WORD,
+          pointer_le:      LittleEndian::MACHINE_WORD,
 
           float32_le: LittleEndian::Float32,
           float64_le: LittleEndian::Float64,
@@ -138,10 +145,8 @@ module Ronin
 
           short_be:     BigEndian::Int16,
           int_be:       BigEndian::Int32,
-          long_be:      if Native::ADDRESS_SIZE == 8
-                          BigEndian::Int64
-                        else
-                          BigEndian::Int32
+          long_be:      if Native::ADDRESS_SIZE == 8 then BigEndian::Int64
+                        else                              BigEndian::Int32
                         end,
           long_long_be: BigEndian::Int64,
 
@@ -151,16 +156,17 @@ module Ronin
 
           ushort_be:     BigEndian::UInt16,
           uint_be:       BigEndian::UInt32,
-          ulong_be:      if Native::ADDRESS_SIZE == 8
-                           BigEndian::UInt64
-                         else
-                           BigEndian::UInt32
+          ulong_be:      if Native::ADDRESS_SIZE == 8 then BigEndian::UInt64
+                         else                              BigEndian::UInt32
                          end,
           ulong_long_be: BigEndian::UInt64,
 
           word_be:  WORD_BE,
           dword_be: DWORD_BE,
           qword_be: QWORD_BE,
+
+          machine_word_be: BigEndian::MACHINE_WORD,
+          pointer_be:      BigEndian::MACHINE_WORD,
 
           float32_be: BigEndian::Float32,
           float64_be: BigEndian::Float64,
@@ -175,10 +181,8 @@ module Ronin
 
           short_ne:     Network::Int16,
           int_ne:       Network::Int32,
-          long_ne:      if Native::ADDRESS_SIZE == 8
-                          Network::Int64
-                        else
-                          Network::Int32
+          long_ne:      if Native::ADDRESS_SIZE == 8 then Network::Int64
+                        else                              Network::Int32
                         end,
           long_long_ne: Network::Int64,
 
@@ -188,16 +192,17 @@ module Ronin
 
           ushort_ne:     Network::UInt16,
           uint_ne:       Network::UInt32,
-          ulong_ne:      if Native::ADDRESS_SIZE == 8
-                           Network::UInt64
-                         else
-                           Network::UInt32
+          ulong_ne:      if Native::ADDRESS_SIZE == 8 then Network::UInt64
+                         else                              Network::UInt32
                          end,
           ulong_long_ne: Network::UInt64,
 
           word_ne:  WORD_NE,
           dword_ne: DWORD_NE,
           qword_ne: QWORD_NE,
+
+          machine_word_ne: Network::MACHINE_WORD,
+          pointer_ne:      Network::MACHINE_WORD,
 
           float32_ne: Network::Float32,
           float64_ne: Network::Float64,
@@ -212,10 +217,8 @@ module Ronin
 
           short_net:     Network::Int16,
           int_net:       Network::Int32,
-          long_net:      if Native::ADDRESS_SIZE == 8
-                           Network::Int64
-                         else
-                           Network::Int32
+          long_net:      if Native::ADDRESS_SIZE == 8 then Network::Int64
+                         else                              Network::Int32
                          end,
           long_long_net: Network::Int64,
 
@@ -225,16 +228,17 @@ module Ronin
 
           ushort_net:     Network::UInt16,
           uint_net:       Network::UInt32,
-          ulong_net:      if Native::ADDRESS_SIZE == 8
-                            Network::UInt64
-                          else
-                            Network::UInt32
+          ulong_net:      if Native::ADDRESS_SIZE == 8 then Network::UInt64
+                          else                              Network::UInt32
                           end,
           ulong_long_net: Network::UInt64,
 
           word_net:  WORD_Net,
           dword_net: DWORD_Net,
           qword_net: QWORD_Net,
+
+          machine_word_net: Network::MACHINE_WORD,
+          pointer_net:      Network::MACHINE_WORD,
 
           float32_net: Network::Float32,
           float64_net: Network::Float64,

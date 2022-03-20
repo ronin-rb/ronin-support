@@ -88,6 +88,14 @@ module Ronin
           # The "qword" type (64-bit unsigned integer).
           QWORD = UInt64
 
+          # The "machine word" type.
+          #
+          # @return [UInt64, UInt32]
+          #   {UInt64} on 64-bit systems and {UInt32} on 32-bit systems.
+          MACHINE_WORD = if ADDRESS_SIZE == 8 then UInt64
+                         else                      UInt32
+                         end
+
           # The `float` type (native-endianness).
           Float32 = Float32Type.new(endian: ENDIAN, pack_string: 'f')
 
@@ -121,13 +129,12 @@ module Ronin
                         end,
             ulong_long: UInt64,
 
-            pointer:    if ADDRESS_SIZE == 8 then UInt64
-                        else                      UInt32
-                        end,
-
             word:  WORD,
             dword: DWORD,
             qword: QWORD,
+
+            machine_word: MACHINE_WORD,
+            pointer:      MACHINE_WORD,
 
             float32: Float32,
             float64: Float64,

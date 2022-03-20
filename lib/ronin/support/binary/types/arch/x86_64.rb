@@ -30,10 +30,16 @@ module Ronin
             # The size of a pointer in bytes on x86-64.
             ADDRESS_SIZE = 8
 
+            # The "machine word" type.
+            MACHINE_WORD = LittleEndian::UInt64
+
             # The x86-64 types.
             TYPES = LittleEndian::TYPES.merge(
               long:  LittleEndian::Int64,
-              ulong: LittleEndian::UInt64
+              ulong: LittleEndian::UInt64,
+
+              machine_word: LittleEndian::UInt64,
+              pointer:      LittleEndian::UInt64
             )
 
             #

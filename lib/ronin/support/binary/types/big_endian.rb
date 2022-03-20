@@ -37,6 +37,11 @@ module Ronin
         module BigEndian
           include CharTypes
 
+          # The size of a native pointer in bytes.
+          #
+          # @return [4, 8]
+          ADDRESS_SIZE = Native::ADDRESS_SIZE
+
           # The `int8_t` type.
           Int8 = Int8Type.new
 
@@ -73,6 +78,14 @@ module Ronin
           # The "qword" type (64-bit big-endian unsigned integer).
           QWORD = UInt64
 
+          # The "machine word" type.
+          #
+          # @return [UInt64, UInt32]
+          #   {UInt64} on 64-bit systems and {UInt32} on 32-bit systems.
+          MACHINE_WORD = if ADDRESS_SIZE == 8 then UInt64
+                         else                      UInt32
+                         end
+
           # The `float` type (big-endianness).
           Float32 = Float32Type.new(endian: :big, pack_string: 'g')
 
@@ -88,11 +101,9 @@ module Ronin
 
             short:     Int16,
             int:       Int32,
-            long:      if Native::ADDRESS_SIZE == 8
-                          Int64
-                        else
-                          Int32
-                        end,
+            long:      if ADDRESS_SIZE == 8 then Int64
+                       else                      Int32
+                       end,
             long_long: Int64,
 
             uint8:  UInt8,
@@ -103,16 +114,17 @@ module Ronin
             byte:       UInt8,
             ushort:     UInt16,
             uint:       UInt32,
-            ulong:      if Native::ADDRESS_SIZE == 8
-                           UInt64
-                         else
-                           UInt32
-                         end,
+            ulong:      if ADDRESS_SIZE == 8 then UInt64
+                        else                      UInt32
+                        end,
             ulong_long: UInt64,
 
             word:  WORD,
             dword: DWORD,
             qword: QWORD,
+
+            machine_word: MACHINE_WORD,
+            pointer:      MACHINE_WORD,
 
             float32: Float32,
             float64: Float64,

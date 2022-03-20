@@ -30,10 +30,16 @@ module Ronin
             # The size of a pointer in bytes on PPC64.
             ADDRESS_SIZE = 8
 
+            # The "machine word" type.
+            MACHINE_WORD = BigEndian::UInt64
+
             # The PPC64 types.
             TYPES = BigEndian::TYPES.merge(
               long:  BigEndian::Int64,
-              ulong: BigEndian::UInt64
+              ulong: BigEndian::UInt64,
+
+              machine_word: BigEndian::UInt64,
+              pointer:      BigEndian::UInt64
             )
 
             #

@@ -184,6 +184,24 @@ describe Ronin::Support::Binary::Types::Native do
     it { expect(subject).to eq(described_class::UInt64) }
   end
 
+  describe "MACHINE_WORD" do
+    subject { described_class::MACHINE_WORD }
+
+    if described_class::ADDRESS_SIZE == 8
+      context "when ADDRESS_SIZE is 8" do
+        it "must return UInt64" do
+          expect(subject).to be(described_class::UInt64)
+        end
+      end
+    else
+      context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
+        it "must be an alias to UInt32" do
+          expect(subject).to be(described_class::UInt32)
+        end
+      end
+    end
+  end
+
   describe "Float64" do
     subject { described_class::Float64 }
 
@@ -357,22 +375,6 @@ describe Ronin::Support::Binary::Types::Native do
       end
     end
 
-    describe ":pointer" do
-      if described_class::ADDRESS_SIZE == 8
-        context "when ADDRESS_SIZE is 8" do
-          it "must be an alias to uint64" do
-            expect(subject[:pointer]).to be(subject[:uint64])
-          end
-        end
-      else
-        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-          it "must be an alias to uint32" do
-            expect(subject[:pointer]).to be(subject[:uint32])
-          end
-        end
-      end
-    end
-
     describe ":word" do
       it "must be an alias to uint16" do
         expect(subject[:word]).to be(subject[:uint16])
@@ -388,6 +390,28 @@ describe Ronin::Support::Binary::Types::Native do
     describe ":qword" do
       it "must be an alias to uint64" do
         expect(subject[:qword]).to be(subject[:uint64])
+      end
+    end
+
+    describe ":machine_word" do
+      if described_class::ADDRESS_SIZE == 8
+        context "when ADDRESS_SIZE is 8" do
+          it "must be an alias to uint64" do
+            expect(subject[:machine_word]).to be(subject[:uint64])
+          end
+        end
+      else
+        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
+          it "must be an alias to uint32" do
+            expect(subject[:machine_word]).to be(subject[:uint32])
+          end
+        end
+      end
+    end
+
+    describe ":pointer" do
+      it "must be an alias to machine_word" do
+        expect(subject[:pointer]).to be(subject[:machine_word])
       end
     end
 
