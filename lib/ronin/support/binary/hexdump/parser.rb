@@ -198,8 +198,8 @@ module Ronin
           #   `del`, etc).
           #
           # @raise [ArgumentError]
-          #   Unsupported `type:` value, or the `format:` was not `:hexdump` or
-          #   `:od`.
+          #   Unsupported `type:` value, the `type:` value was not a scalar
+          #   type, or the `format:` was not `:hexdump` or `:od`.
           #
           def initialize(format:       :hexdump,
                          type:         :byte,
@@ -219,6 +219,8 @@ module Ronin
             end
 
             case @type
+            when Types::AggregateType
+              raise(ArgumentError,"only scalar types are support: #{type.inspect}")
             when Types::FloatType
               @parse_method = method(:parse_float)
             when Types::CharType

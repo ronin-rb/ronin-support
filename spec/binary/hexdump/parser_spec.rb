@@ -29,6 +29,16 @@ describe Binary::Hexdump::Parser do
       it "must set #type by looking up the type: keyword value in TYPES" do
         expect(subject.type).to be(described_class::TYPES[type])
       end
+
+      context "but the type is not a scalar type" do
+        let(:type) { :string }
+
+        it do
+          expect {
+            described_class.new(type: type)
+          }.to raise_error(ArgumentError,"only scalar types are support: #{type.inspect}")
+        end
+      end
     end
 
     context "when the given format: is :hexdump" do
