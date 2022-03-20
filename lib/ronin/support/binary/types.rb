@@ -47,6 +47,9 @@ module Ronin
         FLOAT32_LE = LittleEndian::FLOAT32
         FLOAT64_LE = LittleEndian::FLOAT64
 
+        FLOAT_LE  = LittleEndian::FLOAT
+        DOUBLE_LE = LittleEndian::DOUBLE
+
         # big-endian types
         INT16_BE = BigEndian::INT16
         INT32_BE = BigEndian::INT32
@@ -64,6 +67,9 @@ module Ronin
 
         FLOAT32_BE = BigEndian::FLOAT32
         FLOAT64_BE = BigEndian::FLOAT64
+
+        FLOAT_BE  = BigEndian::FLOAT
+        DOUBLE_BE = BigEndian::DOUBLE
 
         # network byte-order types
         INT16_NE = Network::INT16
@@ -83,6 +89,9 @@ module Ronin
         FLOAT32_NE = Network::FLOAT32
         FLOAT64_NE = Network::FLOAT64
 
+        FLOAT_NE  = Network::FLOAT
+        DOUBLE_NE = Network::DOUBLE
+
         INT16_NET = Network::INT16
         INT32_NET = Network::INT32
         INT64_NET = Network::INT64
@@ -99,6 +108,9 @@ module Ronin
 
         FLOAT32_NET = Network::FLOAT32
         FLOAT64_NET = Network::FLOAT64
+
+        FLOAT_NET  = Network::FLOAT
+        DOUBLE_NET = Network::DOUBLE
 
         # All types (native, little-endian, big-endian, and network byte-order).
         TYPES = Native::TYPES.merge(
@@ -135,8 +147,8 @@ module Ronin
           float32_le: LittleEndian::FLOAT32,
           float64_le: LittleEndian::FLOAT64,
 
-          float_le:   LittleEndian::FLOAT32,
-          double_le:  LittleEndian::FLOAT64,
+          float_le:   LittleEndian::FLOAT,
+          double_le:  LittleEndian::DOUBLE,
 
           # big-endian types
           int16_be: BigEndian::INT16,
@@ -171,8 +183,8 @@ module Ronin
           float32_be: BigEndian::FLOAT32,
           float64_be: BigEndian::FLOAT64,
 
-          float_be:   BigEndian::FLOAT32,
-          double_be:  BigEndian::FLOAT64,
+          float_be:   BigEndian::FLOAT,
+          double_be:  BigEndian::DOUBLE,
 
           # network byte-order types
           int16_ne: Network::INT16,
@@ -207,8 +219,8 @@ module Ronin
           float32_ne: Network::FLOAT32,
           float64_ne: Network::FLOAT64,
 
-          float_ne:   Network::FLOAT32,
-          double_ne:  Network::FLOAT64,
+          float_ne:   Network::FLOAT,
+          double_ne:  Network::DOUBLE,
 
           # `_net` -> `_ne` aliases
           int16_net: Network::INT16,
@@ -243,8 +255,8 @@ module Ronin
           float32_net: Network::FLOAT32,
           float64_net: Network::FLOAT64,
 
-          float_net:   Network::FLOAT32,
-          double_net:  Network::FLOAT64
+          float_net:   Network::FLOAT,
+          double_net:  Network::DOUBLE
         )
 
         # Represents the different endian type systems.

@@ -150,22 +150,6 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
-  describe "FLOAT32" do
-    subject { described_class::FLOAT32 }
-
-    it do
-      expect(subject).to be_kind_of(Ronin::Support::Binary::Types::Float32Type)
-    end
-
-    it "must be native endian" do
-      expect(subject.endian).to be(described_class::ENDIAN)
-    end
-
-    it "must have a #pack_string of 'f'" do
-      expect(subject.pack_string).to eq('f')
-    end
-  end
-
   describe "WORD" do
     subject { described_class::WORD }
 
@@ -202,6 +186,22 @@ describe Ronin::Support::Binary::Types::Native do
     end
   end
 
+  describe "FLOAT32" do
+    subject { described_class::FLOAT32 }
+
+    it do
+      expect(subject).to be_kind_of(Ronin::Support::Binary::Types::Float32Type)
+    end
+
+    it "must be native endian" do
+      expect(subject.endian).to be(described_class::ENDIAN)
+    end
+
+    it "must have a #pack_string of 'f'" do
+      expect(subject.pack_string).to eq('f')
+    end
+  end
+
   describe "FLOAT64" do
     subject { described_class::FLOAT64 }
 
@@ -216,6 +216,18 @@ describe Ronin::Support::Binary::Types::Native do
     it "must have a #pack_string of 'd'" do
       expect(subject.pack_string).to eq('d')
     end
+  end
+
+  describe "FLOAT" do
+    subject { described_class::FLOAT }
+
+    it { expect(subject).to eq(described_class::FLOAT32) }
+  end
+
+  describe "DOUBLE" do
+    subject { described_class::DOUBLE }
+
+    it { expect(subject).to eq(described_class::FLOAT64) }
   end
 
   describe "TYPES" do
@@ -433,13 +445,13 @@ describe Ronin::Support::Binary::Types::Native do
 
     describe ":float" do
       it "must be an alias to float32" do
-        expect(subject[:float]).to be(subject[:float32])
+        expect(subject[:float]).to eq(described_class::FLOAT)
       end
     end
 
     describe ":double" do
       it "must be an alias to float64" do
-        expect(subject[:double]).to be(subject[:float64])
+        expect(subject[:double]).to eq(described_class::DOUBLE)
       end
     end
   end

@@ -95,6 +95,18 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::Native::FLOAT64) }
   end
 
+  describe "FLOAT" do
+    subject { described_class::FLOAT }
+
+    it { expect(subject).to eq(described_class::Native::FLOAT) }
+  end
+
+  describe "DOUBLE" do
+    subject { described_class::DOUBLE }
+
+    it { expect(subject).to eq(described_class::Native::DOUBLE) }
+  end
+
   describe "CHAR" do
     subject { described_class::CHAR }
 
@@ -188,6 +200,18 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::LittleEndian::FLOAT64) }
   end
 
+  describe "FLOAT_LE" do
+    subject { described_class::FLOAT_LE }
+
+    it { expect(subject).to eq(described_class::LittleEndian::FLOAT) }
+  end
+
+  describe "DOUBLE_LE" do
+    subject { described_class::DOUBLE_LE }
+
+    it { expect(subject).to eq(described_class::LittleEndian::DOUBLE) }
+  end
+
   #
   # Big-endian constant specs
   #
@@ -261,6 +285,18 @@ describe Ronin::Support::Binary::Types do
     subject { described_class::FLOAT64_BE }
 
     it { expect(subject).to eq(described_class::BigEndian::FLOAT64) }
+  end
+
+  describe "FLOAT_BE" do
+    subject { described_class::FLOAT_BE }
+
+    it { expect(subject).to eq(described_class::BigEndian::FLOAT) }
+  end
+
+  describe "DOUBLE_BE" do
+    subject { described_class::DOUBLE_BE }
+
+    it { expect(subject).to eq(described_class::BigEndian::DOUBLE) }
   end
 
   #
@@ -338,6 +374,18 @@ describe Ronin::Support::Binary::Types do
     it { expect(subject).to eq(described_class::Network::FLOAT64) }
   end
 
+  describe "FLOAT_NE" do
+    subject { described_class::FLOAT_NE }
+
+    it { expect(subject).to eq(described_class::Network::FLOAT) }
+  end
+
+  describe "DOUBLE_NE" do
+    subject { described_class::DOUBLE_NE }
+
+    it { expect(subject).to eq(described_class::Network::DOUBLE) }
+  end
+
   describe "INT16_NET" do
     subject { described_class::INT16_NET }
 
@@ -408,6 +456,18 @@ describe Ronin::Support::Binary::Types do
     subject { described_class::FLOAT64_NET }
 
     it { expect(subject).to eq(described_class::Network::FLOAT64) }
+  end
+
+  describe "FLOAT_NET" do
+    subject { described_class::FLOAT_NET }
+
+    it { expect(subject).to eq(described_class::Network::FLOAT) }
+  end
+
+  describe "DOUBLE_NET" do
+    subject { described_class::DOUBLE_NET }
+
+    it { expect(subject).to eq(described_class::Network::DOUBLE) }
   end
 
   describe "TYPES" do
@@ -628,13 +688,13 @@ describe Ronin::Support::Binary::Types do
 
     describe ":float" do
       it "must be an alias to float32" do
-        expect(subject[:float]).to be(subject[:float32])
+        expect(subject[:float]).to eq(described_class::Native::FLOAT)
       end
     end
 
     describe ":double" do
       it "must be an alias to float64" do
-        expect(subject[:double]).to be(subject[:float64])
+        expect(subject[:double]).to eq(described_class::Native::DOUBLE)
       end
     end
 
@@ -686,22 +746,6 @@ describe Ronin::Support::Binary::Types do
 
       it "must equal #{described_class}::LittleEndian::UINT64" do
         expect(subject).to eq(described_class::LittleEndian::UINT64)
-      end
-    end
-
-    describe ":float32_le" do
-      subject { super()[:float32_le] }
-
-      it "must equal #{described_class}::LittleEndian::FLOAT32" do
-        expect(subject).to eq(described_class::LittleEndian::FLOAT32)
-      end
-    end
-
-    describe ":float64_le" do
-      subject { super()[:float64_le] }
-
-      it "must equal #{described_class}::LittleEndian::FLOAT64" do
-        expect(subject).to eq(described_class::LittleEndian::FLOAT64)
       end
     end
 
@@ -805,15 +849,31 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
+    describe ":float32_le" do
+      subject { super()[:float32_le] }
+
+      it "must equal #{described_class}::LittleEndian::FLOAT32" do
+        expect(subject).to eq(described_class::LittleEndian::FLOAT32)
+      end
+    end
+
+    describe ":float64_le" do
+      subject { super()[:float64_le] }
+
+      it "must equal #{described_class}::LittleEndian::FLOAT64" do
+        expect(subject).to eq(described_class::LittleEndian::FLOAT64)
+      end
+    end
+
     describe ":float_le" do
       it "must be an alias to float32_le" do
-        expect(subject[:float_le]).to be(subject[:float32_le])
+        expect(subject[:float_le]).to eq(described_class::LittleEndian::FLOAT)
       end
     end
 
     describe ":double_le" do
       it "must be an alias to float64_le" do
-        expect(subject[:double_le]).to be(subject[:float64_le])
+        expect(subject[:double_le]).to eq(described_class::LittleEndian::DOUBLE)
       end
     end
 
@@ -865,22 +925,6 @@ describe Ronin::Support::Binary::Types do
 
       it "must equal #{described_class}::BigEndian::UINT64" do
         expect(subject).to eq(described_class::BigEndian::UINT64)
-      end
-    end
-
-    describe ":float32_be" do
-      subject { super()[:float32_be] }
-
-      it "must equal #{described_class}::BigEndian::FLOAT32" do
-        expect(subject).to eq(described_class::BigEndian::FLOAT32)
-      end
-    end
-
-    describe ":float64_be" do
-      subject { super()[:float64_be] }
-
-      it "must equal #{described_class}::BigEndian::FLOAT64" do
-        expect(subject).to eq(described_class::BigEndian::FLOAT64)
       end
     end
 
@@ -984,15 +1028,31 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
+    describe ":float32_be" do
+      subject { super()[:float32_be] }
+
+      it "must equal #{described_class}::BigEndian::FLOAT32" do
+        expect(subject).to eq(described_class::BigEndian::FLOAT32)
+      end
+    end
+
+    describe ":float64_be" do
+      subject { super()[:float64_be] }
+
+      it "must equal #{described_class}::BigEndian::FLOAT64" do
+        expect(subject).to eq(described_class::BigEndian::FLOAT64)
+      end
+    end
+
     describe ":float_be" do
       it "must be an alias to float32_be" do
-        expect(subject[:float_be]).to be(subject[:float32_be])
+        expect(subject[:float_be]).to eq(described_class::BigEndian::FLOAT)
       end
     end
 
     describe ":double_be" do
       it "must be an alias to float64_be" do
-        expect(subject[:double_be]).to be(subject[:float64_be])
+        expect(subject[:double_be]).to eq(described_class::BigEndian::DOUBLE)
       end
     end
 
@@ -1044,22 +1104,6 @@ describe Ronin::Support::Binary::Types do
 
       it "must equal #{described_class}::Network::UINT64" do
         expect(subject).to eq(described_class::Network::UINT64)
-      end
-    end
-
-    describe ":float32_ne" do
-      subject { super()[:float32_ne] }
-
-      it "must equal #{described_class}::Network::FLOAT32" do
-        expect(subject).to eq(described_class::Network::FLOAT32)
-      end
-    end
-
-    describe ":float64_ne" do
-      subject { super()[:float64_ne] }
-
-      it "must equal #{described_class}::Network::FLOAT64" do
-        expect(subject).to eq(described_class::Network::FLOAT64)
       end
     end
 
@@ -1163,15 +1207,31 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
+    describe ":float32_ne" do
+      subject { super()[:float32_ne] }
+
+      it "must equal #{described_class}::Network::FLOAT32" do
+        expect(subject).to eq(described_class::Network::FLOAT32)
+      end
+    end
+
+    describe ":float64_ne" do
+      subject { super()[:float64_ne] }
+
+      it "must equal #{described_class}::Network::FLOAT64" do
+        expect(subject).to eq(described_class::Network::FLOAT64)
+      end
+    end
+
     describe ":float_ne" do
       it "must be an alias to float32_ne" do
-        expect(subject[:float_ne]).to be(subject[:float32_ne])
+        expect(subject[:float_ne]).to eq(described_class::Network::FLOAT)
       end
     end
 
     describe ":double_ne" do
       it "must be an alias to float64_ne" do
-        expect(subject[:double_ne]).to be(subject[:float64_ne])
+        expect(subject[:double_ne]).to eq(described_class::Network::DOUBLE)
       end
     end
 
@@ -1220,22 +1280,6 @@ describe Ronin::Support::Binary::Types do
 
       it "must equal #{described_class}::Network::UINT64" do
         expect(subject).to eq(described_class::Network::UINT64)
-      end
-    end
-
-    describe ":float32_net" do
-      subject { super()[:float32_net] }
-
-      it "must equal #{described_class}::Network::FLOAT32" do
-        expect(subject).to eq(described_class::Network::FLOAT32)
-      end
-    end
-
-    describe ":float64_net" do
-      subject { super()[:float64_net] }
-
-      it "must equal #{described_class}::Network::FLOAT64" do
-        expect(subject).to eq(described_class::Network::FLOAT64)
       end
     end
 
@@ -1339,15 +1383,31 @@ describe Ronin::Support::Binary::Types do
       end
     end
 
+    describe ":float32_net" do
+      subject { super()[:float32_net] }
+
+      it "must equal #{described_class}::Network::FLOAT32" do
+        expect(subject).to eq(described_class::Network::FLOAT32)
+      end
+    end
+
+    describe ":float64_net" do
+      subject { super()[:float64_net] }
+
+      it "must equal #{described_class}::Network::FLOAT64" do
+        expect(subject).to eq(described_class::Network::FLOAT64)
+      end
+    end
+
     describe ":float_net" do
       it "must be an alias to float32_net" do
-        expect(subject[:float_net]).to be(subject[:float32_net])
+        expect(subject[:float_net]).to eq(described_class::Network::FLOAT)
       end
     end
 
     describe ":double_net" do
       it "must be an alias to float64_net" do
-        expect(subject[:double_net]).to be(subject[:float64_net])
+        expect(subject[:double_net]).to eq(described_class::Network::DOUBLE)
       end
     end
   end

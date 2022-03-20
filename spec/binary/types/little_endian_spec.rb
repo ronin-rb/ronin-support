@@ -208,6 +208,18 @@ describe Ronin::Support::Binary::Types::LittleEndian do
     end
   end
 
+  describe "FLOAT" do
+    subject { described_class::FLOAT }
+
+    it { expect(subject).to eq(described_class::FLOAT32) }
+  end
+
+  describe "DOUBLE" do
+    subject { described_class::DOUBLE }
+
+    it { expect(subject).to eq(described_class::FLOAT64) }
+  end
+
   describe "TYPES" do
     subject { described_class::TYPES }
 
@@ -423,13 +435,13 @@ describe Ronin::Support::Binary::Types::LittleEndian do
 
     describe ":float" do
       it "must be an alias to float32" do
-        expect(subject[:float]).to be(subject[:float32])
+        expect(subject[:float]).to eq(described_class::FLOAT)
       end
     end
 
     describe ":double" do
       it "must be an alias to float64" do
-        expect(subject[:double]).to be(subject[:float64])
+        expect(subject[:double]).to eq(described_class::DOUBLE)
       end
     end
   end

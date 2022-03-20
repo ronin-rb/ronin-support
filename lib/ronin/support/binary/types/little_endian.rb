@@ -89,8 +89,14 @@ module Ronin
           # The `float` type (little-endianness).
           FLOAT32 = Float32Type.new(endian: :little, pack_string: 'e')
 
+          # The `float` type (little-endianness).
+          FLOAT = FLOAT32
+
           # The `double` type (little-endianness).
           FLOAT64 = Float64Type.new(endian: :little, pack_string: 'E')
+
+          # The `double` type (little-endianness).
+          DOUBLE = FLOAT64
 
           # The little-endian types.
           TYPES = {
@@ -135,8 +141,8 @@ module Ronin
             float32: FLOAT32,
             float64: FLOAT64,
 
-            float:   FLOAT32,
-            double:  FLOAT64
+            float:   FLOAT,
+            double:  DOUBLE 
           }
 
           #

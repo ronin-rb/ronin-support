@@ -89,8 +89,14 @@ module Ronin
           # The `float` type (big-endianness).
           FLOAT32 = Float32Type.new(endian: :big, pack_string: 'g')
 
+          # The `float` type (big-endianness).
+          FLOAT = FLOAT32
+
           # The `double` type (big-endianness).
           FLOAT64 = Float64Type.new(endian: :big, pack_string: 'G')
+
+          # The `double` type (big-endianness).
+          DOUBLE = FLOAT64
 
           # The big-endian types.
           TYPES = {
@@ -129,8 +135,8 @@ module Ronin
             float32: FLOAT32,
             float64: FLOAT64,
 
-            float:   FLOAT32,
-            double:  FLOAT64,
+            float:   FLOAT,
+            double:  DOUBLE,
 
             char:  CHAR,
             uchar: UCHAR,

@@ -99,8 +99,14 @@ module Ronin
           # The `float` type (native-endianness).
           FLOAT32 = Float32Type.new(endian: ENDIAN, pack_string: 'f')
 
+          # The `float` type (native-endianness).
+          FLOAT = FLOAT32
+
           # The `double` type (native-endianness).
           FLOAT64 = Float64Type.new(endian: ENDIAN,pack_string: 'd')
+
+          # The `double` type (native-endianness).
+          DOUBLE = FLOAT64
 
           # The native types.
           TYPES = {
@@ -139,8 +145,8 @@ module Ronin
             float32: FLOAT32,
             float64: FLOAT64,
 
-            float:   FLOAT32,
-            double:  FLOAT64,
+            float:   FLOAT,
+            double:  DOUBLE,
 
             char:  CHAR,
             uchar: UCHAR,
