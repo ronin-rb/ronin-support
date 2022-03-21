@@ -125,9 +125,7 @@ module Ronin
 
           short_le:     LittleEndian::INT16,
           int_le:       LittleEndian::INT32,
-          long_le:      if Native::ADDRESS_SIZE == 8 then LittleEndian::INT64
-                        else                              LittleEndian::INT32
-                        end,
+          long_le:      LittleEndian::LONG,
           long_long_le: LittleEndian::INT64,
 
           uint16_le: LittleEndian::UINT16,
@@ -136,9 +134,7 @@ module Ronin
 
           ushort_le:     LittleEndian::UINT16,
           uint_le:       LittleEndian::UINT32,
-          ulong_le:      if Native::ADDRESS_SIZE == 8 then LittleEndian::UINT64
-                         else                              LittleEndian::UINT32
-                         end,
+          ulong_le:      LittleEndian::ULONG,
           ulong_long_le: LittleEndian::UINT64,
 
           word_le:  WORD_LE,
@@ -161,9 +157,7 @@ module Ronin
 
           short_be:     BigEndian::INT16,
           int_be:       BigEndian::INT32,
-          long_be:      if Native::ADDRESS_SIZE == 8 then BigEndian::INT64
-                        else                              BigEndian::INT32
-                        end,
+          long_be:      BigEndian::LONG,
           long_long_be: BigEndian::INT64,
 
           uint16_be: BigEndian::UINT16,
@@ -172,9 +166,7 @@ module Ronin
 
           ushort_be:     BigEndian::UINT16,
           uint_be:       BigEndian::UINT32,
-          ulong_be:      if Native::ADDRESS_SIZE == 8 then BigEndian::UINT64
-                         else                              BigEndian::UINT32
-                         end,
+          ulong_be:      BigEndian::ULONG,
           ulong_long_be: BigEndian::UINT64,
 
           word_be:  WORD_BE,
@@ -197,9 +189,7 @@ module Ronin
 
           short_ne:     Network::INT16,
           int_ne:       Network::INT32,
-          long_ne:      if Native::ADDRESS_SIZE == 8 then Network::INT64
-                        else                              Network::INT32
-                        end,
+          long_ne:      Network::LONG,
           long_long_ne: Network::INT64,
 
           uint16_ne: Network::UINT16,
@@ -208,9 +198,7 @@ module Ronin
 
           ushort_ne:     Network::UINT16,
           uint_ne:       Network::UINT32,
-          ulong_ne:      if Native::ADDRESS_SIZE == 8 then Network::UINT64
-                         else                              Network::UINT32
-                         end,
+          ulong_ne:      Network::ULONG,
           ulong_long_ne: Network::UINT64,
 
           word_ne:  WORD_NE,
@@ -233,9 +221,7 @@ module Ronin
 
           short_net:     Network::INT16,
           int_net:       Network::INT32,
-          long_net:      if Native::ADDRESS_SIZE == 8 then Network::INT64
-                         else                              Network::INT32
-                         end,
+          long_net:      Network::LONG,
           long_long_net: Network::INT64,
 
           uint16_net: Network::UINT16,
@@ -244,9 +230,7 @@ module Ronin
 
           ushort_net:     Network::UINT16,
           uint_net:       Network::UINT32,
-          ulong_net:      if Native::ADDRESS_SIZE == 8 then Network::UINT64
-                          else                              Network::UINT32
-                          end,
+          ulong_net:      Network::ULONG,
           ulong_long_net: Network::UINT64,
 
           word_net:  WORD_NET,

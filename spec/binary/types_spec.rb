@@ -478,18 +478,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":long" do
-      if described_class::ADDRESS_SIZE == 8
-        context "when ADDRESS_SIZE is 8" do
-          it "must be an alias to int64" do
-            expect(subject[:long]).to be(subject[:int64])
-          end
-        end
-      else
-        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-          it "must be an alias to int32" do
-            expect(subject[:long]).to be(subject[:int32])
-          end
-        end
+      subject { super()[:long] }
+
+      it "must equal #{described_class}::Native::LONG" do
+        expect(subject).to eq(described_class::Native::LONG)
       end
     end
 
@@ -512,18 +504,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":ulong" do
-      if described_class::ADDRESS_SIZE == 8
-        context "when ADDRESS_SIZE is 8" do
-          it "must be an alias to uint64" do
-            expect(subject[:ulong]).to be(subject[:uint64])
-          end
-        end
-      else
-        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-          it "must be an alias to uint32" do
-            expect(subject[:ulong]).to be(subject[:uint32])
-          end
-        end
+      subject { super()[:ulong] }
+
+      it "must equal #{described_class}::Native::ULONG" do
+        expect(subject).to eq(described_class::Native::ULONG)
       end
     end
 
@@ -659,18 +643,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":long_le" do
-      if described_class::ADDRESS_SIZE == 8
-        context "when ADDRESS_SIZE is 8" do
-          it "must be an alias to int64_le" do
-            expect(subject[:long_le]).to be(subject[:int64_le])
-          end
-        end
-      else
-        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-          it "must be an alias to int32_le" do
-            expect(subject[:long_le]).to be(subject[:int32_le])
-          end
-        end
+      subject { super()[:long_le] }
+
+      it "must equal #{described_class}::LittleEndian::LONG" do
+        expect(subject).to eq(described_class::LittleEndian::LONG)
       end
     end
 
@@ -693,18 +669,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":ulong_le" do
-      if described_class::ADDRESS_SIZE == 8
-        context "when ADDRESS_SIZE is 8" do
-          it "must be an alias to uint64_le" do
-            expect(subject[:ulong_le]).to be(subject[:uint64_le])
-          end
-        end
-      else
-        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-          it "must be an alias to uint32_le" do
-            expect(subject[:ulong_le]).to be(subject[:uint32_le])
-          end
-        end
+      subject { super()[:ulong_le] }
+
+      it "must equal #{described_class}::LittleEndian::ULONG" do
+        expect(subject).to eq(described_class::LittleEndian::ULONG)
       end
     end
 
@@ -840,18 +808,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":long_be" do
-      if described_class::ADDRESS_SIZE == 8
-        context "when ADDRESS_SIZE is 8" do
-          it "must be an alias to int64_be" do
-            expect(subject[:long_be]).to be(subject[:int64_be])
-          end
-        end
-      else
-        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-          it "must be an alias to int32_be" do
-            expect(subject[:long_be]).to be(subject[:int32_be])
-          end
-        end
+      subject { super()[:long_be] }
+
+      it "must equal #{described_class}::BigEndian::LONG" do
+        expect(subject).to eq(described_class::BigEndian::LONG)
       end
     end
 
@@ -874,18 +834,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":ulong_be" do
-      if described_class::ADDRESS_SIZE == 8
-        context "when ADDRESS_SIZE is 8" do
-          it "must be an alias to uint64_be" do
-            expect(subject[:ulong_be]).to be(subject[:uint64_be])
-          end
-        end
-      else
-        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-          it "must be an alias to uint32_be" do
-            expect(subject[:ulong_be]).to be(subject[:uint32_be])
-          end
-        end
+      subject { super()[:ulong_be] }
+
+      it "must equal #{described_class}::BigEndian::ULONG" do
+        expect(subject).to eq(described_class::BigEndian::ULONG)
       end
     end
 
@@ -1021,18 +973,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":long_ne" do
-      if described_class::ADDRESS_SIZE == 8
-        context "when ADDRESS_SIZE is 8" do
-          it "must be an alias to int64_ne" do
-            expect(subject[:long_ne]).to be(subject[:int64_ne])
-          end
-        end
-      else
-        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-          it "must be an alias to int32_ne" do
-            expect(subject[:long_ne]).to be(subject[:int32_ne])
-          end
-        end
+      subject { super()[:long_ne] }
+
+      it "must equal #{described_class}::Network::LONG" do
+        expect(subject).to eq(described_class::Network::LONG)
       end
     end
 
@@ -1055,18 +999,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":ulong_ne" do
-      if described_class::ADDRESS_SIZE == 8
-        context "when ADDRESS_SIZE is 8" do
-          it "must be an alias to uint64_ne" do
-            expect(subject[:ulong_ne]).to be(subject[:uint64_ne])
-          end
-        end
-      else
-        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-          it "must be an alias to uint32_ne" do
-            expect(subject[:ulong_ne]).to be(subject[:uint32_ne])
-          end
-        end
+      subject { super()[:ulong_ne] }
+
+      it "must equal #{described_class}::Network::ULONG" do
+        expect(subject).to eq(described_class::Network::ULONG)
       end
     end
 
@@ -1199,18 +1135,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":long_net" do
-      if described_class::ADDRESS_SIZE == 8
-        context "when ADDRESS_SIZE is 8" do
-          it "must be an alias to int64_net" do
-            expect(subject[:long_net]).to be(subject[:int64_net])
-          end
-        end
-      else
-        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-          it "must be an alias to int32_net" do
-            expect(subject[:long_net]).to be(subject[:int32_net])
-          end
-        end
+      subject { super()[:long_net] }
+
+      it "must equal #{described_class}::Network::LONG" do
+        expect(subject).to eq(described_class::Network::LONG)
       end
     end
 
@@ -1233,18 +1161,10 @@ describe Ronin::Support::Binary::Types do
     end
 
     describe ":ulong_net" do
-      if described_class::ADDRESS_SIZE == 8
-        context "when ADDRESS_SIZE is 8" do
-          it "must be an alias to uint64_net" do
-            expect(subject[:ulong_net]).to be(subject[:uint64_net])
-          end
-        end
-      else
-        context "when the ADDRESS_SIZE is #{described_class::ADDRESS_SIZE}" do
-          it "must be an alias to uint32_net" do
-            expect(subject[:ulong_net]).to be(subject[:uint32_net])
-          end
-        end
+      subject { super()[:ulong_net] }
+
+      it "must equal #{described_class}::Network::ULONG" do
+        expect(subject).to eq(described_class::Network::ULONG)
       end
     end
 
