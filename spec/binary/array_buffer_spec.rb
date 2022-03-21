@@ -16,6 +16,14 @@ describe Ronin::Support::Binary::ArrayBuffer do
       expect(subject.endian).to be(nil)
     end
 
+    it "must default #arch to nil" do
+      expect(subject.arch).to be(nil)
+    end
+
+    it "must default #type_system to Ronin::Support::Binary::Types" do
+      expect(subject.type_system).to be(Ronin::Support::Binary::Types)
+    end
+
     context "when the endian: keyword argument is given" do
       let(:endian) { :little }
 
@@ -30,10 +38,6 @@ describe Ronin::Support::Binary::ArrayBuffer do
       end
     end
 
-    it "must default #arch to nil" do
-      expect(subject.arch).to be(nil)
-    end
-
     context "when the arch: keyword argument is given" do
       let(:arch) { :x86 }
 
@@ -46,10 +50,6 @@ describe Ronin::Support::Binary::ArrayBuffer do
       it "must set #type_system to the Ronin::Support::Binary::Types::Arch:: module" do
         expect(subject.type_system).to be(Ronin::Support::Binary::Types::Arch[arch])
       end
-    end
-
-    it "must default #type_system to Ronin::Support::Binary::Types" do
-      expect(subject.type_system).to be(Ronin::Support::Binary::Types)
     end
 
     context "when an Integer argument is given instead of a String argument" do
@@ -220,12 +220,11 @@ describe Ronin::Support::Binary::ArrayBuffer do
 
       before { subject[index] = value }
 
+      let(:offset)       { index*subject.type.size  }
+      let(:size)         { subject.type.size        }
+      let(:packed_value) { subject.type.pack(value) }
+
       it "must write the multi-byte value to the given index within #string" do
-        offset = index*subject.type.size
-        size   = subject.type.size
-
-        packed_value = subject.type.pack(value)
-
         expect(subject.string[offset,size]).to eq(packed_value)
       end
     end
