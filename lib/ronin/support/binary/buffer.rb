@@ -80,11 +80,6 @@ module Ronin
         #                 Types::Network]
         attr_reader :type_system
 
-        # The underlying type of the data within the buffer.
-        #
-        # @return [Types::Type]
-        attr_reader :type
-
         # The length of the buffer.
         #
         # @return [Integer]
