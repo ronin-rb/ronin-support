@@ -484,7 +484,7 @@ describe Ronin::Support::Binary::Buffer do
       let(:offset)    { double("offset") }
       let(:count)     { double('count')  }
 
-      it "must call #get with :#{type_name} and the given offset" do
+      it "must call #get_array_of with :#{type_name} and the given offset and count" do
         expect(subject).to receive(:get_array_of).with(type_name,offset,count)
 
         subject.send("get_array_of_#{type_name}",offset,count)
@@ -496,7 +496,7 @@ describe Ronin::Support::Binary::Buffer do
       let(:offset)    { double("offset") }
       let(:array)     { double("#{type_name} array") }
 
-      it "must call #put with :#{type_name}, the given offset, and value" do
+      it "must call #put_array_of with :#{type_name}, the given offset, and value" do
         expect(subject).to receive(:put_array_of).with(type_name,offset,array)
 
         subject.send("put_array_of_#{type_name}",offset,array)
