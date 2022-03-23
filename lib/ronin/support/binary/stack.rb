@@ -58,7 +58,7 @@ module Ronin
       #     stack[-16]
       #     # => 66
       #
-      # Note: negative indexes are treated relative to the beginning of the
+      # **Note:** negative indexes are treated relative to the beginning of the
       # stack, since stacks grow downward in the address space.
       #
       # @api public
