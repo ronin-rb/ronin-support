@@ -32,12 +32,14 @@ module Ronin
       #
       #     stack = Stack.new
       #     # => #<Ronin::Support::Binary::Stack: "">
-      #     stack.push 10
-      #     # => #<Ronin::Support::Binary::Stack: "\n\x00\x00\x00\x00\x00\x00\x00">
       #     stack.push 0x41414141
-      #     # => #<Ronin::Support::Binary::Stack: "\n\x00\x00\x00\x00\x00\x00\x00AAAA\x00\x00\x00\x00">
-      #     stack.psuh -1
-      #     # => #<Ronin::Support::Binary::Stack: "\n\x00\x00\x00\x00\x00\x00\x00AAAA\x00\x00\x00\x00\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF">
+      #     # => #<Ronin::Support::Binary::Stack: "AAAA\x00\x00\x00\x00">
+      #     stack.push 0x7fffffffdde0
+      #     # => #<Ronin::Support::Binary::Stack: "\xE0\xDD\xFF\xFF\xFF\x7F\x00\x00AAAA\x00\x00\x00\x00">
+      #     stack.push -1
+      #     # => #<Ronin::Support::Binary::Stack: "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xE0\xDD\xFF\xFF\xFF\x7F\x00\x00AAAA\x00\x00\x00\x00">
+      #     stack.to_s
+      #     # => => "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xE0\xDD\xFF\xFF\xFF\x7F\x00\x00AAAA\x00\x00\x00\x00"
       #
       # Creating a stack from an existing String:
       #
