@@ -26,6 +26,13 @@ module Ronin
       # Represents a stack that can have binary data pushed to or popped from
       # it.
       #
+      # ## Features
+      #
+      # * Supports configurable endianness and architecture.
+      # * Can dump out a formatting binary string for new a stack.
+      # * Can parse an existing stack dump string.
+      # * Supports negative indexing.
+      #
       # ## Examples
       #
       # Creating a new stack:
