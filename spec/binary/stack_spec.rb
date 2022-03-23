@@ -65,14 +65,16 @@ describe Ronin::Support::Binary::Stack do
     end
   end
 
+  let(:machine_word) { subject.machine_word }
+
   describe "#[]" do
     context "when the stack is empty" do
-      let(:index) { 0 }
+      let(:offset)  { 0 }
 
       it do
         expect {
-          subject[0]
-        }.to raise_error(IndexError,"index #{index} is out of bounds: 0...0")
+          subject[offset]
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...0")
       end
     end
 
@@ -87,19 +89,13 @@ describe Ronin::Support::Binary::Stack do
         subject.push(value3)
       end
 
-      it "must allow reading arbitrary values from the stack" do
-        expect(subject[1]).to eq(value2)
-      end
-
-      context "when the index of -1 is given" do
-        it "must read the value at the end of the buffer" do
-          expect(subject[-1]).to eq(value3)
-        end
+      it "must allow reading arbitrary values at offsets within the stack" do
+        expect(subject[1 * machine_word.size]).to eq(value2)
       end
 
       context "when a negative index is given" do
         it "must read the value relative to the end of the buffer" do
-          expect(subject[-2]).to eq(value2)
+          expect(subject[-2 * machine_word.size]).to eq(value2)
         end
       end
     end
@@ -107,13 +103,13 @@ describe Ronin::Support::Binary::Stack do
 
   describe "#[]=" do
     context "when the stack is empty" do
-      let(:index) { 0 }
+      let(:offset) { 0 }
       let(:value) { 1 }
 
       it do
         expect {
-          subject[0] = value
-        }.to raise_error(IndexError,"index #{index} is out of bounds: 0...0")
+          subject[offset] = value
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...0")
       end
     end
 
@@ -122,7 +118,7 @@ describe Ronin::Support::Binary::Stack do
       let(:value2) { 0x41       }
       let(:value3) { 0x11223344 }
 
-      let(:index)     { 1    }
+      let(:offset)    { 1 * machine_word.size }
       let(:new_value) { 0x42 }
 
       before do
@@ -130,29 +126,17 @@ describe Ronin::Support::Binary::Stack do
         subject.push(value2)
         subject.push(value3)
 
-        subject[index] = new_value
+        subject[offset] = new_value
       end
 
-      let(:machine_word) { subject.machine_word }
-      let(:offset)       { index * machine_word.size }
       let(:packed_value) { machine_word.pack(new_value) }
 
       it "must write the new value into the buffer at the offset" do
         expect(subject.string[offset,machine_word.size]).to eq(packed_value)
       end
 
-      context "when the index of -1 is given" do
-        let(:index)  { -1 }
-        let(:offset) { subject.size - machine_word.size }
-
-        it "must write the value at the end of the buffer" do
-          expect(subject.string[offset,machine_word.size]).to eq(packed_value)
-        end
-      end
-
       context "when a negative index is given" do
-        let(:index)  { -2 }
-        let(:offset) { subject.size - (machine_word.size * -index) }
+        let(:offset) { -(machine_word.size * 2) }
 
         it "must write the value relative to the end of the buffer" do
           expect(subject.string[offset,machine_word.size]).to eq(packed_value)

@@ -44,7 +44,7 @@ module Ronin
       #     stack = Stack.new("\x41\x00\x00\x00\x00\x00\x00\x00\x42\x00\x00\x00\x00\x00\x00\x00")
       #     stack[0]
       #     # => 65
-      #     stack[1]
+      #     stack[8]
       #     # => 66
       #     stack.pop
       #     # => 66
@@ -135,19 +135,17 @@ module Ronin
         #
         # Accesses a machine word at the given index within the stack.
         #
-        # @param [Integer] index
-        #   The index within the stack to access.
+        # @param [Integer] offset
+        #   The byte offset within the stack to read from.
         #
         # @return [Integer]
         #   The value at the index within the stack.
         #
         # @raise [IndexError]
         #
-        def [](index)
-          offset = index * @machine_word.size
-
+        def [](offset)
           if offset+@machine_word.size > @size
-            raise(IndexError,"index #{index} is out of bounds: 0...#{@length}")
+            raise(IndexError,"offset #{offset} is out of bounds: 0...#{@size}")
           end
 
           slice = @string[offset,@machine_word.size]
@@ -158,8 +156,8 @@ module Ronin
         #
         # Sets a machine word at the given index within the stack.
         #
-        # @param [Integer] index
-        #   The index within the stack.
+        # @param [Integer] offset
+        #   The byte offset within the stack to write to.
         #
         # @param [Integer] value
         #   The value to write at the index within the stack.
@@ -169,11 +167,9 @@ module Ronin
         #
         # @raise [IndexError]
         #
-        def []=(index,value)
-          offset = index * @machine_word.size
-
+        def []=(offset,value)
           if offset+@machine_word.size > @size
-            raise(IndexError,"index #{index} is out of bounds: 0...#{@length}")
+            raise(IndexError,"offset #{offset} is out of bounds: 0...#{@size}")
           end
 
           data = @machine_word.pack(value)
