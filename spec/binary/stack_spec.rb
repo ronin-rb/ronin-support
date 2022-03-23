@@ -97,10 +97,10 @@ describe Ronin::Support::Binary::Stack do
       end
 
       context "when a negative index is given" do
-        let(:offset) { -(machine_word.size * 2) }
+        let(:offset) { -(machine_word.size * 3) }
 
         it "must read the value relative to beginning of the buffer" do
-          expect(subject[offset]).to eq(value2)
+          expect(subject[offset]).to eq(value3)
         end
       end
     end
@@ -141,8 +141,8 @@ describe Ronin::Support::Binary::Stack do
       end
 
       context "when a negative index is given" do
-        let(:index )  { -(machine_word.size * 2) }
-        let(:offset)  { index.abs - machine_word.size }
+        let(:index )  { -(machine_word.size * 3) }
+        let(:offset)  { subject.string.bytesize + index }
 
         it "must write the value relative to the beginning of the buffer" do
           expect(subject.string[offset,machine_word.size]).to eq(packed_value)
@@ -159,8 +159,8 @@ describe Ronin::Support::Binary::Stack do
 
     before { subject.push(value) }
 
-    it "must write a machine word to the end of the buffer" do
-      expect(subject.string[-machine_word.size..]).to eq(packed_value)
+    it "must write a machine word to the front of the buffer" do
+      expect(subject.string[0,machine_word.size]).to eq(packed_value)
     end
   end
 
@@ -184,7 +184,7 @@ describe Ronin::Support::Binary::Stack do
       end
     end
 
-    context "when there is multiple values on the stack" do
+    context "when there are multiple values on the stack" do
       let(:last_value) { 0x11223344 }
       let(:values)     { [1, 0x41414141, last_value] }
 
@@ -198,12 +198,12 @@ describe Ronin::Support::Binary::Stack do
         expect(subject.pop).to eq(last_value)
       end
 
-      it "must truncate the end of the buffer by #machine_word.size bytes" do
+      it "must truncate the front of the buffer by #machine_word.size bytes" do
+        original_buffer = subject.string.dup
+
         subject.pop
 
-        expect(subject.string.bytesize).to eq(
-          (values.length * machine_word.size) - machine_word.size
-        )
+        expect(subject.string).to eq(original_buffer[machine_word.size..])
       end
     end
   end

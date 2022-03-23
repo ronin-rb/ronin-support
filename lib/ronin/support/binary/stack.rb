@@ -157,7 +157,7 @@ module Ronin
         #   space.
         #
         def [](index)
-          offset = if index < 0 then index.abs - @machine_word.size
+          offset = if index < 0 then @size + index
                    else              index
                    end
 
@@ -189,7 +189,7 @@ module Ronin
         #   space.
         #
         def []=(index,value)
-          offset = if index < 0 then index.abs - @machine_word.size
+          offset = if index < 0 then @size + index
                    else              index
                    end
 
@@ -214,7 +214,7 @@ module Ronin
         def push(value)
           data = @machine_word.pack(value)
 
-          @string << data
+          @string.insert(0,data)
           @length += 1
           @size   += @machine_word.size
           return self
@@ -228,13 +228,13 @@ module Ronin
         #   The value popped from the stack.
         #
         def pop
-          data  = @string[-@machine_word.size..]
+          data  = @string.byteslice(0,@machine_word.size)
           value = @machine_word.unpack(data)
 
           @length -= 1
           @size   -= @machine_word.size
 
-          @string = @string.byteslice(0,@size)
+          @string = @string.byteslice(@machine_word.size,@size)
           return value
         end
 
