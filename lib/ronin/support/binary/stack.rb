@@ -166,7 +166,6 @@ module Ronin
           end
 
           data = @string[offset,@machine_word.size]
-
           return @machine_word.unpack(data)
         end
 
@@ -199,7 +198,6 @@ module Ronin
           end
 
           data = @machine_word.pack(value)
-
           @string[offset,@machine_word.size] = data
           return value
         end
@@ -230,8 +228,8 @@ module Ronin
         #   The value popped from the stack.
         #
         def pop
-          slice = @string[-@machine_word.size..]
-          value = @machine_word.unpack(slice)
+          data  = @string[-@machine_word.size..]
+          value = @machine_word.unpack(data)
 
           @length -= 1
           @size   -= @machine_word.size
