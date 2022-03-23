@@ -46,10 +46,18 @@ module Ronin
       #     # => 65
       #     stack[8]
       #     # => 66
-      #     stack.pop
-      #     # => 66
-      #     stack.pop
+      #
+      # Negative indexing within the stack:
+      #
+      #     stack.push(65)
+      #     stack.push(66)
+      #     stack[-8]
       #     # => 65
+      #     stack[-16]
+      #     # => 66
+      #
+      # Note: negative indexes are treated relative to the beginning of the
+      # stack, since stacks grow downward in the address space.
       #
       # @api public
       #
@@ -135,7 +143,7 @@ module Ronin
         #
         # Accesses a machine word at the given index within the stack.
         #
-        # @param [Integer] offset
+        # @param [Integer] index
         #   The byte offset within the stack to read from.
         #
         # @return [Integer]
@@ -143,20 +151,29 @@ module Ronin
         #
         # @raise [IndexError]
         #
-        def [](offset)
+        # @note
+        #   negative offsets are treated as relative to the bottom or the
+        #   beginning of the stack, since stack grow downward in the address
+        #   space.
+        #
+        def [](index)
+          offset = if index < 0 then index.abs - @machine_word.size
+                   else              index
+                   end
+
           if offset+@machine_word.size > @size
-            raise(IndexError,"offset #{offset} is out of bounds: 0...#{@size}")
+            raise(IndexError,"index #{index} is out of bounds: 0...#{@size}")
           end
 
-          slice = @string[offset,@machine_word.size]
+          data = @string[offset,@machine_word.size]
 
-          return @machine_word.unpack(slice)
+          return @machine_word.unpack(data)
         end
 
         #
         # Sets a machine word at the given index within the stack.
         #
-        # @param [Integer] offset
+        # @param [Integer] index
         #   The byte offset within the stack to write to.
         #
         # @param [Integer] value
@@ -167,9 +184,18 @@ module Ronin
         #
         # @raise [IndexError]
         #
-        def []=(offset,value)
+        # @note
+        #   negative offsets are treated as relative to the bottom or the
+        #   beginning of the stack, since stacks grow downward in the address
+        #   space.
+        #
+        def []=(index,value)
+          offset = if index < 0 then index.abs - @machine_word.size
+                   else              index
+                   end
+
           if offset+@machine_word.size > @size
-            raise(IndexError,"offset #{offset} is out of bounds: 0...#{@size}")
+            raise(IndexError,"index #{index} is out of bounds: 0...#{@size}")
           end
 
           data = @machine_word.pack(value)
