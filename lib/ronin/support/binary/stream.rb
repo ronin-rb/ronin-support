@@ -162,6 +162,10 @@ module Ronin
         end
 
         #
+        # @group Reader Methods
+        #
+
+        #
         # Reads a value of the given type from the IO stream.
         #
         # @param [Symbol] type
@@ -866,6 +870,10 @@ module Ronin
         end
 
         alias read_doubles read_array_of_double
+
+        #
+        # @group Writer Methods
+        #
 
         #
         # Writes the value to the IO stream.

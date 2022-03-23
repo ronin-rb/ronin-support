@@ -219,6 +219,31 @@ module Ronin
         end
 
         #
+        # Converts the buffer to a String.
+        #
+        # @return [String]
+        #   The raw binary buffer.
+        #
+        def to_s
+          @string
+        end
+
+        alias to_str to_s
+
+        #
+        # Inspects the buffer.
+        #
+        # @return [String]
+        #
+        def inspect
+          "#<#{self.class}: #{@string.inspect}>"
+        end
+
+        #
+        # @group Reader Methods
+        #
+
+        #
         # Reads a value of the given type at the given offset.
         #
         # @param [Symbol] type
@@ -1078,6 +1103,10 @@ module Ronin
         end
 
         alias get_doubles get_array_of_double
+
+        #
+        # @group Writer Methods
+        #
 
         #
         # Writes a value of the given type to the given offset.
@@ -1952,27 +1981,6 @@ module Ronin
         end
 
         alias put_doubles put_array_of_double
-
-        #
-        # Converts the buffer to a String.
-        #
-        # @return [String]
-        #   The raw binary buffer.
-        #
-        def to_s
-          @string
-        end
-
-        alias to_str to_s
-
-        #
-        # Inspects the buffer.
-        #
-        # @return [String]
-        #
-        def inspect
-          "#<#{self.class}: #{@string.inspect}>"
-        end
 
       end
     end
