@@ -32,7 +32,7 @@ module Ronin
           UCHAR = CharType.new(signed: false, pack_string: 'a')
 
           # The null-terminated C string type.
-          STRING = StringType.new(CHAR)
+          STRING = StringType.new
         end
       end
     end

@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types/unbounded_array_type'
+require 'ronin/support/binary/types/type'
 
 module Ronin
   module Support
@@ -26,33 +26,99 @@ module Ronin
         #
         # Represents a C string type.
         #
-        class StringType < UnboundedArrayType
+        class StringType < Type
 
           #
-          # Packs the stirng into the string type's format.
+          # Initializes the string type.
           #
-          # @param [String] string
-          #   The value to pack.
+          def initialize
+            super(pack_string: 'Z*')
+          end
+
+          #
+          # Indicates that Strings can have arbitrary size.
+          #
+          # @return [Float::INFINITY]
+          #
+          def size
+            Float::INFINITY
+          end
+
+          alias length size
+
+          #
+          # Indicates that the String contains signed characters.
+          #
+          # @return [true]
+          #
+          def signed?
+            true
+          end
+
+          #
+          # Indicates that the String does not contains unsigned characters.
+          #
+          # @return [false]
+          #
+          def unsigned?
+            false
+          end
+
+          #
+          # Packs the String into a null-terminated C String.
+          #
+          # @param [String] value
+          #   The String to pack.
           #
           # @return [String]
-          #   The packed string.
+          #   The packed binary data.
           #
-          def pack(string)
+          def pack(value)
             [value].pack(@pack_string)
           end
 
           #
-          # Unpacks the binary string.
+          # Unpacks a null-terminated C String.
           #
           # @param [String] data
+          #   The binary data to unpack.
           #
-          # @return [String]
-          #   The unpacked string.
+          # @return [String, nil]
+          #   The unpacked String.
           #
           def unpack(data)
             data.unpack1(@pack_string)
           end
 
+          #
+          # Enqueues a scalar value onto the flat list of values.
+          #
+          # @param [Array] values
+          #   The flat array of values.
+          #
+          # @param [String, nil] value
+          #   The scalar value to enqueue.
+          #
+          # @api private
+          #
+          def enqueue_value(values,value)
+            values.push(value)
+          end
+
+          #
+          # Dequeues a scalar value from the flat list of values.
+          #
+          # @param [Array] values
+          #   The flat array of values.
+          #
+          # @return [String]
+          #   The dequeued scalar value.
+          #
+          # @api private
+          #
+          def dequeue_value(values)
+            values.shift
+          end
         end
       end
     end

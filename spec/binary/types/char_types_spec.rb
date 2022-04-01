@@ -33,8 +33,8 @@ describe Ronin::Support::Binary::Types::CharTypes do
       expect(subject).to be_kind_of(Ronin::Support::Binary::Types::StringType)
     end
 
-    it "must have a #type of CHAR" do
-      expect(subject.type).to be(described_class::CHAR)
+    it "must have a #pack_string of 'Z*'" do
+      expect(subject.pack_string).to eq('Z*')
     end
   end
 end
