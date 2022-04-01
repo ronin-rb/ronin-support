@@ -147,6 +147,27 @@ describe Ronin::Support::Binary::Types::ArrayType do
       end
     end
 
+    context "when initialized with a StringType" do
+      let(:type) { Ronin::Support::Binary::Types::STRING }
+
+      let(:length) { 5 }
+      let(:array) do
+        [
+          "hello world",
+          "foo",
+          "bar",
+          "baz",
+          "quix"
+        ]
+      end
+
+      it "must pack the given strings as a series of C strings" do
+        expect(subject.pack(array)).to eq(
+          "#{array[0]}\0#{array[1]}\0#{array[2]}\0#{array[3]}\0#{array[4]}\0"
+        )
+      end
+    end
+
     context "when initialized with a StructType" do
       let(:type) do
         Ronin::Support::Binary::Types::StructType.new(
@@ -281,6 +302,26 @@ describe Ronin::Support::Binary::Types::ArrayType do
       let(:data) { array.flatten.pack(subject.pack_string) }
 
       it "must unpack multiple values and return a multi-dimensional Array" do
+        expect(subject.unpack(data)).to eq(array)
+      end
+    end
+
+    context "when initialized with a StringType" do
+      let(:type) { Ronin::Support::Binary::Types::STRING }
+
+      let(:length) { 5 }
+      let(:array) do
+        [
+          "hello world",
+          "foo",
+          "bar",
+          "baz",
+          "quix"
+        ]
+      end
+      let(:data) { array.pack(type.pack_string * array.length) }
+
+      it "must pack the given strings as a series of C strings" do
         expect(subject.unpack(data)).to eq(array)
       end
     end

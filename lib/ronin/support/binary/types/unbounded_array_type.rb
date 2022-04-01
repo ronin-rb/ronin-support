@@ -48,7 +48,7 @@ module Ronin
           #   Cannot initialize a nested {UnboundedArrayType}.
           #
           def initialize(type)
-            if type.kind_of?(UnboundedArrayType)
+            if type.class == UnboundedArrayType
               raise(ArgumentError,"cannot initialize a nested #{UnboundedArrayType}")
             end
 
@@ -151,10 +151,26 @@ module Ronin
 
               return dequeue_value(values)
             else
-              type_size = @type.size
+              case @type
+              when StringType
+                array = []
+                offset = 0
+                length = data.bytesize
 
-              (0...data.bytesize).step(type_size).map do |offset|
-                @type.unpack(data.byteslice(offset,type_size))
+                while offset < length
+                  string = @type.unpack(data[offset..])
+                  array  << string
+
+                  offset += string.bytesize + 1
+                end
+
+                return array
+              else
+                type_size = @type.size
+
+                (0...data.bytesize).step(type_size).map do |offset|
+                  @type.unpack(data.byteslice(offset,type_size))
+                end
               end
             end
           end
