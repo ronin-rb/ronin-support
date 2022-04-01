@@ -149,7 +149,7 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
         ]
       end
 
-      it "must unpack multiple values and return a multi-dimensional Array" do
+      it "must flatten then pack the multi-dimensional Array of values" do
         expect(subject.pack(array)).to eq(
           array.flatten.pack("#{pack_string}*")
         )

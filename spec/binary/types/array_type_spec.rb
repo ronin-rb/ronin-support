@@ -218,7 +218,7 @@ describe Ronin::Support::Binary::Types::ArrayType do
       let(:length) { 3 }
       let(:array)  { [hash1, hash2, hash3] }
 
-      it "must unpack multiple values and return an Array of Hashes" do
+      it "must pack the values of the Hashes in the Array" do
         expect(subject.pack(array)).to eq(
           [
             hash1[:a], hash1[:b], hash1[:c][:x], hash1[:c][:y],
@@ -321,7 +321,7 @@ describe Ronin::Support::Binary::Types::ArrayType do
       end
       let(:data) { array.pack(type.pack_string * array.length) }
 
-      it "must pack the given strings as a series of C strings" do
+      it "must unpack the given strings as a series of C strings" do
         expect(subject.unpack(data)).to eq(array)
       end
     end
