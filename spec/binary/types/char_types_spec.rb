@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'ronin/support/binary/types/char_types'
 
 describe Ronin::Support::Binary::Types::CharTypes do
-  describe "Char" do
+  describe "CHAR" do
     subject { described_class::CHAR }
 
     it do
@@ -14,7 +14,7 @@ describe Ronin::Support::Binary::Types::CharTypes do
     end
   end
 
-  describe "UChar" do
+  describe "UCHAR" do
     subject { described_class::UCHAR }
 
     it do
@@ -26,7 +26,7 @@ describe Ronin::Support::Binary::Types::CharTypes do
     end
   end
 
-  describe "CString" do
+  describe "STRING" do
     subject { described_class::STRING }
 
     it do
