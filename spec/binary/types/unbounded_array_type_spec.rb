@@ -175,6 +175,67 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
         )
       end
     end
+
+    context "when initialized with a StructType" do
+      let(:type) do
+        Ronin::Support::Binary::Types::StructType.new(
+          a: Ronin::Support::Binary::Types::CHAR,
+          b: Ronin::Support::Binary::Types::INT16,
+          c: Ronin::Support::Binary::Types::StructType.new(
+            {
+              x: Ronin::Support::Binary::Types::INT32,
+              y: Ronin::Support::Binary::Types::UINT32
+            }
+          )
+        )
+      end
+
+      let(:hash1) do
+        {
+          a: 'A',
+          b: -1,
+          c: {
+            x: -2,
+            y: 0x11223344
+          }
+        }
+      end
+
+      let(:hash2) do
+        {
+          a: 'B',
+          b: -2,
+          c: {
+            x: -3,
+            y: 0x55667788
+          }
+        }
+      end
+
+      let(:hash3) do
+        {
+          a: 'C',
+          b: -3,
+          c: {
+            x: -4,
+            y: 0xAAFFBBCC
+          }
+        }
+      end
+
+      let(:length) { 3 }
+      let(:array)  { [hash1, hash2, hash3] }
+
+      it "must pack the values of the Hashes in the Array" do
+        expect(subject.pack(array)).to eq(
+          [
+            hash1[:a], hash1[:b], hash1[:c][:x], hash1[:c][:y],
+            hash2[:a], hash2[:b], hash2[:c][:x], hash2[:c][:y],
+            hash3[:a], hash3[:b], hash3[:c][:x], hash3[:c][:y]
+          ].pack(type.pack_string * array.length)
+        )
+      end
+    end
   end
 
   describe "#unpack" do
