@@ -276,7 +276,7 @@ describe Ronin::Support::Binary::Format do
     end
   end
 
-  describe "[]" do
+  describe ".[]" do
     let(:fields) { [:uint32, :uint64] }
 
     subject { described_class[*fields] }
