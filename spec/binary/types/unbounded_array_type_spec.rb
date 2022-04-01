@@ -1,8 +1,9 @@
 require 'spec_helper'
 require 'ronin/support/binary/types/unbounded_array_type'
 require 'ronin/support/binary/types/scalar_type'
-
-require_relative 'aggregate_type_examples'
+require 'ronin/support/binary/types/array_type'
+require 'ronin/support/binary/types/struct_type'
+require 'ronin/support/binary/types'
 
 describe Ronin::Support::Binary::Types::UnboundedArrayType do
   let(:size)        { 4       }
@@ -26,8 +27,31 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
       expect(subject.type).to eq(type)
     end
 
-    it "must set #pack_string to '\#{type.pack_string}*'" do
-      expect(subject.pack_string).to eq("#{type.pack_string}*")
+    context "when the given type is a ScalarType" do
+      context "and when the given type also has a #pack_string" do
+        it "must set #pack_string to '\#{type.pack_string}*'" do
+          expect(subject.pack_string).to eq("#{type.pack_string}*")
+        end
+      end
+    end
+
+    context "when the given type is an AggregateType" do
+      let(:length) { 10 }
+      let(:type) do
+        Ronin::Support::Binary::Types::ArrayType.new(
+          Ronin::Support::Binary::Types::ScalarType.new(
+            size:        size,
+            endian:      endian,
+            signed:      signed,
+            pack_string: pack_string
+          ),
+          length
+        )
+      end
+
+      it "must set #pack_string to nil" do
+        expect(subject.pack_string).to be(nil)
+      end
     end
   end
 
@@ -40,12 +64,6 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
   describe "#length" do
     it "must return Float::INFINITY" do
       expect(subject.length).to eq(Float::INFINITY)
-    end
-  end
-
-  describe "#total_length" do
-    it "must return Float::INFINITY" do
-      expect(subject.total_length).to eq(Float::INFINITY)
     end
   end
 
@@ -71,7 +89,91 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
     let(:values) { (1..10).to_a }
 
     it "must pack multiple values using Array#pack and #pack_string" do
-      expect(subject.pack(*values)).to eq(values.pack(subject.pack_string))
+      expect(subject.pack(values)).to eq(values.pack(subject.pack_string))
+    end
+
+    context "when initialized with an ArrayType" do
+      let(:length) { 10 }
+      let(:type) do
+        Ronin::Support::Binary::Types::ArrayType.new(
+          Ronin::Support::Binary::Types::ScalarType.new(
+            size:        size,
+            endian:      endian,
+            signed:      signed,
+            pack_string: pack_string
+          ),
+          length
+        )
+      end
+
+      let(:array) { [(0..9).to_a, (10..19).to_a] }
+
+      it "must flatten then pack the multi-dimensional Array of values" do
+        expect(subject.pack(array)).to eq(
+          array.flatten.pack("#{pack_string}*")
+        )
+      end
+    end
+
+    context "when initialized with an ArrayType of another ArrayType" do
+      let(:length1) { 3  }
+      let(:length2) { 10 }
+      let(:type) do
+        Ronin::Support::Binary::Types::ArrayType.new(
+          Ronin::Support::Binary::Types::ArrayType.new(
+            Ronin::Support::Binary::Types::ScalarType.new(
+              size:        size,
+              endian:      endian,
+              signed:      signed,
+              pack_string: pack_string
+            ),
+            length2
+          ),
+          length1
+        )
+      end
+
+      let(:array) do
+        [
+          [
+            (0..9).to_a,
+            (10..19).to_a,
+            (20..29).to_a
+          ],
+
+          [
+            (30..39).to_a,
+            (40..49).to_a,
+            (50..59).to_a
+          ]
+        ]
+      end
+
+      it "must unpack multiple values and return a multi-dimensional Array" do
+        expect(subject.pack(array)).to eq(
+          array.flatten.pack("#{pack_string}*")
+        )
+      end
+    end
+
+    context "when initialized with a StringType" do
+      let(:type) { Ronin::Support::Binary::Types::STRING }
+
+      let(:array) do
+        [
+          "hello world",
+          "foo",
+          "bar",
+          "baz",
+          "quix"
+        ]
+      end
+
+      it "must pack the given strings as a series of C strings" do
+        expect(subject.pack(array)).to eq(
+          "#{array[0]}\0#{array[1]}\0#{array[2]}\0#{array[3]}\0#{array[4]}\0"
+        )
+      end
     end
   end
 
@@ -94,7 +196,329 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
     it "must unpack multiple values using String#unpack and #pack_string" do
       expect(subject.unpack(data)).to eq(data.unpack(subject.pack_string))
     end
+
+    context "when initialized with another ArrayType" do
+      let(:length) { 10 }
+      let(:type) do
+        Ronin::Support::Binary::Types::ArrayType.new(
+          Ronin::Support::Binary::Types::ScalarType.new(
+            size:        size,
+            endian:      endian,
+            signed:      signed,
+            pack_string: pack_string
+          ),
+          length
+        )
+      end
+
+      let(:array) { [(0..9).to_a, (10..19).to_a] }
+      let(:data) do
+        array.flatten.pack(type.pack_string * array.length)
+      end
+
+      it "must unpack multiple values and return a multi-dimensional Array" do
+        expect(subject.unpack(data)).to eq(array)
+      end
+    end
+
+    context "when initialized with an ArrayType of another ArrayType" do
+      let(:length1) { 3  }
+      let(:length2) { 10 }
+      let(:type) do
+        Ronin::Support::Binary::Types::ArrayType.new(
+          Ronin::Support::Binary::Types::ArrayType.new(
+            Ronin::Support::Binary::Types::ScalarType.new(
+              size:        size,
+              endian:      endian,
+              signed:      signed,
+              pack_string: pack_string
+            ),
+            length2
+          ),
+          length1
+        )
+      end
+
+      let(:array) do
+        [
+          [
+            (0..9).to_a,
+            (10..19).to_a,
+            (20..29).to_a
+          ],
+
+          [
+            (30..39).to_a,
+            (40..49).to_a,
+            (50..59).to_a
+          ]
+        ]
+      end
+
+      let(:data) do
+        array.flatten.pack(type.pack_string * array.length)
+      end
+
+      it "must unpack multiple values and return a multi-dimensional Array" do
+        expect(subject.unpack(data)).to eq(array)
+      end
+    end
+
+    context "when initialized with a StringType" do
+      let(:type) { Ronin::Support::Binary::Types::STRING }
+
+      let(:array) do
+        [
+          "hello world",
+          "foo",
+          "bar",
+          "baz",
+          "quix"
+        ]
+      end
+      let(:data) { array.pack(type.pack_string * array.length) }
+
+      it "must pack the given strings as a series of C strings" do
+        expect(subject.unpack(data)).to eq(array)
+      end
+    end
+
+    context "when initialized with a StructType" do
+      let(:type) do
+        Ronin::Support::Binary::Types::StructType.new(
+          a: Ronin::Support::Binary::Types::CHAR,
+          b: Ronin::Support::Binary::Types::INT16,
+          c: Ronin::Support::Binary::Types::StructType.new(
+            {
+              x: Ronin::Support::Binary::Types::INT32,
+              y: Ronin::Support::Binary::Types::UINT32
+            }
+          )
+        )
+      end
+
+      let(:hash1) do
+        {
+          a: 'A',
+          b: -1,
+          c: {
+            x: -2,
+            y: 0x11223344
+          }
+        }
+      end
+
+      let(:hash2) do
+        {
+          a: 'B',
+          b: -2,
+          c: {
+            x: -3,
+            y: 0x55667788
+          }
+        }
+      end
+
+      let(:hash3) do
+        {
+          a: 'C',
+          b: -3,
+          c: {
+            x: -4,
+            y: 0xAAFFBBCC
+          }
+        }
+      end
+
+      let(:length) { 3 }
+      let(:array)  { [hash1, hash2, hash3] }
+
+      let(:values) do
+        [
+          hash1[:a], hash1[:b], hash1[:c][:x], hash1[:c][:y],
+          hash2[:a], hash2[:b], hash2[:c][:x], hash2[:c][:y],
+          hash3[:a], hash3[:b], hash3[:c][:x], hash3[:c][:y]
+        ]
+      end
+      let(:data) do
+        values.pack(type.pack_string * array.length)
+      end
+
+      it "must unpack multiple values and return an Array of Hashes" do
+        expect(subject.unpack(data)).to eq(array)
+      end
+    end
   end
 
-  include_examples "AggregateType examples"
+  describe "#enqueue_value" do
+    let(:array)  { (1..10).to_a }
+    let(:values) { ['A', 'B']   }
+
+    it "must concat the array onto the end of the given values" do
+      subject.enqueue_value(values,array)
+
+      expect(values).to eq(['A', 'B'] + array)
+    end
+
+    context "when initialized with an ArrayType" do
+      let(:length) { 10 }
+      let(:type) do
+        Ronin::Support::Binary::Types::ArrayType.new(
+          Ronin::Support::Binary::Types::ScalarType.new(
+            size:        size,
+            endian:      endian,
+            signed:      signed,
+            pack_string: pack_string
+          ),
+          length
+        )
+      end
+
+      let(:array) { [(0..9).to_a, (10..19).to_a] }
+
+      it "must flatten then push the array onto the end of the given values" do
+        subject.enqueue_value(values,array)
+
+        expect(values).to eq(['A', 'B'] + array.flatten)
+      end
+    end
+
+    context "when initialized with an ArrayType of another ArrayType" do
+      let(:length1) { 3  }
+      let(:length2) { 10 }
+      let(:type) do
+        Ronin::Support::Binary::Types::ArrayType.new(
+          Ronin::Support::Binary::Types::ArrayType.new(
+            Ronin::Support::Binary::Types::ScalarType.new(
+              size:        size,
+              endian:      endian,
+              signed:      signed,
+              pack_string: pack_string
+            ),
+            length2
+          ),
+          length1
+        )
+      end
+
+      let(:array) do
+        [
+          [
+            (0..9).to_a,
+            (10..19).to_a,
+            (20..29).to_a
+          ],
+
+          [
+            (30..39).to_a,
+            (40..49).to_a,
+            (50..59).to_a
+          ]
+        ]
+      end
+
+      it "must flatten then push the array onto the end of the given values" do
+        subject.enqueue_value(values,array)
+
+        expect(values).to eq(['A', 'B'] + array.flatten)
+      end
+    end
+  end
+
+  describe "#dequeue_value" do
+    let(:array)  { (1..10).to_a }
+    let(:values) { [*array] }
+
+    it "must shift #length number of values off of the given values" do
+      expect(subject.dequeue_value(values)).to eq(array)
+    end
+
+    context "when initialized with an ArrayType" do
+      let(:length) { 10 }
+      let(:type) do
+        Ronin::Support::Binary::Types::ArrayType.new(
+          Ronin::Support::Binary::Types::ScalarType.new(
+            size:        size,
+            endian:      endian,
+            signed:      signed,
+            pack_string: pack_string
+          ),
+          length
+        )
+      end
+
+      let(:array)  { [(0..9).to_a, (10..19).to_a] }
+      let(:values) { array.flatten }
+
+      it "must return a multi-dimensional Array of values" do
+        expect(subject.dequeue_value(values)).to eq(array)
+      end
+    end
+
+    context "when initialized with an ArrayType of another ArrayType" do
+      let(:length1) { 3  }
+      let(:length2) { 10 }
+      let(:type) do
+        Ronin::Support::Binary::Types::ArrayType.new(
+          Ronin::Support::Binary::Types::ArrayType.new(
+            Ronin::Support::Binary::Types::ScalarType.new(
+              size:        size,
+              endian:      endian,
+              signed:      signed,
+              pack_string: pack_string
+            ),
+            length2
+          ),
+          length1
+        )
+      end
+
+      let(:array) do
+        [
+          [
+            (0..9).to_a,
+            (10..19).to_a,
+            (20..29).to_a
+          ],
+
+          [
+            (30..39).to_a,
+            (40..49).to_a,
+            (50..59).to_a
+          ]
+        ]
+      end
+      let(:values) { array.flatten }
+
+      it "must return a multi-dimensional Array of values" do
+        expect(subject.dequeue_value(values)).to eq(array)
+      end
+    end
+  end
+
+  describe "#[]" do
+    context "when a length argument is given" do
+      let(:length) { 10 }
+
+      it "must return an ArrayType" do
+        expect(subject[length]).to be_kind_of(Ronin::Support::Binary::Types::ArrayType)
+      end
+
+      it "must have a #type of self" do
+        expect(subject[length].type).to be(subject)
+      end
+
+      it "must have a #length of the length argument" do
+        expect(subject[length].length).to be(length)
+      end
+    end
+
+    context "when no argument is given" do
+      it do
+        expect {
+          subject[]
+        }.to raise_error(ArgumentError,"cannot initialize a nested #{described_class}")
+      end
+    end
+  end
 end

@@ -27,6 +27,32 @@ module Ronin
         # Represents a C string type.
         #
         class StringType < UnboundedArrayType
+
+          #
+          # Packs the stirng into the string type's format.
+          #
+          # @param [String] string
+          #   The value to pack.
+          #
+          # @return [String]
+          #   The packed string.
+          #
+          def pack(string)
+            [value].pack(@pack_string)
+          end
+
+          #
+          # Unpacks the binary string.
+          #
+          # @param [String] data
+          #
+          # @return [String]
+          #   The unpacked string.
+          #
+          def unpack(data)
+            data.unpack1(@pack_string)
+          end
+
         end
       end
     end

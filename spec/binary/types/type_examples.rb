@@ -2,7 +2,7 @@ require 'rspec'
 require 'ronin/support/binary/types/array_type'
 require 'ronin/support/binary/types/unbounded_array_type'
 
-shared_examples_for "AggregateType examples" do
+shared_examples_for "Type examples" do
   describe "#[]" do
     context "when a length argument is given" do
       let(:length) { 10 }

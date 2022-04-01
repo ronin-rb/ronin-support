@@ -32,17 +32,36 @@ module Ronin
 
           # The String for `Array#pack` or `String#unpack`.
           #
-          # @return [String]
+          # @return [String, nil]
+          #
+          # @note
+          #   May return `nil` if the type does not map to a Ruby pack-string.
           attr_reader :pack_string
 
           #
           # Initializes the type.
           #
-          # @param [String] pack_string
+          # @param [String, nil] pack_string
           #   The String for `Array#pack` or `String#unpack`.
           #
           def initialize(pack_string: )
             @pack_string = pack_string
+          end
+
+          #
+          # Creates an Array type around the scalar type.
+          #
+          # @param [Integer, nil] length
+          #   The length of the Array.
+          #
+          # @return [ArrayType, UnboundedArrayType]
+          #   The new Array type or an unbounded Array type if `length` was not
+          #   given.
+          #
+          def [](length=nil)
+            if length then ArrayType.new(self,length)
+            else           UnboundedArrayType.new(self)
+            end
           end
 
           #
@@ -59,26 +78,65 @@ module Ronin
           #
           # Packs the value into the type's binary format.
           #
-          # @param [Integer, Float, String] value
+          # @param [Object] value
           #   The value to pack.
           #
           # @return [String]
           #   The packed binary data.
           #
+          # @abstract
+          #
           def pack(value)
-            [value].pack(@pack_string)
+            raise(NotImplementedError,"#{self.class}##{__method__} was not implemented")
           end
 
           #
           # Unpacks the binary data.
           #
           # @param [String] data
+          #   The binary data to unpack.
           #
-          # @return [Integer, Float, String, nil]
+          # @return [Object]
           #   The unpacked value.
           #
+          # @abstract
+          #
           def unpack(data)
-            data.unpack1(@pack_string)
+            raise(NotImplementedError,"#{self.class}##{__method__} was not implemented")
+          end
+
+          #
+          # Enqueues a value onto the flat list of values.
+          #
+          # @param [Array] values
+          #   The flat array of values.
+          #
+          # @param [Object] value
+          #   The value to enqueue.
+          #
+          # @abstract
+          #
+          # @api private
+          #
+          def enqueue_value(values,value)
+            raise(NotImplementedError,"#{self.class}##{__method__} was not implemented")
+          end
+
+          #
+          # Dequeues a value from the flat list of values.
+          #
+          # @param [Array] values
+          #   The flat array of values.
+          #
+          # @return [Object]
+          #   The dequeued value.
+          #
+          # @abstract
+          #
+          # @api private
+          #
+          def dequeue_value(values)
+            raise(NotImplementedError,"#{self.class}##{__method__} was not implemented")
           end
 
         end

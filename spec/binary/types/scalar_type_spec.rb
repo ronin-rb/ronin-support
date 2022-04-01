@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'ronin/support/binary/types/scalar_type'
 
+require_relative 'type_examples'
+
 describe Ronin::Support::Binary::Types::ScalarType do
   let(:size)        { 4       }
   let(:endian)      { :little }
@@ -134,31 +136,40 @@ describe Ronin::Support::Binary::Types::ScalarType do
     end
   end
 
-  describe "#[]" do
-    context "when a length argument is given" do
-      let(:length) { 10 }
+  describe "#enqueue_value" do
+    context "when the given values array is empty" do
+      let(:values) { [] }
+      let(:value)  { 42 }
 
-      it "must return an ArrayType" do
-        expect(subject[length]).to be_kind_of(Ronin::Support::Binary::Types::ArrayType)
-      end
+      it "must add the given value to the given values array" do
+        subject.enqueue_value(values,value)
 
-      it "must have a #type of self" do
-        expect(subject[length].type).to be(subject)
-      end
-
-      it "must have a #length of the length argument" do
-        expect(subject[length].length).to be(length)
+        expect(values.first).to eq(value)
       end
     end
 
-    context "when no argument is given" do
-      it "must return an UnboundedArrayType" do
-        expect(subject[]).to be_kind_of(Ronin::Support::Binary::Types::UnboundedArrayType)
-      end
+    context "when the given values array is not empty" do
+      let(:values) { [1,2,3] }
+      let(:value)  { 42      }
 
-      it "must have a #type of self" do
-        expect(subject[].type).to be(subject)
+      it "must append the given value to the end of the given values array" do
+        subject.enqueue_value(values,value)
+
+        expect(values.last).to eq(value)
       end
     end
   end
+
+  describe "#dequeue_value" do
+    let(:value)  { 42 }
+    let(:values) { [value,1,2,3] }
+
+    it "must shift a single value off of the front of the given values array" do
+      expect(subject.dequeue_value(values)).to eq(value)
+
+      expect(values.first).to_not eq(value)
+    end
+  end
+
+  include_examples "Type examples"
 end

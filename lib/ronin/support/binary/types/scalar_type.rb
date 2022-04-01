@@ -18,8 +18,6 @@
 #
 
 require 'ronin/support/binary/types/type'
-require 'ronin/support/binary/types/array_type'
-require 'ronin/support/binary/types/unbounded_array_type'
 
 module Ronin
   module Support
@@ -95,19 +93,73 @@ module Ronin
           end
 
           #
-          # Creates an Array type around the scalar type.
+          # Packs the value into the scalar type's binary format.
           #
-          # @param [Integer, nil] length
-          #   The length of the Array.
+          # @param [Integer, Float, String] value
+          #   The value to pack.
           #
-          # @return [ArrayType, UnboundedArrayType]
-          #   The new Array type or an unbounded Array type if `length` was not
-          #   given.
+          # @return [String]
+          #   The packed binary data.
           #
-          def [](length=nil)
-            if length then ArrayType.new(self,length)
-            else           UnboundedArrayType.new(self)
+          # @raise [NotImplementedError]
+          #   {#pack_string} was not set.
+          #
+          def pack(value)
+            if @pack_string
+              [value].pack(@pack_string)
+            else
+              raise(NotImplementedError,"#{self.class} does not define a #pack_string")
             end
+          end
+
+          #
+          # Unpacks the binary data.
+          #
+          # @param [String] data
+          #   The binary data to unpack.
+          #
+          # @return [Integer, Float, String, nil]
+          #   The unpacked value.
+          #
+          # @raise [NotImplementedError]
+          #   {#pack_string} was not set.
+          #
+          def unpack(data)
+            if @pack_string
+              data.unpack1(@pack_string)
+            else
+              raise(NotImplementedError,"#{self.class} does not define a #pack_string")
+            end
+          end
+
+          #
+          # Enqueues a scalar value onto the flat list of values.
+          #
+          # @param [Array] values
+          #   The flat array of values.
+          #
+          # @param [Integer, Float, String, nil] value
+          #   The scalar value to enqueue.
+          #
+          # @api private
+          #
+          def enqueue_value(values,value)
+            values.push(value)
+          end
+
+          #
+          # Dequeues a scalar value from the flat list of values.
+          #
+          # @param [Array] values
+          #   The flat array of values.
+          #
+          # @return [Integer, Float, String, nil]
+          #   The dequeued scalar value.
+          #
+          # @api private
+          #
+          def dequeue_value(values)
+            values.shift
           end
 
         end

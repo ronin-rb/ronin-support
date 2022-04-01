@@ -61,7 +61,11 @@ module Ronin
             @length = length
             @size   = @type.size * @length
 
-            super(pack_string: @type.pack_string * @length)
+            super(
+              pack_string: if @type.pack_string
+                             @type.pack_string * @length
+                           end
+            )
           end
 
           #
@@ -103,66 +107,82 @@ module Ronin
           end
 
           #
-          # Calculates the total length of elements if the Array of values were
-          # flattened.
+          # Packs an array of values into the type's binary format.
           #
-          # @return [Integer, Float::INFINITY]
-          #
-          def total_length
-            case type
-            when AggregateType
-              @length * type.total_length
-            else
-              @length
-            end
-          end
-
-          #
-          # Packs multiple values into binary data.
-          #
-          # @param [Array<Integer, Float, String>] values
-          #   The values to be packed.
+          # @param [Array<Integer, Float, String>] value
+          #   The array to pack.
           #
           # @return [String]
           #   The packed binary data.
           #
-          def pack(values)
-            values.flatten.pack(@pack_string)
+          def pack(array)
+            if @pack_string
+              super(array)
+            else
+              buffer = String.new('', encoding: Encoding::ASCII_8BIT)
+
+              @length.times do |index|
+                buffer << @type.pack(array[index])
+              end
+
+              return buffer
+            end
           end
 
           #
-          # Unpacks binary data.
+          # Unpacks an array of binary data.
           #
           # @param [String] data
           #   The binary data to unpack.
           #
-          # @return [Array<Integer, Float, String>]
-          #   The unpacked values.
+          # @return [Array<Integer, Float, String, nil>]
+          #   The unpacked array.
           #
           def unpack(data)
-            partion_array(@type,data.unpack(@pack_string))
+            if @pack_string
+              super(data)
+            else
+              type_size = @type.size
+
+              Array.new(@length) do |index|
+                offset = index * type_size
+
+                @type.unpack(data.byteslice(offset,type_size))
+              end
+            end
           end
 
-          private
-
           #
-          # Recursively partions the array of values based on whether the given
-          # type is an {ArrayType} or not.
-          #
-          # @param [Type] type
-          #   The type of the elements in the Array.
+          # Enqueues an array of values onto the flat list of values.
           #
           # @param [Array] values
-          #   The array of values to partion.
+          #   The flat array of values.
           #
-          def partion_array(type,values)
-            case type
-            when ArrayType
-              # recursively partion the Array depth-first
-              values = partion_array(type.type,values)
-              values.each_slice(type.length).to_a
-            else
-              values
+          # @param [Array] array
+          #   The array to enqueue.
+          #
+          # @api private
+          #
+          def enqueue_value(values,array)
+            @length.times do |index|
+              @type.enqueue_value(values,array[index])
+            end
+          end
+
+          #
+          # Dequeues an array from the flat list of values.
+          #
+          # @param [Array] values
+          #   The flat array of values.
+          #
+          # @return [Array]
+          #   The dequeued array.
+          #
+          # @api private
+          #
+          def dequeue_value(values)
+            Array.new(@length) do
+              @type.dequeue_value(values)
             end
           end
 

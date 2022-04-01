@@ -54,7 +54,12 @@ module Ronin
 
             members.each_value do |member|
               size        += member.size
-              pack_string << member.pack_string
+
+              if pack_string
+                if member.pack_string then pack_string << member.pack_string
+                else                       pack_string = nil
+                end
+              end
             end
 
             @members = members
@@ -85,24 +90,90 @@ module Ronin
           end
 
           #
-          # Calculates the total number of members that can exist within the
-          # structure or it's array members or nested structures.
+          # Packs a hash of values into the member's binary format.
           #
-          # @return [Integer, Float::INFINITY]
+          # @param [Hash{Symbol => Integer, Float, String}] value
+          #   The array to pack.
           #
-          def total_length
-            count = 0
+          # @return [String]
+          #   The packed binary data.
+          #
+          def pack(hash)
+            if @pack_string
+              super(hash)
+            else
+              buffer = String.new('', encoding: Encoding::ASCII_8BIT)
 
-            @members.each_value do |type|
-              case type
-              when AggregateType
-                count += type.total_length
-              else
-                count += 1
+              @members.each do |name,type|
+                buffer << type.pack(hash[name])
               end
+
+              return buffer
+            end
+          end
+
+          #
+          # Unpacks a Hash of binary data.
+          #
+          # @param [String] data
+          #   The binary data to unpack.
+          #
+          # @return [Hash{Symbol => Integer, Float, String, nil}]
+          #   The unpacked hash.
+          #
+          def unpack(data)
+            if @pack_string
+              super(data)
+            else
+              hash   = {}
+              offset = 0
+
+              @members.each do |name,type|
+                hash[name] = type.unpack(data.byteslice(offset,type.size))
+
+                offset += type.size
+              end
+
+              return hash
+            end
+          end
+
+          #
+          # Enqueues a Hash of values onto the flat list of values.
+          #
+          # @param [Array] values
+          #   The flat array of values.
+          #
+          # @param [Hash] hash
+          #   The hash to enqueue.
+          #
+          # @api private
+          #
+          def enqueue_value(values,hash)
+            @members.each do |name,type|
+              type.enqueue_value(values,hash[name])
+            end
+          end
+
+          #
+          # Dequeues a Hash from the flat list of values.
+          #
+          # @param [Array] values
+          #   The flat array of values.
+          #
+          # @return [Hash]
+          #   The dequeued hash.
+          #
+          # @api private
+          #
+          def dequeue_value(values)
+            hash = {}
+
+            @members.each do |name,type|
+              hash[name] = type.dequeue_value(values)
             end
 
-            return count
+            return hash
           end
 
         end

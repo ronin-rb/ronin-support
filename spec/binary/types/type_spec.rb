@@ -33,16 +33,42 @@ describe Ronin::Support::Binary::Types::Type do
   describe "#pack" do
     let(:value) { 0x11223344 }
 
-    it "must pack the value using Array#pack and the #pack_string" do
-      expect(subject.pack(value)).to eq([value].pack(subject.pack_string))
+    it do
+      expect {
+        subject.pack(value)
+      }.to raise_error(NotImplementedError,"#{described_class}#pack was not implemented")
     end
   end
 
   describe "#unpack" do
     let(:data) { "\x44\x33\x22\x11" }
 
-    it "must unpack the value using String#unpack1 and the #pack_string" do
-      expect(subject.unpack(data)).to eq(data.unpack1(subject.pack_string))
+    it do
+      expect {
+        subject.unpack(data)
+      }.to raise_error(NotImplementedError,"#{described_class}#unpack was not implemented")
+    end
+  end
+
+  describe "#enqueue_value" do
+    let(:values) { [1,2,3] }
+    let(:value)  { 42      }
+
+    it do
+      expect {
+        subject.enqueue_value(values,value)
+      }.to raise_error(NotImplementedError,"#{described_class}#enqueue_value was not implemented")
+    end
+  end
+
+  describe "#dequeue_value" do
+    let(:value)  { 42 }
+    let(:values) { [value,1,2,3] }
+
+    it do
+      expect {
+        subject.dequeue_value(values)
+      }.to raise_error(NotImplementedError,"#{described_class}#dequeue_value was not implemented")
     end
   end
 end

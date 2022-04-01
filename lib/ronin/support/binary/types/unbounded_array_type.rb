@@ -18,6 +18,7 @@
 #
 
 require 'ronin/support/binary/types/aggregate_type'
+require 'ronin/support/binary/types/scalar_type'
 
 module Ronin
   module Support
@@ -43,10 +44,24 @@ module Ronin
           # @param [Type] type
           #   The type of each element in the unbounded array type.
           #
+          # @raise [ArgumentError]
+          #   Cannot initialize a nested {UnboundedArrayType}.
+          #
           def initialize(type)
+            if type.kind_of?(UnboundedArrayType)
+              raise(ArgumentError,"cannot initialize a nested #{UnboundedArrayType}")
+            end
+
             @type = type
 
-            super(pack_string: "#{@type.pack_string}*")
+            super(
+              # "T*" syntax only works on individual pack-string codes,
+              # so we only set #pack_string for scalar types that also have
+              # a #pack_string.
+              pack_string: if @type.kind_of?(ScalarType) && @type.pack_string
+                             "#{@type.pack_string}*"
+                           end
+            )
           end
 
           #
@@ -64,16 +79,6 @@ module Ronin
           # @return [Float::INFINITY]
           #
           def length
-            Float::INFINITY
-          end
-
-          #
-          # The "total length" of the unbounded array type, as if it were
-          # a flattened array.
-          #
-          # @return [Float::INFINITY]
-          #
-          def total_length
             Float::INFINITY
           end
 
@@ -107,29 +112,89 @@ module Ronin
           end
 
           #
-          # Packs multiple values into binary data.
+          # Packs an array of values into the type's binary format.
           #
-          # @param [Array<Integer, Float, String>] values
-          #   The values to be packed.
+          # @param [Array<Integer, Float, String>] value
+          #   The array to pack.
           #
           # @return [String]
           #   The packed binary data.
           #
-          def pack(*values)
-            values.pack(@pack_string)
+          def pack(array)
+            if @pack_string
+              values = enqueue_value([],array)
+
+              return super(values)
+            else
+              buffer = String.new('', encoding: Encoding::ASCII_8BIT)
+
+              array.each do |element|
+                buffer << @type.pack(element)
+              end
+
+              return buffer
+            end
           end
 
           #
-          # Unpacks binary data.
+          # Unpacks an array of binary data.
           #
           # @param [String] data
           #   The binary data to unpack.
           #
-          # @return [Array<Integer, Float, String>]
-          #   The unpacked values.
+          # @return [Array<Integer, Float, String, nil>]
+          #   The unpacked array.
           #
           def unpack(data)
-            data.unpack(@pack_string)
+            if @pack_string
+              values = super(data)
+
+              return dequeue_value(values)
+            else
+              type_size = @type.size
+
+              (0...data.bytesize).step(type_size).map do |offset|
+                @type.unpack(data.byteslice(offset,type_size))
+              end
+            end
+          end
+
+          #
+          # Enqueues an array of values onto the flat list of values.
+          #
+          # @param [Array] values
+          #   The flat array of values.
+          #
+          # @param [Array] array
+          #   The array to enqueue.
+          #
+          # @api private
+          #
+          def enqueue_value(values,array)
+            array.each do |element|
+              @type.enqueue_value(values,element)
+            end
+          end
+
+          #
+          # Dequeues an array from the flat list of values.
+          #
+          # @param [Array] values
+          #   The flat array of values.
+          #
+          # @return [Array]
+          #   The dequeued array.
+          #
+          # @api private
+          #
+          def dequeue_value(values)
+            array = []
+
+            until values.empty?
+              array << @type.dequeue_value(values)
+            end
+
+            return array
           end
 
         end

@@ -53,30 +53,47 @@ module Ronin
           end
 
           #
-          # Calculates the total number of elements within the aggregate type,
-          # as if it were flattened.
+          # Packs the value into the aggregate type's binary format.
           #
-          # @return [Integer, Float::INFINITY]
+          # @param [Integer, Float, String] value
+          #   The value to pack.
           #
-          # @abstract
+          # @return [String]
+          #   The packed binary data.
           #
-          def total_length
-            raise(NotImplementedError,"#{self.class}##{__method__} was not implemented")
+          # @raise [NotImplementedError]
+          #   {#pack_string} was not set.
+          #
+          def pack(value)
+            if @pack_string
+              values = []
+              enqueue_value(values,value)
+
+              return values.pack(@pack_string)
+            else
+              raise(NotImplementedError,"#{self.class} does not define a #pack_string")
+            end
           end
 
           #
-          # Creates an Array type around the aggregate type.
+          # Unpacks the binary data.
           #
-          # @param [Integer, nil] length
-          #   The length of the Array.
+          # @param [String] data
+          #   The binary data to unpack.
           #
-          # @return [ArrayType, UnboundedArrayType]
-          #   The new Array type or an unbounded Array type if `length` was not
-          #   given.
+          # @return [Integer, Float, String, nil]
+          #   The unpacked value.
           #
-          def [](length=nil)
-            if length then ArrayType.new(self,length)
-            else           UnboundedArrayType.new(self)
+          # @raise [NotImplementedError]
+          #   {#pack_string} was not set.
+          #
+          def unpack(data)
+            if @pack_string
+              values = data.unpack(@pack_string)
+
+              return dequeue_value(values)
+            else
+              raise(NotImplementedError,"#{self.class} does not define a #pack_string")
             end
           end
 
@@ -85,6 +102,3 @@ module Ronin
     end
   end
 end
-
-require 'ronin/support/binary/types/array_type'
-require 'ronin/support/binary/types/unbounded_array_type'
