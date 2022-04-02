@@ -210,9 +210,9 @@ module Ronin
           #   The unpacked Strings.
           #
           def unpack_strings(data)
-            array = []
-            offset = 0
+            array  = []
             length = data.bytesize
+            offset = 0
 
             while offset < length
               string = @type.unpack(data[offset..])
