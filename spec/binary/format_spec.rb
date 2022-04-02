@@ -329,6 +329,49 @@ describe Ronin::Support::Binary::Format do
           "#{type1.pack(value1)}#{type2.pack(value2)}"
         )
       end
+
+      context "and one of the fields is an Array field" do
+        let(:type_name2) { :uint16 }
+        let(:type2)      { Ronin::Support::Binary::Types::TYPES[type_name2] }
+
+        let(:array_length) { 10 }
+        let(:array_type) do
+          Ronin::Support::Binary::Types::ArrayType.new(type2,array_length)
+        end
+
+        let(:fields) { [type_name1, [type_name2, array_length]] }
+
+        let(:value1) { 42 }
+        let(:value2) { [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
+        let(:values) { [value1, value2] }
+
+        it "must flatten then pack multiple values using the fields' pack strings" do
+          expect(subject.pack(*values)).to eq(
+            "#{type1.pack(value1)}#{array_type.pack(value2)}"
+          )
+        end
+      end
+
+      context "and the last field is infinite Range field" do
+        let(:type_name2) { :uint16 }
+        let(:type2)      { Ronin::Support::Binary::Types::TYPES[type_name2] }
+
+        let(:unbounded_array_type) do
+          Ronin::Support::Binary::Types::UnboundedArrayType.new(type2)
+        end
+
+        let(:fields) { [type_name1, type_name2..] }
+
+        let(:value1) { 42 }
+        let(:value2) { [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
+        let(:values) { [value1, value2] }
+
+        it "must pack the remainder of the values using the last field's pack string" do
+          expect(subject.pack(*values)).to eq(
+            "#{type1.pack(value1)}#{unbounded_array_type.pack(value2)}"
+          )
+        end
+      end
     end
   end
 
@@ -364,6 +407,51 @@ describe Ronin::Support::Binary::Format do
 
       it "must unpack values from the data using the fields' pack strings" do
         expect(subject.unpack(data)).to eq(values)
+      end
+
+      context "and one of the fields is an Array field" do
+        let(:type_name2) { :uint16 }
+        let(:type2)      { Ronin::Support::Binary::Types::TYPES[type_name2] }
+
+        let(:array_length) { 10 }
+        let(:array_type) do
+          Ronin::Support::Binary::Types::ArrayType.new(type2,array_length)
+        end
+
+        let(:fields) { [type_name1, [type_name2, array_length]] }
+
+        let(:value1) { 42 }
+        let(:value2) { [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
+        let(:values) { [value1, value2] }
+
+        let(:data) { "#{type1.pack(value1)}#{array_type.pack(value2)}" }
+
+        it "must flatten then pack multiple values using the fields' pack strings" do
+          expect(subject.unpack(data)).to eq(values)
+        end
+      end
+
+      context "and the last field is infinite Range field" do
+        let(:type_name2) { :uint16 }
+        let(:type2)      { Ronin::Support::Binary::Types::TYPES[type_name2] }
+
+        let(:unbounded_array_type) do
+          Ronin::Support::Binary::Types::UnboundedArrayType.new(type2)
+        end
+
+        let(:fields) { [type_name1, type_name2..] }
+
+        let(:value1) { 42 }
+        let(:value2) { [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
+        let(:values) { [value1, value2] }
+
+        let(:data) do
+          "#{type1.pack(value1)}#{unbounded_array_type.pack(value2)}"
+        end
+
+        it "must unpack the remainder of the values using the last field's pack string" do
+          expect(subject.unpack(data)).to eq(values)
+        end
       end
     end
   end
