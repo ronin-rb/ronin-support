@@ -87,7 +87,7 @@ describe Ronin::Support::Binary::Buffer do
       it do
         expect {
           described_class.new(arg)
-        }.to raise_error(ArgumentError,"string_or_length argument must be either a length (Integer) or a buffer (String): #{arg.inspect}")
+        }.to raise_error(ArgumentError,"first argument must be either a size (Integer) or a buffer (String): #{arg.inspect}")
       end
     end
   end
@@ -649,12 +649,6 @@ describe Ronin::Support::Binary::Buffer do
   describe "#to_str" do
     it "must return #string" do
       expect(subject.to_str).to be(subject.string)
-    end
-  end
-
-  describe "#inspect" do
-    it "must return the class name and the buffer string" do
-      expect(subject.inspect).to eq("#<#{described_class}: #{subject.string.inspect}>")
     end
   end
 end
