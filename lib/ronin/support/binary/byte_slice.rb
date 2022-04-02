@@ -89,8 +89,11 @@ module Ronin
         #
         # Reads a character or a substring from the buffer at the given index.
         #
-        # @param [Integer, (Integer, Integer), Range(Integer)] arguments
+        # @param [Integer, (Integer, Integer), Range(Integer)] index_or_range
         #   The index or range within the buffer to read from.
+        #
+        # @param [Integer, nil] length
+        #   Optional additional length argument.
         #
         # @return [String, nil]
         #   The character or substring at the given index or range.
@@ -159,7 +162,7 @@ module Ronin
         #
         # Finds the substring within the byte slice.
         #
-        # @param [String] string
+        # @param [String] substring
         #   The substring to search for.
         #
         # @param [Integer] offset

@@ -109,7 +109,7 @@ module Ronin
           #
           # Packs an array of values into the type's binary format.
           #
-          # @param [Array<Integer, Float, String>] value
+          # @param [Array<Integer, Float, String>] array
           #   The array to pack.
           #
           # @return [String]

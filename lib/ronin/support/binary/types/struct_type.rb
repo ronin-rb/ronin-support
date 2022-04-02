@@ -92,7 +92,7 @@ module Ronin
           #
           # Packs a hash of values into the member's binary format.
           #
-          # @param [Hash{Symbol => Integer, Float, String}] value
+          # @param [Hash{Symbol => Integer, Float, String}] hash
           #   The array to pack.
           #
           # @return [String]
