@@ -122,9 +122,7 @@ module Ronin
           #
           def pack(array)
             if @pack_string
-              values = enqueue_value([],array)
-
-              return super(values)
+              super(array)
             else
               buffer = String.new('', encoding: Encoding::ASCII_8BIT)
 
@@ -147,9 +145,7 @@ module Ronin
           #
           def unpack(data)
             if @pack_string
-              values = super(data)
-
-              return dequeue_value(values)
+              super(data)
             else
               case @type
               when StringType
