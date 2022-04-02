@@ -149,18 +149,7 @@ module Ronin
             else
               case @type
               when StringType
-                array = []
-                offset = 0
-                length = data.bytesize
-
-                while offset < length
-                  string = @type.unpack(data[offset..])
-                  array  << string
-
-                  offset += string.bytesize + 1
-                end
-
-                return array
+                unpack_strings(data)
               else
                 type_size = @type.size
 
@@ -204,6 +193,32 @@ module Ronin
 
             until values.empty?
               array << @type.dequeue_value(values)
+            end
+
+            return array
+          end
+
+          private
+
+          #
+          # Unpacks an arbitrary number of null-terminated C Strings.
+          #
+          # @param [String] data
+          #   The binary encoded data.
+          #
+          # @return [Array<String>]
+          #   The unpacked Strings.
+          #
+          def unpack_strings(data)
+            array = []
+            offset = 0
+            length = data.bytesize
+
+            while offset < length
+              string = @type.unpack(data[offset..])
+              array  << string
+
+              offset += string.bytesize + 1
             end
 
             return array
