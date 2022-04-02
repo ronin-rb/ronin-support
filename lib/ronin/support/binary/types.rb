@@ -23,6 +23,10 @@ require 'ronin/support/binary/types/big_endian'
 require 'ronin/support/binary/types/network'
 require 'ronin/support/binary/types/arch'
 
+require 'ronin/support/binary/types/array_type'
+require 'ronin/support/binary/types/unbounded_array_type'
+require 'ronin/support/binary/types/struct_type'
+
 module Ronin
   module Support
     module Binary
