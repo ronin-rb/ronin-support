@@ -174,7 +174,12 @@ module Ronin
 
             @fields      << field
             @types       << type
-            @pack_string << type.pack_string
+
+            if @pack_string
+              if type.pack_string then @pack_string << type.pack_string
+              else                     @pack_string = nil
+              end
+            end
           end
         end
 
@@ -194,8 +199,26 @@ module Ronin
         # @return [String]
         #   The packed data.
         #
-        def pack(*values)
-          values.pack(@pack_string)
+        def pack(*arguments)
+          if @pack_string
+            values = []
+
+            @types.each do |type|
+              # shift off the next value(s) and enqueue them
+              type.enqueue_value(values,arguments.shift)
+            end
+
+            values.pack(@pack_string)
+          else
+            buffer = String.new('', encoding: Encoding::ASCII_8BIT)
+
+            @types.each do |type|
+              # shift off the next value and pack it
+              buffer << type.pack(arguments.shift)
+            end
+
+            return buffer
+          end
         end
 
         #
@@ -208,7 +231,23 @@ module Ronin
         #   The unpacked data.
         #
         def unpack(string)
-          string.unpack(@pack_string)
+          if @pack_string
+            values = string.unpack(@pack_string)
+
+            @types.map do |type|
+              type.dequeue_value(values)
+            end
+          else
+            array  = []
+            offset = 0
+
+            @types.each do |type|
+              array  << type.unpack(data.byteslice(offset,type.size))
+              offset += type.size
+            end
+
+            return array
+          end
         end
 
         #
