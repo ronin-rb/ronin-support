@@ -68,7 +68,7 @@ describe Ronin::Support::Binary::Memory do
       it do
         expect {
           described_class.new(arg)
-        }.to raise_error(ArgumentError,"size_or_string argument must be either a size (Integer) or a buffer (String): #{arg.inspect}")
+        }.to raise_error(ArgumentError,"first argument must be either a size (Integer) or a buffer (String): #{arg.inspect}")
       end
     end
   end
