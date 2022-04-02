@@ -119,7 +119,7 @@ describe Ronin::Support::Binary::ArrayBuffer do
       it do
         expect {
           described_class.new(type,arg)
-        }.to raise_error(ArgumentError,"string_or_length argument must be either a length (Integer) or a buffer (String): #{arg.inspect}")
+        }.to raise_error(ArgumentError,"first argument must be either a length (Integer) or a buffer (String): #{arg.inspect}")
       end
     end
   end

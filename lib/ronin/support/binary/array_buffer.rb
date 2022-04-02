@@ -17,6 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/binary/memory'
 require 'ronin/support/binary/types'
 
 module Ronin
@@ -52,7 +53,7 @@ module Ronin
       #
       # @since 1.0.0
       #
-      class ArrayBuffer
+      class ArrayBuffer < Memory
 
         include Enumerable
 
@@ -82,16 +83,6 @@ module Ronin
         #
         # @return [Integer]
         attr_reader :length
-
-        # The size of the array buffer in bytes.
-        #
-        # @return [Integer]
-        attr_reader :size
-
-        # The underlying buffer String.
-        #
-        # @return [String]
-        attr_accessor :string
 
         #
         # Initializes the array buffer.
@@ -138,15 +129,15 @@ module Ronin
 
           case length_or_string
           when String
-            @string = length_or_string
-            @size   = @string.bytesize
+            super(length_or_string)
+
             @length = @size / @type.size
           when Integer
             @length = length_or_string
-            @size   = @type.size * @length
-            @string = String.new("\0" * @size, encoding: Encoding::ASCII_8BIT)
+
+            super(@type.size * @length)
           else
-            raise(ArgumentError,"string_or_length argument must be either a length (Integer) or a buffer (String): #{length_or_string.inspect}")
+            raise(ArgumentError,"first argument must be either a length (Integer) or a buffer (String): #{length_or_string.inspect}")
           end
         end
 
