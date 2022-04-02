@@ -26,6 +26,10 @@ module Ronin
         #
         # Represents a C string type.
         #
+        # @api private
+        #
+        # @since 1.0.0
+        #
         class StringType < Type
 
           #
@@ -73,6 +77,8 @@ module Ronin
           # @return [String]
           #   The packed binary data.
           #
+          # @api public
+          #
           def pack(value)
             [value].pack(@pack_string)
           end
@@ -85,6 +91,8 @@ module Ronin
           #
           # @return [String, nil]
           #   The unpacked String.
+          #
+          # @api public
           #
           def unpack(data)
             data.unpack1(@pack_string)

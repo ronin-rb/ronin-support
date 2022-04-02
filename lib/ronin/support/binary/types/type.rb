@@ -86,6 +86,8 @@ module Ronin
           #
           # @abstract
           #
+          # @api public
+          #
           def pack(value)
             raise(NotImplementedError,"#{self.class}##{__method__} was not implemented")
           end
@@ -100,6 +102,8 @@ module Ronin
           #   The unpacked value.
           #
           # @abstract
+          #
+          # @api public
           #
           def unpack(data)
             raise(NotImplementedError,"#{self.class}##{__method__} was not implemented")

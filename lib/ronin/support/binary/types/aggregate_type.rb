@@ -64,6 +64,8 @@ module Ronin
           # @raise [NotImplementedError]
           #   {#pack_string} was not set.
           #
+          # @api public
+          #
           def pack(value)
             if @pack_string
               values = []
@@ -86,6 +88,8 @@ module Ronin
           #
           # @raise [NotImplementedError]
           #   {#pack_string} was not set.
+          #
+          # @api public
           #
           def unpack(data)
             if @pack_string

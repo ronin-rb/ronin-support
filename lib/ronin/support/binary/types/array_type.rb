@@ -115,6 +115,8 @@ module Ronin
           # @return [String]
           #   The packed binary data.
           #
+          # @api public
+          #
           def pack(array)
             if @pack_string
               super(array)
@@ -137,6 +139,8 @@ module Ronin
           #
           # @return [Array<Integer, Float, String, nil>]
           #   The unpacked array.
+          #
+          # @api public
           #
           def unpack(data)
             if @pack_string
