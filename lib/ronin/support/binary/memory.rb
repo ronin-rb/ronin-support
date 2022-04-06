@@ -66,6 +66,60 @@ module Ronin
         end
 
         #
+        # Reads a character or a substring from the underlying buffer at the
+        # given index.
+        #
+        # @param [Integer, (Integer, Integer), Range(Integer)] index_or_range
+        #   The index or range within the buffer to read from.
+        #
+        # @param [Integer, nil] length
+        #   The optional length in bytes to read.
+        #
+        # @return [String, nil]
+        #   The character or substring at the given index or range.
+        #
+        # @example Reading a single char at the given index:
+        #   memory[0]
+        #   # => "\x00"
+        #
+        # @example Reading multiple chars at the range of indexes:
+        #   memory[0..2]
+        #   # => "\x00\x00"
+        #
+        # @example Reading multiple chars at the given index and length:
+        #   memory[0,2]
+        #   # => "\x00\x00"
+        #
+        def [](index_or_range,length=nil)
+          @string[index_or_range,*length]
+        end
+
+        #
+        # Writes a value to the underlying buffer at the given index.
+        #
+        # @param [Integer, Range(Integer)] index_or_range
+        #   The index within the string to write to.
+        #
+        # @param [Integer, nil] length
+        #   Optional additional length argument.
+        #
+        # @param [String] value
+        #   The integer, float, or character value to write to the buffer.
+        #
+        # @return [String]
+        #   The string written into the buffer.
+        #
+        # @example Writing a single char:
+        #   buffer[0] = 'A'
+        #
+        # @example Writing multiple characters to the given range of indexes:
+        #   buffer[0..3] = "AAA"
+        #
+        def []=(index_or_range,length=nil,value)
+          @string[index_or_range,*length] = value
+        end
+
+        #
         # Clears the memory by setting each byte to 0.
         #
         # @return [self]

@@ -121,34 +121,6 @@ module Ronin
         alias length size
 
         #
-        # Reads a character or a substring from the buffer at the given index.
-        #
-        # @param [Integer, (Integer, Integer), Range(Integer)] index_or_range
-        #   The index or range within the buffer to read from.
-        #
-        # @param [Integer, nil] length
-        #   The optional length in bytes to read.
-        #
-        # @return [String, nil]
-        #   The character or substring at the given index or range.
-        #
-        # @example Reading a single char at the given index:
-        #   buffer[0]
-        #   # => "\x00"
-        #
-        # @example Reading multiple chars at the range of indexes:
-        #   buffer[0..2]
-        #   # => "\x00\x00"
-        #
-        # @example Reading multiple chars at the given index and length:
-        #   buffer[0,2]
-        #   # => "\x00\x00"
-        #
-        def [](index_or_range,length=nil)
-          @string[index_or_range,*length]
-        end
-
-        #
         # Writes a value to the buffer at the given index.
         #
         # @param [Integer, Range(Integer)] index_or_range
@@ -198,7 +170,7 @@ module Ronin
                     value
                   end
 
-          @string[index_or_range,*length] = value
+          super(index_or_range,length,value)
         end
 
         #

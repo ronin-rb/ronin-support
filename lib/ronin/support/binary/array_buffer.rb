@@ -19,6 +19,7 @@
 
 require 'ronin/support/binary/memory'
 require 'ronin/support/binary/types'
+require 'ronin/support/binary/byte_slice'
 
 module Ronin
   module Support
@@ -90,7 +91,7 @@ module Ronin
         # @param [Symbol] type
         #   The type of each element in the array buffer.
         #
-        # @param [Integer, String] length_or_string
+        # @param [Integer, String, ByteSlice] length_or_string
         #   The length of the buffer or an existing String which will be used
         #   as the underlying buffer.
         #
@@ -128,7 +129,7 @@ module Ronin
           @type = @type_system[type]
 
           case length_or_string
-          when String
+          when String, ByteSlice
             super(length_or_string)
 
             @length = @size / @type.size
@@ -157,8 +158,7 @@ module Ronin
             raise(IndexError,"index #{index} is out of bounds: 0...#{@length}")
           end
 
-          slice  = @string[offset,@type.size]
-
+          slice = super(offset,@type.size)
           return @type.unpack(slice)
         end
 
@@ -182,9 +182,7 @@ module Ronin
           end
 
           data = @type.pack(value)
-
-          @string[offset,@type.size] = data
-          return value
+          return super(offset,@type.size,data)
         end
 
         #

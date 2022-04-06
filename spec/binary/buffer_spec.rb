@@ -94,25 +94,6 @@ describe Ronin::Support::Binary::Buffer do
 
   subject { described_class.new(length) }
 
-  describe "#[]" do
-    context "when the index has not been previously written to" do
-      it "must return a null character" do
-        expect(subject[1]).to eq("\x00")
-      end
-    end
-
-    context "when the index has been previously written to" do
-      let(:index) { 1  }
-      let(:value) { 0x41.chr }
-
-      before { subject[index] = value }
-
-      it "must decode the previously written value" do
-        expect(subject[index]).to eq(value)
-      end
-    end
-  end
-
   describe "#[]=" do
     let(:index) { 1 }
 

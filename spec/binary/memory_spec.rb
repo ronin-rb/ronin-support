@@ -75,6 +75,78 @@ describe Ronin::Support::Binary::Memory do
 
   let(:string) { "foo bar baz" }
 
+  subject { described_class.new(string) }
+
+  describe "#[]" do
+    context "when given a single index" do
+      let(:index) { 1 }
+
+      it "must return the character at the given index" do
+        expect(subject[index]).to eq(subject.string[index])
+      end
+
+      context "and also a length argument is given" do
+        let(:length) { 3 }
+
+        it "must return the substring of length starting at the given index" do
+          expect(subject[index,length]).to eq(subject.string[index,length])
+        end
+      end
+    end
+
+    context "when given a Range" do
+      let(:range) { 1..3 }
+
+      it "must return the substring between the given indexes" do
+        expect(subject[range]).to eq(string[range])
+      end
+    end
+  end
+
+  describe "#[]=" do
+    context "when given a single index argument" do
+      let(:index) { 1 }
+
+      context "and a character value" do
+        let(:value) { 0x41.chr }
+
+        before { subject[index] = value }
+
+        it "must write the character value to the given index within #string" do
+          expect(subject.string[index]).to eq(value)
+        end
+      end
+
+      context "and a length argument" do
+        let(:length) { 3 }
+
+        context "and a String value" do
+          let(:value) { 'A' * length }
+
+          before { subject[index,length] = value }
+
+          it "must copy the String value into the String at the given index" do
+            expect(subject.string[index,length]).to eq(value)
+          end
+        end
+      end
+    end
+
+    context "when given a Range argument" do
+      let(:range) { (1..3) }
+
+      context "when a String value" do
+        let(:value) { 'A' * range.count }
+
+        before { subject[range] = value }
+
+        it "must copy the String value into the String at the range of indexes" do
+          expect(subject.string[range]).to eq(value)
+        end
+      end
+    end
+  end
+
   describe "#clear" do
     let(:size)   { 10 }
     let(:string) { 'A' * size }
