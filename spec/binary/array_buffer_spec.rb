@@ -113,6 +113,46 @@ describe Ronin::Support::Binary::ArrayBuffer do
       end
     end
 
+    context "when a Ronin::Support::Binary::ByteSlice argument is given instead of a String argument" do
+      let(:offset) { 4 }
+      let(:length) { 10 }
+      let(:string) { ('A' * offset) + ("B" * length) + ('C' * offset) }
+
+      let(:byte_slice) do
+        Ronin::Support::Binary::ByteSlice.new(string, offset: offset,
+                                                      length: length)
+      end
+
+      subject { described_class.new(type,byte_slice) }
+
+      it "must set #string to the given ByteSlice value" do
+        expect(subject.string).to be(byte_slice)
+      end
+
+      it "must set #size to the ByteSlice's byte size" do
+        expect(subject.size).to eq(byte_slice.bytesize)
+      end
+
+      it "must calculate #length by dividing #size by #type.size" do
+        expect(subject.length).to eq(subject.size / subject.type.size)
+      end
+
+      context "and when a type argument is given" do
+        let(:type_name) { :uint32_le }
+        let(:type)      { Ronin::Support::Binary::Types[type_name] }
+
+        subject { described_class.new(type_name,string) }
+
+        it "must set #type" do
+          expect(subject.type).to eq(type)
+        end
+
+        it "must set #length to string.bytesize / type.size" do
+          expect(subject.length).to eq(string.bytesize / type.size)
+        end
+      end
+    end
+
     context "when not given a length or a string argument" do
       let(:arg) { :foo }
 
