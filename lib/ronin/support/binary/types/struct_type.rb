@@ -32,15 +32,67 @@ module Ronin
         #
         class StructType < AggregateType
 
+          #
+          # Represents a member within a struct.
+          #
+          # @api private
+          #
+          # @since 1.0.0
+          #
+          class Member
+
+            # The offset, in bytes, of the member from the beginning of the
+            # struct.
+            #
+            # @return [Integer]
+            attr_reader :offset
+
+            # The type of the member.
+            #
+            # @return [Type]
+            attr_reader :type
+
+            #
+            # Initializes the member.
+            #
+            # @param [Integer] offset
+            #   The offset, in bytes, of the member from the beginning of the
+            #   struct.
+            #
+            # @param [Type] type
+            #   The type of the member.
+            #
+            def initialize(offset,type)
+              @offset = offset
+              @type   = type
+            end
+
+            #
+            # The size, in bytes, of the member within the struct.
+            #
+            # @return [Integer]
+            #
+            def size
+              @type.size
+            end
+
+          end
+
           # The members of the structure type.
           #
-          # @return [Hash{Symbol => Type}]
+          # @return [Hash{Symbol => Member}]
           attr_reader :members
 
           # The size of the structure type.
           #
           # @return [Integer, Float::INFINITY]
           attr_reader :size
+
+          # The alignment, in bytes, for the structure type, so that all members
+          # within the structure type are themselves aligned.
+          #
+          # @return [Integer]
+          attr_reader :alignment
 
           #
           # Initializes the structure type.
@@ -49,21 +101,34 @@ module Ronin
           #   The members names and types of the structure type.
           #
           def initialize(members={})
-            size = 0
-            pack_string = ''
+            @members   = {}
+            @size      = 0
+            @alignment = 0
 
-            members.each_value do |member|
-              size        += member.size
+            pack_string = ''
+            offset = 0
+
+            members.each do |name,type|
+              # https://en.wikipedia.org/wiki/Data_structure_alignment#Computing_padding
+              alignment = type.alignment
+              padding   = (alignment - (offset % alignment)) % alignment
+              offset   += padding
+
+              @members[name] = Member.new(offset,type)
+              @size         += padding + type.size
+              @alignment     = alignment if alignment > @alignment
+
+              offset += type.size
 
               if pack_string
-                if member.pack_string then pack_string << member.pack_string
-                else                       pack_string = nil
+                # add null-byte padding
+                pack_string << ('x' * padding) if padding > 0
+
+                if type.pack_string then pack_string << type.pack_string
+                else                     pack_string = nil
                 end
               end
             end
-
-            @members = members
-            @size    = size
 
             super(pack_string: pack_string)
           end
@@ -75,8 +140,8 @@ module Ronin
           #   The uninitialized values for the new structure's members.
           #
           def uninitialized_value
-            Hash[@members.map { |name,type|
-              [name, type.uninitialized_value]
+            Hash[@members.map { |name,member|
+              [name, member.type.uninitialized_value]
             }]
           end
 
@@ -102,10 +167,10 @@ module Ronin
             if @pack_string
               super(hash)
             else
-              buffer = String.new('', encoding: Encoding::ASCII_8BIT)
+              buffer = String.new("\0" * @size, encoding: Encoding::ASCII_8BIT)
 
-              @members.each do |name,type|
-                buffer << type.pack(hash[name])
+              @members.each do |name,member|
+                buffer[member.offset,member.size] = type.pack(hash[name])
               end
 
               return buffer
@@ -125,13 +190,12 @@ module Ronin
             if @pack_string
               super(data)
             else
-              hash   = {}
-              offset = 0
+              hash = {}
 
-              @members.each do |name,type|
-                hash[name] = type.unpack(data.byteslice(offset,type.size))
+              @members.each do |name,member|
+                data = data.byteslice(member.offset,member.size)
 
-                offset += type.size
+                hash[name] = type.unpack(data)
               end
 
               return hash
@@ -150,8 +214,8 @@ module Ronin
           # @api private
           #
           def enqueue_value(values,hash)
-            @members.each do |name,type|
-              type.enqueue_value(values,hash[name])
+            @members.each do |name,member|
+              member.type.enqueue_value(values,hash[name])
             end
           end
 
@@ -169,8 +233,8 @@ module Ronin
           def dequeue_value(values)
             hash = {}
 
-            @members.each do |name,type|
-              hash[name] = type.dequeue_value(values)
+            @members.each do |name,member|
+              hash[name] = member.type.dequeue_value(values)
             end
 
             return hash

@@ -17,7 +17,9 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/format'
+require 'ronin/support/binary/memory'
+require 'ronin/support/binary/struct/member'
+require 'ronin/support/binary/types'
 
 require 'set'
 
@@ -27,9 +29,102 @@ module Ronin
       #
       # Generic Binary Struct class.
       #
-      # ## Example
+      # ## Examples
       #
-      #     class Packet < Binary::Struct
+      # ### Defining Fields
+      #
+      #     class Point < Ronin::Support::Binary::Struct
+      #     
+      #       field :x, :int32
+      #       field :y, :int32
+      #     
+      #     end
+      #     
+      #     class Point3D < Point
+      #     
+      #       field :z, :int32
+      #
+      #     end
+      #     
+      #     point   = Point.new(x: 100, y: 42)
+      #     point3d = Point3D.new(x: 100, y: 42, z: -1)
+      #
+      # ### Array Fields
+      #
+      #     class MyStruct < Ronin::Support::Binary::Struct
+      #     
+      #       field :x,    :uint32
+      #       field :nums, [:uint8, 10]
+      #     
+      #     end
+      #
+      #     struct = MyStruct.new
+      #     struct.nums = [0x01, 0x02, 0x03, 0x04]
+      #
+      # ### Unbounded Array Fields
+      #
+      #     class MyStruct < Ronin::Support::Binary::Struct
+      #     
+      #       field :length,  :uint32
+      #       field :payload, (:uint8..)
+      #     
+      #     end
+      #     
+      #     struct = MyStruct.new
+      #     struct.payload = [0x01, 0x02, 0x03, 0x04, ...]
+      #
+      # ### Packing Structs
+      #
+      #     class Point < Ronin::Support::Binary::Struct
+      #     
+      #       field :x, :int32
+      #       field :y, :int32
+      #     
+      #     end
+      #
+      #     point = Point.new(x: 10, y: -1)
+      #     point.pack
+      #     # => ""
+      #
+      # ### Unpacking Structs
+      #
+      #     class Point < Ronin::Support::Binary::Struct
+      #     
+      #       field :x, :int32
+      #       field :y, :int32
+      #     
+      #     end
+      #     
+      #     point = Point.unpack("")
+      #     point.x
+      #     # => 10
+      #     point.y
+      #     # => -1
+      #
+      # ### Default Endianness
+      #
+      #     class Packet < Ronin::Support::Binary::Struct
+      #     
+      #       endian :network
+      #     
+      #       field :length, :uint32
+      #       field :data,   [:uchar, 48]
+      #     
+      #     end
+      #     
+      #     pkt = Packet.new
+      #     pkt.length = 5
+      #     pkt.data   = 'hello'
+      #     
+      #     buffer = pkt.pack
+      #     # => "\x00\x00\x00\x05hello\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+      #    
+      #     new_pkt = Packet.unpack(buffer)
+      #     # => #<Packet: length: 5, data: "hello">
+      #
+      # ### `FFI::Struct` style syntax:
+      #
+      #     class Packet < Ronin::Support::Binary::Struct
       #
       #       endian :network
       #     
@@ -38,53 +133,119 @@ module Ronin
       #
       #     end
       #
-      #     pkt = Packet.new
-      #     pkt.length = 5
-      #     pkt.data   = 'hello'
-      #
-      #     buffer = pkt.pack
-      #     # => "\x00\x00\x00\x05hello\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-      #
-      #     new_pkt = Packet.unpack(buffer)
-      #     # => #<Packet: length: 5, data: "hello">
-      #
       # @api public
       #
-      class Struct
+      class Struct < Memory
+
+        # The type data for the struct.
+        #
+        # @return [Types::StructType]
+        attr_reader :type
 
         #
         # Initializes the structure.
         #
-        def initialize
-          # initialize the fields in order
-          self.class.layout.each do |name|
-            self[name] = self.class.default(self.class.fields[name])
+        # @param [Hash{Symbol => Object}, String, ByteSlice] buffer_or_values
+        #   Optional values to initialize the fields of the struct.
+        #
+        def initialize(buffer_or_values={}, **kwargs)
+          @type = self.class.type
+
+          case buffer_or_values
+          when Hash
+            values = buffer_or_values
+
+            super(@type.size)
+
+            values.each do |name,value|
+              self[name] = value
+            end
+          when String, ByteSlice
+            buffer = buffer_or_values
+
+            super(buffer)
+          else
+            raise(ArgumentError,"first argument of #{self.class}.new must be either a Hash of values or a String or #{ByteSlice}")
           end
         end
 
         #
-        # The fields in the structure.
+        # Gets or sets the struct's type system.
         #
-        # @return [Hash{Symbol => type, (type, length)}]
-        #   The field names and types.
+        # @param [Module#[], nil] new_type_system
+        #   The optional type system.
         #
-        # @api private
+        # @return [Types, Types::LittleEndian,
+        #                 Types::BigEndian,
+        #                 Types::Network]
         #
-        def self.fields
-          @fields ||= {}
+        def self.type_system(new_type_system=nil)
+          if new_type_system
+            @type_system = new_type_system
+          else
+            @type_system ||= if superclass < Struct
+                               superclass.type_system
+                             else
+                               Types
+                             end
+          end
+        end
+
+        def self.derivative_classes
+          @derivative_classes ||= {}
+        end
+
+        def self.as(endian: nil, arch: nil)
+          derivative_classes[endian: endian, arch: arch] ||= (
+            Class.new(self).tap do |struct_class|
+              struct_class.class_exec do
+                self.endian(endian) if endian
+                self.arch(arch)     if arch
+              end
+            end
+          )
         end
 
         #
-        # Determines if a field exists in the structure.
+        # The members in the structure.
+        #
+        # @return [Hash{Symbol => Member}]
+        #   The field names and field information.
+        #
+        # @api private
+        #
+        def self.members
+          @members ||= if superclass < Struct
+                         superclass.members.dup
+                       else
+                         {}
+                       end
+        end
+
+        #
+        # Determines if the struct has the given member.
         #
         # @param [Symbol] name
-        #   The field name.
+        #   The member name.
         #
         # @return [Boolean]
-        #   Specifies that the field exists in the structure.
+        #   Specifies that the member exists in the structure.
         #
-        def self.field?(name)
-          fields.has_key?(name.to_sym)
+        def self.has_member?(name)
+          members.has_key?(name.to_sym)
+        end
+
+        #
+        # Initializes the structure and then packs it.
+        #
+        # @param [Hash{Symbol => Object}] values
+        #   The values to initialize the struct with.
+        #
+        # @return [String]
+        #   The packed struct.
+        #
+        def self.pack(values,**kwargs)
+          new(values,**kwargs).to_s
         end
 
         #
@@ -103,20 +264,7 @@ module Ronin
         #   The newly unpacked structure.
         #
         def self.unpack(data,**kwargs)
-          new().unpack(data,**kwargs)
-        end
-
-        #
-        # Determines if a field exists in the structure.
-        #
-        # @param [Symbol] name
-        #   The name of the field.
-        #
-        # @return [Boolean]
-        #   Specifies whether the field exists.
-        #
-        def field?(name)
-          self.class.field?(name)
+          new(data,**kwargs)
         end
 
         #
@@ -132,8 +280,17 @@ module Ronin
         #   The structure does not contain the field.
         #
         def [](name)
-          if field?(name) then send(name)
-          else                 raise(ArgumentError,"no such field '#{name}'")
+          if (member = @type.members[name])
+            case member.type
+            when Types::AggregateType
+              # TOOD: implement nested aggregate objects
+            else
+              data = super(member.offset,member.type.size)
+
+              member.type.unpack(data)
+            end
+          else
+            raise(ArgumentError,"no such member field #{name.inspect}")
           end
         end
 
@@ -153,232 +310,156 @@ module Ronin
         #   The structure does not contain the field.
         #
         def []=(name,value)
-          if field?(name) then send("#{name}=",value)
-          else                 raise(ArgumentError,"no such field '#{name}'")
-          end
-        end
+          if (member = @type.members[name])
+            case member.type
+            when Types::AggregateType
+              # TOOD: implement nested aggregate objects
+            else
+              data = member.type.pack(value)
 
-        #
-        # The values within the structure.
-        #
-        # @return [Array<Integer, Float, String, Struct>]
-        #   The values of the fields.
-        #
-        def values
-          normalize = lambda { |value|
-            case value
-            when Struct then value.values
-            else             value
+              super(member.offset,member.type.size,data)
             end
-          }
-
-          self.class.layout.map do |name|
-            case (value = self[name])
-            when Array then value.map(&normalize)
-            else            normalize[value]
-            end
+          else
+            raise(ArgumentError,"no such member field: #{name.inspect}")
           end
         end
 
         #
-        # Clears the fields of the structure.
+        # Enumerates over the fields within the structure.
         #
-        # @return [Struct]
-        #   The cleared structure.
+        # @yield [name, value]
         #
-        def clear
-          each_field do |struct,name,field|
-            struct[name] = self.class.default(field)
+        # @yieldparam [Symbol] name
+        #
+        # @yieldparam [Object] value
+        #
+        # @return [Enumerator]
+        #
+        def each_value(&block)
+          return enum_for(__method__) unless block_given?
+
+          @type.members.each_key  do |name|
+            yield name, self[name]
           end
-
-          return self
         end
 
         #
-        # Packs the structure.
+        # Converts the structure to a Hash.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Binary format keyword arguments.
+        # @return [Hash{Symbol => Object}]
+        #   The hash of field names and values.
         #
-        # @option kwargs [:little, :big, :network] :endian
-        #   The endianness to apply to the types.
-        #
-        # @return [String]
-        #   The packed structure.
-        #
-        def pack(**kwargs)
-          self.class.formats[kwargs].pack(*values.flatten)
+        def to_h
+          Hash[@type.members.keys.map { |name|
+            [name, self[name]]
+          }]
         end
 
         #
-        # Unpacks data into the structure.
+        # Converts the structure to an Array of values.
         #
-        # @param [String] data
-        #   The data to unpack.
+        # @return [Array<Object>]
+        #   The array of values within the structure.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Binary format keyword arguments.
-        #
-        # @option kwargs [:little, :big, :network] :endian
-        #   The endianness to apply to the types.
-        #
-        # @return [Struct]
-        #   The unpacked structure.
-        #
-        def unpack(data,**kwargs)
-          values = self.class.formats[kwargs].unpack(data)
-
-          each_field do |struct,name,(type,length)|
-            struct[name] = if length
-                             if Format::STRING_TYPES.include?(type)
-                               # string types are combined into a single String
-                               values.shift
-                             else
-                               # shift off an Array of elements
-                               values.shift(length)
-                             end
-                           else
-                             values.shift
-                           end
+        def to_a
+          @type.members.keys.map do |name|
+            self[name]
           end
-
-          return self
-        end
-
-        #
-        # @see #pack
-        #
-        def to_s
-          pack
-        end
-
-        #
-        # @see #pack
-        #
-        def to_str
-          pack
-        end
-
-        #
-        # Inspects the structure.
-        #
-        # @return [String]
-        #   The inspected structure.
-        #
-        def inspect
-          "#<#{self.class}: " << self.class.layout.map { |name|
-            "#{name}: " << self[name].inspect
-          }.join(', ') << '>'
         end
 
         protected
 
         #
-        # Typedefs.
+        # Sets or gets the default endianness of the structure.
         #
-        # @return [Hash{Symbol => Symbol}]
-        #   The typedef aliases.
-        #
-        # @api private
-        #
-        def self.typedefs
-          @@typedefs ||= {}
-        end
-
-        #
-        # Defines a typedef.
-        #
-        # @param [Symbol] type
-        #   The original type.
-        #
-        # @param [Symbol] type_alias
-        #   The new type.
-        #
-        def self.typedef(type,type_alias)
-          type = typedefs.fetch(type,type)
-
-          unless (type.kind_of?(Symbol) || type < Struct)
-            raise(TypeError,"#{type.inspect} is not a Symbol or #{Struct}")
-          end
-
-          typedefs[type_alias] = typedefs.fetch(type,type)
-        end
-
-        # core typedefs
-        typedef :ulong, :pointer
-        typedef :uchar, :bool
-
-        # *_t typedefs
-        typedef :uint8,  :uint8_t
-        typedef :uint16, :uint16_t
-        typedef :uint32, :uint32_t
-        typedef :uint64, :uint64_t
-        typedef :int8,   :int8_t
-        typedef :int16,  :int16_t
-        typedef :int32,  :int32_t
-        typedef :int64,  :int64_t
-
-        # network endian types
-        typedef :uint16_be,     :uint16_net
-        typedef :uint32_be,     :uint32_net
-        typedef :uint64_be,     :uint64_net
-        typedef :int16_be,      :int16_net
-        typedef :int32_be,      :int32_net
-        typedef :int64_be,      :int64_net
-        typedef :ushort_be,     :ushort_net
-        typedef :uint_be,       :uint_net
-        typedef :ulong_be,      :ulong_net
-        typedef :ulong_long_be, :ulong_long_net
-        typedef :int_be,        :int_net
-        typedef :long_be,       :long_net
-        typedef :long_long_be,  :long_long_net
-
-        # libc typedefs
-        typedef :long,    :blkcnt_t
-        typedef :pointer, :caddr_t
-        typedef :int,     :clockid_t
-        typedef :int,     :daddr_t
-        typedef :ulong,   :dev_t
-        typedef :long,    :fd_mask
-        typedef :ulong,   :fsblkcnt_t
-        typedef :ulong,   :fsfilcnt_t
-        typedef :uint32,  :git_t
-        typedef :uint32,  :id_t
-        typedef :ulong,   :ino_t
-        typedef :int32,   :key_t
-        typedef :long,    :loff_t
-        typedef :uint32,  :mode_t
-        typedef :ulong,   :nlink_t
-        typedef :long,    :off_t
-        typedef :int32,   :pid_t
-        typedef :uint32,  :pthread_key_t
-        typedef :int32,   :pthread_once_t
-        typedef :ulong,   :pthread_t
-        typedef :long,    :quad_t
-        typedef :long,    :register_t
-        typedef :ulong,   :rlim_t
-        typedef :uint16,  :sa_family_t
-        typedef :ulong,   :size_t
-        typedef :uint32,  :socklen_t
-        typedef :long,    :suseconds_t
-        typedef :long,    :ssize_t
-        typedef :long,    :time_t
-        typedef :pointer, :timer_t
-        typedef :uint32,  :uid_t
-
-        #
-        # Sets or gets the endianness of the structure.
-        #
-        # @param [:little, :big, :network, nil] type
+        # @param [:little, :big, :network] type
         #   The new endianness.
         #
-        # @return [:little, :big, :network, nil]
-        #   The endianness of the structure.
+        # @api public
         #
-        def self.endian(type=nil)
-          if type then @endian = type.to_sym
-          else         @endian
+        def self.endian(new_endian)
+          type_system(Types.endian(new_endian))
+        end
+
+        #
+        # Sets or gets the default architecture for the structure.
+        #
+        # @param [Symbol] arch
+        #   The new architecture.
+        #
+        # @api public
+        #
+        def self.arch(new_arch)
+          type_system(Types.arch(new_arch))
+        end
+
+        #
+        # Defines a field in the structure.
+        #
+        # @param [Symbol] name
+        #   The name of the field.
+        #
+        # @param [Symbol, (Symbol, Integer), Range(Symbol)] type
+        #   The type of the field.
+        #
+        # @example Defining a field:
+        #   class MyStruct < Ronin::Support::Binary::Struct
+        #     field :x, :uint32
+        #   end
+        #   
+        #   struct = MyStruct.new
+        #   struct.x = 0x11223344
+        #
+        # @example Defining an Array field:
+        #   class MyStruct < Ronin::Support::Binary::Struct
+        #     field :nums, [:uint32, 10]
+        #   end
+        #   
+        #   struct = MyStruct.new
+        #   struct.x = [0x11111111, 0x22222222, 0x33333333, 0x44444444]
+        #
+        # @example Defining an unbounded Array field:
+        #   class MyStruct < Ronin::Support::Binary::Struct
+        #     field :payload, :uint8..
+        #   end
+        #   
+        #   struct = MyStruct.new
+        #   struct.payloads = [0x1, 0x2, 0x3, 0x4]
+        #
+        # @api public
+        #
+        def self.member(name,type_signature,**kwargs)
+          unless (type_signature.kind_of?(Symbol) || type_signature < Struct)
+            raise(ArgumentError,"type signature is not a Symbol or #{Struct}: #{type_signature.inspect}")
           end
+
+          type = resolve_type(type_signature)
+          self.members[name] = Member.new(name,type_signature,type)
+
+          define_method(name)       { self[name] }
+          define_method("#{name}=") { |value| self[name] = value }
+        end
+
+        #
+        # The type for the structure class.
+        #
+        # @return [Types::StructType]
+        #   The underlying type.
+        #
+        def self.type
+          @type ||= Types::StructType.new(
+            Hash[members.map { |name,member| [name, member.type] }]
+          )
+        end
+
+        #
+        # The size of the struct.
+        #
+        # @return [Integer]
+        #   The size of the struct in bytes.
+        #
+        def self.size
+          type.size
         end
 
         #
@@ -394,173 +475,54 @@ module Ronin
         #   layout :length, :uint32,
         #          :data,   [:uchar, 256]
         #
+        # @note
+        #   This method is mainly for compatibility with
+        #   [FFI::Struct](https://rubydoc.info/gems/ffi/FFI/Struct).
+        #
+        # @api public
+        #
         def self.layout(*fields)
-          unless fields.empty?
-            @layout = []
-            @fields = {}
-
-            fields.each_slice(2) do |name,(type,length)|
-              type = typedefs.fetch(type,type)
-
-              unless (type.kind_of?(Symbol) || type < Struct)
-                raise(TypeError,"#{type.inspect} is not a Symbol or #{Struct}")
-              end
-
-              @layout      << name
-              @fields[name] = [type, length]
-
-              attr_accessor name
-            end
-          end
-
-          return (@layout ||= [])
-        end
-
-        #
-        # The formats for the structure.
-        #
-        # @return [Hash{Hash{Symbol => Object} => Format}]
-        #   The mapping of options to binary formats.
-        #
-        # @api semipublic
-        #
-        def self.formats
-          @formats ||= Hash.new do |hash,kwargs|
-            fields = each_field.map { |struct,name,field| field }
-            kwargs = {endian: self.endian}.merge(kwargs)
-
-            hash[kwargs] = format(fields,**kwargs)
+          fields.each_slice(2) do |(name,type)|
+            member(name,type)
           end
         end
 
-        #
-        # Creates a new template for the structure.
-        #
-        # @param [Array<type, (type, length)>] fields
-        #   The fields of the structure.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {Format#initialize}.
-        #
-        # @return [Format]
-        #   The new template.
-        #
-        # @api semipublic
-        #
-        def self.format(fields,**kwargs)
-          Format.new(fields,**kwargs)
-        end
+        private
 
         #
-        # Default value for a field.
+        # Parses the type signature and returns the type using the structure's
+        # {#type_system}.
         #
-        # @param [type, (type, length)] type
-        #   The type of the field.
+        # @param [Symbol, (Symbol, Integer), Range(Symbol),
+        #        Class<Struct>, (Class<Struct>, Integer), Range(Class<Struct>),
+        #        Types::Type, (Types::Type, Integer), Range(Types::Type)] type_signature
+        # The type signature to parse.
         #
-        # @return [Integer, Float, String, Struct]
-        #   The default value for the type.
+        # @return [Types::Type]
+        #   The resolved type.
         #
-        # @api private
-        #
-        def self.default(type)
-          type, length = type
+        def self.resolve_type(type_signature)
+          type, length = case type_signature
+                         when Array then type_signature
+                         when Range then [type_signature.begin, Float::INFINITY]
+                         else            type_signature
+                         end
 
-          if length
-            if Format::STRING_TYPES.include?(type)
-              # arrays of chars should be Strings
-              String.new
-            else
-              # create an array of values
-              Array.new(length) { |index| default(type) }
-            end
-          else
-            if type.kind_of?(Symbol)
-              if    Format::INT_TYPES.include?(type)    then 0
-              elsif Format::FLOAT_TYPES.include?(type)  then 0.0
-              elsif Format::CHAR_TYPES.include?(type)   then "\0"
-              elsif Format::STRING_TYPES.include?(type) then ''
-              end
-            elsif type < Struct
-              type.new
-            end
+          type = case type
+                 when Struct       then type.type
+                 when Types::Type  then type
+                 when Array, Range then resolve_type(type)
+                 when Symbol       then type_system[type]
+                 else
+                   raise(TypeError,"field type must be a Symbol, Type, or a Struct: #{type_signature.inspect}")
+                 end
+
+          case length
+          when Float::INFINITY then type = type[]
+          when Integer         then type = type[length]
           end
-        end
 
-        #
-        # Enumerates the fields of the structure, and all nested structures.
-        #
-        # @yield [struct, name, type]
-        #   The given block will be passed each structure, field name and field
-        #   type.
-        #
-        # @yieldparam [Struct] struct
-        #   The structure class.
-        #
-        # @yieldparam [Symbol] name
-        #   The name of the field.
-        #
-        # @yieldparam [type, (type, length)] type
-        #   The type of the field.
-        #
-        # @return [Enumerator]
-        #   If no block is given, an Enumerator will be returned.
-        #
-        # @api private
-        #
-        def self.each_field(&block)
-          return enum_for(__method__) unless block
-
-          layout.each do |name|
-            type, length = field = fields[name]
-
-            if type.kind_of?(Symbol)
-              yield self, name, field
-            elsif type < Struct
-              if length
-                length.times { type.each_field(&block) }
-              else
-                type.each_field(&block)
-              end
-            end
-          end
-        end
-
-        #
-        # Enumerates the fields of the structure, and all nested structure.
-        #
-        # @yield [struct, name, type]
-        #   The given block will be passed each structure, field name and type.
-        #
-        # @yieldparam [Struct] struct
-        #   The structure instance.
-        #
-        # @yieldparam [Symbol] name
-        #   The name of the field.
-        #
-        # @yieldparam [type, (type, length)] type
-        #   The type of the field.
-        #
-        # @return [Enumerator]
-        #   If no block is given, an Enumerator will be returned.
-        #
-        # @api private
-        #
-        def each_field(&block)
-          return enum_for(__method__) unless block
-
-          self.class.layout.each do |name|
-            type, length = field = self.class.fields[name]
-
-            if type.kind_of?(Symbol)
-              yield self, name, field
-            elsif type < Struct
-              if length
-                self[name].each { |struct| struct.each_field(&block) }
-              else
-                self[name].each_field(&block)
-              end
-            end
-          end
+          return type
         end
 
       end

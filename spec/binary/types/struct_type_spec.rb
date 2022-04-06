@@ -8,8 +8,9 @@ describe Ronin::Support::Binary::Types::StructType do
   let(:members) do
     {
       a: Ronin::Support::Binary::Types::CHAR,
-      b: Ronin::Support::Binary::Types::INT16,
-      c: Ronin::Support::Binary::Types::UINT32
+      b: Ronin::Support::Binary::Types::INT8,
+      c: Ronin::Support::Binary::Types::UINT16,
+      d: Ronin::Support::Binary::Types::INT16
     }
   end
 
@@ -27,6 +28,10 @@ describe Ronin::Support::Binary::Types::StructType do
         expect(subject.size).to eq(0)
       end
 
+      it "must set #alignment to 0" do
+        expect(subject.alignment).to eq(0)
+      end
+
       it "must set #pack_string to ''" do
         expect(subject.pack_string).to eq('')
       end
@@ -35,8 +40,35 @@ describe Ronin::Support::Binary::Types::StructType do
     context "when given a Hash of names and types" do
       subject { described_class.new(members) }
 
-      it "must set #members to the given members" do
-        expect(subject.members).to eq(members)
+      it "must populate #members with Members containing the offset and type" do
+        expect(subject.members.keys).to eq(members.keys)
+        expect(subject.members.values).to all(be_kind_of(described_class::Member))
+
+        expect(subject.members[:a].offset).to eq(0)
+        expect(subject.members[:a].type).to eq(members[:a])
+
+        expect(subject.members[:b].offset).to eq(members[:a].size)
+        expect(subject.members[:b].type).to eq(members[:b])
+
+        expect(subject.members[:c].offset).to eq(members[:a].size + members[:b].size)
+        expect(subject.members[:c].type).to eq(members[:c])
+
+        expect(subject.members[:d].offset).to eq(members[:a].size + members[:b].size + members[:c].size)
+        expect(subject.members[:d].type).to eq(members[:d])
+      end
+
+      context "when one of the members offset is not divisible by it's type's alignment" do
+        let(:members) do
+          {
+            a: Ronin::Support::Binary::Types::CHAR,
+            b: Ronin::Support::Binary::Types::UINT32
+          }
+        end
+
+        it "must add padding to the member's offset to align it" do
+          expect(subject.members[:a].offset).to eq(0)
+          expect(subject.members[:b].offset).to eq(members[:a].size + 3)
+        end
       end
 
       it "must set #size to the sum of the members type's sizes" do
@@ -49,14 +81,28 @@ describe Ronin::Support::Binary::Types::StructType do
             members.values.map(&:pack_string).join
           )
         end
+
+        context "but one of the members offset is not divisible by it's type's alignment" do
+          let(:members) do
+            {
+              a: Ronin::Support::Binary::Types::CHAR,
+              b: Ronin::Support::Binary::Types::UINT32
+            }
+          end
+
+          it "must add 'x' characters before the member's #pack_string to align it" do
+            expect(subject.pack_string).to eq(
+              members[:a].pack_string + 'xxx' + members[:b].pack_string
+            )
+          end
+        end
       end
 
       context "when one ofthe types does not have a #pack_string" do
         let(:members) do
           {
-            a: Ronin::Support::Binary::Types::CHAR,
-            b: Ronin::Support::Binary::Types::INT16,
-            c: Ronin::Support::Binary::Types::UnboundedArrayType.new(
+            a: Ronin::Support::Binary::Types::INT32,
+            b: Ronin::Support::Binary::Types::UnboundedArrayType.new(
                  Ronin::Support::Binary::Types::INT32[3]
                )
           }
@@ -70,7 +116,7 @@ describe Ronin::Support::Binary::Types::StructType do
       context "when one of the fields is a Ronin::Support::Binary::Types::UnboundedArrayType" do
         let(:members) do
           {
-            a: Ronin::Support::Binary::Types::CHAR,
+            a: Ronin::Support::Binary::Types::INT16,
             b: Ronin::Support::Binary::Types::INT16,
             c: Ronin::Support::Binary::Types::UINT32[]
           }
@@ -89,7 +135,8 @@ describe Ronin::Support::Binary::Types::StructType do
         {
           a: members[:a].uninitialized_value,
           b: members[:b].uninitialized_value,
-          c: members[:c].uninitialized_value
+          c: members[:c].uninitialized_value,
+          d: members[:c].uninitialized_value
         }
       )
     end
@@ -106,13 +153,14 @@ describe Ronin::Support::Binary::Types::StructType do
       {
         a: 'A',
         b: -1,
-        c: 0x1122
+        c: 0x1122,
+        d: -2
       }
     end
 
     it "must pack a hash of values using Array#pack and #pack_string" do
       expect(subject.pack(hash)).to eq(
-        [hash[:a], hash[:b], hash[:c]].pack(subject.pack_string)
+        [hash[:a], hash[:b], hash[:c], hash[:d]].pack(subject.pack_string)
       )
     end
 
@@ -121,8 +169,8 @@ describe Ronin::Support::Binary::Types::StructType do
       let(:members) do
         {
           a: Ronin::Support::Binary::Types::CHAR,
-          b: Ronin::Support::Binary::Types::INT16,
-          c: Ronin::Support::Binary::Types::UINT32[array_length]
+          b: Ronin::Support::Binary::Types::INT8,
+          c: Ronin::Support::Binary::Types::UINT16[array_length]
         }
       end
 
@@ -148,8 +196,8 @@ describe Ronin::Support::Binary::Types::StructType do
       let(:members) do
         {
           a: Ronin::Support::Binary::Types::CHAR,
-          b: Ronin::Support::Binary::Types::INT16,
-          c: Ronin::Support::Binary::Types::UINT32[]
+          b: Ronin::Support::Binary::Types::INT8,
+          c: Ronin::Support::Binary::Types::UINT16[]
         }
       end
 
@@ -172,11 +220,11 @@ describe Ronin::Support::Binary::Types::StructType do
       let(:members) do
         {
           a: Ronin::Support::Binary::Types::CHAR,
-          b: Ronin::Support::Binary::Types::INT16,
+          b: Ronin::Support::Binary::Types::INT8,
           c: Ronin::Support::Binary::Types::StructType.new(
             {
-              x: Ronin::Support::Binary::Types::INT32,
-              y: Ronin::Support::Binary::Types::UINT32
+              x: Ronin::Support::Binary::Types::INT16,
+              y: Ronin::Support::Binary::Types::UINT16
             }
           )
         }
@@ -188,7 +236,7 @@ describe Ronin::Support::Binary::Types::StructType do
           b: -1,
           c: {
             x: -2,
-            y: 0x11223344
+            y: 0x1234
           }
         }
       end
@@ -208,11 +256,12 @@ describe Ronin::Support::Binary::Types::StructType do
       {
         a: 'A',
         b: -1,
-        c: 0x1122
+        c: 0x1122,
+        d: -2
       }
     end
     let(:data) do
-      [hash[:a], hash[:b], hash[:c]].pack(subject.pack_string)
+      [hash[:a], hash[:b], hash[:c], hash[:d]].pack(subject.pack_string)
     end
 
     it "must unpack a Hash using String#unpack and #pack_string" do
@@ -224,8 +273,8 @@ describe Ronin::Support::Binary::Types::StructType do
       let(:members) do
         {
           a: Ronin::Support::Binary::Types::CHAR,
-          b: Ronin::Support::Binary::Types::INT16,
-          c: Ronin::Support::Binary::Types::UINT32[array_length]
+          b: Ronin::Support::Binary::Types::INT8,
+          c: Ronin::Support::Binary::Types::UINT16[array_length]
         }
       end
 
@@ -252,8 +301,8 @@ describe Ronin::Support::Binary::Types::StructType do
       let(:members) do
         {
           a: Ronin::Support::Binary::Types::CHAR,
-          b: Ronin::Support::Binary::Types::INT16,
-          c: Ronin::Support::Binary::Types::UINT32[]
+          b: Ronin::Support::Binary::Types::INT8,
+          c: Ronin::Support::Binary::Types::UINT16[]
         }
       end
 
@@ -277,11 +326,11 @@ describe Ronin::Support::Binary::Types::StructType do
       let(:members) do
         {
           a: Ronin::Support::Binary::Types::CHAR,
-          b: Ronin::Support::Binary::Types::INT16,
+          b: Ronin::Support::Binary::Types::INT8,
           c: Ronin::Support::Binary::Types::StructType.new(
             {
-              x: Ronin::Support::Binary::Types::INT32,
-              y: Ronin::Support::Binary::Types::UINT32
+              x: Ronin::Support::Binary::Types::INT16,
+              y: Ronin::Support::Binary::Types::UINT16
             }
           )
         }
@@ -293,7 +342,7 @@ describe Ronin::Support::Binary::Types::StructType do
           b: -1,
           c: {
             x: -2,
-            y: 0x11223344
+            y: 0x1234
           }
         }
       end
@@ -314,7 +363,8 @@ describe Ronin::Support::Binary::Types::StructType do
       {
         a: 'A',
         b: -1,
-        c: 0x1122
+        c: 0x1234,
+        d: -2
       }
     end
     let(:values) { ['A', 'B'] }
@@ -322,7 +372,7 @@ describe Ronin::Support::Binary::Types::StructType do
     it "must push the values of the Hash to the given values" do
       subject.enqueue_value(values,hash)
 
-      expect(values).to eq(['A', 'B', hash[:a], hash[:b], hash[:c]])
+      expect(values).to eq(['A', 'B', hash[:a], hash[:b], hash[:c], hash[:d]])
     end
 
     context "when one of the #members is an AggregateType" do
@@ -330,8 +380,8 @@ describe Ronin::Support::Binary::Types::StructType do
       let(:members) do
         {
           a: Ronin::Support::Binary::Types::CHAR,
-          b: Ronin::Support::Binary::Types::INT16,
-          c: Ronin::Support::Binary::Types::UINT32[array_length]
+          b: Ronin::Support::Binary::Types::INT8,
+          c: Ronin::Support::Binary::Types::UINT16[array_length]
         }
       end
 
@@ -357,8 +407,8 @@ describe Ronin::Support::Binary::Types::StructType do
       let(:members) do
         {
           a: Ronin::Support::Binary::Types::CHAR,
-          b: Ronin::Support::Binary::Types::INT16,
-          c: Ronin::Support::Binary::Types::UINT32[]
+          b: Ronin::Support::Binary::Types::INT8,
+          c: Ronin::Support::Binary::Types::UINT16[]
         }
       end
 
@@ -381,11 +431,11 @@ describe Ronin::Support::Binary::Types::StructType do
       let(:members) do
         {
           a: Ronin::Support::Binary::Types::CHAR,
-          b: Ronin::Support::Binary::Types::INT16,
+          b: Ronin::Support::Binary::Types::INT8,
           c: Ronin::Support::Binary::Types::StructType.new(
             {
-              x: Ronin::Support::Binary::Types::INT32,
-              y: Ronin::Support::Binary::Types::UINT32
+              x: Ronin::Support::Binary::Types::INT16,
+              y: Ronin::Support::Binary::Types::UINT16
             }
           )
         }
@@ -397,7 +447,7 @@ describe Ronin::Support::Binary::Types::StructType do
           b: -1,
           c: {
             x: -2,
-            y: 0x11223344
+            y: 0x1234
           }
         }
       end
@@ -417,11 +467,12 @@ describe Ronin::Support::Binary::Types::StructType do
       {
         a: 'A',
         b: -1,
-        c: 0x1122
+        c: 0x1122,
+        d: -2
       }
     end
     let(:values) do
-      [hash[:a], hash[:b], hash[:c], 'A', 'B']
+      [hash[:a], hash[:b], hash[:c], hash[:d], 'A', 'B']
     end
 
     it "must shift the values for #members off of the given values" do
@@ -433,8 +484,8 @@ describe Ronin::Support::Binary::Types::StructType do
       let(:members) do
         {
           a: Ronin::Support::Binary::Types::CHAR,
-          b: Ronin::Support::Binary::Types::INT16,
-          c: Ronin::Support::Binary::Types::UINT32[array_length]
+          b: Ronin::Support::Binary::Types::INT8,
+          c: Ronin::Support::Binary::Types::UINT16[array_length]
         }
       end
 
@@ -461,8 +512,8 @@ describe Ronin::Support::Binary::Types::StructType do
       let(:members) do
         {
           a: Ronin::Support::Binary::Types::CHAR,
-          b: Ronin::Support::Binary::Types::INT16,
-          c: Ronin::Support::Binary::Types::UINT32[]
+          b: Ronin::Support::Binary::Types::INT8,
+          c: Ronin::Support::Binary::Types::UINT16[]
         }
       end
 
@@ -486,11 +537,11 @@ describe Ronin::Support::Binary::Types::StructType do
       let(:members) do
         {
           a: Ronin::Support::Binary::Types::CHAR,
-          b: Ronin::Support::Binary::Types::INT16,
+          b: Ronin::Support::Binary::Types::INT8,
           c: Ronin::Support::Binary::Types::StructType.new(
             {
-              x: Ronin::Support::Binary::Types::INT32,
-              y: Ronin::Support::Binary::Types::UINT32
+              x: Ronin::Support::Binary::Types::INT16,
+              y: Ronin::Support::Binary::Types::UINT16
             }
           )
         }
@@ -502,7 +553,7 @@ describe Ronin::Support::Binary::Types::StructType do
           b: -1,
           c: {
             x: -2,
-            y: 0x11223344
+            y: 0x1234
           }
         }
       end
