@@ -97,13 +97,13 @@ describe Ronin::Support::Binary::ArrayBuffer do
         expect(subject.length).to eq(subject.size / subject.type.size)
       end
 
-      context "and when a type argument is given" do
+      context "and the type is a multi-byte type" do
         let(:type_name) { :uint32_le }
         let(:type)      { Ronin::Support::Binary::Types[type_name] }
 
         subject { described_class.new(type_name,string) }
 
-        it "must set #type" do
+        it "must resolve the type name and set #type" do
           expect(subject.type).to eq(type)
         end
 
@@ -137,13 +137,13 @@ describe Ronin::Support::Binary::ArrayBuffer do
         expect(subject.length).to eq(subject.size / subject.type.size)
       end
 
-      context "and when a type argument is given" do
+      context "and the type is a multi-byte type" do
         let(:type_name) { :uint32_le }
         let(:type)      { Ronin::Support::Binary::Types[type_name] }
 
         subject { described_class.new(type_name,string) }
 
-        it "must set #type" do
+        it "must resolve the type name and set #type" do
           expect(subject.type).to eq(type)
         end
 
