@@ -6,14 +6,6 @@ describe Ronin::Support::Binary::Types::AggregateType do
 
   subject { described_class.new(pack_string: pack_string) }
 
-  describe "#size" do
-    it do
-      expect {
-        subject.size
-      }.to raise_error(NotImplementedError,"#{described_class}#size was not implemented")
-    end
-  end
-
   describe "#length" do
     it do
       expect {

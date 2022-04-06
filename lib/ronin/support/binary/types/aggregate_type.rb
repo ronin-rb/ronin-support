@@ -33,15 +33,6 @@ module Ronin
         class AggregateType < Type
 
           #
-          # The size of the aggregate type.
-          #
-          # @abstract
-          #
-          def size
-            raise(NotImplementedError,"#{self.class}##{__method__} was not implemented")
-          end
-
-          #
           # The number of elements within the aggregate type.
           #
           # @return [Integer, Float::INFINITY]
