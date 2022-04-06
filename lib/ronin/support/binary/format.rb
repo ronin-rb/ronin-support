@@ -193,7 +193,7 @@ module Ronin
         #
         # Packs the data.
         #
-        # @param [Array] values
+        # @param [Array] arguments
         #   The values to pack.
         #
         # @return [String]
