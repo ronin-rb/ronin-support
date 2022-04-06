@@ -61,8 +61,21 @@ module Ronin
             @size   = size_or_string
             @string = String.new("\0" * @size, encoding: Encoding::ASCII_8BIT)
           else
-            raise(ArgumentError,"size_or_string argument must be either a size (Integer) or a buffer (String): #{size_or_string.inspect}")
+            raise(ArgumentError,"first argument must be either a size (Integer) or a buffer (String): #{size_or_string.inspect}")
           end
+        end
+
+        #
+        # Clears the memory by setting each byte to 0.
+        #
+        # @return [self]
+        #
+        def clear
+          (0...@size).each do |index|
+            @string.setbyte(index,0)
+          end
+
+          return self
         end
 
         #

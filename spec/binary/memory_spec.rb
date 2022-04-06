@@ -75,6 +75,23 @@ describe Ronin::Support::Binary::Memory do
 
   let(:string) { "foo bar baz" }
 
+  describe "#clear" do
+    let(:size)   { 10 }
+    let(:string) { 'A' * size }
+
+    subject { described_class.new(string) }
+
+    it "must set every byte in the underlying String to 0" do
+      subject.clear
+
+      expect(string).to eq("\0" * size)
+    end
+
+    it "must return self" do
+      expect(subject.clear).to be(subject)
+    end
+  end
+
   describe "#to_s" do
     context "when #string is a String" do
       subject { described_class.new(string) }
