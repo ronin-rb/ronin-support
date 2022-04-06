@@ -76,6 +76,20 @@ module Ronin
           end
 
           #
+          # The size of the type.
+          #
+          # @return [Integer]
+          #   The size of the type in bytes.
+          #
+          # @abstract
+          #
+          # @api public
+          #
+          def size
+            raise(NotImplementedError,"#{self.class}##{__method__} was not implemented")
+          end
+
+          #
           # Packs the value into the type's binary format.
           #
           # @param [Object] value

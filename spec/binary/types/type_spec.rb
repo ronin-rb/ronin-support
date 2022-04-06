@@ -30,6 +30,14 @@ describe Ronin::Support::Binary::Types::Type do
     end
   end
 
+  describe "#size" do
+    it do
+      expect {
+        subject.size
+      }.to raise_error(NotImplementedError,"#{described_class}#size was not implemented")
+    end
+  end
+
   describe "#pack" do
     let(:value) { 0x11223344 }
 
