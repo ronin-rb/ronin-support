@@ -37,6 +37,11 @@ module Ronin
           # @return [1, 2, 4, 8]
           attr_reader :size
 
+          # The alignment in bytes for the scalar type.
+          #
+          # @return [Integer]
+          attr_reader :alignment
+
           # The endian-ness of the type.
           #
           # @return [:little, :big, nil]
@@ -66,12 +71,13 @@ module Ronin
           # @option kwargs [String] :pack_string
           #   The String for `Array#pack` or `String#unpack`.
           #
-          def initialize(size: , endian: , signed: , **kwargs)
+          def initialize(size: , alignment: size, endian: , signed: , **kwargs)
             super(**kwargs)
 
-            @endian = endian
-            @size   = size
-            @signed = signed
+            @endian    = endian
+            @size      = size
+            @alignment = alignment
+            @signed    = signed
           end
 
           # 

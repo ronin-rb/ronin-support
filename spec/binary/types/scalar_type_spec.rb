@@ -23,6 +23,10 @@ describe Ronin::Support::Binary::Types::ScalarType do
       expect(subject.size).to eq(size)
     end
 
+    it "must default #alignment to #size" do
+      expect(subject.alignment).to eq(subject.size)
+    end
+
     it "must set #endian" do
       expect(subject.endian).to eq(endian)
     end
@@ -44,6 +48,24 @@ describe Ronin::Support::Binary::Types::ScalarType do
             pack_string: pack_string
           )
         }.to raise_error(ArgumentError)
+      end
+    end
+
+    context "when the alignment: keyword is given" do
+      let(:alignment) { 8 }
+
+      subject do
+        described_class.new(
+          size:        size,
+          alignment:   alignment,
+          endian:      endian,
+          signed:      signed,
+          pack_string: pack_string
+        )
+      end
+
+      it "must set #alignment" do
+        expect(subject.alignment).to eq(alignment)
       end
     end
 

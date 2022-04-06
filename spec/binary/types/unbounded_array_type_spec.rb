@@ -61,6 +61,12 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
     end
   end
 
+  describe "#alignment" do
+    it "must return the #type's #alignemnt" do
+      expect(subject.alignment).to eq(type.alignment)
+    end
+  end
+
   describe "#length" do
     it "must return Float::INFINITY" do
       expect(subject.length).to eq(Float::INFINITY)

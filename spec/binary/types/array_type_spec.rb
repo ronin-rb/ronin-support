@@ -52,6 +52,12 @@ describe Ronin::Support::Binary::Types::ArrayType do
     end
   end
 
+  describe "#alignment" do
+    it "must return the #type's #alignemnt" do
+      expect(subject.alignment).to eq(type.alignment)
+    end
+  end
+
   describe "#endian" do
     it "must return #type.endian" do
       expect(subject.endian).to eq(type.endian)

@@ -90,6 +90,19 @@ module Ronin
           end
 
           #
+          # The alignment, in bytes, for the type.
+          #
+          # @return [Integer]
+          #
+          # @abstract
+          #
+          # @api public
+          #
+          def alignment
+            raise(NotImplementedError,"#{self.class}##{__method__} was not implemented")
+          end
+
+          #
           # Packs the value into the type's binary format.
           #
           # @param [Object] value

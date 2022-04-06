@@ -18,6 +18,12 @@ describe Ronin::Support::Binary::Types::StringType do
     end
   end
 
+  describe "#alignment" do
+    it "must return 1" do
+      expect(subject.alignment).to eq(1)
+    end
+  end
+
   describe "#length" do
     it "must return Float::INFINITY" do
       expect(subject.length).to eq(Float::INFINITY)

@@ -51,6 +51,15 @@ module Ronin
           alias length size
 
           #
+          # The alignment for the string type
+          #
+          # @return [1]
+          #
+          def align
+            1
+          end
+
+          #
           # Indicates that the String contains signed characters.
           #
           # @return [true]

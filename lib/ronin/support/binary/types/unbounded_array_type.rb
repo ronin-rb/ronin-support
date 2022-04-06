@@ -94,6 +94,15 @@ module Ronin
           end
 
           #
+          # The alignment, in bytes, for the unbounded array.
+          #
+          # @return [Integer]
+          #
+          def alignment
+            @type.alignment
+          end
+
+          #
           # Indicates whether each element is signed.
           #
           # @return [Boolean]
