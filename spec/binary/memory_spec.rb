@@ -147,6 +147,27 @@ describe Ronin::Support::Binary::Memory do
     end
   end
 
+  describe "#byteslice" do
+    let(:memory) { described_class.new(string) }
+
+    let(:offset) { 4 }
+    let(:length) { 3 }
+
+    subject { memory.byteslice(offset,length) }
+
+    it "must return a new Ronin::Support::Binary::ByteSlice" do
+      expect(subject).to be_kind_of(Ronin::Support::Binary::ByteSlice)
+    end
+
+    it "must set the new ByteSlice's #offset to the given offset" do
+      expect(subject.offset).to eq(offset)
+    end
+
+    it "must set the new ByteSlice's #length" do
+      expect(subject.length).to eq(length)
+    end
+  end
+
   describe "#clear" do
     let(:size)   { 10 }
     let(:string) { 'A' * size }

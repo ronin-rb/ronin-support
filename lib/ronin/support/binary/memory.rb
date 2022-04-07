@@ -120,6 +120,22 @@ module Ronin
         end
 
         #
+        # Creates a new byte slice within the memory.
+        #
+        # @param [Integer] offset
+        #   The offset of the new byte slice.
+        #
+        # @param [Integer] length
+        #   The length of the new byte slice.
+        #
+        # @return [ByteSlice]
+        #   The new byte slice.
+        #
+        def byteslice(offset,length=1)
+          ByteSlice.new(@string, offset: offset, length: length)
+        end
+
+        #
         # Clears the memory by setting each byte to 0.
         #
         # @return [self]
