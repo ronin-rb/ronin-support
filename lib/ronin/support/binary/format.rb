@@ -285,26 +285,25 @@ module Ronin
         #   `[Symbol, Integer]`, `(Symbol..)`, or a {Type}.
         #
         def translate(field)
-          type, length = case field
-                         when Array then [field[0], field[1]]
-                         when Range then [field.begin, Float::INFINITY]
-                         else            field
-                         end
+          case field
+          when Array
+            array   = field.flatten
+            type    = translate(array[0])
+            lengths = array[1..]
 
-          type = case type
-                 when Symbol       then @type_system[type]
-                 when Array, Range then translate(type)
-                 when Type         then type
-                 else
-                   raise(ArgumentError,"field type must be a Symbol, [Symbol, Integer], (Symbol..), or a #{Type}: #{field.inspect}")
-                 end
+            lengths.reduce(type) { |type,length| type[length] }
+          when Range
+            range = field
+            type  = translate(range.begin)
 
-          case length
-          when Float::INFINITY then type = type[]
-          when Integer         then type = type[length]
+            type[]
+          when Symbol
+            @type_system[field]
+          when Type
+            field
+          else
+            raise(ArgumentError,"field type must be a Symbol, [Symbol, Integer], (Symbol..), or a #{Type}: #{field.inspect}")
           end
-
-          return type
         end
 
       end
