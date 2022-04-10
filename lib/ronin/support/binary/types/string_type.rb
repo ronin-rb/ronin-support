@@ -136,6 +136,7 @@ module Ronin
           def dequeue_value(values)
             values.shift
           end
+
         end
       end
     end
