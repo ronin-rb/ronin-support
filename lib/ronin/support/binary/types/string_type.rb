@@ -108,13 +108,13 @@ module Ronin
           end
 
           #
-          # Enqueues a scalar value onto the flat list of values.
+          # Enqueues a string onto the flat list of values.
           #
           # @param [Array] values
           #   The flat array of values.
           #
           # @param [String, nil] value
-          #   The scalar value to enqueue.
+          #   The string to enqueue.
           #
           # @api private
           #
@@ -123,13 +123,13 @@ module Ronin
           end
 
           #
-          # Dequeues a scalar value from the flat list of values.
+          # Dequeues a string from the flat list of values.
           #
           # @param [Array] values
           #   The flat array of values.
           #
           # @return [String]
-          #   The dequeued scalar value.
+          #   The dequeued string.
           #
           # @api private
           #
