@@ -154,11 +154,12 @@ module Ronin
         # @return [String]
         #   The raw binary buffer.
         #
-        def to_s
+        def pack
           @string.to_s
         end
 
-        alias to_str to_s
+        alias to_s pack
+        alias to_str pack
 
       end
     end

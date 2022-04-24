@@ -185,12 +185,12 @@ describe Ronin::Support::Binary::Memory do
     end
   end
 
-  describe "#to_s" do
+  describe "#pack" do
     context "when #string is a String" do
       subject { described_class.new(string) }
 
       it "must return #string" do
-        expect(subject.to_s).to eq(subject.string)
+        expect(subject.pack).to eq(subject.string)
       end
     end
 
@@ -203,8 +203,14 @@ describe Ronin::Support::Binary::Memory do
       subject { described_class.new(byte_slice) }
 
       it "must return #string as a String" do
-        expect(subject.to_s).to eq(byte_slice.to_s)
+        expect(subject.pack).to eq(byte_slice.to_s)
       end
+    end
+  end
+
+  describe "#to_s" do
+    it "must call #pack" do
+      expect(subject.to_s).to eq(subject.pack)
     end
   end
 
