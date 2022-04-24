@@ -55,7 +55,7 @@ module Ronin
           #
           # @return [1]
           #
-          def align
+          def alignment
             1
           end
 
