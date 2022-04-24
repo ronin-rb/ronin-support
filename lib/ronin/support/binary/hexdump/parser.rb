@@ -219,14 +219,14 @@ module Ronin
             end
 
             case @type
-            when Types::AggregateType
-              raise(ArgumentError,"only scalar types are support: #{type.inspect}")
             when Types::FloatType
               @parse_method = method(:parse_float)
             when Types::CharType
               @parse_method = method(:parse_char_or_int)
-            else
+            when Types::ScalarType
               @parse_method = method(:parse_int)
+            else
+              raise(ArgumentError,"only scalar types are support: #{type.inspect}")
             end
           end
 
