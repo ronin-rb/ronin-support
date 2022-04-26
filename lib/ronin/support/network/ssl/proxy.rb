@@ -117,6 +117,13 @@ module Ronin
         #
         class Proxy < TCP::Proxy
 
+          # The SSL version to use.
+          #
+          # @return [1, 1.1, 1.2, String, Symbol, nil]
+          #
+          # @since 1.0.0
+          attr_reader :version
+
           # The path to the SSL `.crt` file.
           #
           # @return [String]
@@ -139,6 +146,9 @@ module Ronin
 
           #
           # Creates a new SSL Proxy.
+          #
+          # @param [1, 1.1, 1.2, String, Symbol, nil] version
+          #   The SSL version to use.
           #
           # @param [String] cert
           #   The path to the SSL `.crt` file.
@@ -164,16 +174,18 @@ module Ronin
           #
           # @see Network::Proxy#initialize
           #
-          def initialize(cert:   SSL::DEFAULT_CERT_FILE,
-                         key:    SSL::DEFAULT_KEY_FILE,
-                         verify: :none,
-                         certs:  nil,
+          def initialize(version: nil,
+                         cert:    SSL::DEFAULT_CERT_FILE,
+                         key:     SSL::DEFAULT_KEY_FILE,
+                         verify:  :none,
+                         certs:   nil,
                          **kwargs,
                          &block)
-            @cert   = cert
-            @key    = key
-            @verify = verify
-            @certs  = certs
+            @version = version
+            @cert    = cert
+            @key     = key
+            @verify  = verify
+            @certs   = certs
 
             super(**kwargs,&block)
           end
@@ -219,13 +231,11 @@ module Ronin
           #   The new SSL connection.
           #
           def accept_client_connection
-            client = super
-
-            context = OpenSSL::SSL::SSLContext.new()
-            context.verify_mode = SSL::VERIFY[@verify]
-
-            context.cert = OpenSSL::X509::Certificate.new(File.new(@cert))
-            context.key  = OpenSSL::PKey::RSA.new(File.new(@key))
+            client  = super
+            context = SSL.context(version: @version,
+                                  cert:    @cert,
+                                  key:     @key,
+                                  verify:  @verify)
 
             ssl_socket = OpenSSL::SSL::SSLSocket.new(client,context)
             ssl_socket.sync_close = true
@@ -247,15 +257,7 @@ module Ronin
           #
           def open_server_connection
             server_socket = super
-
-            context = OpenSSL::SSL::SSLContext.new
-            context.verify_mode = SSL::VERIFY[@verify]
-
-            if @certs
-              if    File.file?(@certs)      then context.ca_file = @certs
-              elsif File.directory?(@certs) then context.ca_path = @certs
-              end
-            end
+            context       = SSL.context(verify: @verify, certs:  @certs)
 
             ssl_socket = OpenSSL::SSL::SSLSocket.new(server_socket,context)
             ssl_socket.sync_close = true
