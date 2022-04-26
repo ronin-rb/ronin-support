@@ -22,6 +22,10 @@ describe Ronin::Support::Binary::Types::Native do
     subject { described_class::ADDRESS_SIZE }
 
     it "must be equal the size of a pointer" do
+      if RUBY_ENGINE == 'jruby'
+        pending "JRuby does not correctly implement Array#pack('p')"
+      end
+
       expect(subject).to eq(['a'].pack('p').bytesize)
     end
   end
