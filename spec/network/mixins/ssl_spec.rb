@@ -48,7 +48,7 @@ describe Ronin::Support::Network::Mixins::SSL do
       end
 
       describe ":cert" do
-        let(:cert) { File.join(File.dirname(__FILE__),'ssl.crt') }
+        let(:cert) { File.join(__dir__,'..','ssl.crt') }
 
         subject { super().ssl_context(cert: cert) }
 
@@ -58,7 +58,7 @@ describe Ronin::Support::Network::Mixins::SSL do
       end
 
       describe ":key" do
-        let(:key) { File.join(File.dirname(__FILE__),'ssl.key') }
+        let(:key) { File.join(__dir__,'..','ssl.key') }
 
         subject { super().ssl_context(key: key) }
 
@@ -69,7 +69,7 @@ describe Ronin::Support::Network::Mixins::SSL do
 
       describe ":certs" do
         context "when value is a file" do
-          let(:file) { File.join(File.dirname(__FILE__),'ssl.crt') }
+          let(:file) { File.join(__dir__,'..','ssl.crt') }
 
           subject { super().ssl_context(certs: file) }
 

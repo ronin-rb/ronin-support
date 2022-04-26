@@ -45,6 +45,60 @@ module Ronin
 
         # Default SSL cert file
         DEFAULT_CERT_FILE = File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','data','ronin','network','ssl','ssl.pem'))
+
+        #
+        # Creates a new SSL Context.
+        #
+        # @param [Symbol, Boolean] verify
+        #   Specifies whether to verify the SSL certificate.
+        #   May be one of the following:
+        #
+        #   * `:none`
+        #   * `:peer`
+        #   * `:fail_if_no_peer_cert`
+        #   * `:client_once`
+        #
+        # @param [String] :cert
+        #   The path to the SSL `.crt` file.
+        #
+        # @param [String] :key
+        #   The path to the SSL `.key` file.
+        #
+        # @param [String] :certs
+        #   Path to the CA certificate file or directory.
+        #
+        # @return [OpenSSL::SSL::SSLContext]
+        #   The newly created SSL Context.
+        #
+        # @api semipublic
+        #
+        # @since 1.0.0
+        #
+        def self.context(verify: :none, cert: nil, key: nil, certs: nil)
+          context = OpenSSL::SSL::SSLContext.new()
+          context.verify_mode = VERIFY[verify]
+
+          if cert
+            file = File.new(cert)
+            context.cert = OpenSSL::X509::Certificate.new(file)
+          end
+
+          if key
+            file = File.new(key)
+            context.key = OpenSSL::PKey::RSA.new(file)
+          end
+
+          if certs
+            if File.file?(certs)
+              context.ca_file = certs
+            elsif File.directory?(certs)
+              context.ca_path = certs
+            end
+          end
+
+          return context
+        end
+
       end
     end
   end

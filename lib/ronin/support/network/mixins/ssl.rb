@@ -33,7 +33,10 @@ module Ronin
           #
           # Creates a new SSL Context.
           #
-          # @param [Symbol, Boolean] verify
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments.
+          #
+          # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
           #   May be one of the following:
           #
@@ -42,13 +45,13 @@ module Ronin
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
           #
-          # @option options [String] :cert
+          # @option kwargs [String] :cert
           #   The path to the SSL `.crt` file.
           #
-          # @option options [String] :key
+          # @option kwargs [String] :key
           #   The path to the SSL `.key` file.
           #
-          # @option options [String] :certs
+          # @option kwargs [String] :certs
           #   Path to the CA certificate file or directory.
           #
           # @return [OpenSSL::SSL::SSLContext]
@@ -58,29 +61,8 @@ module Ronin
           #
           # @since 0.6.0
           #
-          def ssl_context(verify: :none, cert: nil, key: nil, certs: nil)
-            context = OpenSSL::SSL::SSLContext.new()
-            context.verify_mode = Network::SSL::VERIFY[verify]
-
-            if cert
-              file = File.new(cert)
-              context.cert = OpenSSL::X509::Certificate.new(file)
-            end
-
-            if key
-              file = File.new(key)
-              context.key = OpenSSL::PKey::RSA.new(file)
-            end
-
-            if certs
-              if File.file?(certs)
-                context.ca_file = certs
-              elsif File.directory?(certs)
-                context.ca_path = certs
-              end
-            end
-
-            return context
+          def ssl_context(**kwargs)
+            Network::SSL.context(**kwargs)
           end
 
           #
