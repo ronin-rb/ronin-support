@@ -292,14 +292,17 @@ module Ronin
             case member.type
             when Types::UnboundedArrayType
               # XXX: but how do we handle an unbounded array of structs?
-              @cache[name] ||= Binary::Array.new(member.type.type,byteslice(member.offset,size - member.offset))
+              @cache[name] ||= (
+                slice = byteslice(member.offset,size - member.offset)
+                Binary::Array.new(member.type.type,slice)
+              )
             when Types::ObjectType
-              data = byteslice(member.offset,member.type.size)
-
-              @cache[name] ||= member.type.unpack(data)
+              @cache[name] ||= (
+                slice = byteslice(member.offset,member.type.size)
+                member.type.unpack(slice)
+              )
             else
               data = super(member.offset,member.type.size)
-
               member.type.unpack(data)
             end
           else
