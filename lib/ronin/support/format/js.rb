@@ -17,4 +17,4 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/format/core_ext/js'
+require 'ronin/support/format/js/core_ext'

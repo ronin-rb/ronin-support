@@ -17,4 +17,4 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/format/core_ext/http'
+require 'ronin/support/format/http/core_ext'

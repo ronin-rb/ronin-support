@@ -17,6 +17,6 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/format/core_ext/digest'
+require 'ronin/support/format/digest/core_ext'
 
 warn "DEPRECATED: ronin/formatting/digest is deprecated. Require ronin/crypto instead"

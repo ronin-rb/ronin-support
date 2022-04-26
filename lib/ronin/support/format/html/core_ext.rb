@@ -17,4 +17,5 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/format/html/core_ext'
+require 'ronin/support/format/html/core_ext/integer'
+require 'ronin/support/format/html/core_ext/string'

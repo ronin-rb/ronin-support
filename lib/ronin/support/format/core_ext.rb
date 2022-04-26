@@ -17,9 +17,10 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/format/core_ext/binary'
-require 'ronin/support/format/core_ext/text'
-require 'ronin/support/format/core_ext/http'
-require 'ronin/support/format/core_ext/xml'
-require 'ronin/support/format/core_ext/html'
-require 'ronin/support/format/core_ext/js'
+require 'ronin/support/format/binary/core_ext'
+require 'ronin/support/format/digest/core_ext'
+require 'ronin/support/format/html/core_ext'
+require 'ronin/support/format/http/core_ext'
+require 'ronin/support/format/js/core_ext'
+require 'ronin/support/format/text/core_ext'
+require 'ronin/support/format/xml/core_ext'

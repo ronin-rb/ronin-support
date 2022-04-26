@@ -17,4 +17,51 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/format/html/core_ext'
+require 'ronin/support/format/xml/core_ext/integer'
+require 'ronin/support/format/js/core_ext/integer'
+
+require 'cgi'
+
+class Integer
+
+  #
+  # Escapes the Integer as an HTML String.
+  #
+  # @return [String]
+  #   The escaped HTML String.
+  #
+  # @example
+  #   0x26.html_escape
+  #   # => "&amp;"
+  #
+  # @since 0.2.0
+  #
+  # @see #xml_escape
+  #
+  # @api public
+  #
+  def html_escape
+    xml_escape
+  end
+
+  #
+  # Formats the Integer as a HTML String.
+  #
+  # @return [String]
+  #   The HTML String.
+  #
+  # @example
+  #   0x41.format_html
+  #   # => "&#65;"
+  #
+  # @since 0.2.0
+  #
+  # @see #format_xml
+  #
+  # @api public
+  #
+  def format_html
+    format_xml
+  end
+
+end
