@@ -35,11 +35,6 @@ module Ronin
           # @return [Symbol, (Symbol, Integer), Range(Symbol)]
           attr_reader :type_signature
 
-          # The resolved type for the {#type_signature}.
-          #
-          # @return [Types::Type]
-          attr_reader :type
-
           # The default value for the structure member.
           #
           # @return [Object, Proc, nil]
@@ -56,10 +51,9 @@ module Ronin
           # @param [Object, Proc, nil] default
           #   The optional default value for the structure's field.
           #
-          def initialize(name,type_signature,type, default: nil)
+          def initialize(name,type_signature, default: nil)
             @name = name
             @type_signature = type_signature
-            @type = type
 
             @default = default
           end

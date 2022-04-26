@@ -19,9 +19,8 @@
 
 require 'ronin/support/binary/memory'
 require 'ronin/support/binary/struct/member'
-require 'ronin/support/binary/types'
-
-require 'set'
+require 'ronin/support/binary/types/mixin'
+require 'ronin/support/binary/array'
 
 module Ronin
   module Support
@@ -29,20 +28,24 @@ module Ronin
       #
       # Generic Binary Struct class.
       #
+      # @note This class provides lazy memory mapped access to an underlying
+      # buffer. This means values are decoded/encoded each time they are read
+      # or written to.
+      #
       # ## Examples
       #
       # ### Defining Fields
       #
       #     class Point < Ronin::Support::Binary::Struct
       #     
-      #       field :x, :int32
-      #       field :y, :int32
+      #       member :x, :int32
+      #       member :y, :int32
       #     
       #     end
       #     
       #     class Point3D < Point
       #     
-      #       field :z, :int32
+      #       member :z, :int32
       #
       #     end
       #     
@@ -53,8 +56,8 @@ module Ronin
       #
       #     class MyStruct < Ronin::Support::Binary::Struct
       #     
-      #       field :x,    :uint32
-      #       field :nums, [:uint8, 10]
+      #       member :x,    :uint32
+      #       member :nums, [:uint8, 10]
       #     
       #     end
       #
@@ -65,8 +68,8 @@ module Ronin
       #
       #     class MyStruct < Ronin::Support::Binary::Struct
       #     
-      #       field :length,  :uint32
-      #       field :payload, (:uint8..)
+      #       member :length,  :uint32
+      #       member :payload, (:uint8..)
       #     
       #     end
       #     
@@ -77,8 +80,8 @@ module Ronin
       #
       #     class Point < Ronin::Support::Binary::Struct
       #     
-      #       field :x, :int32
-      #       field :y, :int32
+      #       member :x, :int32
+      #       member :y, :int32
       #     
       #     end
       #
@@ -90,8 +93,8 @@ module Ronin
       #
       #     class Point < Ronin::Support::Binary::Struct
       #     
-      #       field :x, :int32
-      #       field :y, :int32
+      #       member :x, :int32
+      #       member :y, :int32
       #     
       #     end
       #     
@@ -107,8 +110,8 @@ module Ronin
       #     
       #       endian :network
       #     
-      #       field :length, :uint32
-      #       field :data,   [:uchar, 48]
+      #       member :length, :uint32
+      #       member :data,   [:uchar, 48]
       #     
       #     end
       #     
@@ -122,23 +125,12 @@ module Ronin
       #     new_pkt = Packet.unpack(buffer)
       #     # => #<Packet: length: 5, data: "hello">
       #
-      # ### `FFI::Struct` style syntax:
-      #
-      #     class Packet < Ronin::Support::Binary::Struct
-      #
-      #       endian :network
-      #     
-      #       layout :length, :uint32,
-      #              :data,   [:uchar, 48]
-      #
-      #     end
-      #
       # @api public
       #
       class Struct < Memory
 
-        # The type data for the struct.
-        #
+        # The type system used by the struct.
+                #
         # @return [Types::StructType]
         attr_reader :type
 
@@ -148,15 +140,17 @@ module Ronin
         # @param [Hash{Symbol => Object}, String, ByteSlice] buffer_or_values
         #   Optional values to initialize the fields of the struct.
         #
-        def initialize(buffer_or_values={}, **kwargs)
-          @type = self.class.type
+        def initialize(buffer_or_values={})
+          @type_system = self.class.type_system
+          @type        = self.class.type
+
+          @cache = {}
 
           case buffer_or_values
           when Hash
-            values = buffer_or_values
-
             super(@type.size)
 
+            values = buffer_or_values
             values.each do |name,value|
               self[name] = value
             end
@@ -170,40 +164,60 @@ module Ronin
         end
 
         #
-        # Gets or sets the struct's type system.
+        # The type for the structure class.
         #
-        # @param [Module#[], nil] new_type_system
-        #   The optional type system.
+        # @return [Types::StructObjectType]
+        #   The underlying type.
         #
-        # @return [Types, Types::LittleEndian,
-        #                 Types::BigEndian,
-        #                 Types::Network]
+        def self.type
+          @type ||= type_resolver.resolve(self)
+        end
+
         #
-        def self.type_system(new_type_system=nil)
-          if new_type_system
-            @type_system = new_type_system
-          else
-            @type_system ||= if superclass < Struct
-                               superclass.type_system
-                             else
-                               Types
-                             end
+        # The size of the struct.
+        #
+        # @return [Integer]
+        #   The size of the struct in bytes.
+        #
+        def self.size
+          type.size
+        end
+
+        #
+        # The alignment of the struct.
+        #
+        # @return [Integer]
+        #   The alignment, in bytes, for the struct.
+        #
+        def self.alignment
+          type.alignment
+        end
+
+        #
+        # Translates the struct class using the given type system into a new
+        # struct class.
+        #
+        # @param [:little, :big, :net, nil] endian
+        #   The desired endian-ness.
+        #
+        # @param [:x86, :x86_64,
+        #         :ppc, :ppc64,
+        #         :mips, :mips_le, :mips_be,
+        #         :mips64, :mips64_le, :mips64_be,
+        #         :arm, :arm_le, :arm_be,
+        #         :arm64, :arm64_le, :arm64_be, nil] arch
+        #   The new architecture for the struct.
+        #
+        # @return [Class<Struct>]
+        #
+        def self.translate(endian: nil, arch: nil)
+          struct_class = Class.new(self)
+
+          if    arch   then struct_class.arch(arch)
+          elsif endian then struct_class.endian(endian)
           end
-        end
 
-        def self.derivative_classes
-          @derivative_classes ||= {}
-        end
-
-        def self.as(endian: nil, arch: nil)
-          derivative_classes[endian: endian, arch: arch] ||= (
-            Class.new(self).tap do |struct_class|
-              struct_class.class_exec do
-                self.endian(endian) if endian
-                self.arch(arch)     if arch
-              end
-            end
-          )
+          struct_class
         end
 
         #
@@ -273,7 +287,7 @@ module Ronin
         # @param [Symbol] name
         #   The field name.
         #
-        # @return [Integer, Float, String, Struct]
+        # @return [Integer, Float, String, Binary::Array, Binary::Struct]
         #   The value of the field.
         #
         # @raise [ArgumentError]
@@ -282,8 +296,18 @@ module Ronin
         def [](name)
           if (member = @type.members[name])
             case member.type
-            when Types::AggregateType
-              # TOOD: implement nested aggregate objects
+            when Types::ArrayObjectType
+              # XXX: but how do we handle an array of structs?
+              @cache[name] ||= Binary::Array.new(member.type.type,byteslice(member.offset,member.size))
+            when Types::UnboundedArrayType
+              # XXX: but how do we handle an unbounded array of structs?
+              @cache[name] ||= Binary::Array.new(member.type.type,byteslice(member.offset,size - member.offset))
+            when Types::StructObjectType
+              # XXX: prototype code
+              struct_class = member.type.struct_class
+
+              slice = byteslice(member.offset,struct_class.size)
+              @cache[name] ||= struct_class.new(slice)
             else
               data = super(member.offset,member.type.size)
 
@@ -300,10 +324,10 @@ module Ronin
         # @param [Symbol] name
         #   The field name.
         #
-        # @param [Integer, Float, String, Struct] value
+        # @param [Integer, Float, String, Array, Struct] value
         #   The value to write.
         #
-        # @return [Integer, Float, String, Struct]
+        # @return [Integer, Float, String, Array, Struct]
         #   The value of the field.
         #
         # @raise [ArgumentError]
@@ -311,14 +335,10 @@ module Ronin
         #
         def []=(name,value)
           if (member = @type.members[name])
-            case member.type
-            when Types::AggregateType
-              # TOOD: implement nested aggregate objects
-            else
-              data = member.type.pack(value)
+            data = member.type.pack(value)
 
-              super(member.offset,member.type.size,data)
-            end
+            super(member.offset,member.type.size,data)
+            return value
           else
             raise(ArgumentError,"no such member field: #{name.inspect}")
           end
@@ -335,7 +355,7 @@ module Ronin
         #
         # @return [Enumerator]
         #
-        def each_value(&block)
+        def each(&block)
           return enum_for(__method__) unless block_given?
 
           @type.members.each_key  do |name|
@@ -358,7 +378,7 @@ module Ronin
         #
         # Converts the structure to an Array of values.
         #
-        # @return [Array<Object>]
+        # @return [::Array<Object>]
         #   The array of values within the structure.
         #
         def to_a
@@ -367,30 +387,73 @@ module Ronin
           end
         end
 
-        protected
+        extend Types::Mixin
 
         #
-        # Sets or gets the default endianness of the structure.
+        # Gets or sets the struct's endian-ness.
         #
-        # @param [:little, :big, :network] type
-        #   The new endianness.
+        # @param [:little, :big, :net, nil] new_endian
+        #   The desired endian-ness.
         #
-        # @api public
+        # @return [:little, :big, :net, nil]
+        #   The struct's endian-ness.
         #
-        def self.endian(new_endian)
-          type_system(Types.endian(new_endian))
+        def self.endian(new_endian=nil)
+          if new_endian
+            initialize_type_system(endian: new_endian)
+            @endian = new_endian
+          else
+            @endian ||= if superclass < Struct
+                          superclass.endian
+                        end
+          end
         end
 
         #
-        # Sets or gets the default architecture for the structure.
+        # Gets or sets the struct's endian-ness.
         #
-        # @param [Symbol] arch
-        #   The new architecture.
+        # @param [:x86, :x86_64,
+        #         :ppc, :ppc64,
+        #         :mips, :mips_le, :mips_be,
+        #         :mips64, :mips64_le, :mips64_be,
+        #         :arm, :arm_le, :arm_be,
+        #         :arm64, :arm64_le, :arm64_be, nil] new_arch
+        #   The new architecture for the struct.
         #
-        # @api public
+        # @return [:little, :big, :net, nil]
+        #   The struct's architecture.
         #
-        def self.arch(new_arch)
-          type_system(Types.arch(new_arch))
+        def self.arch(new_arch=nil)
+          if new_arch
+            initialize_type_system(arch: new_arch)
+            @arch = new_arch
+          else
+            @arch ||= if superclass < Struct
+                          superclass.arch
+                        end
+          end
+        end
+
+        #
+        # Gets or sets the struct's type system.
+        #
+        # @return [Types, Types::LittleEndian,
+        #                 Types::BigEndian,
+        #                 Types::Network]
+        #
+        # @abstract
+        #
+        def self.type_system
+          Types
+        end
+
+        #
+        # The type resolver using {type_system}.
+        #
+        # @return [Types::Resolver]
+        #
+        def self.type_resolver
+          @resolver ||= Types::Resolver.new(type_system)
         end
 
         #
@@ -399,7 +462,7 @@ module Ronin
         # @param [Symbol] name
         #   The name of the field.
         #
-        # @param [Symbol, (Symbol, Integer), Range(Symbol)] type
+        # @param [Symbol, (Symbol, Integer), Range(Symbol)] type_signature
         #   The type of the field.
         #
         # @example Defining a field:
@@ -429,102 +492,36 @@ module Ronin
         # @api public
         #
         def self.member(name,type_signature,**kwargs)
-          unless (type_signature.kind_of?(Symbol) || type_signature < Struct)
-            raise(ArgumentError,"type signature is not a Symbol or #{Struct}: #{type_signature.inspect}")
-          end
-
-          type = resolve_type(type_signature)
-          self.members[name] = Member.new(name,type_signature,type)
+          self.members[name] = Member.new(name,type_signature,**kwargs)
 
           define_method(name)       { self[name] }
           define_method("#{name}=") { |value| self[name] = value }
         end
 
-        #
-        # The type for the structure class.
-        #
-        # @return [Types::StructType]
-        #   The underlying type.
-        #
-        def self.type
-          @type ||= Types::StructType.new(
-            Hash[members.map { |name,member| [name, member.type] }]
-          )
-        end
+      end
 
-        #
-        # The size of the struct.
-        #
-        # @return [Integer]
-        #   The size of the struct in bytes.
-        #
-        def self.size
-          type.size
-        end
-
-        #
-        # The layout of the structure.
-        #
-        # @param [Array<(name, type)>] fields
-        #   The new fields for the structure.
-        #
-        # @return [Array<Symbol>]
-        #   The field names in order.
-        #
-        # @example
-        #   layout :length, :uint32,
-        #          :data,   [:uchar, 256]
-        #
-        # @note
-        #   This method is mainly for compatibility with
-        #   [FFI::Struct](https://rubydoc.info/gems/ffi/FFI/Struct).
-        #
-        # @api public
-        #
-        def self.layout(*fields)
-          fields.each_slice(2) do |(name,type)|
-            member(name,type)
-          end
-        end
-
-        private
-
-        #
-        # Parses the type signature and returns the type using the structure's
-        # {#type_system}.
-        #
-        # @param [Symbol, (Symbol, Integer), Range(Symbol),
-        #        Class<Struct>, (Class<Struct>, Integer), Range(Class<Struct>),
-        #        Types::Type, (Types::Type, Integer), Range(Types::Type)] type_signature
-        # The type signature to parse.
-        #
-        # @return [Types::Type]
-        #   The resolved type.
-        #
-        def self.resolve_type(type_signature)
-          type, length = case type_signature
-                         when Array then type_signature
-                         when Range then [type_signature.begin, Float::INFINITY]
-                         else            type_signature
-                         end
-
-          type = case type
-                 when Struct       then type.type
-                 when Types::Type  then type
-                 when Array, Range then resolve_type(type)
-                 when Symbol       then type_system[type]
-                 else
-                   raise(TypeError,"field type must be a Symbol, Type, or a Struct: #{type_signature.inspect}")
-                 end
-
-          case length
-          when Float::INFINITY then type = type[]
-          when Integer         then type = type[length]
-          end
-
-          return type
-        end
-
+      #
+      # Defines a new {Struct} sub-class with the desired endian-ness or
+      # architecture.
+      #
+      # @param [:little, :big, :net, nil] endian
+      #   The desired endian-ness.
+      #
+      # @param [:x86, :x86_64,
+      #         :ppc, :ppc64,
+      #         :mips, :mips_le, :mips_be,
+      #         :mips64, :mips64_le, :mips64_be,
+      #         :arm, :arm_le, :arm_be,
+      #         :arm64, :arm64_le, :arm64_be, nil] new_arch
+      #   The new architecture for the struct.
+      #
+      # @return [Class<Struct>]
+      #   The configured {Struct} sub-class.
+      #
+      # @see Struct.translate
+      #
+      def self.Struct(endian: nil, arch: nil)
+        Struct.translate(endian: endian, arch: arch)
       end
     end
   end

@@ -1,496 +1,332 @@
 require 'spec_helper'
 require 'ronin/support/binary/struct'
 
-describe Binary::Struct do
-  describe "layout" do
-    subject do
-      struct = Class.new(described_class)
-      struct.class_eval do
-        layout :x, :uint,
-               :y, :uint
-      end
-
-      struct.new
+describe Ronin::Support::Binary::Struct do
+  module TestBinaryStruct
+    class SimpleStruct < Ronin::Support::Binary::Struct
+      member :foo, :uint16
+      member :bar, :int32
+      member :baz, :uint64
     end
 
-    it "must return the layout" do
-      expect(subject.class.layout).to eq([
-        :x,
-        :y
-      ])
+    class InheritedStruct < SimpleStruct
     end
 
-    context "when given fields" do
-      it "must populate fields" do
-        expect(subject.class.fields).to eq({
-          x: [:uint, nil],
-          y: [:uint, nil]
-        })
+    class InheritedStructWithItsOwnMembers < SimpleStruct
+      member :qux, :float32
+    end
+
+    class StructWithAnArray < Ronin::Support::Binary::Struct
+      member :foo, :uint16
+      member :bars, [:int32, 3]
+      member :baz, :uint64
+    end
+
+    class StructWithUnboundedArray < Ronin::Support::Binary::Struct
+      member :foo, :uint16
+      member :bar, :int32
+      member :baz, (:uint64..)
+    end
+
+    class SubStruct < Ronin::Support::Binary::Struct
+      member :x, :uint32
+      member :y, :int32
+    end
+
+    class NestedStruct < Ronin::Support::Binary::Struct
+      member :foo, :uint16
+      member :bar, SubStruct
+      member :baz, :uint64
+    end
+  end
+
+  let(:struct_class) { TestBinaryStruct::SimpleStruct }
+
+  describe ".members" do
+    context "when the struct class has no members defined" do
+      subject { Class.new(described_class) }
+
+      it "must return an empty Hash" do
+        expect(subject.members).to eq({})
+      end
+    end
+
+    context "when the struct class does have members defined" do
+      subject { TestBinaryStruct::SimpleStruct }
+
+      it "must return a Hash containing the member names and #{described_class}::Member objects" do
+        expect(subject.members.keys).to eq([:foo, :bar, :baz])
+        expect(subject.members[:foo]).to be_kind_of(described_class::Member)
+        expect(subject.members[:bar]).to be_kind_of(described_class::Member)
+        expect(subject.members[:baz]).to be_kind_of(described_class::Member)
+      end
+    end
+
+    context "when the struct class inherits from another struct class" do
+      subject { TestBinaryStruct::InheritedStruct }
+
+      it "must inherit the members defined in the superclass" do
+        expect(subject.members.keys).to eq([:foo, :bar, :baz])
+        expect(subject.members[:foo]).to be_kind_of(described_class::Member)
+        expect(subject.members[:bar]).to be_kind_of(described_class::Member)
+        expect(subject.members[:baz]).to be_kind_of(described_class::Member)
       end
 
-      it "must define reader methods" do
-        expect(subject).to respond_to(:x)
-        expect(subject).to respond_to(:y)
-      end
+      context "and the struct class defines it's own members" do
+        subject { TestBinaryStruct::InheritedStructWithItsOwnMembers }
 
-      it "must define writer methods" do
-        expect(subject).to respond_to(:x=)
-        expect(subject).to respond_to(:y=)
+        let(:struct_superclass) { subject.superclass }
+
+        it "must inherit the members defined in the superclass" do
+          expect(subject.members.keys).to include(:foo, :bar, :baz)
+          expect(subject.members[:foo]).to be_kind_of(described_class::Member)
+          expect(subject.members[:bar]).to be_kind_of(described_class::Member)
+          expect(subject.members[:baz]).to be_kind_of(described_class::Member)
+        end
+
+        it "must define it's members in the struct class" do
+          expect(subject.members.keys).to include(:qux)
+          expect(subject.members[:qux]).to be_kind_of(described_class::Member)
+        end
+
+        it "must not pollute the struct's superclass with it's own members" do
+          expect(struct_superclass.members.keys).to include(:foo, :bar, :baz)
+          expect(struct_superclass.members[:foo]).to be_kind_of(described_class::Member)
+          expect(struct_superclass.members[:bar]).to be_kind_of(described_class::Member)
+          expect(struct_superclass.members[:baz]).to be_kind_of(described_class::Member)
+        end
       end
     end
   end
 
-  describe "field?" do
+  describe ".member" do
     subject do
-      struct = Class.new(described_class)
-      struct.class_eval { layout :x, :uint }
-      struct
-    end
-
-    it "must determine if fields exist" do
-      expect(subject.field?(:x)).to be(true)
-      expect(subject.field?(:foo)).to be(false)
-    end
-  end
-
-  describe "endian" do
-    subject do
-      struct = Class.new(described_class)
-      struct.class_eval { endian :little }
-      struct
-    end
-
-    it "must return the endianness of the Struct" do
-      expect(subject.endian).to eq(:little)
-    end
-
-    context "when given an argument" do
-      it "must set the endianness" do
-        subject.endian :big
-
-        expect(subject.endian).to eq(:big)
+      Class.new(described_class) do
+        member :foo, :int
       end
     end
+
+    let(:name) { :foo }
+    let(:type) { :int }
+
+    it "must add a #{described_class}::Member to .members" do
+      expect(subject.members[name]).to be_kind_of(described_class::Member)
+    end
+
+    let(:value) { 42 }
+
+    it "must define a reader method for the member" do
+      expect(subject.instance_methods).to include(name)
+
+      instance = subject.new(name => value)
+
+      expect(instance.send(name)).to eq(value)
+    end
+
+    it "must define a writer method for the member" do
+      expect(subject.instance_methods).to include(:"#{name}=")
+
+      instance = subject.new
+      instance.send(:"#{name}=",value)
+
+      expect(instance.send(name)).to eq(value)
+    end
   end
 
-  describe "typedefs" do
-  end
+  describe ".has_member?" do
+    subject { struct_class }
 
-  describe "typedef" do
-    subject do
-      struct = Class.new(described_class)
-      struct.class_eval do
-        typedef :uint32_t, :test_t
+    context "when given a name of a defined member" do
+      it "must return true" do
+        expect(subject.has_member?(:foo)).to be(true)
       end
-
-      struct
     end
 
-    it "must register a new type in typedefs" do
-      expect(subject.typedefs).to have_key(:test_t)
-    end
-
-    it "must resolve the existing type" do
-      expect(subject.typedefs[:test_t]).to eq(:uint32)
+    context "when the given name does not map to a defined member" do
+      it "must return false" do
+        expect(subject.has_member?(:xxx)).to be(false)
+      end
     end
   end
 
   describe "#initialize" do
-    subject do
-      struct = Class.new(described_class)
-      struct.class_eval do
-        nested_struct = Class.new(Ronin::Support::Binary::Struct)
-        nested_struct.class_eval do
-          layout :int, :uint
-        end
+    context "when given no arguments" do
+      subject { struct_class.new }
 
-        layout :int,          :uint,
-               :int_array,    [:uint, 2],
-               :float,        :float,
-               :float_array,  [:float, 2],
-               :char,         :char,
-               :char_array,   [:char, 2],
-               :string,       :string,
-               :struct,       nested_struct,
-               :struct_array, [nested_struct, 2]
+      it "must initialize #string to a zero buffer the size of the struct" do
+        expect(subject.string).to eq(
+          ("\0" * struct_class.size).encode(Encoding::ASCII_8BIT)
+        )
       end
-
-      struct.new
-    end
-
-    it "must set integers to 0" do
-      expect(subject[:int]).to eq(0)
-    end
-
-    it "must set arrays of integers to [0, ...]" do
-      expect(subject[:int_array]).to eq([0, 0])
-    end
-
-    it "must set floats to 0.0" do
-      expect(subject[:float]).to eq(0.0)
-    end
-
-    it "must set arrays of floats to [0.0, ...]" do
-      expect(subject[:float_array]).to eq([0.0, 0.0])
-    end
-
-    it "must set chars to '\\0'" do
-      expect(subject[:char]).to eq("\0")
-    end
-
-    it "must set arrays of chars to ''" do
-      expect(subject[:char_array]).to eq('')
-    end
-
-    it "must set strings to ''" do
-      expect(subject[:string]).to eq('')
-    end
-
-    it "must initialize nested structs" do
-      expect(subject[:struct][:int]).to eq(0)
-    end
-
-    it "must initialize arrays of nested structs" do
-      expect(subject[:struct_array][0][:int]).to eq(0)
-      expect(subject[:struct_array][1][:int]).to eq(0)
     end
   end
 
+  describe ".unpack" do
+    subject { struct_class }
+
+    let(:data) { struct_class.new(foo: 1, bar: -2, baz: 42).to_s }
+
+    it "must create a new #{described_class} instance with the given data" do
+      new_struct = subject.unpack(data)
+
+      expect(new_struct).to be_kind_of(struct_class)
+      expect(new_struct.string).to eq(data)
+    end
+  end
+
+  subject { struct_class.new }
+
   describe "#[]" do
-    subject do
-      struct_class = Class.new(described_class)
-      struct_class.class_eval do
-        layout :x, :uint,
-               :y, :uint
+    context "when the member's type is a Types::ScalarType" do
+      context "and the memory has not been written to yet" do
+        it "must return the zero-value of the scalar type" do
+          expect(subject[:bar]).to eq(0)
+        end
       end
 
-      struct_class.new
+      context "but the memory has been previously written to" do
+        let(:new_value) { 42 }
+
+        before { subject[:bar] = new_value }
+
+        it "must return the previously written value" do
+          expect(subject[:bar]).to eq(new_value)
+        end
+      end
     end
 
-    before do
-      subject.instance_variable_set('@x',10)
+    context "when the member's type is an Types::ArrayObjectType" do
+      let(:struct_class) { TestBinaryStruct::StructWithAnArray }
+
+      let(:struct_type) { struct_class.type }
+      let(:member_name) { :bars }
+      let(:member)      { struct_type.members[member_name] }
+
+      it "must return a Binary::Array object with the member's offset/size" do
+        expect(subject[member_name]).to be_kind_of(Ronin::Support::Binary::Array)
+      end
+
+      it "must use a ByteSlice with the member's offset and size" do
+        array = subject[member_name]
+
+        expect(array.string).to be_kind_of(Ronin::Support::Binary::ByteSlice)
+        expect(array.string.offset).to eq(member.offset)
+        expect(array.string.size).to eq(member.size)
+      end
     end
 
-    it "must access the instance variable" do
-      expect(subject[:x]).to eq(10)
-    end
+    context "when the member's type is a Types::StructObjectType" do
+      let(:struct_class) { TestBinaryStruct::NestedStruct }
 
-    it "must still call the underlying reader method" do
-      expect(subject).to receive(:x).and_return(10)
+      let(:struct_type) { struct_class.type }
+      let(:member_name) { :bar }
+      let(:member)      { struct_type.members[member_name] }
 
-      subject[:x]
-    end
+      it "must return an instance of the nested Struct class" do
+        expect(subject[member_name]).to be_kind_of(member.type.struct_class)
+      end
 
-    it "must raise ArgumentError for unknown fields" do
-      expect {
-        subject[:foo]
-      }.to raise_error(ArgumentError)
+      it "must use a ByteSlice with the member's offset and size" do
+        array = subject[member_name]
+
+        expect(array.string).to be_kind_of(Ronin::Support::Binary::ByteSlice)
+        expect(array.string.offset).to eq(member.offset)
+        expect(array.string.size).to eq(member.size)
+      end
     end
   end
 
   describe "#[]=" do
-    subject do
-      struct = Class.new(described_class)
-      struct.class_eval do
-        layout :x, :uint,
-               :y, :uint
+    let(:struct_type) { struct_class.type }
+
+    let(:member_name) { :bar }
+    let(:member)      { struct_type.members[member_name] }
+
+    context "when the member's type is a scalar" do
+      let(:value) { 42 }
+
+      before { subject[member_name] = value }
+
+      it "must write the packed value to the member's offset within #string" do
+        field = subject.string[member.offset,member.size]
+
+        expect(field).to eq(member.type.pack(value))
+      end
+    end
+
+    context "when the member's type is an Types::ArrayObjectType" do
+      let(:struct_class) { TestBinaryStruct::StructWithAnArray }
+
+      let(:struct_type) { struct_class.type }
+      let(:member_name) { :bars }
+      let(:member)      { struct_type.members[member_name] }
+
+      let(:values) { [0, 1, -2] }
+
+      context "and when given a literal Array of values" do
+        let(:packed_values) { member.type.pack(values) }
+
+        before { subject[member_name] = values }
+
+        it "must pack the values using Types::ArrayObjectType and write them to the member's offset/size" do
+          expect(subject.string[member.offset,member.size]).to eq(packed_values)
+        end
       end
 
-      struct.new
-    end
-
-    before do
-      subject.instance_variable_set('@x',0)
-    end
-
-    it "must set the underlying instance variable" do
-      subject[:x] = 20
-
-      expect(subject.instance_variable_get('@x')).to eq(20)
-    end
-
-    it "must still call the underlying writer method" do
-      expect(subject).to receive(:x=).with(20)
-
-      subject[:x] = 20
-    end
-
-    it "must raise ArgumentError for unknown fields" do
-      expect {
-        subject[:foo] = 20
-      }.to raise_error(ArgumentError)
-    end
-  end
-
-  describe "#values" do
-    let(:x) { 10 }
-    let(:y) { 20 }
-
-    subject do
-      struct = Class.new(described_class)
-      struct.class_eval do
-        layout :x, :uint,
-               :y, :uint
-      end
-
-      struct.new
-    end
-
-    before do
-      subject.x = x
-      subject.y = y
-    end
-
-    it "must return the values of the fields" do
-      expect(subject.values).to eq([x, y])
-    end
-
-    context "nested structs" do
-      let(:z) { 30 }
-
-      subject do
-        struct = Class.new(described_class)
-        struct.class_eval do
-          nested_struct = Class.new(Ronin::Support::Binary::Struct)
-          nested_struct.class_eval do
-            layout :int, :uint
+      context "and when given another Binary::Array value" do
+        let(:array) do
+          Ronin::Support::Binary::Array.new(member.type.type, member.type.length).tap do |array|
+            array[0] = values[0]
+            array[1] = values[1]
+            array[2] = values[2]
           end
-
-          layout :x, :uint,
-                 :y, :uint,
-                 :z, nested_struct
         end
 
-        struct.new
-      end
+        before { subject[member_name] = array }
 
-      before do
-        subject.z.int = z
-      end
-
-      it "must nest the values of nested structs" do
-        expect(subject.values).to eq([x, y, [z]])
+        it "must write the contents of the Binary::Array to the member's offset/size" do
+          expect(subject.string[member.offset,member.size]).to eq(array.string)
+        end
       end
     end
 
-    context "arrays of nested structs" do
-      let(:z) { 30 }
+    context "when the member's type is a Types::StructObjectType" do
+      let(:struct_class) { TestBinaryStruct::NestedStruct }
 
-      subject do
-        struct = Class.new(described_class)
-        struct.class_eval do
-          nested_struct = Class.new(Ronin::Support::Binary::Struct)
-          nested_struct.class_eval do
-            layout :int, :uint
-          end
+      let(:struct_type) { struct_class.type }
+      let(:member_name) { :bar }
+      let(:member)      { struct_type.members[member_name] }
 
-          layout :x, :uint,
-                 :y, :uint,
-                 :z, [nested_struct, 2]
+      let(:x)    { 42 }
+      let(:y)    { -1 }
+      let(:hash) { {x: x, y: y} }
+
+      context "and when given a literal Hash of values" do
+        let(:packed_hash) { member.type.pack(hash) }
+
+        before { subject[member_name] = hash }
+
+        it "must pack the values using Types::StructObjectType and write them to the member's offset/size" do
+          expect(subject.string[member.offset,member.size]).to eq(packed_hash)
         end
-
-        struct.new
       end
 
-      before do
-        subject.z[0].int = z
-        subject.z[1].int = z
-      end
+      context "and when given another Binary::Struct value" do
+        let(:substruct_class) { member.type.struct_class  }
+        let(:substruct)       { substruct_class.new(hash) }
 
-      it "must nest the values of nested structs" do
-        expect(subject.values).to eq([x, y, [[z], [z]]])
+        before { subject[member_name] = substruct }
+
+        it "must write the contents of the Struct object to the member's offset/size" do
+          expect(subject.string[member.offset,member.size]).to eq(substruct.string)
+        end
       end
     end
   end
 
-  describe "#clear" do
-    subject do
-      struct_class = Class.new(described_class)
-      struct_class.class_eval do
-        nested_struct_class = Class.new(Ronin::Support::Binary::Struct)
-        nested_struct_class.class_eval do
-          layout :int, :int
-        end
-
-        layout :x, :uint,
-               :y, :float,
-               :z, nested_struct_class
-      end
-
-      struct_class.new
-    end
-
-    before do
-      subject.x = 100
-      subject.y = 15.0
-      subject.z.int = -1
-
-      subject.clear
-    end
-
-    it "must reset fields to their default values" do
-      expect(subject.x).to eq(0)
-      expect(subject.y).to eq(0.0)
-    end
-
-    it "must reinitialize nested structs" do
-      expect(subject.z.int).to eq(0)
-    end
-  end
-
-  describe "#pack" do
-    context "arrays of chars" do
-      let(:string) { "hello" }
-      let(:packed) { string.ljust(10,"\0") }
-
-      subject do
-        struct = Class.new(described_class)
-        struct.class_eval do
-          layout :chars, [:char, 10]
-        end
-
-        struct.new
-      end
-
-      before do
-        subject.chars = string
-      end
-
-      it "must pack arrays of chars into a String" do
-        expect(subject.pack).to eq(packed)
-      end
-    end
-
-    context "structs" do
-      let(:packed) { "\x0a\x00\x14\x00\x00\x00" }
-
-      subject do
-        struct = Class.new(described_class)
-        struct.class_eval do
-          nested_struct = Class.new(Ronin::Support::Binary::Struct)
-          nested_struct.class_eval do
-            layout :int, :uint32_le
-          end
-
-          layout :int,    :uint16_le,
-                 :struct, nested_struct
-        end
-
-        struct.new
-      end
-
-      before do
-        subject.int = 10
-        subject.struct.int = 20
-      end
-
-      it "must pack the nested struct fields" do
-        expect(subject.pack).to eq(packed)
-      end
-    end
-
-    context "arrays of structs" do
-      let(:packed) { "\x0a\x00\x14\x00\x00\x00\x1e\x00\x00\x00" }
-
-      subject do
-        struct = Class.new(described_class)
-        struct.class_eval do
-          nested_struct = Class.new(Ronin::Support::Binary::Struct)
-          nested_struct.class_eval do
-            layout :int, :uint32_le
-          end
-
-          layout :int,    :uint16_le,
-                 :struct, [nested_struct, 2]
-        end
-
-        struct.new
-      end
-
-      before do
-        subject.int = 10
-        subject.struct[0].int = 20
-        subject.struct[1].int = 30
-      end
-
-      it "must pack the nested fields" do
-        expect(subject.pack).to eq(packed)
-      end
-    end
-  end
-
-  describe "#unpack" do
-    context "arrays of chars" do
-      let(:string) { "hello" }
-      let(:packed) { string.ljust(10,"\0") }
-
-      subject do
-        struct = Class.new(described_class)
-        struct.class_eval do
-          layout :chars, [:char, 10]
-        end
-
-        struct.new
-      end
-
-      it "must unpack arrays of chars into a String" do
-        subject.unpack(packed)
-
-        expect(subject.chars).to eq(string)
-      end
-    end
-
-    context "structs" do
-      let(:packed) { "\x0a\x00\x14\x00\x00\x00" }
-
-      subject do
-        struct = Class.new(described_class)
-        struct.class_eval do
-          nested_struct = Class.new(Ronin::Support::Binary::Struct)
-          nested_struct.class_eval do
-            layout :int, :uint32_le
-          end
-
-          layout :int,    :uint16_le,
-                 :struct, nested_struct
-        end
-
-        struct.new
-      end
-
-      it "must unpack the nested struct fields" do
-        subject.unpack(packed)
-
-        expect(subject.int).to        eq(10)
-        expect(subject.struct.int).to eq(20)
-      end
-    end
-
-    context "arrays of structs" do
-      let(:packed) { "\x0a\x00\x14\x00\x00\x00\x1e\x00\x00\x00" }
-
-      subject do
-        struct = Class.new(described_class)
-        struct.class_eval do
-          nested_struct = Class.new(Ronin::Support::Binary::Struct)
-          nested_struct.class_eval do
-            layout :int, :uint32_le
-          end
-
-          layout :int,    :uint16_le,
-                 :struct, [nested_struct, 2]
-        end
-
-        struct.new
-      end
-
-      it "must unpack the nested fields" do
-        subject.unpack(packed)
-
-        expect(subject.int).to           eq(10)
-        expect(subject.struct[0].int).to eq(20)
-        expect(subject.struct[1].int).to eq(30)
-      end
+  describe "#to_s" do
+    it "must return the underlying #string" do
+      expect(subject.to_s).to eq(subject.string)
     end
   end
 end
