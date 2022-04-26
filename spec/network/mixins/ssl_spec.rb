@@ -39,7 +39,7 @@ describe Ronin::Support::Network::Mixins::SSL do
         end
       end
 
-      describe ":verify" do
+      describe "when given the verify: keyword argument" do
         subject { super().ssl_context(verify: :peer) }
 
         it "must set verify_mode" do
@@ -47,7 +47,7 @@ describe Ronin::Support::Network::Mixins::SSL do
         end
       end
 
-      describe ":cert" do
+      describe "when given the cert: keyword argument" do
         let(:cert) { File.join(__dir__,'..','ssl.crt') }
 
         subject { super().ssl_context(cert: cert) }
@@ -57,7 +57,7 @@ describe Ronin::Support::Network::Mixins::SSL do
         end
       end
 
-      describe ":key" do
+      describe "when given the key: keyword argument" do
         let(:key) { File.join(__dir__,'..','ssl.key') }
 
         subject { super().ssl_context(key: key) }
@@ -67,7 +67,7 @@ describe Ronin::Support::Network::Mixins::SSL do
         end
       end
 
-      describe ":certs" do
+      describe "when given the certs: keyword argument" do
         context "when value is a file" do
           let(:file) { File.join(__dir__,'..','ssl.crt') }
 
