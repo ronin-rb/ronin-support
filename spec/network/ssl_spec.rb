@@ -2,6 +2,22 @@ require 'spec_helper'
 require 'ronin/support/network/ssl'
 
 describe Ronin::Support::Network::SSL do
+  describe "VERSIONS" do
+    subject { described_class::VERSIONS }
+
+    it "must map 1 to :TLSv1" do
+      expect(subject[1]).to eq(:TLSv1)
+    end
+
+    it "must map 1.1 to :TLSv1_!" do
+      expect(subject[1.1]).to eq(:TLSv1_1)
+    end
+
+    it "must map 1.2 to :TLSv1_2" do
+      expect(subject[1.2]).to eq(:TLSv1_2)
+    end
+  end
+
   describe 'VERIFY' do
     subject { described_class::VERIFY }
 
@@ -47,6 +63,66 @@ describe Ronin::Support::Network::SSL do
 
     it "must set key to nil" do
       expect(subject.key).to be(nil)
+    end
+
+    context "when given the version: keyword argument" do
+      subject { described_class }
+
+      let(:context) { double(OpenSSL::SSL::SSLContext) }
+
+      context "and it's 1" do
+        it "must call OpenSSL::SSL::SSLContext#ssl_version with :TLSv1" do
+          expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+          expect(context).to receive(:ssl_version=).with(:TLSv1)
+          allow(context).to receive(:verify_mode=).with(0)
+
+          subject.context(version: 1)
+        end
+      end
+
+      context "and it's 1.1" do
+        it "must call OpenSSL::SSL::SSLContext#ssl_version with :TLSv1_1" do
+          expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+          expect(context).to receive(:ssl_version=).with(:TLSv1_1)
+          allow(context).to receive(:verify_mode=).with(0)
+
+          subject.context(version: 1.1)
+        end
+      end
+
+      context "and it's 1_2" do
+        it "must call OpenSSL::SSL::SSLContext#ssl_version with :TLSv1_2" do
+          expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+          expect(context).to receive(:ssl_version=).with(:TLSv1_2)
+          allow(context).to receive(:verify_mode=).with(0)
+
+          subject.context(version: 1.2)
+        end
+      end
+
+      context "and it's a Symbol" do
+        let(:symbol) { :TLSv1 }
+
+        it "must call OpenSSL::SSL::SSLContext#ssl_version= with the Symbol" do
+          expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+          expect(context).to receive(:ssl_version=).with(symbol)
+          allow(context).to receive(:verify_mode=).with(0)
+
+          subject.context(version: symbol)
+        end
+      end
+
+      context "and it's a String" do
+        let(:string) { "SSLv23" }
+
+        it "must call OpenSSL::SSL::SSLContext#ssl_version= with the String" do
+          expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+          expect(context).to receive(:ssl_version=).with(string)
+          allow(context).to receive(:verify_mode=).with(0)
+
+          subject.context(version: string)
+        end
+      end
     end
 
     context "when given the verify: keyword argument" do

@@ -30,6 +30,13 @@ module Ronin
   module Support
     module Network
       module SSL
+        # SSL/TLS versions
+        VERSIONS = {
+          1   => :TLSv1,
+          1.1 => :TLSv1_1,
+          1.2 => :TLSv1_2
+        }
+
         # SSL verify modes
         VERIFY = {
           none:                 OpenSSL::SSL::VERIFY_NONE,
@@ -48,6 +55,9 @@ module Ronin
 
         #
         # Creates a new SSL Context.
+        #
+        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        #   The SSL version to use.
         #
         # @param [Symbol, Boolean] verify
         #   Specifies whether to verify the SSL certificate.
@@ -74,8 +84,17 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.context(verify: :none, cert: nil, key: nil, certs: nil)
+        def self.context(version: nil,
+                         verify:  :none,
+                         cert:    nil,
+                         key:     nil,
+                         certs:   nil)
           context = OpenSSL::SSL::SSLContext.new()
+
+          if version
+            context.ssl_version = VERSIONS.fetch(version,version)
+          end
+
           context.verify_mode = VERIFY[verify]
 
           if cert
