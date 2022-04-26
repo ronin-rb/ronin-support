@@ -36,6 +36,9 @@ module Ronin
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments.
           #
+          # @option kwargs [1, 1.1, 1.2, String, Symbol, nil] :version
+          #   The SSL version to use.
+          #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
           #   May be one of the following:
