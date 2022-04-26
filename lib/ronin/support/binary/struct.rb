@@ -258,8 +258,8 @@ module Ronin
         # @return [String]
         #   The packed struct.
         #
-        def self.pack(values,**kwargs)
-          new(values,**kwargs).to_s
+        def self.pack(values)
+          new(values).to_s
         end
 
         #
@@ -268,17 +268,11 @@ module Ronin
         # @param [String] data
         #   The data to unpack.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Unpacking keyword arguments.
-        #
-        # @option kwargs [:little, :big, :network] :endian
-        #   The endianness to apply to the types.
-        #
         # @return [Struct]
         #   The newly unpacked structure.
         #
-        def self.unpack(data,**kwargs)
-          new(data,**kwargs)
+        def self.unpack(data)
+          new(data)
         end
 
         #
