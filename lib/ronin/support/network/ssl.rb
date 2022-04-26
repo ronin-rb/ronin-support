@@ -68,13 +68,13 @@ module Ronin
         #   * `:fail_if_no_peer_cert`
         #   * `:client_once`
         #
-        # @param [String] :cert
+        # @param [String] cert
         #   The path to the SSL `.crt` file.
         #
-        # @param [String] :key
+        # @param [String] key
         #   The path to the SSL `.key` file.
         #
-        # @param [String] :certs
+        # @param [String] certs
         #   Path to the CA certificate file or directory.
         #
         # @return [OpenSSL::SSL::SSLContext]

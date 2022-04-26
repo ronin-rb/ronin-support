@@ -118,14 +118,14 @@ module Ronin
           # @param [Integer] local_port
           #   The local port to bind to.
           #
-          # @param [Integer] timeout (5)
-          #   The maximum time to attempt connecting.
-          #
           # @param [1, 1.1, 1.2, String, Symbol, nil] version
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#ssl_session}.
+          #
+          # @option kwargs [Integer] :timeout (5)
+          #   The maximum time to attempt connecting.
           #
           # @option options [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.

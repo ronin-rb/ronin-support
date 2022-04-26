@@ -504,7 +504,7 @@ module Ronin
       #         :mips, :mips_le, :mips_be,
       #         :mips64, :mips64_le, :mips64_be,
       #         :arm, :arm_le, :arm_be,
-      #         :arm64, :arm64_le, :arm64_be, nil] new_arch
+      #         :arm64, :arm64_le, :arm64_be, nil] arch
       #   The new architecture for the struct.
       #
       # @return [Class<Struct>]
