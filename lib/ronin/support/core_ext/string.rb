@@ -20,6 +20,51 @@
 class String
 
   #
+  # Creates a new ASCII encoding string.
+  #
+  # @param [String] string
+  #   The string to convert to ASCII.
+  #
+  # @return [String]
+  #   The new ASCII encoded string.
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def self.ascii(string)
+    string.encode(Encoding::ASCII_8BIT)
+  end
+
+  #
+  # Converts the string into an ASCII encoded string.
+  #
+  # @return [String]
+  #   The new ASCII string.
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def to_ascii
+    encode(Encoding::ASCII_8BIT)
+  end
+
+  #
+  # Converts the string into an UTF-8 encoded string.
+  #
+  # @return [String]
+  #   The new UTF-8 string.
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def to_utf8
+    encode(Encoding::UTF_8)
+  end
+
+  #
   # Enumerates over every sub-string within the string.
   #
   # @param [Integer] min

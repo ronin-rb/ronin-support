@@ -2,6 +2,47 @@ require 'spec_helper'
 require 'ronin/support/core_ext/string'
 
 describe String do
+  describe ".ascii" do
+    subject { described_class }
+
+    let(:string) { "hello" }
+
+    it "must return a new String" do
+      expect(subject.ascii(string)).to eq(string)
+      expect(subject.ascii(string)).to_not be(string)
+    end
+
+    it "must set the new String's encoding to Encoding::ASCII_8BIT" do
+      expect(subject.ascii(string).encoding).to be(Encoding::ASCII_8BIT)
+    end
+  end
+
+  describe "#to_ascii" do
+    subject { "hello" }
+
+    it "must return a new String" do
+      expect(subject.to_ascii).to eq(subject)
+      expect(subject.to_ascii).to_not be(subject)
+    end
+
+    it "must set the new String's encoding to Encoding::ASCII_8BIT" do
+      expect(subject.to_ascii.encoding).to be(Encoding::ASCII_8BIT)
+    end
+  end
+
+  describe "#to_utf8" do
+    subject { "hello".encode(Encoding::ASCII_8BIT) }
+
+    it "must return a new String" do
+      expect(subject.to_utf8).to eq(subject)
+      expect(subject.to_utf8).to_not be(subject)
+    end
+
+    it "must set the new String's encoding to Encoding::UTF_8" do
+      expect(subject.to_utf8.encoding).to be(Encoding::UTF_8)
+    end
+  end
+
   describe "#each_substring" do
     subject { 'hello' }
 
