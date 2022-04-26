@@ -112,7 +112,8 @@ module Ronin
         def initialize(type, length_or_string, **kwargs)
           initialize_type_system(**kwargs)
 
-          @type = @type_resolver.resolve(type)
+          @type  = @type_resolver.resolve(type)
+          @cache = []
 
           case length_or_string
           when String, ByteSlice
@@ -144,8 +145,16 @@ module Ronin
             raise(IndexError,"index #{index} is out of bounds: 0...#{@length}")
           end
 
-          slice = super(offset,@type.size)
-          return @type.unpack(slice)
+          case @type
+          when Types::ObjectType
+            @cache[index] ||= (
+              slice = byteslice(offset,@type.size)
+              @type.unpack(slice)
+            )
+          else
+            data = super(offset,@type.size)
+            @type.unpack(data)
+          end
         end
 
         #
