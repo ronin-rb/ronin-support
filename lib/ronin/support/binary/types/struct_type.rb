@@ -169,8 +169,12 @@ module Ronin
             else
               buffer = String.new("\0" * @size, encoding: Encoding::ASCII_8BIT)
 
-              @members.each do |name,member|
-                buffer[member.offset,member.size] = type.pack(hash[name])
+              hash.each do |name,value|
+                member = @members.fetch(name) do
+                  raise(ArgumentError,"unknown struct member (#{name.inspect}), must be: #{@members.keys.map(&:inspect).join(', ')}")
+                end
+
+                buffer[member.offset,member.size] = type.pack(value)
               end
 
               return buffer
@@ -215,8 +219,16 @@ module Ronin
           # @api private
           #
           def enqueue_value(values,hash)
+            unknown_keys = hash.keys - @members.keys
+
+            unless unknown_keys.empty?
+              raise(ArgumentError,"unknown struct members: #{unknown_keys.map(&:inspect).join(', ')}")
+            end
+
             @members.each do |name,member|
-              member.type.enqueue_value(values,hash[name])
+              value = hash.fetch(name) { member.type.uninitialized_value }
+
+              member.type.enqueue_value(values,value)
             end
           end
 

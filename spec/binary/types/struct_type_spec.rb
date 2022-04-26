@@ -164,6 +164,21 @@ describe Ronin::Support::Binary::Types::StructType do
       )
     end
 
+    context "if some of the member fields are missing from the given hash" do
+      let(:hash) do
+        {
+          a: 'A',
+          c: 0x1122,
+        }
+      end
+
+      it "must leave those member fields zerod in the resulting binary data" do
+        expect(subject.pack(hash)).to eq(
+          [hash[:a], 0, hash[:c], 0].pack(subject.pack_string)
+        )
+      end
+    end
+
     context "when one of the #members is an AggregateType" do
       let(:array_length) { 10 }
       let(:members) do
@@ -247,6 +262,28 @@ describe Ronin::Support::Binary::Types::StructType do
             hash[:a], hash[:b], hash[:c][:x], hash[:c][:y]
           ].pack(subject.pack_string)
         )
+      end
+    end
+
+    context "when the hash contains an unknown member name" do
+      let(:unknown_member1) { :foo }
+      let(:unknown_member2) { :bar }
+
+      let(:hash) do
+        {
+          a: 'A',
+          b: -1,
+          unknown_member1 => 'xxx',
+          c: 0x1122,
+          d: -2,
+          unknown_member2 => 'xxx'
+        }
+      end
+
+      it do
+        expect {
+          subject.pack(hash)
+        }.to raise_error(ArgumentError,"unknown struct members: #{unknown_member1.inspect}, #{unknown_member2.inspect}")
       end
     end
   end
@@ -375,6 +412,29 @@ describe Ronin::Support::Binary::Types::StructType do
       expect(values).to eq(['A', 'B', hash[:a], hash[:b], hash[:c], hash[:d]])
     end
 
+    context "if some of the member fields are missing from the given hash" do
+      let(:hash) do
+        {
+          a: 'A',
+          c: 0x1122,
+        }
+      end
+
+      it "must enqueue #uninitialized_value values for the missing members" do
+        subject.enqueue_value(values,hash)
+
+        expect(values).to eq(
+          [
+            'A', 'B',
+            hash[:a],
+            subject.members[:b].type.uninitialized_value,
+            hash[:c],
+            subject.members[:d].type.uninitialized_value
+          ]
+        )
+      end
+    end
+
     context "when one of the #members is an AggregateType" do
       let(:array_length) { 10 }
       let(:members) do
@@ -458,6 +518,28 @@ describe Ronin::Support::Binary::Types::StructType do
         expect(values).to eq(
           ['A', 'B', hash[:a], hash[:b], hash[:c][:x], hash[:c][:y]]
         )
+      end
+    end
+
+    context "when the hash contains an unknown member name" do
+      let(:unknown_member1) { :foo }
+      let(:unknown_member2) { :bar }
+
+      let(:hash) do
+        {
+          a: 'A',
+          b: -1,
+          unknown_member1 => 'xxx',
+          c: 0x1122,
+          d: -2,
+          unknown_member2 => 'xxx'
+        }
+      end
+
+      it do
+        expect {
+          subject.pack(hash)
+        }.to raise_error(ArgumentError,"unknown struct members: #{unknown_member1.inspect}, #{unknown_member2.inspect}")
       end
     end
   end
