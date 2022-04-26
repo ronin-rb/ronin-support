@@ -126,6 +126,58 @@ module Ronin
 
         return cipher
       end
+
+      #
+      # Encrypts data using the cipher.
+      #
+      # @param [#to_s] data
+      #   The data to encrypt.
+      #
+      # @param [String] cipher
+      #   The cipher name (ex: `"aes-256-cbc"`).
+      #
+      # @param [Hash{Symbol => Object}] kwargs
+      #   Additional keyword arguments for {cipher}.
+      #
+      # @return [String]
+      #   The encrypted data.
+      #
+      # @raise [ArgumentError]
+      #   Either the the `key:` or `password:` keyword argument must be given.
+      #
+      # @since 1.0.0
+      #
+      def self.encrypt(data, cipher: ,**kwargs)
+        cipher = self.cipher(cipher, mode: :encrypt, **kwargs)
+
+        return cipher.update(data) + cipher.final
+      end
+
+      #
+      # Decrypts data using the cipher.
+      #
+      # @param [#to_s] data
+      #   The data to decrypt.
+      #
+      # @param [String] cipher
+      #   The cipher name (ex: `"aes-256-cbc"`).
+      #
+      # @param [Hash{Symbol => Object}] kwargs
+      #   Additional keyword arguments for {cipher}.
+      #
+      # @return [String]
+      #   The decrypted data.
+      #
+      # @raise [ArgumentError]
+      #   Either the the `key:` or `password:` keyword argument must be given.
+      #
+      # @since 1.0.0
+      #
+      def self.decrypt(data, cipher: ,**kwargs)
+        cipher = self.cipher(cipher, mode: :decrypt, **kwargs)
+
+        return cipher.update(data) + cipher.final
+      end
     end
   end
 end
