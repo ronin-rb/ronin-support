@@ -290,18 +290,13 @@ module Ronin
         def [](name)
           if (member = @type.members[name])
             case member.type
-            when Types::ArrayObjectType
-              # XXX: but how do we handle an array of structs?
-              @cache[name] ||= Binary::Array.new(member.type.type,byteslice(member.offset,member.size))
             when Types::UnboundedArrayType
               # XXX: but how do we handle an unbounded array of structs?
               @cache[name] ||= Binary::Array.new(member.type.type,byteslice(member.offset,size - member.offset))
-            when Types::StructObjectType
-              # XXX: prototype code
-              struct_class = member.type.struct_class
+            when Types::ObjectType
+              data = byteslice(member.offset,member.type.size)
 
-              slice = byteslice(member.offset,struct_class.size)
-              @cache[name] ||= struct_class.new(slice)
+              @cache[name] ||= member.type.unpack(data)
             else
               data = super(member.offset,member.type.size)
 
