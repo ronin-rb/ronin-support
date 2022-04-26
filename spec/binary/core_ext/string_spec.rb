@@ -2,6 +2,30 @@ require 'spec_helper'
 require 'ronin/support/binary/core_ext/string'
 
 describe String do
+  subject { "hello" }
+
+  it "must provide String#unpack_original" do
+    expect(subject).to respond_to(:unpack_original)
+  end
+
+  describe "#unpack" do
+    subject { "\x34\x12\x00\x00hello\0" }
+
+    let(:data) { [0x1234, "hello"] }
+
+    context "when given only a String" do
+      it "must unpack Strings using String#unpack template Strings" do
+        expect(subject.unpack('VZ*')).to eq(data)
+      end
+    end
+
+    context "otherwise" do
+      it "must unpack Strings using Ronin::Support::Binary::Format" do
+        expect(subject.unpack(:uint32_le, :string)).to eq(data)
+      end
+    end
+  end
+
   describe "#each_bit_flip" do
     subject { "AB".encode(Encoding::ASCII_8BIT) }
 

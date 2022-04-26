@@ -8,10 +8,6 @@ require 'ostruct'
 describe String do
   subject { "hello" }
 
-  it "must provide String#unpack_original" do
-    expect(subject).to respond_to(:unpack_original)
-  end
-
   it "must provide String#unpack" do
     expect(subject).to respond_to(:unpack)
   end
@@ -38,24 +34,6 @@ describe String do
 
   it "must provide String#xor" do
     expect(subject).to respond_to(:xor)
-  end
-
-  describe "#unpack" do
-    subject { "\x34\x12\x00\x00hello\0" }
-
-    let(:data) { [0x1234, "hello"] }
-
-    context "when given only a String" do
-      it "must unpack Strings using String#unpack template Strings" do
-        expect(subject.unpack('VZ*')).to eq(data)
-      end
-    end
-
-    context "otherwise" do
-      it "must unpack Strings using Ronin::Support::Binary::Format" do
-        expect(subject.unpack(:uint32_le, :string)).to eq(data)
-      end
-    end
   end
 
   describe "#base64_encode" do

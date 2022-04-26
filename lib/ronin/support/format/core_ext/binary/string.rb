@@ -19,7 +19,6 @@
 
 require 'ronin/support/format/core_ext/binary/integer'
 require 'ronin/support/format/core_ext/text/string'
-require 'ronin/support/binary/format'
 
 require 'base64'
 
@@ -30,58 +29,6 @@ rescue ::LoadError
 end
 
 class String
-
-  alias unpack_original unpack
-
-  #
-  # Unpacks the String.
-  #
-  # @param [String, Array<Symbol, (Symbol, Integer)>] arguments
-  #   The `String#unpack` format string or a list of
-  #   {Ronin::Support::Binary::Format} types.
-  #
-  # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for
-  #   {Ronin::Support::Binary::Format#initialize}.
-  #
-  # @option kwargs [:little, :big, :net, nil] :endian
-  #   The desired endianness of the packed data.
-  #
-  # @option kwargs [:x86, :x86_64, :ppc, :ppc64,
-  #                 :arm, :arm_be, :arm64, :arm64_be,
-  #                 :mips, :mips_le, :mips64, :mips64_le, nil] :arch
-  #   The desired architecture that the data was packed for.
-  #
-  # @return [Array]
-  #   The values unpacked from the String.
-  #
-  # @raise [ArgumentError]
-  #   One of the arguments was not a known {Ronin::Support::Binary::Format}
-  #   type.
-  #
-  # @example using {Ronin::Support::Binary::Format} types:
-  #   "A\0\0\0hello\0".unpack(:uint32_le, :string)
-  #   # => [10, "hello"]
-  #
-  # @example using a `String#unpack` format string:
-  #   "A\0\0\0".unpack('V')
-  #   # => 65
-  #
-  # @see https://rubydoc.info/stdlib/core/String:unpack
-  # @see Ronin::Support::Binary::Format
-  #
-  # @since 0.5.0
-  #
-  # @api public
-  #
-  def unpack(*arguments,**kwargs)
-    if (arguments.length == 1 && arguments.first.kind_of?(String))
-      unpack_original(arguments.first)
-    else
-      format = Ronin::Support::Binary::Format.new(arguments,**kwargs)
-      unpack_original(format.pack_string)
-    end
-  end
 
   #
   # Hex-encodes characters in the String.
