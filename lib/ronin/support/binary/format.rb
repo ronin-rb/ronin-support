@@ -17,7 +17,8 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types'
+require 'ronin/support/binary/types/mixin'
+require 'ronin/support/binary/array'
 
 module Ronin
   module Support
@@ -95,38 +96,18 @@ module Ronin
       #
       class Format
 
-        # The endianness of the binary format.
-        #
-        # @return [:little, :big, :net, nil]
-        attr_reader :endian
-
-        # The desired architecture of the binary format.
-        #
-        # @return [:x86, :x86_64, :ppc, :ppc64, :arm, :arm_be, :arm64,
-        #          :arm64_be, :mips, :mips_le, :mips64, :mips64_le, nil]
-        attr_reader :arch
-
-        # The type system of the binary format.
-        #
-        # @return [Types, Types::LittleEndian, Types::BigEndian, Types::Network,
-        #          Types::Arch::X86, Types::Arch::X86_64,
-        #          Types::Arch::PPC, Types::Arch::PPC64,
-        #          Types::Arch::ARM, Types::Arch::ARM::BigEndian,
-        #          Types::Arch::ARM64, Types::Arch::ARM64::BigEndian,
-        #          Types::Arch::MIPS, Types::Arch::MIPS::LittleEndian,
-        #          Types::Arch::MIPS64, Types::Arch::MIPS64::LittleEndian]
-        attr_reader :type_system
+        include Types::Mixin
 
         # The fields of the binary format.
         #
-        # @return [Array<Symbol, (Symbol, Integer), Range(Symbol)>]
+        # @return [::Array<Symbol, (Symbol, Integer), Range(Symbol)>]
         attr_reader :fields
 
         # The field types of the binary format.
         #
-        # @return [Array<Types::Type,
-        #                Types::ArrayType,
-        #                Types::UnboundArrayType>]
+        # @return [::Array<Types::Type,
+        #                  Types::ArrayType,
+        #                  Types::UnboundArrayType>]
         attr_reader :types
 
         # The `Array#pack` string for the binary format.
@@ -137,19 +118,22 @@ module Ronin
         #
         # Creates a new Binary format.
         #
-        # @param [Array<type, (type, length)>] fields
+        # @param [::Array<type, (type, length)>] fields
         #   The C-types which the packer will use.
         #
-        # @param [:little, :big, :net, nil] endian
-        #   The desired endianness of the binary format.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
         #
-        # @param [:x86, :x86_64,
-        #         :ppc, :ppc64,
-        #         :mips, :mips_le, :mips_be,
-        #         :mips64, :mips64_le, :mips64_be,
-        #         :arm, :arm_le, :arm_be,
-        #         :arm64, :arm64_le, :arm64_be] arch
-        #   The desired architecture of the binary format.
+        # @option kwargs [:little, :big, :net, nil] :endian
+        #   The desired endianness of the values within the format.
+        #
+        # @option kwargs [:x86, :x86_64,
+        #                 :ppc, :ppc64,
+        #                 :mips, :mips_le, :mips_be,
+        #                 :mips64, :mips64_le, :mips64_be,
+        #                 :arm, :arm_le, :arm_be,
+        #                 :arm64, :arm64_le, :arm64_be] :arch
+        #   The desired architecture for the values within the format.
         #
         # @raise [ArgumentError]
         #   A given type is not known.
@@ -157,20 +141,15 @@ module Ronin
         # @example
         #   Format.new(:uint32, [:char, 100])
         #
-        def initialize(fields, endian: nil, arch: nil)
-          @endian = endian
-          @arch   = arch
-
-          @type_system = if arch then Types.arch(arch)
-                         else         Types.endian(endian)
-                         end
+        def initialize(fields, **kwargs)
+          initialize_type_system(**kwargs)
 
           @fields = []
           @types  = []
           @pack_string = String.new
 
           fields.each do |field|
-            type = translate(field)
+            type = @type_resolver.resolve(field)
 
             @fields      << field
             @types       << type
@@ -193,7 +172,7 @@ module Ronin
         #
         # Packs the data.
         #
-        # @param [Array] arguments
+        # @param [::Array] arguments
         #   The values to pack.
         #
         # @return [String]
@@ -227,7 +206,7 @@ module Ronin
         # @param [String] string
         #   The raw String to unpack.
         #
-        # @return [Array]
+        # @return [::Array]
         #   The unpacked data.
         #
         def unpack(string)
@@ -263,48 +242,6 @@ module Ronin
         end
 
         alias to_str to_s
-
-        private
-
-        #
-        # Translates C type names into an Array of {Types} objects.
-        #
-        # @param [Symbol, (Symbol, Integer), Range(Symbol)] field
-        #   The C type value. The value can be one of the following:
-        #   * `Symbol` - represents a single type (ex: `:int32`)
-        #   * `(Symbol, Integer)` - represents an Array type with the given
-        #     element type and length (ex: `[:int32, 10]`)
-        #   * `Range(Symbol)` - represents an unbounded Array type with the
-        #     given element type. (ex: `:int32..`)
-        #
-        # @return [Types::Type, Types::ArrayType, Types::UnboundedArrayType]
-        #   The translated type.
-        #
-        # @raise [ArgumentError]
-        #   The given type name was not known or not a `Symbol`,
-        #   `[Symbol, Integer]`, `(Symbol..)`, or a {Type}.
-        #
-        def translate(field)
-          case field
-          when Array
-            array   = field.flatten
-            type    = translate(array[0])
-            lengths = array[1..]
-
-            lengths.reduce(type) { |type,length| type[length] }
-          when Range
-            range = field
-            type  = translate(range.begin)
-
-            type[]
-          when Symbol
-            @type_system[field]
-          when Type
-            field
-          else
-            raise(ArgumentError,"field type must be a Symbol, [Symbol, Integer], (Symbol..), or a #{Type}: #{field.inspect}")
-          end
-        end
 
       end
     end

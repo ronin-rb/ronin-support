@@ -77,15 +77,15 @@ describe Ronin::Support::Binary::Format do
       let(:length) { 10 }
       let(:fields) { [ [type_name, length] ] }
       let(:array_type) do
-        Ronin::Support::Binary::Types::ArrayType.new(type,length)
+        Ronin::Support::Binary::Types::ArrayObjectType.new(type,length)
       end
 
       it "must set #type_system to Ronin::Support::Binary::Types" do
         expect(subject.type_system).to be(Ronin::Support::Binary::Types)
       end
 
-      it "must add an Ronin::Support::Binary::Types::ArrayType to #types" do
-        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::Types::ArrayType)
+      it "must add an Ronin::Support::Binary::Types::ArrayObjectType to #types" do
+        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::Types::ArrayObjectType)
         expect(subject.types.first.type).to eq(type)
         expect(subject.types.first.length).to eq(length)
       end
@@ -101,8 +101,8 @@ describe Ronin::Support::Binary::Format do
       let(:fields) { [ [[type_name, length2], length1] ] }
 
       let(:array_type) do
-        Ronin::Support::Binary::Types::ArrayType.new(
-          Ronin::Support::Binary::Types::ArrayType.new(type,length2),
+        Ronin::Support::Binary::Types::ArrayObjectType.new(
+          Ronin::Support::Binary::Types::ArrayObjectType.new(type,length2),
           length1
         )
       end
@@ -111,9 +111,9 @@ describe Ronin::Support::Binary::Format do
         expect(subject.type_system).to be(Ronin::Support::Binary::Types)
       end
 
-      it "must add a nested Ronin::Support::Binary::Types::ArrayType to #types" do
-        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::Types::ArrayType)
-        expect(subject.types.first.type).to be_kind_of(Ronin::Support::Binary::Types::ArrayType)
+      it "must add a nested Ronin::Support::Binary::Types::ArrayObjectType to #types" do
+        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::Types::ArrayObjectType)
+        expect(subject.types.first.type).to be_kind_of(Ronin::Support::Binary::Types::ArrayObjectType)
         expect(subject.types.first.type.type).to eq(type)
         expect(subject.types.first.type.length).to eq(length2)
         expect(subject.types.first.length).to eq(length1)
@@ -401,12 +401,15 @@ describe Ronin::Support::Binary::Format do
 
       let(:value1) { 42 }
       let(:value2) { -1 }
-      let(:values) { [value1, value2] }
 
       let(:data) { "#{type1.pack(value1)}#{type2.pack(value2)}" }
 
       it "must unpack values from the data using the fields' pack strings" do
-        expect(subject.unpack(data)).to eq(values)
+        values = subject.unpack(data)
+
+        expect(values.length).to eq(2)
+        expect(values[0]).to eq(value1)
+        expect(values[1]).to eq(value2)
       end
 
       context "and one of the fields is an Array field" do
@@ -415,19 +418,23 @@ describe Ronin::Support::Binary::Format do
 
         let(:array_length) { 10 }
         let(:array_type) do
-          Ronin::Support::Binary::Types::ArrayType.new(type2,array_length)
+          Ronin::Support::Binary::Types::ArrayObjectType.new(type2,array_length)
         end
 
         let(:fields) { [type_name1, [type_name2, array_length]] }
 
         let(:value1) { 42 }
         let(:value2) { [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
-        let(:values) { [value1, value2] }
 
         let(:data) { "#{type1.pack(value1)}#{array_type.pack(value2)}" }
 
         it "must flatten then pack multiple values using the fields' pack strings" do
-          expect(subject.unpack(data)).to eq(values)
+          values = subject.unpack(data)
+
+          expect(values.length).to eq(2)
+          expect(values[0]).to eq(value1)
+          expect(values[1]).to be_kind_of(Ronin::Support::Binary::Array)
+          expect(values[1].string).to eq(data[type1.size,array_type.size])
         end
       end
 
@@ -443,14 +450,17 @@ describe Ronin::Support::Binary::Format do
 
         let(:value1) { 42 }
         let(:value2) { [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
-        let(:values) { [value1, value2] }
 
         let(:data) do
           "#{type1.pack(value1)}#{unbounded_array_type.pack(value2)}"
         end
 
         it "must unpack the remainder of the values using the last field's pack string" do
-          expect(subject.unpack(data)).to eq(values)
+          values = subject.unpack(data)
+
+          expect(values.length).to eq(2)
+          expect(values[0]).to eq(value1)
+          expect(values[1]).to eq(value2)
         end
       end
     end
