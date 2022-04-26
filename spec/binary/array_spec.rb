@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'ronin/support/binary/array'
+require 'ronin/support/binary/struct'
 
 describe Ronin::Support::Binary::Array do
   let(:type)   { :uint32 }
@@ -170,13 +171,24 @@ describe Ronin::Support::Binary::Array do
     end
   end
 
+  module TestBinaryArray
+    class TestStruct < Ronin::Support::Binary::Struct
+      member :x, :uint32
+      member :y, :int32
+    end
+  end
+
   describe "#[]" do
+    let(:index)     { 1 }
+    let(:type_size) { subject.type.size }
+    let(:offset)    { index * type_size }
+
     context "when the index has not been previously written to" do
       context "and when #type is a single-byte type" do
         let(:type) { :byte }
 
         it "must decode a 0 value" do
-          expect(subject[1]).to eq(0)
+          expect(subject[index]).to eq(0)
         end
       end
 
@@ -186,13 +198,12 @@ describe Ronin::Support::Binary::Array do
         subject { described_class.new(type,length) }
 
         it "must decode a 0 value" do
-          expect(subject[1]).to eq(0)
+          expect(subject[index]).to eq(0)
         end
       end
     end
 
     context "when the index has been previously written to" do
-      let(:index) { 1  }
       let(:value) { 42 }
 
       before { subject[index] = value }
@@ -214,6 +225,45 @@ describe Ronin::Support::Binary::Array do
         it "must decode the previously written multi-byte value" do
           expect(subject[index]).to eq(value)
         end
+      end
+    end
+
+    context "when #type is an Types::ArrayObjectType" do
+      let(:type) { [:uint32, 2] }
+
+      subject { described_class.new(type,length) }
+
+      it "must return a Binary::Array object" do
+        expect(subject[index]).to be_kind_of(Ronin::Support::Binary::Array)
+      end
+
+      it "must use a ByteSlice with the index's offset and type's size" do
+        array = subject[index]
+
+        expect(array.string).to be_kind_of(Ronin::Support::Binary::ByteSlice)
+        expect(array.string.offset).to eq(offset)
+        expect(array.string.size).to eq(type_size)
+      end
+    end
+
+    context "when the member's type is a Types::StructObjectType" do
+      let(:struct_class) { TestBinaryArray::TestStruct }
+      let(:struct_type)  { struct_class.type }
+
+      let(:type) { struct_class }
+
+      subject { described_class.new(type,length) }
+
+      it "must return an instance of the Struct class" do
+        expect(subject[index]).to be_kind_of(struct_class)
+      end
+
+      it "must use a ByteSlice with the index's offset and type size" do
+        struct = subject[index]
+
+        expect(struct.string).to be_kind_of(Ronin::Support::Binary::ByteSlice)
+        expect(struct.string.offset).to eq(offset)
+        expect(struct.string.size).to eq(type_size)
       end
     end
 
