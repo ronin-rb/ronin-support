@@ -59,7 +59,7 @@ module Ronin
           end
 
           #
-          # The size of the structure type.
+          # The size of the struct type.
           #
           # @return [Integer, Float::INFINITY]
           #
@@ -77,7 +77,7 @@ module Ronin
           end
 
           #
-          # The members of the structure type.
+          # The members of the struct type.
           #
           # @return [Hash{Symbol => StructType::Member}]
           #

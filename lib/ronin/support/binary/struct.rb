@@ -135,7 +135,7 @@ module Ronin
         attr_reader :type
 
         #
-        # Initializes the structure.
+        # Initializes the struct.
         #
         # @param [Hash{Symbol => Object}, String, ByteSlice] buffer_or_values
         #   Optional values to initialize the fields of the struct.
@@ -164,7 +164,7 @@ module Ronin
         end
 
         #
-        # The type for the structure class.
+        # The type for the struct class.
         #
         # @return [Types::StructObjectType]
         #   The underlying type.
@@ -221,7 +221,7 @@ module Ronin
         end
 
         #
-        # The members in the structure.
+        # The members in the struct.
         #
         # @return [Hash{Symbol => Member}]
         #   The field names and field information.
@@ -243,14 +243,14 @@ module Ronin
         #   The member name.
         #
         # @return [Boolean]
-        #   Specifies that the member exists in the structure.
+        #   Specifies that the member exists in the struct.
         #
         def self.has_member?(name)
           members.has_key?(name.to_sym)
         end
 
         #
-        # Initializes the structure and then packs it.
+        # Initializes the struct and then packs it.
         #
         # @param [Hash{Symbol => Object}] values
         #   The values to initialize the struct with.
@@ -263,20 +263,20 @@ module Ronin
         end
 
         #
-        # Unpacks data into the structure.
+        # Unpacks data into the struct.
         #
         # @param [String] data
         #   The data to unpack.
         #
         # @return [Struct]
-        #   The newly unpacked structure.
+        #   The newly unpacked struct.
         #
         def self.unpack(data)
           new(data)
         end
 
         #
-        # Reads a value from the structure.
+        # Reads a value from the struct.
         #
         # @param [Symbol] name
         #   The field name.
@@ -285,7 +285,7 @@ module Ronin
         #   The value of the field.
         #
         # @raise [ArgumentError]
-        #   The structure does not contain the field.
+        #   The struct does not contain the field.
         #
         def [](name)
           if (member = @type.members[name])
@@ -311,7 +311,7 @@ module Ronin
         end
 
         #
-        # Writes a value to the structure.
+        # Writes a value to the struct.
         #
         # @param [Symbol] name
         #   The field name.
@@ -323,7 +323,7 @@ module Ronin
         #   The value of the field.
         #
         # @raise [ArgumentError]
-        #   The structure does not contain the field.
+        #   The struct does not contain the field.
         #
         def []=(name,value)
           if (member = @type.members[name])
@@ -337,7 +337,7 @@ module Ronin
         end
 
         #
-        # Enumerates over the fields within the structure.
+        # Enumerates over the fields within the struct.
         #
         # @yield [name, value]
         #
@@ -356,7 +356,7 @@ module Ronin
         end
 
         #
-        # Converts the structure to a Hash.
+        # Converts the struct to a Hash.
         #
         # @return [Hash{Symbol => Object}]
         #   The hash of field names and values.
@@ -368,10 +368,10 @@ module Ronin
         end
 
         #
-        # Converts the structure to an Array of values.
+        # Converts the struct to an Array of values.
         #
         # @return [::Array<Object>]
-        #   The array of values within the structure.
+        #   The array of values within the struct.
         #
         def to_a
           @type.members.keys.map do |name|
@@ -449,7 +449,7 @@ module Ronin
         end
 
         #
-        # Defines a field in the structure.
+        # Defines a field in the struct.
         #
         # @param [Symbol] name
         #   The name of the field.

@@ -78,27 +78,27 @@ module Ronin
 
           end
 
-          # The members of the structure type.
+          # The members of the struct type.
           #
           # @return [Hash{Symbol => Member}]
           attr_reader :members
 
-          # The size of the structure type.
+          # The size of the struct type.
           #
           # @return [Integer, Float::INFINITY]
           attr_reader :size
 
-          # The alignment, in bytes, for the structure type, so that all members
-          # within the structure type are themselves aligned.
+          # The alignment, in bytes, for the struct type, so that all members
+          # within the struct type are themselves aligned.
           #
           # @return [Integer]
           attr_reader :alignment
 
           #
-          # Initializes the structure type.
+          # Initializes the struct type.
           #
           # @param [Hash{Symbol => Type}] members
-          #   The members names and types of the structure type.
+          #   The members names and types of the struct type.
           #
           def initialize(members={})
             @members   = {}
@@ -134,10 +134,10 @@ module Ronin
           end
 
           #
-          # Creates a new Hash of the structure's uninitialized members.
+          # Creates a new Hash of the struct's uninitialized members.
           #
           # @return [Hash{Symbol => Object}]
-          #   The uninitialized values for the new structure's members.
+          #   The uninitialized values for the new struct's members.
           #
           def uninitialized_value
             Hash[@members.map { |name,member|
@@ -146,7 +146,7 @@ module Ronin
           end
 
           #
-          # The number of members within the structure.
+          # The number of members within the struct.
           #
           # @return [Integer]
           #
@@ -155,10 +155,10 @@ module Ronin
           end
 
           #
-          # Packs a hash of values into the member's binary format.
+          # Packs the hash of values into the struct's binary format.
           #
           # @param [Hash{Symbol => Integer, Float, String}] hash
-          #   The array to pack.
+          #   The hash of values to pack.
           #
           # @return [String]
           #   The packed binary data.
@@ -178,7 +178,8 @@ module Ronin
           end
 
           #
-          # Unpacks a Hash of binary data.
+          # Unpacks binary data into a Hash of values using the struct's binary
+          # format.
           #
           # @param [String] data
           #   The binary data to unpack.
