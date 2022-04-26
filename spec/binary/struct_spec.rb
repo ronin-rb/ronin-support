@@ -206,6 +206,10 @@ describe Ronin::Support::Binary::Struct do
         expect(subject[member_name]).to be_kind_of(Ronin::Support::Binary::Array)
       end
 
+      it "must cache the returned object" do
+        expect(subject[member_name]).to be(subject[member_name])
+      end
+
       it "must use a ByteSlice with the member's offset and size" do
         array = subject[member_name]
 
@@ -224,6 +228,10 @@ describe Ronin::Support::Binary::Struct do
 
       it "must return an instance of the nested Struct class" do
         expect(subject[member_name]).to be_kind_of(member.type.struct_class)
+      end
+
+      it "must cache the returned object" do
+        expect(subject[member_name]).to be(subject[member_name])
       end
 
       it "must use a ByteSlice with the member's offset and size" do

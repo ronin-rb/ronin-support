@@ -237,6 +237,10 @@ describe Ronin::Support::Binary::Array do
         expect(subject[index]).to be_kind_of(Ronin::Support::Binary::Array)
       end
 
+      it "must cache the returned object" do
+        expect(subject[index]).to be(subject[index])
+      end
+
       it "must use a ByteSlice with the index's offset and type's size" do
         array = subject[index]
 
@@ -256,6 +260,10 @@ describe Ronin::Support::Binary::Array do
 
       it "must return an instance of the Struct class" do
         expect(subject[index]).to be_kind_of(struct_class)
+      end
+
+      it "must cache the returned object" do
+        expect(subject[index]).to be(subject[index])
       end
 
       it "must use a ByteSlice with the index's offset and type size" do
