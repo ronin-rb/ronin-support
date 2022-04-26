@@ -18,8 +18,8 @@
 #
 
 require 'ronin/support/binary/memory'
-require 'ronin/support/binary/types'
 require 'ronin/support/binary/byte_slice'
+require 'ronin/support/binary/types/mixin'
 
 module Ronin
   module Support
@@ -28,12 +28,16 @@ module Ronin
       # Represents an Array of binary types that can be read from and written
       # to.
       #
+      # @note This class provides lazy memory mapped access to an underlying
+      # buffer. This means values are decoded/encoded each time they are read
+      # or written to.
+      #
       # ## Examples
       #
       # Creating a buffer of `int32`s:
       #
       #     buffer = Buffer.new(:int32, 4)
-      #     # => #<Ronin::Support::Binary::ArrayBuffer: "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00">
+      #     # => #<Ronin::Support::Binary::Binary::Array: "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00">
       #     buffer[0] = 0x11111111
       #     buffer[1] = 0x22222222
       #     buffer[2] = 0x33333333
@@ -44,7 +48,7 @@ module Ronin
       # Creating a buffer from an existing String:
       #
       #     buffer = Buffer.new(:uint32_le, "\x41\x00\x00\x00\x42\x00\x00\x00")
-      #     # => #<Ronin::Support::Binary::ArrayBuffer: "A\u0000\u0000\u0000B\u0000\u0000\u0000">
+      #     # => #<Ronin::Support::Binary::Binary::Array: "A\u0000\u0000\u0000B\u0000\u0000\u0000">
       #     buffer[0]
       #     # => 65
       #     buffer[1]
@@ -54,26 +58,10 @@ module Ronin
       #
       # @since 1.0.0
       #
-      class ArrayBuffer < Memory
+      class Array < Memory
 
+        include Types::Mixin
         include Enumerable
-
-        # The endianness of data within the array buffer.
-        #
-        # @return [:little, :big, :net, nil]
-        attr_reader :endian
-
-        # The desired architecture for the array buffer.
-        #
-        # @return [Symbol, nil]
-        attr_reader :arch
-
-        # The type system that the buffer is using.
-        #
-        # @return [Types, Types::LittleEndian,
-        #                 Types::BigEndian,
-        #                 Types::Network]
-        attr_reader :type_system
 
         # The underlying type of the data within the array buffer.
         #
@@ -95,15 +83,18 @@ module Ronin
         #   The length of the buffer or an existing String which will be used
         #   as the underlying buffer.
         #
-        # @param [:little, :big, :net, nil] endian
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:little, :big, :net, nil] :endian
         #   The desired endianness of the values within the buffer.
         #
-        # @param [:x86, :x86_64,
-        #         :ppc, :ppc64,
-        #         :mips, :mips_le, :mips_be,
-        #         :mips64, :mips64_le, :mips64_be,
-        #         :arm, :arm_le, :arm_be,
-        #         :arm64, :arm64_le, :arm64_be] arch
+        # @option kwargs [:x86, :x86_64,
+        #                 :ppc, :ppc64,
+        #                 :mips, :mips_le, :mips_be,
+        #                 :mips64, :mips64_le, :mips64_be,
+        #                 :arm, :arm_le, :arm_be,
+        #                 :arm64, :arm64_le, :arm64_be] :arch
         #   The desired architecture for the values within the buffer.
         #
         # @raise [ArgumentError]
@@ -111,22 +102,17 @@ module Ronin
         #   String.
         #
         # @example Creating a new array buffer:
-        #   array = ArrayBuffer.new(:uint32_le, 10)
-        #   # => #<Ronin::Support::Binary::ArrayBuffer: "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00">
+        #   array = Binary::Array.new(:uint32_le, 10)
+        #   # => #<Ronin::Support::Binary::Binary::Array: "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00">
         #
         # @example Creating a new array buffer from a String:
-        #   array = ArrayBuffer.new(:uint32_le, "\x41\x00\x00\x00\x42\x00\x00\x00")
-        #   # => #<Ronin::Support::Binary::ArrayBuffer: "A\u0000\u0000\u0000B\u0000\u0000\u0000">
+        #   array = Binary::Array.new(:uint32_le, "\x41\x00\x00\x00\x42\x00\x00\x00")
+        #   # => #<Ronin::Support::Binary::Binary::Array: "A\u0000\u0000\u0000B\u0000\u0000\u0000">
         #
-        def initialize(type, length_or_string, endian: nil, arch: nil)
-          @endian = endian
-          @arch   = arch
+        def initialize(type, length_or_string, **kwargs)
+          initialize_type_system(**kwargs)
 
-          @type_system = if arch then Types.arch(arch)
-                         else         Types.endian(endian)
-                         end
-
-          @type = @type_system[type]
+          @type = @type_resolver.resolve(type)
 
           case length_or_string
           when String, ByteSlice
@@ -148,7 +134,7 @@ module Ronin
         # @param [Integer] index
         #   The index to read from.
         #
-        # @return [Integer, Float, String]
+        # @return [Integer, Float, String, Binary::Array, Binary::Struct]
         #   The integer, float, or character read from the given index.
         #
         def [](index)
@@ -168,10 +154,10 @@ module Ronin
         # @param [Integer] index
         #   The array index to write the value to.
         #
-        # @param [Integer, Float, String] value
+        # @param [Integer, Float, String, Binary::Array, Binary::Struct] value
         #   The integer, float, or character value to write to the array.
         #
-        # @return [Integer, Float, String]
+        # @return [Integer, Float, String, Binary::Array, Binary::Struct]
         #   The integer, float, or character value that was written.
         #   
         def []=(index,value)

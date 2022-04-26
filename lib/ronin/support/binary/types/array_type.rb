@@ -71,10 +71,10 @@ module Ronin
           #
           # Initializes an Array of uninitialized values.
           #
-          # @return [Array]
+          # @return [::Array]
           #
           def uninitialized_value
-            Array.new(@length) { @type.uninitialized_value }
+            ::Array.new(@length) { @type.uninitialized_value }
           end
 
           #
@@ -118,7 +118,7 @@ module Ronin
           #
           # Packs an array of values into the type's binary format.
           #
-          # @param [Array<Integer, Float, String>] array
+          # @param [::Array<Integer, Float, String>] array
           #   The array to pack.
           #
           # @return [String]
@@ -146,7 +146,7 @@ module Ronin
           # @param [String] data
           #   The binary data to unpack.
           #
-          # @return [Array<Integer, Float, String, nil>]
+          # @return [::Array<Integer, Float, String, nil>]
           #   The unpacked array.
           #
           # @api public
@@ -157,7 +157,7 @@ module Ronin
             else
               type_size = @type.size
 
-              Array.new(@length) do |index|
+              ::Array.new(@length) do |index|
                 offset = index * type_size
 
                 @type.unpack(data.byteslice(offset,type_size))
@@ -168,10 +168,10 @@ module Ronin
           #
           # Enqueues an array of values onto the flat list of values.
           #
-          # @param [Array] values
+          # @param [::Array] values
           #   The flat array of values.
           #
-          # @param [Array] array
+          # @param [::Array] array
           #   The array to enqueue.
           #
           # @api private
@@ -185,16 +185,16 @@ module Ronin
           #
           # Dequeues an array from the flat list of values.
           #
-          # @param [Array] values
+          # @param [::Array] values
           #   The flat array of values.
           #
-          # @return [Array]
+          # @return [::Array]
           #   The dequeued array.
           #
           # @api private
           #
           def dequeue_value(values)
-            Array.new(@length) do
+            ::Array.new(@length) do
               @type.dequeue_value(values)
             end
           end

@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/binary/array_buffer'
+require 'ronin/support/binary/array'
 
-describe Ronin::Support::Binary::ArrayBuffer do
+describe Ronin::Support::Binary::Array do
   let(:type)   { :uint32 }
   let(:length) { 10 }
 
