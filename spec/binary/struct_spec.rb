@@ -227,11 +227,11 @@ describe Ronin::Support::Binary::Struct do
       end
 
       it "must use a ByteSlice with the member's offset and size" do
-        array = subject[member_name]
+        struct = subject[member_name]
 
-        expect(array.string).to be_kind_of(Ronin::Support::Binary::ByteSlice)
-        expect(array.string.offset).to eq(member.offset)
-        expect(array.string.size).to eq(member.size)
+        expect(struct.string).to be_kind_of(Ronin::Support::Binary::ByteSlice)
+        expect(struct.string.offset).to eq(member.offset)
+        expect(struct.string.size).to eq(member.size)
       end
     end
   end
@@ -256,8 +256,8 @@ describe Ronin::Support::Binary::Struct do
 
     context "when the member's type is an Types::ArrayObjectType" do
       let(:struct_class) { TestBinaryStruct::StructWithAnArray }
+      let(:struct_type)  { struct_class.type }
 
-      let(:struct_type) { struct_class.type }
       let(:member_name) { :bars }
       let(:member)      { struct_type.members[member_name] }
 
