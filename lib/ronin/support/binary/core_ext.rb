@@ -18,3 +18,4 @@
 #
 
 require 'ronin/support/binary/core_ext/string'
+require 'ronin/support/binary/core_ext/array'
