@@ -202,7 +202,7 @@ describe Ronin::Support::Binary::Struct do
       let(:member_name) { :bars }
       let(:member)      { struct_type.members[member_name] }
 
-      it "must return a Binary::Array object with the member's offset/size" do
+      it "must return a Binary::Array object" do
         expect(subject[member_name]).to be_kind_of(Ronin::Support::Binary::Array)
       end
 
