@@ -17,9 +17,9 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types'
 require 'ronin/support/binary/memory'
 require 'ronin/support/binary/byte_slice'
+require 'ronin/support/binary/types/mixin'
 
 module Ronin
   module Support
@@ -65,22 +65,7 @@ module Ronin
       #
       class Buffer < Memory
 
-        # The endianness of data within the buffer.
-        #
-        # @return [:little, :big, :net, nil]
-        attr_reader :endian
-
-        # The desired architecture for the buffer.
-        #
-        # @return [Symbol, nil]
-        attr_reader :arch
-
-        # The type system that the buffer is using.
-        #
-        # @return [Types, Types::LittleEndian,
-        #                 Types::BigEndian,
-        #                 Types::Network]
-        attr_reader :type_system
+        include Types::Mixin
 
         #
         # Initializes the buffer.
@@ -89,31 +74,26 @@ module Ronin
         #   The size of the buffer or an existing String which will be used
         #   as the underlying buffer.
         #
-        # @param [:little, :big, :net, nil] endian
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:little, :big, :net, nil] :endian
         #   The desired endianness of the values within the buffer.
         #
-        # @param [:x86, :x86_64,
-        #         :ppc, :ppc64,
-        #         :mips, :mips_le, :mips_be,
-        #         :mips64, :mips64_le, :mips64_be,
-        #         :arm, :arm_le, :arm_be,
-        #         :arm64, :arm64_le, :arm64_be] arch
+        # @option kwargs [:x86, :x86_64,
+        #                 :ppc, :ppc64,
+        #                 :mips, :mips_le, :mips_be,
+        #                 :mips64, :mips64_le, :mips64_be,
+        #                 :arm, :arm_le, :arm_be,
+        #                 :arm64, :arm64_le, :arm64_be] :arch
         #   The desired architecture for the values within the buffer.
         #
         # @raise [ArgumentError]
         #   Either the `length_or_string` argument was not an Integer or a
         #   String.
         #
-        def initialize(length_or_string, type_system: nil,
-                                       endian: nil,
-                                       arch: nil)
-          @endian = endian
-          @arch   = arch
-
-          @type_system = if    type_system then type_system
-                         elsif arch        then Types.arch(arch)
-                         else                   Types.endian(endian)
-                         end
+        def initialize(length_or_string, **kwargs)
+          initialize_type_system(**kwargs)
 
           super(length_or_string)
         end
@@ -157,7 +137,7 @@ module Ronin
           value = case value
                   when Integer
                     value.chr(Encoding::ASCII_8BIT)
-                  when Array
+                  when ::Array
                     value.map { |char_or_byte|
                       case char_or_byte
                       when Integer
@@ -607,7 +587,7 @@ module Ronin
         # @param [Integer] count
         #   The number of desired elements within the array.
         #
-        # @return [Array<Object>]
+        # @return [::Array<Object>]
         #   The read array of types.
         #
         def get_array_of(type,offset,count)
@@ -631,7 +611,7 @@ module Ronin
         # @param [Integer] count
         #   The number of bytes to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of bytes.
         #
         # @see #get_array_of
@@ -651,7 +631,7 @@ module Ronin
         # @param [Integer] count
         #   The number of chars to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of chars.
         #
         # @see #get_array_of
@@ -671,7 +651,7 @@ module Ronin
         # @param [Integer] count
         #   The number of unsigned chars to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of unsigned chars.
         #
         # @see #get_array_of
@@ -691,7 +671,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `int8` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `int8` values.
         #
         # @see #get_array_of
@@ -709,7 +689,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `int16` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `int16` values.
         #
         # @see #get_array_of
@@ -727,7 +707,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `int32` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `int32` values.
         #
         # @see #get_array_of
@@ -745,7 +725,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `int64` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `int64` values.
         #
         # @see #get_array_of
@@ -763,7 +743,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `uint8` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `uint8` values.
         #
         # @see #get_array_of
@@ -781,7 +761,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `uint16` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `uint16` values.
         #
         # @see #get_array_of
@@ -799,7 +779,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `uint32` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `uint32` values.
         #
         # @see #get_array_of
@@ -817,7 +797,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `uint64` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `uint64` values.
         #
         # @see #get_array_of
@@ -835,7 +815,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `short` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `short` values.
         #
         # @see #get_array_of
@@ -853,7 +833,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `int` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `int` values.
         #
         # @see #get_array_of
@@ -873,7 +853,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `long` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `long` values.
         #
         # @see #get_array_of
@@ -891,7 +871,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `long_long` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `long_long` values.
         #
         # @see #get_array_of
@@ -909,7 +889,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `ushort` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `ushort` values.
         #
         # @see #get_array_of
@@ -927,7 +907,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `uint` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `uint` values.
         #
         # @see #get_array_of
@@ -947,7 +927,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `ulong` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `ulong` values.
         #
         # @see #get_array_of
@@ -965,7 +945,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `ulong_long` values to read.
         #
-        # @return [Array<Integer>]
+        # @return [::Array<Integer>]
         #   The read array of `ulong_long` values.
         #
         # @see #get_array_of
@@ -983,7 +963,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `float32` values to read.
         #
-        # @return [Array<Float>]
+        # @return [::Array<Float>]
         #   The read array of `float32` values.
         #
         # @see #get_array_of
@@ -1001,7 +981,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `float64` values to read.
         #
-        # @return [Array<Float>]
+        # @return [::Array<Float>]
         #   The read array of `float64` values.
         #
         # @see #get_array_of
@@ -1019,7 +999,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `float` values to read.
         #
-        # @return [Array<Float>]
+        # @return [::Array<Float>]
         #   The read array of `float` values.
         #
         # @see #get_array_of
@@ -1039,7 +1019,7 @@ module Ronin
         # @param [Integer] count
         #   The number of `double` values to read.
         #
-        # @return [Array<Float>]
+        # @return [::Array<Float>]
         #   The read array of `double` values.
         #
         # @see #get_array_of
@@ -1504,7 +1484,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset that the array should start at within the buffer.
         #
-        # @param [Array<Object>] array
+        # @param [::Array<Object>] array
         #   The array of values to write.
         #
         # @return [self]
@@ -1529,7 +1509,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] bytes
+        # @param [::Array<Integer>] bytes
         #   The array of bytes to write.
         #
         # @return [self]
@@ -1586,7 +1566,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] ints
+        # @param [::Array<Integer>] ints
         #   The array of `int8` values to write.
         #
         # @return [self]
@@ -1603,7 +1583,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] ints
+        # @param [::Array<Integer>] ints
         #   The array of `int16` values to write.
         #
         # @return [self]
@@ -1620,7 +1600,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] ints
+        # @param [::Array<Integer>] ints
         #   The array of `int32` values to write.
         #
         # @return [self]
@@ -1637,7 +1617,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] ints
+        # @param [::Array<Integer>] ints
         #   The array of `int64` values to write.
         #
         # @return [self]
@@ -1654,7 +1634,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] uints
+        # @param [::Array<Integer>] uints
         #   The array of `uint8` values to write.
         #
         # @return [self]
@@ -1671,7 +1651,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] uints
+        # @param [::Array<Integer>] uints
         #   The array of `uint16` values to write.
         #
         # @return [self]
@@ -1688,7 +1668,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] uints
+        # @param [::Array<Integer>] uints
         #   The array of `uint32` values to write.
         #
         # @return [self]
@@ -1705,7 +1685,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] uints
+        # @param [::Array<Integer>] uints
         #   The array of `uint64` values to write.
         #
         # @return [self]
@@ -1722,7 +1702,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] ints
+        # @param [::Array<Integer>] ints
         #   The array of `short` values to write.
         #
         # @return [self]
@@ -1739,7 +1719,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] ints
+        # @param [::Array<Integer>] ints
         #   The array of `int` values to write.
         #
         # @return [self]
@@ -1758,7 +1738,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] ints
+        # @param [::Array<Integer>] ints
         #   The array of `long` values to write.
         #
         # @return [self]
@@ -1775,7 +1755,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] ints
+        # @param [::Array<Integer>] ints
         #   The array of `long_long` values to write.
         #
         # @return [self]
@@ -1792,7 +1772,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] uints
+        # @param [::Array<Integer>] uints
         #   The array of `ushort` values to write.
         #
         # @return [self]
@@ -1809,7 +1789,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] uints
+        # @param [::Array<Integer>] uints
         #   The array of `uint` values to write.
         #
         # @return [self]
@@ -1828,7 +1808,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] uints
+        # @param [::Array<Integer>] uints
         #   The array of `ulong` values to write.
         #
         # @return [self]
@@ -1845,7 +1825,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Integer>] uints
+        # @param [::Array<Integer>] uints
         #   The array of `ulong_long` values to write.
         #
         # @return [self]
@@ -1862,7 +1842,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Float>] floats
+        # @param [::Array<Float>] floats
         #   The array of `float32` values to write.
         #
         # @return [self]
@@ -1879,7 +1859,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Float>] floats
+        # @param [::Array<Float>] floats
         #   The array of `float64` values to write.
         #
         # @return [self]
@@ -1896,7 +1876,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Float>] floats
+        # @param [::Array<Float>] floats
         #   The array of `float` values to write.
         #
         # @return [self]
@@ -1915,7 +1895,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer to start reading at.
         #
-        # @param [Array<Float>] floats
+        # @param [::Array<Float>] floats
         #   The array of `double` values to write.
         #
         # @return [self]
