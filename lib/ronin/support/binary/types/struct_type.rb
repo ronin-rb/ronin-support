@@ -198,9 +198,9 @@ module Ronin
               hash = {}
 
               @members.each do |name,member|
-                data = data.byteslice(member.offset,member.size)
+                slice = data.byteslice(member.offset,member.size)
 
-                hash[name] = type.unpack(data)
+                hash[name] = type.unpack(slice)
               end
 
               return hash
