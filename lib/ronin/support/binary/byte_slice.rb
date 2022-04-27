@@ -102,6 +102,9 @@ module Ronin
         # @return [String, nil]
         #   The character or substring at the given index or range.
         #
+        # @raise [ArgumentError]
+        #   An invalid index or length value was given.
+        #
         def [](index_or_range,length=nil)
           case index_or_range
           when Range
@@ -111,9 +114,14 @@ module Ronin
           when Integer
             index = index_or_range
 
-            if length then @string[@offset+index,length]
-            else           @string[@offset+index]
+            case length
+            when Integer then @string[@offset+index,length]
+            when nil     then @string[@offset+index]
+            else
+              raise(ArgumentError,"invalid length (#{length.inspect}) must be an Integer or nil")
             end
+          else
+            raise(ArgumentError,"invalid index (#{index_or_range.inspect}) must be an Integer or a Range")
           end
         end
 
@@ -132,6 +140,9 @@ module Ronin
         # @return [String]
         #   The string written into the buffer.
         #
+        # @raise [ArgumentError]
+        #   An invalid index or length value was given.
+        #
         def []=(index_or_range,length=nil,value)
           case index_or_range
           when Range
@@ -141,9 +152,14 @@ module Ronin
           when Integer
             index = index_or_range
 
-            if length then @string[@offset+index,length] = value
-            else           @string[@offset+index] = value
+            case length
+            when Integer then @string[@offset+index,length] = value
+            when nil     then @string[@offset+index] = value
+            else
+              raise(ArgumentError,"invalid length (#{length.inspect}) must be an Integer or nil")
             end
+          else
+            raise(ArgumentError,"invalid index (#{index_or_range.inspect}) must be an Integer or a Range")
           end
         end
 

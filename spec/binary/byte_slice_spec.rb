@@ -213,6 +213,27 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
     end
+
+    context "but an invalid index argument is given" do
+      let(:index) { Object.new }
+
+      it do
+        expect {
+          subject[index]
+        }.to raise_error(ArgumentError,"invalid index (#{index.inspect}) must be an Integer or a Range")
+      end
+    end
+
+    context "but an invalid length argument is given" do
+      let(:index) { 0 }
+      let(:count) { Object.new }
+
+      it do
+        expect {
+          subject[index,count]
+        }.to raise_error(ArgumentError,"invalid length (#{count.inspect}) must be an Integer or nil")
+      end
+    end
   end
 
   describe "#[]=" do
