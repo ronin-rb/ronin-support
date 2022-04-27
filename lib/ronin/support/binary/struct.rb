@@ -433,10 +433,12 @@ module Ronin
         #                 Types::BigEndian,
         #                 Types::Network]
         #
-        # @abstract
-        #
         def self.type_system
-          Types
+          @type_system ||= if superclass < Struct
+                             superclass.type_system
+                           else
+                             Types
+                           end
         end
 
         #
