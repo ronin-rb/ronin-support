@@ -390,6 +390,12 @@ module Ronin
         # @return [:little, :big, :net, nil]
         #   The struct's endian-ness.
         #
+        # @example Define the endian-ness of a struct class:
+        #   class MyStruct < Ronin::Support::Binary::Struct
+        #     endian :big
+        #     member :x, :int32
+        #   end
+        #
         def self.endian(new_endian=nil)
           if new_endian
             initialize_type_system(endian: new_endian)
@@ -414,6 +420,12 @@ module Ronin
         #
         # @return [:little, :big, :net, nil]
         #   The struct's architecture.
+        #
+        # @example Define the architecture of a struct class:
+        #   class MyStruct < Ronin::Support::Binary::Struct
+        #     arch :arm64
+        #     member :x, :int
+        #   end
         #
         def self.arch(new_arch=nil)
           if new_arch
