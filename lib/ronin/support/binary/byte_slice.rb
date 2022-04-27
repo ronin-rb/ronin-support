@@ -66,8 +66,8 @@ module Ronin
         def initialize(string, offset: , length: )
           case string
           when ByteSlice
-            if (offset < 0) || (offset+length > string.length)
-              raise(IndexError,"offset #{offset} or length #{length} is out of bounds: 0...#{string.length}")
+            if (offset < 0) || (offset+length > string.bytesize)
+              raise(IndexError,"offset #{offset} or length #{length} is out of bounds: 0...#{string.bytesize}")
             end
 
             @string = string.string
