@@ -38,9 +38,165 @@ describe Ronin::Support::Binary::Struct do
       member :bar, SubStruct
       member :baz, :uint64
     end
+
+    class EndianStruct < Ronin::Support::Binary::Struct
+      endian :big
+      member :foo, :uint16
+    end
+
+    class InheritedEndianStruct < EndianStruct
+    end
+
+    class OverridenInheritedEndianStruct < EndianStruct
+      endian :little
+    end
+
+    class ArchStruct < Ronin::Support::Binary::Struct
+      arch :arm64
+      member :foo, :uint16
+    end
+
+    class InheritedArchStruct < ArchStruct
+    end
+
+    class OverridenInheritedArchStruct < ArchStruct
+      arch :arm
+    end
   end
 
   let(:struct_class) { TestBinaryStruct::SimpleStruct }
+
+  describe ".type_system" do
+    subject { Class.new(described_class) }
+
+    it "must default to Ronin::Support::Binary::Types" do
+      expect(subject.type_system).to be(Ronin::Support::Binary::Types)
+    end
+  end
+
+  describe ".endian" do
+    subject { Class.new(described_class) }
+
+    it "must default to nil" do
+      expect(subject.endian).to be(nil)
+    end
+
+    context "when endian is called within the Struct class" do
+      subject { TestBinaryStruct::EndianStruct }
+
+      it "must set .endian to the given endian name" do
+        expect(subject.endian).to eq(:big)
+      end
+
+      it "must set .type_system to the Types:: module for the endian-ness" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::Types::BigEndian)
+      end
+
+      context "and when the Struct class is inherited" do
+        subject { TestBinaryStruct::InheritedEndianStruct }
+
+        it "must inherit the .endian value from the superclass" do
+          expect(subject.endian).to be(subject.superclass.endian)
+        end
+
+        it "must inherit the .type_system value from the superclass" do
+          expect(subject.type_system).to be(subject.superclass.type_system)
+        end
+
+        context "but the Struct class overrides the inherited .arch value" do
+          subject { TestBinaryStruct::OverridenInheritedEndianStruct }
+
+          it "must set .endian to the new value" do
+            expect(subject.endian).to eq(:little)
+          end
+
+          it "must set .type_system to the new Types:: module for the new endian-ness" do
+            expect(subject.type_system).to be(Ronin::Support::Binary::Types::LittleEndian)
+          end
+
+          it "must re-resolve the Struct member types using the new .type_system" do
+            member_type_name = subject.members[:foo].type_signature
+            struct_type      = subject.type.struct_type
+
+            expect(struct_type.members[:foo].type).to eq(Ronin::Support::Binary::Types::LittleEndian[member_type_name])
+          end
+        end
+      end
+    end
+  end
+
+  describe ".arch" do
+    subject { Class.new(described_class) }
+
+    it "must default to nil" do
+      expect(subject.arch).to be(nil)
+    end
+
+    context "when arch is called within the Struct class" do
+      subject { TestBinaryStruct::ArchStruct }
+
+      it "must set .arch to the given arch name" do
+        expect(subject.arch).to eq(:arm64)
+      end
+
+      it "must set .type_system to the Types::Arch:: module for the arch" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::Types::Arch::ARM64)
+      end
+
+      context "and when the Struct class is inherited" do
+        subject { TestBinaryStruct::InheritedArchStruct }
+
+        it "must inherit the .arch value from the superclass" do
+          expect(subject.arch).to be(subject.superclass.arch)
+        end
+
+        it "must inherit the .type_system value from the superclass" do
+          expect(subject.type_system).to be(subject.superclass.type_system)
+        end
+
+        context "but the Struct class overrides the inherited .arch value" do
+          subject { TestBinaryStruct::OverridenInheritedArchStruct }
+
+          it "must set .arch to the new value" do
+            expect(subject.arch).to eq(:arm)
+          end
+
+          it "must set .type_system to the new Types:: module for the new arch-ness" do
+            expect(subject.type_system).to be(Ronin::Support::Binary::Types::Arch::ARM)
+          end
+
+          it "must re-resolve the Struct member types using the new .type_system" do
+            member_type_name = subject.members[:foo].type_signature
+            struct_type      = subject.type.struct_type
+
+            expect(struct_type.members[:foo].type).to eq(Ronin::Support::Binary::Types::Arch::ARM[member_type_name])
+          end
+        end
+      end
+    end
+  end
+
+  describe ".type_resolver" do
+    subject { Class.new(described_class) }
+
+    it "must return a Types::Resolver object initialized with .type_system" do
+      resolver = subject.type_resolver
+
+      expect(resolver).to be_kind_of(Ronin::Support::Binary::Types::Resolver)
+      expect(resolver.types).to be(subject.type_system)
+    end
+  end
+
+  describe ".type" do
+    subject { TestBinaryStruct::SimpleStruct }
+
+    it "must resolve a Types::StructObjectType for the Struct class" do
+      type = subject.type
+
+      expect(type).to be_kind_of(Ronin::Support::Binary::Types::StructObjectType)
+      expect(type.struct_class).to be(subject)
+    end
+  end
 
   describe ".members" do
     context "when the struct class has no members defined" do
