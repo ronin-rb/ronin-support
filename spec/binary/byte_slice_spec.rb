@@ -50,6 +50,17 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
+      context "but the length is out of bounds" do
+        let(:offset) { 0 }
+        let(:length) { string.length + 1 }
+
+        it do
+          expect {
+            described_class.new(string, offset: offset, length: length)
+          }.to raise_error(IndexError,"offset #{offset} or length #{length} is out of bounds: 0...#{string.length}")
+        end
+      end
+
       context "but the offset+length is out of bounds" do
         let(:offset) { string.length - length + 1 }
 
