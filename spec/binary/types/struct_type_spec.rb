@@ -5,6 +5,29 @@ require 'ronin/support/binary/types'
 require_relative 'type_examples'
 
 describe Ronin::Support::Binary::Types::StructType do
+  describe described_class::Member do
+    let(:offset) { 3 }
+    let(:type)   { Ronin::Support::Binary::Types::UINT16 }
+
+    subject { described_class.new(offset,type) }
+
+    describe "#initialize" do
+      it "must set #offset" do
+        expect(subject.offset).to eq(offset)
+      end
+
+      it "must set #type" do
+        expect(subject.type).to eq(type)
+      end
+    end
+
+    describe "#size" do
+      it "must return #type.size" do
+        expect(subject.size).to eq(type.size)
+      end
+    end
+  end
+
   let(:members) do
     {
       a: Ronin::Support::Binary::Types::CHAR,
