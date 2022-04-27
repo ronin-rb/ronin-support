@@ -54,7 +54,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset of the byte slice within the string.
         #
-        # @param [Integer] length
+        # @param [Integer, Float::INFINITY] length
         #   The length of the byte slice, in bytes.
         #
         # @raise [ArgumentError]
@@ -64,6 +64,10 @@ module Ronin
         #   The offset or length is out of bounds of the strings length.
         #
         def initialize(string, offset: , length: )
+          if length == Float::INFINITY
+            length = string.bytesize - offset
+          end
+
           case string
           when ByteSlice
             if (offset < 0) || (offset+length > string.bytesize)

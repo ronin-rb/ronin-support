@@ -22,6 +22,14 @@ describe Ronin::Support::Binary::ByteSlice do
         expect(subject.length).to eq(length)
       end
 
+      context "but when length if Float::INFINITY" do
+        let(:length) { Float::INFINITY }
+
+        it "must set #length to string.length - offset" do
+          expect(subject.length).to eq(string.length - offset)
+        end
+      end
+
       context "but the offset is negative" do
         let(:offset) { -1 }
 
