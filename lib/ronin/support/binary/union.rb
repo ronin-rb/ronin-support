@@ -1,0 +1,167 @@
+#
+# Copyright (c) 2006-2022 Hal Brodigan (postmodern.mod3 at gmail.com)
+#
+# This file is part of ronin-support.
+#
+# ronin-support is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# ronin-support is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
+#
+
+require 'ronin/support/binary/struct'
+
+module Ronin
+  module Support
+    module Binary
+      #
+      # Generic Binary Union class.
+      #
+      # @note This class provides lazy memory mapped access to an underlying
+      # buffer. This means values are decoded/encoded each time they are read
+      # or written to.
+      #
+      # ## Examples
+      #
+      # ### Defining Fields
+      #
+      #     class MyUnion < Ronin::Support::Binary::Union
+      #
+      #       member :c, :char
+      #       member :i, :int16
+      #       member :u, :uint32
+      #     
+      #     end
+      #
+      # ### Initializing Fields
+      #
+      #     union    = MyUnion.new
+      #     union.i  = -1
+      #
+      #     union = MyUnion.new(i: -1)
+      #
+      # ### Inheriting Unions
+      #
+      #     class MyUnion < Ronin::Support::Binary::Union
+      #
+      #       member :c, :char
+      #       member :i, :int16
+      #       member :u, :uint32
+      #     
+      #     end
+      #     
+      #     class MyUnion2 < MyUnion
+      #     
+      #       member :f, :float32
+      #       member :d, :float64
+      #     
+      #     end
+      #     
+      #     union    = MyUnion.new
+      #     union.i  = -1
+      #     
+      #     union2   = MyUnion.new
+      #     union2.i = -1
+      #     union2.d = 1.123
+      #
+      # ### Packing Unions
+      #
+      #     class MyUnion < Ronin::Support::Binary::Union
+      #     
+      #       endian :big
+      #     
+      #       member :c, :char
+      #       member :i, :int16
+      #       member :u, :uint32
+      #     
+      #     end
+      #     
+      #     union = MyUnion.new
+      #     union.u = 0x11223344
+      #     union.i = -1
+      #     point.pack
+      #     # => ""
+      #
+      # ### Unpacking Unions
+      #
+      #     class MyUnion < Ronin::Support::Binary::Union
+      #     
+      #       endian :big
+      #     
+      #       member :c, :char
+      #       member :i, :int32
+      #       member :u, :uint32
+      #     
+      #     end
+      #     
+      #     union = MyUnion.unpack("")
+      #     union.c
+      #     # => "\xFF"
+      #     union.i
+      #     # => -1
+      #     union.u
+      #     # => 
+      #
+      # ### Array Fields
+      #
+      #     class MyUnion < Ronin::Support::Binary::Union
+      #     
+      #       member :c, :char
+      #       member :i, :int16
+      #       member :u, :uint32
+      #       member :nums, [:uint8, 10]
+      #     
+      #     end
+      #
+      #     union = MyUnion.new
+      #     union.nums = [0x01, 0x02, 0x03, 0x04]
+      #
+      # ### Unbounded Array Fields
+      #
+      #     class MyUnion < Ronin::Support::Binary::Union
+      #     
+      #       member :c, :char
+      #       member :i, :int16
+      #       member :u, :uint32
+      #       member :payload, (:uint8..)
+      #     
+      #     end
+      #     
+      #     union = MyUnion.new
+      #     union.payload = [0x01, 0x02, 0x03, 0x04, ...]
+      #
+      # ### Default Endianness
+      #
+      #     class MyUnion < Ronin::Support::Binary::Union
+      #     
+      #       endian :big
+      #     
+      #       member :c, :char
+      #       member :i, :int32
+      #       member :u, :uint32
+      #     
+      #     end
+      #     
+      #     union = MyUnion.new(u: 0x11223344)
+      #     
+      #     buffer = pkt.pack
+      #     # => "\x00\x00\x00\x05hello\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+      #    
+      #     new_pkt = Packet.unpack(buffer)
+      #     # => #<Packet: length: 5, data: "hello">
+      #
+      # @api public
+      #
+      class Union < Struct
+      end
+    end
+  end
+end

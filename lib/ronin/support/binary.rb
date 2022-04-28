@@ -20,4 +20,5 @@
 require 'ronin/support/binary/core_ext'
 require 'ronin/support/binary/format'
 require 'ronin/support/binary/struct'
+require 'ronin/support/binary/union'
 require 'ronin/support/binary/hexdump'
