@@ -170,7 +170,7 @@ module Ronin
         # @return [self]
         #
         def clear
-          (0...size).each do |index|
+          (0...@string.bytesize).each do |index|
             @string.setbyte(index,0)
           end
 
