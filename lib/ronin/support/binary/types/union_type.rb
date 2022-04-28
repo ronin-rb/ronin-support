@@ -49,10 +49,6 @@ module Ronin
             #
             # Initializes the member.
             #
-            # @param [Integer] offset
-            #   The offset, in bytes, of the member from the beginning of the
-            #   union.
-            #
             # @param [Type] type
             #   The type of the member.
             #
