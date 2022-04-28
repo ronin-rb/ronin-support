@@ -87,7 +87,7 @@ describe Ronin::Support::Binary::Memory do
     end
 
     context "and when an index Integer and a length Integer is given" do
-      let(:index) { 1 }
+      let(:index)  { 1 }
       let(:length) { 3 }
 
       it "must return the substring of length starting at the given index" do
@@ -100,7 +100,19 @@ describe Ronin::Support::Binary::Memory do
       let(:count) { Float::INFINITY }
 
       it "must return the substring starting at the index to the end of the string" do
-        expect(subject[index,count]).to eq(string[index,string.length-index])
+        expect(subject[index,count]).to eq(string[index,subject.size-index])
+      end
+
+      context "but when the underlying string has grown in length" do
+        let(:new_string) { " AAAA" }
+
+        it "must return the substring starting at the index to the end of the underlying string" do
+          expect(subject[index,count]).to eq(string[index,subject.size-index])
+
+          string << new_string
+
+          expect(subject[index,count]).to eq(string[index,string.bytesize-index])
+        end
       end
     end
 
@@ -150,8 +162,22 @@ describe Ronin::Support::Binary::Memory do
 
       before { subject[index,Float::INFINITY] = chars }
 
-      it "must overwrite the bytes start at the index and to the end of the string" do
+      it "must overwrite the bytes starting at the index and to the end of the string" do
         expect(subject.string[index,count]).to eq(chars)
+      end
+
+      context "but when the underlying string has grown in length" do
+        let(:new_string) { " AAAA" }
+
+        it "must overwrite the bytes starting at the index and to the end of the string" do
+          expect(subject.string[index,count]).to eq(chars)
+          expect(subject[index,count]).to eq(string[index,subject.size-index])
+
+          string << new_string
+          subject[index,Float::INFINITY] = chars
+
+          expect(subject.string[index,count]).to eq(chars)
+        end
       end
     end
 
