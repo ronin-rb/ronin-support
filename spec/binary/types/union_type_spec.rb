@@ -16,6 +16,12 @@ describe Ronin::Support::Binary::Types::UnionType do
       end
     end
 
+    describe "#offset" do
+      it "must return 0" do
+        expect(subject.offset).to eq(0)
+      end
+    end
+
     describe "#size" do
       it "must return #type.size" do
         expect(subject.size).to eq(type.size)

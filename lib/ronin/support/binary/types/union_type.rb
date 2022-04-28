@@ -61,6 +61,18 @@ module Ronin
             end
 
             #
+            # The offset of the member within the union.
+            #
+            # @return [0]
+            #
+            # @note This method is mainly for compatibility with
+            # {StructType::Member#offset}.
+            #
+            def offset
+              0
+            end
+
+            #
             # The size, in bytes, of the member within the union.
             #
             # @return [Integer]
