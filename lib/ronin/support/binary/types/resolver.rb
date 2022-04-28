@@ -20,6 +20,8 @@
 require 'ronin/support/binary/types/type'
 require 'ronin/support/binary/types/array_object_type'
 require 'ronin/support/binary/types/struct_object_type'
+require 'ronin/support/binary/struct'
+require 'ronin/support/binary/union'
 
 module Ronin
   module Support
@@ -169,3 +171,4 @@ module Ronin
     end
   end
 end
+
