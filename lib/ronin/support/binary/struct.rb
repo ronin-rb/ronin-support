@@ -130,7 +130,7 @@ module Ronin
       class Struct < Memory
 
         # The type system used by the struct.
-                #
+        #
         # @return [Types::StructType]
         attr_reader :type
 
