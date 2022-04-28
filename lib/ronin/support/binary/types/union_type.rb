@@ -102,15 +102,24 @@ module Ronin
           #   The members names and types of the union type.
           #
           def initialize(members)
-            @members   = {}
-            @size      = 0
-            @alignment = 0
+            @members = {}
+
+            max_size      = 0
+            max_alignment = 0
 
             members.each do |name,type|
               @members[name] = Member.new(type)
-              @size          = type.size      if type.size > @size
-              @alignment     = type.alignment if type.alignment > @alignment
+
+              # omit infinite sizes from the struct size
+              if (type.size > max_size) && (type.size != Float::INFINITY)
+                max_size = type.size
+              end
+
+              max_alignment = type.alignment if type.alignment > max_alignment
             end
+
+            @size      = max_size
+            @alignment = max_alignment
 
             super(pack_string: nil)
           end
