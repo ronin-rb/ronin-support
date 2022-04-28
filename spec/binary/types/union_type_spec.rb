@@ -89,14 +89,16 @@ describe Ronin::Support::Binary::Types::UnionType do
       context "when one of the fields is a Ronin::Support::Binary::Types::UnboundedArrayType" do
         let(:members) do
           {
-            a: Ronin::Support::Binary::Types::INT16,
+            a: Ronin::Support::Binary::Types::CHAR,
             b: Ronin::Support::Binary::Types::INT16,
             c: Ronin::Support::Binary::Types::UINT32[]
           }
         end
 
-        it "must set #size to Float::INFINITY" do
-          expect(subject.size).to eq(Float::INFINITY)
+        it "must omit the UnboundedArrayType member size from #size" do
+          expect(subject.size).to eq(
+            [members[:a].size, members[:b].size].max
+          )
         end
       end
     end

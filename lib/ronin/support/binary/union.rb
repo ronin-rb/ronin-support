@@ -43,8 +43,8 @@ module Ronin
       #
       # ### Initializing Fields
       #
-      #     union    = MyUnion.new
-      #     union.i  = -1
+      #     union   = MyUnion.new
+      #     union.i = -1
       #
       #     union = MyUnion.new(i: -1)
       #
@@ -65,8 +65,8 @@ module Ronin
       #     
       #     end
       #     
-      #     union    = MyUnion.new
-      #     union.i  = -1
+      #     union   = MyUnion.new
+      #     union.i = -1
       #     
       #     union2   = MyUnion.new
       #     union2.i = -1
@@ -76,8 +76,6 @@ module Ronin
       #
       #     class MyUnion < Ronin::Support::Binary::Union
       #     
-      #       endian :big
-      #     
       #       member :c, :char
       #       member :i, :int16
       #       member :u, :uint32
@@ -85,16 +83,14 @@ module Ronin
       #     end
       #     
       #     union = MyUnion.new
-      #     union.u = 0x11223344
+      #     union.u = 0x11111111
       #     union.i = -1
-      #     point.pack
-      #     # => ""
+      #     union.pack
+      #     # => "\xFF\xFF\x11\x11"
       #
       # ### Unpacking Unions
       #
       #     class MyUnion < Ronin::Support::Binary::Union
-      #     
-      #       endian :big
       #     
       #       member :c, :char
       #       member :i, :int32
@@ -102,13 +98,13 @@ module Ronin
       #     
       #     end
       #     
-      #     union = MyUnion.unpack("")
+      #     union = MyUnion.unpack("\xFF\xFF\x11\x11")
       #     union.c
       #     # => "\xFF"
       #     union.i
       #     # => -1
       #     union.u
-      #     # => 
+      #     # => 286392319
       #
       # ### Array Fields
       #
@@ -123,6 +119,8 @@ module Ronin
       #
       #     union = MyUnion.new
       #     union.nums = [0x01, 0x02, 0x03, 0x04]
+      #     union.pack
+      #     # => "\x01\x02\x03\x04\x00\x00\x00\x00\x00\x00"
       #
       # ### Unbounded Array Fields
       #
