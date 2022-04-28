@@ -147,7 +147,7 @@ describe Ronin::Support::Binary::Types::StructType do
 
         it "must omit the UnboundedArrayType member size from #size" do
           expect(subject.size).to eq(
-            subject.members[:a].size + subject.members[:b].size
+            members[:a].size + members[:b].size
           )
         end
       end
