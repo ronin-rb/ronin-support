@@ -144,7 +144,7 @@ describe Ronin::Support::Binary::ByteSlice do
     context "when initialized with a String" do
       subject { described_class.new(string, offset: offset, length: length) }
 
-      context "when a single Integer is given" do
+      context "and when a single Integer is given" do
         let(:index) { 1 }
 
         it "must add the offset to the index" do
@@ -152,7 +152,7 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when an index Integer and a length Integer is given" do
+      context "and when an index Integer and a length Integer is given" do
         let(:index) { 1 }
         let(:count) { 2 }
 
@@ -161,7 +161,7 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when an Integer and a length of Float::INFINITY is given" do
+      context "and when an Integer and a length of Float::INFINITY is given" do
         let(:index) { 1 }
         let(:count) { Float::INFINITY }
 
@@ -170,7 +170,7 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when a Range is given" do
+      context "and when a Range is given" do
         let(:range) { 1..3 }
 
         it "must add the offset to the Range's beginning and read till the Range's end" do
@@ -201,7 +201,7 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when an index Integer and a length Integer is given" do
+      context "and when an index Integer and a length Integer is given" do
         let(:index) { 1 }
         let(:count) { 2 }
 
@@ -212,7 +212,7 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when an Integer and a length of Float::INFINITY is given" do
+      context "and when an Integer and a length of Float::INFINITY is given" do
         let(:index) { 1 }
         let(:count) { Float::INFINITY }
 
@@ -223,7 +223,7 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when a Range is given" do
+      context "and when a Range is given" do
         let(:range)  { (1..3) }
 
         it "must add the two offsets to the Range's beginning and read till the Range's end" do
@@ -260,7 +260,7 @@ describe Ronin::Support::Binary::ByteSlice do
     context "when initialized with a String" do
       subject { described_class.new(string, offset: offset, length: length) }
 
-      context "when a single Integer is given" do
+      context "and when a single Integer is given" do
         let(:index) { 1   }
         let(:char)  { 'A' }
 
@@ -271,7 +271,7 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when an index Integer and a length Integer is given" do
+      context "and when an index Integer and a length Integer is given" do
         let(:index) { 1 }
         let(:count) { 2 }
         let(:chars) { 'A' * count }
@@ -283,7 +283,7 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when an Integer and a length of Float::INFINITY is given" do
+      context "and when an Integer and a length of Float::INFINITY is given" do
         let(:index) { 1 }
         let(:count) { Float::INFINITY }
         let(:chars) { 'A' * (length - index) }
@@ -295,7 +295,7 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when a Range is given" do
+      context "and when a Range is given" do
         let(:range) { 1..3 }
         let(:chars) { 'A' * (range.end-range.begin) }
 
@@ -319,7 +319,7 @@ describe Ronin::Support::Binary::ByteSlice do
         described_class.new(byte_slice, offset: sub_offset, length: sub_length)
       end
 
-      context "when a single Integer is given" do
+      context "and when a single Integer is given" do
         let(:index) { 1   }
         let(:char)  { 'A' }
 
@@ -330,7 +330,7 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when index and length Integers are given" do
+      context "and when index and length Integers are given" do
         let(:index) { 1 }
         let(:count) { 2 }
         let(:chars) { 'A' * count }
@@ -342,7 +342,7 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when an Integer and a length of Float::INFINITY is given" do
+      context "and when an Integer and a length of Float::INFINITY is given" do
         let(:index) { 1 }
         let(:count) { Float::INFINITY }
         let(:chars) { 'A' * (length - index) }
@@ -354,7 +354,7 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when a Range is given" do
+      context "and when a Range is given" do
         let(:range) { 1..3 }
         let(:chars) { 'A' * (range.end-range.begin) }
 
