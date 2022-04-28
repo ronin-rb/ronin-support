@@ -7,7 +7,6 @@ describe Ronin::Support::Binary::Types::StructObjectType do
     class TestStruct < Ronin::Support::Binary::Struct
 
       member :x, :uint16
-
       member :y, :int32
 
     end
