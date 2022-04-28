@@ -136,7 +136,7 @@ describe Ronin::Support::Binary::Types::StructType do
         end
       end
 
-      context "when one of the fields is a Ronin::Support::Binary::Types::UnboundedArrayType" do
+      context "when one of the members is a Ronin::Support::Binary::Types::UnboundedArrayType" do
         let(:members) do
           {
             a: Ronin::Support::Binary::Types::INT16,
@@ -145,8 +145,10 @@ describe Ronin::Support::Binary::Types::StructType do
           }
         end
 
-        it "must set #size to Float::INFINITY" do
-          expect(subject.size).to eq(Float::INFINITY)
+        it "must omit the UnboundedArrayType member size from #size" do
+          expect(subject.size).to eq(
+            subject.members[:a].size + subject.members[:b].size
+          )
         end
       end
     end

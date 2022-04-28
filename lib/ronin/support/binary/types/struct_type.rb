@@ -115,10 +115,7 @@ module Ronin
               offset   += padding
 
               @members[name] = Member.new(offset,type)
-              @size         += padding + type.size
-              @alignment     = alignment if alignment > @alignment
-
-              offset += type.size
+              @alignment = alignment if alignment > @alignment
 
               if pack_string
                 # add null-byte padding
@@ -128,7 +125,12 @@ module Ronin
                 else                     pack_string = nil
                 end
               end
+
+              # omit infinite sizes from the struct size
+              offset += type.size unless type.size == Float::INFINITY
             end
+
+            @size = offset
 
             super(pack_string: pack_string)
           end
@@ -230,7 +232,7 @@ module Ronin
             end
 
             @members.each do |name,member|
-              value = hash.fetch(name) { member.type.uninitialized_value }
+              value = hash[name] || member.type.uninitialized_value
 
               member.type.enqueue_value(values,value)
             end
