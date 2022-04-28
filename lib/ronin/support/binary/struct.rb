@@ -77,7 +77,7 @@ module Ronin
       #
       #     point = Point.new(x: 10, y: -1)
       #     point.pack
-      #     # => ""
+      #     # => "\n\x00\x00\x00\xFF\xFF\xFF\xFF"
       #
       # ### Unpacking Structs
       #
@@ -124,6 +124,7 @@ module Ronin
       #     struct = MyStruct.new
       #     struct.nums = [0x01, 0x02, 0x03, 0x04]
       #     struct.pack
+      #     # => "\x00\x00\x00\x00\x01\x02\x03\x04\x00\x00\x00\x00\x00\x00"
       #
       # ### Unbounded Array Fields
       #
@@ -135,8 +136,9 @@ module Ronin
       #     end
       #     
       #     struct = MyStruct.new
-      #     struct.payload = [0x01, 0x02, 0x03, 0x04, ...]
+      #     struct.payload = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08]
       #     struct.pack
+      #     # => "\x00\x00\x00\x00\x01\x02\x03\x04\x05\x06\a\b"
       #
       # ### Default Endianness
       #
