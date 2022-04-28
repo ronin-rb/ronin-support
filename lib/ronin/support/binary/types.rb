@@ -29,6 +29,7 @@ require 'ronin/support/binary/types/struct_type'
 
 require 'ronin/support/binary/types/array_object_type'
 require 'ronin/support/binary/types/struct_object_type'
+require 'ronin/support/binary/types/union_object_type'
 
 module Ronin
   module Support
