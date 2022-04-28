@@ -198,7 +198,11 @@ module Ronin
               hash = {}
 
               @members.each do |name,member|
-                slice = data.byteslice(member.offset,member.size)
+                slice = if member.size == Float::INFINITY
+                          data
+                        else
+                          data.byteslice(member.offset,member.size)
+                        end
 
                 hash[name] = type.unpack(slice)
               end
