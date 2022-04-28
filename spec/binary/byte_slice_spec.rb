@@ -152,12 +152,21 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when index and length Integers are given" do
+      context "when an index Integer and a length Integer is given" do
         let(:index) { 1 }
         let(:count) { 2 }
 
         it "must add the offset to the index and read length number of chars" do
           expect(subject[index,count]).to eq(string[offset+index,count])
+        end
+      end
+
+      context "when an Integer and a length of Float::INFINITY is given" do
+        let(:index) { 1 }
+        let(:count) { Float::INFINITY }
+
+        it "must add the offset to the index and subtrack the index from the total length of the byte slice" do
+          expect(subject[index,count]).to eq(string[offset+index,length-index])
         end
       end
 
@@ -192,13 +201,24 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when index and length Integers are given" do
+      context "when an index Integer and a length Integer is given" do
         let(:index) { 1 }
         let(:count) { 2 }
 
         it "must add the two offsets to the index and read length number of chars" do
           expect(subject[index,count]).to eq(
             string[offset+sub_offset+index,count]
+          )
+        end
+      end
+
+      context "when an Integer and a length of Float::INFINITY is given" do
+        let(:index) { 1 }
+        let(:count) { Float::INFINITY }
+
+        it "must add the offset to the index and subtrack the index from the total length of the byte slice" do
+          expect(subject[index,count]).to eq(
+            string[offset+sub_offset+index,sub_length-index]
           )
         end
       end
@@ -231,7 +251,7 @@ describe Ronin::Support::Binary::ByteSlice do
       it do
         expect {
           subject[index,count]
-        }.to raise_error(ArgumentError,"invalid length (#{count.inspect}) must be an Integer or nil")
+        }.to raise_error(ArgumentError,"invalid length (#{count.inspect}) must be an Integer, nil, or Float::INFINITY")
       end
     end
   end
@@ -251,15 +271,27 @@ describe Ronin::Support::Binary::ByteSlice do
         end
       end
 
-      context "when index and length Integers are given" do
+      context "when an index Integer and a length Integer is given" do
         let(:index) { 1 }
         let(:count) { 2 }
         let(:chars) { 'A' * count }
 
         before { subject[index,count] = chars }
-        
+
         it "must set the characters at that index plus the offset" do
           expect(string[offset+index,count]).to eq(chars)
+        end
+      end
+
+      context "when an Integer and a length of Float::INFINITY is given" do
+        let(:index) { 1 }
+        let(:count) { Float::INFINITY }
+        let(:chars) { 'A' * (length - index) }
+
+        before { subject[index,count] = chars }
+
+        it "must add the offset to the index and subtrack the index from the total length of the byte slice" do
+          expect(subject[index,count]).to eq(chars)
         end
       end
 
@@ -307,6 +339,18 @@ describe Ronin::Support::Binary::ByteSlice do
         
         it "must set the characters at that the index plus the two offsets" do
           expect(string[offset+sub_offset+index,count]).to eq(chars)
+        end
+      end
+
+      context "when an Integer and a length of Float::INFINITY is given" do
+        let(:index) { 1 }
+        let(:count) { Float::INFINITY }
+        let(:chars) { 'A' * (length - index) }
+
+        before { subject[index,count] = chars }
+
+        it "must add the offset to the index and subtrack the index from the total length of the byte slice" do
+          expect(string[offset+sub_offset+index,length-index]).to eq(chars)
         end
       end
 

@@ -115,10 +115,14 @@ module Ronin
             index = index_or_range
 
             case length
-            when Integer then @string[@offset+index,length]
-            when nil     then @string[@offset+index]
+            when Integer
+              @string[@offset+index,length]
+            when nil
+              @string[@offset+index]
+            when Float::INFINITY
+              @string[@offset+index,@length-index]
             else
-              raise(ArgumentError,"invalid length (#{length.inspect}) must be an Integer or nil")
+              raise(ArgumentError,"invalid length (#{length.inspect}) must be an Integer, nil, or Float::INFINITY")
             end
           else
             raise(ArgumentError,"invalid index (#{index_or_range.inspect}) must be an Integer or a Range")
@@ -153,10 +157,14 @@ module Ronin
             index = index_or_range
 
             case length
-            when Integer then @string[@offset+index,length] = value
-            when nil     then @string[@offset+index] = value
+            when Integer
+              @string[@offset+index,length] = value
+            when nil
+              @string[@offset+index] = value
+            when Float::INFINITY
+              @string[@offset+index,@length-index] = value
             else
-              raise(ArgumentError,"invalid length (#{length.inspect}) must be an Integer or nil")
+              raise(ArgumentError,"invalid length (#{length.inspect}) must be an Integer, nil, or Float::INFINITY")
             end
           else
             raise(ArgumentError,"invalid index (#{index_or_range.inspect}) must be an Integer or a Range")
