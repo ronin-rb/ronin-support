@@ -187,7 +187,7 @@ describe Ronin::Support::Binary::Types::StructType do
       )
     end
 
-    context "if some of the member fields are missing from the given hash" do
+    context "but some of the member fields are missing from the given hash" do
       let(:hash) do
         {
           a: 'A',
@@ -197,7 +197,34 @@ describe Ronin::Support::Binary::Types::StructType do
 
       it "must leave those member fields zerod in the resulting binary data" do
         expect(subject.pack(hash)).to eq(
-          [hash[:a], 0, hash[:c], 0].pack(subject.pack_string)
+          [
+            hash[:a],
+            subject.members[:b].type.uninitialized_value,
+            hash[:c],
+            subject.members[:d].type.uninitialized_value
+          ].pack(subject.pack_string)
+        )
+      end
+    end
+
+    context "but some of the member fields in the given hash are nil" do
+      let(:hash) do
+        {
+          a: 'A',
+          b: nil,
+          c: 0x1122,
+          d: nil
+        }
+      end
+
+      it "must replace the nil values with #uninitialized_value from the missing member" do
+        expect(subject.pack(hash)).to eq(
+          [
+            hash[:a],
+            subject.members[:b].type.uninitialized_value,
+            hash[:c],
+            subject.members[:d].type.uninitialized_value
+          ].pack(subject.pack_string)
         )
       end
     end
@@ -454,6 +481,30 @@ describe Ronin::Support::Binary::Types::StructType do
             hash[:c],
             subject.members[:d].type.uninitialized_value
           ]
+        )
+      end
+    end
+
+    context "but some of the member fields in the given hash are nil" do
+      let(:hash) do
+        {
+          a: 'A',
+          b: nil,
+          c: 0x1122,
+          d: nil
+        }
+      end
+
+      it "must replace the nil values with #uninitialized_value from the missing member" do
+        subject.enqueue_value(values,hash)
+
+        expect(subject.pack(hash)).to eq(
+          [
+            hash[:a],
+            subject.members[:b].type.uninitialized_value,
+            hash[:c],
+            subject.members[:d].type.uninitialized_value
+          ].pack(subject.pack_string)
         )
       end
     end

@@ -42,39 +42,29 @@ module Ronin
       #       member :y, :int32
       #     
       #     end
-      #     
-      #     class Point3D < Point
-      #     
-      #       member :z, :int32
       #
-      #     end
-      #     
-      #     point   = Point.new(x: 100, y: 42)
-      #     point3d = Point3D.new(x: 100, y: 42, z: -1)
+      # ### Initializing
       #
-      # ### Array Fields
+      # From a Hash:
       #
-      #     class MyStruct < Ronin::Support::Binary::Struct
-      #     
-      #       member :x,    :uint32
-      #       member :nums, [:uint8, 10]
-      #     
-      #     end
+      #     point = Point.new(x: 1, y: 2)
       #
-      #     struct = MyStruct.new
-      #     struct.nums = [0x01, 0x02, 0x03, 0x04]
+      # From a buffer:
       #
-      # ### Unbounded Array Fields
+      #     point = Point.new("\x01\x00\x00\x00\xFF\xFF\xFF\xFF")
       #
-      #     class MyStruct < Ronin::Support::Binary::Struct
-      #     
-      #       member :length,  :uint32
-      #       member :payload, (:uint8..)
-      #     
-      #     end
-      #     
-      #     struct = MyStruct.new
-      #     struct.payload = [0x01, 0x02, 0x03, 0x04, ...]
+      # ### Reading Fields
+      #
+      #     point = Point.new("\x01\x00\x00\x00\xFF\xFF\xFF\xFF")
+      #     point[:x]
+      #     # => 1
+      #     point[:y]
+      #     # => -1
+      #
+      #     point.x
+      #     # => 1
+      #     point.y
+      #     # => -1
       #
       # ### Packing Structs
       #
@@ -98,11 +88,55 @@ module Ronin
       #     
       #     end
       #     
-      #     point = Point.unpack("")
+      #     point = Point.unpack("\x00\x00\x00\x01\xFF\xFF\xFF\xFF")
       #     point.x
       #     # => 10
       #     point.y
       #     # => -1
+      #
+      # ### Inheriting Structs
+      #     
+      #     class Point < Ronin::Support::Binary::Struct
+      #     
+      #       member :x, :int32
+      #       member :y, :int32
+      #     
+      #     end
+      #     
+      #     class Point3D < Point
+      #     
+      #       member :z, :int32
+      #
+      #     end
+      #     
+      #     point   = Point.new(x: 100, y: 42)
+      #     point3d = Point3D.new(x: 100, y: 42, z: -1)
+      #
+      # ### Array Fields
+      #
+      #     class MyStruct < Ronin::Support::Binary::Struct
+      #     
+      #       member :x,    :uint32
+      #       member :nums, [:uint8, 10]
+      #     
+      #     end
+      #
+      #     struct = MyStruct.new
+      #     struct.nums = [0x01, 0x02, 0x03, 0x04]
+      #     struct.pack
+      #
+      # ### Unbounded Array Fields
+      #
+      #     class MyStruct < Ronin::Support::Binary::Struct
+      #     
+      #       member :length,  :uint32
+      #       member :payload, (:uint8..)
+      #     
+      #     end
+      #     
+      #     struct = MyStruct.new
+      #     struct.payload = [0x01, 0x02, 0x03, 0x04, ...]
+      #     struct.pack
       #
       # ### Default Endianness
       #
