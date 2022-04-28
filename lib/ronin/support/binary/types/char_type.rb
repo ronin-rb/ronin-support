@@ -44,6 +44,15 @@ module Ronin
             super(size: 1, endian: nil, **kwargs)
           end
 
+          #
+          # The default uniniitalized char value.
+          #
+          # @return ['']
+          #
+          def uninitialized_value
+            ''
+          end
+
         end
       end
     end

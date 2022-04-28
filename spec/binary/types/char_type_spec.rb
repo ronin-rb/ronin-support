@@ -53,4 +53,10 @@ describe Ronin::Support::Binary::Types::CharType do
       end
     end
   end
+
+  describe "#uninitialized_value" do
+    it "must return ''" do
+      expect(subject.uninitialized_value).to eq('')
+    end
+  end
 end
