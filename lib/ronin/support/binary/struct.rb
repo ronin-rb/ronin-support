@@ -90,7 +90,7 @@ module Ronin
       #     
       #     point = Point.unpack("\x00\x00\x00\x01\xFF\xFF\xFF\xFF")
       #     point.x
-      #     # => 10
+      #     # => 1
       #     point.y
       #     # => -1
       #
@@ -144,23 +144,19 @@ module Ronin
       #
       #     class Packet < Ronin::Support::Binary::Struct
       #     
-      #       endian :network
+      #       endian :net
       #     
       #       member :length, :uint32
-      #       member :data,   [:uchar, 48]
+      #       member :data,   (:uchar..)
       #     
       #     end
       #     
-      #     pkt = Packet.new
-      #     pkt.length = 5
-      #     pkt.data   = 'hello'
-      #     
-      #     buffer = pkt.pack
-      #     # => "\x00\x00\x00\x05hello\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+      #     packet = Packet.new
+      #     packet.length = 5
+      #     packet.data   = ["hello"]
+      #     packet.pack
+      #     # => "\x00\x00\x00\x05hello"
       #    
-      #     new_pkt = Packet.unpack(buffer)
-      #     # => #<Packet: length: 5, data: "hello">
-      #
       # @api public
       #
       class Struct < Memory
