@@ -99,7 +99,7 @@ describe Ronin::Support::Binary::Memory do
       let(:index) { 1 }
       let(:count) { Float::INFINITY }
 
-      it "must add the offset to the index and subtrack the index from the total length of the byte slice" do
+      it "must return the substring starting at the index to the end of the string" do
         expect(subject[index,count]).to eq(string[index,string.length-index])
       end
     end
@@ -150,7 +150,7 @@ describe Ronin::Support::Binary::Memory do
 
       before { subject[index,Float::INFINITY] = chars }
 
-      it "must add the offset to the index and subtrack the index from the total length of the byte slice" do
+      it "must overwrite the bytes start at the index and to the end of the string" do
         expect(subject.string[index,count]).to eq(chars)
       end
     end
