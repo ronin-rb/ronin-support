@@ -100,7 +100,7 @@ module Ronin
           # @param [Hash{Symbol => Type}] members
           #   The members names and types of the struct type.
           #
-          def initialize(members={})
+          def initialize(members)
             @members   = {}
             @size      = 0
             @alignment = 0

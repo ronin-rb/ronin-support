@@ -101,7 +101,7 @@ module Ronin
           # @param [Hash{Symbol => Type}] members
           #   The members names and types of the union type.
           #
-          def initialize(members={})
+          def initialize(members)
             @members   = {}
             @size      = 0
             @alignment = 0
