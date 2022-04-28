@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'ronin/support/binary/types/resolver'
 require 'ronin/support/binary/types/native'
 require 'ronin/support/binary/struct'
+require 'ronin/support/binary/union'
 
 describe Ronin::Support::Binary::Types::Resolver do
   let(:types) { Ronin::Support::Binary::Types::Native }
@@ -22,9 +23,15 @@ describe Ronin::Support::Binary::Types::Resolver do
         member :x, :int32
         member :y, :uint32
       end
+
+      class TestUnion < Ronin::Support::Binary::Union
+        member :x, :int16
+        member :y, :uint32
+      end
     end
 
     let(:struct_class) { TestTypesResolver::TestStruct }
+    let(:union_class)  { TestTypesResolver::TestUnion  }
 
     context "when given a Symbol" do
       it "must resolve the type name" do
@@ -52,6 +59,27 @@ describe Ronin::Support::Binary::Types::Resolver do
 
         expect(type.struct_type.members[:x].type).to eq(subject.resolve(struct_class.members[:x].type_signature))
         expect(type.struct_type.members[:y].type).to eq(subject.resolve(struct_class.members[:y].type_signature))
+      end
+    end
+
+    context "when given a Union class" do
+      it "must return a UnionObjectType" do
+        type = subject.resolve(union_class)
+
+        expect(type).to be_kind_of(Ronin::Support::Binary::Types::UnionObjectType)
+      end
+
+      it "must initialize the UnionObjectType with the Union class" do
+        type = subject.resolve(union_class)
+
+        expect(type.union_class).to be(union_class)
+      end
+
+      it "must resolve the Union's member types using the resolver" do
+        type = subject.resolve(union_class)
+
+        expect(type.union_type.members[:x].type).to eq(subject.resolve(union_class.members[:x].type_signature))
+        expect(type.union_type.members[:y].type).to eq(subject.resolve(union_class.members[:y].type_signature))
       end
     end
 
@@ -105,6 +133,30 @@ describe Ronin::Support::Binary::Types::Resolver do
 
           expect(struct_type.struct_type.members[:x].type).to eq(subject.resolve(struct_class.members[:x].type_signature))
           expect(struct_type.struct_type.members[:y].type).to eq(subject.resolve(struct_class.members[:y].type_signature))
+        end
+      end
+
+      context "and it contains a Union class" do
+        it "must return an ArrayObjectType containing a UnionObjectType and the length" do
+          type = subject.resolve([union_class, length])
+
+          expect(type).to be_kind_of(Ronin::Support::Binary::Types::ArrayObjectType)
+          expect(type.type).to be_kind_of(Ronin::Support::Binary::Types::UnionObjectType)
+          expect(type.length).to eq(length)
+        end
+
+        it "must initialize the UnionObjectType with the Union class" do
+          type = subject.resolve([union_class, length])
+
+          expect(type.type.union_class).to be(union_class)
+        end
+
+        it "must resolve the Union's member types using the resolver" do
+          type = subject.resolve([union_class, length])
+          union_type = type.type
+
+          expect(union_type.union_type.members[:x].type).to eq(subject.resolve(union_class.members[:x].type_signature))
+          expect(union_type.union_type.members[:y].type).to eq(subject.resolve(union_class.members[:y].type_signature))
         end
       end
 
@@ -189,6 +241,33 @@ describe Ronin::Support::Binary::Types::Resolver do
           end
         end
 
+        context "and it contains a Union class" do
+          let(:union_class) { TestTypesResolver::TestUnion }
+
+          it "must return an ArrayObjectType containing a UnionObjectType and the length" do
+            type = subject.resolve([union_class, length]..)
+
+            expect(type).to be_kind_of(Ronin::Support::Binary::Types::UnboundedArrayType)
+            expect(type.type).to be_kind_of(Ronin::Support::Binary::Types::ArrayObjectType)
+            expect(type.type.type).to be_kind_of(Ronin::Support::Binary::Types::UnionObjectType)
+            expect(type.type.length).to eq(length)
+          end
+
+          it "must initialize the UnionObjectType with the Union class" do
+            type = subject.resolve([union_class, length]..)
+
+            expect(type.type.type.union_class).to be(union_class)
+          end
+
+          it "must resolve the Union's member types using the resolver" do
+            type = subject.resolve([union_class, length]..)
+            union_type = type.type.type
+
+            expect(union_type.union_type.members[:x].type).to eq(subject.resolve(union_class.members[:x].type_signature))
+            expect(union_type.union_type.members[:y].type).to eq(subject.resolve(union_class.members[:y].type_signature))
+          end
+        end
+
         context "and it contains a Type object and a length" do
           let(:type_object) { types::INT32 }
 
@@ -210,7 +289,7 @@ describe Ronin::Support::Binary::Types::Resolver do
       it do
         expect {
           subject.resolve(object)
-        }.to raise_error(ArgumentError,"type type_signature must be a Symbol, Array, Range, #{Ronin::Support::Binary::Struct}, or a #{Ronin::Support::Binary::Types::Type} object: #{object.inspect}")
+        }.to raise_error(ArgumentError,"class must be either a #{Ronin::Support::Binary::Struct} or a #{Ronin::Support::Binary::Union} class")
       end
     end
 
@@ -220,7 +299,7 @@ describe Ronin::Support::Binary::Types::Resolver do
       it do
         expect {
           subject.resolve(object)
-        }.to raise_error(ArgumentError,"type type_signature must be a Symbol, Array, Range, #{Ronin::Support::Binary::Struct}, or a #{Ronin::Support::Binary::Types::Type} object: #{object.inspect}")
+        }.to raise_error(ArgumentError,"type type_signature must be a Symbol, Array, Range, #{Ronin::Support::Binary::Struct}, #{Ronin::Support::Binary::Union}, or a #{Ronin::Support::Binary::Types::Type} object: #{object.inspect}")
       end
     end
   end

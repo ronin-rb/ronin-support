@@ -62,13 +62,15 @@ module Ronin
           #   * `Range(type)` - represents an unbounded Array type with the
           #     given element type. (ex: `:int32..`)
           #   * `Struct.class` - a subclass of {Binary::Struct}.
+          #   * `Union.class` - a subclass of {Binary::Union}.
           #
           # @return [Type]
           #   The translated type.
           #
           # @raise [ArgumentError]
           #   The given type name was not known or not a `Symbol`,
-          #   `[Symbol, Integer]`, `Symbol..`, or a {Type}.
+          #   `[Symbol, Integer]`, `Symbol..`, {Binary::Struct},
+          #   {Binary::Union}, or a {Type}.
           #
           def resolve(type_signature)
             case type_signature
@@ -76,10 +78,16 @@ module Ronin
             when Range   then resolve_range(type_signature)
             when Symbol  then resolve_symbol(type_signature)
             when Type    then type_signature
-            when ->(type){ type.is_a?(Class) && type < Binary::Struct }
-              resolve_struct(type_signature)
+            when Class
+              if type_signature < Binary::Union
+                resolve_union(type_signature)
+              elsif type_signature < Binary::Struct
+                resolve_struct(type_signature)
+              else
+                raise(ArgumentError,"class must be either a #{Binary::Struct} or a #{Binary::Union} class")
+              end
             else
-              raise(ArgumentError,"type type_signature must be a Symbol, Array, Range, #{Binary::Struct}, or a #{Types::Type} object: #{type_signature.inspect}")
+              raise(ArgumentError,"type type_signature must be a Symbol, Array, Range, #{Binary::Struct}, #{Binary::Union}, or a #{Types::Type} object: #{type_signature.inspect}")
             end
           end
 
@@ -116,7 +124,7 @@ module Ronin
           #
           # Resolves a struct type.
           #
-          # @param [Struct.class] type_signature
+          # @param [Binary::Struct.class] type_signature
           #
           # @return [StructObjectType]
           #
@@ -127,6 +135,22 @@ module Ronin
             }]
 
             StructObjectType.new(struct_class,struct_members)
+          end
+
+          #
+          # Resolves a union type.
+          #
+          # @param [Binary::Union.class] type_signature
+          #
+          # @return [UnionObjectType]
+          #
+          def resolve_union(type_signature)
+            union_class   = type_signature
+            union_members = Hash[union_class.members.map { |name,member|
+              [name, resolve(member.type_signature)]
+            }]
+
+            UnionObjectType.new(union_class,union_members)
           end
 
           #
