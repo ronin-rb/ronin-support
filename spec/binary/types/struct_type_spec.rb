@@ -121,7 +121,7 @@ describe Ronin::Support::Binary::Types::StructType do
         end
       end
 
-      context "when one ofthe types does not have a #pack_string" do
+      context "when one of the types does not have a #pack_string" do
         let(:members) do
           {
             a: Ronin::Support::Binary::Types::INT32,
