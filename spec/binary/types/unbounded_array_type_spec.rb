@@ -1,21 +1,17 @@
 require 'spec_helper'
 require 'ronin/support/binary/types/unbounded_array_type'
-require 'ronin/support/binary/types/scalar_type'
+require 'ronin/support/binary/types/int32_type'
 require 'ronin/support/binary/types/array_type'
 require 'ronin/support/binary/types/struct_type'
 require 'ronin/support/binary/types'
 
 describe Ronin::Support::Binary::Types::UnboundedArrayType do
-  let(:size)        { 4       }
   let(:endian)      { :little }
-  let(:signed)      { true    }
   let(:pack_string) { 'L<'    }
 
   let(:type) do
-    Ronin::Support::Binary::Types::ScalarType.new(
-      size:        size,
+    Ronin::Support::Binary::Types::Int32Type.new(
       endian:      endian,
-      signed:      signed,
       pack_string: pack_string
     )
   end
@@ -39,10 +35,8 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
       let(:length) { 10 }
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
-          Ronin::Support::Binary::Types::ScalarType.new(
-            size:        size,
+          Ronin::Support::Binary::Types::Int32Type.new(
             endian:      endian,
-            signed:      signed,
             pack_string: pack_string
           ),
           length
@@ -102,10 +96,8 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
       let(:length) { 10 }
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
-          Ronin::Support::Binary::Types::ScalarType.new(
-            size:        size,
+          Ronin::Support::Binary::Types::Int32Type.new(
             endian:      endian,
-            signed:      signed,
             pack_string: pack_string
           ),
           length
@@ -127,10 +119,8 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
           Ronin::Support::Binary::Types::ArrayType.new(
-            Ronin::Support::Binary::Types::ScalarType.new(
-              size:        size,
+            Ronin::Support::Binary::Types::Int32Type.new(
               endian:      endian,
-              signed:      signed,
               pack_string: pack_string
             ),
             length2
@@ -268,10 +258,8 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
       let(:length) { 10 }
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
-          Ronin::Support::Binary::Types::ScalarType.new(
-            size:        size,
+          Ronin::Support::Binary::Types::Int32Type.new(
             endian:      endian,
-            signed:      signed,
             pack_string: pack_string
           ),
           length
@@ -294,10 +282,8 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
           Ronin::Support::Binary::Types::ArrayType.new(
-            Ronin::Support::Binary::Types::ScalarType.new(
-              size:        size,
+            Ronin::Support::Binary::Types::Int32Type.new(
               endian:      endian,
-              signed:      signed,
               pack_string: pack_string
             ),
             length2
@@ -431,10 +417,8 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
       let(:length) { 10 }
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
-          Ronin::Support::Binary::Types::ScalarType.new(
-            size:        size,
+          Ronin::Support::Binary::Types::Int32Type.new(
             endian:      endian,
-            signed:      signed,
             pack_string: pack_string
           ),
           length
@@ -456,10 +440,8 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
           Ronin::Support::Binary::Types::ArrayType.new(
-            Ronin::Support::Binary::Types::ScalarType.new(
-              size:        size,
+            Ronin::Support::Binary::Types::Int32Type.new(
               endian:      endian,
-              signed:      signed,
               pack_string: pack_string
             ),
             length2
@@ -504,10 +486,8 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
       let(:length) { 10 }
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
-          Ronin::Support::Binary::Types::ScalarType.new(
-            size:        size,
+          Ronin::Support::Binary::Types::Int32Type.new(
             endian:      endian,
-            signed:      signed,
             pack_string: pack_string
           ),
           length
@@ -528,10 +508,8 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
           Ronin::Support::Binary::Types::ArrayType.new(
-            Ronin::Support::Binary::Types::ScalarType.new(
-              size:        size,
+            Ronin::Support::Binary::Types::Int32Type.new(
               endian:      endian,
-              signed:      signed,
               pack_string: pack_string
             ),
             length2
