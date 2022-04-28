@@ -289,11 +289,11 @@ describe Ronin::Support::Binary::Types::StructType do
           a: Ronin::Support::Binary::Types::CHAR,
           b: Ronin::Support::Binary::Types::INT8,
           c: Ronin::Support::Binary::Types::StructType.new(
-            {
-              x: Ronin::Support::Binary::Types::INT16,
-              y: Ronin::Support::Binary::Types::UINT16
-            }
-          )
+               {
+                 x: Ronin::Support::Binary::Types::INT16,
+                 y: Ronin::Support::Binary::Types::UINT16
+               }
+             )
         }
       end
 
@@ -417,11 +417,11 @@ describe Ronin::Support::Binary::Types::StructType do
           a: Ronin::Support::Binary::Types::CHAR,
           b: Ronin::Support::Binary::Types::INT8,
           c: Ronin::Support::Binary::Types::StructType.new(
-            {
-              x: Ronin::Support::Binary::Types::INT16,
-              y: Ronin::Support::Binary::Types::UINT16
-            }
-          )
+               {
+                 x: Ronin::Support::Binary::Types::INT16,
+                 y: Ronin::Support::Binary::Types::UINT16
+               }
+             )
         }
       end
 
@@ -569,11 +569,11 @@ describe Ronin::Support::Binary::Types::StructType do
           a: Ronin::Support::Binary::Types::CHAR,
           b: Ronin::Support::Binary::Types::INT8,
           c: Ronin::Support::Binary::Types::StructType.new(
-            {
-              x: Ronin::Support::Binary::Types::INT16,
-              y: Ronin::Support::Binary::Types::UINT16
-            }
-          )
+               {
+                 x: Ronin::Support::Binary::Types::INT16,
+                 y: Ronin::Support::Binary::Types::UINT16
+               }
+             )
         }
       end
 
@@ -697,11 +697,11 @@ describe Ronin::Support::Binary::Types::StructType do
           a: Ronin::Support::Binary::Types::CHAR,
           b: Ronin::Support::Binary::Types::INT8,
           c: Ronin::Support::Binary::Types::StructType.new(
-            {
-              x: Ronin::Support::Binary::Types::INT16,
-              y: Ronin::Support::Binary::Types::UINT16
-            }
-          )
+               {
+                 x: Ronin::Support::Binary::Types::INT16,
+                 y: Ronin::Support::Binary::Types::UINT16
+               }
+             )
         }
       end
 
