@@ -32,11 +32,6 @@ module Ronin
       #
       class Memory
 
-        # The size of the memory in bytes.
-        #
-        # @return [Integer]
-        attr_reader :size
-
         # The underlying String buffer.
         #
         # @return [String]
@@ -56,10 +51,9 @@ module Ronin
           case size_or_string
           when String, ByteSlice
             @string = size_or_string
-            @size   = @string.bytesize
           when Integer
-            @size   = size_or_string
-            @string = String.new("\0" * @size, encoding: Encoding::ASCII_8BIT)
+            size    = size_or_string
+            @string = String.new("\0" * size, encoding: Encoding::ASCII_8BIT)
           else
             raise(ArgumentError,"first argument must be either a size (Integer) or a buffer (String): #{size_or_string.inspect}")
           end
@@ -176,11 +170,20 @@ module Ronin
         # @return [self]
         #
         def clear
-          (0...@size).each do |index|
+          (0...size).each do |index|
             @string.setbyte(index,0)
           end
 
           return self
+        end
+
+        #
+        # The size of the underlying buffer.
+        #
+        # @return [Integer]
+        #
+        def size
+          @string.bytesize
         end
 
         #

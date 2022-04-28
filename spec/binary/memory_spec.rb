@@ -257,6 +257,26 @@ describe Ronin::Support::Binary::Memory do
     end
   end
 
+  describe "#size" do
+    it "must return the byte size of the underlying string" do
+      expect(subject.size).to eq(string.bytesize)
+    end
+
+    context "but when the underlying string has grown in length" do
+      let(:new_string) { " AAAA" }
+
+      before { string << new_string }
+
+      it "must return the new byte size of the underlying string" do
+        previous_bytesize = string.bytesize
+
+        string << new_string
+
+        expect(subject.size).to be > previous_bytesize
+      end
+    end
+  end
+
   describe "#to_s" do
     it "must call #pack" do
       expect(subject.to_s).to eq(subject.pack)

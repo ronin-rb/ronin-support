@@ -119,7 +119,7 @@ module Ronin
           when String, ByteSlice
             super(length_or_string)
 
-            @length = @size / @type.size
+            @length = size / @type.size
           when Integer
             @length = length_or_string
 
@@ -141,7 +141,7 @@ module Ronin
         def [](index)
           offset = index * @type.size
 
-          if (index < 0 || offset+@type.size > @size)
+          if (index < 0 || offset+@type.size > size)
             raise(IndexError,"index #{index} is out of bounds: 0...#{@length}")
           end
 
@@ -172,7 +172,7 @@ module Ronin
         def []=(index,value)
           offset = index * @type.size
 
-          if (index < 0 || offset+@type.size > @size)
+          if (index < 0 || offset+@type.size > size)
             raise(IndexError,"index #{index} is out of bounds: 0...#{@length}")
           end
 
