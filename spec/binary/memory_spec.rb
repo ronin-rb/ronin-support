@@ -78,19 +78,29 @@ describe Ronin::Support::Binary::Memory do
   subject { described_class.new(string) }
 
   describe "#[]" do
-    context "when given a single index" do
+    context "when a single Integer is given" do
       let(:index) { 1 }
 
       it "must return the character at the given index" do
-        expect(subject[index]).to eq(subject.string[index])
+        expect(subject[index]).to eq(string[index])
       end
+    end
 
-      context "and also a length argument is given" do
-        let(:length) { 3 }
+    context "and when an index Integer and a length Integer is given" do
+      let(:index) { 1 }
+      let(:length) { 3 }
 
-        it "must return the substring of length starting at the given index" do
-          expect(subject[index,length]).to eq(subject.string[index,length])
-        end
+      it "must return the substring of length starting at the given index" do
+        expect(subject[index,length]).to eq(string[index,length])
+      end
+    end
+
+    context "and when an Integer and a length of Float::INFINITY is given" do
+      let(:index) { 1 }
+      let(:count) { Float::INFINITY }
+
+      it "must add the offset to the index and subtrack the index from the total length of the byte slice" do
+        expect(subject[index,count]).to eq(string[index,string.length-index])
       end
     end
 
@@ -104,7 +114,7 @@ describe Ronin::Support::Binary::Memory do
   end
 
   describe "#[]=" do
-    context "when given a single index argument" do
+    context "when a single Integer is given" do
       let(:index) { 1 }
 
       context "and a character value" do
@@ -116,19 +126,32 @@ describe Ronin::Support::Binary::Memory do
           expect(subject.string[index]).to eq(value)
         end
       end
+    end
 
-      context "and a length argument" do
-        let(:length) { 3 }
+    context "and when an index Integer and a length Integer is given" do
+      let(:index)  { 1 }
+      let(:length) { 3 }
 
-        context "and a String value" do
-          let(:value) { 'A' * length }
+      context "and a String value" do
+        let(:value) { 'A' * length }
 
-          before { subject[index,length] = value }
+        before { subject[index,length] = value }
 
-          it "must copy the String value into the String at the given index" do
-            expect(subject.string[index,length]).to eq(value)
-          end
+        it "must copy the String value into the String at the given index" do
+          expect(subject.string[index,length]).to eq(value)
         end
+      end
+    end
+
+    context "and when an Integer and a length of Float::INFINITY is given" do
+      let(:index) { 1 }
+      let(:count) { string.length - index }
+      let(:chars) { 'A' * count }
+
+      before { subject[index,Float::INFINITY] = chars }
+
+      it "must add the offset to the index and subtrack the index from the total length of the byte slice" do
+        expect(subject.string[index,count]).to eq(chars)
       end
     end
 

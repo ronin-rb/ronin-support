@@ -72,7 +72,7 @@ module Ronin
         # @param [Integer, (Integer, Integer), Range(Integer)] index_or_range
         #   The index or range within the buffer to read from.
         #
-        # @param [Integer, nil] length
+        # @param [Integer, Float::INFINITY, nil] length
         #   The optional length in bytes to read.
         #
         # @return [String, nil]
@@ -91,7 +91,24 @@ module Ronin
         #   # => "\x00\x00"
         #
         def [](index_or_range,length=nil)
-          @string[index_or_range,*length]
+          case index_or_range
+          when Range
+            range = index_or_range
+
+            @string[range]
+          when Integer
+            index  = index_or_range
+
+            case length
+            when Integer         then @string[index,length]
+            when nil             then @string[index]
+            when Float::INFINITY then @string[index,@string.length - index]
+            else
+              raise(ArgumentError,"invalid length (#{length.inspect}) must be an Integer, nil, or Float::INFINITY")
+            end
+          else
+            raise(ArgumentError,"invalid index (#{index_or_range.inspect}) must be an Integer or a Range")
+          end
         end
 
         #
@@ -100,7 +117,7 @@ module Ronin
         # @param [Integer, Range(Integer)] index_or_range
         #   The index within the string to write to.
         #
-        # @param [Integer, nil] length
+        # @param [Integer, Float::INFINITY, nil] length
         #   Optional additional length argument.
         #
         # @param [String] value
@@ -116,7 +133,25 @@ module Ronin
         #   buffer[0..3] = "AAA"
         #
         def []=(index_or_range,length=nil,value)
-          @string[index_or_range,*length] = value
+          case index_or_range
+          when Range
+            range = index_or_range
+
+            @string[range] = value
+          when Integer
+            index  = index_or_range
+
+            case length
+            when Integer then @string[index,length] = value
+            when nil     then @string[index] = value
+            when Float::INFINITY
+              @string[index,@string.length - index] = value
+            else
+              raise(ArgumentError,"invalid length (#{length.inspect}) must be an Integer, nil, or Float::INFINITY")
+            end
+          else
+            raise(ArgumentError,"invalid index (#{index_or_range.inspect}) must be an Integer or a Range")
+          end
         end
 
         #
