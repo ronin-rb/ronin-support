@@ -130,10 +130,12 @@ module Ronin
             if @pack_string
               super(array)
             else
-              buffer = String.new('', encoding: Encoding::ASCII_8BIT)
+              buffer = String.new("", encoding: Encoding::ASCII_8BIT)
 
               @length.times do |index|
-                buffer << @type.pack(array[index])
+                value = array[index] || @type.uninitialized_value
+
+                buffer << @type.pack(value)
               end
 
               return buffer
@@ -178,7 +180,9 @@ module Ronin
           #
           def enqueue_value(values,array)
             @length.times do |index|
-              @type.enqueue_value(values,array[index])
+              value = array[index] || @type.uninitialized_value
+
+              @type.enqueue_value(values,value)
             end
           end
 

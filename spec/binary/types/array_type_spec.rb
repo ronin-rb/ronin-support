@@ -1,22 +1,18 @@
 require 'spec_helper'
 require 'ronin/support/binary/types/array_type'
-require 'ronin/support/binary/types/scalar_type'
+require 'ronin/support/binary/types/int32_type'
 require 'ronin/support/binary/types/struct_type'
 require 'ronin/support/binary/types'
 
 require_relative 'type_examples'
 
 describe Ronin::Support::Binary::Types::ArrayType do
-  let(:size)        { 4       }
   let(:endian)      { :little }
-  let(:signed)      { true    }
   let(:pack_string) { 'L<'    }
 
   let(:type) do
-    Ronin::Support::Binary::Types::ScalarType.new(
-      size:        size,
+    Ronin::Support::Binary::Types::Int32Type.new(
       endian:      endian,
-      signed:      signed,
       pack_string: pack_string
     )
   end
@@ -83,15 +79,43 @@ describe Ronin::Support::Binary::Types::ArrayType do
       expect(subject.pack(array)).to eq(array.pack(subject.pack_string))
     end
 
+    context "but the array has fewer elements than #length" do
+      let(:partial_array) { (1..5).to_a }
+      let(:array) do
+        partial_array + Array.new(5,type.uninitialized_value)
+      end
+      
+      it "must pad the array with uninitialized values from #type" do
+        padding = subject.length - array.length
+
+        expect(subject.pack(partial_array)).to eq(
+          array.pack(subject.pack_string)
+        )
+      end
+    end
+
+    context "but the array contains nil elements" do
+      let(:array_with_nils) { [1, nil, 3, nil, 5, nil, 7, nil, 9, nil] }
+      let(:array) do
+        array_with_nils.map do |value| 
+          value || type.uninitialized_value
+        end
+      end
+      
+      it "must replace the nil values with uninitialized values from #type" do
+        expect(subject.pack(array_with_nils)).to eq(
+          array.pack(subject.pack_string)
+        )
+      end
+    end
+
     context "when given a multi-dimensional Array of values" do
       let(:length1) { 2  }
       let(:length2) { 10 }
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
-          Ronin::Support::Binary::Types::ScalarType.new(
-            size:        size,
+          Ronin::Support::Binary::Types::Int32Type.new(
             endian:      endian,
-            signed:      signed,
             pack_string: pack_string
           ),
           length2
@@ -116,10 +140,8 @@ describe Ronin::Support::Binary::Types::ArrayType do
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
           Ronin::Support::Binary::Types::ArrayType.new(
-            Ronin::Support::Binary::Types::ScalarType.new(
-              size:        size,
+            Ronin::Support::Binary::Types::Int32Type.new(
               endian:      endian,
-              signed:      signed,
               pack_string: pack_string
             ),
             length3
@@ -249,10 +271,8 @@ describe Ronin::Support::Binary::Types::ArrayType do
       let(:length2) { 10 }
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
-          Ronin::Support::Binary::Types::ScalarType.new(
-            size:        size,
+          Ronin::Support::Binary::Types::Int32Type.new(
             endian:      endian,
-            signed:      signed,
             pack_string: pack_string
           ),
           length2
@@ -276,10 +296,8 @@ describe Ronin::Support::Binary::Types::ArrayType do
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
           Ronin::Support::Binary::Types::ArrayType.new(
-            Ronin::Support::Binary::Types::ScalarType.new(
-              size:        size,
+            Ronin::Support::Binary::Types::Int32Type.new(
               endian:      endian,
-              signed:      signed,
               pack_string: pack_string
             ),
             length3
@@ -407,15 +425,41 @@ describe Ronin::Support::Binary::Types::ArrayType do
       expect(values).to eq(['A', 'B'] + array)
     end
 
+    context "but the array has fewer elements than #length" do
+      let(:partial_array) { (1..5).to_a }
+      let(:array) do
+        partial_array + Array.new(5,type.uninitialized_value)
+      end
+      
+      it "must pad the array with uninitialized values from #type" do
+        subject.enqueue_value(values,partial_array)
+
+        expect(values).to eq(['A', 'B'] + array)
+      end
+    end
+
+    context "but the array contains nil elements" do
+      let(:array_with_nils) { [1, nil, 3, nil, 5, nil, 7, nil, 9, nil] }
+      let(:array) do
+        array_with_nils.map do |value| 
+          value || type.uninitialized_value
+        end
+      end
+      
+      it "must replace the nil values with uninitialized values from #type" do
+        subject.enqueue_value(values,array_with_nils)
+
+        expect(values).to eq(['A', 'B'] + array)
+      end
+    end
+
     context "when initialized with an ArrayType" do
       let(:length1) { 2  }
       let(:length2) { 10 }
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
-          Ronin::Support::Binary::Types::ScalarType.new(
-            size:        size,
+          Ronin::Support::Binary::Types::Int32Type.new(
             endian:      endian,
-            signed:      signed,
             pack_string: pack_string
           ),
           length2
@@ -440,10 +484,8 @@ describe Ronin::Support::Binary::Types::ArrayType do
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
           Ronin::Support::Binary::Types::ArrayType.new(
-            Ronin::Support::Binary::Types::ScalarType.new(
-              size:        size,
+            Ronin::Support::Binary::Types::Int32Type.new(
               endian:      endian,
-              signed:      signed,
               pack_string: pack_string
             ),
             length3
@@ -555,10 +597,8 @@ describe Ronin::Support::Binary::Types::ArrayType do
       let(:length2) { 10 }
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
-          Ronin::Support::Binary::Types::ScalarType.new(
-            size:        size,
+          Ronin::Support::Binary::Types::Int32Type.new(
             endian:      endian,
-            signed:      signed,
             pack_string: pack_string
           ),
           length2
@@ -582,10 +622,8 @@ describe Ronin::Support::Binary::Types::ArrayType do
       let(:type) do
         Ronin::Support::Binary::Types::ArrayType.new(
           Ronin::Support::Binary::Types::ArrayType.new(
-            Ronin::Support::Binary::Types::ScalarType.new(
-              size:        size,
+            Ronin::Support::Binary::Types::Int32Type.new(
               endian:      endian,
-              signed:      signed,
               pack_string: pack_string
             ),
             length3
