@@ -134,7 +134,9 @@ module Ronin
       #     end
       #     
       #     union = MyUnion.new
-      #     union.payload = [0x01, 0x02, 0x03, 0x04, ...]
+      #     union.payload = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08]
+      #     union.pack
+      #     # => "\x01\x02\x03\x04\x05\x06\a\b"
       #
       # ### Default Endianness
       #
@@ -148,13 +150,9 @@ module Ronin
       #     
       #     end
       #     
-      #     union = MyUnion.new(u: 0x11223344)
-      #     
-      #     buffer = pkt.pack
-      #     # => "\x00\x00\x00\x05hello\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-      #    
-      #     new_pkt = Packet.unpack(buffer)
-      #     # => #<Packet: length: 5, data: "hello">
+      #     union = MyUnion.new(u: 0xaabbccdd)
+      #     union.pack
+      #     # => "\xAA\xBB\xCC\xDD"
       #
       # @api public
       #
