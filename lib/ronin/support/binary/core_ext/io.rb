@@ -17,6 +17,23 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/core_ext/string'
-require 'ronin/support/binary/core_ext/array'
-require 'ronin/support/binary/core_ext/io'
+require 'ronin/support/binary/stream/methods'
+require 'ronin/support/binary/types'
+
+class IO
+
+  include Ronin::Support::Binary::Stream::Methods
+
+  #
+  # The type system which `read_*`/`write_*`
+  # {Ronin::Support::Binary::Stream::Methods methods} will use.
+  #
+  # @api semipublic
+  #
+  # @see Ronin::Support::Binary::Stream::Methods
+  #
+  def type_system
+    Ronin::Support::Binary::Types
+  end
+
+end
