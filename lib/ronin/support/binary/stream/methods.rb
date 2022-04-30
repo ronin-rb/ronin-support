@@ -46,7 +46,7 @@ module Ronin
           # @api public
           #
           def read_value(type)
-            type  = @type_system[type]
+            type  = type_system[type]
 
             if (slice = read(type.size))
               type.unpack(slice)
@@ -426,7 +426,7 @@ module Ronin
           # @api public
           #
           def read_array_of(type,count)
-            type       = @type_system[type]
+            type       = type_system[type]
             array_type = type[count]
             data       = read(array_type.size)
 
@@ -856,7 +856,7 @@ module Ronin
           # @api public
           #
           def write_value(type,value)
-            type = @type_system[type]
+            type = type_system[type]
             data = type.pack(value)
 
             write(data)
@@ -1267,7 +1267,7 @@ module Ronin
           # @api public
           #
           def write_array_of(type,array)
-            type       = @type_system[type]
+            type       = type_system[type]
             array_type = type[array.length]
             data       = array_type.pack(array)
 
