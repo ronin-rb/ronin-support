@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types'
+require 'ronin/support/binary/types/mixin'
 require 'ronin/support/binary/stream/methods'
 
 module Ronin
@@ -48,24 +48,8 @@ module Ronin
       #
       class Stream
 
+        include Types::Mixin
         include Methods
-
-        # The endianness of data within the buffer.
-        #
-        # @return [:little, :big, :net, nil]
-        attr_reader :endian
-
-        # The desired architecture for the buffer.
-        #
-        # @return [Symbol, nil]
-        attr_reader :arch
-
-        # The type system that the buffer is using.
-        #
-        # @return [Types, Types::LittleEndian,
-        #                 Types::BigEndian,
-        #                 Types::Network]
-        attr_reader :type_system
 
         # The underlying IO stream.
         #
@@ -78,24 +62,22 @@ module Ronin
         # @param [IO, StringIO] io
         #   The underlying IO stream.
         #
-        # @param [:little, :big, :net, nil] endian
-        #   The desired endianness of the values within the buffer.
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
         #
-        # @param [:x86, :x86_64,
-        #         :ppc, :ppc64,
-        #         :mips, :mips_le, :mips_be,
-        #         :mips64, :mips64_le, :mips64_be,
-        #         :arm, :arm_le, :arm_be,
-        #         :arm64, :arm64_le, :arm64_be] arch
-        #   The desired architecture for the values within the buffer.
+        # @option kwargs [:little, :big, :net, nil] :endian
+        #   The desired endianness of the values of the IO stream.
         #
-        def initialize(io, endian: nil, arch: nil)
-          @endian = endian
-          @arch   = arch
-
-          @type_system = if arch then Types.arch(arch)
-                         else         Types.endian(endian)
-                         end
+        # @option kwargs [:x86, :x86_64,
+        #                 :ppc, :ppc64,
+        #                 :mips, :mips_le, :mips_be,
+        #                 :mips64, :mips64_le, :mips64_be,
+        #                 :arm, :arm_le, :arm_be,
+        #                 :arm64, :arm64_le, :arm64_be] :arch
+        #   The desired architecture for the values of the IO stream.
+        #
+        def initialize(io,**kwargs)
+          initialize_type_system(**kwargs)
 
           @io = io
         end
