@@ -1,4 +1,5 @@
 require 'rspec'
+require 'ronin/support/binary/types'
 
 shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
   describe "#read_value" do
