@@ -112,7 +112,7 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
     end
   end
 
-  describe "#get_array_of" do
+  describe "#read_array_of" do
     let(:type_name)  { :int32_le }
     let(:type)       { Ronin::Support::Binary::Types[type_name] }
     let(:array_type) { type[array.length]  }
