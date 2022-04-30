@@ -23,21 +23,22 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
     end
   end
 
-  describe "#write_value" do
-    let(:type_name) { :int32_le }
-    let(:type)      { Ronin::Support::Binary::Types[type_name] }
-    let(:value)     { -1 }
+  describe "#read_string" do
+    let(:offset) { 1 }
+    let(:string) { "ABC" }
+    let(:buffer) { "#{string}\0" }
 
-    let(:packed_value) { type.pack(value) }
-
-    it "must write the given value of the given type to the stream" do
-      expect(subject).to receive(:write).with(packed_value)
-
-      subject.write_value(type_name,value)
+    it "must read the string at the given offset, until a null-byte is read" do
+      expect(subject.read_string).to eq(string)
     end
 
-    it "must return self" do
-      expect(subject.write_value(type_name,value)).to be(subject)
+    context "when the string does not end in a null-byte" do
+      let(:string) { "ABCAAAAAA" }
+      let(:buffer) { "#{string}" }
+
+      it "must read until EOF is reached" do
+        expect(subject.read_string).to eq(string)
+      end
     end
   end
 
@@ -73,45 +74,6 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
     end
   end
 
-  describe "#read_string" do
-    let(:offset) { 1 }
-    let(:string) { "ABC" }
-    let(:buffer) { "#{string}\0" }
-
-    it "must read the string at the given offset, until a null-byte is read" do
-      expect(subject.read_string).to eq(string)
-    end
-
-    context "when the string does not end in a null-byte" do
-      let(:string) { "ABCAAAAAA" }
-      let(:buffer) { "#{string}" }
-
-      it "must read until EOF is reached" do
-        expect(subject.read_string).to eq(string)
-      end
-    end
-  end
-
-  describe "#write_string" do
-    let(:string) { "ABC" }
-
-    it "must write the string and a null-byte to the stream" do
-      expect(subject).to receive(:write).with("#{string}\0")
-
-      subject.write_string(string)
-    end
-
-    context "when the given string already ends in a null-byte" do
-      let(:string) { "ABC\0" }
-
-      it "must not add an additional null-byte" do
-        expect(subject).to receive(:write).with(string)
-
-        subject.write_string(string)
-      end
-    end
-  end
-
   describe "#read_array_of" do
     let(:type_name)  { :int32_le }
     let(:type)       { Ronin::Support::Binary::Types[type_name] }
@@ -134,6 +96,44 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
 
       it "must return nil for the remaining missing elements" do
         expect(subject.read_array_of(type_name,count)).to eq(nil_padded_array)
+      end
+    end
+  end
+
+  describe "#write_value" do
+    let(:type_name) { :int32_le }
+    let(:type)      { Ronin::Support::Binary::Types[type_name] }
+    let(:value)     { -1 }
+
+    let(:packed_value) { type.pack(value) }
+
+    it "must write the given value of the given type to the stream" do
+      expect(subject).to receive(:write).with(packed_value)
+
+      subject.write_value(type_name,value)
+    end
+
+    it "must return self" do
+      expect(subject.write_value(type_name,value)).to be(subject)
+    end
+  end
+
+  describe "#write_string" do
+    let(:string) { "ABC" }
+
+    it "must write the string and a null-byte to the stream" do
+      expect(subject).to receive(:write).with("#{string}\0")
+
+      subject.write_string(string)
+    end
+
+    context "when the given string already ends in a null-byte" do
+      let(:string) { "ABC\0" }
+
+      it "must not add an additional null-byte" do
+        expect(subject).to receive(:write).with(string)
+
+        subject.write_string(string)
       end
     end
   end
