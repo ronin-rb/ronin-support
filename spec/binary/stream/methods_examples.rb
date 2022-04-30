@@ -31,9 +31,9 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
     let(:packed_value) { type.pack(value) }
 
     it "must write the given value of the given type to the stream" do
-      subject.write_value(type_name,value)
+      expect(subject).to receive(:write).with(packed_value)
 
-      expect(io.string).to eq(packed_value)
+      subject.write_value(type_name,value)
     end
 
     it "must return self" do
@@ -95,17 +95,19 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
   describe "#write_string" do
     let(:string) { "ABC" }
 
-    before { subject.write_string(string) }
-
     it "must write the string and a null-byte to the stream" do
-      expect(io.string).to eq("#{string}\0")
+      expect(subject).to receive(:write).with("#{string}\0")
+
+      subject.write_string(string)
     end
 
     context "when the given string already ends in a null-byte" do
       let(:string) { "ABC\0" }
 
       it "must not add an additional null-byte" do
-        expect(io.string).to eq(string)
+        expect(subject).to receive(:write).with(string)
+
+        subject.write_string(string)
       end
     end
   end
@@ -147,9 +149,9 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
     let(:packed_array) { array_type.pack(array) }
 
     it "must read an Array of types at the given offset of the given count" do
-      subject.write_array_of(type_name,array)
+      expect(subject).to receive(:write).with(packed_array)
 
-      expect(io.string).to eq(packed_array)
+      subject.write_array_of(type_name,array)
     end
 
     it "must return self" do
