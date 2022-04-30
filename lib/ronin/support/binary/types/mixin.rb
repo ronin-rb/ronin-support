@@ -18,7 +18,6 @@
 #
 
 require 'ronin/support/binary/types'
-require 'ronin/support/binary/types/resolver'
 
 module Ronin
   module Support
@@ -94,3 +93,5 @@ module Ronin
     end
   end
 end
+
+require 'ronin/support/binary/types/resolver'
