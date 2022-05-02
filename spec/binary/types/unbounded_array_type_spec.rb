@@ -89,6 +89,28 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
     end
   end
 
+  describe "#align" do
+    let(:new_alignment) { 3 }
+
+    let(:new_type) { subject.align(new_alignment) }
+
+    it "must return the same kind of type" do
+      expect(new_type).to be_kind_of(described_class)
+    end
+
+    it "must return a copy of the unbounded array type" do
+      expect(new_type).to_not be(subject)
+    end
+
+    it "must preserve #type" do
+      expect(new_type.type).to eq(subject.type)
+    end
+
+    it "must set #alignment to the new alignment" do
+      expect(new_type.alignment).to eq(new_alignment)
+    end
+  end
+
   describe "#length" do
     it "must return Float::INFINITY" do
       expect(subject.length).to eq(Float::INFINITY)

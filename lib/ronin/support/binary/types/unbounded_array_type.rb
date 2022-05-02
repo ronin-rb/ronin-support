@@ -99,6 +99,20 @@ module Ronin
           end
 
           #
+          # Creates a copy of the unbounded array type with a different
+          # {#alignment}.
+          #
+          # @param [Integer] new_alignment
+          #   The new alignment for the new unbounded array type.
+          #
+          # @return [ScalarType]
+          #   The new unbounded array type.
+          #
+          def align(new_alignment)
+            self.class.new(@type, alignment: new_alignment)
+          end
+
+          #
           # The "length" of the unbounded array type.
           #
           # @return [Float::INFINITY]
