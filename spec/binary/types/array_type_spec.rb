@@ -73,7 +73,7 @@ describe Ronin::Support::Binary::Types::ArrayType do
       expect(new_type).to be_kind_of(described_class)
     end
 
-    it "must return a copy of the scalar type" do
+    it "must return a copy of the array type" do
       expect(new_type).to_not be(subject)
     end
 
