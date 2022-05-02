@@ -61,6 +61,32 @@ describe Ronin::Support::Binary::Types::ArrayObjectType do
     end
   end
 
+  describe "#align" do
+    let(:new_alignment) { 3 }
+
+    let(:new_type) { subject.align(new_alignment) }
+
+    it "must return the same kind of type" do
+      expect(new_type).to be_kind_of(described_class)
+    end
+
+    it "must return a copy of the array type" do
+      expect(new_type).to_not be(subject)
+    end
+
+    it "must preserve #type" do
+      expect(new_type.type).to eq(subject.type)
+    end
+
+    it "must preserve #length" do
+      expect(new_type.length).to eq(subject.length)
+    end
+
+    it "must set #alignment to the new alignment" do
+      expect(new_type.alignment).to eq(new_alignment)
+    end
+  end
+
   let(:elements) { (1..10).to_a }
   let(:array) do
     Ronin::Support::Binary::Array.new(:uint32,length).tap do |array|

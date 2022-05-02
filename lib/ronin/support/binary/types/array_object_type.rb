@@ -77,6 +77,20 @@ module Ronin
           end
 
           #
+          # Creates a copy of the array object type with a different
+          # {#alignment}.
+          #
+          # @param [Integer] new_alignment
+          #   The new alignment for the new array object type.
+          #
+          # @return [ArrayObjectType]
+          #   The new array object type.
+          #
+          def align(new_alignment)
+            self.class.new(@type,@length, alignment: new_alignment)
+          end
+
+          #
           # Packs the memory-mapped array.
           #
           # @param [Binary::Array, ::Array] array
