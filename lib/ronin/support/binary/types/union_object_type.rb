@@ -52,17 +52,9 @@ module Ronin
           # @param [UnionType] union_type
           #   The union type for the union class.
           #
-          # @param [Integer, nil] alignment
-          #   Custom alignment to override the union type's alignment.
-          #
-          def initialize(union_class,union_type, alignment: nil)
+          def initialize(union_class,union_type)
             @union_class = union_class
             @union_type  = union_type
-
-            if alignment
-              @alignment  = alignment
-              @union_type = @union_type.align(alignment)
-            end
 
             super(@union_type.size)
           end
@@ -96,7 +88,7 @@ module Ronin
           #   The new union object type.
           #
           def align(new_alignment)
-            self.class.new(@union_class,@union_type, alignment: new_alignment)
+            self.class.new(@union_class,@union_type.align(new_alignment))
           end
 
           #

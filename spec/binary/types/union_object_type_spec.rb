@@ -36,18 +36,6 @@ describe Ronin::Support::Binary::Types::UnionObjectType do
       expect(subject.union_type.members.keys).to eq(union_members.keys)
       expect(subject.union_type.members.values.map(&:type)).to eq(union_members.values)
     end
-
-    context "when initialized with the alignment: keyword"  do
-      let(:new_alignment) { 3 }
-
-      subject do
-        described_class.new(union_class,union_type, alignment: new_alignment)
-      end
-
-      it "must set the #alignment of the #union_type" do
-        expect(subject.union_type.alignment).to eq(new_alignment)
-      end
-    end
   end
 
   describe "#size" do
@@ -60,17 +48,31 @@ describe Ronin::Support::Binary::Types::UnionObjectType do
     it "must return #union_type.alignment" do
       expect(subject.alignment).to eq(subject.union_type.alignment)
     end
+  end
 
-    context "when initialized with the alignment: keyword"  do
-      let(:new_alignment) { 3 }
+  describe "#align" do
+    let(:new_alignment) { 3 }
 
-      subject do
-        described_class.new(union_class,union_type, alignment: new_alignment)
-      end
+    let(:new_type) { subject.align(new_alignment) }
 
-      it "must return the initialized custom alignment" do
-        expect(subject.alignment).to eq(new_alignment)
-      end
+    it "must return the same kind of type" do
+      expect(new_type).to be_kind_of(described_class)
+    end
+
+    it "must return a copy of the array type" do
+      expect(new_type).to_not be(subject)
+    end
+
+    it "must preserve #union_class" do
+      expect(new_type.union_class).to be(union_class)
+    end
+
+    it "must change #alignment" do
+      expect(new_type.alignment).to eq(new_alignment)
+    end
+
+    it "must change #union_type.alignment" do
+      expect(new_type.union_type.alignment).to eq(new_alignment)
     end
   end
 
