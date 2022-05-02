@@ -97,10 +97,6 @@ describe Ronin::Support::Binary::Types::ArrayType do
       expect(new_type.length).to eq(subject.length)
     end
 
-    it "must preserve #size" do
-      expect(new_type.size).to eq(subject.size)
-    end
-
     it "must set #alignment to the new alignment" do
       expect(new_type.alignment).to eq(new_alignment)
     end
