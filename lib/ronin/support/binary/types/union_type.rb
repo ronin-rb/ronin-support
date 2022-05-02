@@ -77,6 +77,15 @@ module Ronin
               @type.size
             end
 
+            #
+            # The alignment, in bytes, of the member within the union.
+            #
+            # @return [Integer]
+            #
+            def alignment
+              @type.alignment
+            end
+
           end
 
           # The members of the union type.
@@ -98,19 +107,35 @@ module Ronin
           #
           # Initializes the union type.
           #
-          # @param [Hash{Symbol => Type}] members
-          #   The members names and types of the union type.
+          # @param [Hash{Symbol => Member}] members
+          #   The members for the union type.
           #
-          def initialize(members)
-            @members = {}
+          def initialize(members, size: , alignment: )
+            @members   = members
+            @size      = size
+            @alignment = alignment
 
+            super(pack_string: nil)
+          end
+
+          #
+          # Builds the union type from the given fields.
+          #
+          # @param [Hash{Symbol => Type}] fields
+          #   The field names and types for the union type.
+          #
+          # @return [UnionType]
+          #   The new union type.
+          #
+          def self.build(fields)
+            members       = {}
             max_size      = 0
             max_alignment = 0
 
-            members.each do |name,type|
-              @members[name] = Member.new(type)
+            fields.each do |name,type|
+              members[name] = Member.new(type)
 
-              # omit infinite sizes from the struct size
+              # omit infinite sizes from the union size
               if (type.size > max_size) && (type.size != Float::INFINITY)
                 max_size = type.size
               end
@@ -118,10 +143,7 @@ module Ronin
               max_alignment = type.alignment if type.alignment > max_alignment
             end
 
-            @size      = max_size
-            @alignment = max_alignment
-
-            super(pack_string: nil)
+            return new(members, size: max_size, alignment: max_alignment)
           end
 
           #

@@ -53,7 +53,7 @@ module Ronin
           #
           def initialize(union_class,union_members)
             @union_class = union_class
-            @union_type  = UnionType.new(union_members)
+            @union_type  = UnionType.build(union_members)
 
             super(@union_type.size)
           end
