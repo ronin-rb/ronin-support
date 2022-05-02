@@ -36,6 +36,18 @@ describe Ronin::Support::Binary::Types::StructObjectType do
       expect(subject.struct_type.members.keys).to eq(struct_members.keys)
       expect(subject.struct_type.members.values.map(&:type)).to eq(struct_members.values)
     end
+
+    context "when initialized with the alignment: keyword"  do
+      let(:new_alignment) { 3 }
+
+      subject do
+        described_class.new(struct_class,struct_type, alignment: new_alignment)
+      end
+
+      it "must set the #alignment of the #struct_type" do
+        expect(subject.struct_type.alignment).to eq(new_alignment)
+      end
+    end
   end
 
   describe "#size" do
@@ -47,6 +59,18 @@ describe Ronin::Support::Binary::Types::StructObjectType do
   describe "#alignment" do
     it "must return #struct_type.alignment" do
       expect(subject.alignment).to eq(subject.struct_type.alignment)
+    end
+
+    context "when initialized with the alignment: keyword"  do
+      let(:new_alignment) { 3 }
+
+      subject do
+        described_class.new(struct_class,struct_type, alignment: new_alignment)
+      end
+
+      it "must return the initialized custom alignment" do
+        expect(subject.alignment).to eq(new_alignment)
+      end
     end
   end
 
