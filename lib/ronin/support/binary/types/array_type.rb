@@ -56,10 +56,15 @@ module Ronin
           # @param [Integer] length
           #   The length of the array type.
           #
-          def initialize(type,length)
+          # @param [Integer, nil] alignment
+          #   Custom type alignment to override the type's alignment.
+          #
+          def initialize(type,length, alignment: nil)
             @type   = type
             @length = length
-            @size   = @type.size * @length
+
+            @size      = @type.size * @length
+            @alignment = alignment
 
             super(
               pack_string: if @type.pack_string
@@ -94,7 +99,7 @@ module Ronin
           # @return [Integer]
           #
           def alignment
-            @type.alignment
+            @alignment || @type.alignment
           end
 
           #

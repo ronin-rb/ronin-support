@@ -52,6 +52,16 @@ describe Ronin::Support::Binary::Types::ArrayType do
     it "must return the #type's #alignemnt" do
       expect(subject.alignment).to eq(type.alignment)
     end
+
+    context "when initialized with the alignment: keyword"  do
+      let(:new_alignment) { 3 }
+
+      subject { described_class.new(type,length, alignment: new_alignment) }
+
+      it "must return the initialized custom alignment" do
+        expect(subject.alignment).to eq(new_alignment)
+      end
+    end
   end
 
   describe "#endian" do
