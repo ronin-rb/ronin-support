@@ -52,17 +52,9 @@ module Ronin
           # @param [StructType] struct_type
           #   The struct type for the struct class.
           #
-          # @param [Integer, nil] alignment
-          #   Custom alignment to override the struct type's alignment.
-          #
-          def initialize(struct_class,struct_type, alignment: nil)
+          def initialize(struct_class,struct_type)
             @struct_class = struct_class
             @struct_type  = struct_type
-
-            if alignment
-              @alignment   = alignment
-              @struct_type = @struct_type.align(alignment)
-            end
 
             super(@struct_type.size)
           end
@@ -96,7 +88,7 @@ module Ronin
           #   The new struct object type.
           #
           def align(new_alignment)
-            self.class.new(@struct_class,@struct_type, alignment: new_alignment)
+            self.class.new(@struct_class,@struct_type.align(new_alignment))
           end
 
           #
