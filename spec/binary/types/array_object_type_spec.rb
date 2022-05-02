@@ -33,11 +33,31 @@ describe Ronin::Support::Binary::Types::ArrayObjectType do
       expect(subject.array_type.type).to be(type)
       expect(subject.array_type.length).to eq(length)
     end
+
+    context "when initialized with the alignment: keyword"  do
+      let(:new_alignment) { 3 }
+
+      subject { described_class.new(type,length, alignment: new_alignment) }
+
+      it "must set the #alignment of the #array_type" do
+        expect(subject.array_type.alignment).to eq(new_alignment)
+      end
+    end
   end
 
   describe "#alignment" do
     it "must return #type.alignment" do
       expect(subject.alignment).to eq(type.alignment)
+    end
+
+    context "when initialized with the alignment: keyword"  do
+      let(:new_alignment) { 3 }
+
+      subject { described_class.new(type,length, alignment: new_alignment) }
+
+      it "must return the initialized custom alignment" do
+        expect(subject.alignment).to eq(new_alignment)
+      end
     end
   end
 

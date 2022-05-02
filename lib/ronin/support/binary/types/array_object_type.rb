@@ -57,13 +57,14 @@ module Ronin
           # @param [Integer] length
           #   The number of elements in the memory-mapped array type.
           #
-          def initialize(type,length)
-            @type   = type
-            @length = length
+          def initialize(type,length, alignment: nil)
+            @type      = type
+            @length    = length
+            @alignment = alignment
 
             super(@type.size * @length)
 
-            @array_type = ArrayType.new(@type,@length)
+            @array_type = ArrayType.new(@type,@length, alignment: alignment)
           end
 
           #
@@ -72,7 +73,7 @@ module Ronin
           # @return [Integer]
           #
           def alignment
-            @type.alignment
+            @alignment || @type.alignment
           end
 
           #
