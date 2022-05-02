@@ -73,7 +73,7 @@ module Ronin
           # @return [Integer]
           #
           def alignment
-            @alignment || @type.alignment
+            @array_type.alignment
           end
 
           #
