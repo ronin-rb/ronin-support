@@ -49,7 +49,7 @@ module Ronin
           # @param [Union.class] union_class
           #   The {Union} class.
           #
-          # @param [UnionType}] union_type
+          # @param [UnionType] union_type
           #   The union type for the union class.
           #
           # @param [Integer, nil] alignment

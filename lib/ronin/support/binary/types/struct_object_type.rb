@@ -49,7 +49,7 @@ module Ronin
           # @param [Binary::Struct.class] struct_class
           #   The {Struct} class.
           #
-          # @param [StructType}] struct_type
+          # @param [StructType] struct_type
           #   The struct type for the struct class.
           #
           # @param [Integer, nil] alignment
