@@ -103,6 +103,19 @@ module Ronin
           end
 
           #
+          # Creates a copy of the array type with a different {#alignment}.
+          #
+          # @param [Integer] new_alignment
+          #   The new alignment for the new array type.
+          #
+          # @return [ScalarType]
+          #   The new array type.
+          #
+          def align(new_alignment)
+            self.class.new(@type,@length, alignment: new_alignment)
+          end
+
+          #
           # Indicates whether each element is signed.
           #
           # @return [Boolean]
