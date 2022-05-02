@@ -430,6 +430,37 @@ module Ronin
         end
 
         #
+        # Gets or sets the struct's endian-ness.
+        #
+        # @param [:x86, :x86_64,
+        #         :ppc, :ppc64,
+        #         :mips, :mips_le, :mips_be,
+        #         :mips64, :mips64_le, :mips64_be,
+        #         :arm, :arm_le, :arm_be,
+        #         :arm64, :arm64_le, :arm64_be, nil] new_arch
+        #   The new architecture for the struct.
+        #
+        # @return [:little, :big, :net, nil]
+        #   The struct's architecture.
+        #
+        # @example Define the architecture of a struct class:
+        #   class MyStruct < Ronin::Support::Binary::Struct
+        #     arch :arm64
+        #     member :x, :int
+        #   end
+        #
+        def self.arch(new_arch=nil)
+          if new_arch
+            initialize_type_system(arch: new_arch)
+            @arch = new_arch
+          else
+            @arch ||= if superclass < Struct
+                          superclass.arch
+                        end
+          end
+        end
+
+        #
         # The alignment of the struct.
         #
         # @return [Integer]
@@ -473,37 +504,6 @@ module Ronin
             else
               @padding
             end
-          end
-        end
-
-        #
-        # Gets or sets the struct's endian-ness.
-        #
-        # @param [:x86, :x86_64,
-        #         :ppc, :ppc64,
-        #         :mips, :mips_le, :mips_be,
-        #         :mips64, :mips64_le, :mips64_be,
-        #         :arm, :arm_le, :arm_be,
-        #         :arm64, :arm64_le, :arm64_be, nil] new_arch
-        #   The new architecture for the struct.
-        #
-        # @return [:little, :big, :net, nil]
-        #   The struct's architecture.
-        #
-        # @example Define the architecture of a struct class:
-        #   class MyStruct < Ronin::Support::Binary::Struct
-        #     arch :arm64
-        #     member :x, :int
-        #   end
-        #
-        def self.arch(new_arch=nil)
-          if new_arch
-            initialize_type_system(arch: new_arch)
-            @arch = new_arch
-          else
-            @arch ||= if superclass < Struct
-                          superclass.arch
-                        end
           end
         end
 
