@@ -181,6 +181,21 @@ module Ronin
           end
 
           #
+          # Creates a copy of the struct type with a different {#alignment}.
+          #
+          # @param [Integer] new_alignment
+          #   The new alignment for the new struct type.
+          #
+          # @return [ScalarType]
+          #   The new struct type.
+          #
+          def align(new_alignment)
+            self.class.new(@members, size:        @size,
+                                     alignment:   new_alignment,
+                                     pack_string: pack_string)
+          end
+
+          #
           # Packs the hash of values into the struct's binary format.
           #
           # @param [Hash{Symbol => Integer, Float, String}] hash
