@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'ronin/support/binary/types/uint32_type'
 
+require_relative 'scalar_type_examples'
+
 describe Ronin::Support::Binary::Types::UInt32Type do
   it { expect(described_class).to be < Ronin::Support::Binary::Types::UIntType }
 
@@ -51,4 +53,6 @@ describe Ronin::Support::Binary::Types::UInt32Type do
       end
     end
   end
+
+  include_examples "Ronin::Support::Binary::Types::ScalarType examples"
 end

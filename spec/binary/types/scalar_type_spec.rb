@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'ronin/support/binary/types/scalar_type'
 
 require_relative 'type_examples'
+require_relative 'scalar_type_examples'
 
 describe Ronin::Support::Binary::Types::ScalarType do
   let(:size)        { 4       }
@@ -141,6 +142,8 @@ describe Ronin::Support::Binary::Types::ScalarType do
       end
     end
   end
+
+  include_examples "Ronin::Support::Binary::Types::ScalarType examples"
 
   describe "#pack" do
     let(:value) { 0x11223344 }

@@ -99,6 +99,25 @@ module Ronin
           end
 
           #
+          # Creates a copy of the scalar type with a different {#alignment}.
+          #
+          # @param [Integer] new_alignment
+          #   The new alignment for the new scalar type.
+          #
+          # @return [ScalarType]
+          #   The new scalar type.
+          #
+          def align(new_alignment)
+            self.class.new(
+              size:        @size,
+              alignment:   new_alignment,
+              endian:      @endian,
+              signed:      @signed,
+              pack_string: @pack_string
+            )
+          end
+
+          #
           # Packs the value into the scalar type's binary format.
           #
           # @param [Integer, Float, String] value

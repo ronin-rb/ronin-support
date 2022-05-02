@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'ronin/support/binary/types/uint_type'
 
+require_relative 'scalar_type_examples'
+
 describe Ronin::Support::Binary::Types::UIntType do
   it { expect(described_class).to be < Ronin::Support::Binary::Types::Type }
 
@@ -84,4 +86,6 @@ describe Ronin::Support::Binary::Types::UIntType do
       expect(subject.unsigned?).to be(true)
     end
   end
+
+  include_examples "Ronin::Support::Binary::Types::ScalarType examples"
 end

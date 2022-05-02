@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'ronin/support/binary/types/char_type'
 
+require_relative 'scalar_type_examples'
+
 describe Ronin::Support::Binary::Types::CharType do
   it { expect(described_class).to be < Ronin::Support::Binary::Types::Type }
 
@@ -59,4 +61,6 @@ describe Ronin::Support::Binary::Types::CharType do
       expect(subject.uninitialized_value).to eq('')
     end
   end
+
+  include_examples "Ronin::Support::Binary::Types::ScalarType examples"
 end

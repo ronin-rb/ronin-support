@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'ronin/support/binary/types/float64_type'
 
+require_relative 'scalar_type_examples'
+
 describe Ronin::Support::Binary::Types::Float64Type do
   it do
     expect(described_class).to be < Ronin::Support::Binary::Types::FloatType
@@ -53,4 +55,6 @@ describe Ronin::Support::Binary::Types::Float64Type do
       end
     end
   end
+
+  include_examples "Ronin::Support::Binary::Types::ScalarType examples"
 end
