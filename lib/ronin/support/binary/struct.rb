@@ -164,6 +164,8 @@ module Ronin
         # The type system used by the struct.
         #
         # @return [Types::StructType]
+        #
+        # @api private
         attr_reader :type
 
         #
@@ -171,6 +173,8 @@ module Ronin
         #
         # @param [Hash{Symbol => Object}, String, ByteSlice] buffer_or_values
         #   Optional values to initialize the fields of the struct.
+        #
+        # @api public
         #
         def initialize(buffer_or_values={})
           @type_system = self.class.type_system
@@ -201,6 +205,8 @@ module Ronin
         # @return [Types::StructObjectType]
         #   The underlying type.
         #
+        # @api semipublic
+        #
         def self.type
           @type ||= type_resolver.resolve(self)
         end
@@ -210,6 +216,8 @@ module Ronin
         #
         # @return [Integer]
         #   The size of the struct in bytes.
+        #
+        # @api public
         #
         def self.size
           type.size
@@ -248,7 +256,7 @@ module Ronin
         # @return [Hash{Symbol => Member}]
         #   The field names and field information.
         #
-        # @api private
+        # @api semipublic
         #
         def self.members
           @members ||= if superclass < Struct
@@ -267,6 +275,8 @@ module Ronin
         # @return [Boolean]
         #   Specifies that the member exists in the struct.
         #
+        # @api semipublic
+        #
         def self.has_member?(name)
           members.has_key?(name.to_sym)
         end
@@ -280,6 +290,8 @@ module Ronin
         # @return [String]
         #   The packed struct.
         #
+        # @api public
+        #
         def self.pack(values)
           new(values).to_s
         end
@@ -292,6 +304,8 @@ module Ronin
         #
         # @return [Struct]
         #   The newly unpacked struct.
+        #
+        # @api public
         #
         def self.unpack(data)
           new(data)
@@ -308,6 +322,8 @@ module Ronin
         #
         # @raise [ArgumentError]
         #   The struct does not contain the field.
+        #
+        # @api public
         #
         def [](name)
           if (member = @type.members[name])
@@ -347,6 +363,8 @@ module Ronin
         # @raise [ArgumentError]
         #   The struct does not contain the field.
         #
+        # @api public
+        #
         def []=(name,value)
           if (member = @type.members[name])
             data = member.type.pack(value)
@@ -369,6 +387,8 @@ module Ronin
         #
         # @return [Enumerator]
         #
+        # @api public
+        #
         def each(&block)
           return enum_for(__method__) unless block_given?
 
@@ -383,6 +403,8 @@ module Ronin
         # @return [Hash{Symbol => Object}]
         #   The hash of field names and values.
         #
+        # @api public
+        #
         def to_h
           Hash[@type.members.keys.map { |name|
             [name, self[name]]
@@ -394,6 +416,8 @@ module Ronin
         #
         # @return [::Array<Object>]
         #   The array of values within the struct.
+        #
+        # @api public
         #
         def to_a
           @type.members.keys.map do |name|
@@ -417,6 +441,8 @@ module Ronin
         #     endian :big
         #     member :x, :int32
         #   end
+        #
+        # @api public
         #
         def self.endian(new_endian=nil)
           if new_endian
@@ -449,6 +475,8 @@ module Ronin
         #     member :x, :int
         #   end
         #
+        # @api public
+        #
         def self.arch(new_arch=nil)
           if new_arch
             initialize_type_system(arch: new_arch)
@@ -466,6 +494,8 @@ module Ronin
         # @return [Integer]
         #   The alignment, in bytes, for the struct.
         #
+        # @api public
+        #
         def self.alignment
           @alignment ||= if superclass < Struct
                            superclass.alignment
@@ -477,6 +507,8 @@ module Ronin
         #
         # @param [Integer] new_alignment
         #   The new alignment for the struct.
+        #
+        # @api public
         #
         def self.align(new_alignment)
           @alignment = new_alignment
@@ -490,6 +522,8 @@ module Ronin
         #
         # @return [Boolean]
         #   Specifies whether the struct's members will be padded.
+        #
+        # @api public
         #
         def self.padding(new_padding=nil)
           unless new_padding.nil?
@@ -514,6 +548,8 @@ module Ronin
         #                 Types::BigEndian,
         #                 Types::Network]
         #
+        # @api semipublic
+        #
         def self.type_system
           @type_system ||= if superclass < Struct
                              superclass.type_system
@@ -526,6 +562,8 @@ module Ronin
         # The type resolver using {type_system}.
         #
         # @return [Types::Resolver]
+        #
+        # @api semipublic
         #
         def self.type_resolver
           @resolver ||= Types::Resolver.new(type_system)
