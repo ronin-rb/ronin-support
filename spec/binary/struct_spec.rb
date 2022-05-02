@@ -74,6 +74,18 @@ describe Ronin::Support::Binary::Struct do
     class OverridenInheritedAlignedStruct < AlignedStruct
       align 4
     end
+
+    class PaddedStruct < Ronin::Support::Binary::Struct
+      padding false
+      member :foo, :uint16
+    end
+
+    class InheritedPaddedStruct < PaddedStruct
+    end
+
+    class OverridenInheritedPaddedStruct < PaddedStruct
+      padding true
+    end
   end
 
   let(:struct_class) { TestBinaryStruct::SimpleStruct }
@@ -214,6 +226,38 @@ describe Ronin::Support::Binary::Struct do
 
           it "must set .alignment to the new value" do
             expect(subject.alignment).to eq(4)
+          end
+        end
+      end
+    end
+  end
+
+  describe ".padding" do
+    subject { Class.new(described_class) }
+
+    it "must default to true" do
+      expect(subject.padding).to be(true)
+    end
+
+    context "when padding is called within the Struct class" do
+      subject { TestBinaryStruct::PaddedStruct }
+
+      it "must set .padding to the given padding value" do
+        expect(subject.padding).to eq(false)
+      end
+
+      context "and when the Struct class is inherited" do
+        subject { TestBinaryStruct::InheritedPaddedStruct }
+
+        it "must inherit the .padding value from the superclass" do
+          expect(subject.padding).to be(subject.superclass.padding)
+        end
+
+        context "but the Struct class overrides the inherited .padding value" do
+          subject { TestBinaryStruct::OverridenInheritedPaddedStruct }
+
+          it "must set .padding to the new value" do
+            expect(subject.padding).to be(true)
           end
         end
       end

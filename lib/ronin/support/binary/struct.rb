@@ -452,6 +452,31 @@ module Ronin
         end
 
         #
+        # Gets or sets whether the struct's members will have padding.
+        #
+        # @param [Boolean, nil] new_padding
+        #   The optional new value for {padding}.
+        #
+        # @return [Boolean]
+        #   Specifies whether the struct's members will be padded.
+        #
+        def self.padding(new_padding=nil)
+          unless new_padding.nil?
+            @padding = new_padding
+          else
+            if @padding.nil?
+              @padding = if superclass < Struct
+                           superclass.padding
+                         else
+                           true
+                         end
+            else
+              @padding
+            end
+          end
+        end
+
+        #
         # Gets or sets the struct's endian-ness.
         #
         # @param [:x86, :x86_64,
