@@ -47,12 +47,13 @@ module Ronin
           # @raise [ArgumentError]
           #   Cannot initialize a nested {UnboundedArrayType}.
           #
-          def initialize(type)
+          def initialize(type, alignment: nil)
             if type.class == UnboundedArrayType
               raise(ArgumentError,"cannot initialize a nested #{UnboundedArrayType}")
             end
 
-            @type = type
+            @type      = type
+            @alignment = alignment
 
             super(
               # "T*" syntax only works on individual pack-string codes,
@@ -89,6 +90,15 @@ module Ronin
           end
 
           #
+          # The alignment, in bytes, for the unbounded array.
+          #
+          # @return [Integer]
+          #
+          def alignment
+            @alignment || @type.alignment
+          end
+
+          #
           # The "length" of the unbounded array type.
           #
           # @return [Float::INFINITY]
@@ -106,15 +116,6 @@ module Ronin
           #
           def endian
             @type.endian
-          end
-
-          #
-          # The alignment, in bytes, for the unbounded array.
-          #
-          # @return [Integer]
-          #
-          def alignment
-            @type.alignment
           end
 
           #
