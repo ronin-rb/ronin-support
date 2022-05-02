@@ -33,16 +33,6 @@ module Ronin
         #
         class ArrayObjectType < ObjectType
 
-          # The type of the element in the memory-mapped array type.
-          #
-          # @return [Type]
-          attr_reader :type
-
-          # The number of elements in the memory-mapped array type.
-          #
-          # @return [Integer]
-          attr_reader :length
-
           # The type used for packing literal {::Array} values.
           #
           # @return [ArrayType]
@@ -51,20 +41,31 @@ module Ronin
           #
           # Initializes the memory-mapped array type.
           #
-          # @param [Type] type
-          #   The type of the element in the memory-mapped array type.
+          # @param [ArrayType] array_type
+          #   The array type.
           #
-          # @param [Integer] length
-          #   The number of elements in the memory-mapped array type.
+          def initialize(array_type)
+            @array_type = array_type
+
+            super(@array_type.size)
+          end
+
           #
-          def initialize(type,length, alignment: nil)
-            @type      = type
-            @length    = length
-            @alignment = alignment
+          # The type of the element in the memory-mapped array type.
+          #
+          # @return [Type]
+          #
+          def type
+            @array_type.type
+          end
 
-            super(@type.size * @length)
-
-            @array_type = ArrayType.new(@type,@length, alignment: alignment)
+          #
+          # The number of elements in the memory-mapped array type.
+          #
+          # @return [Integer]
+          #
+          def length
+            @array_type.length
           end
 
           #
@@ -87,7 +88,7 @@ module Ronin
           #   The new array object type.
           #
           def align(new_alignment)
-            self.class.new(@type,@length, alignment: new_alignment)
+            self.class.new(@array_type.align(new_alignment))
           end
 
           #
@@ -118,7 +119,7 @@ module Ronin
           #   the memory-mapped Array.
           #
           def unpack(data)
-            Binary::Array.new(@type,data)
+            Binary::Array.new(@array_type.type,data)
           end
 
           #
@@ -149,7 +150,7 @@ module Ronin
           #   The dequeued memory-mapped array object.
           #
           def dequeue_value(values)
-            Binary::Array.new(@type,values.shift)
+            Binary::Array.new(@array_type.type,values.shift)
           end
 
         end

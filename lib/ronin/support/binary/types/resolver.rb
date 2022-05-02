@@ -106,8 +106,10 @@ module Ronin
           #
           def resolve_array(type_signature)
             type, length = *type_signature
+            type         = resolve(type)
+            array_type   = type[length]
 
-            ArrayObjectType.new(resolve(type), length)
+            ArrayObjectType.new(array_type)
           end
 
           #

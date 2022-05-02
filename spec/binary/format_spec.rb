@@ -77,7 +77,10 @@ describe Ronin::Support::Binary::Format do
       let(:length) { 10 }
       let(:fields) { [ [type_name, length] ] }
       let(:array_type) do
-        Ronin::Support::Binary::Types::ArrayObjectType.new(type,length)
+        Ronin::Support::Binary::Types::ArrayType.new(type,length)
+      end
+      let(:array_object_type) do
+        Ronin::Support::Binary::Types::ArrayObjectType.new(array_type)
       end
 
       it "must set #type_system to Ronin::Support::Binary::Types" do
@@ -90,21 +93,24 @@ describe Ronin::Support::Binary::Format do
         expect(subject.types.first.length).to eq(length)
       end
 
-      it "must set #pack_string to the ArrayType's #pack_string" do
-        expect(subject.pack_string).to eq(array_type.pack_string)
+      it "must set #pack_string to the ArrayObjectType's #pack_string" do
+        expect(subject.pack_string).to eq(array_object_type.pack_string)
       end
     end
 
     context "when given an Array of an Array of the type name and length" do
       let(:length1) { 2  }
       let(:length2) { 10 }
-      let(:fields) { [ [[type_name, length2], length1] ] }
+      let(:fields)  { [ [[type_name, length2], length1] ] }
 
+      let(:sub_array_type) do
+        Ronin::Support::Binary::Types::ArrayType.new(type,length2)
+      end
       let(:array_type) do
-        Ronin::Support::Binary::Types::ArrayObjectType.new(
-          Ronin::Support::Binary::Types::ArrayObjectType.new(type,length2),
-          length1
-        )
+        Ronin::Support::Binary::Types::ArrayType.new(sub_array_type,length1)
+      end
+      let(:array_object_type) do
+        Ronin::Support::Binary::Types::ArrayObjectType.new(array_type)
       end
 
       it "must set #type_system to Ronin::Support::Binary::Types" do
@@ -119,8 +125,8 @@ describe Ronin::Support::Binary::Format do
         expect(subject.types.first.length).to eq(length1)
       end
 
-      it "must set #pack_string to the ArrayType's #pack_string" do
-        expect(subject.pack_string).to eq(array_type.pack_string)
+      it "must set #pack_string to the ArrayObjectType's #pack_string" do
+        expect(subject.pack_string).to eq(array_object_type.pack_string)
       end
     end
 
@@ -418,7 +424,10 @@ describe Ronin::Support::Binary::Format do
 
         let(:array_length) { 10 }
         let(:array_type) do
-          Ronin::Support::Binary::Types::ArrayObjectType.new(type2,array_length)
+          Ronin::Support::Binary::Types::ArrayType.new(type2,array_length)
+        end
+        let(:array_object_type) do
+          Ronin::Support::Binary::Types::ArrayObjectType.new(array_type)
         end
 
         let(:fields) { [type_name1, [type_name2, array_length]] }
@@ -434,7 +443,9 @@ describe Ronin::Support::Binary::Format do
           expect(values.length).to eq(2)
           expect(values[0]).to eq(value1)
           expect(values[1]).to be_kind_of(Ronin::Support::Binary::Array)
-          expect(values[1].string).to eq(data[type1.size,array_type.size])
+          expect(values[1].string).to eq(
+            data[type1.size,array_object_type.size]
+          )
         end
       end
 
