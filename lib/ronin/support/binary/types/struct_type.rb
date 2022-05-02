@@ -76,6 +76,15 @@ module Ronin
               @type.size
             end
 
+            #
+            # The alignment, in bytes, of the member within the struct.
+            #
+            # @return [Integer]
+            #
+            def alignment
+              @type.alignment
+            end
+
           end
 
           # The members of the struct type.
@@ -97,25 +106,40 @@ module Ronin
           #
           # Initializes the struct type.
           #
-          # @param [Hash{Symbol => Type}] members
-          #   The members names and types of the struct type.
+          # @param [Hash{Symbol => Member}] members
+          #   The members for the struct type.
           #
-          def initialize(members)
-            @members   = {}
-            @size      = 0
-            @alignment = 0
+          def initialize(members, size: , alignment: , pack_string: )
+            @members   = members
+            @size      = size
+            @alignment = alignment
 
+            super(pack_string: pack_string)
+          end
+
+          #
+          # Builds the struct type from the given fields.
+          #
+          # @param [Hash{Symbol => Type}] fields
+          #   The field names and types for the struct type.
+          #
+          # @return [StructType]
+          #   The new struct type.
+          #
+          def self.build(fields)
+            members = {}
+            offset  = 0
+            max_alignment = 0
             pack_string = ''
-            offset = 0
 
-            members.each do |name,type|
+            fields.each do |name,type|
               # https://en.wikipedia.org/wiki/Data_structure_alignment#Computing_padding
               alignment = type.alignment
               padding   = (alignment - (offset % alignment)) % alignment
               offset   += padding
 
-              @members[name] = Member.new(offset,type)
-              @alignment = alignment if alignment > @alignment
+              members[name] = Member.new(offset,type)
+              max_alignment = alignment if alignment > max_alignment
 
               if pack_string
                 # add null-byte padding
@@ -130,9 +154,9 @@ module Ronin
               offset += type.size unless type.size == Float::INFINITY
             end
 
-            @size = offset
-
-            super(pack_string: pack_string)
+            return new(members, size:        offset,
+                                alignment:   max_alignment,
+                                pack_string: pack_string)
           end
 
           #

@@ -26,22 +26,65 @@ describe Ronin::Support::Binary::Types::StructType do
         expect(subject.size).to eq(type.size)
       end
     end
-  end
 
-  let(:members) do
-    {
-      a: Ronin::Support::Binary::Types::CHAR,
-      b: Ronin::Support::Binary::Types::INT8,
-      c: Ronin::Support::Binary::Types::UINT16,
-      d: Ronin::Support::Binary::Types::INT16
-    }
+    describe "#alignment" do
+      it "must return #type.alignment" do
+        expect(subject.alignment).to eq(type.alignment)
+      end
+    end
   end
-
-  subject { described_class.new(members) }
 
   describe "#initialize" do
+    let(:members) do
+      {
+        a: described_class::Member.new(
+             0, Ronin::Support::Binary::Types::CHAR
+           ),
+        b: described_class::Member.new(
+             2, Ronin::Support::Binary::Types::INT16
+           ),
+        c: described_class::Member.new(
+             4, Ronin::Support::Binary::Types::UINT32
+           ),
+        d: described_class::Member.new(
+             8, Ronin::Support::Binary::Types::INT64
+           )
+      }
+    end
+
+    let(:size)      { members.values.last.offset + members.values.last.size }
+    let(:alignment) { members.values.map(&:alignment).max }
+
+    let(:pack_string) do
+      members.values.map { |member| member.type.pack_string }.join
+    end
+
+    subject do
+      described_class.new(members, size:        size,
+                                   alignment:   alignment,
+                                   pack_string: pack_string)
+    end
+
+    it "must set #members" do
+      expect(subject.members).to eq(members)
+    end
+
+    it "must set #size" do
+      expect(subject.size).to eq(size)
+    end
+
+    it "must set #alignment" do
+      expect(subject.alignment).to eq(alignment)
+    end
+
+    it "must set #pack_string" do
+      expect(subject.pack_string).to eq(pack_string)
+    end
+  end
+
+  describe ".build" do
     context "when given an empty Hash" do
-      subject { described_class.new({}) }
+      subject { described_class.build({}) }
 
       it "must set #members to {}" do
         expect(subject.members).to eq({})
@@ -61,7 +104,7 @@ describe Ronin::Support::Binary::Types::StructType do
     end
 
     context "when given a Hash of names and types" do
-      subject { described_class.new(members) }
+      subject { described_class.build(members) }
 
       it "must populate #members with Members containing the offset and type" do
         expect(subject.members.keys).to eq(members.keys)
@@ -153,6 +196,17 @@ describe Ronin::Support::Binary::Types::StructType do
       end
     end
   end
+
+  let(:members) do
+    {
+      a: Ronin::Support::Binary::Types::CHAR,
+      b: Ronin::Support::Binary::Types::INT8,
+      c: Ronin::Support::Binary::Types::UINT16,
+      d: Ronin::Support::Binary::Types::INT16
+    }
+  end
+
+  subject { described_class.build(members) }
 
   describe "#uninitialized_value" do
     it "must return a Hash of the members type's #uninitialized_value" do
@@ -288,7 +342,7 @@ describe Ronin::Support::Binary::Types::StructType do
         {
           a: Ronin::Support::Binary::Types::CHAR,
           b: Ronin::Support::Binary::Types::INT8,
-          c: Ronin::Support::Binary::Types::StructType.new(
+          c: Ronin::Support::Binary::Types::StructType.build(
                {
                  x: Ronin::Support::Binary::Types::INT16,
                  y: Ronin::Support::Binary::Types::UINT16
@@ -416,7 +470,7 @@ describe Ronin::Support::Binary::Types::StructType do
         {
           a: Ronin::Support::Binary::Types::CHAR,
           b: Ronin::Support::Binary::Types::INT8,
-          c: Ronin::Support::Binary::Types::StructType.new(
+          c: Ronin::Support::Binary::Types::StructType.build(
                {
                  x: Ronin::Support::Binary::Types::INT16,
                  y: Ronin::Support::Binary::Types::UINT16
@@ -568,7 +622,7 @@ describe Ronin::Support::Binary::Types::StructType do
         {
           a: Ronin::Support::Binary::Types::CHAR,
           b: Ronin::Support::Binary::Types::INT8,
-          c: Ronin::Support::Binary::Types::StructType.new(
+          c: Ronin::Support::Binary::Types::StructType.build(
                {
                  x: Ronin::Support::Binary::Types::INT16,
                  y: Ronin::Support::Binary::Types::UINT16
@@ -696,7 +750,7 @@ describe Ronin::Support::Binary::Types::StructType do
         {
           a: Ronin::Support::Binary::Types::CHAR,
           b: Ronin::Support::Binary::Types::INT8,
-          c: Ronin::Support::Binary::Types::StructType.new(
+          c: Ronin::Support::Binary::Types::StructType.build(
                {
                  x: Ronin::Support::Binary::Types::INT16,
                  y: Ronin::Support::Binary::Types::UINT16

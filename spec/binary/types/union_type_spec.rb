@@ -203,7 +203,7 @@ describe Ronin::Support::Binary::Types::UnionType do
           {
             a: Ronin::Support::Binary::Types::CHAR,
             b: Ronin::Support::Binary::Types::INT8,
-            c: Ronin::Support::Binary::Types::StructType.new(
+            c: Ronin::Support::Binary::Types::StructType.build(
                  {
                    x: Ronin::Support::Binary::Types::INT16,
                    y: Ronin::Support::Binary::Types::UINT16
@@ -418,7 +418,7 @@ describe Ronin::Support::Binary::Types::UnionType do
         {
           a: Ronin::Support::Binary::Types::CHAR,
           b: Ronin::Support::Binary::Types::INT8,
-          c: Ronin::Support::Binary::Types::StructType.new(
+          c: Ronin::Support::Binary::Types::StructType.build(
                {
                  x: Ronin::Support::Binary::Types::INT16,
                  y: Ronin::Support::Binary::Types::UINT16

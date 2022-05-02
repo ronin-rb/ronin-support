@@ -53,7 +53,7 @@ module Ronin
           #
           def initialize(struct_class,struct_members)
             @struct_class = struct_class
-            @struct_type  = StructType.new(struct_members)
+            @struct_type  = StructType.build(struct_members)
 
             super(@struct_type.size)
           end
