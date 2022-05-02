@@ -36,6 +36,18 @@ describe Ronin::Support::Binary::Types::UnionObjectType do
       expect(subject.union_type.members.keys).to eq(union_members.keys)
       expect(subject.union_type.members.values.map(&:type)).to eq(union_members.values)
     end
+
+    context "when initialized with the alignment: keyword"  do
+      let(:new_alignment) { 3 }
+
+      subject do
+        described_class.new(union_class,union_type, alignment: new_alignment)
+      end
+
+      it "must set the #alignment of the #union_type" do
+        expect(subject.union_type.alignment).to eq(new_alignment)
+      end
+    end
   end
 
   describe "#size" do
@@ -47,6 +59,18 @@ describe Ronin::Support::Binary::Types::UnionObjectType do
   describe "#alignment" do
     it "must return #union_type.alignment" do
       expect(subject.alignment).to eq(subject.union_type.alignment)
+    end
+
+    context "when initialized with the alignment: keyword"  do
+      let(:new_alignment) { 3 }
+
+      subject do
+        described_class.new(union_class,union_type, alignment: new_alignment)
+      end
+
+      it "must return the initialized custom alignment" do
+        expect(subject.alignment).to eq(new_alignment)
+      end
     end
   end
 
