@@ -46,6 +46,16 @@ describe Ronin::Support::Binary::Types::Type do
     end
   end
 
+  describe "#align" do
+    let(:new_alignment) { 3 }
+
+    it do
+      expect {
+        subject.align(new_alignment)
+      }.to raise_error(NotImplementedError,"#{described_class}#align was not implemented")
+    end
+  end
+
   describe "#pack" do
     let(:value) { 0x11223344 }
 

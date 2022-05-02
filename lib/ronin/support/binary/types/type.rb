@@ -103,6 +103,23 @@ module Ronin
           end
 
           #
+          # Creates a copy of the type with a different {#alignment}.
+          #
+          # @param [Integer] new_alignment
+          #   The new alignment for the new type.
+          #
+          # @return [Type]
+          #   The new type.
+          #
+          # @abstract
+          #
+          # @api public
+          #
+          def align(new_alignment)
+            raise(NotImplementedError,"#{self.class}##{__method__} was not implemented")
+          end
+
+          #
           # Packs the value into the type's binary format.
           #
           # @param [Object] value
