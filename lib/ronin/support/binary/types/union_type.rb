@@ -168,6 +168,20 @@ module Ronin
           end
 
           #
+          # Creates a copy of the union type with a different {#alignment}.
+          #
+          # @param [Integer] new_alignment
+          #   The new alignment for the new union type.
+          #
+          # @return [ScalarType]
+          #   The new union type.
+          #
+          def align(new_alignment)
+            self.class.new(@members, size:        @size,
+                                     alignment:   new_alignment)
+          end
+
+          #
           # Packs a hash of values into the member's binary format.
           #
           # @param [Hash{Symbol => Integer, Float, String}] hash
