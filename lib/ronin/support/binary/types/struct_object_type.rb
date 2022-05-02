@@ -46,14 +46,15 @@ module Ronin
           #
           # Initializes the memory-mapped struct type.
           #
-          # @param [Struct.class] struct_class
+          # @param [Binary::Struct.class] struct_class
           #   The {Struct} class.
           #
-          # @param [Hash{Symbol => Type}] struct_members
+          # @param [StructType}] struct_type
+          #   The struct type for the struct class.
           #
-          def initialize(struct_class,struct_members)
+          def initialize(struct_class,struct_type)
             @struct_class = struct_class
-            @struct_type  = StructType.build(struct_members)
+            @struct_type  = struct_type
 
             super(@struct_type.size)
           end

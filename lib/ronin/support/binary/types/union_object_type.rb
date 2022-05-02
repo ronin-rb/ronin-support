@@ -49,11 +49,12 @@ module Ronin
           # @param [Union.class] union_class
           #   The {Union} class.
           #
-          # @param [Hash{Symbol => Type}] union_members
+          # @param [UnionType}] union_type
+          #   The union type for the union class.
           #
-          def initialize(union_class,union_members)
+          def initialize(union_class,union_type)
             @union_class = union_class
-            @union_type  = UnionType.build(union_members)
+            @union_type  = union_type
 
             super(@union_type.size)
           end

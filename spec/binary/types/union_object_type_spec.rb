@@ -18,8 +18,11 @@ describe Ronin::Support::Binary::Types::UnionObjectType do
       [name, member.type]
     }]
   end
+  let(:union_type) do
+    Ronin::Support::Binary::Types::UnionType.build(union_members)
+  end
 
-  subject { described_class.new(union_class,union_members) }
+  subject { described_class.new(union_class,union_type) }
 
   describe "#initialize" do
     it "must set #union_class" do

@@ -18,8 +18,11 @@ describe Ronin::Support::Binary::Types::StructObjectType do
       [name, member.type]
     }]
   end
+  let(:struct_type) do
+    Ronin::Support::Binary::Types::StructType.build(struct_members)
+  end
 
-  subject { described_class.new(struct_class,struct_members) }
+  subject { described_class.new(struct_class,struct_type) }
 
   describe "#initialize" do
     it "must set #struct_class" do
