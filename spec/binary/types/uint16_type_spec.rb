@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'ronin/support/binary/types/uint16_type'
 
+require_relative 'type_examples'
 require_relative 'scalar_type_examples'
 
 describe Ronin::Support::Binary::Types::UInt16Type do
@@ -54,5 +55,6 @@ describe Ronin::Support::Binary::Types::UInt16Type do
     end
   end
 
+  include_examples "Type examples"
   include_examples "Ronin::Support::Binary::Types::ScalarType examples"
 end

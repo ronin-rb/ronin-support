@@ -3,6 +3,8 @@ require 'ronin/support/binary/types/array_object_type'
 require 'ronin/support/binary/types/uint32_type'
 require 'ronin/support/binary/array'
 
+require_relative 'type_examples'
+
 describe Ronin::Support::Binary::Types::ArrayObjectType do
   let(:type_endian)      { :little }
   let(:type_pack_string) { 'L<'    }
@@ -104,4 +106,6 @@ describe Ronin::Support::Binary::Types::ArrayObjectType do
       expect(value.to_s).to eq(packed_array)
     end
   end
+
+  include_examples "Type examples"
 end

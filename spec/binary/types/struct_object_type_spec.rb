@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'ronin/support/binary/types/struct_object_type'
 require 'ronin/support/binary/struct'
 
+require_relative 'type_examples'
+
 describe Ronin::Support::Binary::Types::StructObjectType do
   module TestStructObjectType
     class TestStruct < Ronin::Support::Binary::Struct
@@ -118,4 +120,6 @@ describe Ronin::Support::Binary::Types::StructObjectType do
       expect(value.to_s).to eq(packed_struct)
     end
   end
+
+  include_examples "Type examples"
 end

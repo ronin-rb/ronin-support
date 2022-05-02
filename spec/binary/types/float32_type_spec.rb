@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'ronin/support/binary/types/float32_type'
 
+require_relative 'type_examples'
 require_relative 'scalar_type_examples'
 
 describe Ronin::Support::Binary::Types::Float32Type do
@@ -56,5 +57,6 @@ describe Ronin::Support::Binary::Types::Float32Type do
     end
   end
 
+  include_examples "Type examples"
   include_examples "Ronin::Support::Binary::Types::ScalarType examples"
 end

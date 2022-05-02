@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'ronin/support/binary/types/union_object_type'
 require 'ronin/support/binary/union'
 
+require_relative 'type_examples'
+
 describe Ronin::Support::Binary::Types::UnionObjectType do
   module TestUnionObjectType
     class TestUnion < Ronin::Support::Binary::Union
@@ -118,4 +120,6 @@ describe Ronin::Support::Binary::Types::UnionObjectType do
       expect(value.to_s).to eq(packed_union)
     end
   end
+
+  include_examples "Type examples"
 end

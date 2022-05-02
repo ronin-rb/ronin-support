@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'ronin/support/binary/types/string_type'
 
+require_relative 'type_examples'
+
 describe Ronin::Support::Binary::Types::StringType do
   it do
     expect(described_class).to be < Ronin::Support::Binary::Types::Type
@@ -65,4 +67,6 @@ describe Ronin::Support::Binary::Types::StringType do
       end
     end
   end
+
+  include_examples "Type examples"
 end
