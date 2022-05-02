@@ -216,16 +216,6 @@ module Ronin
         end
 
         #
-        # The alignment of the struct.
-        #
-        # @return [Integer]
-        #   The alignment, in bytes, for the struct.
-        #
-        def self.alignment
-          type.alignment
-        end
-
-        #
         # Translates the struct class using the given type system into a new
         # struct class.
         #
@@ -437,6 +427,28 @@ module Ronin
                           superclass.endian
                         end
           end
+        end
+
+        #
+        # The alignment of the struct.
+        #
+        # @return [Integer]
+        #   The alignment, in bytes, for the struct.
+        #
+        def self.alignment
+          @alignment ||= if superclass < Struct
+                           superclass.alignment
+                         end
+        end
+
+        #
+        # Sets the alignment of the struct.
+        #
+        # @param [Integer] new_alignment
+        #   The new alignment for the struct.
+        #
+        def self.align(new_alignment)
+          @alignment = new_alignment
         end
 
         #

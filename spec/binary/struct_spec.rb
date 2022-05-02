@@ -62,6 +62,18 @@ describe Ronin::Support::Binary::Struct do
     class OverridenInheritedArchStruct < ArchStruct
       arch :arm
     end
+
+    class AlignedStruct < Ronin::Support::Binary::Struct
+      align 8
+      member :foo, :uint16
+    end
+
+    class InheritedAlignedStruct < AlignedStruct
+    end
+
+    class OverridenInheritedAlignedStruct < AlignedStruct
+      align 4
+    end
   end
 
   let(:struct_class) { TestBinaryStruct::SimpleStruct }
@@ -170,6 +182,38 @@ describe Ronin::Support::Binary::Struct do
             struct_type      = subject.type.struct_type
 
             expect(struct_type.members[:foo].type).to eq(Ronin::Support::Binary::Types::Arch::ARM[member_type_name])
+          end
+        end
+      end
+    end
+  end
+
+  describe ".alignment" do
+    subject { Class.new(described_class) }
+
+    it "must default to nil" do
+      expect(subject.alignment).to be(nil)
+    end
+
+    context "when align is called within the Struct class" do
+      subject { TestBinaryStruct::AlignedStruct }
+
+      it "must set .alignment to the given alignment value" do
+        expect(subject.alignment).to eq(8)
+      end
+
+      context "and when the Struct class is inherited" do
+        subject { TestBinaryStruct::InheritedAlignedStruct }
+
+        it "must inherit the .alignment value from the superclass" do
+          expect(subject.alignment).to be(subject.superclass.alignment)
+        end
+
+        context "but the Struct class overrides the inherited .align value" do
+          subject { TestBinaryStruct::OverridenInheritedAlignedStruct }
+
+          it "must set .alignment to the new value" do
+            expect(subject.alignment).to eq(4)
           end
         end
       end
