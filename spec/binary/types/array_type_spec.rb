@@ -38,6 +38,18 @@ describe Ronin::Support::Binary::Types::ArrayType do
         expect(subject.pack_string).to eq(type.pack_string * length)
       end
     end
+
+    context "when the given type is an UnboundedArrayType" do
+      let(:type) do
+        Ronin::Support::Binary::Types::UnboundedArrayType.new(super())
+      end
+
+      it do
+        expect {
+          described_class.new(type,length)
+        }.to raise_error(ArgumentError,"cannot initialize an #{described_class} of #{type.class}")
+      end
+    end
   end
 
   describe "#uninitialized_value" do

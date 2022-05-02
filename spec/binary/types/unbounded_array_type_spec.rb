@@ -47,22 +47,16 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
         expect(subject.pack_string).to be(nil)
       end
     end
-  end
 
-  describe "#[]" do
-    context "when the given length is an Integer" do
-      it do
-        expect {
-          subject[10]
-        }.to raise_error(NotImplementedError,"cannot create a multi-dimensional array of unbounded arrays: #{subject.inspect}")
+    context "when the given type is an UnboundedArrayType" do
+      let(:type) do
+        Ronin::Support::Binary::Types::UnboundedArrayType.new(super())
       end
-    end
 
-    context "when the given length is nil" do
       it do
         expect {
-          subject[nil]
-        }.to raise_error(NotImplementedError,"cannot create an unbounded array of unbounded arrays: #{subject.inspect}")
+          described_class.new(type)
+        }.to raise_error(ArgumentError,"cannot initialize a nested #{described_class}")
       end
     end
   end
@@ -587,6 +581,24 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
 
       it "must return a multi-dimensional Array of values" do
         expect(subject.dequeue_value(values)).to eq(array)
+      end
+    end
+  end
+
+  describe "#[]" do
+    context "when a length argument is given" do
+      it do
+        expect {
+          subject[42]
+        }.to raise_error(ArgumentError,"cannot initialize an #{Ronin::Support::Binary::Types::ArrayType} of #{described_class}")
+      end
+    end
+
+    context "when no argument is given" do
+      it do
+        expect {
+          subject[]
+        }.to raise_error(ArgumentError,"cannot initialize a nested #{described_class}")
       end
     end
   end

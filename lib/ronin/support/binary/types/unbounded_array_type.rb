@@ -66,21 +66,6 @@ module Ronin
           end
 
           #
-          # @param [Integer, nil] length
-          #
-          # @raise [NotImplementedError]
-          #   Creating another array type of an unbounded array type is not
-          #   allowed.
-          #
-          def [](length=nil)
-            if length
-              raise(NotImplementedError,"cannot create a multi-dimensional array of unbounded arrays: #{self.inspect}")
-            else
-              raise(NotImplementedError,"cannot create an unbounded array of unbounded arrays: #{self.inspect}")
-            end
-          end
-
-          #
           # The "size" in bytes of the unbounded array type.
           #
           # @return [Float::INFINITY]
