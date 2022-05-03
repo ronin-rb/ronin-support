@@ -55,12 +55,15 @@ module Ronin
           #
           # Initializes the scalar type.
           #
+          # @param [1, 2, 4, 8] size
+          #   The scalar type's size in bytes.
+          #
+          # @param [Integer, nil] alignment
+          #   Optional custom alignment for the scalar type.
+          #
           # @param [:little, :big, nil] endian
           #   The endianness of the scalar type. `nil` indicates the type has no
           #   endianness.
-          #
-          # @param [1, 2, 4, 8] size
-          #   The scalar type's size in bytes.
           #
           # @param [Boolean] signed
           #   Indicates whether the scalar type is signed or unsigned.
