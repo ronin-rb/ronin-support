@@ -219,14 +219,16 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
     context "when initialized with a StructType" do
       let(:type) do
         Ronin::Support::Binary::Types::StructType.build(
-          a: Ronin::Support::Binary::Types::CHAR,
-          b: Ronin::Support::Binary::Types::INT16,
-          c: Ronin::Support::Binary::Types::StructType.build(
-            {
-              x: Ronin::Support::Binary::Types::INT32,
-              y: Ronin::Support::Binary::Types::UINT32
-            }
-          )
+          {
+            a: Ronin::Support::Binary::Types::CHAR,
+            b: Ronin::Support::Binary::Types::INT16,
+            c: Ronin::Support::Binary::Types::StructType.build(
+                 {
+                   x: Ronin::Support::Binary::Types::INT32,
+                   y: Ronin::Support::Binary::Types::UINT32
+                 }
+               )
+          }
         )
       end
 
@@ -383,14 +385,16 @@ describe Ronin::Support::Binary::Types::UnboundedArrayType do
     context "when initialized with a StructType" do
       let(:type) do
         Ronin::Support::Binary::Types::StructType.build(
-          a: Ronin::Support::Binary::Types::CHAR,
-          b: Ronin::Support::Binary::Types::INT16,
-          c: Ronin::Support::Binary::Types::StructType.build(
-            {
-              x: Ronin::Support::Binary::Types::INT32,
-              y: Ronin::Support::Binary::Types::UINT32
-            }
-          )
+          {
+            a: Ronin::Support::Binary::Types::CHAR,
+            b: Ronin::Support::Binary::Types::INT16,
+            c: Ronin::Support::Binary::Types::StructType.build(
+                 {
+                    x: Ronin::Support::Binary::Types::INT32,
+                    y: Ronin::Support::Binary::Types::UINT32
+                 }
+               )
+          }
         )
       end
 
