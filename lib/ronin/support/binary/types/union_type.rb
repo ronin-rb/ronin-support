@@ -124,10 +124,13 @@ module Ronin
           # @param [Hash{Symbol => Type}] fields
           #   The field names and types for the union type.
           #
+          # @param [Integer, nil] alignment
+          #   Custom alignment to use instead of the union's alignment.
+          #
           # @return [UnionType]
           #   The new union type.
           #
-          def self.build(fields)
+          def self.build(fields, alignment: nil)
             members       = {}
             max_size      = 0
             max_alignment = 0
@@ -143,7 +146,8 @@ module Ronin
               max_alignment = type.alignment if type.alignment > max_alignment
             end
 
-            return new(members, size: max_size, alignment: max_alignment)
+            return new(members, size:      max_size,
+                                alignment: alignment || max_alignment)
           end
 
           #

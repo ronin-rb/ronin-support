@@ -112,6 +112,16 @@ describe Ronin::Support::Binary::Types::UnionType do
         expect(subject.alignment).to eq(members.values.map(&:alignment).max)
       end
 
+      context "but when the `alignment:` keyword is given" do
+        let(:new_alignment) { 3 }
+
+        subject { described_class.build(members, alignment: new_alignment) }
+
+        it "must override the struct type's alignment" do
+          expect(subject.alignment).to eq(new_alignment)
+        end
+      end
+
       it "must set #pack_string to nil" do
         expect(subject.pack_string).to be(nil)
       end
