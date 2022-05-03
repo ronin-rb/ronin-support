@@ -110,6 +110,12 @@ module Ronin
           # @param [Hash{Symbol => Member}] members
           #   The members for the union type.
           #
+          # @param [Integer] size
+          #   The size of the union type.
+          #
+          # @param [Integer] alignment
+          #   The alignment of the union type.
+          #
           def initialize(members, size: , alignment: )
             @members   = members
             @size      = size
