@@ -41,6 +41,13 @@ describe Ronin::Support::Binary::Types::Resolver do
         member :x, :int16
         member :y, :uint32
       end
+
+      class TestUnionWithAlignment < Ronin::Support::Binary::Union
+        align 3
+
+        member :x, :int16
+        member :y, :uint32
+      end
     end
 
     let(:struct_class) { TestTypesResolver::TestStruct }
@@ -116,6 +123,16 @@ describe Ronin::Support::Binary::Types::Resolver do
 
         expect(type.union_type.members[:x].type).to eq(subject.resolve(union_class.members[:x].type_signature))
         expect(type.union_type.members[:y].type).to eq(subject.resolve(union_class.members[:y].type_signature))
+      end
+
+      context "but the Union class has a custom .alignment set" do
+        let(:union_class) { TestTypesResolver::TestUnionWithAlignment }
+
+        it "must return a UnionObjectType with the same alignment" do
+          type = subject.resolve(union_class)
+
+          expect(type.alignment).to eq(union_class.alignment)
+        end
       end
     end
 

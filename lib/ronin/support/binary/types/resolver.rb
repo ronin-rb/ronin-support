@@ -158,7 +158,10 @@ module Ronin
             union_members = Hash[union_class.members.map { |name,member|
               [name, resolve(member.type_signature)]
             }]
-            union_type    = UnionType.build(union_members)
+
+            union_type = UnionType.build(
+              union_members, alignment: union_class.alignment
+            )
 
             UnionObjectType.new(union_class,union_type)
           end
