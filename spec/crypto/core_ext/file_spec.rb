@@ -131,7 +131,8 @@ describe File do
   end
 
   describe "#decrypt" do
-    let(:path) { Tempfile.new('ronin-support').path }
+    let(:tempfile) { Tempfile.new('ronin-support') }
+    let(:path)     { tempfile.path }
 
     before { File.write(path,cipher_text) }
 

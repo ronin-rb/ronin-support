@@ -11,8 +11,9 @@ describe File do
   end
 
   describe "each_line" do
-    let(:lines) { %w[one two three] }
-    let(:path)  { Tempfile.new('ronin-support-File#each_line') }
+    let(:lines)    { %w[one two three] }
+    let(:tempfile) { Tempfile.new('ronin-support-File#each_line') }
+    let(:path)     { tempfile.path }
 
     before do
       File.open(path,'w') { |file| file.puts(*lines) }
@@ -34,7 +35,8 @@ describe File do
     let(:separator) { '|' }
     let(:newline)   { "\r\n" }
     let(:lines)     { rows.map { |row| row.join(separator) }.join(newline) }
-    let(:path)      { Tempfile.new('ronin-support-File#each_row') }
+    let(:tempfile)  { Tempfile.new('ronin-support-File#each_row') }
+    let(:path)      { tempfile.path }
 
     before do
       File.open(path,'w') { |file| file.puts(*lines) }

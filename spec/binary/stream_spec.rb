@@ -79,8 +79,9 @@ describe Ronin::Support::Binary::Stream do
     context "when a mode argument is given" do
       require 'tempfile'
 
-      let(:path) { Tempfile.new('ronin-support-binary-stream').path }
-      let(:mode) { 'w' }
+      let(:tempfile) { Tempfile.new('ronin-support-binary-stream') }
+      let(:path)     { tempfile.path }
+      let(:mode)     { 'w' }
 
       subject { described_class.open(path,mode) }
 
