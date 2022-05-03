@@ -27,6 +27,8 @@ module Ronin
           #
           # Contains additional types available on FreeBSD.
           #
+          # @api semipublic
+          #
           # @since 1.0.0
           #
           class FreeBSD < OS

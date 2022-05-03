@@ -27,6 +27,8 @@ module Ronin
           #
           # Contains additional types available on Windows.
           #
+          # @api semipublic
+          #
           # @since 1.0.0
           #
           class Windows < OS

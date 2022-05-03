@@ -24,7 +24,7 @@ module Ronin
         #
         # Represents additional typedefs defined by an Operating System (OS).
         #
-        # @api semipublic
+        # @api private
         #
         # @since 1.0.0
         #
@@ -38,8 +38,6 @@ module Ronin
           # The defined typedefs for the OS.
           #
           # @return [Hash{Symbol => Type}]
-          #
-          # @api private
           attr_reader :typedefs
 
           #
@@ -80,8 +78,6 @@ module Ronin
           #
           # @example
           #   os.typedef :uint, :foo_t
-          #
-          # @api semipublic
           #
           def typedef(type,new_name)
             case type
