@@ -137,7 +137,11 @@ module Ronin
             struct_members = Hash[struct_class.members.map { |name,member|
               [name, resolve(member.type_signature)]
             }]
-            struct_type    = StructType.build(struct_members)
+
+            struct_type = StructType.build(
+              struct_members, alignment: struct_class.alignment,
+                              padding:   struct_class.padding
+            )
 
             StructObjectType.new(struct_class,struct_type)
           end

@@ -24,6 +24,19 @@ describe Ronin::Support::Binary::Types::Resolver do
         member :y, :uint32
       end
 
+      class TestStructWithAlignment < Ronin::Support::Binary::Struct
+        align 3
+
+        member :x, :uint8
+        member :y, :int32
+      end
+
+      class TestStructWithoutPadding < Ronin::Support::Binary::Struct
+        padding false
+        member :x, :uint8
+        member :y, :int32
+      end
+
       class TestUnion < Ronin::Support::Binary::Union
         member :x, :int16
         member :y, :uint32
@@ -59,6 +72,29 @@ describe Ronin::Support::Binary::Types::Resolver do
 
         expect(type.struct_type.members[:x].type).to eq(subject.resolve(struct_class.members[:x].type_signature))
         expect(type.struct_type.members[:y].type).to eq(subject.resolve(struct_class.members[:y].type_signature))
+      end
+
+      context "but the Struct class has a custom .alignment set" do
+        let(:struct_class) { TestTypesResolver::TestStructWithAlignment }
+
+        it "must return a StructObjectType with the same alignment" do
+          type = subject.resolve(struct_class)
+
+          expect(type.alignment).to eq(struct_class.alignment)
+        end
+      end
+
+      context "but the Struct class has .padding disabled" do
+        let(:struct_class) { TestTypesResolver::TestStructWithoutPadding }
+
+        it "must not add padding to members" do
+          type = subject.resolve(struct_class)
+
+          expect(type.size).to eq(
+            subject.resolve(struct_class.members[:x].type_signature).size + 
+            subject.resolve(struct_class.members[:y].type_signature).size
+          )
+        end
       end
     end
 
