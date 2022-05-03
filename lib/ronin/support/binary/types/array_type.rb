@@ -18,6 +18,7 @@
 #
 
 require 'ronin/support/binary/types/aggregate_type'
+require 'ronin/support/binary/types/unbounded_array_type'
 
 module Ronin
   module Support
