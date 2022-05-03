@@ -68,6 +68,42 @@ module Ronin
             end
 
             #
+            # Calculates padding for the given type at the given offset.
+            #
+            # @param [Integer] offset
+            #
+            # @param [Type] type
+            #
+            # @return [Integer]
+            #
+            # @api private
+            #
+            # @see https://en.wikipedia.org/wiki/Data_structure_alignment#Computing_padding
+            #
+            def self.padding_for(offset,type)
+              (type.alignment - (offset % type.alignment)) % type.alignment
+            end
+
+            #
+            # Calculates the pack string for the given type and optional
+            # padding.
+            #
+            # @param [Type] type
+            #
+            # @param [Integer] padding
+            #
+            # @return [String]
+            #   The pack string for the member.
+            #
+            # @api private
+            #
+            def self.pack_string_for(type,padding=0)
+              if padding > 0 then "#{'x' * padding}#{type.pack_string}"
+              else                type.pack_string
+              end
+            end
+
+            #
             # The size, in bytes, of the member within the struct.
             #
             # @return [Integer]
@@ -123,39 +159,46 @@ module Ronin
           # @param [Hash{Symbol => Type}] fields
           #   The field names and types for the struct type.
           #
+          # @param [Integer, nil] alignment
+          #   Optional custom alignment the struct type.
+          #
+          # @param [Boolean] padding
+          #   Controls whether to pad struct members for alignment.
+          #
           # @return [StructType]
           #   The new struct type.
           #
-          def self.build(fields)
-            members = {}
-            offset  = 0
+          def self.build(fields, alignment: nil, padding: true)
+            members       = {}
             max_alignment = 0
-            pack_string = ''
+            pack_string   = ''
+
+            offset = 0
 
             fields.each do |name,type|
-              # https://en.wikipedia.org/wiki/Data_structure_alignment#Computing_padding
-              alignment = type.alignment
-              padding   = (alignment - (offset % alignment)) % alignment
-              offset   += padding
+              pad = if padding then Member.padding_for(offset,type)
+                    else            0
+                    end
 
-              members[name] = Member.new(offset,type)
-              max_alignment = alignment if alignment > max_alignment
+              members[name] = Member.new(offset + pad,type)
+              max_alignment = type.alignment if type.alignment > max_alignment
 
               if pack_string
-                # add null-byte padding
-                pack_string << ('x' * padding) if padding > 0
-
-                if type.pack_string then pack_string << type.pack_string
-                else                     pack_string = nil
+                if type.pack_string
+                  pack_string << Member.pack_string_for(type,pad)
+                else
+                  pack_string = nil
                 end
               end
 
               # omit infinite sizes from the struct size
-              offset += type.size unless type.size == Float::INFINITY
+              unless type.size == Float::INFINITY
+                offset += type.size + pad
+              end
             end
 
             return new(members, size:        offset,
-                                alignment:   max_alignment,
+                                alignment:   alignment || max_alignment,
                                 pack_string: pack_string)
           end
 

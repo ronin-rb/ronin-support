@@ -135,10 +135,33 @@ describe Ronin::Support::Binary::Types::StructType do
           expect(subject.members[:a].offset).to eq(0)
           expect(subject.members[:b].offset).to eq(members[:a].size + 3)
         end
+
+        context "but `padding: false` is also given" do
+          subject { described_class.build(members, padding: false) }
+
+          it "must not add padding to members" do
+            expect(subject.members[:a].offset).to eq(0)
+            expect(subject.members[:b].offset).to eq(members[:a].size)
+          end
+        end
       end
 
       it "must set #size to the sum of the members type's sizes" do
         expect(subject.size).to eq(members.values.map(&:size).sum)
+      end
+
+      it "must set #alignment to the largest alignment of it's #members" do
+        expect(subject.alignment).to eq(members.values.map(&:alignment).max)
+      end
+
+      context "but when the `alignment:` keyword is given" do
+        let(:new_alignment) { 3 }
+
+        subject { described_class.build(members, alignment: new_alignment) }
+
+        it "must override the struct type's alignment" do
+          expect(subject.alignment).to eq(new_alignment)
+        end
       end
 
       context "when all of the given types have a #pack_string" do
