@@ -27,6 +27,8 @@ module Ronin
           #
           # Contains additional types available on GNU/Linux.
           #
+          # @since 1.0.0
+          #
           class Linux < OS
 
             #

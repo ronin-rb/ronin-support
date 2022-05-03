@@ -28,6 +28,8 @@ module Ronin
           #
           # Contains additional types available on macOS (aka Darwin).
           #
+          # @since 1.0.0
+          #
           class MacOS < OS
 
             #
