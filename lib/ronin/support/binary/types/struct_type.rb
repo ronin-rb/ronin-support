@@ -145,6 +145,12 @@ module Ronin
           # @param [Hash{Symbol => Member}] members
           #   The members for the struct type.
           #
+          # @param [Integer, nil] alignment
+          #   Optional custom alignment the struct type.
+          #
+          # @param [String, nil] pack_string
+          #   The String for `Array#pack` or `String#unpack`.
+          #
           def initialize(members, size: , alignment: , pack_string: )
             @members   = members
             @size      = size
