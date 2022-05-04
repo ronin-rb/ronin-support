@@ -26,12 +26,12 @@ describe Ronin::Support::Binary::Types::OS::Windows do
       :intmax_t => :long_long,
       :_mode_t => :ushort,
       :mode_t => :ushort,
-      :off32_t => :long,
+      # :off32_t => :long,
       :_off64_t => :long_long,
       :off64_t => :long_long,
-      :_off_t => :long,
+      # :_off_t => :long,
       :off_t => :long_long,
-      :__time32_t => :long,
+      # :__time32_t => :long,
       :__time64_t => :long_long,
       :uint16_t => :ushort,
       :uint64_t => :ulong_long,
@@ -51,6 +51,13 @@ describe Ronin::Support::Binary::Types::OS::Windows do
     }.each do |typedef_name,type|
       it "must define a #{typedef_name.inspect} -> #{type.inspect} typedef" do
         expect(subject[typedef_name]).to eq(types[type])
+      end
+    end
+
+    # :long typedefs
+    [:off32_t, :_off_t, :__time32_t, ].each do |type|
+      it "must override the #{type.inspect} type to be :int32 instead" do
+        expect(subject[type]).to eq(types[:int32])
       end
     end
   end
