@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types/os'
+require 'ronin/support/binary/types/os/bsd'
 
 module Ronin
   module Support
@@ -31,7 +31,7 @@ module Ronin
           #
           # @since 1.0.0
           #
-          class OpenBSD < OS
+          class OpenBSD < BSD
 
             #
             # Initializes the OpenBSD types object.
@@ -42,7 +42,6 @@ module Ronin
             def initialize(types)
               super(types)
 
-              typedef :string, :caddr_t
               typedef :int, :__clockid_t
               typedef :int, :clockid_t
               typedef :ulong, :__cpuid_t
@@ -51,23 +50,12 @@ module Ronin
               typedef :int, :__dev_t
               typedef :int, :dev_t
               typedef :uint, :__fixpt_t
-              typedef :uint, :fixpt_t
               typedef :uint, :__gid_t
-              typedef :uint, :gid_t
               typedef :uint, :__id_t
               typedef :uint, :id_t
               typedef :uint, :__in_addr_t
-              typedef :uint, :in_addr_t
               typedef :ushort, :__in_port_t
               typedef :ushort, :in_port_t
-              typedef :short, :__int16_t
-              typedef :short, :int16_t
-              typedef :int, :__int32_t
-              typedef :int, :int32_t
-              typedef :long_long, :__int64_t
-              typedef :long_long, :int64_t
-              typedef :char, :__int8_t
-              typedef :char, :int8_t
               typedef :int, :__int_fast16_t
               typedef :int, :__int_fast32_t
               typedef :long_long, :__int_fast64_t
@@ -85,47 +73,30 @@ module Ronin
               typedef :uint, :__nlink_t
               typedef :uint, :nlink_t
               typedef :long_long, :__off_t
-              typedef :long_long, :off_t
               typedef :ulong, :__paddr_t
               typedef :ulong, :paddr_t
               typedef :int, :__pid_t
-              typedef :int, :pid_t
               typedef :ulong, :__psize_t
               typedef :ulong, :psize_t
               typedef :long, :__ptrdiff_t
-              typedef :pointer, :qaddr_t
-              typedef :long_long, :quad_t
               typedef :ulong_long, :__rlim_t
               typedef :ulong_long, :rlim_t
               typedef :int, :__rune_t
               typedef :uchar, :__sa_family_t
-              typedef :uchar, :sa_family_t
               typedef :int, :__segsz_t
-              typedef :int, :segsz_t
               typedef :ulong, :__size_t
               typedef :ulong, :size_t
               typedef :uint, :__socklen_t
-              typedef :uint, :socklen_t
               typedef :long, :__ssize_t
               typedef :long, :ssize_t
               typedef :int, :__swblk_t
               typedef :int, :swblk_t
               typedef :int, :__timer_t
               typedef :int, :timer_t
-              typedef :uchar, :u_char
               typedef :uint, :__uid_t
-              typedef :uint, :uid_t
-              typedef :ushort, :__uint16_t
-              typedef :ushort, :u_int16_t
               typedef :ushort, :uint16_t
-              typedef :uint, :__uint32_t
-              typedef :uint, :u_int32_t
               typedef :uint, :uint32_t
-              typedef :ulong_long, :__uint64_t
-              typedef :ulong_long, :u_int64_t
               typedef :ulong_long, :uint64_t
-              typedef :uchar, :__uint8_t
-              typedef :uchar, :u_int8_t
               typedef :uchar, :uint8_t
               typedef :uint, :__uint_fast16_t
               typedef :uint, :__uint_fast32_t
@@ -137,14 +108,9 @@ module Ronin
               typedef :uchar, :__uint_least8_t
               typedef :ulong_long, :__uintmax_t
               typedef :ulong, :__uintptr_t
-              typedef :uint, :u_int
-              typedef :ulong, :u_long
               typedef :ulong, :ulong
               typedef :uchar, :unchar
-              typedef :ulong_long, :u_quad_t
               typedef :uint, :__useconds_t
-              typedef :uint, :useconds_t
-              typedef :ushort, :u_short
               typedef :ulong, :__vaddr_t
               typedef :ulong, :vaddr_t
               typedef :ulong, :__vsize_t

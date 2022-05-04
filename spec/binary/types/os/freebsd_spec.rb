@@ -3,28 +3,21 @@ require 'ronin/support/binary/types/os/freebsd'
 require 'ronin/support/binary/types/arch/x86'
 require 'ronin/support/binary/types/arch/x86_64'
 
+require_relative 'bsd_examples'
+
 describe Ronin::Support::Binary::Types::OS::FreeBSD do
+  it { expect(described_class).to be < Ronin::Support::Binary::Types::OS::BSD }
+
   shared_examples_for "common typedefs" do
+    include_context "common BSD types"
+
     {
-      :caddr_t => :string,
       :__clockid_t => :int,
       :clockid_t => :int,
       :__fixpt_t => :uint,
-      :fixpt_t => :uint,
       :__gid_t => :uint,
-      :gid_t => :uint,
-      :in_addr_t => :uint,
       :__ino_t => :uint,
       :ino_t => :uint,
-      :in_port_t => :ushort,
-      :__int16_t => :short,
-      :int16_t => :short,
-      :__int32_t => :int,
-      :int32_t => :int,
-      :__int64_t => :long_long,
-      :int64_t => :long_long,
-      :__int8_t => :char,
-      :int8_t => :char,
       :__int_fast16_t => :int,
       :__int_fast32_t => :int,
       :__int_fast64_t => :long_long,
@@ -37,36 +30,19 @@ describe Ronin::Support::Binary::Types::OS::FreeBSD do
       :__key_t => :long,
       :key_t => :long,
       :__off_t => :long_long,
-      :off_t => :long_long,
       :__pid_t => :int,
-      :pid_t => :int,
-      :qaddr_t => :pointer,
-      :quad_t => :long_long,
       :__rune_t => :int,
       :__sa_family_t => :uchar,
-      :sa_family_t => :uchar,
       :__segsz_t => :int,
-      :segsz_t => :int,
       :__socklen_t => :uint,
-      :socklen_t => :uint,
       :__suseconds_t => :long,
       :suseconds_t => :long,
       :__time_t => :long,
       :time_t => :long,
-      :u_char => :uchar,
       :__uid_t => :uint,
-      :uid_t => :uint,
-      :__uint16_t => :ushort,
-      :u_int16_t => :ushort,
       :uint16_t => :ushort,
-      :__uint32_t => :uint,
-      :u_int32_t => :uint,
       :uint32_t => :uint,
-      :__uint64_t => :ulong_long,
-      :u_int64_t => :ulong_long,
       :uint64_t => :ulong_long,
-      :__uint8_t => :uchar,
-      :u_int8_t => :uchar,
       :uint8_t => :uchar,
       :__uint_fast16_t => :uint,
       :__uint_fast32_t => :uint,
@@ -77,12 +53,7 @@ describe Ronin::Support::Binary::Types::OS::FreeBSD do
       :__uint_least64_t => :ulong_long,
       :__uint_least8_t => :uchar,
       :__uintmax_t => :ulong_long,
-      :u_int => :uint,
-      :u_long => :ulong,
-      :u_quad_t => :ulong_long,
       :__useconds_t => :uint,
-      :useconds_t => :uint,
-      :u_short => :ushort,
       :__wchar_t => :int,
       :__wint_t => :int
     }.each do |typedef_name,type|

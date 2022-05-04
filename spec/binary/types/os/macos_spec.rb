@@ -3,12 +3,17 @@ require 'ronin/support/binary/types/os/macos'
 require 'ronin/support/binary/types/arch/x86'
 require 'ronin/support/binary/types/arch/x86_64'
 
+require_relative 'bsd_examples'
+
 describe Ronin::Support::Binary::Types::OS::MacOS do
+  it { expect(described_class).to be < Ronin::Support::Binary::Types::OS::BSD }
+
   shared_examples_for "common typedefs" do
+    include_context "common BSD types"
+
     {
       :blkcnt_t => :long_long,
       :blksize_t => :int,
-      :caddr_t => :string,
       :clock_t => :ulong,
       :daddr_t => :int,
       :__darwin_blkcnt_t => :long_long,
@@ -43,64 +48,30 @@ describe Ronin::Support::Binary::Types::OS::MacOS do
       :__darwin_wint_t => :int,
       :dev_t => :int,
       :fd_mask => :int,
-      :fixpt_t => :uint,
       :fsblkcnt_t => :uint,
       :fsfilcnt_t => :uint,
-      :gid_t => :uint,
       :id_t => :uint,
-      :in_addr_t => :uint,
       :ino64_t => :ulong_long,
       :ino_t => :ulong_long,
-      :in_port_t => :ushort,
-      :__int16_t => :short,
-      :int16_t => :short,
-      :__int32_t => :int,
-      :int32_t => :int,
-      :__int64_t => :long_long,
-      :int64_t => :long_long,
-      :__int8_t => :char,
-      :int8_t => :char,
       :intptr_t => :long,
       :key_t => :int,
       :mode_t => :ushort,
       :nlink_t => :ushort,
-      :off_t => :long_long,
-      :pid_t => :int,
       :pthread_key_t => :ulong,
-      :qaddr_t => :pointer,
-      :quad_t => :long_long,
       :rlim_t => :ulong_long,
-      :sa_family_t => :uchar,
-      :segsz_t => :int,
       :size_t => :ulong,
-      :socklen_t => :uint,
       :ssize_t => :long,
       :suseconds_t => :int,
       :swblk_t => :int,
       :syscall_arg_t => :ulong_long,
       :time_t => :long,
-      :u_char => :uchar,
-      :uid_t => :uint,
-      :__uint16_t => :ushort,
-      :u_int16_t => :ushort,
-      :__uint32_t => :uint,
-      :u_int32_t => :uint,
-      :__uint64_t => :ulong_long,
-      :u_int64_t => :ulong_long,
-      :__uint8_t => :uchar,
-      :u_int8_t => :uchar,
       :uintptr_t => :ulong,
-      :u_int => :uint,
-      :u_long => :ulong,
-      :u_quad_t => :ulong_long,
-      :useconds_t => :uint,
       :user_addr_t => :ulong_long,
       :user_long_t => :long_long,
       :user_size_t => :ulong_long,
       :user_ssize_t => :long_long,
       :user_time_t => :long_long,
-      :user_ulong_t => :ulong_long,
-      :u_short => :ushort
+      :user_ulong_t => :ulong_long
     }.each do |typedef_name,type|
       it "must define a #{typedef_name.inspect} -> #{type.inspect} typedef" do
         expect(subject[typedef_name]).to eq(types[type])
