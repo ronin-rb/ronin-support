@@ -32,7 +32,7 @@ module Ronin
         #
         # @api private
         #
-        class Resolver
+        class TypeResolver
 
           # The {Types} module or object to lookup type names in.
           #

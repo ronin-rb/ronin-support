@@ -20,6 +20,7 @@
 require 'ronin/support/binary/memory'
 require 'ronin/support/binary/struct/member'
 require 'ronin/support/binary/types/mixin'
+require 'ronin/support/binary/types/type_resolver'
 require 'ronin/support/binary/array'
 
 module Ronin
@@ -536,12 +537,12 @@ module Ronin
         #
         # The type resolver using {type_system}.
         #
-        # @return [Types::Resolver]
+        # @return [Types::TypeResolver]
         #
         # @api semipublic
         #
         def self.type_resolver
-          @resolver ||= Types::Resolver.new(type_system)
+          @resolver ||= Types::TypeResolver.new(type_system)
         end
 
         #

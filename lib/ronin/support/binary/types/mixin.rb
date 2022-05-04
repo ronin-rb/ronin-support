@@ -103,7 +103,7 @@ module Ronin
                                             os:     os
                                           )
 
-            @type_resolver = Types::Resolver.new(@type_system)
+            @type_resolver = Types::TypeResolver.new(@type_system)
           end
         end
       end
@@ -111,4 +111,4 @@ module Ronin
   end
 end
 
-require 'ronin/support/binary/types/resolver'
+require 'ronin/support/binary/types/type_resolver'

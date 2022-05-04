@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'ronin/support/binary/types/resolver'
+require 'ronin/support/binary/types/type_resolver'
 require 'ronin/support/binary/types/native'
 require 'ronin/support/binary/struct'
 require 'ronin/support/binary/union'
 
-describe Ronin::Support::Binary::Types::Resolver do
+describe Ronin::Support::Binary::Types::TypeResolver do
   let(:types) { Ronin::Support::Binary::Types::Native }
 
   subject { described_class.new(types) }

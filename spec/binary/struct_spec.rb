@@ -215,11 +215,13 @@ describe Ronin::Support::Binary::Struct do
   describe ".type_resolver" do
     subject { Class.new(described_class) }
 
-    it "must return a Types::Resolver object initialized with .type_system" do
-      resolver = subject.type_resolver
+    it "must return a Types::TypeResolver initialized with .type_system" do
+      type_resolver = subject.type_resolver
 
-      expect(resolver).to be_kind_of(Ronin::Support::Binary::Types::Resolver)
-      expect(resolver.types).to be(subject.type_system)
+      expect(type_resolver).to be_kind_of(
+        Ronin::Support::Binary::Types::TypeResolver
+      )
+      expect(type_resolver.types).to be(subject.type_system)
     end
   end
 
