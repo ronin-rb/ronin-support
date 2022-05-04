@@ -93,3 +93,12 @@ module Ronin
     end
   end
 end
+
+require 'ronin/support/binary/types/os/unix'
+require 'ronin/support/binary/types/os/linux'
+require 'ronin/support/binary/types/os/bsd'
+require 'ronin/support/binary/types/os/freebsd'
+require 'ronin/support/binary/types/os/openbsd'
+require 'ronin/support/binary/types/os/netbsd'
+require 'ronin/support/binary/types/os/macos'
+require 'ronin/support/binary/types/os/windows'
