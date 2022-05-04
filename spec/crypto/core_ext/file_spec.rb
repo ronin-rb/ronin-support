@@ -7,7 +7,8 @@ require 'tempfile'
 
 describe File do
   let(:clear_text) { 'the quick brown fox' }
-  let(:path) { Tempfile.new('ronin-support').path }
+  let(:tempfile)   { Tempfile.new('ronin-support') }
+  let(:path)       { tempfile.path }
 
   before { File.write(path,clear_text) }
 
