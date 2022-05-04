@@ -76,7 +76,7 @@ module Ronin
         #                 :arm64, :arm64_le, :arm64_be] :arch
         #   The desired architecture for the values of the IO stream.
         #
-        def initialize(io,**kwargs)
+        def initialize(io, **kwargs)
           initialize_type_system(**kwargs)
 
           @io = io

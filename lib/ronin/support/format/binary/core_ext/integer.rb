@@ -93,13 +93,23 @@ class Integer
   # @param [String, Symbol] argument
   #   The `Array#pack` String or {Ronin::Support::Binary::Format} type.
   #
-  # @param [:little, :big, :net, nil] endian
-  #   The desired endianness of the packed integer.
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {Ronin::Support::Binary::Types.platform}.
   #
-  # @param [:x86, :x86_64, :ppc, :ppc64,
-  #         :arm, :arm_be, :arm64, :arm64_be,
-  #         :mips, :mips_le, :mips64, :mips64_le, nil] arch
-  #   The desired architecture to pack the integer for.
+  # @option kwargs [:little, :big, :net, nil] :endian
+  #   The desired endianness of the binary format.
+  #
+  # @option kwargs [:x86, :x86_64,
+  #                 :ppc, :ppc64,
+  #                 :mips, :mips_le, :mips_be,
+  #                 :mips64, :mips64_le, :mips64_be,
+  #                 :arm, :arm_le, :arm_be,
+  #                 :arm64, :arm64_le, :arm64_be] :arch
+  #   The desired architecture of the binary format.
+  #
+  # @option kwargs [:linux, :macos, :windows,
+  #                 :bsd, :freebsd, :openbsd, :netbsd] :os
+  #   The Operating System name to lookup.
   #
   # @return [String]
   #   The packed Integer.
@@ -119,15 +129,13 @@ class Integer
   #
   # @api public
   #
-  def pack(argument, endian: nil, arch: nil)
+  def pack(argument, **kwargs)
     case argument
     when String
       [self].pack(argument)
     when Symbol
-      types = if arch then Ronin::Support::Binary::Types.arch(arch)
-              else         Ronin::Support::Binary::Types.endian(endian)
-              end
-      type = types[argument]
+      types = Ronin::Support::Binary::Types.platform(**kwargs)
+      type  = types[argument]
       type.pack(self)
     else
       raise(ArgumentError,"invalid pack argument: #{argument}")

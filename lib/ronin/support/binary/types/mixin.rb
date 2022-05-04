@@ -44,6 +44,14 @@ module Ronin
           # @api public
           attr_reader :arch
 
+          # The desired Operating System (OS) of the binary format.
+          #
+          # @return [:linux, :macos, :windows,
+          #          :bsd, :freebsd, :openbsd, :netbsd, nil]
+          #
+          # @api public
+          attr_reader :os
+
           # The type system module or object to lookup type names in.
           #
           # @return [#[]]
@@ -63,29 +71,36 @@ module Ronin
           #
           # Initializes the type system.
           #
-          # @param [#[]] types
-          #   The type system.
+          # @param [#[], nil] types
+          #   Optional type system to use instead.
           #
-          # @param [:little, :big, :net, nil] endian
+          # @option kwargs [:little, :big, :net, nil] :endian
           #   The desired endianness of the binary format.
           #
-          # @param [:x86, :x86_64,
-          #         :ppc, :ppc64,
-          #         :mips, :mips_le, :mips_be,
-          #         :mips64, :mips64_le, :mips64_be,
-          #         :arm, :arm_le, :arm_be,
-          #         :arm64, :arm64_le, :arm64_be] arch
+          # @option kwargs [:x86, :x86_64,
+          #                 :ppc, :ppc64,
+          #                 :mips, :mips_le, :mips_be,
+          #                 :mips64, :mips64_le, :mips64_be,
+          #                 :arm, :arm_le, :arm_be,
+          #                 :arm64, :arm64_le, :arm64_be] :arch
           #   The desired architecture of the binary format.
           #
-          def initialize_type_system(types=nil, endian: nil, arch: nil)
+          # @option kwargs [:linux, :macos, :windows,
+          #                 :bsd, :freebsd, :openbsd, :netbsd] :os
+          #   The Operating System name to lookup.
+          #
+          def initialize_type_system(types: nil, endian: nil,
+                                                 arch:   nil,
+                                                 os:     nil)
             @endian = endian
             @arch   = arch
+            @os     = os
 
-            @type_system = if    types  then types
-                           elsif arch   then Types.arch(arch)
-                           elsif endian then Types.endian(endian)
-                           else              Types
-                           end
+            @type_system   = types || Types.platform(
+                                        endian: endian,
+                                        arch:   arch,
+                                        os:     os
+                                      )
             @type_resolver = Types::Resolver.new(@type_system)
           end
         end

@@ -277,7 +277,7 @@ describe Ronin::Support::Binary::Format do
       it do
         expect {
           described_class.new(fields, arch: arch)
-        }.to raise_error(ArgumentError,"unknown arch: #{arch.inspect}")
+        }.to raise_error(ArgumentError,"unknown architecture: #{arch.inspect}")
       end
     end
   end

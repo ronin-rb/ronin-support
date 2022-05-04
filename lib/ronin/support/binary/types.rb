@@ -22,6 +22,7 @@ require 'ronin/support/binary/types/little_endian'
 require 'ronin/support/binary/types/big_endian'
 require 'ronin/support/binary/types/network'
 require 'ronin/support/binary/types/arch'
+require 'ronin/support/binary/types/os'
 
 require 'ronin/support/binary/types/array_type'
 require 'ronin/support/binary/types/unbounded_array_type'
@@ -255,15 +256,6 @@ module Ronin
           double_net:  Network::DOUBLE
         )
 
-        # Represents the different endian type systems.
-        ENDIAN = {
-          little: LittleEndian,
-          big:    BigEndian,
-          net:    Network,
-
-          nil => self
-        }
-
         #
         # Fetches the type from {TYPES}.
         #
@@ -282,23 +274,14 @@ module Ronin
           end
         end
 
-        #
-        # Fetches the type system for the given endianness.
-        #
-        # @param [:little, :big, :net, nil] endian
-        #   The endianness.
-        #
-        # @return [LittleEndian, BigEndian, Network, self]
-        #   The type system for the given endianness.
-        #
-        # @raise [ArgumentError]
-        #   The endian was unknown.
-        #
-        def self.endian(endian)
-          ENDIAN.fetch(endian) do
-            raise(ArgumentError,"unknown endian: #{endian.inspect}")
-          end
-        end
+        # Represents the different endian type systems.
+        ENDIAN = {
+          little: LittleEndian,
+          big:    BigEndian,
+          net:    Network,
+
+          nil => self
+        }
 
         # The supported architectures.
         ARCHES = {
@@ -328,27 +311,80 @@ module Ronin
           arm64_be: Arch::ARM64::BigEndian
         }
 
+        # The supported Operating Systems.
+        OSES = {
+          unix:  OS::UNIX,
+
+          bsd:     OS::BSD,
+          freebsd: OS::FreeBSD,
+          openbsd: OS::OpenBSD,
+          netbsd:  OS::NetBSD,
+
+          linux:   OS:: Linux,
+          macos:   OS::MacOS,
+          windows: OS::Windows
+        }
+
         #
-        # Fetches the arch from {ARCHES}.
+        # Returns the types module/object for the given endianness,
+        # architecture, and/or Operating System (OS).
+        #
+        # @param [:little, :big, :net, nil] endian
+        #   The endianness.
         #
         # @param [:x86, :x86_64,
         #         :ppc, :ppc64,
         #         :mips, :mips_le, :mips_be,
         #         :mips64, :mips64_le, :mips64_be,
         #         :arm, :arm_le, :arm_be,
-        #         :arm64, :arm64_le, :arm64_be] name
+        #         :arm64, :arm64_le, :arm64_be] arch
         #   The architecture name to lookup.
         #
-        # @return [Module]
-        #   The arch module from {ARCHES}.
+        # @param [:linux, :macos, :windows,
+        #         :bsd, :freebsd, :openbsd, :netbsd] os
+        #   The Operating System name to lookup.
+        #
+        # @return [Types,
+        #          Types::LittleEndian,
+        #          Types::BigEndian,
+        #          Types::Network,
+        #          Types::Arch::ARM,
+        #          Types::Arch::ARM::BigEndian,
+        #          Types::Arch::ARM64,
+        #          Types::Arch::ARM64::BigEndian,
+        #          Types::Arch::MIPS,
+        #          Types::Arch::MIPS::LittleEndian,
+        #          Types::Arch::MIPS64,
+        #          Types::Arch::MIPS64::LittleEndian,
+        #          Types::Arch::PPC,
+        #          Types::Arch::PPC64,
+        #          Types::Arch::X86,
+        #          Types::Arch::X86_64,
+        #          Types::OS]
+        #   The types module.
         #
         # @raise [ArgumentError]
-        #   The architecture name was unknown.
+        #   The endian was unknown, the architecture name was unknown,
+        #   or the os name was unknown.
         #
-        def self.arch(name)
-          ARCHES.fetch(name) do
-            raise(ArgumentError,"unknown arch: #{name.inspect}")
+        def self.platform(arch: nil, endian: nil, os: nil)
+          types = if arch
+                    ARCHES.fetch(arch) do
+                      raise(ArgumentError,"unknown architecture: #{arch.inspect}")
+                    end
+                  else
+                    ENDIAN.fetch(endian) do
+                      raise(ArgumentError,"unknown endian: #{endian.inspect}")
+                    end
+                  end
+
+          if os
+            types = OSES.fetch(os) {
+              raise(ArgumentError,"unknown OS: #{os.inspect}")
+            }.new(types)
           end
+
+          return types
         end
       end
     end

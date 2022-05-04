@@ -1283,42 +1283,6 @@ describe Ronin::Support::Binary::Types do
     end
   end
 
-  describe ".endian" do
-    context "when given :little" do
-      it "must return #{described_class::LittleEndian}" do
-        expect(subject.endian(:little)).to be(described_class::LittleEndian)
-      end
-    end
-
-    context "when given :big" do
-      it "must return #{described_class::BigEndian}" do
-        expect(subject.endian(:big)).to be(described_class::BigEndian)
-      end
-    end
-
-    context "when given :net" do
-      it "must return #{described_class::Network}" do
-        expect(subject.endian(:net)).to be(described_class::Network)
-      end
-    end
-
-    context "when given nil" do
-      it "must return self" do
-        expect(subject.endian(nil)).to be(subject)
-      end
-    end
-
-    context "when given an unknown endian" do
-      let(:endian) { :foo }
-
-      it do
-        expect {
-          subject.endian(endian)
-        }.to raise_error(ArgumentError,"unknown endian: #{endian.inspect}")
-      end
-    end
-  end
-
   describe "ARCHES" do
     subject { described_class::ARCHES }
 
@@ -1439,20 +1403,146 @@ describe Ronin::Support::Binary::Types do
     end
   end
 
-  describe ".arch" do
-    context "when given a valid arch name" do
-      it "must return the #{described_class::Arch}:: module" do
-        expect(subject.arch(:x86_64)).to be(described_class::Arch::X86_64)
+  describe "OSES" do
+    subject { described_class::OSES }
+
+    describe ":unix" do
+      subject { super()[:unix] }
+
+      it { expect(subject).to be(Ronin::Support::Binary::Types::OS::UNIX) }
+    end
+
+    describe ":bsd" do
+      subject { super()[:bsd] }
+
+      it { expect(subject).to be(Ronin::Support::Binary::Types::OS::BSD) }
+    end
+
+    describe ":freebsd" do
+      subject { super()[:freebsd] }
+
+      it { expect(subject).to be(Ronin::Support::Binary::Types::OS::FreeBSD) }
+    end
+
+    describe ":openbsd" do
+      subject { super()[:openbsd] }
+
+      it { expect(subject).to be(Ronin::Support::Binary::Types::OS::OpenBSD) }
+    end
+
+    describe ":netbsd" do
+      subject { super()[:netbsd] }
+
+      it { expect(subject).to be(Ronin::Support::Binary::Types::OS::NetBSD) }
+    end
+
+    describe ":linux" do
+      subject { super()[:linux] }
+
+      it { expect(subject).to be(Ronin::Support::Binary::Types::OS::Linux ) }
+    end
+
+    describe ":macos" do
+      subject { super()[:macos] }
+
+      it { expect(subject).to be(Ronin::Support::Binary::Types::OS::MacOS) }
+    end
+
+    describe ":windows" do
+      subject { super()[:windows] }
+
+      it { expect(subject).to be(Ronin::Support::Binary::Types::OS::Windows) }
+    end
+  end
+
+  describe ".platform" do
+    context "when given no keyword arguments" do
+      it "must return #{described_class}" do
+        expect(subject.platform).to eq(subject)
       end
     end
 
-    context "when given an unknown arch name" do
-      let(:arch) { :foo }
+    context "when given the endian: keyword argument" do
+      context "and it's :little" do
+        it "must return #{described_class::LittleEndian}" do
+          expect(subject.platform(endian: :little)).to be(described_class::LittleEndian)
+        end
+      end
 
-      it do
-        expect {
-          subject.arch(arch)
-        }.to raise_error(ArgumentError,"unknown arch: #{arch.inspect}")
+      context "and it's :big" do
+        it "must return #{described_class::BigEndian}" do
+          expect(subject.platform(endian: :big)).to be(described_class::BigEndian)
+        end
+      end
+
+      context "and it's :net" do
+        it "must return #{described_class::Network}" do
+          expect(subject.platform(endian: :net)).to be(described_class::Network)
+        end
+      end
+
+      context "and it's nil" do
+        it "must return self" do
+          expect(subject.platform(endian: nil)).to be(subject)
+        end
+      end
+
+      context "but it's an unknown endian" do
+        let(:endian) { :foo }
+
+        it do
+          expect {
+            subject.platform(endian: endian)
+          }.to raise_error(ArgumentError,"unknown endian: #{endian.inspect}")
+        end
+      end
+    end
+
+    context "when given the arch: keyword argument" do
+      context "and it's a valid arch name" do
+        it "must return the #{described_class::Arch}:: module" do
+          expect(subject.platform(arch: :x86_64)).to be(described_class::Arch::X86_64)
+        end
+      end
+
+      context "but it's an unknown arch name" do
+        let(:arch) { :foo }
+
+        it do
+          expect {
+            subject.platform(arch: arch)
+          }.to raise_error(ArgumentError,"unknown architecture: #{arch.inspect}")
+        end
+      end
+    end
+
+    context "when given the os: keyword argument" do
+      context "and it's a valid OS name" do
+        it "must return an instance of the #{described_class::OS}:: class" do
+          expect(subject.platform(os: :linux)).to be_kind_of(described_class::OS::Linux)
+        end
+
+        context "and the endian: keyword is also given" do
+          it "must initialize the #{described_class::OS}:: class with the correspding endian module" do
+            expect(subject.platform(endian: :big, os: :linux).types).to be(described_class::BigEndian)
+          end
+        end
+
+        context "and the arch: keyword is also given" do
+          it "must initialize the #{described_class::OS}:: class with the correspding #{described_class}::Arch:: module" do
+            expect(subject.platform(arch: :arm64, os: :linux).types).to be(described_class::Arch::ARM64)
+          end
+        end
+      end
+
+      context "but it's an unknown OS name" do
+        let(:os) { :foo }
+
+        it do
+          expect {
+            subject.platform(os: os)
+          }.to raise_error(ArgumentError,"unknown OS: #{os.inspect}")
+        end
       end
     end
   end

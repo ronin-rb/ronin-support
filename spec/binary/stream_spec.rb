@@ -38,8 +38,10 @@ describe Ronin::Support::Binary::Stream do
         expect(subject.endian).to be(endian)
       end
 
-      it "must set #type_system to the Ronin::Support::Binary::Types:: module" do
-        expect(subject.type_system).to be(Ronin::Support::Binary::Types.endian(endian))
+      it "must set #type_system using Ronin::Support::Binary::Types.platform(endian: ...)" do
+        expect(subject.type_system).to be(
+          Ronin::Support::Binary::Types.platform(endian: endian)
+        )
       end
     end
 
@@ -52,8 +54,10 @@ describe Ronin::Support::Binary::Stream do
         expect(subject.arch).to be(arch)
       end
 
-      it "must set #type_system to the Ronin::Support::Binary::Types::Arch:: module" do
-        expect(subject.type_system).to be(Ronin::Support::Binary::Types.arch(arch))
+      it "must set #type_system using Ronin::Support::Binary::Types.platform(arch: ...)" do
+        expect(subject.type_system).to be(
+          Ronin::Support::Binary::Types.platform(arch: arch)
+        )
       end
     end
   end
