@@ -428,63 +428,38 @@ module Ronin
         extend Types::Mixin
 
         #
-        # Gets or sets the struct's endian-ness.
+        # Gets or sets the struct's target platform.
         #
-        # @param [:little, :big, :net, nil] new_endian
-        #   The desired endian-ness.
-        #
-        # @return [:little, :big, :net, nil]
-        #   The struct's endian-ness.
-        #
-        # @example Define the endian-ness of a struct class:
-        #   class MyStruct < Ronin::Support::Binary::Struct
-        #     endian :big
-        #     member :x, :int32
-        #   end
-        #
-        # @api public
-        #
-        def self.endian(new_endian=nil)
-          if new_endian
-            initialize_type_system(endian: new_endian)
-            @endian = new_endian
-          else
-            @endian ||= if superclass < Struct
-                          superclass.endian
-                        end
-          end
-        end
-
-        #
-        # Gets or sets the struct's endian-ness.
+        # @param [:little, :big, :net, nil] endian
+        #   The desired endianness for the struct.
         #
         # @param [:x86, :x86_64,
         #         :ppc, :ppc64,
         #         :mips, :mips_le, :mips_be,
         #         :mips64, :mips64_le, :mips64_be,
         #         :arm, :arm_le, :arm_be,
-        #         :arm64, :arm64_le, :arm64_be, nil] new_arch
-        #   The new architecture for the struct.
+        #         :arm64, :arm64_le, :arm64_be] arch
+        #   The desired architecture for the struct.
         #
-        # @return [:little, :big, :net, nil]
-        #   The struct's architecture.
+        # @param [:linux, :macos, :windows,
+        #         :bsd, :freebsd, :openbsd, :netbsd] os
+        #   The Operating System (OS) for the struct.
         #
-        # @example Define the architecture of a struct class:
-        #   class MyStruct < Ronin::Support::Binary::Struct
-        #     arch :arm64
-        #     member :x, :int
-        #   end
+        # @return [Hash{Symbol => Object}]
+        #   The platform configuration Hash.
         #
         # @api public
         #
-        def self.arch(new_arch=nil)
-          if new_arch
-            initialize_type_system(arch: new_arch)
-            @arch = new_arch
+        def self.platform(endian: nil, arch: nil, os: nil)
+          if endian || arch || os
+            @type_system = Types.platform(endian: endian, arch: arch, os: os)
+            @platform    = {endian: endian, arch: arch, os: os}
           else
-            @arch ||= if superclass < Struct
-                          superclass.arch
-                        end
+            @platform ||= if superclass < Struct
+                            superclass.platform
+                          else
+                            {}
+                          end
           end
         end
 
