@@ -41,29 +41,35 @@ module Ronin
             def initialize(types)
               super(types)
 
-              typedef :uint, :gid_t
-              typedef :uint, :in_addr_t
-              typedef :ushort, :in_port_t
+              typedef :char,  :__int8_t
               typedef :short, :__int16_t
-              typedef :short, :int16_t
-              typedef :int, :__int32_t
-              typedef :int, :int32_t
-              typedef :char, :__int8_t
-              typedef :char, :int8_t
-              typedef :int, :pid_t
-              typedef :uint, :socklen_t
-              typedef :uchar, :u_char
-              typedef :uint, :uid_t
+              typedef :int,   :__int32_t
+
+              typedef :uchar,  :__uint8_t
               typedef :ushort, :__uint16_t
-              typedef :ushort, :u_int16_t
-              typedef :uint, :__uint32_t
-              typedef :uint, :u_int32_t
+              typedef :uint,   :__uint32_t
+
+              typedef :char,  :int8_t
+              typedef :short, :int16_t
+              typedef :int,   :int32_t
+
+              typedef :uchar,      :u_int8_t
+              typedef :ushort,     :u_int16_t
+              typedef :uint,       :u_int32_t
               typedef :ulong_long, :u_int64_t
-              typedef :uchar, :__uint8_t
-              typedef :uchar, :u_int8_t
-              typedef :uint, :u_int
-              typedef :ulong, :u_long
+
+              typedef :uchar,  :u_char
+              typedef :uint,   :u_int
+              typedef :ulong,  :u_long
               typedef :ushort, :u_short
+
+              typedef :uint, :uid_t
+              typedef :uint, :gid_t
+              typedef :int,  :pid_t
+
+              typedef :uint,   :in_addr_t
+              typedef :ushort, :in_port_t
+              typedef :uint,   :socklen_t
             end
           end
         end

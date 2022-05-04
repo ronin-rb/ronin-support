@@ -42,17 +42,19 @@ module Ronin
             def initialize(types)
               super(types)
 
+              typedef :long_long,  :__int64_t
+              typedef :ulong_long, :__uint64_t
+              typedef :long_long,  :int64_t
+
+              typedef :long_long,  :quad_t
+              typedef :ulong_long, :u_quad_t
+
               typedef :string, :caddr_t
               typedef :uint, :fixpt_t
-              typedef :long_long, :__int64_t
-              typedef :long_long, :int64_t
               typedef :long_long, :off_t
               typedef :pointer, :qaddr_t
-              typedef :long_long, :quad_t
               typedef :uchar, :sa_family_t
               typedef :int, :segsz_t
-              typedef :ulong_long, :__uint64_t
-              typedef :ulong_long, :u_quad_t
               typedef :uint, :useconds_t
             end
 
