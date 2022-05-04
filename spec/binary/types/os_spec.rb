@@ -25,6 +25,16 @@ describe Ronin::Support::Binary::Types::OS do
       it "must return the type from the #types module" do
         expect(subject[name]).to eq(types[name])
       end
+
+      context "but it was previously overridden by another typedef" do
+        let(:name) { :long }
+
+        before { subject.typedef :int32, name }
+
+        it "must return the new type from #typedefs" do
+          expect(subject[name]).to eq(subject.typedefs[name])
+        end
+      end
     end
 
     context "when a typedef name is given" do
