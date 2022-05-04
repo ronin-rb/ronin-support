@@ -71,7 +71,7 @@ module Ronin
           #
           # Initializes the type system.
           #
-          # @param [#[], nil] types
+          # @param [#[], nil] type_system
           #   Optional type system to use instead.
           #
           # @option kwargs [:little, :big, :net, nil] :endian
@@ -89,18 +89,20 @@ module Ronin
           #                 :bsd, :freebsd, :openbsd, :netbsd] :os
           #   The Operating System name to lookup.
           #
-          def initialize_type_system(types: nil, endian: nil,
-                                                 arch:   nil,
-                                                 os:     nil)
+          def initialize_type_system(type_system: nil,
+                                     endian:      nil,
+                                     arch:        nil,
+                                     os:          nil)
             @endian = endian
             @arch   = arch
             @os     = os
 
-            @type_system   = types || Types.platform(
-                                        endian: endian,
-                                        arch:   arch,
-                                        os:     os
-                                      )
+            @type_system = type_system || Types.platform(
+                                            endian: endian,
+                                            arch:   arch,
+                                            os:     os
+                                          )
+
             @type_resolver = Types::Resolver.new(@type_system)
           end
         end
