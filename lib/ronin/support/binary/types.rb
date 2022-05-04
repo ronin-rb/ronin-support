@@ -300,11 +300,55 @@ module Ronin
           end
         end
 
+        # The supported architectures.
+        ARCHES = {
+          x86: Arch::X86,
+
+          x86_64: Arch::X86_64,
+          ia64:   Arch::X86_64,
+          amd64:  Arch::X86_64,
+
+          ppc:   Arch::PPC,
+          ppc64: Arch::PPC64,
+
+          mips:    Arch::MIPS,
+          mips_le: Arch::MIPS::LittleEndian,
+          mips_be: Arch::MIPS, # MIPS is big-endian by default
+
+          mips64:    Arch::MIPS64,
+          mips64_le: Arch::MIPS64::LittleEndian,
+          mips64_be: Arch::MIPS64, # MIPS is big-endian by default
+
+          arm:      Arch::ARM,
+          arm_le:   Arch::ARM,
+          arm_be:   Arch::ARM::BigEndian,
+
+          arm64:    Arch::ARM64,
+          arm64_le: Arch::ARM64, # ARM is little-endian by default
+          arm64_be: Arch::ARM64::BigEndian
+        }
+
         #
-        # @see Arch.[]
+        # Fetches the arch from {ARCHES}.
         #
-        def self.arch(arch)
-          Arch[arch]
+        # @param [:x86, :x86_64,
+        #         :ppc, :ppc64,
+        #         :mips, :mips_le, :mips_be,
+        #         :mips64, :mips64_le, :mips64_be,
+        #         :arm, :arm_le, :arm_be,
+        #         :arm64, :arm64_le, :arm64_be] name
+        #   The architecture name to lookup.
+        #
+        # @return [Module]
+        #   The arch module from {ARCHES}.
+        #
+        # @raise [ArgumentError]
+        #   The architecture name was unknown.
+        #
+        def self.arch(name)
+          ARCHES.fetch(name) do
+            raise(ArgumentError,"unknown arch: #{name.inspect}")
+          end
         end
       end
     end

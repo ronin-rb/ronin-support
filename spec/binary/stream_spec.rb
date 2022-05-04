@@ -53,7 +53,7 @@ describe Ronin::Support::Binary::Stream do
       end
 
       it "must set #type_system to the Ronin::Support::Binary::Types::Arch:: module" do
-        expect(subject.type_system).to be(Ronin::Support::Binary::Types::Arch[arch])
+        expect(subject.type_system).to be(Ronin::Support::Binary::Types.arch(arch))
       end
     end
   end
