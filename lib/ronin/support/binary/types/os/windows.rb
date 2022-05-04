@@ -86,6 +86,9 @@ module Ronin
               typedef :ushort, :wint_t
 
               if types::ADDRESS_SIZE == 8
+                typedef types::INT32, :long
+                typedef types::UINT32, :ulong
+
                 typedef :long_long, :intptr_t
                 typedef :long_long, :_pid_t
                 typedef :long_long, :pid_t

@@ -103,5 +103,13 @@ describe Ronin::Support::Binary::Types::OS::Windows do
         expect(subject[typedef_name]).to eq(types[type])
       end
     end
+
+    it "must override the :long type to be :int32 instead" do
+      expect(subject[:long]).to eq(types::INT32)
+    end
+
+    it "must override the :ulong type to be :uint32 instead" do
+      expect(subject[:ulong]).to eq(types::UINT32)
+    end
   end
 end
