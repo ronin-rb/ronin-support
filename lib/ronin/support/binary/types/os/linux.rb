@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types/os'
+require 'ronin/support/binary/types/os/unix'
 
 module Ronin
   module Support
@@ -31,7 +31,7 @@ module Ronin
           #
           # @since 1.0.0
           #
-          class Linux < OS
+          class Linux < UNIX
 
             #
             # Initializes the GNU/Linux types object.
@@ -56,25 +56,15 @@ module Ronin
               typedef :ulong, :__fsblkcnt_t
               typedef :ulong, :__fsfilcnt_t
               typedef :uint, :__gid_t
-              typedef :uint, :gid_t
               typedef :uint, :__id_t
               typedef :uint, :id_t
-              typedef :uint, :in_addr_t
               typedef :ulong, :__ino_t
-              typedef :ushort, :in_port_t
-              typedef :short, :__int16_t
-              typedef :short, :int16_t
-              typedef :int, :__int32_t
-              typedef :int, :int32_t
-              typedef :char, :__int8_t
-              typedef :char, :int8_t
               typedef :int, :__key_t
               typedef :int, :key_t
               typedef :uint, :__mode_t
               typedef :uint, :mode_t
               typedef :long, :__off_t
               typedef :int, :__pid_t
-              typedef :int, :pid_t
               typedef :int, :__priority_which_t
               typedef :uint, :pthread_key_t
               typedef :int, :pthread_once_t
@@ -86,7 +76,6 @@ module Ronin
               typedef :ushort, :sa_family_t
               typedef :int, :__sig_atomic_t
               typedef :uint, :__socklen_t
-              typedef :uint, :socklen_t
               typedef :long, :__suseconds_t
               typedef :long, :suseconds_t
               typedef :pointer, :__timer_t
@@ -94,23 +83,12 @@ module Ronin
               typedef :long, :__time_t
               typedef :long, :time_t
               typedef :uchar, :__u_char
-              typedef :uchar, :u_char
               typedef :uint, :__uid_t
               typedef :uint, :uid_t
-              typedef :ushort, :__uint16_t
-              typedef :ushort, :u_int16_t
-              typedef :uint, :__uint32_t
-              typedef :uint, :u_int32_t
-              typedef :ulong_long, :u_int64_t
-              typedef :uchar, :__uint8_t
-              typedef :uchar, :u_int8_t
               typedef :uint, :__u_int
-              typedef :uint, :u_int
               typedef :ulong, :__u_long
-              typedef :ulong, :u_long
               typedef :uint, :__useconds_t
               typedef :ushort, :__u_short
-              typedef :ushort, :u_short
 
               if types::ADDRESS_SIZE == 8
                 typedef :long, :__blkcnt64_t

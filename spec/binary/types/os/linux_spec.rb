@@ -3,8 +3,14 @@ require 'ronin/support/binary/types/os/linux'
 require 'ronin/support/binary/types/arch/x86'
 require 'ronin/support/binary/types/arch/x86_64'
 
+require_relative 'unix_examples'
+
 describe Ronin::Support::Binary::Types::OS::Linux do
+  it { expect(described_class).to be < Ronin::Support::Binary::Types::OS::UNIX }
+
   shared_examples_for "common typedefs" do
+    include_context "common UNIX types"
+
     {
       :__blkcnt_t => :long,
       :__blksize_t => :long,
@@ -19,25 +25,15 @@ describe Ronin::Support::Binary::Types::OS::Linux do
       :__fsblkcnt_t => :ulong,
       :__fsfilcnt_t => :ulong,
       :__gid_t => :uint,
-      :gid_t => :uint,
       :__id_t => :uint,
       :id_t => :uint,
-      :in_addr_t => :uint,
       :__ino_t => :ulong,
-      :in_port_t => :ushort,
-      :__int16_t => :short,
-      :int16_t => :short,
-      :__int32_t => :int,
-      :int32_t => :int,
-      :__int8_t => :char,
-      :int8_t => :char,
       :__key_t => :int,
       :key_t => :int,
       :__mode_t => :uint,
       :mode_t => :uint,
       :__off_t => :long,
       :__pid_t => :int,
-      :pid_t => :int,
       :__priority_which_t => :int,
       :pthread_key_t => :uint,
       :pthread_once_t => :int,
@@ -49,7 +45,6 @@ describe Ronin::Support::Binary::Types::OS::Linux do
       :sa_family_t => :ushort,
       :__sig_atomic_t => :int,
       :__socklen_t => :uint,
-      :socklen_t => :uint,
       :__suseconds_t => :long,
       :suseconds_t => :long,
       :__timer_t => :pointer,
@@ -57,23 +52,12 @@ describe Ronin::Support::Binary::Types::OS::Linux do
       :__time_t => :long,
       :time_t => :long,
       :__u_char => :uchar,
-      :u_char => :uchar,
       :__uid_t => :uint,
       :uid_t => :uint,
-      :__uint16_t => :ushort,
-      :u_int16_t => :ushort,
-      :__uint32_t => :uint,
-      :u_int32_t => :uint,
-      :u_int64_t => :ulong_long,
-      :__uint8_t => :uchar,
-      :u_int8_t => :uchar,
       :__u_int => :uint,
-      :u_int => :uint,
       :__u_long => :ulong,
-      :u_long => :ulong,
       :__useconds_t => :uint,
-      :__u_short => :ushort,
-      :u_short => :ushort
+      :__u_short => :ushort
     }.each do |typedef_name,type|
       it "must define a #{typedef_name.inspect} -> #{type.inspect} typedef" do
         expect(subject[typedef_name]).to eq(types[type])
