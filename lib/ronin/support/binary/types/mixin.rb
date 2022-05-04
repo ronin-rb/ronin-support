@@ -74,20 +74,20 @@ module Ronin
           # @param [#[], nil] type_system
           #   Optional type system to use instead.
           #
-          # @option kwargs [:little, :big, :net, nil] :endian
-          #   The desired endianness of the binary format.
+          # @param [:little, :big, :net, nil] endian
+          #   The desired endianness to use.
           #
-          # @option kwargs [:x86, :x86_64,
-          #                 :ppc, :ppc64,
-          #                 :mips, :mips_le, :mips_be,
-          #                 :mips64, :mips64_le, :mips64_be,
-          #                 :arm, :arm_le, :arm_be,
-          #                 :arm64, :arm64_le, :arm64_be] :arch
-          #   The desired architecture of the binary format.
+          # @param [:x86, :x86_64,
+          #         :ppc, :ppc64,
+          #         :mips, :mips_le, :mips_be,
+          #         :mips64, :mips64_le, :mips64_be,
+          #         :arm, :arm_le, :arm_be,
+          #         :arm64, :arm64_le, :arm64_be] :arch
+          #   The desired architecture to use.
           #
-          # @option kwargs [:linux, :macos, :windows,
-          #                 :bsd, :freebsd, :openbsd, :netbsd] :os
-          #   The Operating System name to lookup.
+          # @param [:linux, :macos, :windows,
+          #         :bsd, :freebsd, :openbsd, :netbsd] :os
+          #   The Operating System (OS) to use.
           #
           def initialize_type_system(type_system: nil,
                                      endian:      nil,
