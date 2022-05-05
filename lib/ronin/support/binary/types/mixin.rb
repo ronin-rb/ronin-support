@@ -82,11 +82,11 @@ module Ronin
           #         :mips, :mips_le, :mips_be,
           #         :mips64, :mips64_le, :mips64_be,
           #         :arm, :arm_le, :arm_be,
-          #         :arm64, :arm64_le, :arm64_be] :arch
+          #         :arm64, :arm64_le, :arm64_be] arch
           #   The desired architecture to use.
           #
           # @param [:linux, :macos, :windows,
-          #         :bsd, :freebsd, :openbsd, :netbsd] :os
+          #         :bsd, :freebsd, :openbsd, :netbsd] os
           #   The Operating System (OS) to use.
           #
           def initialize_type_system(type_system: nil,
