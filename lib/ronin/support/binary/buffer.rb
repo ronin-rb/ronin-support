@@ -575,6 +575,35 @@ module Ronin
         end
 
         #
+        # Gets an object at the given offset.
+        #
+        # @param [Binary::Struct.class, Binary::Union.class] type
+        #   The object class.
+        #
+        # @param [Integer] offset
+        #   The offset of the object within the buffer.
+        #
+        # @return [Binary::Struct, Binary::Union]
+        #   The object class.
+        #
+        # @raise [ArgumentError]
+        #
+        def get_object(type,offset)
+          unless (type.is_a?(Class) && type < Binary::Struct)
+            raise(ArgumentError,"type must be a #{Binary::Struct} or #{Binary::Union} class: #{type.inspect}")
+          end
+
+          type = @type_resolver.resolve(type)
+
+          if (offset < 0 || offset+type.size > size)
+            raise(IndexError,"offset #{offset} is out of bounds: 0...#{size-type.size}")
+          end
+
+          data = ByteSlice.new(@string, offset: offset, length: type.size)
+          return type.unpack(data)
+        end
+
+        #
         # Reads an array of the given type, starting at the given offset, with
         # the given length.
         #
