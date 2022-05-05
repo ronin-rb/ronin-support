@@ -1504,6 +1504,34 @@ module Ronin
         end
 
         #
+        # Writes the object into the buffer at the given offset.
+        #
+        # @param [Integer] offset
+        #   The offset to write the object at.
+        #
+        # @param [Binary::Struct, Binary::Union] object
+        #   The object to write.
+        #
+        # @return [self]
+        #
+        # @raise [ArgumentError]
+        #
+        def put_object(offset,object)
+          unless object.kind_of?(Binary::Struct)
+            raise(ArgumentError,"object must be a #{Binary::Struct} or #{Binary::Union}: #{type.inspect}")
+          end
+
+          data = object.pack
+
+          if (offset < 0 || offset+data.bytesize > size)
+            raise(IndexError,"offset #{offset} is out of bounds: 0...#{size-data.bytesize}")
+          end
+
+          @string[offset,data.bytesize] = data
+          return self
+        end
+
+        #
         # Writes an array of the given type, to the given offset within the
         # buffer.
         #

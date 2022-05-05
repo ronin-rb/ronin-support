@@ -627,18 +627,17 @@ describe Ronin::Support::Binary::Buffer do
     end
   end
 
-  describe "#get_object" do
-    module TestBinaryBuffer
-      class TestStruct < Ronin::Support::Binary::Struct
+  module TestBinaryBuffer
+    class TestStruct < Ronin::Support::Binary::Struct
 
-        member :c, :char
-        member :i, :int32_le
+      member :c, :char
+      member :i, :int32_le
 
-      end
     end
+  end
+  let(:struct_class) { TestBinaryBuffer::TestStruct }
 
-    let(:struct_class) { TestBinaryBuffer::TestStruct }
-
+  describe "#get_object" do
     before do
       subject[1] = 0x41 # c
       subject[2] = 0x00 # padding
@@ -722,6 +721,69 @@ describe Ronin::Support::Binary::Buffer do
         expect {
           subject.get_object(type,offset)
         }.to raise_error(ArgumentError,"type must be a #{Ronin::Support::Binary::Struct} or #{Ronin::Support::Binary::Union} class: #{type.inspect}")
+      end
+    end
+  end
+
+  describe "#put_object" do
+    let(:offset)     { 1   }
+    let(:char_value) { 'A' }
+    let(:int_value)  { -1  }
+
+    let(:object)        { struct_class.new(c: char_value, i: int_value) }
+    let(:packed_object) { object.pack }
+    let(:object_size)   { packed_object.bytesize }
+
+
+    context "when the offset + packed object size is within bounds" do
+      it "must write the packed object at the given offset" do
+        subject.put_object(offset,object)
+
+        expect(subject.string[offset,object_size]).to eq(packed_object)
+      end
+
+      it "must return self" do
+        expect(subject.put_object(offset,object)).to be(subject)
+      end
+    end
+
+    context "when the offset is less than 0" do
+      let(:offset) { -1 }
+
+      it do
+        expect {
+          subject.put_object(offset,object)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - object_size}")
+      end
+    end
+
+    context "when the offset + type size exceeds the buffer's size" do
+      let(:offset) { subject.size - object_size + 1 }
+
+      it do
+        expect {
+          subject.put_object(offset,object)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - object_size}")
+      end
+    end
+
+    context "when the offset is equal to the size of the buffer" do
+      let(:offset) { subject.size }
+
+      it do
+        expect {
+          subject.put_object(offset,object)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - object_size}")
+      end
+    end
+
+    context "when the offset is greater than the size of the buffer" do
+      let(:offset) { subject.size + 1 }
+
+      it do
+        expect {
+          subject.put_object(offset,object)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - object_size}")
       end
     end
   end
