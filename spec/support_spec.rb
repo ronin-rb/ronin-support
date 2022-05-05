@@ -6,11 +6,7 @@ describe Ronin::Support do
     expect(subject.const_defined?('VERSION')).to be(true)
   end
 
-  it "must include `Ronin::Support::Network::Mixin`" do
-    expect(subject).to include(Ronin::Support::Network::Mixin)
-  end
-
-  it "must include `Ronin::Support::CLI::Printing`" do
-    expect(subject).to include(Ronin::Support::CLI::Printing)
+  it "must include `Ronin::Support::Mixin`" do
+    expect(subject).to include(Ronin::Support::Mixin)
   end
 end

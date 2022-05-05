@@ -17,19 +17,19 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/core_ext'
-require 'ronin/support/format'
 require 'ronin/support/binary'
-require 'ronin/support/text'
+require 'ronin/support/cli'
+require 'ronin/support/core_ext'
 require 'ronin/support/crypto'
-require 'ronin/support/network/mixin'
+require 'ronin/support/format'
+require 'ronin/support/mixin'
+require 'ronin/support/network'
 require 'ronin/support/path'
-require 'ronin/support/cli/printing'
+require 'ronin/support/text'
 require 'ronin/support/version'
 
 module Ronin
   module Support
-    include Network::Mixin
-    include CLI::Printing
+    include Mixin
   end
 end
