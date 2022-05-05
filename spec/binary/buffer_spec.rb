@@ -233,105 +233,6 @@ describe Ronin::Support::Binary::Buffer do
     end
   end
 
-  describe "#get_object" do
-    module TestBinaryBuffer
-      class TestStruct < Ronin::Support::Binary::Struct
-
-        member :c, :char
-        member :i, :int32_le
-
-      end
-    end
-
-    let(:struct_class) { TestBinaryBuffer::TestStruct }
-
-    before do
-      subject[1] = 0x41 # c
-      subject[2] = 0x00 # padding
-      subject[3] = 0x00 # padding
-      subject[4] = 0x00 # padding
-      subject[5] = 0xff # i
-      subject[6] = 0xff
-      subject[7] = 0xff
-      subject[8] = 0xff
-    end
-
-    let(:offset)     { 1   }
-    let(:char_value) { 'A' }
-    let(:int_value)  { -1  }
-
-    context "when the offset + type size is within bounds" do
-      it "must return an instance of the Binary::Struct class" do
-        expect(subject.get_object(struct_class,offset)).to be_kind_of(struct_class)
-      end
-
-      it "must initialize the struct class using a byteslice at the given offset and the struct class'es size" do
-        struct = subject.get_object(struct_class,offset)
-
-        expect(struct.string).to be_kind_of(Ronin::Support::Binary::ByteSlice)
-        expect(struct.string.offset).to eq(offset)
-        expect(struct.string.length).to eq(struct_class.size)
-      end
-
-      it "must read values starting at the given offset" do
-        struct = subject.get_object(struct_class,offset)
-
-        expect(struct.c).to eq(char_value)
-        expect(struct.i).to eq(int_value)
-      end
-    end
-
-    context "when the offset is less than 0" do
-      let(:offset) { -1 }
-
-      it do
-        expect {
-          subject.get_object(struct_class,offset)
-        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - struct_class.size}")
-      end
-    end
-
-    context "when the offset + type size exceeds the buffer's size" do
-      let(:offset) { subject.size - struct_class.size + 1 }
-
-      it do
-        expect {
-          subject.get_object(struct_class,offset)
-        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - struct_class.size}")
-      end
-    end
-
-    context "when the offset is equal to the size of the buffer" do
-      let(:offset) { subject.size }
-
-      it do
-        expect {
-          subject.get_object(struct_class,offset)
-        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - struct_class.size}")
-      end
-    end
-
-    context "when the offset is greater than the size of the buffer" do
-      let(:offset) { subject.size + 1 }
-
-      it do
-        expect {
-          subject.get_object(struct_class,offset)
-        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - struct_class.size}")
-      end
-    end
-
-    context "but a non Binary::Struct class is given" do
-      let(:type) { Object.new }
-
-      it do
-        expect {
-          subject.get_object(type,offset)
-        }.to raise_error(ArgumentError,"type must be a #{Ronin::Support::Binary::Struct} or #{Ronin::Support::Binary::Union} class: #{type.inspect}")
-      end
-    end
-  end
-
   describe "#put" do
     let(:type_name) { :int32_le }
     let(:type)      { Ronin::Support::Binary::Types[type_name] }
@@ -722,6 +623,105 @@ describe Ronin::Support::Binary::Buffer do
         expect {
           subject.put_string(offset,string)
         }.to raise_error(IndexError,"offset #{offset} or C string size #{string.bytesize+1} is out of bounds: 0...#{subject.size - 1}")
+      end
+    end
+  end
+
+  describe "#get_object" do
+    module TestBinaryBuffer
+      class TestStruct < Ronin::Support::Binary::Struct
+
+        member :c, :char
+        member :i, :int32_le
+
+      end
+    end
+
+    let(:struct_class) { TestBinaryBuffer::TestStruct }
+
+    before do
+      subject[1] = 0x41 # c
+      subject[2] = 0x00 # padding
+      subject[3] = 0x00 # padding
+      subject[4] = 0x00 # padding
+      subject[5] = 0xff # i
+      subject[6] = 0xff
+      subject[7] = 0xff
+      subject[8] = 0xff
+    end
+
+    let(:offset)     { 1   }
+    let(:char_value) { 'A' }
+    let(:int_value)  { -1  }
+
+    context "when the offset + type size is within bounds" do
+      it "must return an instance of the Binary::Struct class" do
+        expect(subject.get_object(struct_class,offset)).to be_kind_of(struct_class)
+      end
+
+      it "must initialize the struct class using a byteslice at the given offset and the struct class'es size" do
+        struct = subject.get_object(struct_class,offset)
+
+        expect(struct.string).to be_kind_of(Ronin::Support::Binary::ByteSlice)
+        expect(struct.string.offset).to eq(offset)
+        expect(struct.string.length).to eq(struct_class.size)
+      end
+
+      it "must read values starting at the given offset" do
+        struct = subject.get_object(struct_class,offset)
+
+        expect(struct.c).to eq(char_value)
+        expect(struct.i).to eq(int_value)
+      end
+    end
+
+    context "when the offset is less than 0" do
+      let(:offset) { -1 }
+
+      it do
+        expect {
+          subject.get_object(struct_class,offset)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - struct_class.size}")
+      end
+    end
+
+    context "when the offset + type size exceeds the buffer's size" do
+      let(:offset) { subject.size - struct_class.size + 1 }
+
+      it do
+        expect {
+          subject.get_object(struct_class,offset)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - struct_class.size}")
+      end
+    end
+
+    context "when the offset is equal to the size of the buffer" do
+      let(:offset) { subject.size }
+
+      it do
+        expect {
+          subject.get_object(struct_class,offset)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - struct_class.size}")
+      end
+    end
+
+    context "when the offset is greater than the size of the buffer" do
+      let(:offset) { subject.size + 1 }
+
+      it do
+        expect {
+          subject.get_object(struct_class,offset)
+        }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - struct_class.size}")
+      end
+    end
+
+    context "but a non Binary::Struct class is given" do
+      let(:type) { Object.new }
+
+      it do
+        expect {
+          subject.get_object(type,offset)
+        }.to raise_error(ArgumentError,"type must be a #{Ronin::Support::Binary::Struct} or #{Ronin::Support::Binary::Union} class: #{type.inspect}")
       end
     end
   end
