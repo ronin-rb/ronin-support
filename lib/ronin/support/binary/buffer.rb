@@ -584,7 +584,7 @@ module Ronin
         #   The offset of the object within the buffer.
         #
         # @return [Binary::Struct, Binary::Union]
-        #   The object class.
+        #   The object.
         #
         # @raise [ArgumentError]
         #
