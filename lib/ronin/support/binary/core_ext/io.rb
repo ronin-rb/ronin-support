@@ -28,7 +28,7 @@ class IO
   # The type system which `read_*`/`write_*`
   # {Ronin::Support::Binary::Stream::Methods methods} will use.
   #
-  # @api semipublic
+  # @api private
   #
   # @see Ronin::Support::Binary::Stream::Methods
   #
