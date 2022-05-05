@@ -735,7 +735,7 @@ describe Ronin::Support::Binary::Buffer do
     let(:object_size)   { packed_object.bytesize }
 
 
-    context "when the offset + packed object size is within bounds" do
+    context "when the offset + object size is within bounds" do
       it "must write the packed object at the given offset" do
         subject.put_object(offset,object)
 
@@ -757,7 +757,7 @@ describe Ronin::Support::Binary::Buffer do
       end
     end
 
-    context "when the offset + type size exceeds the buffer's size" do
+    context "when the offset + object size exceeds the buffer's size" do
       let(:offset) { subject.size - object_size + 1 }
 
       it do
