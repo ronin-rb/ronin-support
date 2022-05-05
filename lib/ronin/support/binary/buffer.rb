@@ -587,6 +587,7 @@ module Ronin
         #   The object.
         #
         # @raise [ArgumentError]
+        #   The given type was not a {Binary::Struct} or {Binary::Union} class.
         #
         def get_object(type,offset)
           unless (type.is_a?(Class) && type < Binary::Struct)
@@ -1515,6 +1516,8 @@ module Ronin
         # @return [self]
         #
         # @raise [ArgumentError]
+        #   The given object was not a kind of {Binary::Struct} or
+        #   {Binary::Union}.
         #
         def put_object(offset,object)
           unless object.kind_of?(Binary::Struct)
