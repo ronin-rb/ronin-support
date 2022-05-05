@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'ronin/support/binary/buffer'
 require 'ronin/support/binary/struct'
+require 'ronin/support/binary/union'
 
 describe Ronin::Support::Binary::Buffer do
   let(:length) { 10 }
@@ -317,6 +318,16 @@ describe Ronin::Support::Binary::Buffer do
         expect {
           subject.get_object(struct_class,offset)
         }.to raise_error(IndexError,"offset #{offset} is out of bounds: 0...#{subject.size - struct_class.size}")
+      end
+    end
+
+    context "but a non Binary::Struct class is given" do
+      let(:type) { Object.new }
+
+      it do
+        expect {
+          subject.get_object(type,offset)
+        }.to raise_error(ArgumentError,"type must be a #{Ronin::Support::Binary::Struct} or #{Ronin::Support::Binary::Union} class: #{type.inspect}")
       end
     end
   end
