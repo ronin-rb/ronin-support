@@ -68,6 +68,7 @@ module Ronin
         #
         # @example
         #   print_info "Connecting ..."
+        #   # [-] Connecting ...
         #
         # @note
         #   Will return `false` is quiet printing is enabled.
@@ -87,6 +88,10 @@ module Ronin
         #
         # @return [Boolean]
         #   Specifies whether the messages were successfully printed.
+        #
+        # @example
+        #   print_debug "debug information here"
+        #   # [?] debug information here
         #
         # @note
         #   Will return `false` unless verbose printing is enabled.
@@ -113,6 +118,7 @@ module Ronin
         #
         # @example
         #   print_warning "Detecting a restricted character in the buffer"
+        #   # [*] Detecting a restricted character in the buffer
         #
         # @note
         #   Will return `false` if quiet printing is enabled.
@@ -135,6 +141,7 @@ module Ronin
         #
         # @example
         #   print_error "Could not connect!"
+        #   # [!] Could not connect!
         #
         # @api public
         #
@@ -154,6 +161,7 @@ module Ronin
         #
         # @example
         #   print_success "Password worked!"
+        #   # [+] Password worked!
         #
         # @api public
         #
