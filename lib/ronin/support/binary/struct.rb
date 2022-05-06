@@ -35,7 +35,7 @@ module Ronin
       #
       # ## Examples
       #
-      # ### Defining Fields
+      # ### Defining Members
       #
       #     class Point < Ronin::Support::Binary::Struct
       #     
@@ -256,7 +256,7 @@ module Ronin
         # Initializes the struct.
         #
         # @param [Hash{Symbol => Object}, String, ByteSlice] buffer_or_values
-        #   Optional values to initialize the fields of the struct.
+        #   Optional values to initialize the members of the struct.
         #
         # @api public
         #
@@ -338,7 +338,7 @@ module Ronin
         # The members in the struct.
         #
         # @return [Hash{Symbol => Member}]
-        #   The field names and field information.
+        #   The member names and type information.
         #
         # @api semipublic
         #
@@ -399,13 +399,13 @@ module Ronin
         # Reads a value from the struct.
         #
         # @param [Symbol] name
-        #   The field name.
+        #   The member name.
         #
         # @return [Integer, Float, String, Binary::Array, Binary::Struct]
-        #   The value of the field.
+        #   The value of the member.
         #
         # @raise [ArgumentError]
-        #   The struct does not contain the field.
+        #   The struct does not contain the member.
         #
         # @api public
         #
@@ -428,7 +428,7 @@ module Ronin
               member.type.unpack(data)
             end
           else
-            raise(ArgumentError,"no such member field #{name.inspect}")
+            raise(ArgumentError,"no such member: #{name.inspect}")
           end
         end
 
@@ -436,16 +436,16 @@ module Ronin
         # Writes a value to the struct.
         #
         # @param [Symbol] name
-        #   The field name.
+        #   The member name.
         #
         # @param [Integer, Float, String, Array, Struct] value
         #   The value to write.
         #
         # @return [Integer, Float, String, Array, Struct]
-        #   The value of the field.
+        #   The value of the member.
         #
         # @raise [ArgumentError]
-        #   The struct does not contain the field.
+        #   The struct does not contain the member.
         #
         # @api public
         #
@@ -456,12 +456,12 @@ module Ronin
             super(member.offset,member.type.size,data)
             return value
           else
-            raise(ArgumentError,"no such member field: #{name.inspect}")
+            raise(ArgumentError,"no such member: #{name.inspect}")
           end
         end
 
         #
-        # Enumerates over the fields within the struct.
+        # Enumerates over the members within the struct.
         #
         # @yield [name, value]
         #
@@ -485,7 +485,7 @@ module Ronin
         # Converts the struct to a Hash.
         #
         # @return [Hash{Symbol => Object}]
-        #   The hash of field names and values.
+        #   The hash of member names and values.
         #
         # @api public
         #
@@ -629,33 +629,33 @@ module Ronin
         end
 
         #
-        # Defines a field in the struct.
+        # Defines a member in the struct.
         #
         # @param [Symbol] name
-        #   The name of the field.
+        #   The name of the member.
         #
         # @param [Symbol, (Symbol, Integer), Range(Symbol)] type_signature
-        #   The type of the field.
+        #   The type of the member.
         #
-        # @example Defining a field:
+        # @example Defining a member:
         #   class MyStruct < Ronin::Support::Binary::Struct
-        #     field :x, :uint32
+        #     member :x, :uint32
         #   end
         #   
         #   struct = MyStruct.new
         #   struct.x = 0x11223344
         #
-        # @example Defining an Array field:
+        # @example Defining an Array member:
         #   class MyStruct < Ronin::Support::Binary::Struct
-        #     field :nums, [:uint32, 10]
+        #     member :nums, [:uint32, 10]
         #   end
         #   
         #   struct = MyStruct.new
         #   struct.x = [0x11111111, 0x22222222, 0x33333333, 0x44444444]
         #
-        # @example Defining an unbounded Array field:
+        # @example Defining an unbounded Array member:
         #   class MyStruct < Ronin::Support::Binary::Struct
-        #     field :payload, :uint8..
+        #     member :payload, :uint8..
         #   end
         #   
         #   struct = MyStruct.new
