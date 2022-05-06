@@ -35,6 +35,77 @@ require 'ronin/support/binary/types/union_object_type'
 module Ronin
   module Support
     module Binary
+      #
+      # Provides a complete virtual C type system, implemented purely in Ruby.
+      # The type objects are then used by {Binary::Format}, {Binary::Buffer},
+      # {Binary::Stream}, {Binary::Array}, {Binary::Struct}, and {Binary::Union}
+      # to encode and decoded any C binary data.
+      #
+      # ## Supported Types
+      #
+      # * Scalar Types:
+      #   * Character Types:
+      #     * {CharType char} (ex: `'c'`)
+      #     * {StringType string} (ex: `"abc"`)
+      #   * Signed Integer Types:
+      #     * {Types::Int8Type int8} (`-127` - `127`)
+      #     * {Types::Int16Type int16} (`-32768` to `32767`)
+      #     * {Types::Int32Type int32} (`-2147483648` - `2147483648`)
+      #     * {Types::Int64Type int64} (`-9223372036854775808` -
+      #       `9223372036854775808`)
+      #   * Unsigned Integer Types:
+      #     * {Types::UInt8Type uint8} (`0x00` - `0xff`)
+      #     * {Types::UInt16Type uint16} (`0x0000` - `0xffff`)
+      #     * {Types::UInt32Type uint32} (`0x00000000` - `0xffffffff`)
+      #     * {Types::UInt64Type uint64} (`0x0000000000000000` -
+      #       `0xffffffffffffffff`)
+      #   * Floating Point Types:
+      #     * {Types::Float32Type float} (`-3.40282347E+38F` -
+      #       `3.40282347E+38F`)
+      #     * {Types::Float64Type double} (`-1.79769313486231570E+308` - 
+      #       `1.79769313486231570E+308`)
+      # * Aggregate Types:
+      #   * {Types::ArrayType Array} (ex: `{1,2,3}`)
+      #   * {Types::UnboundedArrayType unbounded Array} (ex: `char c[] = {...}`)
+      #   * {Types::StructType struct} (ex: `struct s = {1, 'c', ...}`)
+      #   * {Types::UnionType union} (ex: `union u = {1234}`)
+      # * Object Types:
+      #   * {Types::ArrayObjectType array} objects (see: {Binary::Array}).
+      #   * {Types::StructObjectType struct} objects (see: {Binary::Struct}).
+      #   * {Types::UnionObjectType union} objects (see: {Binary::Union}).
+      #
+      # ## Supported Endian-ness
+      #
+      # * {Types::LittleEndian little-endian} byte-order
+      # * {Types::BigEndian big-endian} byte-order
+      # * {Types::Network network} byte-order
+      #
+      # ## Supported Architectures
+      #
+      # * {Types::Arch::ARM arm}
+      # * {Types::Arch::ARM::BigEndian armbe (big-endian)}
+      # * {Types::Arch::ARM64 arm64}
+      # * {Types::Arch::ARM64::BigEndian arm64be (big-endian)}
+      # * {Types::Arch::MIPS mips}
+      # * {Types::Arch::MIPS::LittleEndian mipsle (little-endian)}
+      # * {Types::Arch::MIPS64 mips64}
+      # * {Types::Arch::MIPS64::LittleEndian mips64le (little-endian)}
+      # * {Types::Arch::PPC ppc}
+      # * {Types::Arch::PPC64 ppc64}
+      # * {Types::Arch::X86 x86}
+      # * {Types::Arch::X86_64 x86-64}
+      #
+      # ## Supported Operating Systems (OS)
+      #
+      # * {Types::OS::UNIX UNIX}
+      # * {Types::OS::BSD BSD}
+      #   * {Types::OS::FreeBSD FreeBSD}
+      #   * {Types::OS::OpenBSD OpenBSD}
+      #   * {Types::OS::NetBSD NetBSD}
+      # * {Types::OS::Linux linux}
+      # * {Types::OS::MacOS macOS}
+      # * {Types::OS::Windows Windows}
+      #
       module Types
         include Native
 
