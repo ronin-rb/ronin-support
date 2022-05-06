@@ -165,7 +165,7 @@ module Ronin
         #
         # @api public
         #
-        # @since 0.6.0
+        # @since 1.0.0
         #
         def print_positive(message)
           $stdout.puts "#{ANSI.green(ANSI.bold('[+]'))} #{message}"
