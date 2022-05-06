@@ -44,7 +44,7 @@ module Ronin
       #     
       #     end
       #
-      # ### Initializing
+      # ### Initializing Structs
       #
       # From a Hash:
       #
@@ -141,23 +141,106 @@ module Ronin
       #     struct.pack
       #     # => "\x00\x00\x00\x00\x01\x02\x03\x04\x05\x06\a\b"
       #
-      # ### Default Endianness
+      # ### Struct Endianness
       #
-      #     class Packet < Ronin::Support::Binary::Struct
+      #     class MyStruct < Ronin::Support::Binary::Struct
       #     
-      #       endian :net
+      #       platform endian: :big
       #     
-      #       member :length, :uint32
-      #       member :data,   (:uchar..)
+      #       member :x, :uint32
+      #       member :y, :uint32
       #     
       #     end
       #     
-      #     packet = Packet.new
-      #     packet.length = 5
-      #     packet.data   = ["hello"]
-      #     packet.pack
-      #     # => "\x00\x00\x00\x05hello"
+      #     struct = MyStruct.new
+      #     struct.x = 0xAABB
+      #     struct.y = 0xCCDD
+      #     struct.pack
+      #     # => "\x00\x00\xAA\xBB\x00\x00\xCC\xDD"
+      #
+      # ## Struct Architecture
+      #
+      #     class MyStruct < Ronin::Support::Binary::Struct
+      #     
+      #       platform arch: :arm64_be
+      #     
+      #       member :x, :int
+      #       member :y, :int
+      #       member :f, :double
+      #     
+      #     end
+      #
+      #     struct = MyStruct.new
+      #     struct.x = 100
+      #     struct.y = -100
+      #     struct.f = (90 / Math::PI)
+      #     struct.pack
+      #     # => "\x00\x00\x00d\xFF\xFF\xFF\x9C@<\xA5\xDC\x1Ac\xC1\xF8"
+      #
+      # ## Struct Operating System (OS)
       #    
+      #     class MyStruct < Ronin::Support::Binary::Struct
+      #     
+      #       platform arch: :x86_64, os: :windows
+      #     
+      #       member :x, :long
+      #       member :y, :long
+      #     
+      #     end
+      #     
+      #     struct = MyStruct.new
+      #     struct.x = 255
+      #     struct.y = -1
+      #     struct.pack
+      #     # => "\xFF\x00\x00\x00\xFF\xFF\xFF\xFF"
+      #
+      # ### Struct Alignment
+      #
+      #     class Pixel < Ronin::Support::Binary::Struct
+      #     
+      #       align 4
+      #     
+      #       member :r, :uint8
+      #       member :g, :uint8
+      #       member :b, :uint8
+      #     
+      #     end
+      #
+      #     class PixelBuf < Ronin::Support::Binary::Struct
+      #     
+      #       member :count, :uint8
+      #       member :pixels, [Pixel, 255]
+      #     
+      #     end
+      #
+      #     pixelbuf = PixelBuf.new
+      #     pixelbuf.count = 2
+      #     pixelbuf.pixels[0].r = 0xAA
+      #     pixelbuf.pixels[0].g = 0xBB
+      #     pixelbuf.pixels[0].b = 0xCC
+      #     pixelbuf.pixels[1].r = 0xAA
+      #     pixelbuf.pixels[1].g = 0xBB
+      #     pixelbuf.pixels[1].b = 0xCC
+      #     pixelbuf.pack
+      #     # => "\x02\x00\x00\x00\xAA\xBB\xCC\xAA\xBB\xCC..."
+      #
+      # ### Disable Struct Padding
+      #
+      #     class MyStruct < Ronin::Support::Binary::Struct
+      #     
+      #       padding false
+      #     
+      #       member :c, :char
+      #       member :i, :int32
+      #     
+      #     end
+      #
+      #     struct = MyStruct.new
+      #     struct.c = 'A'
+      #     struct.i = -1
+      #     struct.pack
+      #     # => "A\xFF\xFF\xFF\xFF"
+      #
       # @api public
       #
       class Struct < Memory
