@@ -68,7 +68,7 @@ module Ronin
         #
         # @example
         #   print_info "Connecting ..."
-        #   # [-] Connecting ...
+        #   # [=] Connecting ...
         #
         # @note
         #   Will return `false` is quiet printing is enabled.
@@ -76,7 +76,7 @@ module Ronin
         # @api public
         #
         def print_info(message)
-          $stdout.puts "#{ANSI.green(ANSI.bold('[-]'))} #{message}"
+          $stdout.puts "#{ANSI.white(ANSI.bold('[=]'))} #{message}"
           return true
         end
 
@@ -168,7 +168,7 @@ module Ronin
         # @since 0.6.0
         #
         def print_success(message)
-          $stdout.puts "#{ANSI.white(ANSI.bold('[+]'))} #{message}"
+          $stdout.puts "#{ANSI.green(ANSI.bold('[+]'))} #{message}"
           return true
         end
       end
