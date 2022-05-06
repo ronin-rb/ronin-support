@@ -58,7 +58,7 @@ module Ronin
         end
 
         #
-        # Prints an `info` message.
+        # Prints an info message.
         #
         # @param [String] message
         #   The message to print.
@@ -81,7 +81,7 @@ module Ronin
         end
 
         #
-        # Prints a `debug` message.
+        # Prints a debug message.
         #
         # @param [String] message
         #   The message to print.
@@ -108,7 +108,7 @@ module Ronin
         end
 
         #
-        # Prints a `warning` message.
+        # Prints a warning message.
         #
         # @param [String] message
         #   The message to print.
@@ -131,7 +131,7 @@ module Ronin
         end
 
         #
-        # Prints an `error` message.
+        # Prints an error message.
         #
         # @param [String] message
         #   The message to print.
@@ -151,7 +151,7 @@ module Ronin
         end
 
         #
-        # Prints a `positive` message.
+        # Prints a positive message.
         #
         # @param [String] message
         #   The message to print.
@@ -175,7 +175,7 @@ module Ronin
         alias print_success print_positive
 
         #
-        # Prints a `negative` message.
+        # Prints a negative message.
         #
         # @param [String] message
         #   The message to print.
