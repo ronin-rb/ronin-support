@@ -436,6 +436,16 @@ describe Ronin::Support::Binary::Struct do
         expect(struct.string.size).to eq(member.size)
       end
     end
+
+    context "when the member name is unknown" do
+      let(:name) { :xxx }
+
+      it do
+        expect {
+          subject[name]
+        }.to raise_error(ArgumentError,"no such member: #{name.inspect}")
+      end
+    end
   end
 
   describe "#[]=" do
@@ -522,6 +532,17 @@ describe Ronin::Support::Binary::Struct do
         it "must write the contents of the Struct object to the member's offset/size" do
           expect(subject.string[member.offset,member.size]).to eq(substruct.string)
         end
+      end
+    end
+
+    context "when the member name is unknown" do
+      let(:name)  { :xxx }
+      let(:value) { 1 }
+
+      it do
+        expect {
+          subject[name] = value
+        }.to raise_error(ArgumentError,"no such member: #{name.inspect}")
       end
     end
   end
