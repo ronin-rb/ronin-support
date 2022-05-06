@@ -151,7 +151,7 @@ module Ronin
         end
 
         #
-        # Prints a `success` message.
+        # Prints a `positive` message.
         #
         # @param [String] message
         #   The message to print.
@@ -160,17 +160,19 @@ module Ronin
         #   Specifies whether the messages were successfully printed.
         #
         # @example
-        #   print_success "Password worked!"
+        #   print_positive "Password worked!"
         #   # [+] Password worked!
         #
         # @api public
         #
         # @since 0.6.0
         #
-        def print_success(message)
+        def print_positive(message)
           $stdout.puts "#{ANSI.green(ANSI.bold('[+]'))} #{message}"
           return true
         end
+
+        alias print_success print_positive
       end
     end
   end

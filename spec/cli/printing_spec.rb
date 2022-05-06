@@ -154,7 +154,7 @@ describe CLI::Printing do
     end
   end
 
-  describe "#print_success" do
+  describe "#print_positive" do
     context "when $stdout is a TTY" do
       before do
         allow($stdout).to receive(:tty?).and_return(true)
@@ -163,7 +163,7 @@ describe CLI::Printing do
       it "must print ANSI colour codes" do
         expect($stdout).to receive(:puts).with("#{green}#{bold_on}[+]#{bold_off}#{reset_color} #{message}")
 
-        expect(subject.print_success(message)).to be(true)
+        expect(subject.print_positive(message)).to be(true)
       end
     end
 
@@ -173,7 +173,7 @@ describe CLI::Printing do
       it "must print ANSI colour codes" do
         expect($stdout).to receive(:puts).with("[+] #{message}")
 
-        expect(subject.print_success(message)).to be(true)
+        expect(subject.print_positive(message)).to be(true)
       end
 
       after { $stdout = STDOUT }
