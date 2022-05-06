@@ -179,4 +179,30 @@ describe CLI::Printing do
       after { $stdout = STDOUT }
     end
   end
+
+  describe "#print_negative" do
+    context "when $stdout is a TTY" do
+      before do
+        allow($stdout).to receive(:tty?).and_return(true)
+      end
+
+      it "must print ANSI colour codes" do
+        expect($stdout).to receive(:puts).with("#{red}#{bold_on}[-]#{bold_off}#{reset_color} #{message}")
+
+        expect(subject.print_negative(message)).to be(true)
+      end
+    end
+
+    context "when $stdout is not a TTY" do
+      before { $stdout = StringIO.new }
+
+      it "must print ANSI colour codes" do
+        expect($stdout).to receive(:puts).with("[-] #{message}")
+
+        expect(subject.print_negative(message)).to be(true)
+      end
+
+      after { $stdout = STDOUT }
+    end
+  end
 end

@@ -173,6 +173,30 @@ module Ronin
         end
 
         alias print_success print_positive
+
+        #
+        # Prints a `negative` message.
+        #
+        # @param [String] message
+        #   The message to print.
+        #
+        # @return [Boolean]
+        #   Specifies whether the messages were successfully printed.
+        #
+        # @example
+        #   print_negative "Password failed!"
+        #   # [-] Password failed!
+        #
+        # @api public
+        #
+        # @since 1.0.0
+        #
+        def print_negative(message)
+          $stdout.puts "#{ANSI.red(ANSI.bold('[-]'))} #{message}"
+          return true
+        end
+
+        alias print_failure print_negative
       end
     end
   end
