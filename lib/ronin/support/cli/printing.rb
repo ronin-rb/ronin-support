@@ -69,9 +69,6 @@ module Ronin
         # @example
         #   print_info "Connecting ..."
         #
-        # @example Print a formatted message:
-        #   print_info "Connected to %s", host
-        #
         # @note
         #   Will return `false` is quiet printing is enabled.
         #
@@ -90,9 +87,6 @@ module Ronin
         #
         # @return [Boolean]
         #   Specifies whether the messages were successfully printed.
-        #
-        # @example Print a formatted message:
-        #   print_debug "vars: %p %p", vars[0], vars[1]
         #
         # @note
         #   Will return `false` unless verbose printing is enabled.
@@ -120,9 +114,6 @@ module Ronin
         # @example
         #   print_warning "Detecting a restricted character in the buffer"
         #
-        # @example Print a formatted message:
-        #   print_warning "Malformed input detected: %p", user_input
-        #
         # @note
         #   Will return `false` if quiet printing is enabled.
         #
@@ -145,9 +136,6 @@ module Ronin
         # @example
         #   print_error "Could not connect!"
         #
-        # @example Print a formatted message:
-        #   print_error "%p: %s", error.class, error.message
-        #
         # @api public
         #
         def print_error(message)
@@ -166,9 +154,6 @@ module Ronin
         #
         # @example
         #   print_success "Password worked!"
-        #
-        # @example Print a formatted message:
-        #   print_success "Valid ID: 0x%x", id
         #
         # @api public
         #
