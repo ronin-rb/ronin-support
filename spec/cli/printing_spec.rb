@@ -43,7 +43,7 @@ describe CLI::Printing do
       end
 
       it "must print ANSI colour codes" do
-        expect($stdout).to receive(:puts).with("#{white}#{bold_on}[=]#{bold_off}#{reset_color} #{message}#{reset}")
+        expect($stdout).to receive(:puts).with("#{bold_on}#{white}[=]#{reset_color}#{bold_off} #{message}#{reset}")
 
         expect(subject.print_info(message)).to be(true)
       end
@@ -72,7 +72,7 @@ describe CLI::Printing do
         end
 
         it "must print ANSI colour codes" do
-          expect($stdout).to receive(:puts).with("#{yellow}#{bold_on}[?]#{bold_off}#{reset_color} #{message}#{reset}")
+          expect($stdout).to receive(:puts).with("#{bold_on}#{yellow}[?]#{reset_color}#{bold_off} #{message}#{reset}")
 
           expect(subject.print_debug(message)).to be(true)
         end
@@ -109,7 +109,7 @@ describe CLI::Printing do
       end
 
       it "must print ANSI colour codes" do
-        expect($stdout).to receive(:puts).with("#{yellow}#{bold_on}[*]#{bold_off}#{reset_color} #{message}#{reset}")
+        expect($stdout).to receive(:puts).with("#{bold_on}#{yellow}[*]#{reset_color}#{bold_off} #{message}#{reset}")
 
         expect(subject.print_warning(message)).to be(true)
       end
@@ -135,7 +135,7 @@ describe CLI::Printing do
       end
 
       it "must print ANSI colour codes" do
-        expect($stdout).to receive(:puts).with("#{red}#{bold_on}[!]#{bold_off}#{reset_color} #{message}#{reset}")
+        expect($stdout).to receive(:puts).with("#{bold_on}#{red}[!]#{reset_color}#{bold_off} #{message}#{reset}")
 
         expect(subject.print_error(message)).to be(true)
       end
@@ -161,7 +161,7 @@ describe CLI::Printing do
       end
 
       it "must print ANSI colour codes" do
-        expect($stdout).to receive(:puts).with("#{green}#{bold_on}[+]#{bold_off}#{reset_color} #{message}#{reset}")
+        expect($stdout).to receive(:puts).with("#{bold_on}#{green}[+]#{reset_color}#{bold_off} #{message}#{reset}")
 
         expect(subject.print_positive(message)).to be(true)
       end
@@ -187,7 +187,7 @@ describe CLI::Printing do
       end
 
       it "must print ANSI colour codes" do
-        expect($stdout).to receive(:puts).with("#{red}#{bold_on}[-]#{bold_off}#{reset_color} #{message}#{reset}")
+        expect($stdout).to receive(:puts).with("#{bold_on}#{red}[-]#{reset_color}#{bold_off} #{message}#{reset}")
 
         expect(subject.print_negative(message)).to be(true)
       end
