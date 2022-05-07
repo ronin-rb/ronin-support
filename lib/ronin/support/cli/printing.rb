@@ -80,6 +80,8 @@ module Ronin
           return true
         end
 
+        alias print_status print_info
+
         #
         # Prints a debug message.
         #
