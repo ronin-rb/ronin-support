@@ -173,6 +173,7 @@ module Ronin
         end
 
         alias print_success print_positive
+        alias print_good print_positive
 
         #
         # Prints a negative message.
@@ -197,6 +198,7 @@ module Ronin
         end
 
         alias print_failure print_negative
+        alias print_bad print_negative
       end
     end
   end
