@@ -277,6 +277,28 @@ describe Ronin::Support::Binary::Memory do
     end
   end
 
+  describe "#read_from" do
+    let(:size) { 10 }
+
+    subject { described_class.new(size) }
+
+    let(:new_buffer) { "0123456789" }
+    let(:io) { StringIO.new("#{new_buffer}AAAAA") }
+
+    it "must read #size bytes from the given IO object" do
+      subject.read_from(io)
+
+      expect(io.pos).to eq(subject.size)
+    end
+
+    it "must copy the read data into the underlying string" do
+      subject.read_from(io)
+
+      expect(subject.string).to_not be(new_buffer)
+      expect(subject.string).to eq(new_buffer)
+    end
+  end
+
   describe "#to_s" do
     it "must call #pack" do
       expect(subject.to_s).to eq(subject.pack)

@@ -187,6 +187,21 @@ module Ronin
         end
 
         #
+        # Reads {#size} bytes from the given IO stream.
+        #
+        # @param [IO] io
+        #   The IO stream to read from.
+        #
+        # @return [self]
+        #
+        def read_from(io)
+          data = io.read(size)
+
+          @string[0,data.bytesize] = data
+          return self
+        end
+
+        #
         # Converts the buffer to a String.
         #
         # @return [String]
