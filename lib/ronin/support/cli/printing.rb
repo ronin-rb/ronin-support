@@ -100,7 +100,7 @@ module Ronin
         #
         def print_debug(message)
           if Printing.debug?
-            $stdout.puts "#{ANSI.cyan(ANSI.bold('[?]'))} #{message}#{ANSI.reset}"
+            $stdout.puts "#{ANSI.yellow(ANSI.bold('[?]'))} #{message}#{ANSI.reset}"
             return true
           else
             return false
