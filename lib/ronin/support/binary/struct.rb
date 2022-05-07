@@ -396,6 +396,22 @@ module Ronin
         end
 
         #
+        # Reads the struct from the IO stream.
+        #
+        # @param [IO] io
+        #   The IO object to read from.
+        #
+        # @return [Struct]
+        #
+        # @see #read_from
+        #
+        # @api public
+        #
+        def self.read_from(io)
+          new().read_from(io)
+        end
+
+        #
         # Reads a value from the struct.
         #
         # @param [Symbol] name

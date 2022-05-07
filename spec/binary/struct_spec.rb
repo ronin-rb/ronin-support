@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'ronin/support/binary/struct'
 
+require 'stringio'
+
 describe Ronin::Support::Binary::Struct do
   module TestBinaryStruct
     class SimpleStruct < Ronin::Support::Binary::Struct
@@ -365,6 +367,27 @@ describe Ronin::Support::Binary::Struct do
 
       expect(new_struct).to be_kind_of(struct_class)
       expect(new_struct.string).to eq(data)
+    end
+  end
+
+  describe ".read_from" do
+    subject { struct_class }
+
+    let(:struct) { subject.new(foo: 0xAABB, bar: -1, baz: 0xCCDD) }
+    let(:buffer) { "#{struct.pack}AAAAAAA" }
+    let(:io)     { StringIO.new(buffer) }
+
+    it "must read .size bytes from the IO object" do
+      subject.read_from(io)
+
+      expect(io.pos).to eq(struct_class.size)
+    end
+
+    it "must return a new Struct instance containing the read data" do
+      new_struct = subject.read_from(io)
+
+      expect(new_struct).to be_kind_of(struct_class)
+      expect(new_struct.string).to eq(struct.pack)
     end
   end
 
