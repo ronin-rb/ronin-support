@@ -98,6 +98,26 @@ module Ronin
           super(length_or_string)
         end
 
+        #
+        # Reads from the IO stream and returns a buffer.
+        #
+        # @param [IO] io
+        #   The IO object to read from.
+        #
+        # @param [Integer] size
+        #   The size of the buffer to read.
+        #
+        # @return [Buffer]
+        #   The read buffer.
+        #
+        # @see #read_from
+        #
+        # @api public
+        #
+        def self.read_from(io,size)
+          new(io.read(size))
+        end
+
         alias length size
 
         #

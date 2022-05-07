@@ -98,6 +98,28 @@ describe Ronin::Support::Binary::Buffer do
     end
   end
 
+  describe ".read_from" do
+    subject { described_class }
+
+    let(:size)   { 10 }
+    let(:data)   { "A" * 10 }
+    let(:buffer) { "#{data}BBBBBB" }
+    let(:io)     { StringIO.new(buffer) }
+
+    it "must read the given number of bytes from the IO object" do
+      subject.read_from(io,size)
+
+      expect(io.pos).to eq(size)
+    end
+
+    it "must return a new Buffer instance containing the read data" do
+      new_buffer = subject.read_from(io,size)
+
+      expect(new_buffer).to be_kind_of(described_class)
+      expect(new_buffer.string).to eq(data)
+    end
+  end
+
   subject { described_class.new(length) }
 
   describe "#[]=" do
