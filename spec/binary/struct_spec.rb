@@ -374,7 +374,8 @@ describe Ronin::Support::Binary::Struct do
     subject { struct_class }
 
     let(:struct) { subject.new(foo: 0xAABB, bar: -1, baz: 0xCCDD) }
-    let(:buffer) { "#{struct.pack}AAAAAAA" }
+    let(:data)   { struct.pack }
+    let(:buffer) { "#{data}AAAAAAA" }
     let(:io)     { StringIO.new(buffer) }
 
     it "must read .size bytes from the IO object" do
@@ -387,7 +388,7 @@ describe Ronin::Support::Binary::Struct do
       new_struct = subject.read_from(io)
 
       expect(new_struct).to be_kind_of(struct_class)
-      expect(new_struct.string).to eq(struct.pack)
+      expect(new_struct.string).to eq(data)
     end
   end
 
