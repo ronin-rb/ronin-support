@@ -1,5 +1,6 @@
 require 'rspec'
 require 'ronin/support/binary/types'
+require 'ronin/support/binary/memory'
 
 shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
   describe "#read_value" do
@@ -97,6 +98,18 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
       it "must return nil for the remaining missing elements" do
         expect(subject.read_array_of(type_name,count)).to eq(nil_padded_array)
       end
+    end
+  end
+
+  describe "#read_into" do
+    let(:memory) { Ronin::Support::Binary::Memory.new(10) }
+    let(:data)   { "0123456789"   }
+    let(:buffer) { "#{data}AAAAA" }
+
+    it "must the size of the memory object into the memory object" do
+      subject.read_into(memory)
+
+      expect(memory.string).to eq(data)
     end
   end
 

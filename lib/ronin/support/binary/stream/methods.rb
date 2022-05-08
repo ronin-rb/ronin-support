@@ -839,6 +839,23 @@ module Ronin
           alias read_doubles read_array_of_double
 
           #
+          # Reads data from the stream into the memory object.
+          #
+          # @param [Buffer, Array, Struct, Union] memory
+          #   The object ot read data into.
+          #
+          # @return [Buffer, Array, Struct, Union]
+          #   The memory object.
+          #
+          # @see Memory#read_from
+          #
+          # @api public
+          #
+          def read_into(memory)
+            memory.read_from(self)
+          end
+
+          #
           # @group Writer Methods
           #
 
