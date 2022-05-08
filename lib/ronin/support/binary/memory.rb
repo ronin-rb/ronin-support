@@ -60,6 +60,15 @@ module Ronin
         end
 
         #
+        # The size of the underlying buffer.
+        #
+        # @return [Integer]
+        #
+        def size
+          @string.bytesize
+        end
+
+        #
         # Reads a character or a substring from the underlying buffer at the
         # given index.
         #
@@ -175,15 +184,6 @@ module Ronin
           end
 
           return self
-        end
-
-        #
-        # The size of the underlying buffer.
-        #
-        # @return [Integer]
-        #
-        def size
-          @string.bytesize
         end
 
         #
