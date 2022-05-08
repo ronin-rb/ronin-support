@@ -169,6 +169,30 @@ describe Ronin::Support::Binary::Array do
     end
   end
 
+  describe ".read_from" do
+    subject { described_class }
+
+    let(:type)   { :uint32_le }
+    let(:length) { 10 }
+    let(:array)  { [*0..9] }
+    let(:data)   { array.pack("L<#{length}") }
+    let(:buffer) { "#{data}AAAAAAA" }
+    let(:io)     { StringIO.new(buffer) }
+
+    it "must read .size bytes from the IO object" do
+      new_array = subject.read_from(io,type,length)
+
+      expect(io.pos).to eq(new_array.size)
+    end
+
+    it "must return a new Struct instance containing the read data" do
+      new_array = subject.read_from(io,type,length)
+
+      expect(new_array).to be_kind_of(described_class)
+      expect(new_array.string).to eq(data)
+    end
+  end
+
   describe "#size" do
     it "must return #type.size * #length" do
       expect(subject.size).to eq(subject.type.size * subject.length)
