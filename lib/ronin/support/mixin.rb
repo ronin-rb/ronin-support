@@ -17,6 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/crypto/mixin'
 require 'ronin/support/network/mixin'
 require 'ronin/support/cli/printing'
 
@@ -30,6 +31,7 @@ module Ronin
     # @since 1.0.0
     #
     module Mixin
+      include Crypto::Mixin
       include Network::Mixin
       include CLI::Printing
     end
