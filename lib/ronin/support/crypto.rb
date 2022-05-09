@@ -24,6 +24,13 @@ require 'ronin/support/crypto/core_ext'
 
 module Ronin
   module Support
+    #
+    # {Crypto} provides a nicer more user-friendly API ontop of `OpenSSL`.
+    #
+    # @api public
+    #
+    # @since 1.0.0
+    #
     module Crypto
       #
       # Looks up a digest.
