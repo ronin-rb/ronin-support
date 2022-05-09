@@ -17,6 +17,11 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/binary/buffer'
+require 'ronin/support/binary/array'
+require 'ronin/support/binary/struct'
+require 'ronin/support/binary/union'
+
 module Ronin
   module Support
     module Binary
@@ -853,6 +858,77 @@ module Ronin
           #
           def read_into(memory)
             memory.read_from(self)
+          end
+
+          #
+          # Reads a buffer of count bytes from the stream.
+          #
+          # @param [Integer] count
+          #   The number of bytes to read from the stream.
+          #
+          # @return [Buffer]
+          #   The newly read buffer.
+          #
+          # @see Buffer.read_from
+          #
+          # @api public
+          #
+          def read_buffer(count)
+            Buffer.read_from(self,count)
+          end
+
+          #
+          # Reads an array of the given type and length from the stream.
+          #
+          # @param [Symbol] type
+          #   The element type for the new array.
+          #
+          # @param [Integer] length
+          #   The number of elements for the new array.
+          #
+          # @return [Binary::Array]
+          #   The newly read array.
+          #
+          # @see Binary::Array.read_from
+          #
+          # @api public
+          #
+          def read_array(type,length)
+            Array.read_from(self,type,length)
+          end
+
+          #
+          # Reads a struct from the stream.
+          #
+          # @param [Binary::Struct.class] struct_class
+          #   The struct class to read.
+          #
+          # @return [Binary::Struct]
+          #   The newly read struct object.
+          #
+          # @see Binary::Struct.read_from
+          #
+          # @api public
+          #
+          def read_struct(struct_class)
+            struct_class.read_from(self)
+          end
+
+          #
+          # Reads a union from the stream.
+          #
+          # @param [Binary::Union.class] union_class
+          #   The union class to read.
+          #
+          # @return [Binary::Union]
+          #   The newly read union object.
+          #
+          # @see Binary::Struct.read_from
+          #
+          # @api public
+          #
+          def read_union(union_class)
+            union_class.read_from(self)
           end
 
           #

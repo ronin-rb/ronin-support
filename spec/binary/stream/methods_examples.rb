@@ -113,6 +113,87 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
     end
   end
 
+  describe "#read_buffer" do
+    let(:data)   { "ABCDEFG" }
+    let(:buffer) { "#{data}AAAAAA" }
+    let(:count)  { data.bytesize }
+
+    it "musst read the given number of bytes and return a new Buffer" do
+      new_buffer = subject.read_buffer(count)
+
+      expect(new_buffer).to be_kind_of(Ronin::Support::Binary::Buffer)
+      expect(new_buffer.string).to eq(data)
+      expect(new_buffer.size).to eq(count)
+    end
+  end
+
+  describe "#read_array" do
+    let(:type) { :int16_le }
+    let(:length) { 3 }
+    let(:array) do
+      Ronin::Support::Binary::Array.new(type,length).tap do |array|
+        array[0] = 1
+        array[1] = 2
+        array[2] = 3
+      end
+    end
+
+    let(:data)   { array.pack }
+    let(:buffer) { "#{data}AAAAAA" }
+
+    it "musst read the necessary number of bytes and return a new Binary::Array" do
+      new_array = subject.read_array(type,length)
+
+      expect(new_array).to be_kind_of(Ronin::Support::Binary::Array)
+      expect(new_array.string).to eq(data)
+      expect(new_array.length).to eq(length)
+    end
+  end
+
+  module TestBinaryStreamMethods
+    class TestStruct < Ronin::Support::Binary::Struct
+
+      member :c, :char
+      member :i, :int32_le
+
+    end
+
+    class TestUnion < Ronin::Support::Binary::Union
+
+      member :c, :char
+      member :i, :int32_le
+
+    end
+  end
+  let(:struct_class) { TestBinaryStreamMethods::TestStruct }
+  let(:union_class)  { TestBinaryStreamMethods::TestUnion  }
+
+  describe "#read_struct" do
+    let(:struct) { struct_class.new(c: 'A', i: -1) }
+    let(:data)   { struct.pack }
+    let(:buffer) { "#{data}AAAAAA" }
+
+    it "musst read the necessary number of bytes and return a new struct" do
+      new_array = subject.read_struct(struct_class)
+
+      expect(new_array).to be_kind_of(struct_class)
+      expect(new_array.string).to eq(data)
+    end
+  end
+
+  describe "#read_union" do
+    let(:union) { union_class.new(c: 'A') }
+    let(:data)   { union.pack }
+    let(:buffer) { "#{data}AAAAAA" }
+
+    it "musst read the necessary number of bytes and return a new union" do
+      new_array = subject.read_union(union_class)
+
+      expect(new_array).to be_kind_of(union_class)
+      expect(new_array.string).to eq(data)
+    end
+  end
+
   describe "#write_value" do
     let(:type_name) { :int32_le }
     let(:type)      { Ronin::Support::Binary::Types[type_name] }
