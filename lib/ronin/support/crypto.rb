@@ -79,22 +79,22 @@ module Ronin
       # @param [Hash{Symbol => Object}] kwargs
       #   Additional keyword arguments for {Cipher#initialize}.
       #
-      # @option kwargs [:encrypt, :decrypt] direction
+      # @option kwargs [:encrypt, :decrypt] :direction
       #   Specifies whether to encrypt or decrypt data.
       #
-      # @option kwargs [Symbol] hash
+      # @option kwargs [Symbol] :hash (:sha256)
       #   The algorithm to hash the `:password`.
       #
-      # @option kwargs [String] key
+      # @option kwargs [String] :key
       #   The secret key to use.
       #
-      # @option kwargs [String] password
+      # @option kwargs [String] :password
       #   The password for the cipher.
       #
-      # @option kwargs [String] iv
+      # @option kwargs [String] :iv
       #   The optional Initial Vector (IV).
       #
-      # @option kwargs [Integer] padding
+      # @option kwargs [Integer] :padding
       #   Sets the padding for the cipher.
       #
       # @return [OpenSSL::Cipher]
