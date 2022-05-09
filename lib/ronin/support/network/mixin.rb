@@ -33,6 +33,13 @@ require 'ronin/support/network/mixins/esmtp'
 module Ronin
   module Support
     module Network
+      #
+      # Provides helper methods for networking functions.
+      #
+      # @api public
+      #
+      # @since 1.0.0
+      #
       module Mixin
         include Mixins::IP
         include Mixins::DNS
