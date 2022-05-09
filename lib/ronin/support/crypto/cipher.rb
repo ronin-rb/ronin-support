@@ -68,6 +68,9 @@ module Ronin
         # @param [Integer] padding
         #   Sets the padding for the cipher.
         #
+        # @raise [ArgumentError]
+        #   The `key:` or `password:` keyword arguments were not given.
+        #
         def initialize(name, mode:     ,
                              key:      nil,
                              hash:     :sha256,
