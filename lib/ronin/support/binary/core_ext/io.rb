@@ -18,7 +18,7 @@
 #
 
 require 'ronin/support/binary/stream/methods'
-require 'ronin/support/binary/types'
+require 'ronin/support/binary/ctypes'
 
 class IO
 
@@ -33,7 +33,7 @@ class IO
   # @see Ronin::Support::Binary::Stream::Methods
   #
   def type_system
-    Ronin::Support::Binary::Types
+    Ronin::Support::Binary::CTypes
   end
 
 end

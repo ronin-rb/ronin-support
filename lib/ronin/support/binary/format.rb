@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types/mixin'
+require 'ronin/support/binary/ctypes/mixin'
 require 'ronin/support/binary/array'
 
 module Ronin
@@ -96,7 +96,7 @@ module Ronin
       #
       class Format
 
-        include Types::Mixin
+        include CTypes::Mixin
 
         # The fields of the binary format.
         #
@@ -105,9 +105,9 @@ module Ronin
 
         # The field types of the binary format.
         #
-        # @return [::Array<Types::Type,
-        #                  Types::ArrayType,
-        #                  Types::UnboundArrayType>]
+        # @return [::Array<CTypes::Type,
+        #                  CTypes::ArrayType,
+        #                  CTypes::UnboundArrayType>]
         attr_reader :types
 
         # The `Array#pack` string for the binary format.

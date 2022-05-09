@@ -19,8 +19,8 @@
 
 require 'ronin/support/binary/memory'
 require 'ronin/support/binary/struct/member'
-require 'ronin/support/binary/types/mixin'
-require 'ronin/support/binary/types/type_resolver'
+require 'ronin/support/binary/ctypes/mixin'
+require 'ronin/support/binary/ctypes/type_resolver'
 require 'ronin/support/binary/array'
 
 module Ronin
@@ -247,7 +247,7 @@ module Ronin
 
         # The type system used by the struct.
         #
-        # @return [Types::StructType]
+        # @return [CTypes::StructType]
         #
         # @api private
         attr_reader :type
@@ -286,7 +286,7 @@ module Ronin
         #
         # The type for the struct class.
         #
-        # @return [Types::StructObjectType]
+        # @return [CTypes::StructObjectType]
         #   The underlying type.
         #
         # @api semipublic
@@ -428,13 +428,13 @@ module Ronin
         def [](name)
           if (member = @type.members[name])
             case member.type
-            when Types::UnboundedArrayType
+            when CTypes::UnboundedArrayType
               # XXX: but how do we handle an unbounded array of structs?
               @cache[name] ||= (
                 slice = byteslice(member.offset,size - member.offset)
                 Binary::Array.new(member.type.type,slice)
               )
-            when Types::ObjectType
+            when CTypes::ObjectType
               @cache[name] ||= (
                 slice = byteslice(member.offset,member.type.size)
                 member.type.unpack(slice)
@@ -525,7 +525,7 @@ module Ronin
           end
         end
 
-        extend Types::Mixin
+        extend CTypes::Mixin
 
         #
         # Gets or sets the struct's target platform.
@@ -552,7 +552,7 @@ module Ronin
         #
         def self.platform(endian: nil, arch: nil, os: nil)
           if endian || arch || os
-            @type_system = Types.platform(endian: endian, arch: arch, os: os)
+            @type_system = CTypes.platform(endian: endian, arch: arch, os: os)
             @platform    = {endian: endian, arch: arch, os: os}
           else
             @platform ||= if superclass < Struct
@@ -619,9 +619,9 @@ module Ronin
         #
         # Gets or sets the struct's type system.
         #
-        # @return [Types, Types::LittleEndian,
-        #                 Types::BigEndian,
-        #                 Types::Network]
+        # @return [Types, CTypes::LittleEndian,
+        #                 CTypes::BigEndian,
+        #                 CTypes::Network]
         #
         # @api semipublic
         #
@@ -629,19 +629,19 @@ module Ronin
           @type_system ||= if superclass < Struct
                              superclass.type_system
                            else
-                             Types
+                             CTypes
                            end
         end
 
         #
         # The type resolver using {type_system}.
         #
-        # @return [Types::TypeResolver]
+        # @return [CTypes::TypeResolver]
         #
         # @api semipublic
         #
         def self.type_resolver
-          @resolver ||= Types::TypeResolver.new(type_system)
+          @resolver ||= CTypes::TypeResolver.new(type_system)
         end
 
         #

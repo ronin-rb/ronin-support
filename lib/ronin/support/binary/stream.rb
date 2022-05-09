@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types/mixin'
+require 'ronin/support/binary/ctypes/mixin'
 require 'ronin/support/binary/stream/methods'
 
 module Ronin
@@ -48,7 +48,7 @@ module Ronin
       #
       class Stream
 
-        include Types::Mixin
+        include CTypes::Mixin
         include Methods
 
         # The underlying IO stream.

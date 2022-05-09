@@ -5,7 +5,7 @@ require 'ronin/support/binary/format'
 
 describe Ronin::Support::Binary::Format do
   let(:type_name) { :uint32 }
-  let(:type)      { Ronin::Support::Binary::Types::TYPES[type_name] }
+  let(:type)      { Ronin::Support::Binary::CTypes::TYPES[type_name] }
   let(:fields)    { [type_name] }
 
   subject { described_class.new(fields) }
@@ -19,24 +19,24 @@ describe Ronin::Support::Binary::Format do
       expect(subject.arch).to be(nil)
     end
 
-    it "must default #type_system to Ronin::Support::Binary::Types" do
-      expect(subject.type_system).to be(Ronin::Support::Binary::Types)
+    it "must default #type_system to Ronin::Support::Binary::CTypes" do
+      expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
     end
 
     context "when given a single type name" do
       let(:type_name) { :uint32 }
       let(:fields)    { [type_name] }
-      let(:type)      { Ronin::Support::Binary::Types::TYPES[type_name] }
+      let(:type)      { Ronin::Support::Binary::CTypes::TYPES[type_name] }
 
-      it "must set #type_system to Ronin::Support::Binary::Types" do
-        expect(subject.type_system).to be(Ronin::Support::Binary::Types)
+      it "must set #type_system to Ronin::Support::Binary::CTypes" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
       end
 
       it "must set #fields" do
         expect(subject.fields).to eq(fields)
       end
 
-      it "must populate #types with Ronin::Support::Binary::Types types" do
+      it "must populate #types with Ronin::Support::Binary::CTypes types" do
         expect(subject.types.first).to eq(type)
       end
 
@@ -47,22 +47,22 @@ describe Ronin::Support::Binary::Format do
 
     context "when given multiple type names" do
       let(:type_name1) { :uint32 }
-      let(:type1)      { Ronin::Support::Binary::Types::TYPES[type_name1] }
+      let(:type1)      { Ronin::Support::Binary::CTypes::TYPES[type_name1] }
 
       let(:type_name2) { :uint64 }
-      let(:type2)      { Ronin::Support::Binary::Types::TYPES[type_name2] }
+      let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
       let(:fields) { [type_name1, type_name2] }
 
-      it "must set #type_system to Ronin::Support::Binary::Types" do
-        expect(subject.type_system).to be(Ronin::Support::Binary::Types)
+      it "must set #type_system to Ronin::Support::Binary::CTypes" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
       end
 
       it "must set #fields" do
         expect(subject.fields).to eq(fields)
       end
 
-      it "must populate #types with the Ronin::Support::Binary::Types types" do
+      it "must populate #types with the Ronin::Support::Binary::CTypes types" do
         expect(subject.types).to eq([type1, type2])
       end
 
@@ -77,18 +77,18 @@ describe Ronin::Support::Binary::Format do
       let(:length) { 10 }
       let(:fields) { [ [type_name, length] ] }
       let(:array_type) do
-        Ronin::Support::Binary::Types::ArrayType.new(type,length)
+        Ronin::Support::Binary::CTypes::ArrayType.new(type,length)
       end
       let(:array_object_type) do
-        Ronin::Support::Binary::Types::ArrayObjectType.new(array_type)
+        Ronin::Support::Binary::CTypes::ArrayObjectType.new(array_type)
       end
 
-      it "must set #type_system to Ronin::Support::Binary::Types" do
-        expect(subject.type_system).to be(Ronin::Support::Binary::Types)
+      it "must set #type_system to Ronin::Support::Binary::CTypes" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
       end
 
-      it "must add an Ronin::Support::Binary::Types::ArrayObjectType to #types" do
-        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::Types::ArrayObjectType)
+      it "must add an Ronin::Support::Binary::CTypes::ArrayObjectType to #types" do
+        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::CTypes::ArrayObjectType)
         expect(subject.types.first.type).to eq(type)
         expect(subject.types.first.length).to eq(length)
       end
@@ -104,22 +104,22 @@ describe Ronin::Support::Binary::Format do
       let(:fields)  { [ [[type_name, length2], length1] ] }
 
       let(:sub_array_type) do
-        Ronin::Support::Binary::Types::ArrayType.new(type,length2)
+        Ronin::Support::Binary::CTypes::ArrayType.new(type,length2)
       end
       let(:array_type) do
-        Ronin::Support::Binary::Types::ArrayType.new(sub_array_type,length1)
+        Ronin::Support::Binary::CTypes::ArrayType.new(sub_array_type,length1)
       end
       let(:array_object_type) do
-        Ronin::Support::Binary::Types::ArrayObjectType.new(array_type)
+        Ronin::Support::Binary::CTypes::ArrayObjectType.new(array_type)
       end
 
-      it "must set #type_system to Ronin::Support::Binary::Types" do
-        expect(subject.type_system).to be(Ronin::Support::Binary::Types)
+      it "must set #type_system to Ronin::Support::Binary::CTypes" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
       end
 
-      it "must add a nested Ronin::Support::Binary::Types::ArrayObjectType to #types" do
-        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::Types::ArrayObjectType)
-        expect(subject.types.first.type).to be_kind_of(Ronin::Support::Binary::Types::ArrayObjectType)
+      it "must add a nested Ronin::Support::Binary::CTypes::ArrayObjectType to #types" do
+        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::CTypes::ArrayObjectType)
+        expect(subject.types.first.type).to be_kind_of(Ronin::Support::Binary::CTypes::ArrayObjectType)
         expect(subject.types.first.type.type).to eq(type)
         expect(subject.types.first.type.length).to eq(length2)
         expect(subject.types.first.length).to eq(length1)
@@ -133,15 +133,15 @@ describe Ronin::Support::Binary::Format do
     context "when given an infinite range" do
       let(:fields) { [type_name..] }
       let(:unbounded_array_type) do
-        Ronin::Support::Binary::Types::UnboundedArrayType.new(type)
+        Ronin::Support::Binary::CTypes::UnboundedArrayType.new(type)
       end
 
-      it "must set #type_system to Ronin::Support::Binary::Types" do
-        expect(subject.type_system).to be(Ronin::Support::Binary::Types)
+      it "must set #type_system to Ronin::Support::Binary::CTypes" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
       end
 
-      it "must add an Ronin::Support::Binary::Types::UnboundedArrayType to #types" do
-        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::Types::UnboundedArrayType)
+      it "must add an Ronin::Support::Binary::CTypes::UnboundedArrayType to #types" do
+        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::CTypes::UnboundedArrayType)
         expect(subject.types.first.type).to eq(type)
       end
 
@@ -163,7 +163,7 @@ describe Ronin::Support::Binary::Format do
 
     context "when the `endian: :little` is given" do
       let(:type_name) { :uint32 }
-      let(:type)      { Ronin::Support::Binary::Types::LittleEndian[type_name] }
+      let(:type)      { Ronin::Support::Binary::CTypes::LittleEndian[type_name] }
       let(:fields)    { [type_name] }
       let(:endian)    { :little     }
 
@@ -173,11 +173,11 @@ describe Ronin::Support::Binary::Format do
         expect(subject.endian).to eq(endian)
       end
 
-      it "must set #type_system to Ronin::Support::Binary::Types::LittleEndian" do
-        expect(subject.type_system).to be(Ronin::Support::Binary::Types::LittleEndian)
+      it "must set #type_system to Ronin::Support::Binary::CTypes::LittleEndian" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes::LittleEndian)
       end
 
-      it "must populate #types with Ronin::Support::Binary::Types::LittleEndian types" do
+      it "must populate #types with Ronin::Support::Binary::CTypes::LittleEndian types" do
         expect(subject.types.first).to eq(type)
       end
 
@@ -188,7 +188,7 @@ describe Ronin::Support::Binary::Format do
 
     context "when the `endian: :big` is given" do
       let(:type_name) { :uint32 }
-      let(:type)      { Ronin::Support::Binary::Types::BigEndian[type_name] }
+      let(:type)      { Ronin::Support::Binary::CTypes::BigEndian[type_name] }
       let(:fields)    { [type_name] }
       let(:endian)    { :big  }
 
@@ -198,11 +198,11 @@ describe Ronin::Support::Binary::Format do
         expect(subject.endian).to eq(endian)
       end
 
-      it "must set #type_system to Ronin::Support::Binary::Types::BigEndian" do
-        expect(subject.type_system).to be(Ronin::Support::Binary::Types::BigEndian)
+      it "must set #type_system to Ronin::Support::Binary::CTypes::BigEndian" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes::BigEndian)
       end
 
-      it "must populate #types with Ronin::Support::Binary::Types::BigEndian types" do
+      it "must populate #types with Ronin::Support::Binary::CTypes::BigEndian types" do
         expect(subject.types.first).to eq(type)
       end
 
@@ -213,7 +213,7 @@ describe Ronin::Support::Binary::Format do
 
     context "when the `endian: :net` is given" do
       let(:type_name) { :uint32 }
-      let(:type)      { Ronin::Support::Binary::Types::Network[type_name] }
+      let(:type)      { Ronin::Support::Binary::CTypes::Network[type_name] }
       let(:fields)    { [type_name] }
       let(:endian)    { :big  }
 
@@ -223,11 +223,11 @@ describe Ronin::Support::Binary::Format do
         expect(subject.endian).to eq(endian)
       end
 
-      it "must set #type_system to Ronin::Support::Binary::Types::Network" do
-        expect(subject.type_system).to be(Ronin::Support::Binary::Types::Network)
+      it "must set #type_system to Ronin::Support::Binary::CTypes::Network" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes::Network)
       end
 
-      it "must populate #types with Ronin::Support::Binary::Types::Network types" do
+      it "must populate #types with Ronin::Support::Binary::CTypes::Network types" do
         expect(subject.types.first).to eq(type)
       end
 
@@ -248,7 +248,7 @@ describe Ronin::Support::Binary::Format do
 
     context "when the arch: keyword argument is given" do
       let(:type_name) { :uint }
-      let(:type)      { Ronin::Support::Binary::Types::Arch::X86[type_name] }
+      let(:type)      { Ronin::Support::Binary::CTypes::Arch::X86[type_name] }
       let(:fields)    { [type_name] }
       let(:arch)      { :x86 }
 
@@ -258,11 +258,11 @@ describe Ronin::Support::Binary::Format do
         expect(subject.arch).to eq(arch)
       end
 
-      it "must set #type_system to Ronin::Support::Binary::Types::Arch::X86" do
-        expect(subject.type_system).to be(Ronin::Support::Binary::Types::Arch::X86)
+      it "must set #type_system to Ronin::Support::Binary::CTypes::Arch::X86" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes::Arch::X86)
       end
 
-      it "must populate #types with the Ronin::Support::Binary::Types::Arch:: module's types" do
+      it "must populate #types with the Ronin::Support::Binary::CTypes::Arch:: module's types" do
         expect(subject.types.first).to eq(type)
       end
 
@@ -308,7 +308,7 @@ describe Ronin::Support::Binary::Format do
     context "when initialized with one field" do
       let(:type_name) { :uint32 }
       let(:fields)    { [type_name] }
-      let(:type)      { Ronin::Support::Binary::Types::TYPES[type_name] }
+      let(:type)      { Ronin::Support::Binary::CTypes::TYPES[type_name] }
 
       let(:value) { 42 }
 
@@ -319,10 +319,10 @@ describe Ronin::Support::Binary::Format do
 
     context "when initialized with multiple fields" do
       let(:type_name1) { :uint32 }
-      let(:type1)      { Ronin::Support::Binary::Types::TYPES[type_name1] }
+      let(:type1)      { Ronin::Support::Binary::CTypes::TYPES[type_name1] }
 
       let(:type_name2) { :int64 }
-      let(:type2)      { Ronin::Support::Binary::Types::TYPES[type_name2] }
+      let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
       let(:fields) { [type_name1, type_name2] }
 
@@ -338,11 +338,11 @@ describe Ronin::Support::Binary::Format do
 
       context "and one of the fields is an Array field" do
         let(:type_name2) { :uint16 }
-        let(:type2)      { Ronin::Support::Binary::Types::TYPES[type_name2] }
+        let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
         let(:array_length) { 10 }
         let(:array_type) do
-          Ronin::Support::Binary::Types::ArrayType.new(type2,array_length)
+          Ronin::Support::Binary::CTypes::ArrayType.new(type2,array_length)
         end
 
         let(:fields) { [type_name1, [type_name2, array_length]] }
@@ -360,10 +360,10 @@ describe Ronin::Support::Binary::Format do
 
       context "and the last field is infinite Range field" do
         let(:type_name2) { :uint16 }
-        let(:type2)      { Ronin::Support::Binary::Types::TYPES[type_name2] }
+        let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
         let(:unbounded_array_type) do
-          Ronin::Support::Binary::Types::UnboundedArrayType.new(type2)
+          Ronin::Support::Binary::CTypes::UnboundedArrayType.new(type2)
         end
 
         let(:fields) { [type_name1, type_name2..] }
@@ -385,7 +385,7 @@ describe Ronin::Support::Binary::Format do
     context "when initialized with one field" do
       let(:type_name) { :uint32 }
       let(:fields)    { [type_name] }
-      let(:type)      { Ronin::Support::Binary::Types::TYPES[type_name] }
+      let(:type)      { Ronin::Support::Binary::CTypes::TYPES[type_name] }
 
       let(:value) { 42 }
 
@@ -398,10 +398,10 @@ describe Ronin::Support::Binary::Format do
 
     context "when initialized with multiple fields" do
       let(:type_name1) { :uint32 }
-      let(:type1)      { Ronin::Support::Binary::Types::TYPES[type_name1] }
+      let(:type1)      { Ronin::Support::Binary::CTypes::TYPES[type_name1] }
 
       let(:type_name2) { :int64 }
-      let(:type2)      { Ronin::Support::Binary::Types::TYPES[type_name2] }
+      let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
       let(:fields) { [type_name1, type_name2] }
 
@@ -420,14 +420,14 @@ describe Ronin::Support::Binary::Format do
 
       context "and one of the fields is an Array field" do
         let(:type_name2) { :uint16 }
-        let(:type2)      { Ronin::Support::Binary::Types::TYPES[type_name2] }
+        let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
         let(:array_length) { 10 }
         let(:array_type) do
-          Ronin::Support::Binary::Types::ArrayType.new(type2,array_length)
+          Ronin::Support::Binary::CTypes::ArrayType.new(type2,array_length)
         end
         let(:array_object_type) do
-          Ronin::Support::Binary::Types::ArrayObjectType.new(array_type)
+          Ronin::Support::Binary::CTypes::ArrayObjectType.new(array_type)
         end
 
         let(:fields) { [type_name1, [type_name2, array_length]] }
@@ -451,10 +451,10 @@ describe Ronin::Support::Binary::Format do
 
       context "and the last field is infinite Range field" do
         let(:type_name2) { :uint16 }
-        let(:type2)      { Ronin::Support::Binary::Types::TYPES[type_name2] }
+        let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
         let(:unbounded_array_type) do
-          Ronin::Support::Binary::Types::UnboundedArrayType.new(type2)
+          Ronin::Support::Binary::CTypes::UnboundedArrayType.new(type2)
         end
 
         let(:fields) { [type_name1, type_name2..] }

@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types'
+require 'ronin/support/binary/ctypes'
 
 class Integer
 
@@ -94,7 +94,8 @@ class Integer
   #   The `Array#pack` String or {Ronin::Support::Binary::Format} type.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {Ronin::Support::Binary::Types.platform}.
+  #   Additional keyword arguments for
+  #   {Ronin::Support::Binary::CTypes.platform}.
   #
   # @option kwargs [:little, :big, :net, nil] :endian
   #   The desired endianness of the binary format.
@@ -134,7 +135,7 @@ class Integer
     when String
       [self].pack(argument)
     when Symbol
-      types = Ronin::Support::Binary::Types.platform(**kwargs)
+      types = Ronin::Support::Binary::CTypes.platform(**kwargs)
       type  = types[argument]
       type.pack(self)
     else

@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types'
+require 'ronin/support/binary/ctypes'
 require 'ronin/support/binary/byte_slice'
 
 module Ronin

@@ -22,9 +22,9 @@ describe Ronin::Support::Binary::Buffer do
         expect(subject.endian).to be(endian)
       end
 
-      it "must set #type_system using Ronin::Support::Binary::Types.platform(endian: ...)" do
+      it "must set #type_system using Ronin::Support::Binary::CTypes.platform(endian: ...)" do
         expect(subject.type_system).to be(
-          Ronin::Support::Binary::Types.platform(endian: endian)
+          Ronin::Support::Binary::CTypes.platform(endian: endian)
         )
       end
     end
@@ -42,15 +42,15 @@ describe Ronin::Support::Binary::Buffer do
         expect(subject.arch).to be(arch)
       end
 
-      it "must set #type_system using Ronin::Support::Binary::Types.platform(arch: ...)" do
+      it "must set #type_system using Ronin::Support::Binary::CTypes.platform(arch: ...)" do
         expect(subject.type_system).to be(
-          Ronin::Support::Binary::Types.platform(arch: arch)
+          Ronin::Support::Binary::CTypes.platform(arch: arch)
         )
       end
     end
 
-    it "must default #type_system to Ronin::Support::Binary::Types" do
-      expect(subject.type_system).to be(Ronin::Support::Binary::Types)
+    it "must default #type_system to Ronin::Support::Binary::CTypes" do
+      expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
     end
 
     context "when an Integer argument is given instead of a String argument" do
@@ -197,7 +197,7 @@ describe Ronin::Support::Binary::Buffer do
 
   describe "#get" do
     let(:type_name) { :int32_le }
-    let(:type)      { Ronin::Support::Binary::Types[type_name] }
+    let(:type)      { Ronin::Support::Binary::CTypes[type_name] }
     let(:offset)    { 1  }
     let(:value)     { -1 }
 
@@ -257,7 +257,7 @@ describe Ronin::Support::Binary::Buffer do
 
   describe "#put" do
     let(:type_name) { :int32_le }
-    let(:type)      { Ronin::Support::Binary::Types[type_name] }
+    let(:type)      { Ronin::Support::Binary::CTypes[type_name] }
     let(:offset)    { 1 }
     let(:value)     { -1 }
 
@@ -352,7 +352,7 @@ describe Ronin::Support::Binary::Buffer do
 
   describe "#get_array_of" do
     let(:type_name)  { :int32_le }
-    let(:type)       { Ronin::Support::Binary::Types[type_name] }
+    let(:type)       { Ronin::Support::Binary::CTypes[type_name] }
     let(:array_type) { type[array.length]  }
     let(:array)      { [-1, -2, -3] }
     let(:offset)     { 1 }
@@ -415,7 +415,7 @@ describe Ronin::Support::Binary::Buffer do
 
   describe "#put_array_of" do
     let(:type_name)  { :int32_le }
-    let(:type)       { Ronin::Support::Binary::Types[type_name] }
+    let(:type)       { Ronin::Support::Binary::CTypes[type_name] }
     let(:array_type) { type[array.length]  }
     let(:array)      { [-1, -2, -3] }
     let(:array_type) { type[array.length] }

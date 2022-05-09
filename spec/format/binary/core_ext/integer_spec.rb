@@ -103,8 +103,8 @@ describe Integer do
       end
     end
 
-    context "when given a Ronin::Support::Binary::Types type name" do
-      it "must pack Integers using the Ronin::Support::Binary::Types type" do
+    context "when given a Ronin::Support::Binary::CTypes type name" do
+      it "must pack Integers using the Ronin::Support::Binary::CTypes type" do
         expect(subject.pack(:uint32_le)).to eq(packed)
       end
     end

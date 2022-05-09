@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types'
+require 'ronin/support/binary/ctypes'
 
 require 'chars'
 
@@ -35,13 +35,13 @@ module Ronin
           # The character type.
           #
           # @note it uses `'C'` as the pack string.
-          CHAR_TYPE = Types::CharType.new(signed: false, pack_string: 'C')
+          CHAR_TYPE = CTypes::CharType.new(signed: false, pack_string: 'C')
 
           # Supported types.
           #
           # @note The `:char` and `:uchar` types to a custom char type that uses
           # `'C'` as it's pack string.
-          TYPES = Types::TYPES.merge(
+          TYPES = CTypes::TYPES.merge(
             char:  CHAR_TYPE,
             uchar: CHAR_TYPE
           )
@@ -219,11 +219,11 @@ module Ronin
             end
 
             case @type
-            when Types::FloatType
+            when CTypes::FloatType
               @parse_method = method(:parse_float)
-            when Types::CharType
+            when CTypes::CharType
               @parse_method = method(:parse_char_or_int)
-            when Types::ScalarType
+            when CTypes::ScalarType
               @parse_method = method(:parse_int)
             else
               raise(ArgumentError,"only scalar types are support: #{type.inspect}")
@@ -241,7 +241,7 @@ module Ronin
             @base         ||= 8
             @address_base ||= 8
 
-            if @type.kind_of?(Types::CharType)
+            if @type.kind_of?(CTypes::CharType)
               @chars = if named_chars then NAMED_CHARS
                        else                CHARS
                        end
@@ -257,7 +257,7 @@ module Ronin
             @base         ||= 16
             @address_base ||= 16
 
-            if @type.kind_of?(Types::CharType)
+            if @type.kind_of?(CTypes::CharType)
               @base  = 8
               @chars = CHARS 
             end
@@ -423,7 +423,7 @@ module Ronin
           #   The parse address and the parsed numbers from the line.
           #
           def parse_line(line)
-            if @type.kind_of?(Types::CharType)
+            if @type.kind_of?(CTypes::CharType)
               # because od/hexdump print the ' ' char as white space,
               # we need special parsing logic here.
               if (start_index = line.index(' '))

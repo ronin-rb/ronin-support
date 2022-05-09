@@ -715,7 +715,7 @@ describe Binary::Hexdump::Parser do
   describe "#pack" do
     let(:values)      { [*0x00..0x0f] }
     let(:type_name)   { :uint32     }
-    let(:type)        { Ronin::Support::Binary::Types[type_name] }
+    let(:type)        { Ronin::Support::Binary::CTypes[type_name] }
 
     subject { described_class.new(type: type_name) }
 

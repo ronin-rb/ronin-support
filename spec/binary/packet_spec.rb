@@ -4,8 +4,8 @@ require 'ronin/support/binary/packet'
 describe Ronin::Support::Binary::Packet do
   subject { described_class }
 
-  it "must set .type_system to Ronin::Support::Binary::Types::Network" do
-    expect(subject.type_system).to be(Ronin::Support::Binary::Types::Network)
+  it "must set .type_system to Ronin::Support::Binary::CTypes::Network" do
+    expect(subject.type_system).to be(Ronin::Support::Binary::CTypes::Network)
   end
 
   it "must set .alignment to 1" do

@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/types/mixin'
+require 'ronin/support/binary/ctypes/mixin'
 
 module Ronin
   module Support
@@ -74,11 +74,11 @@ module Ronin
       #
       class Stack
 
-        include Types::Mixin
+        include CTypes::Mixin
 
         # The "machine word" from the {#type_system}.
         #
-        # @return [Types::UInt32Type, Types::UInt64Type]
+        # @return [CTypes::UInt32Type, CTypes::UInt64Type]
         attr_reader :machine_word
 
         # The number of machine words on the stack.

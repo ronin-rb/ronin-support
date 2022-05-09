@@ -1,11 +1,11 @@
 require 'rspec'
-require 'ronin/support/binary/types'
+require 'ronin/support/binary/ctypes'
 require 'ronin/support/binary/memory'
 
 shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
   describe "#read_value" do
     let(:type_name) { :int32_le }
-    let(:type)      { Ronin::Support::Binary::Types[type_name] }
+    let(:type)      { Ronin::Support::Binary::CTypes[type_name] }
     let(:value)     { -1 }
     let(:buffer)    { type.pack(value) }
 
@@ -77,7 +77,7 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
 
   describe "#read_array_of" do
     let(:type_name)  { :int32_le }
-    let(:type)       { Ronin::Support::Binary::Types[type_name] }
+    let(:type)       { Ronin::Support::Binary::CTypes[type_name] }
     let(:array_type) { type[array.length]  }
     let(:array)      { [-1, -2, -3] }
     let(:count)      { array.length }
@@ -196,7 +196,7 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
 
   describe "#write_value" do
     let(:type_name) { :int32_le }
-    let(:type)      { Ronin::Support::Binary::Types[type_name] }
+    let(:type)      { Ronin::Support::Binary::CTypes[type_name] }
     let(:value)     { -1 }
 
     let(:packed_value) { type.pack(value) }
@@ -234,7 +234,7 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
 
   describe "#write_array_of" do
     let(:type_name)  { :int32_le }
-    let(:type)       { Ronin::Support::Binary::Types[type_name] }
+    let(:type)       { Ronin::Support::Binary::CTypes[type_name] }
     let(:array_type) { type[array.length]  }
     let(:array)      { [-1, -2, -3] }
     let(:array_type) { type[array.length] }

@@ -84,8 +84,8 @@ describe Ronin::Support::Binary::Struct do
   describe ".type_system" do
     subject { Class.new(described_class) }
 
-    it "must default to Ronin::Support::Binary::Types" do
-      expect(subject.type_system).to be(Ronin::Support::Binary::Types)
+    it "must default to Ronin::Support::Binary::CTypes" do
+      expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
     end
   end
 
@@ -105,9 +105,9 @@ describe Ronin::Support::Binary::Struct do
         )
       end
 
-      it "must set .type_system using Types.platform(...)" do
+      it "must set .type_system using CTypes.platform(...)" do
         expect(subject.type_system).to be(
-          Ronin::Support::Binary::Types.platform(**subject.platform)
+          Ronin::Support::Binary::CTypes.platform(**subject.platform)
         )
       end
 
@@ -131,9 +131,9 @@ describe Ronin::Support::Binary::Struct do
             )
           end
 
-          it "must set .type_system to the new Types:: module for the new endian-ness" do
+          it "must set .type_system to the new CTypes:: module for the new endian-ness" do
             expect(subject.type_system).to be(
-              Ronin::Support::Binary::Types.platform(**subject.platform)
+              Ronin::Support::Binary::CTypes.platform(**subject.platform)
             )
           end
 
@@ -217,11 +217,11 @@ describe Ronin::Support::Binary::Struct do
   describe ".type_resolver" do
     subject { Class.new(described_class) }
 
-    it "must return a Types::TypeResolver initialized with .type_system" do
+    it "must return a CTypes::TypeResolver initialized with .type_system" do
       type_resolver = subject.type_resolver
 
       expect(type_resolver).to be_kind_of(
-        Ronin::Support::Binary::Types::TypeResolver
+        Ronin::Support::Binary::CTypes::TypeResolver
       )
       expect(type_resolver.types).to be(subject.type_system)
     end
@@ -230,10 +230,10 @@ describe Ronin::Support::Binary::Struct do
   describe ".type" do
     subject { TestBinaryStruct::SimpleStruct }
 
-    it "must resolve a Types::StructObjectType for the Struct class" do
+    it "must resolve a CTypes::StructObjectType for the Struct class" do
       type = subject.type
 
-      expect(type).to be_kind_of(Ronin::Support::Binary::Types::StructObjectType)
+      expect(type).to be_kind_of(Ronin::Support::Binary::CTypes::StructObjectType)
       expect(type.struct_class).to be(subject)
     end
   end
@@ -395,7 +395,7 @@ describe Ronin::Support::Binary::Struct do
   subject { struct_class.new }
 
   describe "#[]" do
-    context "when the member's type is a Types::ScalarType" do
+    context "when the member's type is a CTypes::ScalarType" do
       context "and the memory has not been written to yet" do
         it "must return the zero-value of the scalar type" do
           expect(subject[:bar]).to eq(0)
@@ -413,7 +413,7 @@ describe Ronin::Support::Binary::Struct do
       end
     end
 
-    context "when the member's type is an Types::ArrayObjectType" do
+    context "when the member's type is an CTypes::ArrayObjectType" do
       let(:struct_class) { TestBinaryStruct::StructWithAnArray }
 
       let(:struct_type) { struct_class.type }
@@ -437,7 +437,7 @@ describe Ronin::Support::Binary::Struct do
       end
     end
 
-    context "when the member's type is a Types::StructObjectType" do
+    context "when the member's type is a CTypes::StructObjectType" do
       let(:struct_class) { TestBinaryStruct::NestedStruct }
 
       let(:struct_type) { struct_class.type }
@@ -490,7 +490,7 @@ describe Ronin::Support::Binary::Struct do
       end
     end
 
-    context "when the member's type is an Types::ArrayObjectType" do
+    context "when the member's type is an CTypes::ArrayObjectType" do
       let(:struct_class) { TestBinaryStruct::StructWithAnArray }
       let(:struct_type)  { struct_class.type }
 
@@ -504,7 +504,7 @@ describe Ronin::Support::Binary::Struct do
 
         before { subject[member_name] = values }
 
-        it "must pack the values using Types::ArrayObjectType and write them to the member's offset/size" do
+        it "must pack the values using CTypes::ArrayObjectType and write them to the member's offset/size" do
           expect(subject.string[member.offset,member.size]).to eq(packed_values)
         end
       end
@@ -526,7 +526,7 @@ describe Ronin::Support::Binary::Struct do
       end
     end
 
-    context "when the member's type is a Types::StructObjectType" do
+    context "when the member's type is a CTypes::StructObjectType" do
       let(:struct_class) { TestBinaryStruct::NestedStruct }
 
       let(:struct_type) { struct_class.type }
@@ -542,7 +542,7 @@ describe Ronin::Support::Binary::Struct do
 
         before { subject[member_name] = hash }
 
-        it "must pack the values using Types::StructObjectType and write them to the member's offset/size" do
+        it "must pack the values using CTypes::StructObjectType and write them to the member's offset/size" do
           expect(subject.string[member.offset,member.size]).to eq(packed_hash)
         end
       end

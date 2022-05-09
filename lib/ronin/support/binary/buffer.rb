@@ -19,7 +19,7 @@
 
 require 'ronin/support/binary/memory'
 require 'ronin/support/binary/byte_slice'
-require 'ronin/support/binary/types/mixin'
+require 'ronin/support/binary/ctypes/mixin'
 
 module Ronin
   module Support
@@ -65,7 +65,7 @@ module Ronin
       #
       class Buffer < Memory
 
-        include Types::Mixin
+        include CTypes::Mixin
 
         #
         # Initializes the buffer.

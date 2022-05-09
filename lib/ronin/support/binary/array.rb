@@ -19,7 +19,7 @@
 
 require 'ronin/support/binary/memory'
 require 'ronin/support/binary/byte_slice'
-require 'ronin/support/binary/types/mixin'
+require 'ronin/support/binary/ctypes/mixin'
 
 module Ronin
   module Support
@@ -60,12 +60,12 @@ module Ronin
       #
       class Array < Memory
 
-        include Types::Mixin
+        include CTypes::Mixin
         include Enumerable
 
         # The underlying type of the data within the array buffer.
         #
-        # @return [Types::Type]
+        # @return [CTypes::Type]
         attr_reader :type
 
         # The number of elements in the array buffer.
@@ -168,7 +168,7 @@ module Ronin
           end
 
           case @type
-          when Types::ObjectType
+          when CTypes::ObjectType
             @cache[index] ||= (
               slice = byteslice(offset,@type.size)
               @type.unpack(slice)
