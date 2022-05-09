@@ -63,97 +63,11 @@ describe Crypto do
     let(:password) { 'secret'      }
     let(:mode)     { :decrypt      }
 
-    context "when :key is set" do
-      let(:key)         { Digest::MD5.hexdigest(password) }
-      let(:cipher_text) do
-        cipher = OpenSSL::Cipher.new('aes-256-cbc')
-        cipher.encrypt
-        cipher.key = key
+    it "must return a Ronin::Support::Crypto::Cipher object" do
+      new_cipher = subject.cipher(name, mode: mode, password: password)
 
-        cipher.update(clear_text) + cipher.final
-      end
-
-      subject { described_class.cipher(name, mode: mode, key: key) }
-
-      it "must return a new OpenSSL::Cipher" do
-        expect(subject).to be_kind_of(OpenSSL::Cipher)
-      end
-
-      it "must use the given key" do
-        expect(subject.update(cipher_text) + subject.final).to eq(clear_text)
-      end
-
-      context "when :iv is set" do
-        let(:iv)          { '0123456789abcdef' }
-        let(:cipher_text) do
-          cipher = OpenSSL::Cipher.new('aes-256-cbc')
-          cipher.encrypt
-          cipher.iv  = iv
-          cipher.key = key
-
-          cipher.update(clear_text) + cipher.final
-        end
-
-        subject do
-          described_class.cipher(name, mode: mode, key: key, iv: iv)
-        end
-
-        it "must set the IV" do
-          expect(subject.update(cipher_text) + subject.final).to eq(clear_text)
-        end
-      end
-    end
-
-    context "when :password is given" do
-      let(:password)    { "other secret" }
-      let(:cipher_text) do
-        cipher = OpenSSL::Cipher.new('aes-256-cbc')
-        cipher.encrypt
-        cipher.key = OpenSSL::Digest::SHA256.digest(password)
-
-        cipher.update(clear_text) + cipher.final
-      end
-
-      subject do
-        described_class.cipher(name, mode: mode,  password: password)
-      end
-
-      it "must return a new OpenSSL::Cipher" do
-        expect(subject).to be_kind_of(OpenSSL::Cipher)
-      end
-
-      it "must default :hash to :sha256" do
-        expect(subject.update(cipher_text) + subject.final).to eq(clear_text)
-      end
-
-      context "when :hash and :password are given" do
-        let(:hash)        { :sha256 }
-        let(:cipher_text) do
-          cipher = OpenSSL::Cipher.new('aes-256-cbc')
-          cipher.encrypt
-          cipher.key = OpenSSL::Digest::SHA256.digest(password)
-
-          cipher.update(clear_text) + cipher.final
-        end
-
-        subject do
-          described_class.cipher(name, mode:     :decrypt, 
-                                       hash:     hash,
-                                       password: password)
-        end
-
-        it "must derive the key from the hash and password" do
-          expect(subject.update(cipher_text) + subject.final).to eq(clear_text)
-        end
-      end
-    end
-
-    context "when either key: nor password: are given" do
-      it do
-        expect {
-          described_class.cipher(name, mode: :decrypt)
-        }.to raise_error(ArgumentError,"the the key: or password: keyword argument must be given")
-      end
+      expect(new_cipher).to be_kind_of(Ronin::Support::Crypto::Cipher)
+      expect(new_cipher.name).to eq(name.upcase)
     end
   end
 
@@ -167,8 +81,6 @@ describe Crypto do
 
     cipher.update(clear_text) + cipher.final
   end
-
-  let(:clear_text) { 'the quick brown fox' }
 
   describe ".encrypt" do
     it "must encrypt a given String using the cipher" do

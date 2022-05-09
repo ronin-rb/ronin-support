@@ -17,6 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/crypto/cipher'
 require 'ronin/support/crypto/core_ext'
 
 begin
@@ -72,22 +73,25 @@ module Ronin
       # @param [String] name
       #   The cipher name.
       #
-      # @param [:encrypt, :decrypt] mode
+      # @param [Hash{Symbol => Object}] kwargs
+      #   Additional keyword arguments for {Cipher#initialize}.
+      #
+      # @option kwargs [:encrypt, :decrypt] mode
       #   The cipher mode.
       #
-      # @param [Symbol] hash
+      # @option kwargs [Symbol] hash
       #   The algorithm to hash the `:password`.
       #
-      # @param [String] key
+      # @option kwargs [String] key
       #   The secret key to use.
       #
-      # @param [String] password
+      # @option kwargs [String] password
       #   The password for the cipher.
       #
-      # @param [String] iv
+      # @option kwargs [String] iv
       #   The optional Initial Vector (IV).
       #
-      # @param [Integer] padding
+      # @option kwargs [Integer] padding
       #   Sets the padding for the cipher.
       #
       # @return [OpenSSL::Cipher]
@@ -100,31 +104,8 @@ module Ronin
       #   Crypto.cipher('aes-128-cbc', mode: :encrypt, key 'secret'.md5)
       #   # => #<OpenSSL::Cipher:0x0000000170d108>
       #
-      def self.cipher(name, mode: ,
-                            hash:     :sha256,
-                            key:      nil,
-                            password: nil,
-                            iv:       nil,
-                            padding:  nil)
-        cipher = OpenSSL::Cipher.new(name)
-
-        case mode
-        when :encrypt then cipher.encrypt
-        when :decrypt then cipher.decrypt
-        end
-
-        cipher.iv      = iv      if iv
-        cipher.padding = padding if padding
-
-        if password && hash
-          cipher.key = digest(hash).digest(password)
-        elsif key
-          cipher.key = key
-        else
-          raise(ArgumentError,"the the key: or password: keyword argument must be given")
-        end
-
-        return cipher
+      def self.cipher(name,**kwargs)
+        Cipher.new(name,**kwargs)
       end
 
       #
