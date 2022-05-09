@@ -34,6 +34,9 @@ module Ronin
           # @param [:cbc, :cfb, :ofb, :ctr, Symbol] mode
           #   The desired AES cipher mode.
           #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {Cipher#initialize}.
+          #
           def initialize(key_size, mode=:cbc, **kwargs)
             super("aes-#{key_size}-#{mode}", **kwargs)
           end
