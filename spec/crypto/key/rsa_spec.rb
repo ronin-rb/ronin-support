@@ -13,6 +13,16 @@ describe Ronin::Support::Crypto::Key::RSA do
       expect(new_key).to be_kind_of(described_class)
       expect(new_key).to_not eq(subject.random)
     end
+
+    context "when given a key size" do
+      let(:key_size) { 2048 }
+
+      it "must generate a new RSA key of the given key size" do
+        new_key = subject.random(key_size)
+
+        expect(new_key.size).to eq(key_size)
+      end
+    end
   end
 
   describe ".parse" do
