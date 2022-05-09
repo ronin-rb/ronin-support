@@ -41,6 +41,8 @@ module Ronin
       #     aes256.decrypt("\x18\xC7\x00~\xA2\xA1\x80\x84c\x98,81mo\xBAZ\xDD\xF4\xF2\xEF\xA9\xDE\xB3\xD6!\xB9\xA8WT\x9D\xE0")
       #     # => "message in a bottle"
       #
+      # @see https://rubydoc.info/stdlib/openssl/OpenSSL/Cipher.html
+      #
       # @since 1.0.0
       # 
       # @api public
