@@ -44,7 +44,7 @@ module Ronin
           #   The newly generated key.
           #
           def self.random(key_size=1024)
-            generate(key_size)
+            new(generate(key_size))
           end
 
           #
