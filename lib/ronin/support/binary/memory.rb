@@ -187,6 +187,32 @@ module Ronin
         end
 
         #
+        # Copies data from this memory object into another memory object.
+        #
+        # @param [Memory] dest
+        #   The destination memory object to copy the data to.
+        #
+        # @param [Integer] count
+        #   The number of bytes to copy.
+        #
+        def copy_to(dest,count=size)
+          dest[0,count] = @string
+        end
+
+        #
+        # Copies data from the other memory object into this memory object.
+        #
+        # @param [Memory] src
+        #   The source memory object to copy the data from.
+        #
+        # @param [Integer] count
+        #   The number of bytes to copy.
+        #
+        def copy_from(src,count=size)
+          @string[0,count] = src[0,count]
+        end
+
+        #
         # Reads {#size} bytes from the given IO stream.
         #
         # @param [IO] io

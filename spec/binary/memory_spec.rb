@@ -277,6 +277,49 @@ describe Ronin::Support::Binary::Memory do
     end
   end
 
+  describe "#copy_to" do
+    let(:dest) { described_class.new(subject.size * 2) }
+
+    it "must copy the data into another memory object's underlying string" do
+      subject.copy_to(dest)
+
+      expect(dest.string[0,subject.size]).to eq(subject.string)
+    end
+
+    context "when given a count argument" do
+      let(:count) { 3 }
+
+      it "must copy count bytes into the other memory object" do
+        subject.copy_to(dest,count)
+
+        expect(dest.string[0,count]).to eq(subject.string[0,count])
+        expect(dest.string[count..]).to_not eq(subject.string[count..])
+      end
+    end
+  end
+
+  describe "#copy_from" do
+    let(:data) { "foo bar" }
+    let(:src)  { described_class.new(data) }
+
+    before { subject.copy_from(src) }
+
+    it "must copy the data into another memory object's underlying string" do
+      expect(subject.string[0,data.bytesize]).to eq(src.string)
+    end
+
+    context "when given a count argument" do
+      let(:count) { 3 }
+
+      it "must copy count bytes into the other memory object" do
+        subject.copy_to(src,count)
+
+        expect(subject.string[0,count]).to eq(src.string[0,count])
+        expect(subject.string[count..]).to_not eq(src.string[count..])
+      end
+    end
+  end
+
   describe "#read_from" do
     let(:size) { 10 }
 
