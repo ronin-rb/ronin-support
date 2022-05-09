@@ -22,6 +22,13 @@ require 'ronin/support/cli/printing'
 
 module Ronin
   module Support
+    #
+    # Provides helper methods.
+    #
+    # @api public
+    #
+    # @since 1.0.0
+    #
     module Mixin
       include Network::Mixin
       include CLI::Printing
