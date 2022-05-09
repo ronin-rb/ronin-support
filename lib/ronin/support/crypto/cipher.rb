@@ -57,7 +57,7 @@ module Ronin
         # @param [:encrypt, :decrypt] mode
         #   The cipher mode.
         #
-        # @param [Symbol] has 
+        # @param [Symbol] hash
         #   The algorithm to hash the `:password`.
         #
         # @param [String] key
