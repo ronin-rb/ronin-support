@@ -595,33 +595,97 @@ module Ronin
         end
 
         #
-        # Gets an object at the given offset.
-        #
-        # @param [Binary::Struct.class, Binary::Union.class] type
-        #   The object class.
+        # Returns the buffer starting at the given offset and with the given
+        # size.
         #
         # @param [Integer] offset
-        #   The offset of the object within the buffer.
+        #   The offset within the buffer.
         #
-        # @return [Binary::Struct, Binary::Union]
-        #   The object.
+        # @param [Integer] size
+        #   The number of bytes for the buffer.
         #
-        # @raise [ArgumentError]
-        #   The given type was not a {Binary::Struct} or {Binary::Union} class.
+        # @return [Buffer]
+        #   The new buffer.
         #
-        def get_object(type,offset)
-          unless (type.is_a?(Class) && type < Binary::Struct)
-            raise(ArgumentError,"type must be a #{Binary::Struct} or #{Binary::Union} class: #{type.inspect}")
+        # @example
+        #   subbuffer = buffer.buffer_at(10,40)
+        #
+        def buffer_at(offset,size)
+          Buffer.new(byteslice(offset,size))
+        end
+
+        #
+        # Returns the array starting at the given offset, with the given
+        # length, containing the given type.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer that the array starts at.
+        #
+        # @param [Symbol] type
+        #   The type name.
+        #
+        # @param [Integer] length
+        #   The number of elements in the array.
+        #
+        # @return [Array]
+        #   The new array.
+        #
+        # @example
+        #   array = buffer.array_at(0,:uint32,10)
+        #
+        def array_at(offset,type,length)
+          type = @type_system[type]
+          size = type.size * length
+
+          return Array.new(type,byteslice(offset,size))
+        end
+
+        #
+        # Returns a new {Struct} instance starting at the given offset.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer that the struct starts at.
+        #
+        # @param [Struct.class] struct_class
+        #   The struct class.
+        #
+        # @return [Struct]
+        #   The new struct instance.
+        #
+        # @example
+        #   struct = buffer.struct_at(10,MyStruct)
+        #   # => #<MyStruct: ...>
+        #
+        def struct_at(offset,struct_class)
+          unless struct_class < Struct
+            raise(ArgumentError,"the given class must be a #{Struct} subclass: #{struct_class.inspect}")
           end
 
-          type = @type_resolver.resolve(type)
+          return struct_class.new(byteslice(offset,struct_class.size))
+        end
 
-          if (offset < 0 || offset+type.size > size)
-            raise(IndexError,"offset #{offset} is out of bounds: 0...#{size-type.size}")
+        #
+        # Returns a new {Union} instance starting at the given offset.
+        #
+        # @param [Integer] offset
+        #   The offset within the buffer that the union starts at.
+        #
+        # @param [Union.class] union_class
+        #   The union class.
+        #
+        # @return [Union]
+        #   The new union instance.
+        #
+        # @example
+        #   union = buffer.union_at(10,MyUnion)
+        #   # => #<MyUnion: ...>
+        #
+        def union_at(offset,union_class)
+          unless union_class < Union
+            raise(ArgumentError,"the given class must be a #{Union} subclass: #{union_class.inspect}")
           end
 
-          data = ByteSlice.new(@string, offset: offset, length: type.size)
-          return type.unpack(data)
+          return union_class.new(byteslice(offset,union_class.size))
         end
 
         #
@@ -1522,36 +1586,6 @@ module Ronin
         #
         def put_double(offset,value)
           put(:double,offset,value)
-        end
-
-        #
-        # Writes the object into the buffer at the given offset.
-        #
-        # @param [Integer] offset
-        #   The offset to write the object at.
-        #
-        # @param [Binary::Struct, Binary::Union] object
-        #   The object to write.
-        #
-        # @return [self]
-        #
-        # @raise [ArgumentError]
-        #   The given object was not a kind of {Binary::Struct} or
-        #   {Binary::Union}.
-        #
-        def put_object(offset,object)
-          unless object.kind_of?(Binary::Struct)
-            raise(ArgumentError,"object must be a #{Binary::Struct} or #{Binary::Union}: #{type.inspect}")
-          end
-
-          data = object.pack
-
-          if (offset < 0 || offset+data.bytesize > size)
-            raise(IndexError,"offset #{offset} is out of bounds: 0...#{size-data.bytesize}")
-          end
-
-          @string[offset,data.bytesize] = data
-          return self
         end
 
         #
