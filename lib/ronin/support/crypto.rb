@@ -18,6 +18,7 @@
 #
 
 require 'ronin/support/crypto/cipher'
+require 'ronin/support/crypto/mixin'
 require 'ronin/support/crypto/core_ext'
 
 begin
