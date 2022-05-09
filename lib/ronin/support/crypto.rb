@@ -72,22 +72,22 @@ module Ronin
       # @param [String] name
       #   The cipher name.
       #
-      # @option options [:encrypt, :decrypt] :mode
+      # @param [:encrypt, :decrypt] mode
       #   The cipher mode.
       #
-      # @option options [Symbol] :hash (:sha256)
+      # @param [Symbol] hash
       #   The algorithm to hash the `:password`.
       #
-      # @option options [String] :key
+      # @param [String] key
       #   The secret key to use.
       #
-      # @option options [String] :password
+      # @param [String] password
       #   The password for the cipher.
       #
-      # @option options [String] :iv
+      # @param [String] iv
       #   The optional Initial Vector (IV).
       #
-      # @option options [Integer] :padding
+      # @param [Integer] padding
       #   Sets the padding for the cipher.
       #
       # @return [OpenSSL::Cipher]
