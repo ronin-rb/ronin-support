@@ -52,7 +52,9 @@ describe Ronin::Support::Crypto::Key::RSA do
     end
   end
 
-  subject { described_class.random }
+  let(:key_size) { 1024 }
+
+  subject { described_class.random(key_size) }
 
   describe "#n" do
     it "must return the 'n' value" do
@@ -69,6 +71,12 @@ describe Ronin::Support::Crypto::Key::RSA do
   describe "#d" do
     it "must return the 'd' value" do
       expect(subject.d).to be_kind_of(OpenSSL::BN)
+    end
+  end
+
+  describe "#size" do
+    it "must return the key size" do
+      expect(subject.size).to eq(key_size)
     end
   end
 end

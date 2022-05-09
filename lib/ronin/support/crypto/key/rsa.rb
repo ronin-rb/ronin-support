@@ -106,6 +106,16 @@ module Ronin
             super()
           end
 
+          #
+          # The size of the RSA key in bits.
+          #
+          # @return [Integer]
+          #   The key size in bits.
+          #
+          def size
+            n.num_bits
+          end
+
         end
       end
     end
