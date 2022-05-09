@@ -34,7 +34,7 @@ module Ronin
         #
         class TypeResolver
 
-          # The {Types} module or object to lookup type names in.
+          # The {CTypes} module or object to lookup type names in.
           #
           # @return [#[]]
           attr_reader :types
@@ -51,7 +51,7 @@ module Ronin
           end
 
           #
-          # Translates C type names into an Array of {Types} objects.
+          # Resolves C type short-hand syntax into a {CTypes::Type} object.
           #
           # @param [Symbol,
           #         (type, Integer),
