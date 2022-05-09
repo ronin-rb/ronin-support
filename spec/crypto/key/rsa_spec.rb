@@ -1,32 +1,29 @@
 require 'spec_helper'
 require 'ronin/support/crypto/key/rsa'
 
-require 'tempfile'
-
 describe Ronin::Support::Crypto::Key::RSA do
+  let(:path) { File.join(__dir__,'rsa.key') }
+  let(:pem)  { File.read(path) }
+
   describe ".random" do
     subject { described_class }
 
-    it "must generate a new random RSA key" do
-      new_key = subject.random
+    it "must call .generate with a key size of 1024" do
+      expect(subject).to receive(:generate).with(1024).and_return(pem)
 
-      expect(new_key).to be_kind_of(described_class)
-      expect(new_key).to_not eq(subject.random)
+      expect(subject.random).to be_kind_of(subject)
     end
 
     context "when given a key size" do
-      let(:key_size) { 2048 }
+      let(:key_size) { 4096 }
 
-      it "must generate a new RSA key of the given key size" do
-        new_key = subject.random(key_size)
+      it "must call .generate with the given key size" do
+        expect(subject).to receive(:generate).with(key_size).and_return(pem)
 
-        expect(new_key.size).to eq(key_size)
+        expect(subject.random(key_size)).to be_kind_of(subject)
       end
     end
   end
-
-  let(:path) { File.join(__dir__,'rsa.key') }
-  let(:pem)  { File.read(path) }
 
   describe ".parse" do
     subject { described_class }
