@@ -95,7 +95,8 @@ module Ronin
           # @see https://rubydoc.info/stdlib/openssl/OpenSSL/BN
           #
           def q
-            super()
+            # NOTE: jruby's openssl does not implement OpenSSL::PKey::DH#q
+            super() unless RUBY_ENGINE == 'jruby'
           end
 
           #
