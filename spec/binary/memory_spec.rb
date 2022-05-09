@@ -217,6 +217,18 @@ describe Ronin::Support::Binary::Memory do
     end
   end
 
+  describe "#+" do
+    let(:offset) { 3 }
+
+    it "must return a new ByteSlice at the given offset and for the remainder of the memory" do
+      new_byte_slice = subject+offset
+
+      expect(new_byte_slice).to be_kind_of(Ronin::Support::Binary::ByteSlice)
+      expect(new_byte_slice.offset).to eq(offset)
+      expect(new_byte_slice.length).to eq(subject.size - offset)
+    end
+  end
+
   describe "#clear" do
     let(:size)   { 10 }
     let(:string) { 'A' * size }

@@ -158,6 +158,29 @@ module Ronin
         end
 
         #
+        # Returns a byte slice of the memory at the given offset and for the 
+        # remainder of the memory.
+        #
+        # @param [Integer] offset
+        #   The offset for the byte slice within the memory.
+        #
+        # @return [ByteSlice]
+        #   The new byte slice.
+        #
+        # @example
+        #   memory+10
+        #
+        # @example Create a buffer starting at offset 10:
+        #   buffer = Buffer.new(memory+10)
+        #
+        # @example Create an Array starting at offset 10:
+        #   array = Binary::Array.new(:int32_le, memory+10)
+        #
+        def +(offset)
+          ByteSlice.new(@string, offset: offset, length: size - offset)
+        end
+
+        #
         # Creates a new byte slice within the memory.
         #
         # @param [Integer] offset
