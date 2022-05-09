@@ -7,7 +7,7 @@ describe Ronin::Support::Crypto::Cipher::AES256 do
 
   describe "#initialize" do
     subject do
-      described_class.new(mode: :encrypt, password: password)
+      described_class.new(direction: :encrypt, password: password)
     end
 
     it "must initialize an AES-256 cipher with CBC mode" do
@@ -16,7 +16,7 @@ describe Ronin::Support::Crypto::Cipher::AES256 do
 
     context "when a mode argument is given" do
       subject do
-        described_class.new(mode, mode: :encrypt, password: password)
+        described_class.new(mode, direction: :encrypt, password: password)
       end
 
       it "must initialize an AES-256 cipher with the given mode" do

@@ -9,20 +9,21 @@ describe Ronin::Support::Crypto::Cipher::AES do
   describe "#initialize" do
     context "when only given a key-size" do
       subject do
-        described_class.new(key_size, mode: :encrypt, password: password)
+        described_class.new(key_size, direction: :encrypt, password: password)
       end
 
-      it "must initialize an AES cipher with the given key-size and CBC mode" do
+      it "must initialize an AES cipher with the given key-size and CBC direction" do
         expect(subject.name).to eq("AES-#{key_size}-CBC")
       end
     end
 
-    context "when a key-size and a mode argument are given" do
+    context "when a key-size and a direction argument are given" do
       subject do
-        described_class.new(key_size, mode, mode: :encrypt, password: password)
+        described_class.new(key_size, mode, direction: :encrypt,
+                                            password:  password)
       end
 
-      it "must initialize an AES cipher with the given key-size and the mode" do
+      it "must initialize an AES cipher with the given key-size and the direction" do
         expect(subject.name).to eq("AES-#{key_size}-#{mode.upcase}")
       end
     end

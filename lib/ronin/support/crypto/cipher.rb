@@ -29,14 +29,14 @@ module Ronin
       #
       # ### Encrypt Data
       #
-      #     aes256 = Crypto::Cipher.new('aes-256-cbc', mode: :encrypt,
+      #     aes256 = Crypto::Cipher.new('aes-256-cbc', direction: :encrypt,
       #                                                password: 'secret')
       #     aes256.encrypt("message in a bottle")
       #     # => "\x18\xC7\x00~\xA2\xA1\x80\x84c\x98,81mo\xBAZ\xDD\xF4\xF2\xEF\xA9\xDE\xB3\xD6!\xB9\xA8WT\x9D\xE0"
       #
       # ### Decrypt Data
       #
-      #     aes256 = Crypto::Cipher.new('aes-256-cbc', mode: :decrypt,
+      #     aes256 = Crypto::Cipher.new('aes-256-cbc', direction: :decrypt,
       #                                                password: 'secret')
       #     aes256.decrypt("\x18\xC7\x00~\xA2\xA1\x80\x84c\x98,81mo\xBAZ\xDD\xF4\xF2\xEF\xA9\xDE\xB3\xD6!\xB9\xA8WT\x9D\xE0")
       #     # => "message in a bottle"
@@ -50,8 +50,9 @@ module Ronin
         #
         # Initializes the cipher.
         #
-        # @param [:encrypt, :decrypt] mode
-        #   The cipher mode.
+        # @param [:encrypt, :decrypt] direction
+        #   Specifies whether the cipher will be used to encrypt or decrypt
+        #   data.
         #
         # @param [Symbol] hash
         #   The algorithm to hash the `:password`.
@@ -71,15 +72,15 @@ module Ronin
         # @raise [ArgumentError]
         #   The `key:` or `password:` keyword arguments were not given.
         #
-        def initialize(name, mode:     ,
-                             key:      nil,
-                             hash:     :sha256,
-                             password: nil,
-                             iv:       nil,
-                             padding:  nil)
+        def initialize(name, direction: ,
+                             key:       nil,
+                             hash:      :sha256,
+                             password:  nil,
+                             iv:        nil,
+                             padding:   nil)
           super(name)
 
-          case mode
+          case direction
           when :encrypt then self.encrypt
           when :decrypt then self.decrypt
           end

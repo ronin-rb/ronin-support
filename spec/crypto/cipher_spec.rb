@@ -18,7 +18,7 @@ describe Ronin::Support::Crypto::Cipher do
         cipher.update(clear_text) + cipher.final
       end
 
-      subject { described_class.new(name, mode: :decrypt, key: key) }
+      subject { described_class.new(name, direction: :decrypt, key: key) }
 
       it "must set #name" do
         expect(subject.name).to eq(name.upcase)
@@ -40,7 +40,7 @@ describe Ronin::Support::Crypto::Cipher do
         end
 
         subject do
-          described_class.new(name, mode: :decrypt, key: key, iv: iv)
+          described_class.new(name, direction: :decrypt, key: key, iv: iv)
         end
 
         it "must set the IV" do
@@ -60,7 +60,7 @@ describe Ronin::Support::Crypto::Cipher do
       end
 
       subject do
-        described_class.new(name, mode: :decrypt, password: password)
+        described_class.new(name, direction: :decrypt, password: password)
       end
 
       it "must set #name" do
@@ -82,7 +82,7 @@ describe Ronin::Support::Crypto::Cipher do
         end
 
         subject do
-          described_class.new(name, mode:     :decrypt,
+          described_class.new(name, direction:     :decrypt,
                                     hash:     hash,
                                     password: password)
         end
@@ -96,7 +96,7 @@ describe Ronin::Support::Crypto::Cipher do
     context "when either key: nor password: are given" do
       it do
         expect {
-          described_class.new(name, mode: :encrypt)
+          described_class.new(name, direction: :encrypt)
         }.to raise_error(ArgumentError,"the the key: or password: keyword argument must be given")
       end
     end
@@ -119,7 +119,9 @@ describe Ronin::Support::Crypto::Cipher do
   end
 
   describe "#encrypt" do
-    subject { described_class.new(name, mode: :encrypt, password: password) }
+    subject do
+      described_class.new(name, direction: :encrypt, password: password)
+    end
 
     it "must encrypt a given String using the cipher" do
       expect(subject.encrypt(clear_text)).to eq(cipher_text)
@@ -127,7 +129,9 @@ describe Ronin::Support::Crypto::Cipher do
   end
 
   describe "#decrypt" do
-    subject { described_class.new(name, mode: :decrypt, password: password) }
+    subject do
+      described_class.new(name, direction: :decrypt, password: password)
+    end
 
     it "must decrypt the String" do
       expect(subject.decrypt(cipher_text)).to eq(clear_text)
