@@ -17,11 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-begin
-  require 'openssl'
-rescue ::LoadError
-  warn "WARNING: Ruby was not compiled with OpenSSL support"
-end
+require 'ronin/support/crypto/openssl'
 
 module Ronin
   module Support

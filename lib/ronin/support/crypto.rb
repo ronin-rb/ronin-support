@@ -17,15 +17,10 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/crypto/openssl'
 require 'ronin/support/crypto/cipher'
 require 'ronin/support/crypto/mixin'
 require 'ronin/support/crypto/core_ext'
-
-begin
-  require 'openssl'
-rescue ::LoadError
-  warn "WARNING: Ruby was not compiled with OpenSSL support"
-end
 
 module Ronin
   module Support
