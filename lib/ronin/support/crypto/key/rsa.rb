@@ -44,6 +44,8 @@ module Ronin
           #   The newly generated key.
           #
           def self.random(key_size=1024)
+            # HACK: openssl-3.0.0 will return an OpenSSL::PKey::RSA instance,
+            # even though we subclassed OpenSSL::PKey::RSA.
             new(generate(key_size))
           end
 
