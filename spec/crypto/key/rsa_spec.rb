@@ -25,46 +25,26 @@ describe Ronin::Support::Crypto::Key::RSA do
     end
   end
 
+  let(:path) { File.join(__dir__,'rsa.key') }
+  let(:pem)  { File.read(path) }
+
   describe ".parse" do
     subject { described_class }
 
-    let(:key) { subject.random }
-    let(:pem) { key.to_pem }
-
     it "must parse a PEM encoded RSA key" do
-      parsed_key = subject.parse(pem)
-
-      expect(parsed_key.n).to eq(key.n)
-      expect(parsed_key.d).to eq(key.d)
-      expect(parsed_key.e).to eq(key.e)
+      expect(subject.parse(pem).to_pem).to eq(pem)
     end
   end
 
   describe ".open" do
     subject { described_class }
 
-    let(:key) { subject.random }
-    let(:pem) { key.to_pem }
-
-    let(:tempfile) { Tempfile.new('ronin-support') }
-
-    before do
-      tempfile.write(pem)
-      tempfile.flush
-    end
-
     it "must read and parse the path to the key file" do
-      parsed_key = subject.open(tempfile.path)
-
-      expect(parsed_key.n).to eq(key.n)
-      expect(parsed_key.d).to eq(key.d)
-      expect(parsed_key.e).to eq(key.e)
+      expect(subject.open(path).to_pem).to eq(pem)
     end
   end
 
-  let(:key_size) { 1024 }
-
-  subject { described_class.random(key_size) }
+  subject { described_class.open(path) }
 
   describe "#n" do
     it "must return the 'n' value" do
@@ -85,8 +65,8 @@ describe Ronin::Support::Crypto::Key::RSA do
   end
 
   describe "#size" do
-    it "must return the key size" do
-      expect(subject.size).to eq(key_size)
+    it "must return the bit size of the 'n' variable" do
+      expect(subject.size).to eq(subject.n.num_bits)
     end
   end
 end
