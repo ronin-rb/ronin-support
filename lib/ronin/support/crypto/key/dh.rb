@@ -90,7 +90,7 @@ module Ronin
           #
           # The `q` variable for the DH key.
           #
-          # @return [OpenSSL::BN]
+          # @return [OpenSSL::BN, nil]
           #
           # @see https://rubydoc.info/stdlib/openssl/OpenSSL/BN
           #
