@@ -102,6 +102,14 @@ describe Ronin::Support::Crypto::Cipher do
     end
   end
 
+  describe ".supported" do
+    subject { described_class }
+
+    it "must return OpenSSL::Cipher.ciphers" do
+      expect(subject.supported).to eq(OpenSSL::Cipher.ciphers)
+    end
+  end
+
   let(:cipher_text) do
     cipher = OpenSSL::Cipher.new(name)
     cipher.encrypt

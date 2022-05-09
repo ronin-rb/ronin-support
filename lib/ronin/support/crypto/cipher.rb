@@ -97,6 +97,16 @@ module Ronin
         end
 
         #
+        # The list of supported ciphers.
+        #
+        # @return [Array<String>]
+        #   The list of supported cipher names.
+        #
+        def self.supported
+          ciphers
+        end
+
+        #
         # Encrypts the given data.
         #
         # @param [String] data
