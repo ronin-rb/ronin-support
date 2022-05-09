@@ -194,9 +194,6 @@ class File
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {Ronin::Support::Crypto.cipher}.
   #
-  # @option kwargs [:encrypt, :decrypt] :mode
-  #   The cipher mode.
-  #
   # @option kwargs [Symbol] :hash (:sha1)
   #   The algorithm to hash the `:password`.
   #
@@ -228,7 +225,8 @@ class File
   # @api public
   #
   def self.encrypt(path,cipher,**kwargs)
-    cipher = Ronin::Support::Crypto.cipher(cipher, mode: :encrypt, **kwargs)
+    cipher = Ronin::Support::Crypto.cipher(cipher, direction: :encrypt,
+                                                   **kwargs)
     output = ''
 
     open(path,'rb') do |file|
@@ -261,9 +259,6 @@ class File
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {Ronin::Support::Crypto.cipher}.
   #
-  # @option kwargs [:encrypt, :decrypt] :mode
-  #   The cipher mode.
-  #
   # @option kwargs [Symbol] :hash (:sha1)
   #   The algorithm to hash the `:password`.
   #
@@ -295,7 +290,8 @@ class File
   # @api public
   #
   def self.decrypt(path,cipher,**kwargs)
-    cipher = Ronin::Support::Crypto.cipher(cipher, mode: :decrypt, **kwargs)
+    cipher = Ronin::Support::Crypto.cipher(cipher, direction: :decrypt,
+                                                   **kwargs)
     output = ''
 
     open(path,'rb') do |file|

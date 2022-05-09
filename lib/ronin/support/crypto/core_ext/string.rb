@@ -162,8 +162,8 @@ class String
   # @api public
   #
   def encrypt(cipher,**kwargs)
-    Ronin::Support::Crypto.encrypt(self, cipher: cipher,
-                                         mode:   :encrypt,
+    Ronin::Support::Crypto.encrypt(self, cipher:    cipher,
+                                         direction: :encrypt,
                                          **kwargs)
   end
 
@@ -201,8 +201,8 @@ class String
   # @api public
   #
   def decrypt(cipher,**kwargs)
-    Ronin::Support::Crypto.decrypt(self, cipher: cipher,
-                                         mode:   :decrypt,
+    Ronin::Support::Crypto.decrypt(self, cipher:    cipher,
+                                         direction: :decrypt,
                                          **kwargs)
   end
 

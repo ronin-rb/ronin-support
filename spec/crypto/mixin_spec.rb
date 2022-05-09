@@ -65,12 +65,13 @@ describe Ronin::Support::Crypto::Mixin do
   end
 
   describe "cipher" do
-    let(:name)     { 'aes-256-cbc' }
-    let(:password) { 'secret'      }
-    let(:mode)     { :decrypt      }
+    let(:name)      { 'aes-256-cbc' }
+    let(:password)  { 'secret'      }
+    let(:direction) { :decrypt      }
 
     it "must return a Ronin::Support::Crypto::Cipher object" do
-      new_cipher = subject.crypto_cipher(name, mode: mode, password: password)
+      new_cipher = subject.crypto_cipher(name, direction: direction,
+                                               password:  password)
 
       expect(new_cipher).to be_kind_of(Ronin::Support::Crypto::Cipher)
       expect(new_cipher.name).to eq(name.upcase)

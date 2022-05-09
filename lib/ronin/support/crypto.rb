@@ -79,8 +79,8 @@ module Ronin
       # @param [Hash{Symbol => Object}] kwargs
       #   Additional keyword arguments for {Cipher#initialize}.
       #
-      # @option kwargs [:encrypt, :decrypt] mode
-      #   The cipher mode.
+      # @option kwargs [:encrypt, :decrypt] direction
+      #   Specifies whether to encrypt or decrypt data.
       #
       # @option kwargs [Symbol] hash
       #   The algorithm to hash the `:password`.
@@ -104,7 +104,7 @@ module Ronin
       #   Either the the `key:` or `password:` keyword argument must be given.
       #
       # @example
-      #   Crypto.cipher('aes-128-cbc', mode: :encrypt, key 'secret'.md5)
+      #   Crypto.cipher('aes-128-cbc', direction: :encrypt, key 'secret'.md5)
       #   # => #<OpenSSL::Cipher:0x0000000170d108>
       #
       def self.cipher(name,**kwargs)
@@ -132,7 +132,7 @@ module Ronin
       # @since 1.0.0
       #
       def self.encrypt(data, cipher: ,**kwargs)
-        cipher = self.cipher(cipher, mode: :encrypt, **kwargs)
+        cipher = self.cipher(cipher, direction: :encrypt, **kwargs)
 
         return cipher.update(data) + cipher.final
       end
@@ -158,7 +158,7 @@ module Ronin
       # @since 1.0.0
       #
       def self.decrypt(data, cipher: ,**kwargs)
-        cipher = self.cipher(cipher, mode: :decrypt, **kwargs)
+        cipher = self.cipher(cipher, direction: :decrypt, **kwargs)
 
         return cipher.update(data) + cipher.final
       end
