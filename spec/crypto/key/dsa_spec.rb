@@ -51,7 +51,7 @@ describe Ronin::Support::Crypto::Key::DSA do
 
   describe "#q" do
     it "must return the 'q' value" do
-      expect(subject.q).to be_kind_of(OpenSSL::BN).or(be(nil))
+      expect(subject.q).to be_kind_of(OpenSSL::BN)
     end
   end
 
