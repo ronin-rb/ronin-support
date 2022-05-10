@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'ronin/support/crypto/key/dsa'
 
+require_relative 'class_methods_examples'
+
 describe Ronin::Support::Crypto::Key::DSA do
   let(:path) { File.join(__dir__,'dsa.key') }
   let(:pem)  { File.read(path) }
@@ -25,21 +27,7 @@ describe Ronin::Support::Crypto::Key::DSA do
     end
   end
 
-  describe ".parse" do
-    subject { described_class }
-
-    it "must parse a PEM encoded DSA key" do
-      expect(subject.parse(pem).to_pem).to eq(pem)
-    end
-  end
-
-  describe ".load_file" do
-    subject { described_class }
-
-    it "must read and parse the path to the key file" do
-      expect(subject.load_file(path).to_pem).to eq(pem)
-    end
-  end
+  include_examples "Ronin::Support::Crypto::Key::ClassMethods examples"
 
   subject { described_class.load_file(path) }
 
