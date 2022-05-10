@@ -34,13 +34,33 @@ module Ronin
         #
         class DH < OpenSSL::PKey::DH
 
+          if RUBY_ENGINE == 'jruby'
+            #
+            # Generates a new DH key.
+            #
+            # @param [Integer] key_size
+            #   The size of the key in bits.
+            #
+            # @param [Integer, nil] generator
+            #   A small number > 1, typically 2 or 5.
+            #
+            # @return [DH]
+            #   The newly generated key.
+            #
+            # @note jruby's openssl does not define OpenSSL::PKey::DH.generate
+            #
+            def self.generate(key_size,generator=nil)
+              new(key_size,*generator)
+            end
+          end
+
           #
           # Generates a new random DH key.
           #
           # @param [Integer] key_size
           #   The size of the key in bits.
           #
-          # @param [Integer] generator
+          # @param [Integer, nil] generator
           #   A small number > 1, typically 2 or 5.
           #
           # @return [DH]

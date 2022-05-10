@@ -5,6 +5,30 @@ describe Ronin::Support::Crypto::Key::DH do
   let(:path) { File.join(__dir__,'dh.key') }
   let(:der)  { File.binread(path) }
 
+  if RUBY_ENGINE == 'jruby'
+    describe ".generate" do
+      let(:key_size) { 1024 }
+
+      subject { described_class }
+
+      it "must call .new with the key size" do
+        expect(subject).to receive(:new).with(key_size)
+
+        subject.generate(key_size)
+      end
+
+      context "and when a generator number is given" do
+        let(:generator) { 2 }
+
+        it "must call .generate with the given key size and generator" do
+          expect(subject).to receive(:new).with(key_size,generator)
+
+          subject.generate(key_size,generator)
+        end
+      end
+    end
+  end
+
   describe ".random" do
     subject { described_class }
 
