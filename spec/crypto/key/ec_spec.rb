@@ -32,6 +32,10 @@ describe Ronin::Support::Crypto::Key::EC do
     subject { described_class }
 
     it "must parse a PEM encoded EC key" do
+      if RUBY_ENGINE == 'jruby'
+        skip "https://github.com/jruby/jruby-openssl/issues/257"
+      end
+
       expect(subject.parse(pem).to_pem).to eq(pem)
     end
   end
@@ -40,6 +44,10 @@ describe Ronin::Support::Crypto::Key::EC do
     subject { described_class }
 
     it "must read and parse the path to the key file" do
+      if RUBY_ENGINE == 'jruby'
+        skip "https://github.com/jruby/jruby-openssl/issues/257"
+      end
+
       expect(subject.load(path).to_pem).to eq(pem)
     end
   end
