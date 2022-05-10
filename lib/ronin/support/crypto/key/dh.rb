@@ -86,6 +86,13 @@ module Ronin
           end
 
           #
+          # @see parse
+          #
+          def self.load(key)
+            parse(key)
+          end
+
+          #
           # Loads a DH key from a file.
           #
           # @param [String] path
@@ -94,7 +101,7 @@ module Ronin
           # @return [DH]
           #   The parsed DH key.
           #
-          def self.load(path)
+          def self.load_file(path)
             parse(File.read(path))
           end
 

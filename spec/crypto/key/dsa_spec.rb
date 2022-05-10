@@ -33,15 +33,15 @@ describe Ronin::Support::Crypto::Key::DSA do
     end
   end
 
-  describe ".load" do
+  describe ".load_file" do
     subject { described_class }
 
     it "must read and parse the path to the key file" do
-      expect(subject.load(path).to_pem).to eq(pem)
+      expect(subject.load_file(path).to_pem).to eq(pem)
     end
   end
 
-  subject { described_class.load(path) }
+  subject { described_class.load_file(path) }
 
   describe "#p" do
     it "must return the 'p' value" do

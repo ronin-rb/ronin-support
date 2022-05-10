@@ -40,7 +40,7 @@ describe Ronin::Support::Crypto::Key::EC do
     end
   end
 
-  describe ".load" do
+  describe ".load_file" do
     subject { described_class }
 
     it "must read and parse the path to the key file" do
@@ -48,9 +48,9 @@ describe Ronin::Support::Crypto::Key::EC do
         skip "https://github.com/jruby/jruby-openssl/issues/257"
       end
 
-      expect(subject.load(path).to_pem).to eq(pem)
+      expect(subject.load_file(path).to_pem).to eq(pem)
     end
   end
 
-  subject { described_class.load(path) }
+  subject { described_class.load_file(path) }
 end
