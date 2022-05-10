@@ -21,6 +21,11 @@ module Ronin
   module Support
     module Crypto
       module Key
+        #
+        # @api private
+        #
+        # @since 1.0.0
+        #
         module ClassMethods
           #
           # Parses an PEM encoded key.
@@ -31,12 +36,16 @@ module Ronin
           # @return [OpenSSL::PKey]
           #   The parsed key.
           #
+          # @api public
+          #
           def parse(key)
             new(key)
           end
 
           #
           # @see parse
+          #
+          # @api public
           #
           def load(key)
             parse(key)
@@ -50,6 +59,8 @@ module Ronin
           #
           # @return [OpenSSL::PKey]
           #   The parsed key.
+          #
+          # @api public
           #
           def load_file(path)
             parse(File.read(path))
