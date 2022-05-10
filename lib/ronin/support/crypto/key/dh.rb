@@ -17,6 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/crypto/key/class_methods'
 require 'ronin/support/crypto/openssl'
 
 module Ronin
@@ -33,6 +34,8 @@ module Ronin
         # @api public
         #
         class DH < OpenSSL::PKey::DH
+
+          extend ClassMethods
 
           if RUBY_ENGINE == 'jruby'
             #
@@ -70,39 +73,6 @@ module Ronin
           #
           def self.random(key_size=1024, generator: nil)
             new(generate(key_size,*generator))
-          end
-
-          #
-          # Parses an DER encoded DH key.
-          #
-          # @param [String] key
-          #   The key text.
-          #
-          # @return [DH]
-          #   The parsed DH key.
-          #
-          def self.parse(key)
-            new(key)
-          end
-
-          #
-          # @see parse
-          #
-          def self.load(key)
-            parse(key)
-          end
-
-          #
-          # Loads a DH key from a file.
-          #
-          # @param [String] path
-          #   The path to the DH key file.
-          #
-          # @return [DH]
-          #   The parsed DH key.
-          #
-          def self.load_file(path)
-            parse(File.read(path))
           end
 
           #

@@ -17,6 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/crypto/key/class_methods'
 require 'ronin/support/crypto/openssl'
 
 module Ronin
@@ -34,6 +35,8 @@ module Ronin
         #
         class DSA < OpenSSL::PKey::DSA
 
+          extend ClassMethods
+
           #
           # Generates a new random DSA key.
           #
@@ -47,39 +50,6 @@ module Ronin
             # HACK: openssl-3.0.0 will return an OpenSSL::PKey::SAA instance,
             # even though we subclassed OpenSSL::PKey::SAA.
             new(generate(key_size))
-          end
-
-          #
-          # Parses an PEM encoded DSA key.
-          #
-          # @param [String] key
-          #   The key text.
-          #
-          # @return [DSA]
-          #   The parsed DSA key.
-          #
-          def self.parse(key)
-            new(key)
-          end
-
-          #
-          # @see parse
-          #
-          def self.load(key)
-            parse(key)
-          end
-
-          #
-          # Loads a DSA key from a file.
-          #
-          # @param [String] path
-          #   The path to the DSA key file.
-          #
-          # @return [DSA]
-          #   The parsed DSA key.
-          #
-          def self.load_file(path)
-            parse(File.read(path))
           end
 
           #
