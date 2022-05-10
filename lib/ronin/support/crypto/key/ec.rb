@@ -45,6 +45,23 @@ module Ronin
         #
         class EC < OpenSSL::PKey::EC
 
+          if RUBY_ENGINE == 'jruby'
+            #
+            # Generates a new DH key.
+            #
+            # @param [String] curve
+            #   The elliptical curve to use.
+            #
+            # @return [EC]
+            #   The newly generated key.
+            #
+            # @note jruby's openssl does not define OpenSSL::PKey::EC.generate
+            #
+            def self.generate(curve)
+              new(curve)
+            end
+          end
+
           #
           # The supported elliptical curves.
           #
@@ -65,7 +82,7 @@ module Ronin
           #   The newly generated key.
           #
           def self.random(curve)
-            ec = new(curve)
+            ec = generate(curve)
             ec.generate_key
           end
 
