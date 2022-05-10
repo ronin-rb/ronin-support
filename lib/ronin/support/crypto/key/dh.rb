@@ -47,7 +47,9 @@ module Ronin
             # @return [DH]
             #   The newly generated key.
             #
-            # @note jruby's openssl does not define OpenSSL::PKey::DH.generate
+            # @note
+            #   jruby's openssl does not define `OpenSSL::PKey::DH.generate`.
+            #   See https://github.com/jruby/jruby-openssl/issues/254
             #
             def self.generate(key_size,generator=nil)
               new(key_size,*generator)
@@ -116,6 +118,7 @@ module Ronin
           #
           def q
             # NOTE: jruby's openssl does not implement OpenSSL::PKey::DH#q
+            # https://github.com/jruby/jruby-openssl/issues/253
             super() unless RUBY_ENGINE == 'jruby'
           end
 

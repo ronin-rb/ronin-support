@@ -45,6 +45,25 @@ module Ronin
         #
         class EC < OpenSSL::PKey::EC
 
+          #
+          # Initializes the EC key.
+          #
+          # @note
+          #   Will print a warning message when running on JRuby about
+          #   jruby-openssl's EC key bugs:
+          #   * https://github.com/jruby/jruby-openssl/issues/256
+          #   *https://github.com/jruby/jruby-openssl/issues/257
+          #
+          def initialize(*args)
+            if RUBY_ENGINE == 'jruby'
+              warn "WARNING: jruby-openssl has multiple bugs wrt parsing EC keys"
+              warn " * https://github.com/jruby/jruby-openssl/issues/256"
+              warn " * https://github.com/jruby/jruby-openssl/issues/257"
+            end
+
+            super(*args)
+          end
+
           if RUBY_ENGINE == 'jruby'
             #
             # Generates a new DH key.
@@ -55,7 +74,9 @@ module Ronin
             # @return [EC]
             #   The newly generated key.
             #
-            # @note jruby's openssl does not define OpenSSL::PKey::EC.generate
+            # @note
+            #   jruby's openssl does not define `OpenSSL::PKey::EC.generate`.
+            #   See https://github.com/jruby/jruby-openssl/issues/255
             #
             def self.generate(curve)
               new(curve)
