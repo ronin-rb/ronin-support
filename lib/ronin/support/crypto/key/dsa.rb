@@ -63,7 +63,7 @@ module Ronin
           end
 
           #
-          # Opens an DSA key file.
+          # Loads a DSA key from a file.
           #
           # @param [String] path
           #   The path to the DSA key file.
@@ -71,7 +71,7 @@ module Ronin
           # @return [DSA]
           #   The parsed DSA key.
           #
-          def self.open(path)
+          def self.load(path)
             parse(File.read(path))
           end
 

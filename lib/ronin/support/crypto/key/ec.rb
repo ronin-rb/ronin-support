@@ -65,7 +65,7 @@ module Ronin
           #   The newly generated key.
           #
           def self.random(curve)
-            ec = generate(curve)
+            ec = new(curve)
             ec.generate_key
           end
 
@@ -83,7 +83,7 @@ module Ronin
           end
 
           #
-          # Opens an EC key file.
+          # Loads a EC key from a file.
           #
           # @param [String] path
           #   The path to the RSA key file.
@@ -91,7 +91,7 @@ module Ronin
           # @return [EC]
           #   The parsed RSA key.
           #
-          def self.open(path)
+          def self.load(path)
             parse(File.read(path))
           end
 

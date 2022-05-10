@@ -36,13 +36,13 @@ describe Ronin::Support::Crypto::Key::EC do
     end
   end
 
-  describe ".open" do
+  describe ".load" do
     subject { described_class }
 
     it "must read and parse the path to the key file" do
-      expect(subject.open(path).to_pem).to eq(pem)
+      expect(subject.load(path).to_pem).to eq(pem)
     end
   end
 
-  subject { described_class.open(path) }
+  subject { described_class.load(path) }
 end

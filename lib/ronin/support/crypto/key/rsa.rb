@@ -63,7 +63,7 @@ module Ronin
           end
 
           #
-          # Opens an RSA key file.
+          # Loads a RSA key from a file.
           #
           # @param [String] path
           #   The path to the RSA key file.
@@ -71,7 +71,7 @@ module Ronin
           # @return [RSA]
           #   The parsed RSA key.
           #
-          def self.open(path)
+          def self.load(path)
             parse(File.read(path))
           end
 
