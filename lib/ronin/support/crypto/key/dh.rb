@@ -17,7 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/crypto/key/class_methods'
+require 'ronin/support/crypto/key/methods'
 require 'ronin/support/crypto/openssl'
 
 module Ronin
@@ -35,7 +35,7 @@ module Ronin
         #
         class DH < OpenSSL::PKey::DH
 
-          extend ClassMethods
+          include Methods
 
           if RUBY_ENGINE == 'jruby'
             #

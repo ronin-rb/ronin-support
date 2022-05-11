@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ronin/support/crypto/key/dsa'
 
-require_relative 'class_methods_examples'
+require_relative 'methods_examples'
 
 describe Ronin::Support::Crypto::Key::DSA do
   let(:path) { File.join(__dir__,'dsa.key') }
@@ -27,7 +27,7 @@ describe Ronin::Support::Crypto::Key::DSA do
     end
   end
 
-  include_examples "Ronin::Support::Crypto::Key::ClassMethods examples"
+  include_examples "Ronin::Support::Crypto::Key::Methods examples"
 
   subject { described_class.load_file(path) }
 

@@ -17,7 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/crypto/key/class_methods'
+require 'ronin/support/crypto/key/methods'
 require 'ronin/support/crypto/openssl'
 
 module Ronin
@@ -46,7 +46,7 @@ module Ronin
         #
         class EC < OpenSSL::PKey::EC
 
-          extend ClassMethods
+          include Methods
 
           #
           # Initializes the EC key.

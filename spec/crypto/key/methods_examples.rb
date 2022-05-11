@@ -1,6 +1,6 @@
 require 'rspec'
 
-shared_examples_for "Ronin::Support::Crypto::Key::ClassMethods examples" do
+shared_examples_for "Ronin::Support::Crypto::Key::Methods examples" do
   describe ".parse" do
     subject { described_class }
 
