@@ -77,6 +77,16 @@ module Ronin
               parse(File.read(path))
             end
           end
+
+          #
+          # Saves the key to the given path.
+          #
+          # @param [String] path
+          #   The path to write the exported key to.
+          #
+          def save(path)
+            File.write(path,export)
+          end
         end
       end
     end

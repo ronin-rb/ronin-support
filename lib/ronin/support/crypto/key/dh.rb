@@ -120,6 +120,10 @@ module Ronin
             p.num_bits
           end
 
+          def save(path)
+            super(path)
+          end
+
         end
       end
     end
