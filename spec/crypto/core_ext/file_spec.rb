@@ -153,4 +153,53 @@ describe File do
       end
     end
   end
+
+  let(:aes_cipher_text) do
+    cipher = OpenSSL::Cipher.new('aes-256-cbc')
+    cipher.encrypt
+    cipher.key = OpenSSL::Digest::SHA256.digest(password)
+
+    cipher.update(clear_text) + cipher.final
+  end
+
+  describe ".aes_encrypt" do
+    it "must AES encrypt the String" do
+      expect(subject.aes_encrypt(path, password: password)).to eq(aes_cipher_text)
+    end
+
+    context "when given a block" do
+      it "must yield each AES encrypted block" do
+        output = ''
+
+        subject.aes_encrypt(path, password: password) do |block|
+          output << block
+        end
+
+        expect(output).to eq(aes_cipher_text)
+      end
+    end
+  end
+
+  describe ".aes_decrypt" do
+    let(:tempfile) { Tempfile.new('ronin-support') }
+    let(:path)     { tempfile.path }
+
+    before { File.write(path,cipher_text) }
+
+    it "must AES decrypt the String" do
+      expect(subject.aes_decrypt(path, password: password)).to eq(clear_text)
+    end
+
+    context "when given a block" do
+      it "must yield each AES decrypted block" do
+        output = ''
+
+        subject.aes_decrypt(path, password: password) do |block|
+          output << block
+        end
+
+        expect(output).to eq(clear_text)
+      end
+    end
+  end
 end

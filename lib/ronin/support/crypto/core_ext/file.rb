@@ -183,6 +183,53 @@ class File
   end
 
   #
+  # Streams the file through a block cipher.
+  #
+  # @param [String] path
+  #   The path to the file.
+  #
+  # @param [OpenSSL::Cipher] cipher
+  #   The block cipher to use.
+  #
+  # @param [String, #<<, nil] output
+  #   The optional output buffer to append processed data to.
+  #   Defaults to an empty ASCII 8bit encoded String.
+  #
+  # @yield [block]
+  #   If a block is given, each processed block will be passed to it.
+  #
+  # @yieldparam [String] block
+  #   A processed block from the file.
+  #
+  # @return [String]
+  #   The processed data, if no block was given.
+  #
+  # @api semipublic
+  #
+  def self.stream_cipher(path,cipher, output: nil)
+    unless block_given?
+      output ||= String.new('', encoding: Encoding::ASCII_8BIT)
+    end
+
+    open(path,'rb') do |file|
+      until file.eof?
+        block = cipher.update(file.read(16384))
+
+        if block_given? then yield block
+        else                 output << block
+        end
+      end
+    end
+
+    if block_given?
+      yield cipher.final
+    else
+      output << cipher.final
+      return output
+    end
+  end
+
+  #
   # Encrypts the file.
   #
   # @param [String] path
@@ -190,6 +237,10 @@ class File
   #
   # @param [String] cipher
   #   The cipher to use.
+  #
+  # @param [String, #<<, nil] output
+  #   The optional output buffer to append the encrypted data to.
+  #   Defaults to an empty ASCII 8bit encoded String.
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {Ronin::Support::Crypto.cipher}.
@@ -224,27 +275,11 @@ class File
   #
   # @api public
   #
-  def self.encrypt(path,cipher,**kwargs)
+  def self.encrypt(path,cipher, output: nil, **kwargs,&block)
     cipher = Ronin::Support::Crypto.cipher(cipher, direction: :encrypt,
                                                    **kwargs)
-    output = ''
 
-    open(path,'rb') do |file|
-      until file.eof?
-        block = cipher.update(file.read(16384))
-
-        if block_given? then yield block
-        else                 output << block
-        end
-      end
-    end
-
-    if block_given?
-      yield cipher.final
-    else
-      output << cipher.final
-      return output
-    end
+    stream_cipher(path,cipher, output: output,&block)
   end
 
   #
@@ -255,6 +290,10 @@ class File
   #
   # @param [String] cipher
   #   The cipher to use.
+  #
+  # @param [String, #<<, nil] output
+  #   The optional output buffer to append the decrypted data to.
+  #   Defaults to an empty ASCII 8bit encoded String.
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {Ronin::Support::Crypto.cipher}.
@@ -289,27 +328,77 @@ class File
   #
   # @api public
   #
-  def self.decrypt(path,cipher,**kwargs)
+  def self.decrypt(path,cipher, output: nil, **kwargs,&block)
     cipher = Ronin::Support::Crypto.cipher(cipher, direction: :decrypt,
                                                    **kwargs)
-    output = ''
 
-    open(path,'rb') do |file|
-      until file.eof?
-        block = cipher.update(file.read(16384))
+    stream_cipher(path,cipher, output: output,&block)
+  end
 
-        if block_given? then yield block
-        else                 output << block
-        end
-      end
-    end
+  #
+  # Encrypts the file using AES.
+  #
+  # @param [String] path
+  #   The path to the file.
+  #
+  # @param [String, #<<, nil] output
+  #   The optional output buffer to append the AES encrypted data to.
+  #   Defaults to an empty ASCII 8bit encoded String.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {aes}.
+  #
+  # @option kwargs [Integer] :key_size (256)
+  #   The desired key size in bits.
+  #
+  # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
+  #   The desired AES cipher mode.
+  #
+  # @return [String]
+  #   The encrypted data.
+  #
+  # @raise [ArgumentError]
+  #   Either the the `key:` or `password:` keyword argument must be given.
+  #
+  # @since 1.0.0
+  #
+  def self.aes_encrypt(path, output: nil, **kwargs,&block)
+    cipher = Ronin::Support::Crypto.aes(direction: :encrypt, **kwargs)
 
-    if block_given?
-      yield cipher.final
-    else
-      output << cipher.final
-      return output
-    end
+    stream_cipher(path,cipher, output: output,&block)
+  end
+
+  #
+  # Decrypts the file using AES.
+  #
+  # @param [String] path
+  #   The path to the file.
+  #
+  # @param [String, #<<, nil] output
+  #   The optional output buffer to append the AES decrypted data to.
+  #   Defaults to an empty ASCII 8bit encoded String.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {aes}.
+  #
+  # @option kwargs [Integer] :key_size (256)
+  #   The desired key size in bits.
+  #
+  # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
+  #   The desired AES cipher mode.
+  #
+  # @return [String]
+  #   The encrypted data.
+  #
+  # @raise [ArgumentError]
+  #   Either the the `key:` or `password:` keyword argument must be given.
+  #
+  # @since 1.0.0
+  #
+  def self.aes_decrypt(path, output: nil, **kwargs,&block)
+    cipher = Ronin::Support::Crypto.aes(direction: :decrypt, **kwargs)
+
+    stream_cipher(path,cipher, output: output,&block)
   end
 
 end
