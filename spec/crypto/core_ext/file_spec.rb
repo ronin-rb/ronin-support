@@ -24,7 +24,7 @@ describe File do
   it { expect(subject).to respond_to(:encrypt) }
   it { expect(subject).to respond_to(:decrypt) }
 
-  describe "#md5" do
+  describe ".md5" do
     let(:digest_md5) { "30f3c93e46436deb58ba70816a8ec124" }
 
     it "must return the MD5 digest of itself" do
@@ -32,7 +32,7 @@ describe File do
     end
   end
 
-  describe "#sha1" do
+  describe ".sha1" do
     let(:digest_sha1) { "ced71fa7235231bed383facfdc41c4ddcc22ecf1" }
 
     it "must return the SHA1 digest of itself" do
@@ -40,7 +40,7 @@ describe File do
     end
   end
 
-  describe "#sha2" do
+  describe ".sha2" do
     let(:digest_sha2) do
       "9ecb36561341d18eb65484e833efea61edc74b84cf5e6ae1b81c63533e25fc8f"
     end
@@ -50,7 +50,7 @@ describe File do
     end
   end
 
-  describe "#sha256" do
+  describe ".sha256" do
     let(:digest_sha256) do
       "9ecb36561341d18eb65484e833efea61edc74b84cf5e6ae1b81c63533e25fc8f"
     end
@@ -60,7 +60,7 @@ describe File do
     end
   end
 
-  describe "#sha512" do
+  describe ".sha512" do
     let(:digest_sha512) do
       "d9d380f29b97ad6a1d92e987d83fa5a02653301e1006dd2bcd51afa59a9147e9caedaf89521abc0f0b682adcd47fb512b8343c834a32f326fe9bef00542ce887"
     end
@@ -70,7 +70,7 @@ describe File do
     end
   end
 
-  describe "#rmd160" do
+  describe ".rmd160" do
     let(:digest_rmd160) { "1e76c9c004a440a285d130bc41a8d027b268afcd" }
 
     it "must return the RMD160 digest of itself" do
@@ -84,7 +84,7 @@ describe File do
     end
   end
 
-  describe "#hmac" do
+  describe ".hmac" do
     let(:key)  { 'secret' }
     let(:hash) { 'cf5073193fae1bfdaa1b31355076f99bfb249f51' }
 
@@ -113,7 +113,7 @@ describe File do
     cipher.update(clear_text) + cipher.final
   end
 
-  describe "#encrypt" do
+  describe ".encrypt" do
     it "must encrypt the String" do
       expect(subject.encrypt(path,cipher, password: password)).to eq(cipher_text)
     end
@@ -131,7 +131,7 @@ describe File do
     end
   end
 
-  describe "#decrypt" do
+  describe ".decrypt" do
     let(:tempfile) { Tempfile.new('ronin-support') }
     let(:path)     { tempfile.path }
 
