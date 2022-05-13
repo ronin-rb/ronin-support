@@ -28,14 +28,11 @@ module Ronin
           #
           # Initializes the AES 128bit cipher.
           #
-          # @param [:cbc, :cfb, :ofb, :ctr, Symbol] mode
-          #   The desired AES cipher mode.
-          #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {Cipher#initialize}.
+          #   Additional keyword arguments for {AES#initialize}.
           #
-          def initialize(mode=:cbc,**kwargs)
-            super(128,mode,**kwargs)
+          def initialize(**kwargs)
+            super(key_size: 128,**kwargs)
           end
 
           #

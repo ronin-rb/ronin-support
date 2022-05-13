@@ -8,9 +8,11 @@ describe Ronin::Support::Crypto::Cipher::AES128 do
 
   describe "#initialize" do
     subject do
-      described_class.new(direction: :encrypt,
-                          hash:      hash,
-                          password:  password)
+      described_class.new(
+        direction: :encrypt,
+        hash:      hash,
+        password:  password
+      )
     end
 
     it "must initialize an AES-128 cipher with CBC direction" do
@@ -19,9 +21,12 @@ describe Ronin::Support::Crypto::Cipher::AES128 do
 
     context "when a direction argument is given" do
       subject do
-        described_class.new(mode, direction: :encrypt,
-                                  hash:      hash,
-                                  password:  password)
+        described_class.new(
+          mode:      mode,
+          direction: :encrypt,
+          hash:      hash,
+          password:  password
+        )
       end
 
       it "must initialize an AES-128 cipher with the given direction" do
