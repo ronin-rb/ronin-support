@@ -10,7 +10,7 @@ describe Ronin::Support::Crypto::Mixin do
 
   let(:clear_text) { 'the quick brown fox' }
 
-  describe "digest" do
+  describe "#crypto_digest" do
     context "when given a lower-case name" do
       let(:name) { :md5 }
 
@@ -36,7 +36,7 @@ describe Ronin::Support::Crypto::Mixin do
     end
   end
 
-  describe "hmac" do
+  describe "#crypto_hmac" do
     let(:key)  { 'secret' }
     let(:hash) { 'cf5073193fae1bfdaa1b31355076f99bfb249f51' }
 
@@ -64,7 +64,7 @@ describe Ronin::Support::Crypto::Mixin do
     end
   end
 
-  describe "cipher" do
+  describe "#crypto_cipher" do
     let(:name)      { 'aes-256-cbc' }
     let(:password)  { 'secret'      }
     let(:direction) { :decrypt      }
@@ -89,13 +89,13 @@ describe Ronin::Support::Crypto::Mixin do
     cipher.update(clear_text) + cipher.final
   end
 
-  describe ".encrypt" do
+  describe "#crypto_encrypt" do
     it "must encrypt a given String using the cipher" do
       expect(subject.crypto_encrypt(clear_text, cipher: cipher, password: password)).to eq(cipher_text)
     end
   end
 
-  describe ".decrypt" do
+  describe "#crypto_decrypt" do
     it "must decrypt the String" do
       expect(subject.crypto_decrypt(cipher_text, cipher: cipher, password: password)).to eq(clear_text)
     end
