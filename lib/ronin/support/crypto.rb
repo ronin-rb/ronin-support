@@ -19,6 +19,9 @@
 
 require 'ronin/support/crypto/openssl'
 require 'ronin/support/crypto/cipher'
+require 'ronin/support/crypto/cipher/aes'
+require 'ronin/support/crypto/cipher/aes128'
+require 'ronin/support/crypto/cipher/aes256'
 require 'ronin/support/crypto/mixin'
 require 'ronin/support/crypto/core_ext'
 
@@ -181,6 +184,32 @@ module Ronin
         cipher = self.cipher(cipher, direction: :decrypt, **kwargs)
 
         return cipher.update(data) + cipher.final
+      end
+
+      #
+      # Creates a new AES cipher.
+      #
+      # @param [Integer] key_size
+      #   The desired key size in bits.
+      #
+      # @param [:cbc, :cfb, :ofb, :ctr, Symbol] mode
+      #   The desired AES cipher mode.
+      #
+      # @param [Hash{Symbol => Object}] kwargs
+      #   Additional keyword arguments for {Cipher::AES#initialize}.
+      #
+      # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] :mode (:cbc)
+      #   The desired AES cipher mode.
+      #
+      # @return [Cipher::AES]
+      #   The new AES cipher.
+      #
+      # @example
+      #   Crypto.aes(direction: :encrypt, password: 's3cr3t')
+      #   # => #<Ronin::Support::Crypto::Cipher::AES:0x00007f2b84dfa6b8 @key_size=256, @mode=:cbc>
+      #
+      def self.aes(key_size: 256, mode: :cbc, **kwargs)
+        Cipher::AES.new(key_size: key_size, mode: mode,**kwargs)
       end
     end
   end
