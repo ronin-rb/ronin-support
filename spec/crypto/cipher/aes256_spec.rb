@@ -9,7 +9,7 @@ describe Ronin::Support::Crypto::Cipher::AES256 do
     subject do
       described_class.new(
         direction: :encrypt,
-        password: password
+        password:  password
       )
     end
 
