@@ -164,6 +164,37 @@ describe Crypto do
     end
   end
 
+  describe ".aes128" do
+    let(:password)  { 'secret' }
+    let(:direction) { :decrypt }
+
+    it "must return a Ronin::Support::Crypto::Cipher::AES128 object" do
+      new_cipher = subject.aes128(direction: direction,
+                                  password:  password)
+
+      expect(new_cipher).to be_kind_of(Ronin::Support::Crypto::Cipher::AES128)
+    end
+
+    it "must default to cipher 'AES-128-CBC'" do
+      new_cipher = subject.aes128(direction: direction,
+                                  password:  password)
+
+      expect(new_cipher.name).to eq("AES-128-CBC")
+    end
+
+    context "when the mode: keyword argument is given" do
+      let(:mode) { :ctr }
+
+      it "must use the given mode" do
+        new_cipher = subject.aes128(mode:      mode,
+                                    direction: direction,
+                                    password:  password)
+
+        expect(new_cipher.name).to eq("AES-128-#{mode.upcase}")
+      end
+    end
+  end
+
   let(:aes128_cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-128-cbc')
     cipher.encrypt
