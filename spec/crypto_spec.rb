@@ -78,6 +78,37 @@ describe Crypto do
     end
   end
 
+  let(:cipher)   { 'aes-256-cbc' }
+  let(:password) { 'secret'      }
+
+  let(:cipher_text) do
+    cipher = OpenSSL::Cipher.new('aes-256-cbc')
+    cipher.encrypt
+    cipher.key = OpenSSL::Digest::SHA256.digest(password)
+
+    cipher.update(clear_text) + cipher.final
+  end
+
+  describe ".encrypt" do
+    it "must encrypt a given String using the cipher" do
+      expect(subject.encrypt(clear_text, cipher: cipher, password: password)).to eq(cipher_text)
+    end
+  end
+
+  describe ".decrypt" do
+    it "must decrypt the given String" do
+      expect(subject.decrypt(cipher_text, cipher: cipher, password: password)).to eq(clear_text)
+    end
+  end
+
+  let(:aes_cipher_text) do
+    cipher = OpenSSL::Cipher.new('aes-256-cbc')
+    cipher.encrypt
+    cipher.key = OpenSSL::Digest::SHA256.digest(password)
+
+    cipher.update(clear_text) + cipher.final
+  end
+
   describe ".aes" do
     let(:key_size)  { 256      }
     let(:hash)      { :sha256  }
@@ -115,37 +146,6 @@ describe Crypto do
         expect(new_cipher.name).to eq("AES-256-#{mode.upcase}")
       end
     end
-  end
-
-  let(:cipher)   { 'aes-256-cbc' }
-  let(:password) { 'secret'      }
-
-  let(:cipher_text) do
-    cipher = OpenSSL::Cipher.new('aes-256-cbc')
-    cipher.encrypt
-    cipher.key = OpenSSL::Digest::SHA256.digest(password)
-
-    cipher.update(clear_text) + cipher.final
-  end
-
-  describe ".encrypt" do
-    it "must encrypt a given String using the cipher" do
-      expect(subject.encrypt(clear_text, cipher: cipher, password: password)).to eq(cipher_text)
-    end
-  end
-
-  describe ".decrypt" do
-    it "must decrypt the given String" do
-      expect(subject.decrypt(cipher_text, cipher: cipher, password: password)).to eq(clear_text)
-    end
-  end
-
-  let(:aes_cipher_text) do
-    cipher = OpenSSL::Cipher.new('aes-256-cbc')
-    cipher.encrypt
-    cipher.key = OpenSSL::Digest::SHA256.digest(password)
-
-    cipher.update(clear_text) + cipher.final
   end
 
   describe ".aes_encrypt" do
