@@ -102,7 +102,7 @@ describe Crypto do
       expect(new_cipher.name).to eq("AES-256-CBC")
     end
 
-    context "when the key_size: keyword argument is given" do
+    context "when the mode: keyword argument is given" do
       let(:mode) { :ctr }
 
       it "must use the given mode" do
