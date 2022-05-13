@@ -206,4 +206,52 @@ class String
                                          **kwargs)
   end
 
+  #
+  # Encrypts data using AES.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {aes}.
+  #
+  # @option kwargs [Integer] :key_size (256)
+  #   The desired key size in bits.
+  #
+  # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
+  #   The desired AES cipher mode.
+  #
+  # @return [String]
+  #   The encrypted data.
+  #
+  # @raise [ArgumentError]
+  #   Either the the `key:` or `password:` keyword argument must be given.
+  #
+  # @since 1.0.0
+  #
+  def aes_encrypt(**kwargs)
+    Ronin::Support::Crypto.aes_encrypt(self,**kwargs)
+  end
+
+  #
+  # Decrypts data using AES.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {aes}.
+  #
+  # @option kwargs [Integer] :key_size (256)
+  #   The desired key size in bits.
+  #
+  # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
+  #   The desired AES cipher mode.
+  #
+  # @return [String]
+  #   The encrypted data.
+  #
+  # @raise [ArgumentError]
+  #   Either the the `key:` or `password:` keyword argument must be given.
+  #
+  # @since 1.0.0
+  #
+  def aes_decrypt(**kwargs)
+    Ronin::Support::Crypto.aes_decrypt(self,**kwargs)
+  end
+
 end
