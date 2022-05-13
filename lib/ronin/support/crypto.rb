@@ -243,7 +243,7 @@ module Ronin
       #   The new AES cipher.
       #
       # @example
-      #   Crypto.aes(direction: :encrypt, password: 's3cr3t')
+      #   Crypto.aes(key_size: 256, direction: :encrypt, password: 's3cr3t', hash: :sha256)
       #   # => #<Ronin::Support::Crypto::Cipher::AES:0x00007f2b84dfa6b8 @key_size=256, @mode=:cbc>
       #
       def self.aes(**kwargs)
