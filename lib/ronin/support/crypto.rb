@@ -71,6 +71,26 @@ module Ronin
       end
 
       #
+      # The list of supported ciphers.
+      #
+      # @return [Array<String>]
+      #   The list of supported cipher names.
+      #
+      # @see Cipher.supported
+      #
+      # @example
+      #   Cipher.supported
+      #   # => ["RC5",
+      #   #     "aes-128-cbc",
+      #   #     "aes-128-cbc-hmac-sha1",
+      #   #     "aes-128-cbc-hmac-sha256",
+      #   #     ...]
+      #
+      def self.ciphers
+        Cipher.supported
+      end
+
+      #
       # Creates a cipher.
       #
       # @param [String] name

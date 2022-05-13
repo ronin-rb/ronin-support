@@ -58,6 +58,12 @@ describe Crypto do
     end
   end
 
+  describe ".ciphers" do
+    it "must return Cipher.supported" do
+      expect(subject.ciphers).to eq(Ronin::Support::Crypto::Cipher.supported)
+    end
+  end
+
   describe ".cipher" do
     let(:name)      { 'aes-256-cbc' }
     let(:password)  { 'secret'      }
