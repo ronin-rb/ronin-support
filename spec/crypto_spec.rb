@@ -140,7 +140,7 @@ describe Crypto do
   end
 
   describe ".decrypt" do
-    it "must decrypt the String" do
+    it "must decrypt the given String" do
       expect(subject.decrypt(cipher_text, cipher: cipher, password: password)).to eq(clear_text)
     end
   end
@@ -160,7 +160,7 @@ describe Crypto do
   end
 
   describe ".aes_decrypt" do
-    it "must decrypt the String" do
+    it "must decrypt the given String" do
       expect(subject.aes_decrypt(cipher_text, password: password)).to eq(clear_text)
     end
   end
