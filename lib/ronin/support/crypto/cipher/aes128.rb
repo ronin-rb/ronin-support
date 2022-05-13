@@ -28,11 +28,14 @@ module Ronin
           #
           # Initializes the AES 128bit cipher.
           #
+          # @param [Symbol] hash
+          #   The hashing algorithm to use to generate the key.
+          #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {AES#initialize}.
           #
-          def initialize(**kwargs)
-            super(key_size: 128,**kwargs)
+          def initialize(hash: :md5, **kwargs)
+            super(key_size: 128, hash: hash, **kwargs)
           end
 
           #

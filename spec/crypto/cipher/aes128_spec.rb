@@ -3,14 +3,12 @@ require 'ronin/support/crypto/cipher/aes128'
 
 describe Ronin::Support::Crypto::Cipher::AES128 do
   let(:mode)     { :ctr }
-  let(:hash)     { :md5 }
   let(:password) { 'secret' }
 
   describe "#initialize" do
     subject do
       described_class.new(
         direction: :encrypt,
-        hash:      hash,
         password:  password
       )
     end
@@ -24,7 +22,6 @@ describe Ronin::Support::Crypto::Cipher::AES128 do
         described_class.new(
           mode:      mode,
           direction: :encrypt,
-          hash:      hash,
           password:  password
         )
       end
