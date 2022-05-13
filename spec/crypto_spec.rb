@@ -144,4 +144,24 @@ describe Crypto do
       expect(subject.decrypt(cipher_text, cipher: cipher, password: password)).to eq(clear_text)
     end
   end
+
+  let(:aes_cipher_text) do
+    cipher = OpenSSL::Cipher.new('aes-256-cbc')
+    cipher.encrypt
+    cipher.key = OpenSSL::Digest::SHA256.digest(password)
+
+    cipher.update(clear_text) + cipher.final
+  end
+
+  describe ".aes_encrypt" do
+    it "must encrypt a given String using AES-256-CBC" do
+      expect(subject.aes_encrypt(clear_text, password: password)).to eq(cipher_text)
+    end
+  end
+
+  describe ".aes_decrypt" do
+    it "must decrypt the String" do
+      expect(subject.aes_decrypt(cipher_text, password: password)).to eq(clear_text)
+    end
+  end
 end

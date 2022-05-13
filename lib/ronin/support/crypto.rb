@@ -211,6 +211,64 @@ module Ronin
       def self.aes(key_size: 256, mode: :cbc, **kwargs)
         Cipher::AES.new(key_size: key_size, mode: mode,**kwargs)
       end
+
+      #
+      # Encrypts data using AES.
+      #
+      # @param [#to_s] data
+      #   The data to encrypt.
+      #
+      # @param [Hash{Symbol => Object}] kwargs
+      #   Additional keyword arguments for {aes}.
+      #
+      # @option kwargs [Integer] :key_size (256)
+      #   The desired key size in bits.
+      #
+      # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
+      #   The desired AES cipher mode.
+      #
+      # @return [String]
+      #   The encrypted data.
+      #
+      # @raise [ArgumentError]
+      #   Either the the `key:` or `password:` keyword argument must be given.
+      #
+      # @since 1.0.0
+      #
+      def self.aes_encrypt(data,**kwargs)
+        aes = self.aes(direction: :encrypt, **kwargs)
+
+        return aes.update(data) + aes.final
+      end
+
+      #
+      # Decrypts data using AES.
+      #
+      # @param [#to_s] data
+      #   The data to encrypt.
+      #
+      # @param [Hash{Symbol => Object}] kwargs
+      #   Additional keyword arguments for {aes}.
+      #
+      # @option kwargs [Integer] :key_size (256)
+      #   The desired key size in bits.
+      #
+      # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
+      #   The desired AES cipher mode.
+      #
+      # @return [String]
+      #   The encrypted data.
+      #
+      # @raise [ArgumentError]
+      #   Either the the `key:` or `password:` keyword argument must be given.
+      #
+      # @since 1.0.0
+      #
+      def self.aes_decrypt(data,**kwargs)
+        aes = self.aes(direction: :decrypt, **kwargs)
+
+        return aes.update(data) + aes.final
+      end
     end
   end
 end
