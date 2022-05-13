@@ -4,7 +4,7 @@ require 'ronin/support/crypto'
 describe Crypto do
   let(:clear_text) { 'the quick brown fox' }
 
-  describe "digest" do
+  describe ".digest" do
     context "when given a lower-case name" do
       let(:name) { :md5 }
 
@@ -30,7 +30,7 @@ describe Crypto do
     end
   end
 
-  describe "hmac" do
+  describe ".hmac" do
     let(:key)  { 'secret' }
     let(:hash) { 'cf5073193fae1bfdaa1b31355076f99bfb249f51' }
 
@@ -58,7 +58,7 @@ describe Crypto do
     end
   end
 
-  describe "cipher" do
+  describe ".cipher" do
     let(:name)      { 'aes-256-cbc' }
     let(:password)  { 'secret'      }
     let(:direction) { :decrypt      }
