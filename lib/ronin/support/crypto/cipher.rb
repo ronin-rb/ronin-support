@@ -56,19 +56,19 @@ module Ronin
         #   Specifies whether the cipher will be used to encrypt or decrypt
         #   data.
         #
-        # @param [Symbol] hash
+        # @param [Symbol, nil] hash
         #   The algorithm to hash the `:password`.
         #
-        # @param [String] key
+        # @param [String, nil] key
         #   The secret key to use.
         #
-        # @param [String] password
+        # @param [String, nil] password
         #   The password for the cipher.
         #
-        # @param [String] iv
+        # @param [String, nil] iv
         #   The optional Initial Vector (IV).
         #
-        # @param [Integer] padding
+        # @param [Integer, nil] padding
         #   Sets the padding for the cipher.
         #
         # @raise [ArgumentError]
