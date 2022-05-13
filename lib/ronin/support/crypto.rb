@@ -215,14 +215,14 @@ module Ronin
       #
       # Creates a new AES cipher.
       #
-      # @param [Integer] key_size
-      #   The desired key size in bits.
-      #
-      # @param [:cbc, :cfb, :ofb, :ctr, Symbol] mode
-      #   The desired AES cipher mode.
-      #
       # @param [Hash{Symbol => Object}] kwargs
       #   Additional keyword arguments for {Cipher::AES#initialize}.
+      #
+      # @option kwargs [Integer] :key_size
+      #   The desired key size in bits.
+      #
+      # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] :mode (:cbc)
+      #   The desired AES cipher mode.
       #
       # @option kwargs [Symbol] :hash (:sha256)
       #   The algorithm to hash the `:password`.
@@ -246,8 +246,8 @@ module Ronin
       #   Crypto.aes(direction: :encrypt, password: 's3cr3t')
       #   # => #<Ronin::Support::Crypto::Cipher::AES:0x00007f2b84dfa6b8 @key_size=256, @mode=:cbc>
       #
-      def self.aes(key_size: 256, mode: :cbc, **kwargs)
-        Cipher::AES.new(key_size: key_size, mode: mode,**kwargs)
+      def self.aes(**kwargs)
+        Cipher::AES.new(**kwargs)
       end
 
       #
@@ -259,7 +259,7 @@ module Ronin
       # @param [Hash{Symbol => Object}] kwargs
       #   Additional keyword arguments for {aes}.
       #
-      # @option kwargs [Integer] :key_size (256)
+      # @option kwargs [Integer] :key_size
       #   The desired key size in bits.
       #
       # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
@@ -301,7 +301,7 @@ module Ronin
       # @param [Hash{Symbol => Object}] kwargs
       #   Additional keyword arguments for {aes}.
       #
-      # @option kwargs [Integer] :key_size (256)
+      # @option kwargs [Integer] :key_size
       #   The desired key size in bits.
       #
       # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)

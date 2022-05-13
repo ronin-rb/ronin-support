@@ -126,14 +126,18 @@ describe String do
   end
 
   describe "#aes_encrypt" do
-    it "must encrypt the String using AES-256-CBC" do
-      expect(subject.aes_encrypt(password: password)).to eq(aes_cipher_text)
+    let(:key_size) { 256 }
+
+    it "must encrypt the String using AES in CBC mode with the key size" do
+      expect(subject.aes_encrypt(key_size: key_size, password: password)).to eq(aes_cipher_text)
     end
   end
 
   describe "#aes_decrypt" do
+    let(:key_size) { 256 }
+
     it "must decrypt the String" do
-      expect(aes_cipher_text.aes_decrypt(password: password)).to eq(subject)
+      expect(aes_cipher_text.aes_decrypt(key_size: key_size, password: password)).to eq(subject)
     end
   end
 end

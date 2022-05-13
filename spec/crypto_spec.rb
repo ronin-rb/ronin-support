@@ -154,14 +154,18 @@ describe Crypto do
   end
 
   describe ".aes_encrypt" do
-    it "must encrypt a given String using AES-256-CBC" do
-      expect(subject.aes_encrypt(clear_text, password: password)).to eq(aes_cipher_text)
+    let(:key_size) { 256 }
+
+    it "must encrypt a given String using AES in CBC mode with the key size" do
+      expect(subject.aes_encrypt(clear_text, key_size: key_size, password: password)).to eq(aes_cipher_text)
     end
   end
 
   describe ".aes_decrypt" do
+    let(:key_size) { 256 }
+
     it "must decrypt the given String" do
-      expect(subject.aes_decrypt(aes_cipher_text, password: password)).to eq(clear_text)
+      expect(subject.aes_decrypt(aes_cipher_text, key_size: key_size, password: password)).to eq(clear_text)
     end
   end
 end

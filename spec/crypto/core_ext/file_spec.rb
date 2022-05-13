@@ -163,15 +163,17 @@ describe File do
   end
 
   describe ".aes_encrypt" do
+    let(:key_size) { 256 }
+
     it "must AES encrypt the String" do
-      expect(subject.aes_encrypt(path, password: password)).to eq(aes_cipher_text)
+      expect(subject.aes_encrypt(path, key_size: key_size, password: password)).to eq(aes_cipher_text)
     end
 
     context "when given a block" do
       it "must yield each AES encrypted block" do
         output = String.new('', encoding: Encoding::ASCII_8BIT)
 
-        subject.aes_encrypt(path, password: password) do |block|
+        subject.aes_encrypt(path, key_size: key_size, password: password) do |block|
           output << block
         end
 
@@ -181,20 +183,22 @@ describe File do
   end
 
   describe ".aes_decrypt" do
+    let(:key_size) { 256 }
+
     let(:tempfile) { Tempfile.new('ronin-support') }
     let(:path)     { tempfile.path }
 
     before { File.write(path,cipher_text) }
 
     it "must AES decrypt the String" do
-      expect(subject.aes_decrypt(path, password: password)).to eq(clear_text)
+      expect(subject.aes_decrypt(path, key_size: key_size, password: password)).to eq(clear_text)
     end
 
     context "when given a block" do
       it "must yield each AES decrypted block" do
         output = String.new('', encoding: Encoding::ASCII_8BIT)
 
-        subject.aes_decrypt(path, password: password) do |block|
+        subject.aes_decrypt(path, key_size: key_size, password: password) do |block|
           output << block
         end
 
