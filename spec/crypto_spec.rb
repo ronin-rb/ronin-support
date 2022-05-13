@@ -155,13 +155,13 @@ describe Crypto do
 
   describe ".aes_encrypt" do
     it "must encrypt a given String using AES-256-CBC" do
-      expect(subject.aes_encrypt(clear_text, password: password)).to eq(cipher_text)
+      expect(subject.aes_encrypt(clear_text, password: password)).to eq(aes_cipher_text)
     end
   end
 
   describe ".aes_decrypt" do
     it "must decrypt the given String" do
-      expect(subject.aes_decrypt(cipher_text, password: password)).to eq(clear_text)
+      expect(subject.aes_decrypt(aes_cipher_text, password: password)).to eq(clear_text)
     end
   end
 end
