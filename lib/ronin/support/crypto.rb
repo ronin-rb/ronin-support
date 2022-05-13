@@ -194,9 +194,6 @@ module Ronin
       # @param [Hash{Symbol => Object}] kwargs
       #   Additional keyword arguments for {Cipher::AES#initialize}.
       #
-      # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] :mode (:cbc)
-      #   The desired AES cipher mode.
-      #
       # @return [Cipher::AES]
       #   The new AES cipher.
       #
