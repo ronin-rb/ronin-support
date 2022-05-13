@@ -25,6 +25,17 @@ module Ronin
       class Cipher < OpenSSL::Cipher
         class AES < Cipher
 
+          # The AES cipher key size.
+          #
+          # @return [Integer]
+          #   The key size in bits.
+          attr_reader :key_size
+
+          # The AES cipher mode.
+          #
+          # @return [:cbc, :cfb, :ofb, :ctr, Symbol]
+          attr_reader :mode
+
           #
           # Initializes the AES cipher.
           #
@@ -39,6 +50,9 @@ module Ronin
           #
           def initialize(key_size: , mode: :cbc, **kwargs)
             super("aes-#{key_size}-#{mode}", **kwargs)
+
+            @key_size = key_size
+            @mode     = mode
           end
 
           #

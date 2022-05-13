@@ -16,6 +16,14 @@ describe Ronin::Support::Crypto::Cipher::AES do
         )
       end
 
+      it "must set #key_size" do
+        expect(subject.key_size).to eq(key_size)
+      end
+
+      it "must default #mode to :cbc" do
+        expect(subject.mode).to eq(:cbc)
+      end
+
       it "must initialize an AES cipher with the given key-size and CBC direction" do
         expect(subject.name).to eq("AES-#{key_size}-CBC")
       end
@@ -29,6 +37,14 @@ describe Ronin::Support::Crypto::Cipher::AES do
           direction: :encrypt,
           password:  password
         )
+      end
+
+      it "must set #key_size" do
+        expect(subject.key_size).to eq(key_size)
+      end
+
+      it "must set #mode" do
+        expect(subject.mode).to eq(mode)
       end
 
       it "must initialize an AES cipher with the given key-size and the direction" do
