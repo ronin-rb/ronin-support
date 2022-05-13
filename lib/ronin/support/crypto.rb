@@ -155,9 +155,7 @@ module Ronin
       # @since 1.0.0
       #
       def self.encrypt(data, cipher: ,**kwargs)
-        cipher = self.cipher(cipher, direction: :encrypt, **kwargs)
-
-        return cipher.update(data) + cipher.final
+        self.cipher(cipher, direction: :encrypt, **kwargs).encrypt(data)
       end
 
       #
@@ -181,9 +179,7 @@ module Ronin
       # @since 1.0.0
       #
       def self.decrypt(data, cipher: ,**kwargs)
-        cipher = self.cipher(cipher, direction: :decrypt, **kwargs)
-
-        return cipher.update(data) + cipher.final
+        self.cipher(cipher, direction: :decrypt, **kwargs).decrypt(data)
       end
 
       #
@@ -236,9 +232,7 @@ module Ronin
       # @since 1.0.0
       #
       def self.aes_encrypt(data,**kwargs)
-        aes = self.aes(direction: :encrypt, **kwargs)
-
-        return aes.update(data) + aes.final
+        self.aes(direction: :encrypt, **kwargs).encrypt(data)
       end
 
       #
@@ -265,9 +259,7 @@ module Ronin
       # @since 1.0.0
       #
       def self.aes_decrypt(data,**kwargs)
-        aes = self.aes(direction: :decrypt, **kwargs)
-
-        return aes.update(data) + aes.final
+        self.aes(direction: :decrypt, **kwargs).decrypt(data)
       end
     end
   end
