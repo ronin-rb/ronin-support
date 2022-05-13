@@ -100,4 +100,28 @@ describe Ronin::Support::Crypto::Mixin do
       expect(subject.crypto_decrypt(cipher_text, cipher: cipher, password: password)).to eq(clear_text)
     end
   end
+
+  let(:aes_cipher_text) do
+    cipher = OpenSSL::Cipher.new('aes-256-cbc')
+    cipher.encrypt
+    cipher.key = OpenSSL::Digest::SHA256.digest(password)
+
+    cipher.update(clear_text) + cipher.final
+  end
+
+  describe "#crypto_aes_encrypt" do
+    let(:key_size) { 256 }
+
+    it "must encrypt a given String using AES in CBC mode with the key size" do
+      expect(subject.crypto_aes_encrypt(clear_text, key_size: key_size, password: password)).to eq(aes_cipher_text)
+    end
+  end
+
+  describe "#crypto_aes_decrypt" do
+    let(:key_size) { 256 }
+
+    it "must decrypt the given String" do
+      expect(subject.crypto_aes_decrypt(aes_cipher_text, key_size: key_size, password: password)).to eq(clear_text)
+    end
+  end
 end
