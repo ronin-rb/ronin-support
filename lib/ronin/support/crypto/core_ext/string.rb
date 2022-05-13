@@ -212,11 +212,26 @@ class String
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {aes}.
   #
-  # @option kwargs [Integer] :key_size (256)
+  # @option kwargs [Integer] :key_size
   #   The desired key size in bits.
   #
   # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
   #   The desired AES cipher mode.
+  #
+  # @option kwargs [Symbol] :hash (:sha256)
+  #   The algorithm to hash the `:password`.
+  #
+  # @option kwargs [String] :key
+  #   The secret key to use.
+  #
+  # @option kwargs [String] :password
+  #   The password for the cipher.
+  #
+  # @option kwargs [String] :iv
+  #   The optional Initial Vector (IV).
+  #
+  # @option kwargs [Integer] :padding
+  #   Sets the padding for the cipher.
   #
   # @return [String]
   #   The encrypted data.
@@ -236,11 +251,26 @@ class String
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {aes}.
   #
-  # @option kwargs [Integer] :key_size (256)
+  # @option kwargs [Integer] :key_size
   #   The desired key size in bits.
   #
   # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
   #   The desired AES cipher mode.
+  #
+  # @option kwargs [Symbol] :hash (:sha256)
+  #   The algorithm to hash the `:password`.
+  #
+  # @option kwargs [String] :key
+  #   The secret key to use.
+  #
+  # @option kwargs [String] :password
+  #   The password for the cipher.
+  #
+  # @option kwargs [String] :iv
+  #   The optional Initial Vector (IV).
+  #
+  # @option kwargs [Integer] :padding
+  #   Sets the padding for the cipher.
   #
   # @return [String]
   #   The encrypted data.
