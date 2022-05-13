@@ -124,4 +124,55 @@ describe Ronin::Support::Crypto::Mixin do
       expect(subject.crypto_aes_decrypt(aes_cipher_text, key_size: key_size, password: password)).to eq(clear_text)
     end
   end
+
+  describe "#crypto_aes128" do
+    let(:password)  { 'secret' }
+    let(:direction) { :decrypt }
+
+    it "must return a Ronin::Support::Crypto::Cipher::AES128 object" do
+      new_cipher = subject.crypto_aes128(direction: direction,
+                                         password:  password)
+
+      expect(new_cipher).to be_kind_of(Ronin::Support::Crypto::Cipher::AES128)
+    end
+
+    it "must default to cipher 'AES-128-CBC'" do
+      new_cipher = subject.crypto_aes128(direction: direction,
+                                         password:  password)
+
+      expect(new_cipher.name).to eq("AES-128-CBC")
+    end
+
+    context "when the mode: keyword argument is given" do
+      let(:mode) { :ctr }
+
+      it "must use the given mode" do
+        new_cipher = subject.crypto_aes128(mode:      mode,
+                                           direction: direction,
+                                           password:  password)
+
+        expect(new_cipher.name).to eq("AES-128-#{mode.upcase}")
+      end
+    end
+  end
+
+  let(:aes128_cipher_text) do
+    cipher = OpenSSL::Cipher.new('aes-128-cbc')
+    cipher.encrypt
+    cipher.key = OpenSSL::Digest::MD5.digest(password)
+
+    cipher.update(clear_text) + cipher.final
+  end
+
+  describe "#crypto_aes128_encrypt" do
+    it "must encrypt a given String using AES-128-CBC" do
+      expect(subject.crypto_aes128_encrypt(clear_text, password: password)).to eq(aes128_cipher_text)
+    end
+  end
+
+  describe "#crypto_aes_decrypt" do
+    it "must decrypt the given String" do
+      expect(subject.crypto_aes128_decrypt(aes128_cipher_text, password: password)).to eq(clear_text)
+    end
+  end
 end
