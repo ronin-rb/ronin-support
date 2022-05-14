@@ -47,6 +47,8 @@ module Ronin
           Crypto.digest(name)
         end
 
+        alias digest crypto_digest
+
         #
         # Creates a new HMAC.
         #
@@ -67,6 +69,8 @@ module Ronin
         def crypto_hmac(key,digest=:sha1)
           Crypto.hmac(key,digest)
         end
+
+        alias hmac crypto_hmac
 
         #
         # Creates a cipher.
@@ -109,6 +113,8 @@ module Ronin
           Crypto.cipher(name,**kwargs)
         end
 
+        alias cipher crypto_cipher
+
         #
         # Encrypts data using the cipher.
         #
@@ -131,6 +137,8 @@ module Ronin
           Crypto.encrypt(data, cipher: cipher, **kwargs)
         end
 
+        alias encrypt crypto_encrypt
+
         #
         # Decrypts data using the cipher.
         #
@@ -152,6 +160,8 @@ module Ronin
         def crypto_decrypt(data, cipher: ,**kwargs)
           Crypto.decrypt(data, cipher: cipher, **kwargs)
         end
+
+        alias decrypt crypto_decrypt
 
         #
         # Creates a new AES cipher.
@@ -190,6 +200,8 @@ module Ronin
         def crypto_aes_cipher(**kwargs)
           Crypto.aes_cipher(**kwargs)
         end
+
+        alias aes_cipher crypto_aes_cipher
 
         #
         # Encrypts data using AES.
@@ -233,6 +245,8 @@ module Ronin
           Crypto.aes_encrypt(data,**kwargs)
         end
 
+        alias aes_encrypt crypto_aes_encrypt
+
         #
         # Decrypts data using AES.
         #
@@ -275,6 +289,8 @@ module Ronin
           Crypto.aes_decrypt(data,**kwargs)
         end
 
+        alias aes_decrypt crypto_aes_decrypt
+
         #
         # Creates a new AES-128 cipher.
         #
@@ -309,6 +325,8 @@ module Ronin
         def crypto_aes128_cipher(**kwargs)
           Crypto.aes128_cipher(**kwargs)
         end
+
+        alias aes128_cipher crypto_aes128_cipher
 
         #
         # Encrypts data using AES-128.
@@ -349,6 +367,8 @@ module Ronin
           Crypto.aes128_encrypt(data,**kwargs)
         end
 
+        alias aes128_encrypt crypto_aes128_encrypt
+
         #
         # Decrypts data using AES-128.
         #
@@ -388,6 +408,8 @@ module Ronin
           Crypto.aes128_decrypt(data,**kwargs)
         end
 
+        alias aes128_decrypt crypto_aes128_decrypt
+
         #
         # Creates a new AES-256 cipher.
         #
@@ -422,6 +444,8 @@ module Ronin
         def crypto_aes256_cipher(**kwargs)
           Crypto.aes256_cipher(**kwargs)
         end
+
+        alias aes256_cipher crypto_aes256_cipher
 
         #
         # Encrypts data using AES-256.
@@ -462,6 +486,8 @@ module Ronin
           Crypto.aes256_encrypt(data,**kwargs)
         end
 
+        alias aes256_encrypt crypto_aes256_encrypt
+
         #
         # Decrypts data using AES-256.
         #
@@ -500,6 +526,8 @@ module Ronin
         def crypto_aes256_decrypt(data,**kwargs)
           Crypto.aes256_decrypt(data,**kwargs)
         end
+
+        alias aes256_decrypt crypto_aes256_decrypt
       end
     end
   end
