@@ -206,4 +206,53 @@ describe File do
       end
     end
   end
+
+  let(:aes128_cipher_text) do
+    cipher = OpenSSL::Cipher.new('aes-128-cbc')
+    cipher.encrypt
+    cipher.key = OpenSSL::Digest::MD5.digest(password)
+
+    cipher.update(clear_text) + cipher.final
+  end
+
+  describe ".aes128_encrypt" do
+    it "must AES-128 encrypt the String" do
+      expect(subject.aes128_encrypt(path, password: password)).to eq(aes128_cipher_text)
+    end
+
+    context "when given a block" do
+      it "must yield each AES encrypted block" do
+        output = String.new('', encoding: Encoding::ASCII_8BIT)
+
+        subject.aes128_encrypt(path, password: password) do |block|
+          output << block
+        end
+
+        expect(output).to eq(aes128_cipher_text)
+      end
+    end
+  end
+
+  describe ".aes_decrypt" do
+    let(:tempfile) { Tempfile.new('ronin-support') }
+    let(:path)     { tempfile.path }
+
+    before { File.write(path,aes128_cipher_text) }
+
+    it "must AES-128 decrypt the String" do
+      expect(subject.aes128_decrypt(path, password: password)).to eq(clear_text)
+    end
+
+    context "when given a block" do
+      it "must yield each AES decrypted block" do
+        output = String.new('', encoding: Encoding::ASCII_8BIT)
+
+        subject.aes128_decrypt(path, password: password) do |block|
+          output << block
+        end
+
+        expect(output).to eq(clear_text)
+      end
+    end
+  end
 end
