@@ -207,7 +207,7 @@ class String
   end
 
   #
-  # Encrypts data using AES.
+  # Encrypts the String using AES.
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {aes}.
@@ -246,7 +246,7 @@ class String
   end
 
   #
-  # Decrypts data using AES.
+  # Decrypts the String using AES.
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {aes}.
@@ -285,7 +285,7 @@ class String
   end
 
   #
-  # Encrypts data using AES-128.
+  # Encrypts the String using AES-128.
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {aes}.
@@ -321,7 +321,7 @@ class String
   end
 
   #
-  # Decrypts data using AES-128.
+  # Decrypts the String using AES-128.
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {aes}.
