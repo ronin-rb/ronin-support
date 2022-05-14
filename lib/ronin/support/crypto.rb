@@ -48,6 +48,8 @@ module Ronin
       #   Crypto.digest(:sha256)
       #   # => OpenSSL::Digest::SHA256
       #
+      # @see http://rubydoc.info/stdlib/openssl/OpenSSL/Digest
+      #
       def self.digest(name)
         OpenSSL::Digest.const_get(name.upcase)
       end
@@ -64,10 +66,10 @@ module Ronin
       # @return [String]
       #   The hex-encoded HMAC for the String.
       #
-      # @see http://rubydoc.info/stdlib/openssl/OpenSSL/HMAC
-      #
       # @example
       #   Crypto.hmac('secret')
+      #
+      # @see http://rubydoc.info/stdlib/openssl/OpenSSL/HMAC
       #
       def self.hmac(key,digest=:sha1)
         OpenSSL::HMAC.new(key,digest(digest).new)
@@ -88,6 +90,8 @@ module Ronin
       #   #     "aes-128-cbc-hmac-sha1",
       #   #     "aes-128-cbc-hmac-sha256",
       #   #     ...]
+      #
+      # @see Cipher.supported
       #
       def self.ciphers
         Cipher.supported
@@ -130,6 +134,8 @@ module Ronin
       #   Crypto.cipher('aes-128-cbc', direction: :encrypt, key 'secret'.md5)
       #   # => #<OpenSSL::Cipher:0x0000000170d108>
       #
+      # @see Cipher
+      #
       def self.cipher(name,**kwargs)
         Cipher.new(name,**kwargs)
       end
@@ -166,6 +172,8 @@ module Ronin
       #
       # @raise [ArgumentError]
       #   Either the the `key:` or `password:` keyword argument must be given.
+      #
+      # @see Cipher#encrypt
       #
       # @since 1.0.0
       #
@@ -206,6 +214,8 @@ module Ronin
       # @raise [ArgumentError]
       #   Either the the `key:` or `password:` keyword argument must be given.
       #
+      # @see Cipher#decrypt
+      #
       # @since 1.0.0
       #
       def self.decrypt(data, cipher: ,**kwargs)
@@ -245,6 +255,8 @@ module Ronin
       # @example
       #   Crypto.aes_cipher(key_size: 256, direction: :encrypt, password: 's3cr3t', hash: :sha256)
       #   # => #<Ronin::Support::Crypto::Cipher::AES:0x00007f2b84dfa6b8 @key_size=256, @mode=:cbc>
+      #
+      # @see Cipher::AES
       #
       def self.aes_cipher(**kwargs)
         Cipher::AES.new(**kwargs)
@@ -365,6 +377,8 @@ module Ronin
       #   Crypto.aes128_cipher(direction: :encrypt, password: 's3cr3t')
       #   # => #<Ronin::Support::Crypto::Cipher::AES128:0x00007f8bde789648 @key_size=128, @mode=:cbc>
       #
+      # @see Cipher::AES128
+      #
       def self.aes128_cipher(**kwargs)
         Cipher::AES128.new(**kwargs)
       end
@@ -477,6 +491,8 @@ module Ronin
       # @example
       #   Crypto.aes256_cipher(direction: :encrypt, password: 's3cr3t')
       #   # => #<Ronin::Support::Crypto::Cipher::AES256:0x00007f8bde789648 @key_size=256, @mode=:cbc>
+      #
+      # @see Cipher::AES256
       #
       def self.aes256_cipher(**kwargs)
         Cipher::AES256.new(**kwargs)
