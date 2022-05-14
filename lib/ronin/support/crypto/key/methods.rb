@@ -44,13 +44,16 @@ module Ronin
             # @param [String] key
             #   The key text.
             #
+            # @param [String, nil] password
+            #   Optional password to decrypt the key.
+            #
             # @return [OpenSSL::PKey]
             #   The parsed key.
             #
             # @api public
             #
-            def parse(key)
-              new(key)
+            def parse(key,password=nil)
+              new(key,*password)
             end
 
             #
@@ -58,8 +61,8 @@ module Ronin
             #
             # @api public
             #
-            def load(key)
-              parse(key)
+            def load(key,password=nil)
+              parse(key,password)
             end
 
             #
@@ -68,13 +71,16 @@ module Ronin
             # @param [String] path
             #   The path to the key file.
             #
+            # @param [String, nil] password
+            #   Optional password to decrypt the key.
+            #
             # @return [OpenSSL::PKey]
             #   The parsed key.
             #
             # @api public
             #
-            def load_file(path)
-              parse(File.read(path))
+            def load_file(path,password=nil)
+              parse(File.read(path),password)
             end
           end
 

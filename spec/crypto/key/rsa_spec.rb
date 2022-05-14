@@ -4,7 +4,7 @@ require 'ronin/support/crypto/key/rsa'
 require_relative 'methods_examples'
 
 describe Ronin::Support::Crypto::Key::RSA do
-  let(:path) { File.join(__dir__,'rsa.key') }
+  let(:path) { File.join(__dir__,'rsa.pem') }
   let(:pem)  { File.read(path) }
 
   describe ".random" do

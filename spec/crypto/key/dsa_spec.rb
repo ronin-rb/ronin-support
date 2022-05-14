@@ -4,7 +4,7 @@ require 'ronin/support/crypto/key/dsa'
 require_relative 'methods_examples'
 
 describe Ronin::Support::Crypto::Key::DSA do
-  let(:path) { File.join(__dir__,'dsa.key') }
+  let(:path) { File.join(__dir__,'dsa.pem') }
   let(:pem)  { File.read(path) }
 
   describe ".random" do
