@@ -521,4 +521,94 @@ class File
     stream_cipher(path,cipher, output: output,&block)
   end
 
+  #
+  # Encrypts the file using AES-256.
+  #
+  # @param [String] path
+  #   The path to the file.
+  #
+  # @param [String, #<<, nil] output
+  #   The optional output buffer to append the AES encrypted data to.
+  #   Defaults to an empty ASCII 8bit encoded String.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes256}.
+  #
+  # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
+  #   The desired AES cipher mode.
+  #
+  # @option kwargs [Symbol] :hash (:sha256)
+  #   The algorithm to hash the `:password`.
+  #
+  # @option kwargs [String] :key
+  #   The secret key to use.
+  #
+  # @option kwargs [String] :password
+  #   The password for the cipher.
+  #
+  # @option kwargs [String] :iv
+  #   The optional Initial Vector (IV).
+  #
+  # @option kwargs [Integer] :padding
+  #   Sets the padding for the cipher.
+  #
+  # @return [String]
+  #   The encrypted data.
+  #
+  # @raise [ArgumentError]
+  #   Either the the `key:` or `password:` keyword argument must be given.
+  #
+  # @since 1.0.0
+  #
+  def self.aes256_encrypt(path, output: nil, **kwargs,&block)
+    cipher = Ronin::Support::Crypto.aes256(direction: :encrypt, **kwargs)
+
+    stream_cipher(path,cipher, output: output,&block)
+  end
+
+  #
+  # Decrypts the file using AES-256.
+  #
+  # @param [String] path
+  #   The path to the file.
+  #
+  # @param [String, #<<, nil] output
+  #   The optional output buffer to append the AES decrypted data to.
+  #   Defaults to an empty ASCII 8bit encoded String.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes256}.
+  #
+  # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
+  #   The desired AES cipher mode.
+  #
+  # @option kwargs [Symbol] :hash (:sha256)
+  #   The algorithm to hash the `:password`.
+  #
+  # @option kwargs [String] :key
+  #   The secret key to use.
+  #
+  # @option kwargs [String] :password
+  #   The password for the cipher.
+  #
+  # @option kwargs [String] :iv
+  #   The optional Initial Vector (IV).
+  #
+  # @option kwargs [Integer] :padding
+  #   Sets the padding for the cipher.
+  #
+  # @return [String]
+  #   The encrypted data.
+  #
+  # @raise [ArgumentError]
+  #   Either the the `key:` or `password:` keyword argument must be given.
+  #
+  # @since 1.0.0
+  #
+  def self.aes256_decrypt(path, output: nil, **kwargs,&block)
+    cipher = Ronin::Support::Crypto.aes256(direction: :decrypt, **kwargs)
+
+    stream_cipher(path,cipher, output: output,&block)
+  end
+
 end
