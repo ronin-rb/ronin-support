@@ -209,7 +209,7 @@ describe Crypto do
     end
   end
 
-  describe ".aes_decrypt" do
+  describe ".aes128_decrypt" do
     it "must decrypt the given String" do
       expect(subject.aes128_decrypt(aes128_cipher_text, password: password)).to eq(clear_text)
     end
