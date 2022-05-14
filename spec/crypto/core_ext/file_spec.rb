@@ -233,7 +233,7 @@ describe File do
     end
   end
 
-  describe ".aes_decrypt" do
+  describe ".aes128_decrypt" do
     let(:tempfile) { Tempfile.new('ronin-support') }
     let(:path)     { tempfile.path }
 
