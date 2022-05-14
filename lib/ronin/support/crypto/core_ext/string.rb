@@ -210,7 +210,7 @@ class String
   # Encrypts the String using AES.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {aes}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes}.
   #
   # @option kwargs [Integer] :key_size
   #   The desired key size in bits.
@@ -249,7 +249,7 @@ class String
   # Decrypts the String using AES.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {aes}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes}.
   #
   # @option kwargs [Integer] :key_size
   #   The desired key size in bits.
@@ -288,7 +288,7 @@ class String
   # Encrypts the String using AES-128.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {aes}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes128}.
   #
   # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
   #   The desired AES cipher mode.
@@ -324,7 +324,7 @@ class String
   # Decrypts the String using AES-128.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {aes}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes128}.
   #
   # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
   #   The desired AES cipher mode.
@@ -360,7 +360,7 @@ class String
   # Encrypts the String using AES-256.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {aes}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes256}.
   #
   # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
   #   The desired AES cipher mode.
@@ -396,7 +396,7 @@ class String
   # Decrypts the String using AES-256.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {aes}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes256}.
   #
   # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
   #   The desired AES cipher mode.

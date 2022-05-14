@@ -346,7 +346,7 @@ class File
   #   Defaults to an empty ASCII 8bit encoded String.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {aes}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes}.
   #
   # @option kwargs [Integer] :key_size
   #   The desired key size in bits.
@@ -394,7 +394,7 @@ class File
   #   Defaults to an empty ASCII 8bit encoded String.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {aes}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes}.
   #
   # @option kwargs [Integer] :key_size
   #   The desired key size in bits.
@@ -442,7 +442,7 @@ class File
   #   Defaults to an empty ASCII 8bit encoded String.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {aes}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes128}.
   #
   # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
   #   The desired AES cipher mode.
@@ -487,7 +487,7 @@ class File
   #   Defaults to an empty ASCII 8bit encoded String.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {aes}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes128}.
   #
   # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
   #   The desired AES cipher mode.
