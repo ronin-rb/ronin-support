@@ -170,7 +170,7 @@ describe Ronin::Support::Crypto::Mixin do
     end
   end
 
-  describe "#crypto_aes_decrypt" do
+  describe "#crypto_aes128_decrypt" do
     it "must decrypt the given String" do
       expect(subject.crypto_aes128_decrypt(aes128_cipher_text, password: password)).to eq(clear_text)
     end
