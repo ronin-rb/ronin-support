@@ -109,26 +109,26 @@ describe Crypto do
     cipher.update(clear_text) + cipher.final
   end
 
-  describe ".aes" do
+  describe ".aes_cipher" do
     let(:key_size)  { 256      }
     let(:hash)      { :sha256  }
     let(:password)  { 'secret' }
     let(:direction) { :decrypt }
 
     it "must return a Ronin::Support::Crypto::Cipher::AES object" do
-      new_cipher = subject.aes(key_size:  key_size,
-                               direction: direction,
-                               password:  password,
-                               hash:      hash)
+      new_cipher = subject.aes_cipher(key_size:  key_size,
+                                      direction: direction,
+                                      password:  password,
+                                      hash:      hash)
 
       expect(new_cipher).to be_kind_of(Ronin::Support::Crypto::Cipher::AES)
     end
 
     it "must default to cipher 'AES-256-CBC'" do
-      new_cipher = subject.aes(key_size:  key_size,
-                               direction: direction,
-                               password:  password,
-                               hash:      hash)
+      new_cipher = subject.aes_cipher(key_size:  key_size,
+                                      direction: direction,
+                                      password:  password,
+                                      hash:      hash)
 
       expect(new_cipher.name).to eq("AES-256-CBC")
     end
@@ -137,11 +137,11 @@ describe Crypto do
       let(:mode) { :ctr }
 
       it "must use the given mode" do
-        new_cipher = subject.aes(key_size:  key_size,
-                                 mode:      mode,
-                                 direction: direction,
-                                 password:  password,
-                                 hash:      hash)
+        new_cipher = subject.aes_cipher(key_size:  key_size,
+                                        mode:      mode,
+                                        direction: direction,
+                                        password:  password,
+                                        hash:      hash)
 
         expect(new_cipher.name).to eq("AES-256-#{mode.upcase}")
       end
@@ -164,20 +164,20 @@ describe Crypto do
     end
   end
 
-  describe ".aes128" do
+  describe ".aes128_cipher" do
     let(:password)  { 'secret' }
     let(:direction) { :decrypt }
 
     it "must return a Ronin::Support::Crypto::Cipher::AES128 object" do
-      new_cipher = subject.aes128(direction: direction,
-                                  password:  password)
+      new_cipher = subject.aes128_cipher(direction: direction,
+                                         password:  password)
 
       expect(new_cipher).to be_kind_of(Ronin::Support::Crypto::Cipher::AES128)
     end
 
     it "must default to cipher 'AES-128-CBC'" do
-      new_cipher = subject.aes128(direction: direction,
-                                  password:  password)
+      new_cipher = subject.aes128_cipher(direction: direction,
+                                         password:  password)
 
       expect(new_cipher.name).to eq("AES-128-CBC")
     end
@@ -186,9 +186,9 @@ describe Crypto do
       let(:mode) { :ctr }
 
       it "must use the given mode" do
-        new_cipher = subject.aes128(mode:      mode,
-                                    direction: direction,
-                                    password:  password)
+        new_cipher = subject.aes128_cipher(mode:      mode,
+                                           direction: direction,
+                                           password:  password)
 
         expect(new_cipher.name).to eq("AES-128-#{mode.upcase}")
       end
@@ -215,20 +215,20 @@ describe Crypto do
     end
   end
 
-  describe ".aes256" do
+  describe ".aes256_cipher" do
     let(:password)  { 'secret' }
     let(:direction) { :decrypt }
 
     it "must return a Ronin::Support::Crypto::Cipher::AES256 object" do
-      new_cipher = subject.aes256(direction: direction,
-                                  password:  password)
+      new_cipher = subject.aes256_cipher(direction: direction,
+                                         password:  password)
 
       expect(new_cipher).to be_kind_of(Ronin::Support::Crypto::Cipher::AES256)
     end
 
     it "must default to cipher 'AES-256-CBC'" do
-      new_cipher = subject.aes256(direction: direction,
-                                  password:  password)
+      new_cipher = subject.aes256_cipher(direction: direction,
+                                         password:  password)
 
       expect(new_cipher.name).to eq("AES-256-CBC")
     end
@@ -237,9 +237,9 @@ describe Crypto do
       let(:mode) { :ctr }
 
       it "must use the given mode" do
-        new_cipher = subject.aes256(mode:      mode,
-                                    direction: direction,
-                                    password:  password)
+        new_cipher = subject.aes256_cipher(mode:      mode,
+                                           direction: direction,
+                                           password:  password)
 
         expect(new_cipher.name).to eq("AES-256-#{mode.upcase}")
       end

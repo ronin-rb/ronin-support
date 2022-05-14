@@ -346,7 +346,7 @@ class File
   #   Defaults to an empty ASCII 8bit encoded String.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {Ronin::Support::Crypto.aes}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes_cipher}.
   #
   # @option kwargs [Integer] :key_size
   #   The desired key size in bits.
@@ -378,7 +378,7 @@ class File
   # @since 1.0.0
   #
   def self.aes_encrypt(path, output: nil, **kwargs,&block)
-    cipher = Ronin::Support::Crypto.aes(direction: :encrypt, **kwargs)
+    cipher = Ronin::Support::Crypto.aes_cipher(direction: :encrypt, **kwargs)
 
     stream_cipher(path,cipher, output: output,&block)
   end
@@ -394,7 +394,7 @@ class File
   #   Defaults to an empty ASCII 8bit encoded String.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {Ronin::Support::Crypto.aes}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes_cipher}.
   #
   # @option kwargs [Integer] :key_size
   #   The desired key size in bits.
@@ -426,7 +426,7 @@ class File
   # @since 1.0.0
   #
   def self.aes_decrypt(path, output: nil, **kwargs,&block)
-    cipher = Ronin::Support::Crypto.aes(direction: :decrypt, **kwargs)
+    cipher = Ronin::Support::Crypto.aes_cipher(direction: :decrypt, **kwargs)
 
     stream_cipher(path,cipher, output: output,&block)
   end
@@ -442,7 +442,7 @@ class File
   #   Defaults to an empty ASCII 8bit encoded String.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {Ronin::Support::Crypto.aes128}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes128_cipher}.
   #
   # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
   #   The desired AES cipher mode.
@@ -471,7 +471,7 @@ class File
   # @since 1.0.0
   #
   def self.aes128_encrypt(path, output: nil, **kwargs,&block)
-    cipher = Ronin::Support::Crypto.aes128(direction: :encrypt, **kwargs)
+    cipher = Ronin::Support::Crypto.aes128_cipher(direction: :encrypt, **kwargs)
 
     stream_cipher(path,cipher, output: output,&block)
   end
@@ -487,7 +487,7 @@ class File
   #   Defaults to an empty ASCII 8bit encoded String.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {Ronin::Support::Crypto.aes128}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes128_cipher}.
   #
   # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
   #   The desired AES cipher mode.
@@ -516,7 +516,7 @@ class File
   # @since 1.0.0
   #
   def self.aes128_decrypt(path, output: nil, **kwargs,&block)
-    cipher = Ronin::Support::Crypto.aes128(direction: :decrypt, **kwargs)
+    cipher = Ronin::Support::Crypto.aes128_cipher(direction: :decrypt, **kwargs)
 
     stream_cipher(path,cipher, output: output,&block)
   end
@@ -532,7 +532,7 @@ class File
   #   Defaults to an empty ASCII 8bit encoded String.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {Ronin::Support::Crypto.aes256}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes256_cipher}.
   #
   # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
   #   The desired AES cipher mode.
@@ -561,7 +561,7 @@ class File
   # @since 1.0.0
   #
   def self.aes256_encrypt(path, output: nil, **kwargs,&block)
-    cipher = Ronin::Support::Crypto.aes256(direction: :encrypt, **kwargs)
+    cipher = Ronin::Support::Crypto.aes256_cipher(direction: :encrypt, **kwargs)
 
     stream_cipher(path,cipher, output: output,&block)
   end
@@ -577,7 +577,7 @@ class File
   #   Defaults to an empty ASCII 8bit encoded String.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {Ronin::Support::Crypto.aes256}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.aes256_cipher}.
   #
   # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
   #   The desired AES cipher mode.
@@ -606,7 +606,7 @@ class File
   # @since 1.0.0
   #
   def self.aes256_decrypt(path, output: nil, **kwargs,&block)
-    cipher = Ronin::Support::Crypto.aes256(direction: :decrypt, **kwargs)
+    cipher = Ronin::Support::Crypto.aes256_cipher(direction: :decrypt, **kwargs)
 
     stream_cipher(path,cipher, output: output,&block)
   end

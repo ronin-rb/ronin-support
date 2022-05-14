@@ -243,10 +243,10 @@ module Ronin
       #   The new AES cipher.
       #
       # @example
-      #   Crypto.aes(key_size: 256, direction: :encrypt, password: 's3cr3t', hash: :sha256)
+      #   Crypto.aes_cipher(key_size: 256, direction: :encrypt, password: 's3cr3t', hash: :sha256)
       #   # => #<Ronin::Support::Crypto::Cipher::AES:0x00007f2b84dfa6b8 @key_size=256, @mode=:cbc>
       #
-      def self.aes(**kwargs)
+      def self.aes_cipher(**kwargs)
         Cipher::AES.new(**kwargs)
       end
 
@@ -289,7 +289,7 @@ module Ronin
       # @since 1.0.0
       #
       def self.aes_encrypt(data,**kwargs)
-        self.aes(direction: :encrypt, **kwargs).encrypt(data)
+        self.aes_cipher(direction: :encrypt, **kwargs).encrypt(data)
       end
 
       #
@@ -331,7 +331,7 @@ module Ronin
       # @since 1.0.0
       #
       def self.aes_decrypt(data,**kwargs)
-        self.aes(direction: :decrypt, **kwargs).decrypt(data)
+        self.aes_cipher(direction: :decrypt, **kwargs).decrypt(data)
       end
 
       #
@@ -362,10 +362,10 @@ module Ronin
       #   The new AES cipher.
       #
       # @example
-      #   Crypto.aes128(direction: :encrypt, password: 's3cr3t')
+      #   Crypto.aes128_cipher(direction: :encrypt, password: 's3cr3t')
       #   # => #<Ronin::Support::Crypto::Cipher::AES128:0x00007f8bde789648 @key_size=128, @mode=:cbc>
       #
-      def self.aes128(**kwargs)
+      def self.aes128_cipher(**kwargs)
         Cipher::AES128.new(**kwargs)
       end
 
@@ -405,7 +405,7 @@ module Ronin
       # @since 1.0.0
       #
       def self.aes128_encrypt(data,**kwargs)
-        self.aes128(direction: :encrypt, **kwargs).encrypt(data)
+        self.aes128_cipher(direction: :encrypt, **kwargs).encrypt(data)
       end
 
       #
@@ -444,7 +444,7 @@ module Ronin
       # @since 1.0.0
       #
       def self.aes128_decrypt(data,**kwargs)
-        self.aes128(direction: :decrypt, **kwargs).decrypt(data)
+        self.aes128_cipher(direction: :decrypt, **kwargs).decrypt(data)
       end
 
       #
@@ -475,10 +475,10 @@ module Ronin
       #   The new AES cipher.
       #
       # @example
-      #   Crypto.aes256(direction: :encrypt, password: 's3cr3t')
+      #   Crypto.aes256_cipher(direction: :encrypt, password: 's3cr3t')
       #   # => #<Ronin::Support::Crypto::Cipher::AES256:0x00007f8bde789648 @key_size=256, @mode=:cbc>
       #
-      def self.aes256(**kwargs)
+      def self.aes256_cipher(**kwargs)
         Cipher::AES256.new(**kwargs)
       end
 
@@ -518,7 +518,7 @@ module Ronin
       # @since 1.0.0
       #
       def self.aes256_encrypt(data,**kwargs)
-        self.aes256(direction: :encrypt, **kwargs).encrypt(data)
+        self.aes256_cipher(direction: :encrypt, **kwargs).encrypt(data)
       end
 
       #
@@ -557,7 +557,7 @@ module Ronin
       # @since 1.0.0
       #
       def self.aes256_decrypt(data,**kwargs)
-        self.aes256(direction: :decrypt, **kwargs).decrypt(data)
+        self.aes256_cipher(direction: :decrypt, **kwargs).decrypt(data)
       end
     end
   end

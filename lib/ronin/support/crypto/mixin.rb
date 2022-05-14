@@ -184,11 +184,11 @@ module Ronin
         #   The new AES cipher.
         #
         # @example
-        #   crypto_aes(direction: :encrypt, password: 's3cr3t')
+        #   crypto_aes_cipher(direction: :encrypt, password: 's3cr3t')
         #   # => #<Ronin::Support::Crypto::Cipher::AES:0x00007f2b84dfa6b8 @key_size=256, @mode=:cbc>
         #
-        def crypto_aes(**kwargs)
-          Crypto.aes(**kwargs)
+        def crypto_aes_cipher(**kwargs)
+          Crypto.aes_cipher(**kwargs)
         end
 
         #
@@ -303,11 +303,11 @@ module Ronin
         #   The new AES cipher.
         #
         # @example
-        #   Crypto.aes128(direction: :encrypt, password: 's3cr3t')
+        #   Crypto.aes128_cipher(direction: :encrypt, password: 's3cr3t')
         #   # => #<Ronin::Support::Crypto::Cipher::AES128:0x00007f8bde789648 @key_size=128, @mode=:cbc>
         #
-        def crypto_aes128(**kwargs)
-          Crypto.aes128(**kwargs)
+        def crypto_aes128_cipher(**kwargs)
+          Crypto.aes128_cipher(**kwargs)
         end
 
         #
@@ -419,8 +419,8 @@ module Ronin
         #   Crypto.aes256(direction: :encrypt, password: 's3cr3t')
         #   # => #<Ronin::Support::Crypto::Cipher::AES256:0x00007f8bde789648 @key_size=256, @mode=:cbc>
         #
-        def crypto_aes256(**kwargs)
-          Crypto.aes256(**kwargs)
+        def crypto_aes256_cipher(**kwargs)
+          Crypto.aes256_cipher(**kwargs)
         end
 
         #
