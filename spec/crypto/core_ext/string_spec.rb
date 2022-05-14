@@ -155,7 +155,7 @@ describe String do
     end
   end
 
-  describe "#aes_decrypt" do
+  describe "#aes128_decrypt" do
     it "must decrypt the given String" do
       expect(aes128_cipher_text.aes128_decrypt(password: password)).to eq(subject)
     end
