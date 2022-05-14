@@ -45,8 +45,8 @@ module Ronin
       #   The OpenSSL Digest class.
       #
       # @example
-      #   Crypto.digest(:ripemd160)
-      #   # => OpenSSL::Digest::RIPEMD160
+      #   Crypto.digest(:sha256)
+      #   # => OpenSSL::Digest::SHA256
       #
       def self.digest(name)
         OpenSSL::Digest.const_get(name.upcase)
