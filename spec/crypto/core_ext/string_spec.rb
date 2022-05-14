@@ -160,4 +160,24 @@ describe String do
       expect(aes128_cipher_text.aes128_decrypt(password: password)).to eq(subject)
     end
   end
+
+  let(:aes256_cipher_text) do
+    cipher = OpenSSL::Cipher.new('aes-256-cbc')
+    cipher.encrypt
+    cipher.key = OpenSSL::Digest::SHA256.digest(password)
+
+    cipher.update(subject) + cipher.final
+  end
+
+  describe "#aes256_encrypt" do
+    it "must encrypt a given String using AES-256-CBC" do
+      expect(subject.aes256_encrypt(password: password)).to eq(aes256_cipher_text)
+    end
+  end
+
+  describe ".aes256_decrypt" do
+    it "must decrypt the given String" do
+      expect(aes256_cipher_text.aes256_decrypt(password: password)).to eq(subject)
+    end
+  end
 end
