@@ -269,7 +269,7 @@ module Ronin
       #   The data to encrypt.
       #
       # @param [Hash{Symbol => Object}] kwargs
-      #   Additional keyword arguments for {aes}.
+      #   Additional keyword arguments for {aes_cipher}.
       #
       # @option kwargs [Integer] :key_size
       #   The desired key size in bits.
@@ -311,7 +311,7 @@ module Ronin
       #   The data to encrypt.
       #
       # @param [Hash{Symbol => Object}] kwargs
-      #   Additional keyword arguments for {aes}.
+      #   Additional keyword arguments for {aes_cipher}.
       #
       # @option kwargs [Integer] :key_size
       #   The desired key size in bits.
@@ -390,7 +390,7 @@ module Ronin
       #   The data to encrypt.
       #
       # @param [Hash{Symbol => Object}] kwargs
-      #   Additional keyword arguments for {aes}.
+      #   Additional keyword arguments for {aes128_cipher}.
       #
       # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
       #   The desired AES cipher mode.
@@ -429,7 +429,7 @@ module Ronin
       #   The data to encrypt.
       #
       # @param [Hash{Symbol => Object}] kwargs
-      #   Additional keyword arguments for {aes}.
+      #   Additional keyword arguments for {aes128_cipher}.
       #
       # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
       #   The desired AES cipher mode.
@@ -505,7 +505,7 @@ module Ronin
       #   The data to encrypt.
       #
       # @param [Hash{Symbol => Object}] kwargs
-      #   Additional keyword arguments for {aes}.
+      #   Additional keyword arguments for {aes256_cipher}.
       #
       # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
       #   The desired AES cipher mode.
@@ -544,7 +544,7 @@ module Ronin
       #   The data to encrypt.
       #
       # @param [Hash{Symbol => Object}] kwargs
-      #   Additional keyword arguments for {aes}.
+      #   Additional keyword arguments for {aes256_cipher}.
       #
       # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
       #   The desired AES cipher mode.
