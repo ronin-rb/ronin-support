@@ -54,4 +54,67 @@ describe Ronin::Support::Crypto::Key::RSA do
       expect(subject.size).to eq(subject.n.num_bits)
     end
   end
+
+  describe "#encrypt" do
+    let(:clear_text) { "the quick brown fox" }
+
+    it "must encrypt the data using the public key and PKCS1 padding" do
+      cipher_text = subject.encrypt(clear_text)
+
+      expect(subject.private_decrypt(cipher_text,OpenSSL::PKey::RSA::PKCS1_PADDING)).to eq(clear_text)
+    end
+
+    context "when the padding: keyword argument is given" do
+      let(:padding) { :pkcs1_oaep }
+
+      it "must lookup and use the given padding" do
+        cipher_text = subject.encrypt(clear_text, padding: padding)
+
+        expect(subject.private_decrypt(cipher_text,OpenSSL::PKey::RSA::PKCS1_OAEP_PADDING)).to eq(clear_text)
+      end
+
+      context "but the padding: value is invalid" do
+        let(:padding) { :foo }
+
+        it do
+          expect {
+            subject.encrypt(clear_text, padding: padding)
+          }.to raise_error(ArgumentError,"padding must be :pkcs1_oaep, :pkcs1, :sslv23, nil, false: #{padding.inspect}")
+        end
+      end
+    end
+  end
+
+  describe "#decrypt" do
+    let(:clear_text)  { "the quick brown fox" }
+    let(:cipher_text) do
+      subject.public_encrypt(clear_text,OpenSSL::PKey::RSA::PKCS1_PADDING)
+    end
+
+    it "must decrypt the data using the private key and PKCS1 padding" do
+      expect(subject.decrypt(cipher_text)).to eq(clear_text)
+    end
+
+    context "when the padding: keyword argument is given" do
+      let(:cipher_text) do
+        subject.public_encrypt(clear_text,OpenSSL::PKey::RSA::PKCS1_OAEP_PADDING)
+      end
+
+      let(:padding) { :pkcs1_oaep }
+
+      it "must lookup and use the given padding" do
+        expect(subject.decrypt(cipher_text, padding: padding)).to eq(clear_text)
+      end
+
+      context "but the padding: value is invalid" do
+        let(:padding) { :foo }
+
+        it do
+          expect {
+            subject.decrypt(cipher_text, padding: padding)
+          }.to raise_error(ArgumentError,"padding must be :pkcs1_oaep, :pkcs1, :sslv23, nil, false: #{padding.inspect}")
+        end
+      end
+    end
+  end
 end

@@ -95,6 +95,66 @@ module Ronin
             n.num_bits
           end
 
+          PADDINGS = {
+            pkcs1_oaep: PKCS1_OAEP_PADDING,
+            pkcs1:      PKCS1_PADDING,
+            sslv23:     SSLV23_PADDING,
+
+            nil      => NO_PADDING,
+            false    => NO_PADDING
+          }
+
+          #
+          # Encrypts data using the public key.
+          #
+          # @param [String] data
+          #   The data to encrypt.
+          #
+          # @param [:pkcs1_oaep, :pkcs1, :sslv23, nil, false] padding
+          #   Optional padding mode. `nil` and `false` will disable padding.
+          #
+          # @return [String]
+          #   The encrypted data.
+          #
+          # @example
+          #   rsa = Crypto::Key::RSA.load_file('key.pem')
+          #   rsa.encrypt("top secret", padding: :pkcs1_oaep)
+          #   # => "i;k\x89\xE9\x92\xA5\xAB\xBAc\xC6;\r\xB7\x18W\x11\x02\xCBf.\xC2\x87\xDF\xDD[|\xF0\x97\x15\xC6\xCF\xCD\x93\x1C\x11S&L\x89\xE6\xCA\xC9\xAD\xAD\x1F\xE6\x8D\x86\xF3$\x8BfS(3\x9F\x7F\xEFZ \xB7\xDC{f\xF1\xB7-\x18\x94\xB8}\x93%,{X\x85\xBD(\xBD\xAD\x00,O\xAC\xECJ}\x99\xC7\xE2\xB6\x11\x9D\xDF\x12\xA5\x8F|\xF8\xC3Q\xDA\x95\x12\xEFH\xFFt\xCD\x854jJ\xE9\xE7\xC4\xDD|\xD4}w\xDAJ8\xAE\x17"
+          #
+          def encrypt(data, padding: :pkcs1)
+            padding_const = PADDINGS.fetch(padding) do
+              raise(ArgumentError,"padding must be #{PADDINGS.keys.map(&:inspect).join(', ')}: #{padding.inspect}")
+            end
+
+            public_encrypt(data,padding_const)
+          end
+
+          #
+          # Decrypts data using the private key.
+          #
+          # @param [String] data
+          #   The data to decrypt.
+          #
+          # @param [:pkcs1_oaep, :pkcs1, :sslv23, nil, false] padding
+          #   Optional padding mode. `nil` and `false` will disable padding.
+          #
+          # @return [String]
+          #   The decrypted data.
+          #
+          # @example
+          #   encrypted = "i;k\x89\xE9\x92\xA5\xAB\xBAc\xC6;\r\xB7\x18W\x11\x02\xCBf.\xC2\x87\xDF\xDD[|\xF0\x97\x15\xC6\xCF\xCD\x93\x1C\x11S&L\x89\xE6\xCA\xC9\xAD\xAD\x1F\xE6\x8D\x86\xF3$\x8BfS(3\x9F\x7F\xEFZ \xB7\xDC{f\xF1\xB7-\x18\x94\xB8}\x93%,{X\x85\xBD(\xBD\xAD\x00,O\xAC\xECJ}\x99\xC7\xE2\xB6\x11\x9D\xDF\x12\xA5\x8F|\xF8\xC3Q\xDA\x95\x12\xEFH\xFFt\xCD\x854jJ\xE9\xE7\xC4\xDD|\xD4}w\xDAJ8\xAE\x17"
+          #   rsa = Crypto::Key::RSA.load_file('key.pem')
+          #   rsa.decrypt(encrypted, padding: pkcs1_oaep)
+          #   # => "top secret"
+          #
+          def decrypt(data, padding: :pkcs1)
+            padding_const = PADDINGS.fetch(padding) do
+              raise(ArgumentError,"padding must be #{PADDINGS.keys.map(&:inspect).join(', ')}: #{padding.inspect}")
+            end
+
+            private_decrypt(data,padding_const)
+          end
+
         end
       end
     end
