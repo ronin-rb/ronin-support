@@ -284,4 +284,76 @@ class String
     Ronin::Support::Crypto.aes_decrypt(self,**kwargs)
   end
 
+  #
+  # Encrypts data using AES-128.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {aes}.
+  #
+  # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
+  #   The desired AES cipher mode.
+  #
+  # @option kwargs [Symbol] :hash (:md5)
+  #   The algorithm to hash the `:password`.
+  #
+  # @option kwargs [String] :key
+  #   The secret key to use.
+  #
+  # @option kwargs [String] :password
+  #   The password for the cipher.
+  #
+  # @option kwargs [String] :iv
+  #   The optional Initial Vector (IV).
+  #
+  # @option kwargs [Integer] :padding
+  #   Sets the padding for the cipher.
+  #
+  # @return [String]
+  #   The encrypted data.
+  #
+  # @raise [ArgumentError]
+  #   Either the the `key:` or `password:` keyword argument must be given.
+  #
+  # @since 1.0.0
+  #
+  def aes128_encrypt(**kwargs)
+    Ronin::Support::Crypto.aes128_encrypt(self,**kwargs)
+  end
+
+  #
+  # Decrypts data using AES-128.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {aes}.
+  #
+  # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
+  #   The desired AES cipher mode.
+  #
+  # @option kwargs [Symbol] :hash (:md5)
+  #   The algorithm to hash the `:password`.
+  #
+  # @option kwargs [String] :key
+  #   The secret key to use.
+  #
+  # @option kwargs [String] :password
+  #   The password for the cipher.
+  #
+  # @option kwargs [String] :iv
+  #   The optional Initial Vector (IV).
+  #
+  # @option kwargs [Integer] :padding
+  #   Sets the padding for the cipher.
+  #
+  # @return [String]
+  #   The encrypted data.
+  #
+  # @raise [ArgumentError]
+  #   Either the the `key:` or `password:` keyword argument must be given.
+  #
+  # @since 1.0.0
+  #
+  def aes128_decrypt(**kwargs)
+    Ronin::Support::Crypto.aes128_decrypt(self,**kwargs)
+  end
+
 end

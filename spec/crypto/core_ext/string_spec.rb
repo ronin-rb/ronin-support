@@ -140,4 +140,24 @@ describe String do
       expect(aes_cipher_text.aes_decrypt(key_size: key_size, password: password)).to eq(subject)
     end
   end
+
+  let(:aes128_cipher_text) do
+    cipher = OpenSSL::Cipher.new('aes-128-cbc')
+    cipher.encrypt
+    cipher.key = OpenSSL::Digest::MD5.digest(password)
+
+    cipher.update(subject) + cipher.final
+  end
+
+  describe "#aes128_encrypt" do
+    it "must encrypt a given String using AES-128-CBC" do
+      expect(subject.aes128_encrypt( password: password)).to eq(aes128_cipher_text)
+    end
+  end
+
+  describe "#aes_decrypt" do
+    it "must decrypt the given String" do
+      expect(aes128_cipher_text.aes128_decrypt(password: password)).to eq(subject)
+    end
+  end
 end
