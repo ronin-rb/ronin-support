@@ -446,6 +446,119 @@ module Ronin
       def self.aes128_decrypt(data,**kwargs)
         self.aes128(direction: :decrypt, **kwargs).decrypt(data)
       end
+
+      #
+      # Creates a new AES-256 cipher.
+      #
+      # @param [Hash{Symbol => Object}] kwargs
+      #   Additional keyword arguments for {Cipher::AES256#initialize}.
+      #
+      # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] :mode (:cbc)
+      #   The desired AES cipher mode.
+      #
+      # @option kwargs [Symbol] :hash (:sha256)
+      #   The algorithm to hash the `:password`.
+      #
+      # @option kwargs [String] :key
+      #   The secret key to use.
+      #
+      # @option kwargs [String] :password
+      #   The password for the cipher.
+      #
+      # @option kwargs [String] :iv
+      #   The optional Initial Vector (IV).
+      #
+      # @option kwargs [Integer] :padding
+      #   Sets the padding for the cipher.
+      #
+      # @return [Cipher::AES]
+      #   The new AES cipher.
+      #
+      # @example
+      #   Crypto.aes256(direction: :encrypt, password: 's3cr3t')
+      #   # => #<Ronin::Support::Crypto::Cipher::AES256:0x00007f8bde789648 @key_size=256, @mode=:cbc>
+      #
+      def self.aes256(**kwargs)
+        Cipher::AES256.new(**kwargs)
+      end
+
+      #
+      # Encrypts data using AES-256.
+      #
+      # @param [#to_s] data
+      #   The data to encrypt.
+      #
+      # @param [Hash{Symbol => Object}] kwargs
+      #   Additional keyword arguments for {aes}.
+      #
+      # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
+      #   The desired AES cipher mode.
+      #
+      # @option kwargs [Symbol] :hash (:sha256)
+      #   The algorithm to hash the `:password`.
+      #
+      # @option kwargs [String] :key
+      #   The secret key to use.
+      #
+      # @option kwargs [String] :password
+      #   The password for the cipher.
+      #
+      # @option kwargs [String] :iv
+      #   The optional Initial Vector (IV).
+      #
+      # @option kwargs [Integer] :padding
+      #   Sets the padding for the cipher.
+      #
+      # @return [String]
+      #   The encrypted data.
+      #
+      # @raise [ArgumentError]
+      #   Either the the `key:` or `password:` keyword argument must be given.
+      #
+      # @since 1.0.0
+      #
+      def self.aes256_encrypt(data,**kwargs)
+        self.aes256(direction: :encrypt, **kwargs).encrypt(data)
+      end
+
+      #
+      # Decrypts data using AES-256.
+      #
+      # @param [#to_s] data
+      #   The data to encrypt.
+      #
+      # @param [Hash{Symbol => Object}] kwargs
+      #   Additional keyword arguments for {aes}.
+      #
+      # @option kwargs [:cbc, :cfb, :ofb, :ctr, Symbol] mode (:cbc)
+      #   The desired AES cipher mode.
+      #
+      # @option kwargs [Symbol] :hash (:sh256)
+      #   The algorithm to hash the `:password`.
+      #
+      # @option kwargs [String] :key
+      #   The secret key to use.
+      #
+      # @option kwargs [String] :password
+      #   The password for the cipher.
+      #
+      # @option kwargs [String] :iv
+      #   The optional Initial Vector (IV).
+      #
+      # @option kwargs [Integer] :padding
+      #   Sets the padding for the cipher.
+      #
+      # @return [String]
+      #   The encrypted data.
+      #
+      # @raise [ArgumentError]
+      #   Either the the `key:` or `password:` keyword argument must be given.
+      #
+      # @since 1.0.0
+      #
+      def self.aes256_decrypt(data,**kwargs)
+        self.aes256(direction: :decrypt, **kwargs).decrypt(data)
+      end
     end
   end
 end
