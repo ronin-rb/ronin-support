@@ -101,6 +101,45 @@ describe Ronin::Support::Crypto::Mixin do
     end
   end
 
+  describe "#crypto_aes" do
+    let(:key_size)  { 256      }
+    let(:hash)      { :sha256  }
+    let(:password)  { 'secret' }
+    let(:direction) { :decrypt }
+
+    it "must return a Ronin::Support::Crypto::Cipher::AES object" do
+      new_cipher = subject.crypto_aes(key_size:  key_size,
+                                      direction: direction,
+                                      password:  password,
+                                      hash:      hash)
+
+      expect(new_cipher).to be_kind_of(Ronin::Support::Crypto::Cipher::AES)
+    end
+
+    it "must default to cipher 'AES-256-CBC'" do
+      new_cipher = subject.crypto_aes(key_size:  key_size,
+                                      direction: direction,
+                                      password:  password,
+                                      hash:      hash)
+
+      expect(new_cipher.name).to eq("AES-256-CBC")
+    end
+
+    context "when the mode: keyword argument is given" do
+      let(:mode) { :ctr }
+
+      it "must use the given mode" do
+        new_cipher = subject.crypto_aes(key_size:  key_size,
+                                        mode:      mode,
+                                        direction: direction,
+                                        password:  password,
+                                        hash:      hash)
+
+        expect(new_cipher.name).to eq("AES-256-#{mode.upcase}")
+      end
+    end
+  end
+
   let(:aes_cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-256-cbc')
     cipher.encrypt
