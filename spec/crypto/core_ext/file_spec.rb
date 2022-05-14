@@ -188,7 +188,7 @@ describe File do
     let(:tempfile) { Tempfile.new('ronin-support') }
     let(:path)     { tempfile.path }
 
-    before { File.write(path,cipher_text) }
+    before { File.write(path,aes_cipher_text) }
 
     it "must AES decrypt the String" do
       expect(subject.aes_decrypt(path, key_size: key_size, password: password)).to eq(clear_text)
