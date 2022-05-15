@@ -95,6 +95,9 @@ module Ronin
             n.num_bits
           end
 
+          # Mapping of padding names to pdding constants.
+          #
+          # @api private
           PADDINGS = {
             pkcs1_oaep: PKCS1_OAEP_PADDING,
             pkcs1:      PKCS1_PADDING,
