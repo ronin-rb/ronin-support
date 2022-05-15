@@ -44,7 +44,7 @@ module Ronin
             # Parses an PEM encoded key.
             #
             # @param [String] key
-            #   The key text.
+            #   The PEM or DER encoded key string.
             #
             # @param [String, nil] password
             #   Optional password to decrypt the key.
@@ -71,7 +71,7 @@ module Ronin
             # Loads a key from a file.
             #
             # @param [String] path
-            #   The path to the key file.
+            #   The path to the PEM or DER encoded key file.
             #
             # @param [Hash{Symbol => Object}] kwargs
             #   Additional keyword arguments for {parse}.
