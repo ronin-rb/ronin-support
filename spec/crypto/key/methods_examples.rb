@@ -4,7 +4,9 @@ require 'tempfile'
 shared_examples_for "Ronin::Support::Crypto::Key::Methods examples" do
   let(:key_type) { described_class.name.split('::').last.downcase }
   let(:pem_file) { File.join(__dir__,"#{key_type}.pem") }
+  let(:der_file) { File.join(__dir__,"#{key_type}.der") }
   let(:pem)      { File.read(pem_file) } 
+  let(:der)      { File.binread(der_file) }
 
   let(:password) { "secret" }
   let(:encrypted_pem_file) { File.join(__dir__,"#{key_type}_encrypted.pem") }
@@ -72,11 +74,19 @@ shared_examples_for "Ronin::Support::Crypto::Key::Methods examples" do
     let(:tempfile)  { Tempfile.new('ronin-support') }
     let(:save_path) { tempfile.path }
 
-    context "when no password: keyword argument is given" do
+    context "when no keyword arguments are given" do
       before { subject.save(save_path) }
 
       it "must write the exported key to the given path" do
-        expect(File.read(save_path)).to eq(subject.export)
+        expect(File.read(save_path)).to eq(pem)
+      end
+    end
+
+    context "when the encoding: :der keyword argument is given" do
+      before { subject.save(save_path, encoding: :der) }
+
+      it "must exported the key in DER encoding" do
+        expect(File.binread(save_path)).to eq(der)
       end
     end
 

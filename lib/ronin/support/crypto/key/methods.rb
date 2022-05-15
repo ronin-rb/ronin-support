@@ -97,20 +97,33 @@ module Ronin
           # @param [String] path
           #   The path to write the exported key to.
           #
+          # @param [:pem, :der] encoding
+          #   The desired encoding of the exported key.
+          #   * `:pem` - PEM encoding.
+          #   * `:der` - DER encoding.
+          #
           # @param [String, nil] cipher
           #   Optional cipher to use to encrypt the key file.
           #
           # @param [String, nil] password
           #   Optional password to use to encrypt the key file.
           #
-          def save(path, cipher: 'aes-256-cbc', password: nil)
-            pem = if  password
-                    export(OpenSSL::Cipher.new(cipher),password)
-                  else
-                    export()
-                  end
+          def save(path, encoding: :pem, cipher: 'aes-256-cbc', password: nil)
+            encoding_method = case encoding
+                              when :pem then method(:to_pem)
+                              when :der then method(:to_der)
+                              else
+                                raise(ArgumentError,"encoding: keyword argument (#{encoding.inspect}) must be either :pem or :der")
+                              end
 
-            File.write(path,pem)
+            exported = if  password
+                         cipher = OpenSSL::Cipher.new(cipher)
+                         encoding_method.call(cipher,password)
+                       else
+                         encoding_method.call()
+                       end
+
+            File.write(path,exported)
           end
         end
       end
