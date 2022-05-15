@@ -38,7 +38,7 @@ module Ronin
         #
         #        "#{addrinfo[3]}:#{addrinfo[1]}"
         #       }
-        #       hex = Hexdump::Dumper.new
+        #       hex = Hexdump::Hexdump.new
         #
         #       proxy.on_client_data do |client,server,data|
         #         puts "#{address[client]} -> #{proxy}"

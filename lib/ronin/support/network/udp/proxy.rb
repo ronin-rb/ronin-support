@@ -34,7 +34,7 @@ module Ronin
         #     require 'hexdump'
         #
         #     Ronin::Support::Network::UDP::Proxy.start(:port => 1337, :server => ['4.2.2.1', 53]) do |proxy|
-        #       hex = Hexdump::Dumper.new
+        #       hex = Hexdump::Hexdump.new
         #
         #       proxy.on_client_data do |(client,(host,port)),server,data|
         #         puts "#{host}:#{port} -> #{proxy}"
