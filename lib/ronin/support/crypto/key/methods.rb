@@ -35,6 +35,8 @@ module Ronin
           # Extends {ClassMethods}.
           #
           # @param [Class] key_class
+          #   The {Key} class that is including {Methods}.
+          #
           def self.included(key_class)
             key_class.extend ClassMethods
           end
