@@ -29,7 +29,7 @@ module Kernel
   #   exception occurred and was ignored.
   #
   # @example
-  #   attempt do
+  #   try do
   #     Resolv.getaddress('might.not.exist.com')
   #   end
   #
@@ -42,6 +42,4 @@ module Kernel
       return nil
     end
   end
-
-  alias attempt try
 end
