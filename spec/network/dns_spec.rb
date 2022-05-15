@@ -2,12 +2,6 @@ require 'spec_helper'
 require 'ronin/support/network/dns'
 
 describe Ronin::Support::Network::DNS do
-  describe "Records" do
-    subject { described_class::Records }
-
-    it { expect(subject).to be(Resolv::DNS::Resource::IN) }
-  end
-
   describe ".nameservers" do
     it "must default to the system's resolv.conf nameserver(s)" do
       expect(subject.nameservers).to eq(

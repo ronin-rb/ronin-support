@@ -10,12 +10,6 @@ describe Ronin::Support::Network::Mixins::DNS do
     obj
   end
 
-  describe "Records" do
-    subject { described_class::Records }
-
-    it { expect(subject).to be(Resolv::DNS::Resource::IN) }
-  end
-
   describe "#dns_resolver" do
     context "when given no arguments" do
       it "must return a Ronin::Support::Network::DNS::Resolver" do
