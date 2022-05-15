@@ -17,7 +17,11 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/mixin'
+
 module Kernel
+  include Ronin::Support::Mixin
+
   #
   # Calls the given block and ignores any raised exceptions.
   #
