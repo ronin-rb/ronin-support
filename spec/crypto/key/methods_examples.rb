@@ -18,9 +18,11 @@ shared_examples_for "Ronin::Support::Crypto::Key::Methods examples" do
     end
 
     context "when the key is encrypted" do
-      context "and a password is given" do
+      context "and the password: keyword argument is given" do
         it "must decrypt the key" do
-          expect(subject.parse(encrypted_pem,password).to_pem).to eq(pem)
+          key = subject.parse(encrypted_pem, password: password)
+
+          expect(key.to_pem).to eq(pem)
         end
       end
     end
@@ -30,13 +32,17 @@ shared_examples_for "Ronin::Support::Crypto::Key::Methods examples" do
     subject { described_class }
 
     it "must parse a PEM encoded RSA key" do
-      expect(subject.load(pem).to_pem).to eq(pem)
+      key = subject.load(pem)
+
+      expect(key.to_pem).to eq(pem)
     end
 
     context "when the key is encrypted" do
-      context "and a password is given" do
+      context "and the password: keyword argument is given" do
         it "must decrypt the key" do
-          expect(subject.load(encrypted_pem,password).to_pem).to eq(pem)
+          key = subject.load(encrypted_pem, password: password)
+
+          expect(key.to_pem).to eq(pem)
         end
       end
     end
@@ -46,15 +52,17 @@ shared_examples_for "Ronin::Support::Crypto::Key::Methods examples" do
     subject { described_class }
 
     it "must read and parse the path to the key file" do
-      expect(subject.load_file(pem_file).to_pem).to eq(pem)
+      key = subject.load_file(pem_file)
+
+      expect(key.to_pem).to eq(pem)
     end
 
     context "when the key is encrypted" do
-      context "and a password is given" do
+      context "and the password: keyword argument is given" do
         it "must decrypt the key" do
-          expect(
-            subject.load_file(encrypted_pem_file,password).to_pem
-          ).to eq(pem)
+          key = subject.load_file(encrypted_pem_file, password: password)
+
+          expect(key.to_pem).to eq(pem)
         end
       end
     end
