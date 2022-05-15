@@ -24,6 +24,7 @@ require 'ronin/support/core_ext/resolv'
 require 'ronin/support/core_ext/kernel'
 require 'ronin/support/crypto/core_ext'
 require 'ronin/support/format/core_ext'
+require 'ronin/support/text/core_ext'
 require 'ronin/support/network/core_ext'
 
 require 'hexdump/core_ext'
