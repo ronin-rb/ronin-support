@@ -17,6 +17,8 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/crypto/openssl'
+
 module Ronin
   module Support
     module Crypto
@@ -93,8 +95,20 @@ module Ronin
           # @param [String] path
           #   The path to write the exported key to.
           #
-          def save(path)
-            File.write(path,export)
+          # @param [String, nil] cipher
+          #   Optional cipher to use to encrypt the key file.
+          #
+          # @param [String, nil] password
+          #   Optional password to use to encrypt the key file.
+          #
+          def save(path, cipher: 'aes-256-cbc', password: nil)
+            pem = if  password
+                    export(OpenSSL::Cipher.new(cipher),password)
+                  else
+                    export()
+                  end
+
+            File.write(path,pem)
           end
         end
       end

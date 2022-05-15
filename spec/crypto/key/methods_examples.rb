@@ -72,10 +72,35 @@ shared_examples_for "Ronin::Support::Crypto::Key::Methods examples" do
     let(:tempfile)  { Tempfile.new('ronin-support') }
     let(:save_path) { tempfile.path }
 
-    before { subject.save(save_path) }
+    context "when no password: keyword argument is given" do
+      before { subject.save(save_path) }
 
-    it "must write the exported key to the given path" do
-      expect(File.read(save_path)).to eq(subject.export)
+      it "must write the exported key to the given path" do
+        expect(File.read(save_path)).to eq(subject.export)
+      end
+    end
+
+    context "when the password: keyword argument is given" do
+      let(:password) { 'secret' }
+
+      before { subject.save(save_path, password: password) }
+
+      it "must encrypt the key with AES-256-CBC and the password" do
+        key = described_class.load_file(save_path, password: password)
+
+        expect(key.to_pem).to eq(pem)
+      end
+    end
+
+    context "and when the password: and cipher: keyword arguments are given" do
+      let(:cipher)   { 'aes-128-cbc' }
+      let(:password) { 'secret' }
+
+      before { subject.save(save_path, cipher: cipher, password: password) }
+
+      it "must use the custom cipher algorithm to encrypt the key file" do
+        expect(File.read(save_path)).to include("DEK-Info: #{cipher.upcase},")
+      end
     end
   end
 end
