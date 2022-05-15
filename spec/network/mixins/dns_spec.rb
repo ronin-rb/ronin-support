@@ -10,6 +10,12 @@ describe Ronin::Support::Network::Mixins::DNS do
     obj
   end
 
+  describe "Records" do
+    subject { described_class::Records }
+
+    it { expect(subject).to be(Resolv::DNS::Resource::IN) }
+  end
+
   describe "#dns_resolver" do
     context "when given no arguments" do
       it "must return a Ronin::Support::Network::DNS::Resolver" do
@@ -242,12 +248,15 @@ describe Ronin::Support::Network::Mixins::DNS do
 
   describe "#dns_get_record" do
     context "integration", :network do
-      let(:record_type) { Resolv::DNS::Resource::IN::TXT }
+      let(:record_type)  { :txt }
+      let(:record_class) do
+        Ronin::Support::Network::DNS::Resolver::RECORD_TYPES.fetch(record_type)
+      end
 
       it "must return the first DNS record for the host name and record type" do
         record = subject.dns_get_record(hostname,record_type)
 
-        expect(record).to be_kind_of(record_type)
+        expect(record).to be_kind_of(record_class)
         expect(record.strings).to eq(["v=spf1 -all"]).or(eq(
           ["yxvy9m4blrswgrsz8ndjh467n2y7mgl2"]
         ))
@@ -260,7 +269,7 @@ describe Ronin::Support::Network::Mixins::DNS do
       end
 
       context "when the host name has no matching records" do
-        let(:record_type) { Resolv::DNS::Resource::IN::CNAME }
+        let(:record_type)  { :cname }
 
         it "must return nil" do
           expect(subject.dns_get_record(hostname,record_type)).to be(nil)
@@ -271,13 +280,16 @@ describe Ronin::Support::Network::Mixins::DNS do
 
   describe "#dns_get_records" do
     context "integration", :network do
-      let(:record_type) { Resolv::DNS::Resource::IN::TXT }
+      let(:record_type)  { :txt }
+      let(:record_class) do
+        Ronin::Support::Network::DNS::Resolver::RECORD_TYPES.fetch(record_type)
+      end
 
       it "must return all DNS record of the given type for the host name" do
         records = subject.dns_get_records(hostname,record_type)
 
         expect(records).to_not be_empty
-        expect(records).to all(be_kind_of(record_type))
+        expect(records).to all(be_kind_of(record_class))
         expect(records.first.strings).to eq(["v=spf1 -all"]).or(eq(
           ["yxvy9m4blrswgrsz8ndjh467n2y7mgl2"]
         ))
@@ -290,7 +302,7 @@ describe Ronin::Support::Network::Mixins::DNS do
       end
 
       context "when the host name has no matching records" do
-        let(:record_type) { Resolv::DNS::Resource::IN::CNAME }
+        let(:record_type) { :cname }
 
         it "must return an empty Array" do
           expect(subject.dns_get_records(hostname,record_type)).to eq([])

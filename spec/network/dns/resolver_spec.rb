@@ -124,12 +124,13 @@ describe Ronin::Support::Network::DNS::Resolver do
 
   describe "#get_record" do
     context "integration", :network do
-      let(:record_type) { Resolv::DNS::Resource::IN::TXT }
+      let(:record_type)  { :txt }
+      let(:record_class) { described_class::RECORD_TYPES.fetch(record_type) }
 
       it "must return the first DNS record for the host name and record type" do
         record = subject.get_record(hostname,record_type)
 
-        expect(record).to be_kind_of(record_type)
+        expect(record).to be_kind_of(record_class)
         expect(record.strings).to eq(["v=spf1 -all"]).or(eq(
           ["yxvy9m4blrswgrsz8ndjh467n2y7mgl2"]
         ))
@@ -142,7 +143,7 @@ describe Ronin::Support::Network::DNS::Resolver do
       end
 
       context "when the host name has no matching records" do
-        let(:record_type) { Resolv::DNS::Resource::IN::CNAME }
+        let(:record_type)  { :cname }
 
         it "must return nil" do
           expect(subject.get_record(hostname,record_type)).to be(nil)
@@ -153,13 +154,14 @@ describe Ronin::Support::Network::DNS::Resolver do
 
   describe "#get_records" do
     context "integration", :network do
-      let(:record_type) { Resolv::DNS::Resource::IN::TXT }
+      let(:record_type)  { :txt }
+      let(:record_class) { described_class::RECORD_TYPES.fetch(record_type) }
 
       it "must return all DNS record of the given type for the host name" do
         records = subject.get_records(hostname,record_type)
 
         expect(records).to_not be_empty
-        expect(records).to all(be_kind_of(record_type))
+        expect(records).to all(be_kind_of(record_class))
         expect(records.first.strings).to eq(["v=spf1 -all"]).or(eq(
           ["yxvy9m4blrswgrsz8ndjh467n2y7mgl2"]
         ))
@@ -172,7 +174,7 @@ describe Ronin::Support::Network::DNS::Resolver do
       end
 
       context "when the host name has no matching records" do
-        let(:record_type) { Resolv::DNS::Resource::IN::CNAME }
+        let(:record_type) { :cname }
 
         it "must return an empty Array" do
           expect(subject.get_records(hostname,record_type)).to eq([])

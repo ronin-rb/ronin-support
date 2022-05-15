@@ -135,24 +135,54 @@ module Ronin
             names
           end
 
+          # Mapping of record type names to the `Resolv::DNS::Resource::IN`
+          # classes.
+          #
+          # @api private
+          RECORD_TYPES = {
+            a:     Resolv::DNS::Resource::IN::A,
+            aaaa:  Resolv::DNS::Resource::IN::AAAA,
+            any:   Resolv::DNS::Resource::IN::ANY,
+            cname: Resolv::DNS::Resource::IN::CNAME,
+            hinfo: Resolv::DNS::Resource::IN::HINFO,
+            loc:   Resolv::DNS::Resource::IN::LOC,
+            minfo: Resolv::DNS::Resource::IN::MINFO,
+            mx:    Resolv::DNS::Resource::IN::MX,
+            ns:    Resolv::DNS::Resource::IN::NS,
+            ptr:   Resolv::DNS::Resource::IN::PTR,
+            soa:   Resolv::DNS::Resource::IN::SOA,
+            srv:   Resolv::DNS::Resource::IN::SRV,
+            txt:   Resolv::DNS::Resource::IN::TXT,
+            wks:   Resolv::DNS::Resource::IN::WKS
+          }
+
           #
           # Queries a single matching DNS record for the host name.
           #
           # @param [String] name
           #   The host name to query.
           #
-          # @param [Class<Resolv::DNS::Resource>] type_class
-          #   The record type class.
+          # @param [:a, :aaaa, :any, :cname, :hinfo, :loc, :minfo, :mx, :ns, :ptr, :soa, :srv, :txt, :wks] record_type
+          #   The record type.
           #
           # @return [Resolv::DNS::Resource, nil]
           #   The matching DNS records or `nil` if no matching DNS records
           #   could be found.
           #
+          # @raise [ArgumentError]
+          #   An unlnown record type was given.
+          #
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource
           #
-          def get_record(name,type_class)
-            @resolver.getresource(name,type_class)
-          rescue Resolv::ResolvError
+          def get_record(name,record_type)
+            record_class = RECORD_TYPES.fetch(record_type) do
+              raise(ArgumentError,"record type (#{record_type.inspect}) must be #{RECORD_TYPES.keys.map(&:inspect).join(', ')}")
+            end
+
+            begin
+              @resolver.getresource(name,record_class)
+            rescue Resolv::ResolvError
+            end
           end
 
           #
@@ -161,16 +191,23 @@ module Ronin
           # @param [String] name
           #   The host name to query.
           #
-          # @param [Class<Resolv::DNS::Resource>] type_class
-          #   The record type class.
+          # @param [:a, :aaaa, :any, :cname, :hinfo, :loc, :minfo, :mx, :ns, :ptr, :soa, :srv, :txt, :wks] record_type
+          #   The record type.
           #
           # @return [Array<Resolv::DNS::Resource>]
           #   All matching DNS records.
           #
+          # @raise [ArgumentError]
+          #   An unlnown record type was given.
+          #
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource
           #
-          def get_records(name,type_class)
-            @resolver.getresources(name,type_class)
+          def get_records(name,record_type)
+            record_class = RECORD_TYPES.fetch(record_type) do
+              raise(ArgumentError,"record type (#{record_type.inspect}) must be #{RECORD_TYPES.keys.map(&:inspect).join(', ')}")
+            end
+
+            @resolver.getresources(name,record_class)
           end
 
           #
@@ -185,7 +222,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/ANY
           #
           def get_any_records(name)
-            get_records(name,Resolv::DNS::Resource::IN::ANY)
+            get_records(name,:any)
           end
 
           #
@@ -201,7 +238,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/CNAME
           #
           def get_cname_record(name)
-            get_record(name,Resolv::DNS::Resource::IN::CNAME)
+            get_record(name,:cname)
           end
 
           #
@@ -233,7 +270,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/HINFO
           #
           def get_hinfo_record(name)
-            get_record(name,Resolv::DNS::Resource::IN::HINFO)
+            get_record(name,:hinfo)
           end
 
           #
@@ -249,7 +286,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/IN/A
           #
           def get_a_record(name)
-            get_record(name,Resolv::DNS::Resource::IN::A)
+            get_record(name,:a)
           end
 
           #
@@ -279,7 +316,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/IN/A
           #
           def get_a_records(name)
-            get_records(name,Resolv::DNS::Resource::IN::A)
+            get_records(name,:a)
           end
 
           #
@@ -310,7 +347,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/IN/AAAA
           #
           def get_aaaa_record(name)
-            get_record(name,Resolv::DNS::Resource::IN::AAAA)
+            get_record(name,:aaaa)
           end
 
           #
@@ -341,7 +378,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/IN/AAAA
           #
           def get_aaaa_records(name)
-            get_records(name,Resolv::DNS::Resource::IN::AAAA)
+            get_records(name,:aaaa)
           end
 
           #
@@ -371,7 +408,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/IN/SRV
           #
           def get_srv_records(name)
-            get_records(name,Resolv::DNS::Resource::IN::SRV)
+            get_records(name,:srv)
           end
 
           #
@@ -387,7 +424,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/IN/WKS
           #
           def get_wks_records(name)
-            get_records(name,Resolv::DNS::Resource::IN::WKS)
+            get_records(name,:wks)
           end
 
           #
@@ -403,7 +440,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/LOC
           #
           def get_loc_record(name)
-            get_record(name,Resolv::DNS::Resource::IN::LOC)
+            get_record(name,:loc)
           end
 
           #
@@ -419,7 +456,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/MINFO
           #
           def get_minfo_record(name)
-            get_record(name,Resolv::DNS::Resource::IN::MINFO)
+            get_record(name,:minfo)
           end
 
           #
@@ -434,7 +471,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/MX
           #
           def get_mx_records(name)
-            get_records(name,Resolv::DNS::Resource::IN::MX)
+            get_records(name,:mx)
           end
 
           #
@@ -464,7 +501,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/NS
           #
           def get_ns_records(name)
-            get_records(name,Resolv::DNS::Resource::IN::NS)
+            get_records(name,:ns)
           end
 
           #
@@ -495,7 +532,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/PTR
           #
           def get_ptr_record(ip)
-            get_record(ip,Resolv::DNS::Resource::IN::PTR)
+            get_record(ip,:ptr)
           end
 
           #
@@ -525,7 +562,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/PTR
           #
           def get_ptr_records(ip)
-            get_records(ip,Resolv::DNS::Resource::IN::PTR)
+            get_records(ip,:ptr)
           end
 
           #
@@ -556,7 +593,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/SOA
           #
           def get_soa_record(name)
-            get_record(name,Resolv::DNS::Resource::IN::SOA)
+            get_record(name,:soa)
           end
 
           #
@@ -572,7 +609,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/TXT
           #
           def get_txt_record(name)
-            get_record(name,Resolv::DNS::Resource::IN::TXT)
+            get_record(name,:txt)
           end
 
           #
@@ -603,7 +640,7 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/TXT
           #
           def get_txt_records(name)
-            get_records(name,Resolv::DNS::Resource::IN::TXT)
+            get_records(name,:txt)
           end
 
           #

@@ -213,8 +213,8 @@ module Ronin
         # @param [String] name
         #   The host name to query.
         #
-        # @param [Class<Resolv::DNS::Resource>] type_class
-        #   The record type class.
+        # @param [:a, :aaaa, :any, :cname, :hinfo, :loc, :minfo, :mx, :ns, :ptr, :soa, :srv, :txt, :wks] record_type
+        #   The record type.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments.
@@ -231,8 +231,8 @@ module Ronin
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource
         #
-        def self.get_record(name,type_class,**kwargs)
-          resolver(**kwargs).get_record(name.to_s,type_class)
+        def self.get_record(name,record_type,**kwargs)
+          resolver(**kwargs).get_record(name.to_s,record_type)
         end
 
         #
@@ -241,8 +241,8 @@ module Ronin
         # @param [String] name
         #   The host name to query.
         #
-        # @param [Class<Resolv::DNS::Resource>] type_class
-        #   The record type class.
+        # @param [:a, :aaaa, :any, :cname, :hinfo, :loc, :minfo, :mx, :ns, :ptr, :soa, :srv, :txt, :wks] record_type
+        #   The record type.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments.
@@ -258,8 +258,8 @@ module Ronin
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource
         #
-        def self.get_records(name,type_class,**kwargs)
-          resolver(**kwargs).get_records(name.to_s,type_class)
+        def self.get_records(name,record_type,**kwargs)
+          resolver(**kwargs).get_records(name.to_s,record_type)
         end
 
         #
