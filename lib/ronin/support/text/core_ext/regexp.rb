@@ -18,4 +18,7 @@
 #
 
 require 'ronin/support/text/patterns'
-require 'ronin/support/text/core_ext'
+
+class Regexp
+  include Ronin::Support::Text::Patterns
+end

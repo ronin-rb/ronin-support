@@ -17,5 +17,4 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/text/patterns'
-require 'ronin/support/text/core_ext'
+require 'ronin/support/text/core_ext/regexp'
