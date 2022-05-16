@@ -102,7 +102,7 @@ module Ronin
       #   * {CTypes::OS::FreeBSD FreeBSD}
       #   * {CTypes::OS::OpenBSD OpenBSD}
       #   * {CTypes::OS::NetBSD NetBSD}
-      # * {CTypes::OS::Linux linux}
+      # * {CTypes::OS::Linux Linux}
       # * {CTypes::OS::MacOS macOS}
       # * {CTypes::OS::Windows Windows}
       #
