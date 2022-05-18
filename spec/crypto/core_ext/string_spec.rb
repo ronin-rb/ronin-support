@@ -342,8 +342,9 @@ describe String do
       let(:key)     { Ronin::Support::Crypto::Key::RSA.load_file(rsa_pem_file) }
       let(:new_key) { key }
 
-      let(:padding)     { :pkcs1_oaep }
-      let(:subject) { new_key.public_encrypt(clear_text, padding: padding) }
+      let(:padding) { :pkcs1_oaep }
+
+      subject { new_key.public_encrypt(clear_text, padding: padding) }
 
       it "must use the given padding" do
         expect(subject.rsa_decrypt(key: key, padding: padding)).to eq(clear_text)
