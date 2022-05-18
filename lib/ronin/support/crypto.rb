@@ -610,6 +610,78 @@ module Ronin
           raise(ArgumentError,"either key: or key_file: keyword arguments must be given")
         end
       end
+
+      #
+      # Encrypts data using a RSA key.
+      #
+      # @param [String] data
+      #   The data to encrypt.
+      #
+      # @param [String, nil] key
+      #   The PEM or DER encoded RSA key string.
+      #
+      # @param [String, nil] key_file
+      #   The path to the PEM or DER encoded RSA key file.
+      #
+      # @param [String, nil] key_password
+      #   The optional password to decrypt the encrypted RSA key.
+      #
+      # @param [Hash{Symbol => Object}] kwargs
+      #   Additional keyword arguments for {Key::RSA#public_encrypt}.
+      #
+      # @option kwargs [:pkcs1_oaep, :pkcs1, :sslv23,
+      #                 nil, false] :padding (:pkcs1)
+      #   Optional padding mode. `nil` and `false` will disable padding.
+      #
+      # @return [String]
+      #   The encrypted data.
+      #
+      # @raise [ArgumentError]
+      #   Either the `key:` or `key_file:` keyword argument must be given.
+      #
+      # @since 1.0.0
+      #
+      def self.rsa_encrypt(data, key: nil, key_file: nil, key_password: nil, **kwargs)
+        rsa = rsa_key(key, path: key_file, password: key_password)
+
+        return rsa.public_encrypt(data,**kwargs)
+      end
+
+      #
+      # Decrypts data using a RSA key.
+      #
+      # @param [String] data
+      #   The data to decrypt.
+      #
+      # @param [String, nil] key
+      #   The PEM or DER encoded RSA key string.
+      #
+      # @param [String, nil] key_file
+      #   The path to the PEM or DER encoded RSA key file.
+      #
+      # @param [String, nil] key_password
+      #   The optional password to decrypt the encrypted RSA key.
+      #
+      # @param [Hash{Symbol => Object}] kwargs
+      #   Additional keyword arguments for {Key::RSA#private_decrypt}.
+      #
+      # @option kwargs [:pkcs1_oaep, :pkcs1, :sslv23,
+      #                 nil, false] :padding (:pkcs1)
+      #   Optional padding mode. `nil` and `false` will disable padding.
+      #
+      # @return [String]
+      #   The decrypted data.
+      #
+      # @raise [ArgumentError]
+      #   Either the `key:` or `key_file:` keyword argument must be given.
+      #
+      # @since 1.0.0
+      #
+      def self.rsa_decrypt(data, key: nil, key_file: nil, key_password: nil, **kwargs)
+        rsa = rsa_key(key, path: key_file, password: key_password)
+
+        return rsa.private_decrypt(data,**kwargs)
+      end
     end
   end
 end
