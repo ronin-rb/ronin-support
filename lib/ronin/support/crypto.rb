@@ -22,6 +22,7 @@ require 'ronin/support/crypto/cipher'
 require 'ronin/support/crypto/cipher/aes'
 require 'ronin/support/crypto/cipher/aes128'
 require 'ronin/support/crypto/cipher/aes256'
+require 'ronin/support/crypto/key/rsa'
 require 'ronin/support/crypto/mixin'
 require 'ronin/support/crypto/core_ext'
 
@@ -574,6 +575,40 @@ module Ronin
       #
       def self.aes256_decrypt(data,**kwargs)
         self.aes256_cipher(direction: :decrypt, **kwargs).decrypt(data)
+      end
+
+      #
+      # Loads an RSA key.
+      #
+      # @param [String, nil] key
+      #   The PEM or DER encoded RSA key string.
+      #
+      # @param [String, nil] path
+      #   The path to the PEM or DER encoded RSA key file.
+      #
+      # @param [String, nil] password
+      #   The optional password to decrypt the encrypted RSA key.
+      #
+      # @return [Key::RSA]
+      #
+      # @raise [ArgumentError]
+      #   Either the `key:` or `key_file:` keyword argument must be given.
+      #
+      # @since 1.0.0
+      #
+      def self.rsa_key(key=nil, path: nil, password: nil)
+        if path
+          Key::RSA.load_file(path, password: password)
+        elsif key
+          case key
+          when Key::RSA           then key
+          when OpenSSL::PKey::RSA then Key::RSA.new(key)
+          when String             then Key::RSA.load(key, password: password)
+          else
+          end
+        else
+          raise(ArgumentError,"either key: or key_file: keyword arguments must be given")
+        end
       end
     end
   end

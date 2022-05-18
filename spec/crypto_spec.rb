@@ -265,4 +265,86 @@ describe Crypto do
       expect(subject.aes256_decrypt(aes256_cipher_text, password: password)).to eq(clear_text)
     end
   end
+
+  describe ".rsa_key" do
+    let(:dir)  { File.join(__dir__,'crypto','key') }
+    let(:path) { File.join(dir,'rsa.pem') }
+    let(:pem)  { File.read(path) }
+
+    let(:password) { "secret" }
+    let(:encrypted_pem_file) { File.join(dir,"rsa_encrypted.pem") }
+    let(:encrypted_pem)      { File.read(encrypted_pem_file) }
+
+    context "when given a #{described_class::Key::RSA} object" do
+      let(:key)  { described_class::Key::RSA.load_file(path) }
+
+      it "must return the #{described_class::Key::RSA} object" do
+        expect(subject.rsa_key(key)).to be(key)
+      end
+    end
+
+    context "when given an OpenSSL::PKey::RSA object" do
+      let(:key)  { OpenSSL::PKey::RSA.new(pem) }
+
+      it "must convert the object into a #{described_class::Key::RSA} object" do
+        new_key = subject.rsa_key(key)
+
+        expect(new_key).to be_kind_of(described_class::Key::RSA)
+        expect(new_key.to_pem).to eq(pem)
+      end
+    end
+
+    context "when given a String object" do
+      let(:key)  { described_class::Key::RSA.load_file(path) }
+
+      it "must return the #{described_class::Key::RSA} object" do
+        key = subject.rsa_key(pem)
+
+        expect(key).to be_kind_of(described_class::Key::RSA)
+        expect(key.to_pem).to eq(pem)
+      end
+
+      context "when also given the password: keyword argument" do
+        it "must return a #{described_class::Key::RSA} object" do
+          key = subject.rsa_key(encrypted_pem, password: password)
+
+          expect(key).to be_kind_of(described_class::Key::RSA)
+        end
+
+        it "must decrypt the key" do
+          key = subject.rsa_key(encrypted_pem, password: password)
+
+          expect(key.to_pem).to eq(pem)
+        end
+      end
+    end
+
+    context "when given the path: keyword argument" do
+      it "must return a #{described_class::Key::RSA} object" do
+        key = subject.rsa_key(path: path)
+
+        expect(key).to be_kind_of(described_class::Key::RSA)
+      end
+
+      it "must load the RSA key from the given path" do
+        key = subject.rsa_key(path: path)
+
+        expect(key.to_pem).to eq(pem)
+      end
+
+      context "when also given the password: keyword argument" do
+        it "must return a #{described_class::Key::RSA} object" do
+          key = subject.rsa_key(path: encrypted_pem_file, password: password)
+
+          expect(key).to be_kind_of(described_class::Key::RSA)
+        end
+
+        it "must decrypt the key" do
+          key = subject.rsa_key(path: encrypted_pem_file, password: password)
+
+          expect(key.to_pem).to eq(pem)
+        end
+      end
+    end
+  end
 end
