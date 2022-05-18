@@ -556,6 +556,72 @@ module Ronin
         end
 
         alias aes256_decrypt crypto_aes256_decrypt
+
+        #
+        # Encrypts the given data using the given RSA key.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {Crypto.rsa_encrypt}.
+        #
+        # @option kwargs [String, nil] :key
+        #   The PEM or DER encoded RSA key string.
+        #
+        # @option kwargs [String, nil] :key_file
+        #   The path to the PEM or DER encoded RSA key file.
+        #
+        # @option kwargs [String, nil] :key_password
+        #   The optional password to decrypt the encrypted RSA key.
+        #
+        # @option kwargs [:pkcs1_oaep, :pkcs1, :sslv23,
+        #                 nil, false] :padding (:pkcs1)
+        #   Optional padding mode. `nil` and `false` will disable padding.
+        #
+        # @return [String]
+        #   The encrypted data.
+        #
+        # @raise [ArgumentError]
+        #   Either the `key:` or `key_file:` keyword argument must be given.
+        #
+        # @since 1.0.0
+        #
+        def crypto_rsa_encrypt(data,**kwargs)
+          Crypto.rsa_encrypt(data,**kwargs)
+        end
+
+        alias rsa_encrypt crypto_rsa_encrypt
+
+        #
+        # Decrypts the given data using the given RSA key.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {Crypto.rsa_decrypt}.
+        #
+        # @option kwargs [String, nil] :key
+        #   The PEM or DER encoded RSA key string.
+        #
+        # @option kwargs [String, nil] :key_file
+        #   The path to the PEM or DER encoded RSA key file.
+        #
+        # @option kwargs [String, nil] :key_password
+        #   The optional password to decrypt the encrypted RSA key.
+        #
+        # @option kwargs [:pkcs1_oaep, :pkcs1, :sslv23,
+        #                 nil, false] :padding (:pkcs1)
+        #   Optional padding mode. `nil` and `false` will disable padding.
+        #
+        # @return [String]
+        #   The decrypted data.
+        #
+        # @raise [ArgumentError]
+        #   Either the `key:` or `key_file:` keyword argument must be given.
+        #
+        # @since 1.0.0
+        #
+        def crypto_rsa_decrypt(data,**kwargs)
+          Crypto.rsa_decrypt(data,**kwargs)
+        end
+
+        alias rsa_decrypt crypto_rsa_decrypt
       end
     end
   end
