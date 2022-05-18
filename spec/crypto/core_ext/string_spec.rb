@@ -180,4 +180,174 @@ describe String do
       expect(aes256_cipher_text.aes256_decrypt(password: password)).to eq(subject)
     end
   end
+
+  let(:dir)  { File.join(__dir__,'..','key') }
+
+  let(:rsa_pem_file) { File.join(dir,'rsa.pem') }
+  let(:rsa_pem)      { File.read(rsa_pem_file) }
+
+  let(:rsa_key_password)       { "secret" }
+  let(:rsa_encrypted_pem_file) { File.join(dir,"rsa_encrypted.pem") }
+  let(:rsa_encrypted_pem)      { File.read(rsa_encrypted_pem_file) }
+
+  describe "#rsa_encrypt" do
+    context "when the key: value is a #{Ronin::Support::Crypto::Key::RSA} object" do
+      let(:key)     { Ronin::Support::Crypto::Key::RSA.load_file(rsa_pem_file) }
+      let(:new_key) { key }
+
+      it "must encrypt the data using the #{Ronin::Support::Crypto::Key::RSA} object" do
+        cipher_text = subject.rsa_encrypt(key: key)
+
+        expect(new_key.private_decrypt(cipher_text, padding: :pkcs1)).to eq(subject)
+      end
+    end
+
+    context "when the key: value is a OpenSSL::PKey::RSA object" do
+      let(:key)     { OpenSSL::PKey::RSA.new(rsa_pem)         }
+      let(:new_key) { Ronin::Support::Crypto::Key::RSA.load(rsa_pem) }
+
+      it "must convert the key into and use #{Ronin::Support::Crypto::Key::RSA} to encrypt the data" do
+        cipher_text = subject.rsa_encrypt(key: key)
+
+        expect(new_key.private_decrypt(cipher_text, padding: :pkcs1)).to eq(subject)
+      end
+    end
+
+    context "when the key: value is a String" do
+      let(:key)     { rsa_pem }
+      let(:new_key) { Ronin::Support::Crypto::Key::RSA.load(rsa_pem) }
+
+      it "must parse the key String and use it to encrypt the data" do
+        cipher_text = subject.rsa_encrypt(key: key)
+
+        expect(new_key.private_decrypt(cipher_text, padding: :pkcs1)).to eq(subject)
+      end
+
+      context "and when the key_password: keyword argument is also given" do
+        let(:key) { rsa_encrypted_pem }
+        let(:new_key) do
+          Ronin::Support::Crypto::Key::RSA.load(rsa_pem, password: rsa_key_password)
+        end
+
+        it "must decrypt the encrypted key using the key_password: argument" do
+          cipher_text = subject.rsa_encrypt(key: key, key_password: rsa_key_password)
+
+          expect(new_key.private_decrypt(cipher_text, padding: :pkcs1)).to eq(subject)
+        end
+      end
+    end
+
+    context "when given the key_file: keyword argument" do
+      let(:key_file) { rsa_pem_file }
+      let(:new_key)  { Ronin::Support::Crypto::Key::RSA.load_file(key_file) }
+
+      it "must read the key at the given path and encrypt the data" do
+        cipher_text = subject.rsa_encrypt(key_file: key_file)
+
+        expect(new_key.private_decrypt(cipher_text, padding: :pkcs1)).to eq(subject)
+      end
+
+      context "and when the key_password: keyword argument is also given" do
+        let(:key_file) { rsa_encrypted_pem_file }
+        let(:new_key) do
+          Ronin::Support::Crypto::Key::RSA.load_file(key_file, password: rsa_key_password)
+        end
+
+        it "must decrypt the encrypted key using the key_password: argument" do
+          cipher_text = subject.rsa_encrypt(key_file: key_file, key_password: rsa_key_password)
+
+          expect(new_key.private_decrypt(cipher_text, padding: :pkcs1)).to eq(subject)
+        end
+      end
+    end
+
+    context "when the padding: keyword argument is given" do
+      let(:key)     { Ronin::Support::Crypto::Key::RSA.load_file(rsa_pem_file) }
+      let(:new_key) { key }
+
+      let(:padding) { :pkcs1_oaep }
+
+      it "must use the given padding" do
+        cipher_text = subject.rsa_encrypt(key: key, padding: padding)
+
+        expect(new_key.private_decrypt(cipher_text, padding: padding)).to eq(subject)
+      end
+    end
+  end
+
+  describe "#rsa_decrypt" do
+    let(:clear_text)  { "the quick brown fox" }
+
+    subject { new_key.public_encrypt(clear_text) }
+
+    context "when the key: value is a #{Ronin::Support::Crypto::Key::RSA} object" do
+      let(:key)     { Ronin::Support::Crypto::Key::RSA.load_file(rsa_pem_file) }
+      let(:new_key) { key }
+
+      it "must decrypt the data using the #{Ronin::Support::Crypto::Key::RSA} object" do
+        expect(subject.rsa_decrypt(key: key)).to eq(clear_text)
+      end
+    end
+
+    context "when the key: value is a OpenSSL::PKey::RSA object" do
+      let(:key)     { OpenSSL::PKey::RSA.new(rsa_pem)         }
+      let(:new_key) { Ronin::Support::Crypto::Key::RSA.load(rsa_pem) }
+
+      it "must convert the key into and use #{Ronin::Support::Crypto::Key::RSA} to encrypt the data" do
+        expect(subject.rsa_decrypt(key: key)).to eq(clear_text)
+      end
+    end
+
+    context "when the key: value is a String" do
+      let(:key)     { rsa_pem }
+      let(:new_key) { Ronin::Support::Crypto::Key::RSA.load(rsa_pem) }
+
+      it "must parse the key String and use it to encrypt the data" do
+        expect(subject.rsa_decrypt(key: key)).to eq(clear_text)
+      end
+
+      context "and when the key_password: keyword argument is also given" do
+        let(:key) { rsa_encrypted_pem }
+        let(:new_key) do
+          Ronin::Support::Crypto::Key::RSA.load(rsa_pem, password: rsa_key_password)
+        end
+
+        it "must decrypt the encrypted key using the key_password: argument" do
+          expect(subject.rsa_decrypt(key: key, key_password: rsa_key_password)).to eq(clear_text)
+        end
+      end
+    end
+
+    context "when given the key_file: keyword argument" do
+      let(:key_file) { rsa_pem_file }
+      let(:new_key)  { Ronin::Support::Crypto::Key::RSA.load_file(key_file) }
+
+      it "must read the key at the given path and encrypt the data" do
+        expect(subject.rsa_decrypt(key_file: key_file)).to eq(clear_text)
+      end
+
+      context "and when the key_password: keyword argument is also given" do
+        let(:key_file) { rsa_encrypted_pem_file }
+        let(:new_key) do
+          Ronin::Support::Crypto::Key::RSA.load_file(key_file, password: rsa_key_password)
+        end
+
+        it "must decrypt the encrypted key using the key_password: argument" do
+          expect(subject.rsa_decrypt(key_file: key_file, key_password: rsa_key_password)).to eq(clear_text)
+        end
+      end
+    end
+
+    context "when the padding: keyword argument is given" do
+      let(:key)     { Ronin::Support::Crypto::Key::RSA.load_file(rsa_pem_file) }
+      let(:new_key) { key }
+
+      let(:padding)     { :pkcs1_oaep }
+      let(:subject) { new_key.public_encrypt(clear_text, padding: padding) }
+
+      it "must use the given padding" do
+        expect(subject.rsa_decrypt(key: key, padding: padding)).to eq(clear_text)
+      end
+    end
+  end
 end

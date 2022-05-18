@@ -428,4 +428,66 @@ class String
     Ronin::Support::Crypto.aes256_decrypt(self,**kwargs)
   end
 
+  #
+  # Encrypts the String using the RSA key.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {Ronin::Support::Crypto.rsa_encrypt}.
+  #
+  # @option kwargs [String, nil] :key
+  #   The PEM or DER encoded RSA key string.
+  #
+  # @option kwargs [String, nil] :key_file
+  #   The path to the PEM or DER encoded RSA key file.
+  #
+  # @option kwargs [String, nil] :key_password
+  #   The optional password to decrypt the encrypted RSA key.
+  #
+  # @option kwargs [:pkcs1_oaep, :pkcs1, :sslv23,
+  #                 nil, false] :padding (:pkcs1)
+  #   Optional padding mode. `nil` and `false` will disable padding.
+  #
+  # @return [String]
+  #   The encrypted data.
+  #
+  # @raise [ArgumentError]
+  #   Either the `key:` or `key_file:` keyword argument must be given.
+  #
+  # @since 1.0.0
+  #
+  def rsa_encrypt(**kwargs)
+    Ronin::Support::Crypto.rsa_encrypt(self,**kwargs)
+  end
+
+  #
+  # Decrypts the String using the RSA key.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {Ronin::Support::Crypto.rsa_encrypt}.
+  #
+  # @option kwargs [String, nil] :key
+  #   The PEM or DER encoded RSA key string.
+  #
+  # @option kwargs [String, nil] :key_file
+  #   The path to the PEM or DER encoded RSA key file.
+  #
+  # @option kwargs [String, nil] :key_password
+  #   The optional password to decrypt the encrypted RSA key.
+  #
+  # @option kwargs [:pkcs1_oaep, :pkcs1, :sslv23,
+  #                 nil, false] :padding (:pkcs1)
+  #   Optional padding mode. `nil` and `false` will disable padding.
+  #
+  # @return [String]
+  #   The decrypted data.
+  #
+  # @raise [ArgumentError]
+  #   Either the `key:` or `key_file:` keyword argument must be given.
+  #
+  # @since 1.0.0
+  #
+  def rsa_decrypt(**kwargs)
+    Ronin::Support::Crypto.rsa_decrypt(self,**kwargs)
+  end
+
 end
