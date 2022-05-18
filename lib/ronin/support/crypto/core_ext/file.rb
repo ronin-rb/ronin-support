@@ -646,7 +646,7 @@ class File
   # Decrypts the file using the RSA key.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {Ronin::Support::Crypto.rsa_encrypt}.
+  #   Additional keyword arguments for {Ronin::Support::Crypto.rsa_decrypt}.
   #
   # @option kwargs [String, nil] :key
   #   The PEM or DER encoded RSA key string.
