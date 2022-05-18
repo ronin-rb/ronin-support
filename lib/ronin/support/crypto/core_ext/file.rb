@@ -612,7 +612,7 @@ class File
   end
 
   #
-  # Encrypts the file using the RSA key.
+  # Encrypts the file using the given RSA key.
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {Ronin::Support::Crypto.rsa_encrypt}.
@@ -643,7 +643,7 @@ class File
   end
 
   #
-  # Decrypts the file using the RSA key.
+  # Decrypts the file using the given RSA key.
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {Ronin::Support::Crypto.rsa_decrypt}.

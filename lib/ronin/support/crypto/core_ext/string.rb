@@ -429,7 +429,7 @@ class String
   end
 
   #
-  # Encrypts the String using the RSA key.
+  # Encrypts the String using the given RSA key.
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {Ronin::Support::Crypto.rsa_encrypt}.
@@ -460,7 +460,7 @@ class String
   end
 
   #
-  # Decrypts the String using the RSA key.
+  # Decrypts the String using the given RSA key.
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {Ronin::Support::Crypto.rsa_decrypt}.
