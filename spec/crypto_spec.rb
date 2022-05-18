@@ -350,18 +350,18 @@ describe Crypto do
 
   let(:dir)  { File.join(__dir__,'crypto','key') }
 
+  let(:rsa_pem_file) { File.join(dir,'rsa.pem') }
+  let(:rsa_pem)      { File.read(rsa_pem_file) }
+
+  let(:rsa_key_password)       { "secret" }
+  let(:rsa_encrypted_pem_file) { File.join(dir,"rsa_encrypted.pem") }
+  let(:rsa_encrypted_pem)      { File.read(rsa_encrypted_pem_file) }
+
   describe ".rsa_encrypt" do
-    let(:pem_file) { File.join(dir,'rsa.pem') }
-    let(:pem)      { File.read(pem_file) }
-
-    let(:key_password)       { "secret" }
-    let(:encrypted_pem_file) { File.join(dir,"rsa_encrypted.pem") }
-    let(:encrypted_pem)      { File.read(encrypted_pem_file) }
-
-    let(:clear_text)  { "the quick brown fox" }
+    let(:clear_text) { "the quick brown fox" }
 
     context "when the key: value is a #{described_class::Key::RSA} object" do
-      let(:key)     { described_class::Key::RSA.load_file(pem_file) }
+      let(:key)     { described_class::Key::RSA.load_file(rsa_pem_file) }
       let(:new_key) { key }
 
       it "must encrypt the data using the #{described_class::Key::RSA} object" do
@@ -372,8 +372,8 @@ describe Crypto do
     end
 
     context "when the key: value is a OpenSSL::PKey::RSA object" do
-      let(:key)     { OpenSSL::PKey::RSA.new(pem)         }
-      let(:new_key) { described_class::Key::RSA.load(pem) }
+      let(:key)     { OpenSSL::PKey::RSA.new(rsa_pem)         }
+      let(:new_key) { described_class::Key::RSA.load(rsa_pem) }
 
       it "must convert the key into and use #{described_class::Key::RSA} to encrypt the data" do
         cipher_text = subject.rsa_encrypt(clear_text, key: key)
@@ -383,8 +383,8 @@ describe Crypto do
     end
 
     context "when the key: value is a String" do
-      let(:key)     { pem }
-      let(:new_key) { described_class::Key::RSA.load(pem) }
+      let(:key)     { rsa_pem }
+      let(:new_key) { described_class::Key::RSA.load(rsa_pem) }
 
       it "must parse the key String and use it to encrypt the data" do
         cipher_text = subject.rsa_encrypt(clear_text, key: key)
@@ -393,13 +393,13 @@ describe Crypto do
       end
 
       context "and when the key_password: keyword argument is also given" do
-        let(:key) { encrypted_pem }
+        let(:key) { rsa_encrypted_pem }
         let(:new_key) do
-          described_class::Key::RSA.load(pem, password: key_password)
+          described_class::Key::RSA.load(rsa_pem, password: rsa_key_password)
         end
 
         it "must decrypt the encrypted key using the key_password: argument" do
-          cipher_text = subject.rsa_encrypt(clear_text, key: key, key_password: key_password)
+          cipher_text = subject.rsa_encrypt(clear_text, key: key, key_password: rsa_key_password)
 
           expect(new_key.private_decrypt(cipher_text, padding: :pkcs1)).to eq(clear_text)
         end
@@ -407,8 +407,8 @@ describe Crypto do
     end
 
     context "when given the key_file: keyword argument" do
-      let(:key_file) { pem_file }
-      let(:new_key)      { described_class::Key::RSA.load_file(key_file) }
+      let(:key_file) { rsa_pem_file }
+      let(:new_key)  { described_class::Key::RSA.load_file(key_file) }
 
       it "must read the key at the given path and encrypt the data" do
         cipher_text = subject.rsa_encrypt(clear_text, key_file: key_file)
@@ -417,13 +417,13 @@ describe Crypto do
       end
 
       context "and when the key_password: keyword argument is also given" do
-        let(:key_file) { encrypted_pem_file }
+        let(:key_file) { rsa_encrypted_pem_file }
         let(:new_key) do
-          described_class::Key::RSA.load_file(key_file, password: key_password)
+          described_class::Key::RSA.load_file(key_file, password: rsa_key_password)
         end
 
         it "must decrypt the encrypted key using the key_password: argument" do
-          cipher_text = subject.rsa_encrypt(clear_text, key_file: key_file, key_password: key_password)
+          cipher_text = subject.rsa_encrypt(clear_text, key_file: key_file, key_password: rsa_key_password)
 
           expect(new_key.private_decrypt(cipher_text, padding: :pkcs1)).to eq(clear_text)
         end
@@ -431,7 +431,7 @@ describe Crypto do
     end
 
     context "when the padding: keyword argument is given" do
-      let(:key)     { described_class::Key::RSA.load_file(pem_file) }
+      let(:key)     { described_class::Key::RSA.load_file(rsa_pem_file) }
       let(:new_key) { key }
 
       let(:padding) { :pkcs1_oaep }
@@ -450,15 +450,8 @@ describe Crypto do
       new_key.public_encrypt(clear_text)
     end
 
-    let(:pem_file) { File.join(dir,'rsa.pem') }
-    let(:pem)      { File.read(pem_file) }
-
-    let(:key_password)       { "secret" }
-    let(:encrypted_pem_file) { File.join(dir,"rsa_encrypted.pem") }
-    let(:encrypted_pem)      { File.read(encrypted_pem_file) }
-
     context "when the key: value is a #{described_class::Key::RSA} object" do
-      let(:key)     { described_class::Key::RSA.load_file(pem_file) }
+      let(:key)     { described_class::Key::RSA.load_file(rsa_pem_file) }
       let(:new_key) { key }
 
       it "must decrypt the data using the #{described_class::Key::RSA} object" do
@@ -467,8 +460,8 @@ describe Crypto do
     end
 
     context "when the key: value is a OpenSSL::PKey::RSA object" do
-      let(:key)     { OpenSSL::PKey::RSA.new(pem)         }
-      let(:new_key) { described_class::Key::RSA.load(pem) }
+      let(:key)     { OpenSSL::PKey::RSA.new(rsa_pem)         }
+      let(:new_key) { described_class::Key::RSA.load(rsa_pem) }
 
       it "must convert the key into and use #{described_class::Key::RSA} to encrypt the data" do
         expect(subject.rsa_decrypt(cipher_text, key: key)).to eq(clear_text)
@@ -476,27 +469,27 @@ describe Crypto do
     end
 
     context "when the key: value is a String" do
-      let(:key)     { pem }
-      let(:new_key) { described_class::Key::RSA.load(pem) }
+      let(:key)     { rsa_pem }
+      let(:new_key) { described_class::Key::RSA.load(rsa_pem) }
 
       it "must parse the key String and use it to encrypt the data" do
         expect(subject.rsa_decrypt(cipher_text, key: key)).to eq(clear_text)
       end
 
       context "and when the key_password: keyword argument is also given" do
-        let(:key) { encrypted_pem }
+        let(:key) { rsa_encrypted_pem }
         let(:new_key) do
-          described_class::Key::RSA.load(pem, password: key_password)
+          described_class::Key::RSA.load(rsa_pem, password: rsa_key_password)
         end
 
         it "must decrypt the encrypted key using the key_password: argument" do
-          expect(subject.rsa_decrypt(cipher_text, key: key, key_password: key_password)).to eq(clear_text)
+          expect(subject.rsa_decrypt(cipher_text, key: key, key_password: rsa_key_password)).to eq(clear_text)
         end
       end
     end
 
     context "when given the key_file: keyword argument" do
-      let(:key_file) { pem_file }
+      let(:key_file) { rsa_pem_file }
       let(:new_key)  { described_class::Key::RSA.load_file(key_file) }
 
       it "must read the key at the given path and encrypt the data" do
@@ -504,19 +497,19 @@ describe Crypto do
       end
 
       context "and when the key_password: keyword argument is also given" do
-        let(:key_file) { encrypted_pem_file }
+        let(:key_file) { rsa_encrypted_pem_file }
         let(:new_key) do
-          described_class::Key::RSA.load_file(key_file, password: key_password)
+          described_class::Key::RSA.load_file(key_file, password: rsa_key_password)
         end
 
         it "must decrypt the encrypted key using the key_password: argument" do
-          expect(subject.rsa_decrypt(cipher_text, key_file: key_file, key_password: key_password)).to eq(clear_text)
+          expect(subject.rsa_decrypt(cipher_text, key_file: key_file, key_password: rsa_key_password)).to eq(clear_text)
         end
       end
     end
 
     context "when the padding: keyword argument is given" do
-      let(:key)     { described_class::Key::RSA.load_file(pem_file) }
+      let(:key)     { described_class::Key::RSA.load_file(rsa_pem_file) }
       let(:new_key) { key }
 
       let(:padding)     { :pkcs1_oaep }
