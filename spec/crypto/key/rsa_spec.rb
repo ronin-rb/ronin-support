@@ -55,7 +55,7 @@ describe Ronin::Support::Crypto::Key::RSA do
     end
   end
 
-  describe "#encrypt" do
+  describe "#public_encrypt" do
     let(:clear_text) { "the quick brown fox" }
 
     it "must encrypt the data using the public key and PKCS1 padding" do
