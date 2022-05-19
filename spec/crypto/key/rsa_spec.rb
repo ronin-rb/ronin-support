@@ -10,14 +10,14 @@ describe Ronin::Support::Crypto::Key::RSA do
   describe ".random" do
     subject { described_class }
 
-    it "must call .generate with a key size of 1024" do
-      expect(subject).to receive(:generate).with(1024).and_return(pem)
+    it "must call .generate with a key size of 4096" do
+      expect(subject).to receive(:generate).with(4096).and_return(pem)
 
       expect(subject.random).to be_kind_of(subject)
     end
 
     context "when given a key size" do
-      let(:key_size) { 4096 }
+      let(:key_size) { 2048 }
 
       it "must call .generate with the given key size" do
         expect(subject).to receive(:generate).with(key_size).and_return(pem)
