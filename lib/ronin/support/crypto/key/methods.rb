@@ -108,6 +108,9 @@ module Ronin
           # @param [String, nil] password
           #   Optional password to use to encrypt the key file.
           #
+          # @raise [ArgumentError]
+          #   The `endcoding:` value must be either `:pem` or `:der`.
+          #
           def save(path, encoding: :pem, cipher: 'aes-256-cbc', password: nil)
             encoding_method = case encoding
                               when :pem then method(:to_pem)
