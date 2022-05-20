@@ -34,8 +34,8 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
-  describe "OCTET" do
-    subject { described_class::OCTET }
+  describe "DECIMAL_OCTET" do
+    subject { described_class::DECIMAL_OCTET }
 
     it "must match 0 - 255" do
       expect((0..255).all? { |n|

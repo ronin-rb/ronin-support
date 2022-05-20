@@ -26,7 +26,6 @@ module Ronin
       # @since 0.3.0
       #
       module Patterns
-
         # Regular expression for finding words
         #
         # @since 0.5.0
@@ -35,13 +34,13 @@ module Ronin
         # Regular expression for finding a decimal octet (0 - 255)
         #
         # @since 0.4.0
-        OCTET = /25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9]/
+        DECIMAL_OCTET = /25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9]/
 
         # Regular expression for finding MAC addresses in text
         MAC = /[0-9a-fA-F]{2}(?::[0-9a-fA-F]{2}){5}/
 
         # A regular expression for matching IPv4 Addresses.
-        IPv4 = /#{OCTET}(?:\.#{OCTET}){3}(?:\/\d{1,2})?/
+        IPv4 = /#{DECIMAL_OCTET}(?:\.#{DECIMAL_OCTET}){3}(?:\/\d{1,2})?/
 
         # A regular expression for matching IPv6 Addresses.
         IPv6 = Regexp.union(
