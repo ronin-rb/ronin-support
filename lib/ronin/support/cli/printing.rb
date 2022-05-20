@@ -68,7 +68,7 @@ module Ronin
         #
         # @example
         #   print_info "Connecting ..."
-        #   # [=] Connecting ...
+        #   # [*] Connecting ...
         #
         # @note
         #   Will return `false` is quiet printing is enabled.
@@ -76,7 +76,7 @@ module Ronin
         # @api public
         #
         def print_info(message)
-          $stdout.puts "#{ANSI.bold(ANSI.white('[=]'))} #{message}#{ANSI.reset}"
+          $stdout.puts "#{ANSI.bold(ANSI.white('[*]'))} #{message}#{ANSI.reset}"
           return true
         end
 
@@ -119,8 +119,8 @@ module Ronin
         #   Specifies whether the messages were successfully printed.
         #
         # @example
-        #   print_warning "Detecting a restricted character in the buffer"
-        #   # [*] Detecting a restricted character in the buffer
+        #   print_warning "Rate limit exceeded, slowing down scanning."
+        #   # [~] Rate limit exceeded, slowing down scanning.
         #
         # @note
         #   Will return `false` if quiet printing is enabled.
@@ -128,7 +128,7 @@ module Ronin
         # @api public
         #
         def print_warning(message)
-          $stdout.puts "#{ANSI.bold(ANSI.yellow('[*]'))} #{message}#{ANSI.reset}"
+          $stdout.puts "#{ANSI.bold(ANSI.yellow('[~]'))} #{message}#{ANSI.reset}"
           return true
         end
 
