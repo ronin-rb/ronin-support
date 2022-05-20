@@ -185,7 +185,7 @@ module Ronin
         #   cert = Ronin::Support::Crypto::Cert.generate(
         #     key: key,
         #     subject: {
-        #       common_name: 'localhost',
+        #       common_name:         'localhost',
         #       organization:        'Test Co..',
         #       organizational_unit: 'Test Dept',
         #       locality:            'Test City',
