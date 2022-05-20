@@ -198,18 +198,7 @@ describe Ronin::Support::Crypto::Cert do
     end
 
     subject do
-      Ronin::Support::Crypto::Cert.generate(
-        key: rsa_key,
-        subject: {
-          common_name:         common_name,
-          organization:        organization,
-          organizational_unit: organizational_unit,
-          locality:            locality,
-          state:               state,
-          country:             country,
-        },
-        extensions: extensions
-      )
+      Ronin::Support::Crypto::Cert.generate(key: rsa_key)
     end
 
     it "must generate a new #{described_class}" do
@@ -271,36 +260,66 @@ describe Ronin::Support::Crypto::Cert do
         expect(subject.serial).to eq(serial)
       end
     end
+    
+    it "must leave #subject blank by default" do
+      expect(subject.subject.to_s).to eq("")
+    end
 
-    it "must build a #subject name using the given Hash of values" do
-      expect(subject.subject).to be_kind_of(OpenSSL::X509::Name)
-      expect(subject.subject.to_s).to eq(
-        "/CN=#{common_name}/OU=#{organizational_unit}/O=#{organization}/L=#{locality}/ST=#{state}/C=#{country}"
-      )
+    context "when the subject: keyword argument is given" do
+      subject do
+        Ronin::Support::Crypto::Cert.generate(
+          key:    rsa_key,
+          subject: {
+            common_name:         common_name,
+            organization:        organization,
+            organizational_unit: organizational_unit,
+            locality:            locality,
+            state:               state,
+            country:             country,
+          },
+          extensions: extensions
+        )
+      end
+
+      it "must build a #subject name using the given Hash of values" do
+        expect(subject.subject).to be_kind_of(OpenSSL::X509::Name)
+        expect(subject.subject.to_s).to eq(
+          "/CN=#{common_name}/OU=#{organizational_unit}/O=#{organization}/L=#{locality}/ST=#{state}/C=#{country}"
+        )
+      end
     end
 
     it "must default #issuer to #subject" do
       expect(subject.issuer).to eq(subject.subject)
     end
 
-    it "must populate #extensions using the given Hash of extensions" do
-      extension = subject.find_extension('subjectAltName')
-
-      expect(extension).to_not be(nil)
-      expect(extension.value).to eq(subject_alt_name)
-    end
-
-    context "when an extension is an Array of the value and critical" do
-      let(:extension_name) { 'basicConstraints' }
-      let(:extensions) do
-        {extension_name => ['CA:FALSE', true]}
+    context "when the extensions: keyword is given" do
+      subject do
+        Ronin::Support::Crypto::Cert.generate(
+          key:        rsa_key,
+          extensions: extensions
+        )
       end
 
-      it "must set the #critical? of the new extension" do
-        extension = subject.find_extension(extension_name)
+      it "must populate #extensions using the given Hash of extensions" do
+        extension = subject.find_extension('subjectAltName')
 
         expect(extension).to_not be(nil)
-        expect(extension.critical?).to be(true)
+        expect(extension.value).to eq(subject_alt_name)
+      end
+
+      context "when an extension is an Array of the value and critical" do
+        let(:extension_name) { 'basicConstraints' }
+        let(:extensions) do
+          {extension_name => ['CA:FALSE', true]}
+        end
+
+        it "must set the #critical? of the new extension" do
+          extension = subject.find_extension(extension_name)
+
+          expect(extension).to_not be(nil)
+          expect(extension.critical?).to be(true)
+        end
       end
     end
 

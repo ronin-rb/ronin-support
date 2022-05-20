@@ -150,7 +150,7 @@ module Ronin
         #   The version of the encoded certificate.
         #   See [RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280).
         #
-        # @param [String, Hash{Symbol => String,nil}, Name] subject
+        # @param [String, Hash{Symbol => String,nil}, Name, nil] subject
         #   The subject field for the certificate. If a `Hash` is given it will
         #   be passed to {Name.build}.
         #
@@ -238,7 +238,7 @@ module Ronin
                           serial:     0,
                           not_before: Time.now,
                           not_after:  not_before+ONE_YEAR,
-                          subject:    ,
+                          subject:    nil,
                           extensions: nil,
                           # signing arguments
                           key: ,
