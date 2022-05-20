@@ -142,8 +142,7 @@ describe Ronin::Support::Crypto::Cert do
     end
 
     it "must return the last certificate in the string" do
-      cert_chain = OpenSSL::X509::Certificate.load(string)
-      last_cert  = cert_chain.last
+      last_cert = OpenSSL::X509::Certificate.new(string)
 
       expect(subject.parse(string).to_pem).to eq(last_cert.to_pem)
     end
@@ -159,8 +158,7 @@ describe Ronin::Support::Crypto::Cert do
     end
 
     it "must return the last certificate in the file" do
-      cert_chain = OpenSSL::X509::Certificate.load(buffer)
-      last_cert  = cert_chain.last
+      last_cert = OpenSSL::X509::Certificate.new(buffer)
 
       expect(subject.load(buffer).to_pem).to eq(last_cert.to_pem)
     end
@@ -174,8 +172,7 @@ describe Ronin::Support::Crypto::Cert do
     end
 
     it "must return the last certificate in the file" do
-      cert_chain = OpenSSL::X509::Certificate.load_file(cert_path)
-      last_cert  = cert_chain.last
+      last_cert = OpenSSL::X509::Certificate.new(File.read(cert_path))
 
       expect(subject.load_file(cert_path).to_pem).to eq(last_cert.to_pem)
     end

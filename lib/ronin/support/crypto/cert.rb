@@ -115,16 +115,29 @@ module Ronin
         end
 
         #
-        # Parses the PEM encoded certificate(s).
+        # Parses the PEM encoded certificate.
         #
         # @param [String] buffer
-        #   The String containing the certificate(s).
+        #   The String containing the certificate.
         #
         # @return [Cert]
-        #   The last parsed certificate (aka the leaf certificate).
+        #   The parsed certificate.
         #
         def self.load(buffer)
-          new(super(buffer).last)
+          new(buffer)
+        end
+
+        #
+        # Loads the certificate from the file.
+        #
+        # @param [String] path
+        #   The path to the file.
+        #
+        # @return [Cert]
+        #   The loaded certificate.
+        #
+        def self.load_file(path)
+          new(File.read(path))
         end
 
         # One year in seconds
