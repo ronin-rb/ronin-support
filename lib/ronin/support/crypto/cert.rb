@@ -167,6 +167,23 @@ module Ronin
         # @return [Cert]
         #   The newly generated and signed certificate.
         #
+        # @example Generate a self-signed certificate for `localhost`:
+        #   key  = Ronin::Support::Crypto::Key::RSA.random
+        #   cert = Ronin::Support::Crypto::Cert.generate(
+        #     key: key,
+        #     subject: {
+        #       common_name: 'localhost',
+        #       organization:        'Test Co..',
+        #       organizational_unit: 'Test Dept',
+        #       locality:            'Test City',
+        #       state:               'XX',
+        #       country:             'US'
+        #     },
+        #     extensions: {
+        #       'subjectAltName' => 'DNS: localhost, IP: 127.0.0.1'
+        #     }
+        #   )
+        #
         def self.generate(version:    2,
                           serial:     0,
                           not_before: Time.now,
