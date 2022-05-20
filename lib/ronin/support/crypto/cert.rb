@@ -184,6 +184,25 @@ module Ronin
         #     }
         #   )
         #
+        # @example Generate a CA certificate:
+        #   ca_key  = Ronin::Support::Crypto::Key::RSA.random
+        #   ca_cert = Ronin::Support::Crypto::Cert.generate(
+        #     key: ca_key,
+        #     subject: {
+        #       common_name:         'Test CA',
+        #       organization:        'Test CA, Inc..',
+        #       organizational_unit: 'Test Dept',
+        #       locality:            'Test City',
+        #       state:               'XX',
+        #       country:             'US'
+        #     },
+        #     extensions: {
+        #       'basicConstraints' => ['CA:TRUE', true]
+        #     }
+        #   )
+        #
+        # @example Generate a sub-certificate from a CA certificate:
+        #
         def self.generate(version:    2,
                           serial:     0,
                           not_before: Time.now,
