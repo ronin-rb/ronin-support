@@ -70,9 +70,6 @@ module Ronin
         #   print_info "Connecting ..."
         #   # [*] Connecting ...
         #
-        # @note
-        #   Will return `false` is quiet printing is enabled.
-        #
         # @api public
         #
         def print_info(message)
@@ -121,9 +118,6 @@ module Ronin
         # @example
         #   print_warning "Rate limit exceeded, slowing down scanning."
         #   # [~] Rate limit exceeded, slowing down scanning.
-        #
-        # @note
-        #   Will return `false` if quiet printing is enabled.
         #
         # @api public
         #
