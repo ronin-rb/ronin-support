@@ -90,6 +90,16 @@ shared_examples_for "Ronin::Support::Crypto::Key::Methods examples" do
       end
     end
 
+    context "when the encoding: keyword argument is neither :pem or :der" do
+      let(:encoding) { :foo }
+
+      it do
+        expect {
+          subject.save(save_path, encoding: encoding)
+        }.to raise_error(ArgumentError,"encoding: keyword argument (#{encoding.inspect}) must be either :pem or :der")
+      end
+    end
+
     context "when the password: keyword argument is given" do
       let(:password) { 'secret' }
 
