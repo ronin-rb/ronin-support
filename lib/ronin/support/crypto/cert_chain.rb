@@ -59,8 +59,17 @@ module Ronin
         #   The parsed certificate chain.
         #
         def self.parse(string)
-          certs = OpenSSL::X509::Certificate.load(string)
-          certs.map! { |cert| Cert.new(cert) }
+          cert_buffer = String.new
+          certs = []
+
+          string.each_line do |line|
+            cert_buffer << line
+
+            if line.chomp == '-----END CERTIFICATE-----'
+              certs << Cert.parse(cert_buffer)
+              cert_buffer.clear
+            end
+          end
 
           return new(certs)
         end
