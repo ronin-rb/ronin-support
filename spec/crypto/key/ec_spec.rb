@@ -2,7 +2,9 @@ require 'spec_helper'
 require 'ronin/support/crypto/key/ec'
 
 describe Ronin::Support::Crypto::Key::EC do
-  let(:path) { File.join(__dir__,'ec.pem') }
+  let(:fixtures_dir) { File.join(__dir__,'..','fixtures') }
+
+  let(:path) { File.join(fixtures_dir,'ec.pem') }
   let(:pem)  { File.read(path) }
 
   describe ".supported_curves" do

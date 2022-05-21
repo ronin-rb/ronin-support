@@ -2,15 +2,19 @@ require 'rspec'
 require 'tempfile'
 
 shared_examples_for "Ronin::Support::Crypto::Key::Methods examples" do
+  let(:fixtures_dir) { File.join(__dir__,'..','fixtures') }
+
   let(:key_type) { described_class.name.split('::').last.downcase }
-  let(:pem_file) { File.join(__dir__,"#{key_type}.pem") }
-  let(:der_file) { File.join(__dir__,"#{key_type}.der") }
+  let(:pem_file) { File.join(fixtures_dir,"#{key_type}.pem") }
+  let(:der_file) { File.join(fixtures_dir,"#{key_type}.der") }
   let(:pem)      { File.read(pem_file) } 
   let(:der)      { File.binread(der_file) }
 
   let(:password) { "secret" }
-  let(:encrypted_pem_file) { File.join(__dir__,"#{key_type}_encrypted.pem") }
-  let(:encrypted_pem)      { File.read(encrypted_pem_file) }
+  let(:encrypted_pem_file) do
+    File.join(fixtures_dir,"#{key_type}_encrypted.pem")
+  end
+  let(:encrypted_pem) { File.read(encrypted_pem_file) }
 
   describe ".parse" do
     subject { described_class }

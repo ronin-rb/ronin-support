@@ -4,6 +4,8 @@ require 'ronin/support/crypto/cert'
 require 'tempfile'
 
 describe Ronin::Support::Crypto::Cert do
+  let(:fixtures_dir) { File.join(__dir__,'fixtures') }
+
   describe described_class::Name do
     subject { described_class }
 
@@ -130,7 +132,7 @@ describe Ronin::Support::Crypto::Cert do
     end
   end
 
-  let(:cert_path) { File.join(__dir__,"cert.crt") }
+  let(:cert_path) { File.join(fixtures_dir,"cert.crt") }
 
   describe ".parse" do
     subject { described_class }
@@ -178,7 +180,7 @@ describe Ronin::Support::Crypto::Cert do
     end
   end
 
-  let(:rsa_key_path) { File.join(__dir__,'key',"rsa.pem") }
+  let(:rsa_key_path) { File.join(fixtures_dir,"rsa.pem") }
   let(:rsa_key) do
     Ronin::Support::Crypto::Key::RSA.load_file(rsa_key_path)
   end

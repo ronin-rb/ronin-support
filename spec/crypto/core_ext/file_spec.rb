@@ -6,9 +6,12 @@ require 'ronin/support/crypto/core_ext/file'
 require 'tempfile'
 
 describe File do
+  let(:fixtures_dir) { File.join(__dir__,'..','fixtures') }
+
+  let(:tempfile)     { Tempfile.new('ronin-support') }
+  let(:path)         { tempfile.path }
+
   let(:clear_text) { 'the quick brown fox' }
-  let(:tempfile)   { Tempfile.new('ronin-support') }
-  let(:path)       { tempfile.path }
 
   before { File.write(path,clear_text) }
 
@@ -305,13 +308,11 @@ describe File do
     end
   end
 
-  let(:dir)  { File.join(__dir__,'..','key') }
-
-  let(:rsa_pem_file) { File.join(dir,'rsa.pem') }
+  let(:rsa_pem_file) { File.join(fixtures_dir,'rsa.pem') }
   let(:rsa_pem)      { File.read(rsa_pem_file) }
 
   let(:rsa_key_password)       { "secret" }
-  let(:rsa_encrypted_pem_file) { File.join(dir,"rsa_encrypted.pem") }
+  let(:rsa_encrypted_pem_file) { File.join(fixtures_dir,"rsa_encrypted.pem") }
   let(:rsa_encrypted_pem)      { File.read(rsa_encrypted_pem_file) }
 
   describe ".rsa_encrypt" do

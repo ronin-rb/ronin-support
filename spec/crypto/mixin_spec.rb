@@ -8,6 +8,8 @@ describe Ronin::Support::Crypto::Mixin do
     obj
   end
 
+  let(:fixtures_dir) { File.join(__dir__,'fixtures') }
+
   let(:clear_text) { 'the quick brown fox' }
 
   describe "#crypto_digest" do
@@ -266,13 +268,11 @@ describe Ronin::Support::Crypto::Mixin do
     end
   end
 
-  let(:dir)  { File.join(__dir__,'key') }
-
-  let(:rsa_pem_file) { File.join(dir,'rsa.pem') }
+  let(:rsa_pem_file) { File.join(fixtures_dir,'rsa.pem') }
   let(:rsa_pem)      { File.read(rsa_pem_file) }
 
   let(:rsa_key_password)       { "secret" }
-  let(:rsa_encrypted_pem_file) { File.join(dir,"rsa_encrypted.pem") }
+  let(:rsa_encrypted_pem_file) { File.join(fixtures_dir,"rsa_encrypted.pem") }
   let(:rsa_encrypted_pem)      { File.read(rsa_encrypted_pem_file) }
 
   describe "#crypto_rsa_encrypt" do

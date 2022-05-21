@@ -2,8 +2,12 @@ require 'spec_helper'
 require 'ronin/support/crypto/cert_chain'
 
 describe Ronin::Support::Crypto::CertChain do
-  let(:cert_chain_path) { File.join(__dir__,'cert_chain.crt') }
-  let(:cert_chain) { OpenSSL::X509::Certificate.load_file(cert_chain_path) }
+  let(:fixtures_dir) { File.join(__dir__,'fixtures') }
+
+  let(:cert_chain_path) { File.join(fixtures_dir,'cert_chain.crt') }
+  let(:cert_chain) do
+    OpenSSL::X509::Certificate.load_file(cert_chain_path)
+  end
 
   it { expect(described_class).to include(Enumerable) }
 

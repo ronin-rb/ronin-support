@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'ronin/support/crypto'
 
 describe Crypto do
+  let(:fixtures_dir) { File.join(__dir__,'crypto','fixtures') }
+
   let(:clear_text) { 'the quick brown fox' }
 
   describe ".digest" do
@@ -267,12 +269,11 @@ describe Crypto do
   end
 
   describe ".rsa_key" do
-    let(:dir)  { File.join(__dir__,'crypto','key') }
-    let(:path) { File.join(dir,'rsa.pem') }
+    let(:path) { File.join(fixtures_dir,'rsa.pem') }
     let(:pem)  { File.read(path) }
 
-    let(:password) { "secret" }
-    let(:encrypted_pem_file) { File.join(dir,"rsa_encrypted.pem") }
+    let(:password)           { "secret" }
+    let(:encrypted_pem_file) { File.join(fixtures_dir,"rsa_encrypted.pem") }
     let(:encrypted_pem)      { File.read(encrypted_pem_file) }
 
     context "when given a #{described_class::Key::RSA} object" do
@@ -348,13 +349,11 @@ describe Crypto do
     end
   end
 
-  let(:dir)  { File.join(__dir__,'crypto','key') }
-
-  let(:rsa_pem_file) { File.join(dir,'rsa.pem') }
+  let(:rsa_pem_file) { File.join(fixtures_dir,'rsa.pem') }
   let(:rsa_pem)      { File.read(rsa_pem_file) }
 
   let(:rsa_key_password)       { "secret" }
-  let(:rsa_encrypted_pem_file) { File.join(dir,"rsa_encrypted.pem") }
+  let(:rsa_encrypted_pem_file) { File.join(fixtures_dir,"rsa_encrypted.pem") }
   let(:rsa_encrypted_pem)      { File.read(rsa_encrypted_pem_file) }
 
   describe ".rsa_encrypt" do

@@ -2,7 +2,9 @@ require 'spec_helper'
 require 'ronin/support/crypto/key/dh'
 
 describe Ronin::Support::Crypto::Key::DH do
-  let(:path) { File.join(__dir__,'dh.key') }
+  let(:fixtures_dir) { File.join(__dir__,'..','fixtures') }
+
+  let(:path) { File.join(fixtures_dir,'dh.key') }
   let(:der)  { File.binread(path) }
 
   if RUBY_ENGINE == 'jruby'
