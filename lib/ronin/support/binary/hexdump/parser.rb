@@ -130,10 +130,13 @@ module Ronin
           #   The expected format of the hexdump. Must be either `:od` or
           #   `:hexdump`.
           #
-          # @param [Symbol] type
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments.
+          #
+          # @option kwargs [Symbol] :type
           #   Denotes the encoding used for the bytes within the hexdump.
           #   Must be one of the following:
-          #   * `:byte`
+          #   * `:byte` (default for `format: :hexdump`)
           #   * `:char`
           #   * `:uint8`
           #   * `:uint16`
@@ -158,7 +161,7 @@ module Ronin
           #   * `:double_le`
           #   * `:float_be`
           #   * `:double_be`
-          #   * `:uint16_le`
+          #   * `:uint16_le` (default for `format: :od`)
           #   * `:uint32_le`
           #   * `:uint64_le`
           #   * `:int16_le`
@@ -187,33 +190,26 @@ module Ronin
           #   * `:long_be`
           #   * `:long_long_be`
           #
-          # @param [2, 8, 10, 16, nil] address_base
+          # @option kwargs [2, 8, 10, 16, nil] :address_base
           #   The numerical base that the offset addresses are encoded in.
+          #   Defaults to 16 when `format: :hexdump` and 8 when `format: :od`.
           #
-          # @param [2, 8, 10, 16, nil] base
+          # @option kwargs [2, 8, 10, 16, nil] :base
           #   The numerical base that the hexdumped numbers are encoded in.
+          #   Defaults to 16 when `format: :hexdump` and 8 when `format: :od`.
           #
-          # @param [Boolean] named_chars
+          # @option kwargs [Boolean] :named_chars
           #   Indicates to parse `od`-style named characters (ex: `nul`,
-          #   `del`, etc).
+          #   `del`, etc). Only recognized when `format: :od` is also given.
           #
           # @raise [ArgumentError]
           #   Unsupported `type:` value, the `type:` value was not a scalar
           #   type, or the `format:` was not `:hexdump` or `:od`.
           #
-          def initialize(format:       :hexdump,
-                         type:         :byte,
-                         address_base: nil,
-                         base:         nil,
-                         named_chars:  nil)
-            @type = TYPES[type]
-
-            @base         = base
-            @address_base = address_base
-
+          def initialize(format: :hexdump, **kwargs)
             case format
-            when :od      then initialize_od(named_chars: named_chars)
-            when :hexdump then initialize_hexdump
+            when :od      then initialize_od(**kwargs)
+            when :hexdump then initialize_hexdump(**kwargs)
             else
               raise(ArgumentError,"format: must be either :hexdump or :od, was #{format.inspect}")
             end
@@ -226,7 +222,7 @@ module Ronin
             when CTypes::ScalarType
               @parse_method = method(:parse_int)
             else
-              raise(ArgumentError,"only scalar types are support: #{type.inspect}")
+              raise(ArgumentError,"only scalar types are support: #{kwargs[:type].inspect}")
             end
           end
 
@@ -235,13 +231,18 @@ module Ronin
           #
           # Initializes instance variables for the `od` hexdump format.
           #
-          def initialize_od(named_chars: nil)
+          def initialize_od(type: :uint16_le,
+                            base: 8,
+                            address_base: 8,
+                            named_chars: nil)
             @format = :od
 
-            @base         ||= 8
-            @address_base ||= 8
+            @type           = TYPES[type]
+            @base           = base
+            @address_base   = address_base
 
-            if @type.kind_of?(CTypes::CharType)
+            case @type
+            when CTypes::CharType
               @chars = if named_chars then NAMED_CHARS
                        else                CHARS
                        end
@@ -251,13 +252,15 @@ module Ronin
           #
           # Initializes instance variables for the `hexdump` hexdump format.
           #
-          def initialize_hexdump
+          def initialize_hexdump(type: :byte, base: 16, address_base: 16)
             @format = :hexdump
 
-            @base         ||= 16
-            @address_base ||= 16
+            @type           = TYPES[type]
+            @base           = base
+            @address_base   = address_base
 
-            if @type.kind_of?(CTypes::CharType)
+            case @type
+            when CTypes::CharType
               @base  = 8
               @chars = CHARS 
             end
