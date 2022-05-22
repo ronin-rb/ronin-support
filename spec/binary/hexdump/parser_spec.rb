@@ -726,6 +726,22 @@ describe Binary::Hexdump::Parser do
     end
   end
 
+  describe "#unpack" do
+    let(:ascii)   { read_binary_file('ascii.bin')  }
+    let(:hexdump) { read_file("od_hex_#{type_name}.txt") }
+
+    let(:type_name) { :uint32     }
+    let(:type)      { Ronin::Support::Binary::CTypes[type_name] }
+    let(:count)     { ascii.size / type.size }
+    let(:values)    { ascii.unpack(type.pack_string * count) }
+
+    subject { described_class.new(type: type_name) }
+
+    it "must return the unpack values from the parsed hexdumped data" do
+      expect(subject.unpack(hexdump)).to eq(values)
+    end
+  end
+
   describe "#unhexdump" do
     let(:ascii)    { read_binary_file('ascii.bin')  }
     let(:raw_data) { ascii }

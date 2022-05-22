@@ -232,14 +232,14 @@ module Ronin
           # Initializes instance variables for the `od` hexdump format.
           #
           def initialize_od(type: :uint16_le,
-                            base: 8,
-                            address_base: 8,
+                            base: nil,
+                            address_base: nil,
                             named_chars: nil)
             @format = :od
 
             @type           = TYPES[type]
-            @base           = base
-            @address_base   = address_base
+            @base           = base         || 8
+            @address_base   = address_base || 8
 
             case @type
             when CTypes::CharType
@@ -252,12 +252,12 @@ module Ronin
           #
           # Initializes instance variables for the `hexdump` hexdump format.
           #
-          def initialize_hexdump(type: :byte, base: 16, address_base: 16)
+          def initialize_hexdump(type: :byte, base: nil, address_base: nil)
             @format = :hexdump
 
             @type           = TYPES[type]
-            @base           = base
-            @address_base   = address_base
+            @base           = base         || 16
+            @address_base   = address_base || 16
 
             case @type
             when CTypes::CharType
@@ -334,6 +334,24 @@ module Ronin
 
             # return the last address as the length
             return previous_address - first_address
+          end
+
+          #
+          # Unhexdumps a hexdump and returns the unpacked values.
+          #
+          # @return [Array<Integer>, Array<String>, Array<Float>]
+          #   The Array of unpacked values from the hexdump.
+          #
+          # @since 1.0.0
+          #
+          def unpack(hexdump)
+            values = []
+
+            parse(hexdump) do |address,row|
+              values.concat(row)
+            end
+
+            return values
           end
 
           #
