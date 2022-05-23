@@ -27,7 +27,7 @@ class String
   # @param [Symbol, nil] mode
   #   The base64 mode to use. May be either:
   #
-  #   * `:normal`
+  #   * `nil`
   #   * `:strict`
   #   * `:url` / `:urlsafe`
   #
