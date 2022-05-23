@@ -22,7 +22,7 @@ require 'ronin/support/binary/core_ext/integer'
 class Integer
 
   #
-  # Hex-encodes the Integer.
+  # Converts the integer into hex format.
   #
   # @return [String]
   #   The hex encoded version of the Integer.
@@ -37,12 +37,16 @@ class Integer
     "%.2x" % self
   end
 
+  alias to_hex hex_encode
+
+  #
+  # Converts the integer into an escaped hex character.
   #
   # @return [String]
   #   The hex escaped version of the Integer.
   #
   # @example
-  #   42.hex_escape
+  #   42.hex_char
   #   # => "\\x2a"
   #
   # @api public
@@ -50,6 +54,8 @@ class Integer
   def hex_escape
     "\\x%.2x" % self
   end
+
+  alias hex_char hex_escape
 
   #
   # Encodes the number as a `0xXX` hex integer.
