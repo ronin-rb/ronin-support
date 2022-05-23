@@ -3,8 +3,6 @@
 require 'spec_helper'
 require 'ronin/support/format/binary/core_ext/string'
 
-require 'ostruct'
-
 describe String do
   subject { "hello" }
 
