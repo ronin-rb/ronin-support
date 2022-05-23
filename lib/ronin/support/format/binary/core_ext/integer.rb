@@ -71,6 +71,4 @@ class Integer
     "0x%.2x" % self
   end
 
-  alias char chr
-
 end
