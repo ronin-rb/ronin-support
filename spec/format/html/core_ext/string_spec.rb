@@ -49,4 +49,12 @@ describe String do
       expect(subject.format_html).to eq(subject.format_xml)
     end
   end
+
+  describe "#html_encode" do
+    subject { "ABC" }
+
+    it "must encode each character in the String" do
+      expect(subject.html_encode).to eq("&#65;&#66;&#67;")
+    end
+  end
 end

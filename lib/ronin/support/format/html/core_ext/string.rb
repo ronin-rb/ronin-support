@@ -91,4 +91,26 @@ class String
     format_xml(**kwargs)
   end
 
+  #
+  # Encodes the characters in the String as HTML.
+  #
+  # @return [String]
+  #   The HTML encoded String.
+  #
+  # @example
+  #   "abc".html_encode
+  #   # => "&#97;&#98;&#99;"
+  #
+  # @since 1.0.0
+  #
+  # @see #format_html
+  #
+  # @api public
+  #
+  def html_encode
+    format_html
+  end
+
+  alias html_decode html_unescape
+
 end
