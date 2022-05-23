@@ -30,10 +30,6 @@ describe String do
     expect(subject).to respond_to(:hex_unescape)
   end
 
-  it "must provide String#xor" do
-    expect(subject).to respond_to(:xor)
-  end
-
   describe "#base64_encode" do
     subject { "hello\0" }
 

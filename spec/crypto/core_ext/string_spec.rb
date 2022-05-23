@@ -17,6 +17,7 @@ describe String do
   it { expect(subject).to respond_to(:hmac)    }
   it { expect(subject).to respond_to(:encrypt) }
   it { expect(subject).to respond_to(:decrypt) }
+  it { expect(subject).to respond_to(:xor)     }
 
   describe "#md5" do
     let(:digest_md5) { "30f3c93e46436deb58ba70816a8ec124" }
