@@ -1,7 +1,7 @@
 # encoding: US-ASCII
 
 require 'spec_helper'
-require 'ronin/support/format/binary/core_ext/float'
+require 'ronin/support/binary/core_ext/float'
 
 describe Float do
   subject { 0.42 }
