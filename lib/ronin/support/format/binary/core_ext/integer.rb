@@ -51,6 +51,20 @@ class Integer
     "\\x%.2x" % self
   end
 
+  #
+  # Encodes the number as a `0xXX` hex integer.
+  #
+  # @return [String]
+  #   The hex encoded integer.
+  #
+  # @example
+  #   42.hex_int
+  #   # => "0x2e"
+  #
+  def hex_int
+    "0x%.2x" % self
+  end
+
   alias char chr
 
 end
