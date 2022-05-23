@@ -20,8 +20,6 @@
 require 'ronin/support/format/binary/core_ext/integer'
 require 'ronin/support/format/text/core_ext/string'
 
-require 'base64'
-
 class String
 
   #
@@ -78,62 +76,5 @@ class String
   alias hex_string hex_escape
 
   alias hex_unescape unescape
-
-  #
-  # Base64 encodes a string.
-  #
-  # @param [Symbol, nil] mode
-  #   The base64 mode to use. May be either:
-  #
-  #   * `:normal`
-  #   * `:strict`
-  #   * `:url` / `:urlsafe`
-  #
-  # @return [String]
-  #   The base64 encoded form of the string.
-  #
-  # @example
-  #   "hello".base64_encode
-  #   # => "aGVsbG8=\n"
-  #
-  # @api public
-  #
-  def base64_encode(mode=nil)
-    case mode
-    when :strict        then Base64.strict_encode64(self)
-    when :url, :urlsafe then Base64.urlsafe_encode64(self)
-    else                     Base64.encode64(self)
-    end
-  end
-
-  #
-  # Base64 decodes a string.
-  #
-  # @param [Symbol, nil] mode
-  #   The base64 mode to use. May be either:
-  #
-  #   * `nil`
-  #   * `:strict`
-  #   * `:url` / `:urlsafe`
-  #
-  # @return [String]
-  #   The base64 decoded form of the string.
-  #
-  # @note
-  #   `mode` argument is only available on Ruby >= 1.9.
-  #
-  # @example
-  #   "aGVsbG8=\n".base64_decode
-  #   # => "hello"
-  #
-  # @api public
-  #
-  def base64_decode(mode=nil)
-    case mode
-    when :strict        then Base64.strict_decode64(self)
-    when :url, :urlsafe then Base64.urlsafe_decode64(self)
-    else                     Base64.decode64(self)
-    end
-  end
 
 end
