@@ -81,4 +81,14 @@ describe String do
       expect(subject.format_http).to eq(http_formatted)
     end
   end
+
+  describe "#http_encode" do
+    subject { "ABC" }
+
+    let(:http_encoded) { "%41%42%43" }
+
+    it "must encode each byte of the String" do
+      expect(subject.http_encode).to eq(http_encoded)
+    end
+  end
 end

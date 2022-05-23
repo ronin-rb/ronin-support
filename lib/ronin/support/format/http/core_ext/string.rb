@@ -95,27 +95,6 @@ class String
   end
 
   #
-  # Formats the bytes of the String.
-  #
-  # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {#format_bytes}.
-  #
-  # @return [String]
-  #   The HTTP hexadecimal encoded form of the String.
-  #
-  # @example
-  #   "hello".format_http
-  #   # => "%68%65%6c%6c%6f"
-  #
-  # @see String#format_bytes
-  #
-  # @api public
-  #
-  def format_http(**kwargs)
-    format_bytes(**kwargs) { |b| b.format_http }
-  end
-
-  #
   # HTTP escapes the String.
   #
   # @return [String]
@@ -150,5 +129,48 @@ class String
   def http_unescape
     CGI.unescape(self)
   end
+
+  #
+  # Formats the bytes of the String.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {#format_bytes}.
+  #
+  # @return [String]
+  #   The HTTP hexadecimal encoded form of the String.
+  #
+  # @example
+  #   "hello".format_http
+  #   # => "%68%65%6c%6c%6f"
+  #
+  # @see String#format_bytes
+  #
+  # @api public
+  #
+  def format_http(**kwargs)
+    format_bytes(**kwargs) { |b| b.format_http }
+  end
+
+  #
+  # HTTP encodes each byte of the String.
+  #
+  # @return [String]
+  #   The HTTP hexadecimal encoded form of the String.
+  #
+  # @example
+  #   "hello".http_encode
+  #   # => "%68%65%6c%6c%6f"
+  #
+  # @see String#format_http
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def http_encode
+    format_http
+  end
+
+  alias http_decode http_unescape
 
 end
