@@ -111,4 +111,26 @@ class String
     format_chars(**kwargs) { |c| c.ord.format_js }
   end
 
+  #
+  # JavaScript escapes every character of the String.
+  #
+  # @return [String]
+  #   The JavaScript escaped String.
+  #
+  # @example
+  #   "hello".js_encode
+  #   # => "\\u0068\\u0065\\u006C\\u006C\\u006F"
+  #
+  # @see #format_js
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def js_encode
+    format_js
+  end
+
+  alias js_decode js_unescape
+
 end

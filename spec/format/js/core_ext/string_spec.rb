@@ -62,4 +62,14 @@ describe String do
       expect(subject.format_js).to eq(js_formatted)
     end
   end
+
+  describe "#js_encode" do
+    subject { "ABC" }
+
+    let(:js_encoded) { "\\x41\\x42\\x43" }
+
+    it "must JavaScript encode each character in the string" do
+      expect(subject.js_encode).to eq(js_encoded)
+    end
+  end
 end
