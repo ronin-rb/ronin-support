@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/support/format/binary/core_ext/integer'
+require 'ronin/support/format/hex/core_ext/integer'
 
 describe Integer do
   subject { 0x41 }
@@ -14,10 +14,6 @@ describe Integer do
 
   it "must provide Integer#hex_int" do
     expect(subject).to respond_to(:hex_int)
-  end
-
-  it "must alias char to the #chr method" do
-    expect(subject.char).to eq(subject.chr)
   end
 
   describe "#hex_encode" do

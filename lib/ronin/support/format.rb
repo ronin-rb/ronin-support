@@ -19,7 +19,7 @@
 
 require 'ronin/support/format/core_ext'
 require 'ronin/support/format/base64'
-require 'ronin/support/format/binary'
+require 'ronin/support/format/hex'
 require 'ronin/support/format/text'
 require 'ronin/support/format/http'
 require 'ronin/support/format/xml'

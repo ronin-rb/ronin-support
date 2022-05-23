@@ -18,7 +18,7 @@
 #
 
 require 'ronin/support/format/base64/core_ext'
-require 'ronin/support/format/binary/core_ext'
+require 'ronin/support/format/hex/core_ext'
 require 'ronin/support/format/html/core_ext'
 require 'ronin/support/format/http/core_ext'
 require 'ronin/support/format/js/core_ext'

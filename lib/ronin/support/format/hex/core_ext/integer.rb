@@ -17,4 +17,56 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/core_ext/float'
+class Integer
+
+  #
+  # Converts the integer into hex format.
+  #
+  # @return [String]
+  #   The hex encoded version of the Integer.
+  #
+  # @example
+  #   0x41.hex_encode
+  #   # => "41"
+  #
+  # @since 0.6.0
+  #
+  def hex_encode
+    "%.2x" % self
+  end
+
+  alias to_hex hex_encode
+
+  #
+  # Converts the integer into an escaped hex character.
+  #
+  # @return [String]
+  #   The hex escaped version of the Integer.
+  #
+  # @example
+  #   42.hex_char
+  #   # => "\\x2a"
+  #
+  # @api public
+  #
+  def hex_escape
+    "\\x%.2x" % self
+  end
+
+  alias hex_char hex_escape
+
+  #
+  # Encodes the number as a `0xXX` hex integer.
+  #
+  # @return [String]
+  #   The hex encoded integer.
+  #
+  # @example
+  #   42.hex_int
+  #   # => "0x2e"
+  #
+  def hex_int
+    "0x%.2x" % self
+  end
+
+end

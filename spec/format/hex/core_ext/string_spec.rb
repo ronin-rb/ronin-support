@@ -1,14 +1,10 @@
 # encoding: US-ASCII
 
 require 'spec_helper'
-require 'ronin/support/format/binary/core_ext/string'
+require 'ronin/support/format/hex/core_ext/string'
 
 describe String do
   subject { "hello" }
-
-  it "must provide String#unpack" do
-    expect(subject).to respond_to(:unpack)
-  end
 
   it "must provide String#hex_encode" do
     expect(subject).to respond_to(:hex_encode)
