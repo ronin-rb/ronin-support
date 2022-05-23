@@ -6,6 +6,10 @@ describe Ronin::Support::Mixin do
     Class.new { include Ronin::Support::Mixin }
   end
 
+  it "must include `Ronin::Support::Compression::Mixin`" do
+    expect(subject).to include(Ronin::Support::Compression::Mixin)
+  end
+
   it "must include `Ronin::Support::Crypto::Mixin`" do
     expect(subject).to include(Ronin::Support::Crypto::Mixin)
   end
