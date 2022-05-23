@@ -75,6 +75,8 @@ class String
     format_bytes(**kwargs) { |b| b.hex_escape }
   end
 
+  alias hex_string hex_escape
+
   alias hex_unescape unescape
 
   #
