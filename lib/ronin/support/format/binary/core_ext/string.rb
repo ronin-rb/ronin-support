@@ -84,44 +84,6 @@ class String
   alias hex_unescape unescape
 
   #
-  # XOR encodes the String.
-  #
-  # @param [Enumerable, Integer] key
-  #   The byte to XOR against each byte in the String.
-  #
-  # @return [String]
-  #   The XOR encoded String.
-  #
-  # @example
-  #   "hello".xor(0x41)
-  #   # => ")$--."
-  #
-  # @example
-  #   "hello again".xor([0x55, 0x41, 0xe1])
-  #   # => "=$\x8d9.\xc14&\x80</"
-  #
-  # @api public
-  #
-  def xor(key)
-    key = case key
-          when Integer then [key]
-          when String  then key.bytes
-          else              key
-          end
-
-    key    = key.cycle
-    result = ''
-
-    bytes.each do |b|
-      result << (b ^ key.next).chr
-    end
-
-    return result
-  end
-
-  alias ^ xor
-
-  #
   # Base64 encodes a string.
   #
   # @param [Symbol, nil] mode

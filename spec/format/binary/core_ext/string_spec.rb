@@ -93,31 +93,4 @@ describe String do
       expect(subject.hex_escape).to eq("\\x68\\x65\\x6c\\x6c\\x6f\\x4e")
     end
   end
-
-  describe "#xor" do
-    subject { 'hello' }
-
-    let(:key) { 0x50 }
-    let(:keys) { [0x50, 0x55] }
-
-    it "must not contain the key used in the xor" do
-      expect(subject).to_not include(key.chr)
-    end
-
-    it "must not equal the original string" do
-      expect(subject.xor(key)).to_not be == subject
-    end
-
-    it "must be able to be decoded with another xor" do
-      expect(subject.xor(key).xor(key)).to eq(subject)
-    end
-
-    it "must allow xoring against a single key" do
-      expect(subject.xor(key)).to eq("85<<?")
-    end
-
-    it "must allow xoring against multiple keys" do
-      expect(subject.xor(keys)).to eq("80<9?")
-    end
-  end
 end
