@@ -41,4 +41,14 @@ describe String do
       expect(subject.format_xml).to eq(formatted_xml)
     end
   end
+
+  describe "#xml_encode" do
+    subject { "ABC" }
+
+    let(:xml_encoded) { "&#65;&#66;&#67;" }
+
+    it "must XML encode each character in the String" do
+      expect(subject.xml_encode).to eq(xml_encoded)
+    end
+  end
 end

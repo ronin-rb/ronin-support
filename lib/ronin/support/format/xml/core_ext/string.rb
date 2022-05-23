@@ -87,4 +87,26 @@ class String
     format_chars(**kwargs) { |c| c.ord.format_xml }
   end
 
+  #
+  # Encodes each character in the String as an XML character.
+  #
+  # @return [String]
+  #   The XML encoded String.
+  #
+  # @example
+  #   "abc".xml_encode
+  #   # => "&#97;&#98;&#99;"
+  #
+  # @see #format_xml
+  #
+  # @since 1.0.0
+  #
+  # @api public
+  #
+  def xml_encode
+    format_xml
+  end
+
+  alias xml_decode xml_unescape
+
 end
