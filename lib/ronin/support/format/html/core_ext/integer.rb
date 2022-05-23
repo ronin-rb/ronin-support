@@ -64,4 +64,6 @@ class Integer
     format_xml
   end
 
+  alias html_encode format_html
+
 end

@@ -101,4 +101,6 @@ class Integer
     end
   end
 
+  alias js_encode format_js
+
 end

@@ -71,6 +71,8 @@ class Integer
     "%%%X" % self
   end
 
+  alias http_encode format_http
+
   #
   # HTTP escapes the Integer.
   #

@@ -57,4 +57,6 @@ class Integer
     "&#%d;" % self
   end
 
+  alias xml_encode format_xml
+
 end
