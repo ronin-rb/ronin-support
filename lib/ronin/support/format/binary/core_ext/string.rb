@@ -22,12 +22,6 @@ require 'ronin/support/format/text/core_ext/string'
 
 require 'base64'
 
-begin
-  require 'zlib'
-rescue ::LoadError
-  warn "WARNING: Ruby was not compiled with zlib support"
-end
-
 class String
 
   #
@@ -138,38 +132,6 @@ class String
     when :url, :urlsafe then Base64.urlsafe_decode64(self)
     else                     Base64.decode64(self)
     end
-  end
-
-  #
-  # Zlib inflate a string.
-  #
-  # @return [String]
-  #   The Zlib inflated form of the string.
-  #
-  # @example
-  #   "x\x9C\xCBH\xCD\xC9\xC9\a\x00\x06,\x02\x15".zlib_inflate
-  #   # => "hello"
-  #
-  # @api public
-  #
-  def zlib_inflate
-    Zlib::Inflate.inflate(self)
-  end
-
-  #
-  # Zlib deflate a string.
-  #
-  # @return [String]
-  #   The Zlib deflated form of the string.
-  #
-  # @example
-  #   "hello".zlib_deflate
-  #   # => "x\x9C\xCBH\xCD\xC9\xC9\a\x00\x06,\x02\x15"
-  #
-  # @api public
-  #
-  def zlib_deflate
-    Zlib::Deflate.deflate(self)
   end
 
 end
