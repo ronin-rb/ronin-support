@@ -1,8 +1,6 @@
 require 'spec_helper'
 require 'ronin/support/format/binary/core_ext/integer'
 
-require 'ostruct'
-
 describe Integer do
   subject { 0x41 }
 
