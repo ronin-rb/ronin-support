@@ -206,4 +206,18 @@ class Integer
     end
   end
 
+  #
+  # Converts the integer into an 8-bit unsigned integer.
+  #
+  # @return [Integer]
+  #   The integer truncated to 8-bits.
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def to_u8
+    self & 0xff
+  end
+
 end

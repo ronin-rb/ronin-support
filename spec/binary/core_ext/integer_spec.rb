@@ -194,4 +194,12 @@ describe Integer do
       end
     end
   end
+
+  describe "#to_u8" do
+    subject { 0x1fff }
+
+    it "must truncate the integer to 8-bits" do
+      expect(subject.to_u8).to eq(0xff)
+    end
+  end
 end
