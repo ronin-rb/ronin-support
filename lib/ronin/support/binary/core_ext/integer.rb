@@ -248,4 +248,18 @@ class Integer
     self & 0xffffffff
   end
 
+  #
+  # Converts the integer into an 64-bit unsigned integer.
+  #
+  # @return [Integer]
+  #   The integer truncated to 64-bits.
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def to_u64
+    self & 0xffffffffffffffff
+  end
+
 end

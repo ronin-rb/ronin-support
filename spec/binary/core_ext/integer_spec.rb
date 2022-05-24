@@ -218,4 +218,12 @@ describe Integer do
       expect(subject.to_u32).to eq(0xffffffff)
     end
   end
+
+  describe "#to_u64" do
+    subject { 0x1fffffffffffffffff }
+
+    it "must truncate the integer to 64-bits" do
+      expect(subject.to_u64).to eq(0xffffffffffffffff)
+    end
+  end
 end
