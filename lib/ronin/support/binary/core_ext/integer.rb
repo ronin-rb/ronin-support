@@ -262,4 +262,20 @@ class Integer
     self & 0xffffffffffffffff
   end
 
+  #
+  # Converts the integer into an 8-bit signed integer.
+  #
+  # @return [Integer]
+  #   The integer truncated to 8-bits with signed preserved.
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def to_i8
+    int = self & 0xff
+    int = -int if self < 0
+    int
+  end
+
 end

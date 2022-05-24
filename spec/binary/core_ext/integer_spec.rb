@@ -226,4 +226,20 @@ describe Integer do
       expect(subject.to_u64).to eq(0xffffffffffffffff)
     end
   end
+
+  describe "#to_i8" do
+    subject { 511 }
+
+    it "must truncate the integer to 8-bits" do
+      expect(subject.to_i8).to eq(255)
+    end
+
+    context "but the integer is negative" do
+      subject { -1 }
+
+      it "must preserve the signedness of the integer" do
+        expect(subject.to_i8).to eq(-255)
+      end
+    end
+  end
 end
