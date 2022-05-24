@@ -294,4 +294,20 @@ class Integer
     int
   end
 
+  #
+  # Converts the integer into an 32-bit signed integer.
+  #
+  # @return [Integer]
+  #   The integer truncated to 32-bits with signed preserved.
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def to_i32
+    int = self & 0xffffffff
+    int = -int if self < 0
+    int
+  end
+
 end
