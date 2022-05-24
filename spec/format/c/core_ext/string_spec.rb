@@ -20,9 +20,9 @@ describe String do
     end
 
     context "when the String contains back-slashed escaped characters" do
-      subject { "\0\b\e\t\n\v\f\r\\\"" }
+      subject { "\0\a\b\e\t\n\v\f\r\\\"" }
 
-      let(:escaped_c_string) { "\\0\\b\\e\\t\\n\\v\\f\\r\\\\\\\"" }
+      let(:escaped_c_string) { "\\0\\a\\b\\e\\t\\n\\v\\f\\r\\\\\\\"" }
 
       it "must escape the special characters with an extra back-slash" do
         expect(subject.c_escape).to eq(escaped_c_string)

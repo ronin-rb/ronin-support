@@ -27,6 +27,7 @@ class String
   # C characters that must be back-slashed.
   C_BACKSLASHED_CHARS = {
     '0'  => "\0",
+    'a'  => "\a",
     'b'  => "\b",
     'e'  => "\e",
     't'  => "\t",
