@@ -17,90 +17,78 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/format/http/core_ext/integer'
-require 'ronin/support/format/text/core_ext/string'
-
+require 'uri/common'
 require 'cgi'
 
 class String
 
   #
-  # HTTP escapes the String.
+  # URI encodes the String.
+  #
+  # @param [Array<String>] unsafe
+  #   The unsafe characters to encode.
   #
   # @return [String]
-  #   The HTTP escaped form of the String.
+  #   The URI encoded form of the String.
   #
   # @example
-  #   "x > y".http_escape
+  #   "art is graffiti".uri_encode
+  #   # => "art%20is%20graffiti"
+  #
+  # @api public
+  #
+  def uri_encode(*unsafe)
+    unless unsafe.empty? then URI::DEFAULT_PARSER.escape(self,unsafe.join)
+    else                      URI::DEFAULT_PARSER.escape(self)
+    end
+  end
+
+  #
+  # URI decodes the String.
+  #
+  # @return [String]
+  #   The decoded URI form of the String.
+  #
+  # @example
+  #   "genre%3f".uri_decode
+  #   # => "genre?"
+  #
+  # @api public
+  #
+  def uri_decode
+    URI::DEFAULT_PARSER.unescape(self)
+  end
+
+  #
+  # URI escapes the String.
+  #
+  # @return [String]
+  #   The URI escaped form of the String.
+  #
+  # @example
+  #   "x > y".uri_escape
   #   # => "x+%3E+y"
   #
   # @api public
   #
-  # @since 0.6.0
-  #
-  def http_escape
+  def uri_escape
     CGI.escape(self)
   end
 
   #
-  # HTTP unescapes the String.
+  # URI unescapes the String.
   #
   # @return [String]
-  #   The raw String.
+  #   The unescaped URI form of the String.
   #
   # @example
-  #   "sweet+%26+sour".http_unescape
+  #   "sweet+%26+sour".uri_unescape
   #   # => "sweet & sour"
   #
   # @api public
   #
-  # @since 0.6.0
-  #
-  def http_unescape
+  def uri_unescape
     CGI.unescape(self)
   end
-
-  #
-  # Formats the bytes of the String.
-  #
-  # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {#format_bytes}.
-  #
-  # @return [String]
-  #   The HTTP hexadecimal encoded form of the String.
-  #
-  # @example
-  #   "hello".format_http
-  #   # => "%68%65%6c%6c%6f"
-  #
-  # @see String#format_bytes
-  #
-  # @api public
-  #
-  def format_http(**kwargs)
-    format_bytes(**kwargs) { |b| b.format_http }
-  end
-
-  #
-  # HTTP encodes each byte of the String.
-  #
-  # @return [String]
-  #   The HTTP hexadecimal encoded form of the String.
-  #
-  # @example
-  #   "hello".http_encode
-  #   # => "%68%65%6c%6c%6f"
-  #
-  # @see String#format_http
-  #
-  # @api public
-  #
-  # @since 1.0.0
-  #
-  def http_encode
-    format_http
-  end
-
-  alias http_decode http_unescape
 
 end

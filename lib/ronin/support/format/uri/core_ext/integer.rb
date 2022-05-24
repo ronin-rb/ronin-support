@@ -17,12 +17,42 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/format/core_ext'
-require 'ronin/support/format/base64'
-require 'ronin/support/format/hex'
-require 'ronin/support/format/text'
-require 'ronin/support/format/http'
-require 'ronin/support/format/xml'
-require 'ronin/support/format/html'
-require 'ronin/support/format/js'
-require 'ronin/support/format/uri'
+require 'uri/common'
+require 'cgi'
+
+class Integer
+
+  #
+  # URI encodes the byte.
+  #
+  # @param [Array<String>] unsafe
+  #   The unsafe characters to encode.
+  #
+  # @return [String]
+  #   The URI encoded byte.
+  #
+  # @api public
+  #
+  def uri_encode(*unsafe)
+    unless unsafe.empty? then URI::DEFAULT_PARSER.escape(chr,unsafe.join)
+    else                      URI::DEFAULT_PARSER.escape(chr)
+    end
+  end
+
+  #
+  # URI escapes the byte.
+  #
+  # @return [String]
+  #   The URI escaped byte.
+  #
+  # @example
+  #   0x3d.uri_escape
+  #   # => "%3D"
+  #
+  # @api public
+  #
+  def uri_escape
+    CGI.escape(chr)
+  end
+
+end
