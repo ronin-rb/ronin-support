@@ -17,7 +17,10 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'uri/common'
+require 'ronin/support/format/uri/core_ext/integer'
+require 'ronin/support/format/text/core_ext/string'
+
+require 'uri'
 
 class String
 
@@ -98,5 +101,97 @@ class String
   end
 
   alias uri_decode uri_unescape
+
+  #
+  # URI Form escapes the String.
+  #
+  # @return [String]
+  #   The URI Form escaped String.
+  #
+  # @example
+  #   "hello world".uri_form_escape
+  #   # => "hello+world"
+  #   "hello\0world".uri_form_escape
+  #   # => "hello%00world"
+  #
+  # @see https://www.w3.org/TR/2013/CR-html5-20130806/forms.html#url-encoded-form-data
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def uri_form_escape
+    URI.encode_www_form_component(self)
+  end
+
+  alias www_form_escape uri_form_escape
+
+  #
+  # URI Form unescapes the String.
+  #
+  # @return [String]
+  #   The URI Form unescaped String.
+  #
+  # @example
+  #   "hello+world".uri_form_unescape
+  #   # => "hello world"
+  #   "hello%00world".uri_form_unescape
+  #   # => "hello\u0000world"
+  #
+  def uri_form_unescape
+    URI.decode_www_form_component(self)
+  end
+
+  alias www_form_unescape uri_form_unescape
+
+  #
+  # URI Form encodes every character in the String.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {#format_bytes}.
+  #
+  # @return [String]
+  #   The URI Form encoded String.
+  #
+  # @example
+  #   "hello world".uri_form_encode
+  #   # => 
+  #
+  # @see Integer#uri_form_encode
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def format_uri_form(**kwargs)
+    format_bytes(**kwargs) { |b| b.uri_form_encode }
+  end
+
+  alias format_www_form format_uri_form
+
+  #
+  # URI Form encodes every character in the String.
+  #
+  # @return [String]
+  #   The URI Form encoded String.
+  #
+  # @example
+  #   "hello world".uri_form_encode
+  #   # => 
+  #
+  # @see Integer#uri_form_encode
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def uri_form_encode
+    format_uri_form
+  end
+
+  alias www_form_encode uri_form_encode
+
+  alias uri_form_decode uri_form_unescape
+  alias www_form_decode uri_form_decode
 
 end

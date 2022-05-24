@@ -60,4 +60,46 @@ class Integer
     end
   end
 
+  #
+  # URI Form escapes the Integer.
+  #
+  # @return [String]
+  #   The URI Form escaped Integer.
+  #
+  # @example
+  #   0x41.uri_form_ecape
+  #   # => "A"
+  #   0x20.uri_form_escape
+  #   # => "+"
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def uri_form_escape
+    URI.encode_www_form_component(chr)
+  end
+
+  #
+  # URI Form encodes the Integer.
+  #
+  # @return [String]
+  #   The URI Form encoded Integer.
+  #
+  # @example
+  #   0x41.uri_form_encode
+  #   # => "%41"
+  #   0x20.uri_form_encode
+  #   # => "+"
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def uri_form_encode
+    if self == 0x20 then '+'
+    else                 uri_encode
+    end
+  end
+
 end
