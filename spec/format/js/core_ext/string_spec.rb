@@ -72,4 +72,14 @@ describe String do
       expect(subject.js_encode).to eq(js_encoded)
     end
   end
+
+  describe "#js_string" do
+    subject { "hello\nworld" }
+
+    let(:js_string) { "\"hello\\nworld\"" }
+
+    it "must return a double quoted JavaScript string" do
+      expect(subject.js_string).to eq(js_string)
+    end
+  end
 end

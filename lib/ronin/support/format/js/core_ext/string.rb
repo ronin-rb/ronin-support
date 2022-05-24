@@ -133,4 +133,21 @@ class String
 
   alias js_decode js_unescape
 
+  #
+  # Converts the String into a JavaScript string.
+  #
+  # @return [String]
+  #
+  # @example
+  #   "hello\nworld\n".js_string
+  #   # => "\"hello\\nworld\\n\""
+  #
+  # @since 1.0.0
+  #
+  # @api public
+  #
+  def js_string
+    "\"#{js_escape}\""
+  end
+
 end
