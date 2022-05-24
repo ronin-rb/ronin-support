@@ -64,6 +64,10 @@ class Integer
   #   The escaped JavaScript character.
   #
   # @example 
+  #   0x41.js_escape
+  #   # => "A"
+  #
+  # @example 
   #   0x22.js_escape
   #   # => "\\\""
   #
