@@ -228,65 +228,65 @@ describe Integer do
   end
 
   describe "#to_i8" do
-    subject { 511 } # 0x1ffff
+    subject { 0x100 | 127 }
 
     it "must truncate the integer to 8-bits" do
-      expect(subject.to_i8).to eq(255) # 0xff
+      expect(subject.to_i8).to eq(127)
     end
 
-    context "but the integer is negative" do
-      subject { -1 } # 0x..ff
+    context "but the 7th bit is 1" do
+      subject { 0xfe }
 
-      it "must preserve the signedness of the integer" do
-        expect(subject.to_i8).to eq(-255) # -0xff
+      it "must interpret the 7th bit as a signedness bit" do
+        expect(subject.to_i8).to eq(-2)
       end
     end
   end
 
   describe "#to_i16" do
-    subject { 131071 } # 0x1ffff
+    subject { 0x10000 | 32767 }
 
     it "must truncate the integer to 16-bits" do
-      expect(subject.to_i16).to eq(65535) # 0xffff
+      expect(subject.to_i16).to eq(32767)
     end
 
-    context "but the integer is negative" do
-      subject { -1 } # 0x..ffff
+    context "but the 15th bit is 1" do
+      subject { 0xfffe }
 
-      it "must preserve the signedness of the integer" do
-        expect(subject.to_i16).to eq(-65535) # -0xffff
+      it "must interpret the 15th bit as a signedness bit" do
+        expect(subject.to_i16).to eq(-2)
       end
     end
   end
 
   describe "#to_i32" do
-    subject { 8589934591 } # 0x1ffffffff
+    subject { 0x100000000 | 2147483647 }
 
     it "must truncate the integer to 32-bits" do
-      expect(subject.to_i32).to eq(4294967295) # 0xffffffff
+      expect(subject.to_i32).to eq(2147483647)
     end
 
-    context "but the integer is negative" do
-      subject { -1 } # 0x..ffffffff
+    context "but the 31th bit is 1" do
+      subject { 0xfffffffe }
 
-      it "must preserve the signedness of the integer" do
-        expect(subject.to_i32).to eq(-4294967295) # -0xffffffff
+      it "must interpret the 31th bit as a signedness bit" do
+        expect(subject.to_i32).to eq(-2)
       end
     end
   end
 
   describe "#to_i64" do
-    subject { 36893488147419103231 } # 0x1ffffffffffffffff
+    subject { 0x10000000000000000 | 9223372036854775807 }
 
     it "must truncate the integer to 64-bits" do
-      expect(subject.to_i64).to eq(18446744073709551615) # 0xffffffffffffffff
+      expect(subject.to_i64).to eq(9223372036854775807)
     end
 
-    context "but the integer is negative" do
-      subject { -1 } # 0x..ffffffffffffffff
+    context "but the 63th bit is 1" do
+      subject { 0xfffffffffffffffe }
 
-      it "must preserve the signedness of the integer" do
-        expect(subject.to_i64).to eq(-18446744073709551615) # -0xffffffffffffffff
+      it "must interpret the 63th bit as a signedness bit" do
+        expect(subject.to_i64).to eq(-2)
       end
     end
   end

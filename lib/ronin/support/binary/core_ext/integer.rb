@@ -274,8 +274,13 @@ class Integer
   #
   def to_i8
     int = self & 0xff
-    int = -int if self < 0
-    int
+
+    if int[7] == 1
+      # interpret the new signed bit
+      int -= 0x100
+    end
+
+    return int
   end
 
   #
@@ -290,8 +295,13 @@ class Integer
   #
   def to_i16
     int = self & 0xffff
-    int = -int if self < 0
-    int
+
+    if int[15] == 1
+      # interpret the new signed bit
+      int -= 0x10000
+    end
+
+    return int
   end
 
   #
@@ -306,8 +316,13 @@ class Integer
   #
   def to_i32
     int = self & 0xffffffff
-    int = -int if self < 0
-    int
+
+    if int[31] == 1
+      # interpret the new signed bit
+      int -= 0x100000000
+    end
+
+    return int
   end
 
   #
@@ -322,8 +337,13 @@ class Integer
   #
   def to_i64
     int = self & 0xffffffffffffffff
-    int = -int if self < 0
-    int
+
+    if int[63] == 1
+      # interpret the new signed bit
+      int -= 0x10000000000000000
+    end
+
+    return int
   end
 
 end
