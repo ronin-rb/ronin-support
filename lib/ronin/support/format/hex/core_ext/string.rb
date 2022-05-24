@@ -73,7 +73,22 @@ class String
     format_bytes(**kwargs) { |b| b.hex_escape }
   end
 
-  alias hex_string hex_escape
+  #
+  # Converts the String into a double-quoted hex string.
+  #
+  # @return [String]
+  #
+  # @example
+  #   "hello".hex_string
+  #   # => "\"\\x68\\x65\\x6c\\x6c\\x6f\""
+  #
+  # @since 1.0.0
+  #
+  # @api public
+  #
+  def hex_string
+    "\"#{hex_escape}\""
+  end
 
   alias hex_unescape unescape
 

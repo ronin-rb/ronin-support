@@ -41,4 +41,12 @@ describe String do
       expect(subject.hex_escape).to eq("\\x68\\x65\\x6c\\x6c\\x6f\\x4e")
     end
   end
+
+  describe "#hex_string" do
+    subject { "hello" }
+
+    it "must return a double-quoted hex String" do
+      expect(subject.hex_string).to eq("\"\\x68\\x65\\x6c\\x6c\\x6f\"")
+    end
+  end
 end
