@@ -4,13 +4,8 @@ require 'ronin/support/format/js/core_ext/integer'
 describe Integer do
   subject { 0x26 }
 
-  it "must provide String#js_escape" do
-    should respond_to(:js_escape)
-  end
-
-  it "must provide String#format_js" do
-    should respond_to(:format_js)
-  end
+  it { expect(subject).to respond_to(:js_escape) }
+  it { expect(subject).to respond_to(:format_js) }
 
   describe "#js_escape" do
     let(:special_byte) { 0x0a }

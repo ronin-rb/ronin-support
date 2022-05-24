@@ -4,17 +4,9 @@ require 'ronin/support/format/js/core_ext/string'
 describe String do
   subject { "one & two" }
 
-  it "must provide String#js_escape" do
-    should respond_to(:js_escape)
-  end
-
-  it "must provide String#js_unescape" do
-    should respond_to(:js_unescape)
-  end
-
-  it "must provide String#format_js" do
-    should respond_to(:format_js)
-  end
+  it { expect(subject).to respond_to(:js_escape)   }
+  it { expect(subject).to respond_to(:js_unescape) }
+  it { expect(subject).to respond_to(:format_js)   }
 
   describe "#js_escape" do
     let(:special_chars) { "\t\n\r" }
