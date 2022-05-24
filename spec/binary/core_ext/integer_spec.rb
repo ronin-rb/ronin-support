@@ -228,17 +228,33 @@ describe Integer do
   end
 
   describe "#to_i8" do
-    subject { 511 }
+    subject { 511 } # 0x1ffff
 
     it "must truncate the integer to 8-bits" do
-      expect(subject.to_i8).to eq(255)
+      expect(subject.to_i8).to eq(255) # 0xff
     end
 
     context "but the integer is negative" do
-      subject { -1 }
+      subject { -1 } # 0x..ff
 
       it "must preserve the signedness of the integer" do
-        expect(subject.to_i8).to eq(-255)
+        expect(subject.to_i8).to eq(-255) # -0xff
+      end
+    end
+  end
+
+  describe "#to_i16" do
+    subject { 131071 } # 0x1ffff
+
+    it "must truncate the integer to 16-bits" do
+      expect(subject.to_i16).to eq(65535)
+    end
+
+    context "but the integer is negative" do
+      subject { -1 } # 0x..ffff
+
+      it "must preserve the signedness of the integer" do
+        expect(subject.to_i16).to eq(-65535)
       end
     end
   end

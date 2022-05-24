@@ -278,4 +278,20 @@ class Integer
     int
   end
 
+  #
+  # Converts the integer into an 16-bit signed integer.
+  #
+  # @return [Integer]
+  #   The integer truncated to 16-bits with signed preserved.
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def to_i16
+    int = self & 0xffff
+    int = -int if self < 0
+    int
+  end
+
 end
