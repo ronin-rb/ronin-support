@@ -83,6 +83,8 @@ class String
                    when "\\" # backslash
                      if (hex_char = scanner.scan(/x[0-9a-fA-F]{1,2}/)) # \xXX
                        hex_char[1..].to_i(16).chr
+                     elsif (hex_char = scanner.scan(/u[0-9a-fA-F]{4,8}/)) # \u..
+                       hex_char[1..].to_i(16).chr(Encoding::UTF_8)
                      elsif (octal_char = scanner.scan(/[0-7]{1,3}/)) # \NNN
                        octal_char.to_i(8).chr
                      elsif (special_char = scanner.getch) # \C
