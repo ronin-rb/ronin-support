@@ -202,4 +202,12 @@ describe Integer do
       expect(subject.to_u8).to eq(0xff)
     end
   end
+
+  describe "#to_u16" do
+    subject { 0x1fffff }
+
+    it "must truncate the integer to 16-bits" do
+      expect(subject.to_u16).to eq(0xffff)
+    end
+  end
 end

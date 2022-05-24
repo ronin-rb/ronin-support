@@ -220,4 +220,18 @@ class Integer
     self & 0xff
   end
 
+  #
+  # Converts the integer into an 16-bit unsigned integer.
+  #
+  # @return [Integer]
+  #   The integer truncated to 16-bits.
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def to_u16
+    self & 0xffff
+  end
+
 end
