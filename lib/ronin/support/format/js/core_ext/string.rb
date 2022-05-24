@@ -89,19 +89,19 @@ class String
   end
 
   #
-  # Escapes a String for JavaScript.
+  # Formats a String for JavaScript.
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {#format_chars}.
   #
   # @return [String]
-  #   The JavaScript escaped String.
+  #   The JavaScript formatted String.
   #
   # @example
-  #   "hello".js_escape
+  #   "hello".format_js
   #   # => "\\u0068\\u0065\\u006C\\u006C\\u006F"
   #
-  # @see Integer#js_escape
+  # @see Integer#format_js
   #
   # @since 0.2.0
   #
