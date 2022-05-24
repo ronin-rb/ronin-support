@@ -71,7 +71,7 @@ class String
   # @api public
   #
   def js_unescape
-    unescaped = ''
+    unescaped = String.new
 
     scan(/[\\%]u[0-9a-fA-F]{1,4}|[\\%][0-9a-fA-F]{1,2}|\\[btnfr"\\]|./) do |c|
       unescaped << JS_BACKSLASHED_CHARS.fetch(c) do

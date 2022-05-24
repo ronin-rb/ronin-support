@@ -250,7 +250,7 @@ class String
   # @since 0.5.0
   #
   def unescape
-    buffer  = ''.force_encoding(Encoding::ASCII)
+    buffer  = String.new(encoding: Encoding::ASCII)
     scanner = StringScanner.new(self)
 
     until scanner.eos?
