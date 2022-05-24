@@ -234,4 +234,18 @@ class Integer
     self & 0xffff
   end
 
+  #
+  # Converts the integer into an 32-bit unsigned integer.
+  #
+  # @return [Integer]
+  #   The integer truncated to 32-bits.
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def to_u32
+    self & 0xffffffff
+  end
+
 end

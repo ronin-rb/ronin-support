@@ -210,4 +210,12 @@ describe Integer do
       expect(subject.to_u16).to eq(0xffff)
     end
   end
+
+  describe "#to_u32" do
+    subject { 0x1fffffffff }
+
+    it "must truncate the integer to 32-bits" do
+      expect(subject.to_u32).to eq(0xffffffff)
+    end
+  end
 end
