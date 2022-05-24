@@ -58,10 +58,10 @@ class Integer
   }
 
   #
-  # Escapes the Integer as a JavaScript String.
+  # Escapes the Integer as a JavaScript character.
   #
   # @return [String]
-  #   The escaped JavaScript String.
+  #   The escaped JavaScript character.
   #
   # @example 
   #   0x22.js_escape
@@ -82,10 +82,10 @@ class Integer
   end
 
   #
-  # Formats the Integer as a JavaScript escaped String.
+  # Formats the Integer as a JavaScript character.
   #
   # @return [String]
-  #   The escaped JavaScript String.
+  #   The formatted JavaScript character.
   #
   # @example
   #   0x41.format_js
