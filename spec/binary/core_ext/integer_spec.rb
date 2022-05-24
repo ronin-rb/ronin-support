@@ -274,4 +274,20 @@ describe Integer do
       end
     end
   end
+
+  describe "#to_i64" do
+    subject { 36893488147419103231 } # 0x1ffffffffffffffff
+
+    it "must truncate the integer to 64-bits" do
+      expect(subject.to_i64).to eq(18446744073709551615) # 0xffffffffffffffff
+    end
+
+    context "but the integer is negative" do
+      subject { -1 } # 0x..ffffffffffffffff
+
+      it "must preserve the signedness of the integer" do
+        expect(subject.to_i64).to eq(-18446744073709551615) # -0xffffffffffffffff
+      end
+    end
+  end
 end
