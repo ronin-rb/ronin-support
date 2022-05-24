@@ -18,41 +18,46 @@
 #
 
 require 'uri/common'
-require 'cgi'
 
 class Integer
 
   #
   # URI encodes the byte.
   #
-  # @param [Array<String>] unsafe
-  #   The unsafe characters to encode.
-  #
   # @return [String]
   #   The URI encoded byte.
   #
+  # @example
+  #   0x41.uri_encode
+  #   # => "%41"
+  #
   # @api public
   #
-  def uri_encode(*unsafe)
-    unless unsafe.empty? then URI::DEFAULT_PARSER.escape(chr,unsafe.join)
-    else                      URI::DEFAULT_PARSER.escape(chr)
-    end
+  def uri_encode
+    "%%%2X" % self
   end
 
   #
   # URI escapes the byte.
   #
+  # @param [Array<String>, nil] unsafe
+  #   Optiona set of unsafe characters to escape.
+  #
   # @return [String]
   #   The URI escaped byte.
   #
   # @example
+  #   0x41.uri_escape
+  #   # => "A"
   #   0x3d.uri_escape
   #   # => "%3D"
   #
   # @api public
   #
-  def uri_escape
-    CGI.escape(chr)
+  def uri_escape(unsafe: nil)
+    if unsafe then URI::DEFAULT_PARSER.escape(chr,unsafe.join)
+    else           URI::DEFAULT_PARSER.escape(chr)
+    end
   end
 
 end

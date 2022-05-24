@@ -18,9 +18,63 @@
 #
 
 require 'uri/common'
-require 'cgi'
 
 class String
+
+  #
+  # URI escapes the String.
+  #
+  # @return [String]
+  #   The URI escaped form of the String.
+  #
+  # @example
+  #   "x > y".uri_escape
+  #   # => "x%20%3E%20y"
+  #
+  # @api public
+  #
+  def uri_escape(unsafe: nil)
+    if unsafe then URI::DEFAULT_PARSER.escape(self,unsafe.join)
+    else           URI::DEFAULT_PARSER.escape(self)
+    end
+  end
+
+  #
+  # URI unescapes the String.
+  #
+  # @return [String]
+  #   The unescaped URI form of the String.
+  #
+  # @example
+  #   "sweet%20%26%20sour".uri_unescape
+  #   # => "sweet & sour"
+  #
+  # @api public
+  #
+  def uri_unescape
+    URI::DEFAULT_PARSER.unescape(self)
+  end
+
+  #
+  # URI formats the characters in the String.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {#format_chars}.
+  #
+  # @return [String]
+  #   The URI formatted String.
+  #
+  # @example
+  #   "hello".format_uri
+  #   # => "%68%65%6C%6C%6F"
+  #
+  # @since 1.0.0
+  #
+  # @api public
+  #
+  def format_uri(**kwargs)
+    format_chars(**kwargs) { |c| c.ord.uri_encode }
+  end
 
   #
   # URI encodes the String.
@@ -32,63 +86,17 @@ class String
   #   The URI encoded form of the String.
   #
   # @example
-  #   "art is graffiti".uri_encode
-  #   # => "art%20is%20graffiti"
+  #   "plain text".uri_encode
+  #   # => "%70%6C%61%69%6E%20%74%65%78%74"
+  #
+  # @see #format_uri
   #
   # @api public
   #
-  def uri_encode(*unsafe)
-    unless unsafe.empty? then URI::DEFAULT_PARSER.escape(self,unsafe.join)
-    else                      URI::DEFAULT_PARSER.escape(self)
-    end
+  def uri_encode
+    format_uri
   end
 
-  #
-  # URI decodes the String.
-  #
-  # @return [String]
-  #   The decoded URI form of the String.
-  #
-  # @example
-  #   "genre%3f".uri_decode
-  #   # => "genre?"
-  #
-  # @api public
-  #
-  def uri_decode
-    URI::DEFAULT_PARSER.unescape(self)
-  end
-
-  #
-  # URI escapes the String.
-  #
-  # @return [String]
-  #   The URI escaped form of the String.
-  #
-  # @example
-  #   "x > y".uri_escape
-  #   # => "x+%3E+y"
-  #
-  # @api public
-  #
-  def uri_escape
-    CGI.escape(self)
-  end
-
-  #
-  # URI unescapes the String.
-  #
-  # @return [String]
-  #   The unescaped URI form of the String.
-  #
-  # @example
-  #   "sweet+%26+sour".uri_unescape
-  #   # => "sweet & sour"
-  #
-  # @api public
-  #
-  def uri_unescape
-    CGI.unescape(self)
-  end
+  alias uri_decode uri_unescape
 
 end
