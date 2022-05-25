@@ -33,6 +33,7 @@ class Integer
     0x1B => '\e',
     0x5c => '\\\\'
   }
+
   #
   # Escapes the Integer as a C character.
   #
