@@ -46,16 +46,12 @@ class Integer
   # @example 
   #   0x41.c_escape
   #   # => "A"
-  #
-  # @example 
   #   0x22.c_escape
   #   # => "\\\""
-  #
-  # @example
   #   0x7f.c_escape
   #   # => "\x7F"
   #
-  # @example
+  # @example Encoding unicode characters:
   #   0xffff.c_escape
   #   # => "\\uFFFF"
   #
