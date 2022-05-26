@@ -77,10 +77,13 @@ module Ronin
         end
 
         #
-        # Creates a gzip output stream around an IO object.
+        # Opens a gzip file for reading or writing.
         #
-        # @param [IO, StringIO] io
-        #   The output IO object to write the gzipped data to.
+        # @param [String] path
+        #   The path to the gzip file.
+        #
+        # @param [String] mode
+        #   The mode to open the file as.
         #
         # @yield [gz]
         #   If a block is given, it will be passed the gzip writer object.

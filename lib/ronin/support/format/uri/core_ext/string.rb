@@ -27,6 +27,9 @@ class String
   #
   # URI escapes the String.
   #
+  # @param [Array<String>] unsafe
+  #   The unsafe characters to encode.
+  #
   # @return [String]
   #   The URI escaped form of the String.
   #
@@ -81,9 +84,6 @@ class String
 
   #
   # URI encodes the String.
-  #
-  # @param [Array<String>] unsafe
-  #   The unsafe characters to encode.
   #
   # @return [String]
   #   The URI encoded form of the String.

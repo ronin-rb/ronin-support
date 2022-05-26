@@ -91,14 +91,17 @@ module Ronin
       # @api public
       #
       def self.gzip_stream(io, mode: 'r', &block)
-        GZip.wrap(io,mode: mode,&block)
+        GZip.wrap(io, mode: mode, &block)
       end
 
       #
-      # Creates a gzip output stream around an IO object.
+      # Opens a gzip file for reading or writing.
       #
-      # @param [IO, StringIO] io
-      #   The output IO object to write the gzipped data to.
+      # @param [String] path
+      #   The path to the gzip file.
+      #
+      # @param [String] mode
+      #   The mode to open the file as.
       #
       # @yield [output]
       #   If a block is given, it will be passed the gzip writer object.
@@ -117,7 +120,7 @@ module Ronin
       # @api public
       #
       def self.gzip_open(path, mode: 'r', &block)
-        GZip.open(path,mode: mode,&block)
+        GZip.open(path, mode: mode, &block)
       end
 
       #
@@ -163,7 +166,7 @@ module Ronin
       # @api public
       #
       def self.gzip(path,&block)
-        gzip_open(path,mode: 'w',&block)
+        gzip_open(path, mode: 'w', &block)
       end
     end
   end
