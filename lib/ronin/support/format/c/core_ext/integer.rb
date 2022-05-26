@@ -51,7 +51,7 @@ class Integer
   #   0x7f.c_escape
   #   # => "\x7F"
   #
-  # @example Encoding unicode characters:
+  # @example Escaping unicode characters:
   #   0xffff.c_escape
   #   # => "\\uFFFF"
   #
