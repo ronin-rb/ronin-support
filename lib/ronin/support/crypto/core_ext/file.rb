@@ -213,7 +213,7 @@ class File
 
     open(path,'rb') do |file|
       until file.eof?
-        block = cipher.update(file.read(16384))
+        block = cipher.update(file.read(16384)) # 16K
 
         if block_given? then yield block
         else                 output << block
