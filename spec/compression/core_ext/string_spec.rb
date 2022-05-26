@@ -8,6 +8,8 @@ describe String do
 
   it { expect(subject).to respond_to(:zlib_inflate) }
   it { expect(subject).to respond_to(:zlib_deflate) }
+  it { expect(subject).to respond_to(:gzip)         }
+  it { expect(subject).to respond_to(:gunzip)       }
 
   describe "#zlib_inflate" do
     subject do
@@ -27,6 +29,14 @@ describe String do
     end
   end
 
+  describe "#gunzip" do
+    subject { "\x1F\x8B\b\x00K\x05\x8Fb\x00\x03\xCBH\xCD\xC9\xC9W(\xCF/\xCAI\xE1\x02\x00-;\b\xAF\f\x00\x00\x00" }
+
+    it "must gunzip the String" do
+      expect(subject.gunzip).to eq("hello world\n")
+    end
+  end
+
   describe "#gzip" do
     subject { "hello world\n" }
 
@@ -36,14 +46,6 @@ describe String do
 
     it "must return an ASCII 8bit encoded String" do
       expect(subject.gzip.encoding).to be(Encoding::ASCII_8BIT)
-    end
-  end
-
-  describe "#gunzip" do
-    subject { "\x1F\x8B\b\x00K\x05\x8Fb\x00\x03\xCBH\xCD\xC9\xC9W(\xCF/\xCAI\xE1\x02\x00-;\b\xAF\f\x00\x00\x00" }
-
-    it "must gunzip the String" do
-      expect(subject.gunzip).to eq("hello world\n")
     end
   end
 end
