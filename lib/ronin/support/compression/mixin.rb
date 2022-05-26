@@ -67,6 +67,108 @@ module Ronin
         def zlib_deflate(string)
           Compression.zlib_deflate(string)
         end
+
+        #
+        # Creates a gzip stream around the IO object.
+        #
+        # @param [IO, Tempfile, StringIO, String] io
+        #   The IO object to read or write data to.
+        #
+        # @yield [gz]
+        #   If a block is given, it will be passed the gzip stream object.
+        #
+        # @yieldparam [Zlib::GzipReader, Zlib::GzipWriter] gz
+        #   The gzip reader or writer object.
+        #
+        # @return [Zlib::GzipReader, Zlib::GzipWriter]
+        #   The gzip reader or writer object.
+        #
+        # @raise [ArgumentError]
+        #   The IO object must be either an `IO`, `Tempfile`, `StringIO`, or
+        #   `String` object. The mode must include either `r`, `w`, or `a`.
+        #
+        # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipReader
+        # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipWriter
+        # @see GZip.wrap
+        #
+        # @api public
+        #
+        def gzip_stream(io, mode: 'r', &block)
+          GZip.wrap(io,mode: mode,&block)
+        end
+
+        #
+        # Creates a gzip output stream around an IO object.
+        #
+        # @param [IO, StringIO] io
+        #   The output IO object to write the gzipped data to.
+        #
+        # @yield [gz]
+        #   If a block is given, it will be passed the gzip writer object.
+        #
+        # @yieldparam [Zlib::GzipReader, Zlib::GzipWriter] gz
+        #   The gzip stream object.
+        #
+        # @return [Zlib::GzipReader, Zlib::GzipWriter]
+        #   The gzip stream object.
+        #
+        # @raise [ArgumentError]
+        #   The mode must include either `r`, `w`, or `a`.
+        #
+        # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipWriter
+        # @see GZip.open
+        #
+        # @api public
+        #
+        def gzip_open(path, mode: 'r', &block)
+          GZip.open(path,mode: mode,&block)
+        end
+
+        #
+        # Opens the gzipped file for reading.
+        #
+        # @param [String] path
+        #   The path to the file to read.
+        #
+        # @yield [gz]
+        #   If a block is given, it will be passed the gzip reader object.
+        #
+        # @yieldparam [Zlib::GzipReader] gz
+        #   The gzip reader object.
+        #
+        # @return [Zlib::GzipReader]
+        #   The gzip reader object.
+        #
+        # @see #gzip_open
+        #
+        # @api public
+        #
+        def gunzip(path,&block)
+          gzip_open(path,&block)
+        end
+
+        #
+        # Opens the gzip file for writing.
+        #
+        # @param [String] path
+        #   The path to the file to write to.
+        #
+        # @yield [gz]
+        #   If a block is given, it will be passed the gzip writer object.
+        #
+        # @yieldparam [Zlib::GzipWriter] gz
+        #   The gzip writer object.
+        #
+        # @return [Zlib::GzipWriter]
+        #   The gzip writer object.
+        #
+        # @see #gzip_open
+        #
+        # @api public
+        #
+        def gzip(path,&block)
+          gzip_open(path,mode: 'w',&block)
+        end
       end
     end
   end
