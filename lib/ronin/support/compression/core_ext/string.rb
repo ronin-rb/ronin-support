@@ -55,6 +55,26 @@ class String
   end
 
   #
+  # Gzip uncompresses the string.
+  #
+  # @return [String]
+  #   The gunzipped version of the string.
+  #
+  # @example
+  #   "\x1F\x8B\b\x00K\x05\x8Fb\x00\x03\xCBH\xCD\xC9\xC9W(\xCF/\xCAI\xE1\x02\x00-;\b\xAF\f\x00\x00\x00".gunzip
+  #   # => "hello world\n"
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def gunzip
+    gz = Ronin::Support::Compression::GZip.wrap(self)
+
+    return gz.read
+  end
+
+  #
   # Gzip compresses the string.
   #
   # @return [String]
@@ -76,26 +96,6 @@ class String
     end
 
     return string_io.string
-  end
-
-  #
-  # Gzip uncompresses the string.
-  #
-  # @return [String]
-  #   The gunzipped version of the string.
-  #
-  # @example
-  #   "\x1F\x8B\b\x00K\x05\x8Fb\x00\x03\xCBH\xCD\xC9\xC9W(\xCF/\xCAI\xE1\x02\x00-;\b\xAF\f\x00\x00\x00".gunzip
-  #   # => "hello world\n"
-  #
-  # @api public
-  #
-  # @since 1.0.0
-  #
-  def gunzip
-    gz = Ronin::Support::Compression::GZip.wrap(self)
-
-    return gz.read
   end
 
 end
