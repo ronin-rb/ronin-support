@@ -208,7 +208,7 @@ class File
   #
   def self.stream_cipher(path,cipher, output: nil)
     unless block_given?
-      output ||= String.new('', encoding: Encoding::ASCII_8BIT)
+      output ||= String.new(encoding: Encoding::ASCII_8BIT)
     end
 
     open(path,'rb') do |file|
