@@ -143,6 +143,49 @@ module Ronin
           end
         end
 
+        #
+        # Pipes the IO stream through the cipher.
+        #
+        # @param [IO] io
+        #   The IO stream to encrypt or decrypt.
+        #
+        # @param [Integer] block_size
+        #   The block size to read the data with.
+        #
+        # @param [String, #<<, nil] output
+        #   The optional output buffer to append processed data to.
+        #   Defaults to an empty ASCII 8bit encoded String.
+        #
+        # @yield [block]
+        #   If a block is given, each processed block will be passed to it.
+        #
+        # @yieldparam [String] block
+        #   A processed block from the file.
+        #
+        # @return [String]
+        #   The processed data, if no block was given.
+        #
+        def stream(io, block_size: 16384, output: nil)
+          unless block_given?
+            output ||= String.new(encoding: Encoding::ASCII_8BIT)
+          end
+
+          until io.eof?
+            block = update(io.read(block_size))
+
+            if block_given? then yield block
+            else                 output << block
+            end
+          end
+
+          if block_given?
+            yield final
+          else
+            output << final
+            return output
+          end
+        end
+
       end
     end
   end

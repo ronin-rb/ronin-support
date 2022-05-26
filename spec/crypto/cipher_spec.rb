@@ -137,4 +137,54 @@ describe Ronin::Support::Crypto::Cipher do
       expect(subject.decrypt(cipher_text)).to eq(clear_text)
     end
   end
+
+  describe "#stream" do
+    let(:data_blocks) do
+      [
+        'A' * 16384,
+        'B' * 16384,
+        'C' * 1024
+      ]
+    end
+    let(:data) { data_blocks.join }
+
+    let(:encrypt_cipher) do
+      described_class.new(name, direction: :encrypt, password: password)
+    end
+
+    let(:decrypt_cipher) do
+      described_class.new(name, direction: :decrypt, password: password)
+    end
+
+    let(:encrypted_data) { encrypt_cipher.encrypt(data) }
+    let(:encrypted_io)   { StringIO.new(encrypted_data) }
+
+    it "must pipe the IO through the cipher" do
+      expect(decrypt_cipher.stream(encrypted_io)).to eq(data)
+    end
+
+    context "when given the output: keyword argument" do
+      let(:output) { [] }
+
+      it "must apend each block to the given output" do
+        decrypt_cipher.stream(encrypted_io, output: output)
+
+        expect(output.length).to be > 1
+        expect(output.join).to eq(data)
+      end
+    end
+
+    context "when given a block" do
+      it "must yield each encrypted/decrypted block" do
+        yielded_blocks = []
+
+        decrypt_cipher.stream(encrypted_io) do |block|
+          yielded_blocks << block
+        end
+
+        expect(yielded_blocks.length).to be > 1
+        expect(yielded_blocks.join).to eq(data)
+      end
+    end
+  end
 end

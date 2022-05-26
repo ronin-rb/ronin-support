@@ -183,53 +183,6 @@ class File
   end
 
   #
-  # Streams the file through a block cipher.
-  #
-  # @param [String] path
-  #   The path to the file.
-  #
-  # @param [OpenSSL::Cipher] cipher
-  #   The block cipher to use.
-  #
-  # @param [String, #<<, nil] output
-  #   The optional output buffer to append processed data to.
-  #   Defaults to an empty ASCII 8bit encoded String.
-  #
-  # @yield [block]
-  #   If a block is given, each processed block will be passed to it.
-  #
-  # @yieldparam [String] block
-  #   A processed block from the file.
-  #
-  # @return [String]
-  #   The processed data, if no block was given.
-  #
-  # @api semipublic
-  #
-  def self.stream_cipher(path,cipher, output: nil)
-    unless block_given?
-      output ||= String.new(encoding: Encoding::ASCII_8BIT)
-    end
-
-    open(path,'rb') do |file|
-      until file.eof?
-        block = cipher.update(file.read(16384)) # 16K
-
-        if block_given? then yield block
-        else                 output << block
-        end
-      end
-    end
-
-    if block_given?
-      yield cipher.final
-    else
-      output << cipher.final
-      return output
-    end
-  end
-
-  #
   # Encrypts the file.
   #
   # @param [String] path
@@ -237,6 +190,9 @@ class File
   #
   # @param [String] cipher
   #   The cipher to use.
+  #
+  # @param [Integer] block_size
+  #   Reads data from the file in chunks of the given block size.
   #
   # @param [String, #<<, nil] output
   #   The optional output buffer to append the encrypted data to.
@@ -275,11 +231,12 @@ class File
   #
   # @api public
   #
-  def self.encrypt(path,cipher, output: nil, **kwargs,&block)
+  def self.encrypt(path,cipher, block_size: 16384, output: nil, **kwargs,&block)
     cipher = Ronin::Support::Crypto.cipher(cipher, direction: :encrypt,
                                                    **kwargs)
+    file   = File.open(path,'rb')
 
-    stream_cipher(path,cipher, output: output,&block)
+    return cipher.stream(file, block_size: block_size, output: output,&block)
   end
 
   #
@@ -290,6 +247,9 @@ class File
   #
   # @param [String] cipher
   #   The cipher to use.
+  #
+  # @param [Integer] block_size
+  #   Reads data from the file in chunks of the given block size.
   #
   # @param [String, #<<, nil] output
   #   The optional output buffer to append the decrypted data to.
@@ -328,11 +288,12 @@ class File
   #
   # @api public
   #
-  def self.decrypt(path,cipher, output: nil, **kwargs,&block)
+  def self.decrypt(path,cipher, block_size: 16384, output: nil, **kwargs,&block)
     cipher = Ronin::Support::Crypto.cipher(cipher, direction: :decrypt,
                                                    **kwargs)
+    file   = File.open(path,'rb')
 
-    stream_cipher(path,cipher, output: output,&block)
+    return cipher.stream(file, block_size: block_size, output: output,&block)
   end
 
   #
@@ -341,6 +302,9 @@ class File
   # @param [String] path
   #   The path to the file.
   #
+  # @param [Integer] block_size
+  #   Reads data from the file in chunks of the given block size.
+  #
   # @param [String, #<<, nil] output
   #   The optional output buffer to append the AES encrypted data to.
   #   Defaults to an empty ASCII 8bit encoded String.
@@ -377,10 +341,11 @@ class File
   #
   # @since 1.0.0
   #
-  def self.aes_encrypt(path, output: nil, **kwargs,&block)
+  def self.aes_encrypt(path, block_size: 16384, output: nil, **kwargs,&block)
     cipher = Ronin::Support::Crypto.aes_cipher(direction: :encrypt, **kwargs)
+    file   = File.open(path,'rb')
 
-    stream_cipher(path,cipher, output: output,&block)
+    return cipher.stream(file, block_size: block_size, output: output,&block)
   end
 
   #
@@ -389,6 +354,9 @@ class File
   # @param [String] path
   #   The path to the file.
   #
+  # @param [Integer] block_size
+  #   Reads data from the file in chunks of the given block size.
+  #
   # @param [String, #<<, nil] output
   #   The optional output buffer to append the AES decrypted data to.
   #   Defaults to an empty ASCII 8bit encoded String.
@@ -425,10 +393,11 @@ class File
   #
   # @since 1.0.0
   #
-  def self.aes_decrypt(path, output: nil, **kwargs,&block)
+  def self.aes_decrypt(path, block_size: 16384, output: nil, **kwargs,&block)
     cipher = Ronin::Support::Crypto.aes_cipher(direction: :decrypt, **kwargs)
+    file   = File.open(path,'rb')
 
-    stream_cipher(path,cipher, output: output,&block)
+    return cipher.stream(file, block_size: block_size, output: output,&block)
   end
 
   #
@@ -437,6 +406,9 @@ class File
   # @param [String] path
   #   The path to the file.
   #
+  # @param [Integer] block_size
+  #   Reads data from the file in chunks of the given block size.
+  #
   # @param [String, #<<, nil] output
   #   The optional output buffer to append the AES encrypted data to.
   #   Defaults to an empty ASCII 8bit encoded String.
@@ -470,10 +442,11 @@ class File
   #
   # @since 1.0.0
   #
-  def self.aes128_encrypt(path, output: nil, **kwargs,&block)
+  def self.aes128_encrypt(path, block_size: 16384, output: nil, **kwargs,&block)
     cipher = Ronin::Support::Crypto.aes128_cipher(direction: :encrypt, **kwargs)
+    file   = File.open(path,'rb')
 
-    stream_cipher(path,cipher, output: output,&block)
+    return cipher.stream(file, block_size: block_size, output: output,&block)
   end
 
   #
@@ -482,6 +455,9 @@ class File
   # @param [String] path
   #   The path to the file.
   #
+  # @param [Integer] block_size
+  #   Reads data from the file in chunks of the given block size.
+  #
   # @param [String, #<<, nil] output
   #   The optional output buffer to append the AES decrypted data to.
   #   Defaults to an empty ASCII 8bit encoded String.
@@ -515,10 +491,11 @@ class File
   #
   # @since 1.0.0
   #
-  def self.aes128_decrypt(path, output: nil, **kwargs,&block)
+  def self.aes128_decrypt(path, block_size: 16384, output: nil, **kwargs,&block)
     cipher = Ronin::Support::Crypto.aes128_cipher(direction: :decrypt, **kwargs)
+    file   = File.open(path,'rb')
 
-    stream_cipher(path,cipher, output: output,&block)
+    return cipher.stream(file, block_size: block_size, output: output,&block)
   end
 
   #
@@ -526,6 +503,9 @@ class File
   #
   # @param [String] path
   #   The path to the file.
+  #
+  # @param [Integer] block_size
+  #   Reads data from the file in chunks of the given block size.
   #
   # @param [String, #<<, nil] output
   #   The optional output buffer to append the AES encrypted data to.
@@ -560,10 +540,11 @@ class File
   #
   # @since 1.0.0
   #
-  def self.aes256_encrypt(path, output: nil, **kwargs,&block)
+  def self.aes256_encrypt(path, block_size: 16384, output: nil, **kwargs,&block)
     cipher = Ronin::Support::Crypto.aes256_cipher(direction: :encrypt, **kwargs)
+    file   = File.open(path,'rb')
 
-    stream_cipher(path,cipher, output: output,&block)
+    return cipher.stream(file, block_size: block_size, output: output,&block)
   end
 
   #
@@ -571,6 +552,9 @@ class File
   #
   # @param [String] path
   #   The path to the file.
+  #
+  # @param [Integer] block_size
+  #   Reads data from the file in chunks of the given block size.
   #
   # @param [String, #<<, nil] output
   #   The optional output buffer to append the AES decrypted data to.
@@ -605,10 +589,11 @@ class File
   #
   # @since 1.0.0
   #
-  def self.aes256_decrypt(path, output: nil, **kwargs,&block)
+  def self.aes256_decrypt(path, block_size: 16384, output: nil, **kwargs,&block)
     cipher = Ronin::Support::Crypto.aes256_cipher(direction: :decrypt, **kwargs)
+    file   = File.open(path,'rb')
 
-    stream_cipher(path,cipher, output: output,&block)
+    return cipher.stream(file, block_size: block_size, output: output,&block)
   end
 
   #
