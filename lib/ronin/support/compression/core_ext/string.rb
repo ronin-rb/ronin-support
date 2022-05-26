@@ -18,6 +18,7 @@
 #
 
 require 'ronin/support/compression'
+require 'ronin/support/compression/gzip'
 
 class String
 
@@ -51,6 +52,50 @@ class String
   #
   def zlib_deflate
     Ronin::Support::Compression.zlib_deflate(self)
+  end
+
+  #
+  # Gzip compresses the string.
+  #
+  # @return [String]
+  #   The gzipped version of the string.
+  #
+  # @example
+  #   "hello world\n".gzip
+  #   # => "\x1F\x8B\b\x00K\x05\x8Fb\x00\x03\xCBH\xCD\xC9\xC9W(\xCF/\xCAI\xE1\x02\x00-;\b\xAF\f\x00\x00\x00"
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def gzip
+    string_io = StringIO.new(encoding: Encoding::ASCII_8BIT)
+
+    Ronin::Support::Compression::GZip.wrap(string_io, mode: 'w') do |gz|
+      gz.write(self)
+    end
+
+    return string_io.string
+  end
+
+  #
+  # Gzip uncompresses the string.
+  #
+  # @return [String]
+  #   The gunzipped version of the string.
+  #
+  # @example
+  #   "\x1F\x8B\b\x00K\x05\x8Fb\x00\x03\xCBH\xCD\xC9\xC9W(\xCF/\xCAI\xE1\x02\x00-;\b\xAF\f\x00\x00\x00".gunzip
+  #   # => "hello world\n"
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def gunzip
+    gz = Ronin::Support::Compression::GZip.wrap(self)
+
+    return gz.read
   end
 
 end
