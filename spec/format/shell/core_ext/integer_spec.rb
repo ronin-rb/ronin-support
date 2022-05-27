@@ -56,12 +56,6 @@ describe Integer do
         }.to raise_error(RangeError,"#{subject} out of char range")
       end
     end
-
-    context "otherwise" do
-      it "must return the value of #chr" do
-        expect(subject.shell_escape).to eq(subject.chr)
-      end
-    end
   end
 
   describe "#shell_encode" do
