@@ -35,18 +35,18 @@ describe String do
   end
 
   describe "#hex_escape" do
-    subject { "hello\x4e" }
+    subject { "hello\xff" }
 
     it "must hex escape a String" do
-      expect(subject.hex_escape).to eq("\\x68\\x65\\x6c\\x6c\\x6f\\x4e")
+      expect(subject.hex_escape).to eq("hello\\xff")
     end
   end
 
   describe "#hex_string" do
-    subject { "hello" }
+    subject { "hello\nworld" }
 
-    it "must return a double-quoted hex String" do
-      expect(subject.hex_string).to eq("\"\\x68\\x65\\x6c\\x6c\\x6f\"")
+    it "must return a double-quoted hex escaped String" do
+      expect(subject.hex_string).to eq("\"hello\\x0aworld\"")
     end
   end
 end
