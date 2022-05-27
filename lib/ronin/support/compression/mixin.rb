@@ -170,7 +170,7 @@ module Ronin
         # @api public
         #
         def gzip(path,&block)
-          Compression.gzip(path,mode: 'w',&block)
+          Compression.gzip(path,&block)
         end
       end
     end
