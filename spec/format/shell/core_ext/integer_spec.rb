@@ -74,5 +74,15 @@ describe Integer do
         expect(subject.shell_encode).to eq("$'\\uffff'")
       end
     end
+
+    context "when called on a negative Integer" do
+      subject { -1 }
+
+      it do
+        expect {
+          subject.shell_encode
+        }.to raise_error(RangeError,"#{subject} out of char range")
+      end
+    end
   end
 end
