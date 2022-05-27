@@ -34,7 +34,7 @@ describe Integer do
     end
 
     context "when called on an Integer that does not map to an ASCII char" do
-      subject { 0xff }
+      subject { 0xFF }
 
       it "must return the lowercase '\\xXX' hex escaped String" do
         expect(subject.hex_escape).to eq("\\xff")
