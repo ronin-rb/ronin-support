@@ -71,7 +71,7 @@ describe Integer do
       subject { 0xFFFF }
 
       it "must return the lowercase \"$'\\uXXXX'\" hex escaped String" do
-        expect(subject.shell_escape).to eq("$'\\uffff'")
+        expect(subject.shell_encode).to eq("$'\\uffff'")
       end
     end
   end
