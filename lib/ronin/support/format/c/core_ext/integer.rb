@@ -65,15 +65,11 @@ class Integer
         if self >= 0x20 && self <= 0x7e
           chr
         else
-          "\\x%.2x" % self
+          format_c
         end
       end
-    elsif self >= 0x100 && self <= 0xffff
-      "\\u%.4x" % self
-    elsif self >= 0x10000
-      "\\u%.8x" % self
     else
-      raise(RangeError,"#{self} out of char range")
+      format_c
     end
   end
 
@@ -94,7 +90,15 @@ class Integer
   # @api public
   #
   def format_c
-    "\\x%.2x" % self
+    if self >= 0x00 && self <= 0xff
+      "\\x%.2x" % self
+    elsif self >= 0x100 && self <= 0xffff
+      "\\u%.4x" % self
+    elsif self >= 0x10000
+      "\\u%.8x" % self
+    else
+      raise(RangeError,"#{self} out of char range")
+    end
   end
 
   alias c_encode format_c

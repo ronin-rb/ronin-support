@@ -67,5 +67,39 @@ describe Integer do
     it "must return the '\\xXX' form of the byte" do
       expect(subject.format_c).to eq(c_formatted)
     end
+
+    context "when called on an Integer that does not map to an ASCII char" do
+      subject { 0xFF }
+
+      it "must return the lowercase '\\xXX' hex escaped String" do
+        expect(subject.format_c).to eq('\xff')
+      end
+    end
+
+    context "when called on an Integer between 0x100 and 0xffff" do
+      subject { 0xFFFF }
+
+      it "must return the lowercase '\\uXXXX' hex escaped String" do
+        expect(subject.format_c).to eq('\uffff')
+      end
+    end
+
+    context "when called on an Integer greater than 0xffff" do
+      subject { 0x10000}
+
+      it "must return the lowercase '\\uXXXXXXXX' hex escaped String" do
+        expect(subject.format_c).to eq('\u00010000')
+      end
+    end
+
+    context "when called on a negative Integer" do
+      subject { -1 }
+
+      it do
+        expect {
+          subject.format_c
+        }.to raise_error(RangeError,"#{subject} out of char range")
+      end
+    end
   end
 end
