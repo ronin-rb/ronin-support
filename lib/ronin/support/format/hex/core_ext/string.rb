@@ -70,7 +70,7 @@ class String
   # @api public
   #
   def hex_escape(**kwargs)
-    format_bytes(**kwargs) { |b| b.hex_escape }
+    format_chars(**kwargs) { |c| c.ord.hex_escape }
   end
 
   #
