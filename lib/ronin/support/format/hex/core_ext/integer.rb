@@ -43,6 +43,9 @@ class Integer
   # @return [String]
   #   The hex escaped version of the Integer.
   #
+  # @raise [RangeError]
+  #   The integer value is negative.
+  #
   # @example
   #   42.hex_char
   #   # => "\\x2a"
@@ -50,7 +53,21 @@ class Integer
   # @api public
   #
   def hex_escape
-    "\\x%.2x" % self
+    if self >= 0x00 && self <= 0xff
+      if    self == 0x22
+        "\\\""
+      elsif self == 0x5d
+        "\\\\"
+      elsif self >= 0x20 && self <= 0x7e
+        chr
+      else
+        "\\x%.2x" % self
+      end
+    elsif self > 0xff
+      "\\x%x" % self
+    else
+      raise(RangeError,"#{self} out of char range")
+    end
   end
 
   alias hex_char hex_escape

@@ -17,18 +17,46 @@ describe Integer do
   end
 
   describe "#hex_encode" do
-    subject { 42 }
+    subject { 41 }
 
     it "must hex encode an Integer" do
-      expect(subject.hex_encode).to eq("2a")
+      expect(subject.hex_encode).to eq("29")
     end
   end
 
   describe "#hex_escape" do
-    subject { 42 }
+    context "when called on an Integer between 0x20 and 0x7e" do
+      subject { 41 }
 
-    it "must hex escape an Integer" do
-      expect(subject.hex_escape).to eq("\\x2a")
+      it "must return the ASCII character for the byte" do
+        expect(subject.hex_escape).to eq(subject.chr)
+      end
+    end
+
+    context "when called on an Integer that does not map to an ASCII char" do
+      subject { 0xff }
+
+      it "must return the lowercase '\\xXX' hex escaped String" do
+        expect(subject.hex_escape).to eq("\\xff")
+      end
+    end
+
+    context "when called on an Integer is greater than 0xff" do
+      subject { 0xFFFF }
+
+      it "must return the lowercase '\\xXXXX' hex escaped String" do
+        expect(subject.hex_escape).to eq("\\xffff")
+      end
+    end
+
+    context "when called on a negative Integer" do
+      subject { -1 }
+
+      it do
+        expect {
+          subject.shell_escape
+        }.to raise_error(RangeError,"#{subject} out of char range")
+      end
     end
   end
 
