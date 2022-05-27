@@ -27,12 +27,22 @@ describe String do
       end
     end
 
-    context "when the String contains escaped hexadecimal characters" do
+    context "when the String contains non-printable characters" do
       subject { "hello\xffworld".force_encoding(Encoding::ASCII_8BIT) }
 
       let(:escaped_c_string) { "hello\\xffworld" }
 
-      it "must escape the escaped hex characters with an extra back-slash" do
+      it "must escape non-printable characters with an extra back-slash" do
+        expect(subject.c_escape).to eq(escaped_c_string)
+      end
+    end
+
+    context "when the String contains unicode characters" do
+      subject { "hello\u1001world" }
+
+      let(:escaped_c_string) { "hello\\u1001world" }
+
+      it "must escape the unicode characters with a \\u" do
         expect(subject.c_escape).to eq(escaped_c_string)
       end
     end
