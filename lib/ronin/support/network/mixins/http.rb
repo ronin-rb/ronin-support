@@ -163,20 +163,37 @@ module Ronin
           #
           # Connects to the HTTP server and sends an HTTP Request.
           #
+          # @param [String, URI::HTTP] url
+          #   The full URL to request.
+          #
+          # @param [String] host
+          #   The host the HTTP server is running on.
+          #
+          # @param [Integer] port
+          #   The port the HTTP server is listening on.
+          #
+          # @param [URI::HTTP, String, nil] proxy
+          #   A Hash of proxy settings to use when connecting to the HTTP
+          #   server.
+          #
+          # @param [Boolean, Hash, nil] ssl
+          #   Enables SSL for the HTTP connection.
+          #
+          # @option ssl [Symbol] :verify
+          #   Specifies the SSL certificate verification mode.
+          #   
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_session}.
+          #   Additional keyword arguments for {Network::HTTP.request}.
           #
           # @option kwargs [Symbol, String] :method
           #   The HTTP method to use in the request.
           #
-          # @option kwargs [String, URI::HTTP] :url
-          #   The full URL to request.
+          # @option kwargs [String] user
+          #   The user to authenticate with when connecting to the HTTP server.
           #
-          # @option kwargs [String] :host
-          #   The host the HTTP server is running on.
-          #
-          # @option kwargs [Integer] :port (DEFAULT_PORT)
-          #   The port the HTTP server is listening on.
+          # @option kwargs [String] password
+          #   The password to authenticate with when connecting to the HTTP
+          #   server.
           #
           # @option kwargs [String] :path ('/')
           #   The path to request from the HTTP server.
@@ -227,11 +244,11 @@ module Ronin
           #
           # @api public
           #
-          def http_request(**kwargs)
+          def http_request(url: nil, host: nil, port: nil, proxy: nil, ssl: nil, **kwargs)
             response = nil
 
-            http_session(**kwargs) do |http|
-              req = Network::HTTP.request(**kwargs)
+            http_session(url: url, host: host, port: port, proxy: proxy, ssl: ssl) do |http|
+              req = Network::HTTP.request(url: url, **kwargs)
 
               yield req if block_given?
 
