@@ -89,7 +89,7 @@ module Ronin
         #
         # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipReader
         # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipWriter
-        # @see GZip.wrap
+        # @see Gzip.wrap
         #
         # @api public
         #
@@ -119,7 +119,7 @@ module Ronin
         #   The mode must include either `r`, `w`, or `a`.
         #
         # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipWriter
-        # @see GZip.open
+        # @see Gzip.open
         #
         # @api public
         #

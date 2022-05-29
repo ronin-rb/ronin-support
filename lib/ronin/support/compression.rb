@@ -91,7 +91,7 @@ module Ronin
       # @api public
       #
       def self.gzip_stream(io, mode: 'r', &block)
-        GZip.wrap(io, mode: mode, &block)
+        Gzip.wrap(io, mode: mode, &block)
       end
 
       #
@@ -120,7 +120,7 @@ module Ronin
       # @api public
       #
       def self.gzip_open(path, mode: 'r', &block)
-        GZip.open(path, mode: mode, &block)
+        Gzip.open(path, mode: mode, &block)
       end
 
       #

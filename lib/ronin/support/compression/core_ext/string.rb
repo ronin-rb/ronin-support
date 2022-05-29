@@ -69,7 +69,7 @@ class String
   # @since 1.0.0
   #
   def gunzip
-    gz = Ronin::Support::Compression::GZip.wrap(self)
+    gz = Ronin::Support::Compression::Gzip.wrap(self)
 
     return gz.read
   end
@@ -91,7 +91,7 @@ class String
   def gzip
     string_io = StringIO.new(encoding: Encoding::ASCII_8BIT)
 
-    Ronin::Support::Compression::GZip.wrap(string_io, mode: 'w') do |gz|
+    Ronin::Support::Compression::Gzip.wrap(string_io, mode: 'w') do |gz|
       gz.write(self)
     end
 

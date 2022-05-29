@@ -3,7 +3,7 @@ require 'ronin/support/compression/gzip'
 
 require 'tempfile'
 
-describe Ronin::Support::Compression::GZip do
+describe Ronin::Support::Compression::Gzip do
   let(:fixtures_dir) { File.join(__dir__,'fixtures') }
 
   let(:txt_path) { File.join(fixtures_dir,'file.txt') }

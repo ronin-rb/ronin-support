@@ -26,13 +26,13 @@ module Ronin
   module Support
     module Compression
       #
-      # Handles GZip compression.
+      # Handles gzip compression/decompression.
       #
       # @api public
       #
       # @since 1.0.0
       #
-      module GZip
+      module Gzip
         # Alias for `Zlib::GzipReader`
         #
         # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipReader

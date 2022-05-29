@@ -41,7 +41,7 @@ class File
   # @since 1.0.0
   #
   def self.gzip(path,mode='w',&block)
-    Ronin::Support::Compression::GZip.open(path, mode: mode, &block)
+    Ronin::Support::Compression::Gzip.open(path, mode: mode, &block)
   end
 
   #
@@ -64,7 +64,7 @@ class File
   # @since 1.0.0
   #
   def self.gunzip(path,mode='r',&block)
-    Ronin::Support::Compression::GZip.open(path, mode: mode, &block)
+    Ronin::Support::Compression::Gzip.open(path, mode: mode, &block)
   end
 
 end
