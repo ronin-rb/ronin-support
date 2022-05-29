@@ -254,6 +254,38 @@ describe Network::HTTP do
       end
     end
 
+    context "with :body" do
+      context "when the :body value is a String" do
+        let(:body) { "foo bar baz" }
+
+        it "must set the request's #body" do
+          req = subject.request(method: :get, body: body)
+
+          expect(req.body).to be(body)
+        end
+      end
+
+      context "when the :body value is an IO object" do
+        let(:body) { File.new(__FILE__) }
+
+        it "must set the request's #body_stream" do
+          req = subject.request(method: :get, body: body)
+
+          expect(req.body_stream).to be(body)
+        end
+      end
+
+      context "when the :body value is an StringIO object" do
+        let(:body) { StringIO.new('foo bar baz') }
+
+        it "must set the request's #body_stream" do
+          req = subject.request(method: :get, body: body)
+
+          expect(req.body_stream).to be(body)
+        end
+      end
+    end
+
     context "with :user and :password" do
       it "must accept the :user option for Basic-Auth" do
         req = subject.request(method: :get, user: 'joe')

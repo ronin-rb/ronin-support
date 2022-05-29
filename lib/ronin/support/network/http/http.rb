@@ -353,7 +353,12 @@ module Ronin
               request.form_data    = form_data
             end
           elsif body
-            request.body = body
+            case body
+            when IO, StringIO
+              request.body_stream = body
+            else
+              request.body = body
+            end
           end
 
           if user
