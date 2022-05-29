@@ -33,6 +33,16 @@ module Ronin
       # @since 1.0.0
       #
       module GZip
+        # Alias for `Zlib::GzipReader`
+        #
+        # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipReader
+        Reader = Zlib::GzipReader
+
+        # Alias for `Zlib::GzipWriter`
+        #
+        # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipWriter
+        Writer = Zlib::GzipWriter
+
         #
         # Creates a gzip stream around the IO object.
         #

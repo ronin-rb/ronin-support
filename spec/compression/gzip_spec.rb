@@ -12,6 +12,22 @@ describe Ronin::Support::Compression::GZip do
   let(:gzip_path) { File.join(fixtures_dir,'file.gz') }
   let(:gzip_data) { File.binread(gzip_path)           }
 
+  describe "Reader" do
+    subject { described_class::Reader }
+
+    it "must equal Zlib::GzipReader" do
+      expect(subject).to be(Zlib::GzipReader)
+    end
+  end
+
+  describe "Writer" do
+    subject { described_class::Writer }
+
+    it "must equal Zlib::GzipWriter" do
+      expect(subject).to be(Zlib::GzipWriter)
+    end
+  end
+
   describe ".wrap" do
     context "when given a String" do
       let(:string) { gzip_data }
