@@ -175,16 +175,108 @@ describe Network::HTTP do
   end
 
   describe "request" do
-    it "must handle Symbol names" do
-      expect(subject.request(
-        method: :get, path: '/'
-      ).class).to eq(Net::HTTP::Get)
+    it "must raise an ArgumentError when :method is not specified" do
+      expect {
+        subject.request()
+      }.to raise_error(ArgumentError)
     end
 
-    it "must handle String names" do
-      expect(subject.request(
-        method: 'GET', path: '/'
-      ).class).to eq(Net::HTTP::Get)
+    context "with :method" do
+      it "must accept Symbol names" do
+        expect(subject.request(
+          method: :get, path: '/'
+        ).class).to eq(Net::HTTP::Get)
+      end
+
+      it "must convert String names to Symbol names" do
+        expect(subject.request(
+          method: 'GET', path: '/'
+        ).class).to eq(Net::HTTP::Get)
+      end
+
+      it "must create HTTP Copy requests" do
+        req = subject.request(method: :copy)
+
+        expect(req.class).to eq(Net::HTTP::Copy)
+      end
+
+      it "must create HTTP Delete requests" do
+        req = subject.request(method: :delete)
+
+        expect(req.class).to eq(Net::HTTP::Delete)
+      end
+
+      it "must create HTTP Get requests" do
+        req = subject.request(method: :get)
+
+        expect(req.class).to eq(Net::HTTP::Get)
+      end
+
+      it "must create HTTP Head requests" do
+        req = subject.request(method: :head)
+
+        expect(req.class).to eq(Net::HTTP::Head)
+      end
+
+      it "must create HTTP Lock requests" do
+        req = subject.request(method: :lock)
+
+        expect(req.class).to eq(Net::HTTP::Lock)
+      end
+
+      it "must create HTTP Mkcol requests" do
+        req = subject.request(method: :mkcol)
+
+        expect(req.class).to eq(Net::HTTP::Mkcol)
+      end
+
+      it "must create HTTP Move requests" do
+        req = subject.request(method: :move)
+
+        expect(req.class).to eq(Net::HTTP::Move)
+      end
+
+      it "must create HTTP Options requests" do
+        req = subject.request(method: :options)
+
+        expect(req.class).to eq(Net::HTTP::Options)
+      end
+
+      it "must create HTTP Post requests" do
+        req = subject.request(method: :post)
+
+        expect(req.class).to eq(Net::HTTP::Post)
+      end
+
+      it "must create HTTP Propfind requests" do
+        req = subject.request(method: :propfind)
+
+        expect(req.class).to eq(Net::HTTP::Propfind)
+      end
+
+      it "must create HTTP Proppatch requests" do
+        req = subject.request(method: :proppatch)
+
+        expect(req.class).to eq(Net::HTTP::Proppatch)
+      end
+
+      it "must create HTTP Trace requests" do
+        req = subject.request(method: :trace)
+
+        expect(req.class).to eq(Net::HTTP::Trace)
+      end
+
+      it "must create HTTP Unlock requests" do
+        req = subject.request(method: :unlock)
+
+        expect(req.class).to eq(Net::HTTP::Unlock)
+      end
+
+      it "must raise an UnknownRequest exception for invalid methods" do
+        expect {
+          subject.request(method: :bla)
+        }.to raise_error(subject::UnknownRequest)
+      end
     end
 
     context "with :path" do
@@ -302,98 +394,6 @@ describe Network::HTTP do
 
         expect(req['authorization']).to eq("Basic am9lOnNlY3JldA==")
       end
-    end
-
-    context "with :method" do
-      it "must create HTTP Copy requests" do
-        req = subject.request(method: :copy)
-
-        expect(req.class).to eq(Net::HTTP::Copy)
-      end
-
-      it "must create HTTP Delete requests" do
-        req = subject.request(method: :delete)
-
-        expect(req.class).to eq(Net::HTTP::Delete)
-      end
-
-      it "must create HTTP Get requests" do
-        req = subject.request(method: :get)
-
-        expect(req.class).to eq(Net::HTTP::Get)
-      end
-
-      it "must create HTTP Head requests" do
-        req = subject.request(method: :head)
-
-        expect(req.class).to eq(Net::HTTP::Head)
-      end
-
-      it "must create HTTP Lock requests" do
-        req = subject.request(method: :lock)
-
-        expect(req.class).to eq(Net::HTTP::Lock)
-      end
-
-      it "must create HTTP Mkcol requests" do
-        req = subject.request(method: :mkcol)
-
-        expect(req.class).to eq(Net::HTTP::Mkcol)
-      end
-
-      it "must create HTTP Move requests" do
-        req = subject.request(method: :move)
-
-        expect(req.class).to eq(Net::HTTP::Move)
-      end
-
-      it "must create HTTP Options requests" do
-        req = subject.request(method: :options)
-
-        expect(req.class).to eq(Net::HTTP::Options)
-      end
-
-      it "must create HTTP Post requests" do
-        req = subject.request(method: :post)
-
-        expect(req.class).to eq(Net::HTTP::Post)
-      end
-
-      it "must create HTTP Propfind requests" do
-        req = subject.request(method: :propfind)
-
-        expect(req.class).to eq(Net::HTTP::Propfind)
-      end
-
-      it "must create HTTP Proppatch requests" do
-        req = subject.request(method: :proppatch)
-
-        expect(req.class).to eq(Net::HTTP::Proppatch)
-      end
-
-      it "must create HTTP Trace requests" do
-        req = subject.request(method: :trace)
-
-        expect(req.class).to eq(Net::HTTP::Trace)
-      end
-
-      it "must create HTTP Unlock requests" do
-        req = subject.request(method: :unlock)
-
-        expect(req.class).to eq(Net::HTTP::Unlock)
-      end
-
-      it "must raise an UnknownRequest exception for invalid methods" do
-        expect {
-          subject.request(method: :bla)
-        }.to raise_error(subject::UnknownRequest)
-      end
-    end
-
-    it "must raise an ArgumentError when :method is not specified" do
-      expect {
-        subject.request()
-      }.to raise_error(ArgumentError)
     end
   end
 end
