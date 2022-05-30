@@ -91,10 +91,10 @@ class String
   #
   def gzip
     buffer = StringIO.new(encoding: Encoding::ASCII_8BIT)
-    gz     = Ronin::Support::Compression::Gzip::Writer.new(buffer)
 
-    gz.write(self)
-    gz.close
+    Ronin::Support::Compression::Gzip::Writer.wrap(buffer) do |gz|
+      gz.write(self)
+    end
 
     return buffer.string
   end
