@@ -16,15 +16,15 @@ describe Ronin::Support::Compression::Gzip do
     context "when given a String" do
       let(:string) { gzip_data }
 
-      it "must return a Zlib::GzipReader object" do
-        expect(subject.wrap(string)).to be_kind_of(Zlib::GzipReader)
+      it "must return a described_class::Reader object" do
+        expect(subject.wrap(string)).to be_kind_of(described_class::Reader)
       end
 
       context "and when a block is given" do
-        it "must yield the new Zlib::GzipReader object" do
+        it "must yield the new described_class::Reader object" do
           expect { |b|
             subject.wrap(string,&b)
-          }.to yield_with_args(Zlib::GzipReader)
+          }.to yield_with_args(described_class::Reader)
         end
       end
 
@@ -35,29 +35,29 @@ describe Ronin::Support::Compression::Gzip do
       end
 
       context "when given mode: 'w'" do
-        it "must return a Zlib::GzipWriter object" do
-          expect(subject.wrap(string, mode: 'w')).to be_kind_of(Zlib::GzipWriter)
+        it "must return a described_class::Writer object" do
+          expect(subject.wrap(string, mode: 'w')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
-          it "must yield the new Zlib::GzipWriter object" do
+          it "must yield the new described_class::Writer object" do
             expect { |b|
               subject.wrap(string, mode: 'w', &b)
-            }.to yield_with_args(Zlib::GzipWriter)
+            }.to yield_with_args(described_class::Writer)
           end
         end
       end
 
       context "when given mode: 'a'" do
-        it "must return a Zlib::GzipWriter object" do
-          expect(subject.wrap(string, mode: 'a')).to be_kind_of(Zlib::GzipWriter)
+        it "must return a described_class::Writer object" do
+          expect(subject.wrap(string, mode: 'a')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
-          it "must yield the new Zlib::GzipWriter object" do
+          it "must yield the new described_class::Writer object" do
             expect { |b|
               subject.wrap(string, mode: 'a', &b)
-            }.to yield_with_args(Zlib::GzipWriter)
+            }.to yield_with_args(described_class::Writer)
           end
         end
       end
@@ -76,15 +76,15 @@ describe Ronin::Support::Compression::Gzip do
     context "when given a StringIO" do
       let(:string_io) { StringIO.new(gzip_data) }
 
-      it "must return a Zlib::GzipReader object" do
-        expect(subject.wrap(string_io)).to be_kind_of(Zlib::GzipReader)
+      it "must return a described_class::Reader object" do
+        expect(subject.wrap(string_io)).to be_kind_of(described_class::Reader)
       end
 
       context "and when a block is given" do
-        it "must yield the new Zlib::GzipReader object" do
+        it "must yield the new described_class::Reader object" do
           expect { |b|
             subject.wrap(string_io,&b)
-          }.to yield_with_args(Zlib::GzipReader)
+          }.to yield_with_args(described_class::Reader)
         end
       end
 
@@ -95,29 +95,29 @@ describe Ronin::Support::Compression::Gzip do
       end
 
       context "when given mode: 'w'" do
-        it "must return a Zlib::GzipWriter object" do
-          expect(subject.wrap(string_io, mode: 'w')).to be_kind_of(Zlib::GzipWriter)
+        it "must return a described_class::Writer object" do
+          expect(subject.wrap(string_io, mode: 'w')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
-          it "must yield the new Zlib::GzipWriter object" do
+          it "must yield the new described_class::Writer object" do
             expect { |b|
               subject.wrap(string_io, mode: 'w', &b)
-            }.to yield_with_args(Zlib::GzipWriter)
+            }.to yield_with_args(described_class::Writer)
           end
         end
       end
 
       context "when given mode: 'a'" do
-        it "must return a Zlib::GzipWriter object" do
-          expect(subject.wrap(string_io, mode: 'a')).to be_kind_of(Zlib::GzipWriter)
+        it "must return a described_class::Writer object" do
+          expect(subject.wrap(string_io, mode: 'a')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
-          it "must yield the new Zlib::GzipWriter object" do
+          it "must yield the new described_class::Writer object" do
             expect { |b|
               subject.wrap(string_io, mode: 'a', &b)
-            }.to yield_with_args(Zlib::GzipWriter)
+            }.to yield_with_args(described_class::Writer)
           end
         end
       end
@@ -136,15 +136,15 @@ describe Ronin::Support::Compression::Gzip do
     context "when given an IO object" do
       let(:io) { File.open(gzip_path,'rb') }
 
-      it "must return a Zlib::GzipReader object" do
-        expect(subject.wrap(io)).to be_kind_of(Zlib::GzipReader)
+      it "must return a described_class::Reader object" do
+        expect(subject.wrap(io)).to be_kind_of(described_class::Reader)
       end
 
       context "and when a block is given" do
-        it "must yield the new Zlib::GzipReader object" do
+        it "must yield the new described_class::Reader object" do
           expect { |b|
             subject.wrap(io,&b)
-          }.to yield_with_args(Zlib::GzipReader)
+          }.to yield_with_args(described_class::Reader)
         end
       end
 
@@ -153,15 +153,15 @@ describe Ronin::Support::Compression::Gzip do
         let(:path)     { tempfile.path }
         let(:io)       { File.open(path,'wb') }
 
-        it "must return a Zlib::GzipWriter object" do
-          expect(subject.wrap(io, mode: 'w')).to be_kind_of(Zlib::GzipWriter)
+        it "must return a described_class::Writer object" do
+          expect(subject.wrap(io, mode: 'w')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
-          it "must yield the new Zlib::GzipWriter object" do
+          it "must yield the new described_class::Writer object" do
             expect { |b|
               subject.wrap(io, mode: 'w', &b)
-            }.to yield_with_args(Zlib::GzipWriter)
+            }.to yield_with_args(described_class::Writer)
           end
         end
       end
@@ -171,15 +171,15 @@ describe Ronin::Support::Compression::Gzip do
         let(:path)     { tempfile.path }
         let(:io)       { File.open(path,'ab') }
 
-        it "must return a Zlib::GzipWriter object" do
-          expect(subject.wrap(io, mode: 'a')).to be_kind_of(Zlib::GzipWriter)
+        it "must return a described_class::Writer object" do
+          expect(subject.wrap(io, mode: 'a')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
-          it "must yield the new Zlib::GzipWriter object" do
+          it "must yield the new described_class::Writer object" do
             expect { |b|
               subject.wrap(io, mode: 'a', &b)
-            }.to yield_with_args(Zlib::GzipWriter)
+            }.to yield_with_args(described_class::Writer)
           end
         end
       end
@@ -199,15 +199,15 @@ describe Ronin::Support::Compression::Gzip do
   describe ".open" do
     let(:path) { gzip_path }
 
-    it "must return a Zlib::GzipReader object" do
-      expect(subject.open(path)).to be_kind_of(Zlib::GzipReader)
+    it "must return a described_class::Reader object" do
+      expect(subject.open(path)).to be_kind_of(described_class::Reader)
     end
 
     context "and when a block is given" do
-      it "must yield the new Zlib::GzipReader object" do
+      it "must yield the new described_class::Reader object" do
         expect { |b|
           subject.open(path,&b)
-        }.to yield_with_args(Zlib::GzipReader)
+        }.to yield_with_args(described_class::Reader)
       end
     end
 
@@ -215,15 +215,15 @@ describe Ronin::Support::Compression::Gzip do
       let(:tempfile) { Tempfile.new('ronin-support') }
       let(:path)     { tempfile.path }
 
-      it "must return a Zlib::GzipWriter object" do
-        expect(subject.open(path, mode: 'w')).to be_kind_of(Zlib::GzipWriter)
+      it "must return a described_class::Writer object" do
+        expect(subject.open(path, mode: 'w')).to be_kind_of(described_class::Writer)
       end
 
       context "and when a block is given" do
-        it "must yield the new Zlib::GzipWriter object" do
+        it "must yield the new described_class::Writer object" do
           expect { |b|
             subject.open(path, mode: 'w', &b)
-          }.to yield_with_args(Zlib::GzipWriter)
+          }.to yield_with_args(described_class::Writer)
         end
       end
     end
@@ -232,15 +232,15 @@ describe Ronin::Support::Compression::Gzip do
       let(:tempfile) { Tempfile.new('ronin-support') }
       let(:path)     { tempfile.path }
 
-      it "must return a Zlib::GzipWriter object" do
-        expect(subject.open(path, mode: 'w')).to be_kind_of(Zlib::GzipWriter)
+      it "must return a described_class::Writer object" do
+        expect(subject.open(path, mode: 'w')).to be_kind_of(described_class::Writer)
       end
 
       context "and when a block is given" do
-        it "must yield the new Zlib::GzipWriter object" do
+        it "must yield the new described_class::Writer object" do
           expect { |b|
             subject.open(path, mode: 'a', &b)
-          }.to yield_with_args(Zlib::GzipWriter)
+          }.to yield_with_args(described_class::Writer)
         end
       end
     end

@@ -17,7 +17,8 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/compression/zlib'
+require 'ronin/support/compression/gzip/reader'
+require 'ronin/support/compression/gzip/writer'
 
 require 'stringio'
 require 'tempfile'
@@ -33,52 +34,31 @@ module Ronin
       # @since 1.0.0
       #
       module Gzip
-        # Alias for `Zlib::GzipReader`
-        #
-        # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipReader
-        Reader = Zlib::GzipReader
-
-        # Alias for `Zlib::GzipWriter`
-        #
-        # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipWriter
-        Writer = Zlib::GzipWriter
-
         #
         # Creates a gzip stream around the IO object.
         #
-        # @param [IO, Tempfile, StringIO, String] io
-        #   The IO object to read or write data to.
+        # @param [IO, StringIO, String] io
+        #   The IO or buffer object to read or write data to.
         #
         # @yield [gz]
         #   If a block is given, it will be passed the gzip stream object.
         #
-        # @yieldparam [Zlib::GzipReader, Zlib::GzipWriter] gz
+        # @yieldparam [Reader, Writer] gz
         #   The gzip reader or writer object.
         #
-        # @return [Zlib::GzipReader, Zlib::GzipWriter]
+        # @return [Reader, Writer]
         #   The gzip reader or writer object.
         #
         # @raise [ArgumentError]
-        #   The IO object must be either an `IO`, `Tempfile`, `StringIO`, or
-        #   `String` object. The mode must include either `r`, `w`, or `a`.
-        #
-        # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipReader
-        # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipWriter
+        #   The mode must include either `r`, `w`, or `a`.
         #
         # @api public
         #
         def self.wrap(io, mode: 'r', &block)
-          io = case io
-               when String                 then StringIO.new(io)
-               when IO, Tempfile, StringIO then io
-               else
-                 raise(ArgumentError,"IO argument must be either a IO, Tempfile, StringIO, or String")
-               end
-
           gzip_class = if mode.include?('w') || mode.include?('a')
-                         Zlib::GzipWriter
+                         Writer
                        elsif mode.include?('r')
-                         Zlib::GzipReader
+                         Reader
                        else
                          raise(ArgumentError,"mode argument must include either 'r', 'w', or 'a': #{mode.inspect}")
                        end
@@ -98,24 +78,22 @@ module Ronin
         # @yield [gz]
         #   If a block is given, it will be passed the gzip writer object.
         #
-        # @yieldparam [Zlib::GzipWriter] gz
+        # @yieldparam [Reader, Writer] gz
         #   The gzip writer object.
         #
-        # @return [Zlib::GzipWriter]
+        # @return [Reader, Writer]
         #   The gzip writer object.
         #
         # @raise [ArgumentError]
         #   The mode must include either `r`, `w`, or `a`.
         #
-        # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipWriter
-        #
         # @api public
         #
         def self.open(path, mode: 'r', &block)
           gzip_class = if mode.include?('w') || mode.include?('a')
-                         Zlib::GzipWriter
+                         Writer
                        elsif mode.include?('r')
-                         Zlib::GzipReader
+                         Reader
                        else
                          raise(ArgumentError,"mode argument must include either 'r', 'w', or 'a'")
                        end
