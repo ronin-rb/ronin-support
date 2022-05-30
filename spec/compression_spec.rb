@@ -50,9 +50,6 @@ describe Ronin::Support::Compression do
       end
 
       context "when given mode: 'w'" do
-        let(:tempfile) { Tempfile.new('ronin-support') }
-        let(:path)     { tempfile.path }
-
         it "must return a Zlib::GzipWriter object" do
           expect(subject.gzip_stream(string, mode: 'w')).to be_kind_of(Zlib::GzipWriter)
         end
@@ -67,9 +64,6 @@ describe Ronin::Support::Compression do
       end
 
       context "when given mode: 'a'" do
-        let(:tempfile) { Tempfile.new('ronin-support') }
-        let(:path)     { tempfile.path }
-
         it "must return a Zlib::GzipWriter object" do
           expect(subject.gzip_stream(string, mode: 'a')).to be_kind_of(Zlib::GzipWriter)
         end
@@ -116,9 +110,6 @@ describe Ronin::Support::Compression do
       end
 
       context "when given mode: 'w'" do
-        let(:tempfile) { Tempfile.new('ronin-support') }
-        let(:path)     { tempfile.path }
-
         it "must return a Zlib::GzipWriter object" do
           expect(subject.gzip_stream(string_io, mode: 'w')).to be_kind_of(Zlib::GzipWriter)
         end
@@ -133,9 +124,6 @@ describe Ronin::Support::Compression do
       end
 
       context "when given mode: 'a'" do
-        let(:tempfile) { Tempfile.new('ronin-support') }
-        let(:path)     { tempfile.path }
-
         it "must return a Zlib::GzipWriter object" do
           expect(subject.gzip_stream(string_io, mode: 'a')).to be_kind_of(Zlib::GzipWriter)
         end
@@ -177,14 +165,14 @@ describe Ronin::Support::Compression do
 
       context "when given mode: 'w'" do
         let(:tempfile) { Tempfile.new('ronin-support') }
+        let(:path)     { tempfile.path }
+        let(:io)       { File.open(path,'wb') }
 
         it "must return a Zlib::GzipWriter object" do
           expect(subject.gzip_stream(tempfile, mode: 'w')).to be_kind_of(Zlib::GzipWriter)
         end
 
         context "and when a block is given" do
-          let(:io) { File.open(tempfile.path,'w') }
-
           it "must yield the new Zlib::GzipWriter object" do
             expect { |b|
               subject.gzip_stream(io, mode: 'w', &b)
@@ -196,14 +184,13 @@ describe Ronin::Support::Compression do
       context "when given mode: 'a'" do
         let(:tempfile) { Tempfile.new('ronin-support') }
         let(:path)     { tempfile.path }
+        let(:io)       { File.open(path,'ab') }
 
         it "must return a Zlib::GzipWriter object" do
           expect(subject.gzip_stream(io, mode: 'a')).to be_kind_of(Zlib::GzipWriter)
         end
 
         context "and when a block is given" do
-          let(:io) { File.open(tempfile.path,'w') }
-
           it "must yield the new Zlib::GzipWriter object" do
             expect { |b|
               subject.gzip_stream(io, mode: 'a', &b)
@@ -218,72 +205,6 @@ describe Ronin::Support::Compression do
         it do
           expect {
             subject.gzip_stream(io, mode: mode)
-          }.to raise_error(ArgumentError,"mode argument must include either 'r', 'w', or 'a': #{mode.inspect}")
-        end
-      end
-    end
-
-    context "when given a Tempfile" do
-      let(:tempfile) { Tempfile.new('ronin-support') }
-
-      before do
-        tempfile.write(gzip_data)
-        tempfile.flush
-        tempfile.rewind
-      end
-
-      it "must return a Zlib::GzipReader object" do
-        expect(subject.gzip_stream(tempfile)).to be_kind_of(Zlib::GzipReader)
-      end
-
-      context "and when a block is given" do
-        it "must yield the new Zlib::GzipReader object" do
-          expect { |b|
-            subject.gzip_stream(tempfile,&b)
-          }.to yield_with_args(Zlib::GzipReader)
-        end
-      end
-
-      it "must gzip_stream the String in a Tempfile object" do
-        gz = subject.gzip_stream(tempfile)
-
-        expect(gz.read).to eq(txt_data)
-      end
-
-      context "when given mode: 'w'" do
-        it "must return a Zlib::GzipWriter object" do
-          expect(subject.gzip_stream(tempfile, mode: 'w')).to be_kind_of(Zlib::GzipWriter)
-        end
-
-        context "and when a block is given" do
-          it "must yield the new Zlib::GzipWriter object" do
-            expect { |b|
-              subject.gzip_stream(tempfile, mode: 'w', &b)
-            }.to yield_with_args(Zlib::GzipWriter)
-          end
-        end
-      end
-
-      context "when given mode: 'a'" do
-        it "must return a Zlib::GzipWriter object" do
-          expect(subject.gzip_stream(tempfile, mode: 'a')).to be_kind_of(Zlib::GzipWriter)
-        end
-
-        context "and when a block is given" do
-          it "must yield the new Zlib::GzipWriter object" do
-            expect { |b|
-              subject.gzip_stream(tempfile, mode: 'a', &b)
-            }.to yield_with_args(Zlib::GzipWriter)
-          end
-        end
-      end
-
-      context "when given an unknown mode String" do
-        let(:mode) { 'x' }
-
-        it do
-          expect {
-            subject.gzip_stream(tempfile, mode: mode)
           }.to raise_error(ArgumentError,"mode argument must include either 'r', 'w', or 'a': #{mode.inspect}")
         end
       end
