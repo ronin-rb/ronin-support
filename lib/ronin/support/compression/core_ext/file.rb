@@ -17,7 +17,8 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/compression/gzip'
+require 'ronin/support/compression/gzip/reader'
+require 'ronin/support/compression/gzip/writer'
 
 class File
 
@@ -40,8 +41,8 @@ class File
   #
   # @since 1.0.0
   #
-  def self.gzip(path,mode='w',&block)
-    Ronin::Support::Compression::Gzip.open(path, mode: mode, &block)
+  def self.gzip(path,&block)
+    Ronin::Support::Compression::Gzip::Writer.open(path,&block)
   end
 
   #
@@ -63,8 +64,8 @@ class File
   #
   # @since 1.0.0
   #
-  def self.gunzip(path,mode='r',&block)
-    Ronin::Support::Compression::Gzip.open(path, mode: mode, &block)
+  def self.gunzip(path,&block)
+    Ronin::Support::Compression::Gzip::Reader.open(path,&block)
   end
 
 end

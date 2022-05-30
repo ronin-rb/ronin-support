@@ -18,7 +18,8 @@
 #
 
 require 'ronin/support/compression'
-require 'ronin/support/compression/gzip'
+require 'ronin/support/compression/gzip/reader'
+require 'ronin/support/compression/gzip/writer'
 
 class String
 
@@ -69,7 +70,7 @@ class String
   # @since 1.0.0
   #
   def gunzip
-    gz = Ronin::Support::Compression::Gzip.wrap(self)
+    gz = Ronin::Support::Compression::Gzip::Reader.new(self)
 
     return gz.read
   end
@@ -89,13 +90,13 @@ class String
   # @since 1.0.0
   #
   def gzip
-    string_io = StringIO.new(encoding: Encoding::ASCII_8BIT)
+    buffer = StringIO.new(encoding: Encoding::ASCII_8BIT)
+    gz     = Ronin::Support::Compression::Gzip::Writer.new(buffer)
 
-    Ronin::Support::Compression::Gzip.wrap(string_io, mode: 'w') do |gz|
-      gz.write(self)
-    end
+    gz.write(self)
+    gz.close
 
-    return string_io.string
+    return buffer.string
   end
 
 end
