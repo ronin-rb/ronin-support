@@ -23,29 +23,6 @@ require 'ronin/support/compression/gzip/writer'
 class File
 
   #
-  # Opens the gzip file for writing.
-  #
-  # @param [String] path
-  #   The path to the file to write to.
-  #
-  # @yield [gz]
-  #   If a block is given, it will be passed the gzip writer object.
-  #
-  # @yieldparam [Zlib::GzipWriter] gz
-  #   The gzip writer object.
-  #
-  # @return [Zlib::GzipWriter]
-  #   The gzip writer object.
-  #
-  # @api public
-  #
-  # @since 1.0.0
-  #
-  def self.gzip(path,&block)
-    Ronin::Support::Compression::Gzip::Writer.open(path,&block)
-  end
-
-  #
   # Opens the gzipped file for reading.
   #
   # @param [String] path
@@ -66,6 +43,29 @@ class File
   #
   def self.gunzip(path,&block)
     Ronin::Support::Compression::Gzip::Reader.open(path,&block)
+  end
+
+  #
+  # Opens the gzip file for writing.
+  #
+  # @param [String] path
+  #   The path to the file to write to.
+  #
+  # @yield [gz]
+  #   If a block is given, it will be passed the gzip writer object.
+  #
+  # @yieldparam [Zlib::GzipWriter] gz
+  #   The gzip writer object.
+  #
+  # @return [Zlib::GzipWriter]
+  #   The gzip writer object.
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def self.gzip(path,&block)
+    Ronin::Support::Compression::Gzip::Writer.open(path,&block)
   end
 
 end
