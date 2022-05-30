@@ -54,13 +54,13 @@ module Ronin
           #   buffer = "..."
           #   tar   = Compression::Tar::Reader.new(buffer)
           #
-          def initialize(io_or_buffer, mode: 'r')
+          def self.new(io_or_buffer, mode: 'r')
             io = case io_or_buffer
                  when String then StringIO.new(io_or_buffer,mode)
                  else             io_or_buffer
                  end
 
-            super(io)
+            return super(io)
           end
 
         end
