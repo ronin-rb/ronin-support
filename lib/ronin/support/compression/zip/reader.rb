@@ -20,7 +20,7 @@
 require 'ronin/support/compression/zip/reader/entry'
 require 'ronin/support/compression/zip/reader/statistics'
 
-require 'date'
+require 'time'
 
 module Ronin
   module Support
@@ -208,12 +208,19 @@ module Ronin
             length, method, size, compression, date, time, crc32, name =
               line.lstrip.split(/\s+/,8)
 
+            time_fmt = case date
+                       when /\A\d{2}-\d{2}-\d{4}\z/ then "%m-%d-%Y %H:%M"
+                       when /\A\d{4}-\d{2}-\d{2}\z/ then "%Y-%m-%d %H:%M"
+                       else
+                         raise(NotImplementedError,"unrecognized date format: #{date.inspect}")
+                       end
+
             length      = length.to_i
             method      = METHODS.fetch(method)
             size        = size.to_i
             compression = compression.chomp('%').to_i
-            date        = Date.strptime(date,"%m-%d-%Y")
-            time        = DateTime.parse("#{date} #{time}")
+            time        = Time.strptime("#{date} #{time}",time_fmt)
+            date        = time.to_date
 
             return Entry.new(self, length:      length.to_i,
                                    method:      method,

@@ -76,8 +76,8 @@ describe Ronin::Support::Compression::Zip::Reader do
         expect(yielded_entries[0].method).to eq(:stored)
         expect(yielded_entries[0].size).to eq(11)
         expect(yielded_entries[0].compression).to eq(0)
-        expect(yielded_entries[0].date).to eq(Date.strptime("05-30-2022","%m-%d-%Y"))
-        expect(yielded_entries[0].time).to eq(DateTime.strptime("05-30-2022 20:41","%m-%d-%Y %H:%M"))
+        expect(yielded_entries[0].time).to eq(Time.strptime("05-31-2022 03:41 UTC","%m-%d-%Y %H:%M %Z"))
+        expect(yielded_entries[0].date).to eq(yielded_entries[0].time.to_date)
         expect(yielded_entries[0].crc32).to eq("f5e69f02")
         expect(yielded_entries[0].name).to eq("aaa.txt")
 
@@ -85,8 +85,8 @@ describe Ronin::Support::Compression::Zip::Reader do
         expect(yielded_entries[1].method).to eq(:stored)
         expect(yielded_entries[1].size).to eq(12)
         expect(yielded_entries[1].compression).to eq(0)
-        expect(yielded_entries[1].date).to eq(Date.strptime("05-30-2022","%m-%d-%Y"))
-        expect(yielded_entries[1].time).to eq(DateTime.strptime("05-30-2022 23:01","%m-%d-%Y %H:%M"))
+        expect(yielded_entries[1].time).to eq(Time.strptime("05-31-2022 06:01 UTC","%m-%d-%Y %H:%M %Z"))
+        expect(yielded_entries[1].date).to eq(yielded_entries[1].time.to_date)
         expect(yielded_entries[1].crc32).to eq("af083b2d")
         expect(yielded_entries[1].name).to eq("file.txt")
 
@@ -94,8 +94,8 @@ describe Ronin::Support::Compression::Zip::Reader do
         expect(yielded_entries[2].method).to eq(:stored)
         expect(yielded_entries[2].size).to eq(11)
         expect(yielded_entries[2].compression).to eq(0)
-        expect(yielded_entries[2].date).to eq(Date.strptime("05-30-2022","%m-%d-%Y"))
-        expect(yielded_entries[2].time).to eq(DateTime.strptime("05-30-2022 20:41","%m-%d-%Y %H:%M"))
+        expect(yielded_entries[2].time).to eq(Time.strptime("05-31-2022 03:41 UTC","%m-%d-%Y %H:%M %Z"))
+        expect(yielded_entries[2].date).to eq(yielded_entries[2].time.to_date)
         expect(yielded_entries[2].crc32).to eq("f5e69f02")
         expect(yielded_entries[2].name).to eq("zzz.txt")
       end
@@ -173,8 +173,8 @@ describe Ronin::Support::Compression::Zip::Reader do
     let(:method)      { :stored }
     let(:size)        { 12 }
     let(:compression) { 0 }
-    let(:date) { Date.strptime("05-30-2022","%m-%d-%Y") }
-    let(:time) { DateTime.strptime("05-30-2022 23:01","%m-%d-%Y %H:%M") }
+    let(:time) { Time.strptime("05-30-2022 23:01 UTC","%m-%d-%Y %H:%M %Z") }
+    let(:date) { time.to_date }
     let(:crc32) { "af083b2d" }
     let(:name)  { 'file.txt' }
 
