@@ -360,7 +360,7 @@ describe Ronin::Support::Network::IPRange::Glob do
 
   describe "#inspect" do
     it "must include the class name and original string" do
-      expect(subject.inspect).to eq("<#{described_class}: #{glob}>")
+      expect(subject.inspect).to eq("#<#{described_class}: #{glob}>")
     end
   end
 end

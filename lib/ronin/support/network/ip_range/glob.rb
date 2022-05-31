@@ -220,7 +220,7 @@ module Ronin
           # @return [String]
           #
           def inspect
-            "<#{self.class}: #{@string}>"
+            "#<#{self.class}: #{@string}>"
           end
 
           private

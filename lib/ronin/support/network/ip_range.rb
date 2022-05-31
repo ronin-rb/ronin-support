@@ -255,7 +255,7 @@ module Ronin
         # @return [String]
         #
         def inspect
-          "<#{self.class}: #{@range.string}>"
+          "#<#{self.class}: #{@range.string}>"
         end
 
       end

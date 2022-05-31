@@ -481,7 +481,7 @@ describe Ronin::Support::Network::IPRange do
       subject { described_class.new(cidr) }
 
       it "must include the class name and original CIDR string" do
-        expect(subject.inspect).to eq("<#{described_class}: #{cidr}>")
+        expect(subject.inspect).to eq("#<#{described_class}: #{cidr}>")
       end
     end
 
@@ -489,7 +489,7 @@ describe Ronin::Support::Network::IPRange do
       subject { described_class.new(glob) }
 
       it "must include the class name and original string" do
-        expect(subject.inspect).to eq("<#{described_class}: #{glob}>")
+        expect(subject.inspect).to eq("#<#{described_class}: #{glob}>")
       end
     end
   end
