@@ -144,13 +144,15 @@ module Ronin
         # @api public
         #
         def self.open(path, mode: 'r', &block)
-          if block
-            File.open(path,mode) do |file|
-              new(file, mode: mode,&block)
-            end
-          else
-            new(File.new(path,mode), mode: mode)
-          end
+          tar_class = if mode.include?('w') || mode.include?('a')
+                        Writer
+                      elsif mode.include?('r')
+                        Reader
+                      else
+                        raise(ArgumentError,"mode argument must include either 'r', 'w', or 'a': #{mode.inspect}")
+                      end
+
+          return tar_class.open(path,&block)
         end
       end
     end
