@@ -47,6 +47,15 @@ module Ronin
           #   The optional mode to initialize the `StringIO` object to wrap
           #   around the given buffer `String`.
           #
+          # @yield [tar]
+          #   If a block is given, it will be passed the new tar reader object.
+          #
+          # @yieldparam [Reader] tar
+          #   The tar reader object.
+          #
+          # @return [Reader]
+          #   The gzip reader object.
+          #
           # @example Initializing with an IO object:
           #   tar = Compression::Tar::Reader.new(io)
           #
@@ -54,13 +63,13 @@ module Ronin
           #   buffer = "..."
           #   tar   = Compression::Tar::Reader.new(buffer)
           #
-          def self.new(io_or_buffer, mode: 'r')
+          def self.new(io_or_buffer, mode: 'r', &block)
             io = case io_or_buffer
                  when String then StringIO.new(io_or_buffer,mode)
                  else             io_or_buffer
                  end
 
-            return super(io)
+            return super(io,&block)
           end
 
           #
@@ -82,7 +91,7 @@ module Ronin
           def self.open(path,&block)
             if block
               File.open(path,'rb') do |file|
-                yield new(file)
+                new(file,&block)
               end
             else
               new(File.new(path,'rb'))

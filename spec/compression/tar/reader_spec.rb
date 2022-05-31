@@ -25,6 +25,14 @@ describe Ronin::Support::Compression::Tar::Reader do
 
         expect(entry.read).to eq(txt_data)
       end
+
+      context "and when a block is given" do
+        it "must yield the new #{described_class} object" do
+          expect { |b|
+            described_class.new(string,&b)
+          }.to yield_with_args(described_class)
+        end
+      end
     end
 
     context "when given a StringIO" do
@@ -37,6 +45,14 @@ describe Ronin::Support::Compression::Tar::Reader do
 
         expect(entry.read).to eq(txt_data)
       end
+
+      context "and when a block is given" do
+        it "must yield the new #{described_class} object" do
+          expect { |b|
+            described_class.new(string_io,&b)
+          }.to yield_with_args(described_class)
+        end
+      end
     end
 
     context "when given an IO object" do
@@ -48,6 +64,14 @@ describe Ronin::Support::Compression::Tar::Reader do
         entry = subject.find { |entry| entry.full_name == 'file.txt' }
 
         expect(entry.read).to eq(txt_data)
+      end
+
+      context "and when a block is given" do
+        it "must yield the new #{described_class} object" do
+          expect { |b|
+            described_class.new(io,&b)
+          }.to yield_with_args(described_class)
+        end
       end
     end
   end

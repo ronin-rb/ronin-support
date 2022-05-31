@@ -67,7 +67,7 @@ module Ronin
         # @param [IO, StringIO, String] io
         #   The IO object to read or write data to.
         #
-        # @yield [gz]
+        # @yield [tar]
         #   If a block is given, it will be passed the tar stream object.
         #
         # @yieldparam [Reader, Writer] tar
@@ -91,7 +91,7 @@ module Ronin
         #
         # @api public
         #
-        def self.new(io, mode: 'r')
+        def self.new(io, mode: 'r', &block)
           tar_class = if mode.include?('w') || mode.include?('a')
                         Writer
                       elsif mode.include?('r')
@@ -100,14 +100,7 @@ module Ronin
                         raise(ArgumentError,"mode argument must include either 'r', 'w', or 'a': #{mode.inspect}")
                       end
 
-          tar = tar_class.new(io, mode: mode)
-
-          if block_given?
-            yield tar
-            tar.close
-          else
-            return tar
-          end
+          return tar_class.new(io, mode: mode, &block)
         end
 
         #
