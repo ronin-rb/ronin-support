@@ -353,6 +353,36 @@ describe String do
     end
   end
 
+  describe "#rot" do
+    subject { "The quick brown fox jumps over 13 lazy dogs" }
+
+    it "must ROT13 \"encrypt\" the String by default" do
+      expect(subject.rot).to eq("Gur dhvpx oebja sbk whzcf bire 46 ynml qbtf")
+    end
+
+    context "when the String contains characters not within the alphabets" do
+      subject { "The quick brown fox, jumps over 13 lazy dogs." }
+
+      it "must leave the characters un-rotated" do
+        expect(subject.rot).to eq("Gur dhvpx oebja sbk, whzcf bire 46 ynml qbtf.")
+      end
+    end
+
+    context "when given a specific 'n' value" do
+      it "must rotate forward the characters by that amount" do
+        expect(subject.rot(3)).to eq("Wkh txlfn eurzq ira mxpsv ryhu 46 odcb grjv")
+      end
+
+      context "and when the 'n' value is negative" do
+        subject { "Wkh txlfn eurzq ira mxpsv ryhu 46 odcb grjv" }
+
+        it "must rotate backwards the characters by that amount" do
+          expect(subject.rot(-3)).to eq("The quick brown fox jumps over 13 lazy dogs")
+        end
+      end
+    end
+  end
+
   describe "#xor" do
     subject { 'hello' }
 

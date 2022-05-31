@@ -491,6 +491,52 @@ class String
   end
 
   #
+  # Rotates the characters in the string using the given alphabet.
+  #
+  # @param [Integer] n
+  #   The number of characters to shift each character by.
+  #
+  # @param [Array<Enumerable>] alphabets
+  #   The alphabet(s) to use.
+  #
+  # @return [String]
+  #   The rotated string.
+  #
+  # @note
+  #   This method was added as a joke and should not be used for secure
+  #   cryptographic communications.
+  #
+  # @example ROT13 "encryption":
+  #   "The quick brown fox jumps over 13 lazy dogs.".rot
+  #   # => "Gur dhvpx oebja sbk whzcf bire 46 ynml qbtf."
+  #
+  # @example ROT13 "decryption":
+  #   "Gur dhvpx oebja sbk whzcf bire 46 ynml qbtf.".rot(-13)
+  #   # => "The quick brown fox jumps over 13 lazy dogs."
+  #
+  # @since 1.0.0
+  #
+  def rot(n=13, alphabets: [('A'..'Z').to_a, ('a'..'z').to_a, ('0'..'9').to_a])
+    translation_table = {}
+
+    alphabets.each do |alphabet|
+      modulo = alphabet.count
+
+      alphabet.each_with_index do |char,index|
+        translation_table[char] = alphabet[(index + n) % modulo]
+      end
+    end
+
+    new_string = String.new(encoding: encoding)
+
+    each_char do |char|
+      new_string << translation_table.fetch(char,char)
+    end
+
+    return new_string
+  end
+
+  #
   # XOR encodes the String.
   #
   # @param [Enumerable, Integer] key
