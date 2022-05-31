@@ -16,12 +16,12 @@ describe Ronin::Support::Compression::Tar do
     context "when given a String" do
       let(:string) { tar_data }
 
-      it "must return a described_class::Reader object" do
+      it "must return a #{described_class}::Reader object" do
         expect(subject.new(string)).to be_kind_of(described_class::Reader)
       end
 
       context "and when a block is given" do
-        it "must yield the new described_class::Reader object" do
+        it "must yield the new #{described_class}::Reader object" do
           expect { |b|
             subject.new(string,&b)
           }.to yield_with_args(described_class::Reader)
@@ -36,12 +36,12 @@ describe Ronin::Support::Compression::Tar do
       end
 
       context "when given mode: 'w'" do
-        it "must return a described_class::Writer object" do
+        it "must return a #{described_class}::Writer object" do
           expect(subject.new(string, mode: 'w')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
-          it "must yield the new described_class::Writer object" do
+          it "must yield the new #{described_class}::Writer object" do
             expect { |b|
               subject.new(string, mode: 'w', &b)
             }.to yield_with_args(described_class::Writer)
@@ -50,12 +50,12 @@ describe Ronin::Support::Compression::Tar do
       end
 
       context "when given mode: 'a'" do
-        it "must return a described_class::Writer object" do
+        it "must return a #{described_class}::Writer object" do
           expect(subject.new(string, mode: 'a')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
-          it "must yield the new described_class::Writer object" do
+          it "must yield the new #{described_class}::Writer object" do
             expect { |b|
               subject.new(string, mode: 'a', &b)
             }.to yield_with_args(described_class::Writer)
@@ -77,12 +77,12 @@ describe Ronin::Support::Compression::Tar do
     context "when given a StringIO" do
       let(:string_io) { StringIO.new(tar_data) }
 
-      it "must return a described_class::Reader object" do
+      it "must return a #{described_class}::Reader object" do
         expect(subject.new(string_io)).to be_kind_of(described_class::Reader)
       end
 
       context "and when a block is given" do
-        it "must yield the new described_class::Reader object" do
+        it "must yield the new #{described_class}::Reader object" do
           expect { |b|
             subject.new(string_io,&b)
           }.to yield_with_args(described_class::Reader)
@@ -97,12 +97,12 @@ describe Ronin::Support::Compression::Tar do
       end
 
       context "when given mode: 'w'" do
-        it "must return a described_class::Writer object" do
+        it "must return a #{described_class}::Writer object" do
           expect(subject.new(string_io, mode: 'w')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
-          it "must yield the new described_class::Writer object" do
+          it "must yield the new #{described_class}::Writer object" do
             expect { |b|
               subject.new(string_io, mode: 'w', &b)
             }.to yield_with_args(described_class::Writer)
@@ -111,12 +111,12 @@ describe Ronin::Support::Compression::Tar do
       end
 
       context "when given mode: 'a'" do
-        it "must return a described_class::Writer object" do
+        it "must return a #{described_class}::Writer object" do
           expect(subject.new(string_io, mode: 'a')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
-          it "must yield the new described_class::Writer object" do
+          it "must yield the new #{described_class}::Writer object" do
             expect { |b|
               subject.new(string_io, mode: 'a', &b)
             }.to yield_with_args(described_class::Writer)
@@ -138,12 +138,12 @@ describe Ronin::Support::Compression::Tar do
     context "when given an IO object" do
       let(:io) { File.open(tar_path,'rb') }
 
-      it "must return a described_class::Reader object" do
+      it "must return a #{described_class}::Reader object" do
         expect(subject.new(io)).to be_kind_of(described_class::Reader)
       end
 
       context "and when a block is given" do
-        it "must yield the new described_class::Reader object" do
+        it "must yield the new #{described_class}::Reader object" do
           expect { |b|
             subject.new(io,&b)
           }.to yield_with_args(described_class::Reader)
@@ -155,12 +155,12 @@ describe Ronin::Support::Compression::Tar do
         let(:path)     { tempfile.path }
         let(:io)       { File.open(path,'wb') }
 
-        it "must return a described_class::Writer object" do
+        it "must return a #{described_class}::Writer object" do
           expect(subject.new(io, mode: 'w')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
-          it "must yield the new described_class::Writer object" do
+          it "must yield the new #{described_class}::Writer object" do
             expect { |b|
               subject.new(io, mode: 'w', &b)
             }.to yield_with_args(described_class::Writer)
@@ -173,12 +173,12 @@ describe Ronin::Support::Compression::Tar do
         let(:path)     { tempfile.path }
         let(:io)       { File.open(path,'ab') }
 
-        it "must return a described_class::Writer object" do
+        it "must return a #{described_class}::Writer object" do
           expect(subject.new(io, mode: 'a')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
-          it "must yield the new described_class::Writer object" do
+          it "must yield the new #{described_class}::Writer object" do
             expect { |b|
               subject.new(io, mode: 'a', &b)
             }.to yield_with_args(described_class::Writer)
@@ -201,12 +201,12 @@ describe Ronin::Support::Compression::Tar do
   describe ".open" do
     let(:path) { tar_path }
 
-    it "must return a described_class::Reader object" do
+    it "must return a #{described_class}::Reader object" do
       expect(subject.open(path)).to be_kind_of(described_class::Reader)
     end
 
     context "and when a block is given" do
-      it "must yield the new described_class::Reader object" do
+      it "must yield the new #{described_class}::Reader object" do
         expect { |b|
           subject.open(path,&b)
         }.to yield_with_args(described_class::Reader)
@@ -217,12 +217,12 @@ describe Ronin::Support::Compression::Tar do
       let(:tempfile) { Tempfile.new('ronin-support') }
       let(:path)     { tempfile.path }
 
-      it "must return a described_class::Writer object" do
+      it "must return a #{described_class}::Writer object" do
         expect(subject.open(path, mode: 'w')).to be_kind_of(described_class::Writer)
       end
 
       context "and when a block is given" do
-        it "must yield the new described_class::Writer object" do
+        it "must yield the new #{described_class}::Writer object" do
           expect { |b|
             subject.open(path, mode: 'w', &b)
           }.to yield_with_args(described_class::Writer)
@@ -234,12 +234,12 @@ describe Ronin::Support::Compression::Tar do
       let(:tempfile) { Tempfile.new('ronin-support') }
       let(:path)     { tempfile.path }
 
-      it "must return a described_class::Writer object" do
+      it "must return a #{described_class}::Writer object" do
         expect(subject.open(path, mode: 'w')).to be_kind_of(described_class::Writer)
       end
 
       context "and when a block is given" do
-        it "must yield the new described_class::Writer object" do
+        it "must yield the new #{described_class}::Writer object" do
           expect { |b|
             subject.open(path, mode: 'a', &b)
           }.to yield_with_args(described_class::Writer)
