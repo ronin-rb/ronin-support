@@ -20,9 +20,6 @@
 require 'ronin/support/compression/gzip/reader'
 require 'ronin/support/compression/gzip/writer'
 
-require 'stringio'
-require 'tempfile'
-
 module Ronin
   module Support
     module Compression

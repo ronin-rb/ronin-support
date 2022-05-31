@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'ronin/support/compression'
 
+require 'tempfile'
+
 describe Ronin::Support::Compression do
   let(:fixtures_dir) { File.join(__dir__,'compression','fixtures') }
 
