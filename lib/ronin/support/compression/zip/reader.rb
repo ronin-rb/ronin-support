@@ -222,7 +222,7 @@ module Ronin
             time        = Time.strptime("#{date} #{time}",time_fmt)
             date        = time.to_date
 
-            return Entry.new(self, length:      length.to_i,
+            return Entry.new(self, length:      length,
                                    method:      method,
                                    size:        size,
                                    compression: compression,
