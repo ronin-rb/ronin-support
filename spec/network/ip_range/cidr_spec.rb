@@ -28,6 +28,68 @@ describe Ronin::Support::Network::IPRange::CIDR do
     end
   end
 
+  describe ".range" do
+    subject { described_class }
+
+    context "when given two IPv4 addresses" do
+      let(:first) { IPAddr.new('1.1.1.1')     }
+      let(:last)  { IPAddr.new('1.1.255.255') }
+
+      it "must calculate the CIDR range between them" do
+        expect(subject.range(first,last)).to eq(subject.new("1.1.0.0/16"))
+      end
+    end
+
+    context "when given two IPv6 addresses" do
+      let(:first) { IPAddr.new('2607:f8b0:4005:80c::200e') }
+      let(:last)  { IPAddr.new('2607:f8b0:4005:80c::ffff') }
+
+      it "must calculate the CIDR range between them" do
+        expect(subject.range(first,last)).to eq(subject.new("2607:f8b0:4005:80c::0000/16"))
+      end
+    end
+
+    context "when the first argument is a String" do
+      let(:first) { '1.1.1.1' }
+      let(:last)  { IPAddr.new('1.1.255.255') }
+
+      it "must convert the first argument into an IPAddr" do
+        expect(subject.range(first,last)).to eq(subject.new("1.1.0.0/16"))
+      end
+    end
+
+    context "when the second argument is a String" do
+      let(:first) { IPAddr.new('1.1.1.1') }
+      let(:last)  { '1.1.255.255' }
+
+      it "must convert the second argument into an IPAddr" do
+        expect(subject.range(first,last)).to eq(subject.new("1.1.0.0/16"))
+      end
+    end
+
+    context "when given an IPv4 and an IPv6 address" do
+      let(:first) { IPAddr.new('1.1.1.1') }
+      let(:last)  { IPAddr.new('2607:f8b0:4005:80c::ffff') }
+
+      it do
+        expect {
+          subject.range(first,last)
+        }.to raise_error(ArgumentError,"must specify two IPv4 or IPv6 addresses: #{first.inspect} #{last.inspect}")
+      end
+    end
+
+    context "when given an IPv6 and an IPv4 address" do
+      let(:first) { IPAddr.new('2607:f8b0:4005:80c::200e') }
+      let(:last)  { IPAddr.new('1.1.255.255') }
+
+      it do
+        expect {
+          subject.range(first,last)
+        }.to raise_error(ArgumentError,"must specify two IPv4 or IPv6 addresses: #{first.inspect} #{last.inspect}")
+      end
+    end
+  end
+
   describe ".each" do
     subject { described_class }
 

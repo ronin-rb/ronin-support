@@ -74,6 +74,44 @@ module Ronin
           end
 
           #
+          # Calcualtes the CIDR range between two IP addresses.
+          #
+          # @param [String, IPAddr] first
+          #   The first IP address in the CIDR range.
+          #
+          # @param [String, IPAddr] last
+          #   The last IP Address in the CIDR range.
+          #
+          # @return [CIDR]
+          #   The CIDR range between the two IP addresses.
+          #
+          # @example
+          #   IPRange::CIDR.range("1.1.1.1","1.1.1.255")
+          #   # => #<Ronin::Support::Network::IPRange::CIDR: 1.1.1.1/24>
+          #
+          def self.range(first,last)
+            first_ipaddr = case first
+                           when IPAddr then first
+                           else             IPAddr.new(first)
+                           end
+
+            last_ipaddr = case last
+                          when IPAddr then last
+                          else             IPAddr.new(last)
+                          end
+
+            if (first_ipaddr.ipv4? && !last_ipaddr.ipv4?) ||
+               (first_ipaddr.ipv6? && !last_ipaddr.ipv6?)
+              raise(ArgumentError,"must specify two IPv4 or IPv6 addresses: #{first.inspect} #{last.inspect}")
+            end
+
+            difference = last_ipaddr.to_i - first_ipaddr.to_i
+            suffix     = Math.log2(difference).ceil
+
+            return new("#{first_ipaddr}/#{suffix}")
+          end
+
+          #
           # Enumerates over each IP address that is included in the addresses
           # netmask. Supports both IPv4 and IPv6 addresses.
           #
