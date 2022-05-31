@@ -85,6 +85,15 @@ describe Ronin::Support::Compression::Tar::Reader do
       expect(subject.open(path)).to be_kind_of(described_class)
     end
 
+    it "must read tar data from the given path" do
+      tar = subject.open(path)
+
+      tar.seek('file.txt') do |entry|
+        expect(entry.full_name).to eq('file.txt')
+        expect(entry.read).to eq(txt_data)
+      end
+    end
+
     context "and when a block is given" do
       it "must yield the new #{described_class} object" do
         expect { |b|

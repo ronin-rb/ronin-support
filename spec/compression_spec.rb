@@ -542,6 +542,15 @@ describe Ronin::Support::Compression do
       expect(subject.untar(path)).to be_kind_of(described_class::Tar::Reader)
     end
 
+    it "must read tar data from the given path" do
+      tar = subject.untar(path)
+
+      tar.seek('file.txt') do |entry|
+        expect(entry.full_name).to eq('file.txt')
+        expect(entry.read).to eq(txt_data)
+      end
+    end
+
     context "and when a block is given" do
       it "must yield the new #{described_class}::Tar::Reader object" do
         expect { |b|
@@ -557,6 +566,18 @@ describe Ronin::Support::Compression do
 
     it "must return a #{described_class}::Tar::Writer object" do
       expect(subject.tar(path)).to be_kind_of(described_class::Tar::Writer)
+    end
+
+    it "must write tar data to the given path" do
+      tar = subject.tar(path)
+      tar.add_file('file.txt',txt_data)
+      tar.close
+
+      tar = Gem::Package::TarReader.new(File.open(path))
+      tar.seek('file.txt') do |entry|
+        expect(entry.full_name).to eq('file.txt')
+        expect(entry.read).to eq(txt_data)
+      end
     end
 
     context "and when a block is given" do
