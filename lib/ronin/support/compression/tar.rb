@@ -26,6 +26,36 @@ module Ronin
       #
       # Handles tar archive reading/writing.
       #
+      # ## Examples
+      #
+      # Opening a tar reader stream around an existing IO object:
+      #
+      #     Tar.new(io) do |tar|
+      #       file = tar['file.txt']
+      #       puts "#{file.full_name} (#{file.header.umode})"
+      #       puts file.read
+      #     end
+      #
+      # Opening a tar writer stream around an existing IO object:
+      #
+      #     Tar.new(io, mode: 'w') do |tar|
+      #       # add a file
+      #       tar.add_file('file1.txt', "...")
+      #     
+      #       # add a file and open an output stream
+      #       tar.add_file('file2.txt') do |io|
+      #         io.write("...")
+      #       end
+      #     
+      #       # add a symlink 'link' pointing to 'file1.txt'
+      #       tar.add_symlink('link','file1.txt')
+      #     
+      #       # add a directory
+      #       tar.mkdir('foo')
+      #     end
+      #
+      # Opening 
+      #
       # @api public
       #
       # @since 1.0.0
@@ -48,6 +78,16 @@ module Ronin
         #
         # @raise [ArgumentError]
         #   The mode must include either `r`, `w`, or `a`.
+        #
+        # @example Opening a tar reader stream around an existing IO object:
+        #   Tar.new(io) do |tar|
+        #     # ...
+        #   end
+        #
+        # @example Opening a tar writer stream around an existing IO object:
+        #   Tar.new(io, mode: 'w') do |tar|
+        #     # ...
+        #   end
         #
         # @api public
         #
@@ -90,6 +130,16 @@ module Ronin
         #
         # @raise [ArgumentError]
         #   The mode must include either `r`, `w`, or `a`.
+        #
+        # @example Open a tar file for reading:
+        #   Tar.open(path) do |tar|
+        #     # ...
+        #   end
+        #
+        # @example Open a tar file for writing:
+        #   Tar.open(path, mode: 'w') do |tar|
+        #     # ...
+        #   end
         #
         # @api public
         #
