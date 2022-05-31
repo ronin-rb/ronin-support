@@ -360,6 +360,14 @@ describe String do
       expect(subject.rot).to eq("Gur dhvpx oebja sbk whzcf bire 46 ynml qbtf")
     end
 
+    context "when the String's encoding is not Encoding::UTF_8" do
+      subject { String.new(super(), encoding: Encoding::ASCII_8BIT) }
+
+      it "must return a new String of the same encoding as the String" do
+        expect(subject.rot.encoding).to eq(subject.encoding)
+      end
+    end
+
     context "when the String contains characters not within the alphabets" do
       subject { "The quick brown fox, jumps over 13 lazy dogs." }
 
