@@ -89,7 +89,7 @@ module Ronin
         #
         # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipReader
         # @see https://rubydoc.info/stdlib/zlib/Zlib/GzipWriter
-        # @see Gzip.wrap
+        # @see Gzip.new
         #
         # @api public
         #

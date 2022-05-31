@@ -91,7 +91,7 @@ module Ronin
       # @api public
       #
       def self.gzip_stream(io, mode: 'r', &block)
-        Gzip.wrap(io, mode: mode, &block)
+        Gzip.new(io, mode: mode, &block)
       end
 
       #

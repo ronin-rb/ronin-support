@@ -54,7 +54,7 @@ module Ronin
         #
         # @api public
         #
-        def self.wrap(io, mode: 'r', &block)
+        def self.new(io, mode: 'r', &block)
           gzip_class = if mode.include?('w') || mode.include?('a')
                          Writer
                        elsif mode.include?('r')

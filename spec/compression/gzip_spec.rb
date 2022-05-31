@@ -12,37 +12,37 @@ describe Ronin::Support::Compression::Gzip do
   let(:gzip_path) { File.join(fixtures_dir,'file.gz') }
   let(:gzip_data) { File.binread(gzip_path)           }
 
-  describe ".wrap" do
+  describe ".new" do
     context "when given a String" do
       let(:string) { gzip_data }
 
       it "must return a described_class::Reader object" do
-        expect(subject.wrap(string)).to be_kind_of(described_class::Reader)
+        expect(subject.new(string)).to be_kind_of(described_class::Reader)
       end
 
       context "and when a block is given" do
         it "must yield the new described_class::Reader object" do
           expect { |b|
-            subject.wrap(string,&b)
+            subject.new(string,&b)
           }.to yield_with_args(described_class::Reader)
         end
       end
 
       it "must wrap the String in a StringIO object" do
-        gz = subject.wrap(string)
+        gz = subject.new(string)
 
         expect(gz.read).to eq(txt_data)
       end
 
       context "when given mode: 'w'" do
         it "must return a described_class::Writer object" do
-          expect(subject.wrap(string, mode: 'w')).to be_kind_of(described_class::Writer)
+          expect(subject.new(string, mode: 'w')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
           it "must yield the new described_class::Writer object" do
             expect { |b|
-              subject.wrap(string, mode: 'w', &b)
+              subject.new(string, mode: 'w', &b)
             }.to yield_with_args(described_class::Writer)
           end
         end
@@ -50,13 +50,13 @@ describe Ronin::Support::Compression::Gzip do
 
       context "when given mode: 'a'" do
         it "must return a described_class::Writer object" do
-          expect(subject.wrap(string, mode: 'a')).to be_kind_of(described_class::Writer)
+          expect(subject.new(string, mode: 'a')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
           it "must yield the new described_class::Writer object" do
             expect { |b|
-              subject.wrap(string, mode: 'a', &b)
+              subject.new(string, mode: 'a', &b)
             }.to yield_with_args(described_class::Writer)
           end
         end
@@ -67,7 +67,7 @@ describe Ronin::Support::Compression::Gzip do
 
         it do
           expect {
-            subject.wrap(string, mode: mode)
+            subject.new(string, mode: mode)
           }.to raise_error(ArgumentError,"mode argument must include either 'r', 'w', or 'a': #{mode.inspect}")
         end
       end
@@ -77,32 +77,32 @@ describe Ronin::Support::Compression::Gzip do
       let(:string_io) { StringIO.new(gzip_data) }
 
       it "must return a described_class::Reader object" do
-        expect(subject.wrap(string_io)).to be_kind_of(described_class::Reader)
+        expect(subject.new(string_io)).to be_kind_of(described_class::Reader)
       end
 
       context "and when a block is given" do
         it "must yield the new described_class::Reader object" do
           expect { |b|
-            subject.wrap(string_io,&b)
+            subject.new(string_io,&b)
           }.to yield_with_args(described_class::Reader)
         end
       end
 
       it "must wrap the String in a StringIO object" do
-        gz = subject.wrap(string_io)
+        gz = subject.new(string_io)
 
         expect(gz.read).to eq(txt_data)
       end
 
       context "when given mode: 'w'" do
         it "must return a described_class::Writer object" do
-          expect(subject.wrap(string_io, mode: 'w')).to be_kind_of(described_class::Writer)
+          expect(subject.new(string_io, mode: 'w')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
           it "must yield the new described_class::Writer object" do
             expect { |b|
-              subject.wrap(string_io, mode: 'w', &b)
+              subject.new(string_io, mode: 'w', &b)
             }.to yield_with_args(described_class::Writer)
           end
         end
@@ -110,13 +110,13 @@ describe Ronin::Support::Compression::Gzip do
 
       context "when given mode: 'a'" do
         it "must return a described_class::Writer object" do
-          expect(subject.wrap(string_io, mode: 'a')).to be_kind_of(described_class::Writer)
+          expect(subject.new(string_io, mode: 'a')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
           it "must yield the new described_class::Writer object" do
             expect { |b|
-              subject.wrap(string_io, mode: 'a', &b)
+              subject.new(string_io, mode: 'a', &b)
             }.to yield_with_args(described_class::Writer)
           end
         end
@@ -127,7 +127,7 @@ describe Ronin::Support::Compression::Gzip do
 
         it do
           expect {
-            subject.wrap(string_io, mode: mode)
+            subject.new(string_io, mode: mode)
           }.to raise_error(ArgumentError,"mode argument must include either 'r', 'w', or 'a': #{mode.inspect}")
         end
       end
@@ -137,13 +137,13 @@ describe Ronin::Support::Compression::Gzip do
       let(:io) { File.open(gzip_path,'rb') }
 
       it "must return a described_class::Reader object" do
-        expect(subject.wrap(io)).to be_kind_of(described_class::Reader)
+        expect(subject.new(io)).to be_kind_of(described_class::Reader)
       end
 
       context "and when a block is given" do
         it "must yield the new described_class::Reader object" do
           expect { |b|
-            subject.wrap(io,&b)
+            subject.new(io,&b)
           }.to yield_with_args(described_class::Reader)
         end
       end
@@ -154,13 +154,13 @@ describe Ronin::Support::Compression::Gzip do
         let(:io)       { File.open(path,'wb') }
 
         it "must return a described_class::Writer object" do
-          expect(subject.wrap(io, mode: 'w')).to be_kind_of(described_class::Writer)
+          expect(subject.new(io, mode: 'w')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
           it "must yield the new described_class::Writer object" do
             expect { |b|
-              subject.wrap(io, mode: 'w', &b)
+              subject.new(io, mode: 'w', &b)
             }.to yield_with_args(described_class::Writer)
           end
         end
@@ -172,13 +172,13 @@ describe Ronin::Support::Compression::Gzip do
         let(:io)       { File.open(path,'ab') }
 
         it "must return a described_class::Writer object" do
-          expect(subject.wrap(io, mode: 'a')).to be_kind_of(described_class::Writer)
+          expect(subject.new(io, mode: 'a')).to be_kind_of(described_class::Writer)
         end
 
         context "and when a block is given" do
           it "must yield the new described_class::Writer object" do
             expect { |b|
-              subject.wrap(io, mode: 'a', &b)
+              subject.new(io, mode: 'a', &b)
             }.to yield_with_args(described_class::Writer)
           end
         end
@@ -189,7 +189,7 @@ describe Ronin::Support::Compression::Gzip do
 
         it do
           expect {
-            subject.wrap(io, mode: mode)
+            subject.new(io, mode: mode)
           }.to raise_error(ArgumentError,"mode argument must include either 'r', 'w', or 'a': #{mode.inspect}")
         end
       end
