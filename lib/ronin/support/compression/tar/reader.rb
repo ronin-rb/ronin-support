@@ -63,6 +63,19 @@ module Ronin
             return super(io)
           end
 
+          #
+          # Finds an entry in the tar archive with the matching name.
+          #
+          # @param [String] name
+          #   The entry name to search for.
+          #
+          # @return [Entry, nil]
+          #   The matching entry or `nil` if none could be found.
+          #
+          def [](name)
+            find { |entry| entry.full_name == name }
+          end
+
         end
       end
     end

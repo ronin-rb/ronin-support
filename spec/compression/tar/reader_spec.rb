@@ -51,4 +51,27 @@ describe Ronin::Support::Compression::Tar::Reader do
       end
     end
   end
+
+  subject { described_class.new(File.new(tar_path,'rb')) }
+
+  describe "#[]" do
+    context "when given the name of an entry in the archive" do
+      let(:name) { 'file.txt' }
+
+      it "must return the entry with the matching #full_name" do
+        entry = subject[name]
+
+        expect(entry).to_not be(nil)
+        expect(entry.full_name).to eq(name)
+      end
+    end
+
+    context "when no entry in the tar archive has the matching name" do
+      let(:name) { "foo" }
+
+      it "must return nil" do
+        expect(subject[name]).to be(nil)
+      end
+    end
+  end
 end
