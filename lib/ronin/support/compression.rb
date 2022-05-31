@@ -187,7 +187,7 @@ module Ronin
       # @raise [ArgumentError]
       #   The mode must include either `r`, `w`, or `a`.
       #
-      # @see Tar
+      # @see Tar.new
       #
       # @api public
       #
@@ -216,7 +216,7 @@ module Ronin
       # @raise [ArgumentError]
       #   The mode must include either `r`, `w`, or `a`.
       #
-      # @see Tar
+      # @see Tar.open
       #
       # @api public
       #
