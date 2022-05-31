@@ -33,10 +33,10 @@ class File
   # @yield [gz]
   #   If a block is given, it will be passed the gzip reader object.
   #
-  # @yieldparam [Zlib::GzipReader] gz
+  # @yieldparam [Ronin::Support::Compression::Gzip::Reader] gz
   #   The gzip reader object.
   #
-  # @return [Zlib::GzipReader]
+  # @return [Ronin::Support::Compression::Gzip::Reader]
   #   The gzip reader object.
   #
   # @api public
@@ -56,10 +56,10 @@ class File
   # @yield [gz]
   #   If a block is given, it will be passed the gzip writer object.
   #
-  # @yieldparam [Zlib::GzipWriter] gz
+  # @yieldparam [Ronin::Support::Compression::Gzip::Writer] gz
   #   The gzip writer object.
   #
-  # @return [Zlib::GzipWriter]
+  # @return [Ronin::Support::Compression::Gzip::Writer]
   #   The gzip writer object.
   #
   # @api public

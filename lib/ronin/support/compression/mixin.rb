@@ -77,10 +77,10 @@ module Ronin
         # @yield [gz]
         #   If a block is given, it will be passed the gzip stream object.
         #
-        # @yieldparam [Zlib::GzipReader, Zlib::GzipWriter] gz
+        # @yieldparam [Ronin::Support::Compression::Gzip::Reader, Ronin::Support::Compression::Gzip::Writer] gz
         #   The gzip reader or writer object.
         #
-        # @return [Zlib::GzipReader, Zlib::GzipWriter]
+        # @return [Ronin::Support::Compression::Gzip::Reader, Ronin::Support::Compression::Gzip::Writer]
         #   The gzip reader or writer object.
         #
         # @raise [ArgumentError]
@@ -109,10 +109,10 @@ module Ronin
         # @yield [gz]
         #   If a block is given, it will be passed the gzip writer object.
         #
-        # @yieldparam [Zlib::GzipReader, Zlib::GzipWriter] gz
+        # @yieldparam [Ronin::Support::Compression::Gzip::Reader, Ronin::Support::Compression::Gzip::Writer] gz
         #   The gzip stream object.
         #
-        # @return [Zlib::GzipReader, Zlib::GzipWriter]
+        # @return [Ronin::Support::Compression::Gzip::Reader, Ronin::Support::Compression::Gzip::Writer]
         #   The gzip stream object.
         #
         # @raise [ArgumentError]
@@ -136,10 +136,10 @@ module Ronin
         # @yield [gz]
         #   If a block is given, it will be passed the gzip reader object.
         #
-        # @yieldparam [Zlib::GzipReader] gz
+        # @yieldparam [Ronin::Support::Compression::Gzip::Reader] gz
         #   The gzip reader object.
         #
-        # @return [Zlib::GzipReader]
+        # @return [Ronin::Support::Compression::Gzip::Reader]
         #   The gzip reader object.
         #
         # @see #gzip_open
@@ -159,10 +159,10 @@ module Ronin
         # @yield [gz]
         #   If a block is given, it will be passed the gzip writer object.
         #
-        # @yieldparam [Zlib::GzipWriter] gz
+        # @yieldparam [Ronin::Support::Compression::Gzip::Writer] gz
         #   The gzip writer object.
         #
-        # @return [Zlib::GzipWriter]
+        # @return [Ronin::Support::Compression::Gzip::Writer]
         #   The gzip writer object.
         #
         # @see #gzip_open
