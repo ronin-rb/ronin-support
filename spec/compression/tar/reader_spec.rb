@@ -52,6 +52,24 @@ describe Ronin::Support::Compression::Tar::Reader do
     end
   end
 
+  describe ".open" do
+    subject { described_class }
+
+    let(:path) { tar_path }
+
+    it "must return a #{described_class} object" do
+      expect(subject.open(path)).to be_kind_of(described_class)
+    end
+
+    context "and when a block is given" do
+      it "must yield the new #{described_class} object" do
+        expect { |b|
+          subject.open(path,&b)
+        }.to yield_with_args(described_class)
+      end
+    end
+  end
+
   subject { described_class.new(File.new(tar_path,'rb')) }
 
   describe "#[]" do

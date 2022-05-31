@@ -64,6 +64,32 @@ module Ronin
           end
 
           #
+          # Opens the tar archive file for reading.
+          #
+          # @param [String] path
+          #   The path to the tar archive.
+          #
+          # @yield [tar]
+          #   If a block is given, then it will be passed the new tar reader
+          #   object.
+          #
+          # @yieldparam [Reader] tar
+          #   The newly created tar reader object.
+          #
+          # @return [Reader]
+          #   If no block is given, than the tar reader object will be returned.
+          #
+          def self.open(path,&block)
+            if block
+              File.open(path,'rb') do |file|
+                yield new(file)
+              end
+            else
+              new(File.new(path,'rb'))
+            end
+          end
+
+          #
           # Finds an entry in the tar archive with the matching name.
           #
           # @param [String] name
