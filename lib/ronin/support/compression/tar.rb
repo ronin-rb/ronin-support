@@ -28,7 +28,7 @@ module Ronin
       #
       # ## Examples
       #
-      # Opening a tar reader stream around an existing IO object:
+      # Create a tar reader stream around an existing IO object:
       #
       #     Tar.new(io) do |tar|
       #       file = tar['file.txt']
@@ -79,12 +79,12 @@ module Ronin
         # @raise [ArgumentError]
         #   The mode must include either `r`, `w`, or `a`.
         #
-        # @example Opening a tar reader stream around an existing IO object:
+        # @example Creates a tar reader stream around an existing IO object:
         #   Tar.new(io) do |tar|
         #     # ...
         #   end
         #
-        # @example Opening a tar writer stream around an existing IO object:
+        # @example Creates a tar writer stream around an existing IO object:
         #   Tar.new(io, mode: 'w') do |tar|
         #     # ...
         #   end
