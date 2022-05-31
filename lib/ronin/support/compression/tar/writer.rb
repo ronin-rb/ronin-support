@@ -68,6 +68,34 @@ module Ronin
           end
 
           #
+          # Opens the tar archive file for writing.
+          #
+          # @param [String] path
+          #   The path to the tar archive.
+          #
+          # @yield [tar]
+          #   If a block is given, then it will be passed the new tar writer
+          #   object.
+          #
+          # @yieldparam [Writer] tar
+          #   The newly created tar writer object.
+          #
+          # @return [Writer]
+          #   If no block is given, than the tar writer object will be returned.
+          #
+          def self.open(path)
+            if block_given?
+              File.open(path,'wb') do |file|
+                tar = new(file)
+                yield tar
+                tar.close
+              end
+            else
+              return new(File.new(path,'wb'))
+            end
+          end
+
+          #
           # Adds a file to the tar archive.
           #
           # @param [String] name
