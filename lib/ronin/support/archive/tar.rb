@@ -17,12 +17,12 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/compression/tar/reader'
-require 'ronin/support/compression/tar/writer'
+require 'ronin/support/archive/tar/reader'
+require 'ronin/support/archive/tar/writer'
 
 module Ronin
   module Support
-    module Compression
+    module Archive
       #
       # Handles tar archive reading/writing.
       #

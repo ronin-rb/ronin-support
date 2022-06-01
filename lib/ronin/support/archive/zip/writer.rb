@@ -22,7 +22,7 @@ require 'fileutils'
 
 module Ronin
   module Support
-    module Compression
+    module Archive
       module Zip
         #
         # Handles creating zip archives.

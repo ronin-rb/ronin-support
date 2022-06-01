@@ -19,10 +19,6 @@
 
 require 'ronin/support/compression/gzip/reader'
 require 'ronin/support/compression/gzip/writer'
-require 'ronin/support/compression/tar/reader'
-require 'ronin/support/compression/tar/writer'
-require 'ronin/support/compression/zip/reader'
-require 'ronin/support/compression/zip/writer'
 
 class File
 
@@ -70,98 +66,6 @@ class File
   #
   def self.gzip(path,&block)
     Ronin::Support::Compression::Gzip::Writer.open(path,&block)
-  end
-
-  #
-  # Opens the tar archive file for reading.
-  #
-  # @param [String] path
-  #   The path to the file to read.
-  #
-  # @yield [tar]
-  #   If a block is given, it will be passed the tar reader object.
-  #
-  # @yieldparam [Ronin::Support::Compression::Tar::Reader] tar
-  #   The tar reader object.
-  #
-  # @return [Ronin::Support::Compression::Tar::Reader]
-  #   The tar reader object.
-  #
-  # @api public
-  #
-  # @since 1.0.0
-  #
-  def self.untar(path,&block)
-    Ronin::Support::Compression::Tar::Reader.open(path,&block)
-  end
-
-  #
-  # Opens the tar archive file for writing.
-  #
-  # @param [String] path
-  #   The path to the file to write to.
-  #
-  # @yield [tar]
-  #   If a block is given, it will be passed the tar writer object.
-  #
-  # @yieldparam [Ronin::Support::Compression::Tar::Writer] tar
-  #   The tar writer object.
-  #
-  # @return [Ronin::Support::Compression::Tar::Writer]
-  #   The tar writer object.
-  #
-  # @api public
-  #
-  # @since 1.0.0
-  #
-  def self.tar(path,&block)
-    Ronin::Support::Compression::Tar::Writer.open(path,&block)
-  end
-
-  #
-  # Opens the zip archive file for reading.
-  #
-  # @param [String] path
-  #   The path to the file to read.
-  #
-  # @yield [zip]
-  #   If a block is given, it will be passed the zip reader object.
-  #
-  # @yieldparam [Ronin::Support::Compression::Zip::Reader] zip
-  #   The zip reader object.
-  #
-  # @return [Ronin::Support::Compression::Zip::Reader]
-  #   The zip reader object.
-  #
-  # @api public
-  #
-  # @since 1.0.0
-  #
-  def self.unzip(path,&block)
-    Ronin::Support::Compression::Zip::Reader.open(path,&block)
-  end
-
-  #
-  # Opens the zip archive file for writing.
-  #
-  # @param [String] path
-  #   The path to the file to write to.
-  #
-  # @yield [zip]
-  #   If a block is given, it will be passed the zip writer object.
-  #
-  # @yieldparam [Ronin::Support::Compression::Zip::Writer] zip
-  #   The zip writer object.
-  #
-  # @return [Ronin::Support::Compression::Zip::Writer]
-  #   The zip writer object.
-  #
-  # @api public
-  #
-  # @since 1.0.0
-  #
-  def self.zip(path,&block)
-    Ronin::Support::Compression::Zip::Writer.open(path,&block)
   end
 
 end

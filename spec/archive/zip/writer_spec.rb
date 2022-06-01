@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'ronin/support/compression/zip/writer'
-require 'ronin/support/compression/zip/reader'
+require 'ronin/support/archive/zip/writer'
+require 'ronin/support/archive/zip/reader'
 
 require 'tempfile'
 
-describe Ronin::Support::Compression::Zip::Writer do
+describe Ronin::Support::Archive::Zip::Writer do
   let(:tempfile) { Tempfile.new('ronin-support') }
   let(:path)     { tempfile.path }
 

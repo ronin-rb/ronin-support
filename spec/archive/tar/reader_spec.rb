@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/compression/tar/reader'
+require 'ronin/support/archive/tar/reader'
 
-describe Ronin::Support::Compression::Tar::Reader do
+describe Ronin::Support::Archive::Tar::Reader do
   it "must inherit from Gem::Package::TarReader" do
     expect(described_class).to be < Gem::Package::TarReader
   end

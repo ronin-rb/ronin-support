@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'ronin/support/compression/zip'
+require 'ronin/support/archive/zip'
 
 require 'tempfile'
 
-describe Ronin::Support::Compression::Zip do
+describe Ronin::Support::Archive::Zip do
   let(:fixtures_dir) { File.join(__dir__,'fixtures') }
 
   let(:txt_path) { File.join(fixtures_dir,'file.txt') }

@@ -22,7 +22,7 @@ require 'stringio'
 
 module Ronin
   module Support
-    module Compression
+    module Archive
       module Tar
         #
         # Handling reading tar encoded archive data.

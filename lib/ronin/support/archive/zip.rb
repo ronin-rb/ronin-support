@@ -17,12 +17,12 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/compression/zip/reader'
-require 'ronin/support/compression/zip/writer'
+require 'ronin/support/archive/zip/reader'
+require 'ronin/support/archive/zip/writer'
 
 module Ronin
   module Support
-    module Compression
+    module Archive
       #
       # Handles zip archive reading/writing.
       #

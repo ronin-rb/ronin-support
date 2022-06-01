@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/compression/zip/reader'
+require 'ronin/support/archive/zip/reader'
 
-describe Ronin::Support::Compression::Zip::Reader do
+describe Ronin::Support::Archive::Zip::Reader do
   let(:fixtures_dir) { File.join(__dir__,'..','fixtures') }
 
   let(:txt_path) { File.join(fixtures_dir,'file.txt') }
@@ -178,7 +178,7 @@ describe Ronin::Support::Compression::Zip::Reader do
     let(:crc32) { "af083b2d" }
     let(:name)  { 'file.txt' }
 
-    let(:reader) { Ronin::Support::Compression::Zip::Reader.new(zip_path) }
+    let(:reader) { Ronin::Support::Archive::Zip::Reader.new(zip_path) }
 
     subject do
       described_class.new(reader, length: length,

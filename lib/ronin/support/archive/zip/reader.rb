@@ -17,14 +17,14 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/compression/zip/reader/entry'
-require 'ronin/support/compression/zip/reader/statistics'
+require 'ronin/support/archive/zip/reader/entry'
+require 'ronin/support/archive/zip/reader/statistics'
 
 require 'time'
 
 module Ronin
   module Support
-    module Compression
+    module Archive
       module Zip
         #
         # Handles reading zip archives.

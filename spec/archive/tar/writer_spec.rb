@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'ronin/support/compression/tar/writer'
+require 'ronin/support/archive/tar/writer'
 
 require 'tempfile'
 
-describe Ronin::Support::Compression::Tar::Writer do
+describe Ronin::Support::Archive::Tar::Writer do
   it "must inherit from Gem::Package::TarWriter" do
     expect(described_class).to be < Gem::Package::TarWriter
   end

@@ -21,7 +21,7 @@ require 'date'
 
 module Ronin
   module Support
-    module Compression
+    module Archive
       module Zip
         class Reader
 
