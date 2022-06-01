@@ -57,15 +57,15 @@ module Ronin
           #   The gzip writer object.
           #
           # @example Initializing with an IO object:
-          #   tar = Compression::Tar::Writer.new(io)
+          #   tar = Archive::Tar::Writer.new(io)
           #
           # @example Initializing with a buffer:
           #   buffer = ""
-          #   tar   = Compression::Tar::Writer.new(buffer)
+          #   tar   = Archive::Tar::Writer.new(buffer)
           #
           # @example Initializin with a buffer and append mode:
           #   buffer = "foo"
-          #   tar   = Compression::Tar::Writer.new(buffer, mode: 'a')
+          #   tar   = Archive::Tar::Writer.new(buffer, mode: 'a')
           #
           def self.new(io_or_buffer, mode: 'w', &block)
             io = case io_or_buffer

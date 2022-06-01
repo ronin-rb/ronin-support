@@ -57,11 +57,11 @@ module Ronin
           #   The gzip reader object.
           #
           # @example Initializing with an IO object:
-          #   tar = Compression::Tar::Reader.new(io)
+          #   tar = Archive::Tar::Reader.new(io)
           #
           # @example Initializing with a buffer:
           #   buffer = "..."
-          #   tar   = Compression::Tar::Reader.new(buffer)
+          #   tar   = Archive::Tar::Reader.new(buffer)
           #
           def self.new(io_or_buffer, mode: 'r', &block)
             io = case io_or_buffer
