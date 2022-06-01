@@ -47,8 +47,8 @@ module Ronin
         # @param [String] address
         #   The address of the IP.
         #
-        def initialize(address)
-          super(address)
+        def initialize(address,family=Socket::AF_UNSPEC)
+          super(address,family)
 
           @address = address
         end

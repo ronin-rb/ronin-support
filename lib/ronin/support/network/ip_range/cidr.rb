@@ -60,8 +60,8 @@ module Ronin
           # @param [String] string
           #   The CIDR range string to parse.
           #
-          def initialize(string)
-            super(string)
+          def initialize(string,family=Socket::AF_UNSPEC)
+            super(string,family)
 
             @string = string
           end
