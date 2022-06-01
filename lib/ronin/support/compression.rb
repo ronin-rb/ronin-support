@@ -20,6 +20,7 @@
 require 'ronin/support/compression/zlib'
 require 'ronin/support/compression/gzip'
 require 'ronin/support/compression/tar'
+require 'ronin/support/compression/zip'
 require 'ronin/support/compression/core_ext'
 
 module Ronin
@@ -268,6 +269,81 @@ module Ronin
       #
       def self.tar(path,&block)
         tar_open(path, mode: 'w', &block)
+      end
+
+      #
+      # Opens a zip file for reading or writing.
+      #
+      # @param [String] path
+      #   The path to the zip file.
+      #
+      # @param [String] mode
+      #   The mode to open the file as.
+      #
+      # @yield [zip]
+      #   If a block is given, it will be passed the zip writer object.
+      #
+      # @yieldparam [Zip::Writer] zip
+      #   The zip writer object.
+      #
+      # @return [Zip::Writer]
+      #   The zip writer object.
+      #
+      # @raise [ArgumentError]
+      #   The mode must include either `r`, `w`, or `a`.
+      #
+      # @see Zip.open
+      #
+      # @api public
+      #
+      def self.zip_open(path, mode: 'r', &block)
+        Zip.open(path, mode: mode, &block)
+      end
+
+      #
+      # Opens the zipped file for reading.
+      #
+      # @param [String] path
+      #   The path to the file to read.
+      #
+      # @yield [zip]
+      #   If a block is given, it will be passed the zip reader object.
+      #
+      # @yieldparam [Zip::Reader] zip
+      #   The zip reader object.
+      #
+      # @return [Zip::Reader]
+      #   The zip reader object.
+      #
+      # @see zip_open
+      #
+      # @api public
+      #
+      def self.unzip(path,&block)
+        zip_open(path,&block)
+      end
+
+      #
+      # Opens the zip file for writing.
+      #
+      # @param [String] path
+      #   The path to the file to write to.
+      #
+      # @yield [zip]
+      #   If a block is given, it will be passed the zip writer object.
+      #
+      # @yieldparam [Zip::Writer] zip
+      #   The zip writer object.
+      #
+      # @return [Zip::Writer]
+      #   The zip writer object.
+      #
+      # @see zip_open
+      #
+      # @api public
+      #
+      def self.zip(path,&block)
+        zip_open(path, mode: 'w', &block)
       end
     end
   end
