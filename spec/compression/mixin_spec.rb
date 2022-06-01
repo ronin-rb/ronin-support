@@ -21,6 +21,8 @@ describe Ronin::Support::Compression::Mixin do
   let(:tar_path) { File.join(fixtures_dir,'file.tar') }
   let(:tar_data) { File.binread(tar_path)             }
 
+  let(:zip_path) { File.join(fixtures_dir,'file.zip') }
+
   let(:zlib_uncompressed) { "hello" }
   let(:zlib_compressed) do
     "x\x9C\xCBH\xCD\xC9\xC9\a\x00\x06,\x02\x15".force_encoding(Encoding::ASCII_8BIT)
@@ -670,6 +672,104 @@ describe Ronin::Support::Compression::Mixin do
         expect { |b|
           subject.tar(path,&b)
         }.to yield_with_args(Ronin::Support::Compression::Tar::Writer)
+      end
+    end
+  end
+
+  describe ".zip_open" do
+    let(:path) { zip_path }
+
+    it "must return a #{described_class}::Zip::Reader object" do
+      expect(subject.zip_open(path)).to be_kind_of(Ronin::Support::Compression::Zip::Reader)
+    end
+
+    context "and when a block is given" do
+      it "must yield the new #{described_class}::Zip::Reader object" do
+        expect { |b|
+          subject.zip_open(path,&b)
+        }.to yield_with_args(Ronin::Support::Compression::Zip::Reader)
+      end
+    end
+
+    context "when given mode: 'w'" do
+      let(:tempfile) { Tempfile.new('ronin-support') }
+      let(:path)     { tempfile.path }
+
+      it "must return a #{described_class}::Zip::Writer object" do
+        expect(subject.zip_open(path, mode: 'w')).to be_kind_of(Ronin::Support::Compression::Zip::Writer)
+      end
+
+      context "and when a block is given" do
+        it "must yield the new #{described_class}::Zip::Writer object" do
+          expect { |b|
+            subject.zip_open(path, mode: 'w', &b)
+          }.to yield_with_args(Ronin::Support::Compression::Zip::Writer)
+        end
+      end
+    end
+
+    context "when given mode: 'a'" do
+      let(:tempfile) { Tempfile.new('ronin-support') }
+      let(:path)     { tempfile.path }
+
+      it "must return a #{described_class}::Zip::Writer object" do
+        expect(subject.zip_open(path, mode: 'w')).to be_kind_of(Ronin::Support::Compression::Zip::Writer)
+      end
+
+      context "and when a block is given" do
+        it "must yield the new #{described_class}::Zip::Writer object" do
+          expect { |b|
+            subject.zip_open(path, mode: 'a', &b)
+          }.to yield_with_args(Ronin::Support::Compression::Zip::Writer)
+        end
+      end
+    end
+  end
+
+  describe ".unzip" do
+    let(:path) { zip_path }
+
+    it "must return a #{described_class}::Zip::Reader object" do
+      expect(subject.unzip(path)).to be_kind_of(Ronin::Support::Compression::Zip::Reader)
+    end
+
+    it "must read zip data from the given path" do
+      zip = subject.unzip(path)
+
+      expect(zip.read('file.txt')).to eq(txt_data)
+    end
+
+    context "and when a block is given" do
+      it "must yield the new #{described_class}::Zip::Reader object" do
+        expect { |b|
+          subject.unzip(path,&b)
+        }.to yield_with_args(Ronin::Support::Compression::Zip::Reader)
+      end
+    end
+  end
+
+  describe ".zip" do
+    let(:tempfile) { Tempfile.new('ronin-support') }
+    let(:path)     { tempfile.path }
+
+    it "must return a #{described_class}::Zip::Writer object" do
+      expect(subject.zip(path)).to be_kind_of(Ronin::Support::Compression::Zip::Writer)
+    end
+
+    it "must write zip data to the given path" do
+      zip = subject.zip(path)
+      zip.add_file('file.txt',txt_data)
+      zip.close
+
+      zip = Ronin::Support::Compression::Zip::Reader.new(path)
+      expect(zip.read('file.txt')).to eq(txt_data)
+    end
+
+    context "and when a block is given" do
+      it "must yield the new #{described_class}::Zip::Writer object" do
+        expect { |b|
+          subject.zip(path,&b)
+        }.to yield_with_args(Ronin::Support::Compression::Zip::Writer)
       end
     end
   end

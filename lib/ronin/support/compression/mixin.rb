@@ -273,6 +273,81 @@ module Ronin
         def tar(path,&block)
           Compression.tar(path,&block)
         end
+
+        #
+        # Opens a zip file for reading or writing.
+        #
+        # @param [String] path
+        #   The path to the zip file.
+        #
+        # @param [String] mode
+        #   The mode to open the file as.
+        #
+        # @yield [zip]
+        #   If a block is given, it will be passed the zip writer object.
+        #
+        # @yieldparam [Zip::Writer] zip
+        #   The zip writer object.
+        #
+        # @return [Zip::Writer]
+        #   The zip writer object.
+        #
+        # @raise [ArgumentError]
+        #   The mode must include either `r`, `w`, or `a`.
+        #
+        # @see Zip.open
+        #
+        # @api public
+        #
+        def zip_open(path, mode: 'r', &block)
+          Compression.zip_open(path, mode: mode, &block)
+        end
+
+        #
+        # Opens the zipped file for reading.
+        #
+        # @param [String] path
+        #   The path to the file to read.
+        #
+        # @yield [zip]
+        #   If a block is given, it will be passed the zip reader object.
+        #
+        # @yieldparam [Zip::Reader] zip
+        #   The zip reader object.
+        #
+        # @return [Zip::Reader]
+        #   The zip reader object.
+        #
+        # @see zip_open
+        #
+        # @api public
+        #
+        def unzip(path,&block)
+          Compression.unzip(path,&block)
+        end
+
+        #
+        # Opens the zip file for writing.
+        #
+        # @param [String] path
+        #   The path to the file to write to.
+        #
+        # @yield [zip]
+        #   If a block is given, it will be passed the zip writer object.
+        #
+        # @yieldparam [Zip::Writer] zip
+        #   The zip writer object.
+        #
+        # @return [Zip::Writer]
+        #   The zip writer object.
+        #
+        # @see zip_open
+        #
+        # @api public
+        #
+        def zip(path,&block)
+          Compression.zip(path,&block)
+        end
       end
     end
   end
