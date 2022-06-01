@@ -172,6 +172,107 @@ module Ronin
         def gzip(path,&block)
           Compression.gzip(path,&block)
         end
+
+        #
+        # Creates a tar stream around the IO object.
+        #
+        # @param [IO, StringIO] io
+        #   The IO object to read or write data to.
+        #
+        # @yield [tar]
+        #   If a block is given, it will be passed the tar stream object.
+        #
+        # @yieldparam [Tar::Reader, Tar::Writer] tar
+        #   The tar reader or writer object.
+        #
+        # @return [Tar::Reader, Tar::Writer]
+        #   The tar reader or writer object.
+        #
+        # @raise [ArgumentError]
+        #   The mode must include either `r`, `w`, or `a`.
+        #
+        # @see Tar.new
+        #
+        # @api public
+        #
+        def tar_stream(io, mode: 'r', &block)
+          Compression.tar_stream(io, mode: mode, &block)
+        end
+
+        #
+        # Opens a tar file for reading or writing.
+        #
+        # @param [String] path
+        #   The path to the tar file.
+        #
+        # @param [String] mode
+        #   The mode to open the file as.
+        #
+        # @yield [tar]
+        #   If a block is given, it will be passed the tar writer object.
+        #
+        # @yieldparam [Tar::Writer] tar
+        #   The tar writer object.
+        #
+        # @return [Tar::Writer]
+        #   The tar writer object.
+        #
+        # @raise [ArgumentError]
+        #   The mode must include either `r`, `w`, or `a`.
+        #
+        # @see Tar.open
+        #
+        # @api public
+        #
+        def tar_open(path, mode: 'r', &block)
+          Compression.tar_open(path, mode: mode, &block)
+        end
+
+        #
+        # Opens the tarped file for reading.
+        #
+        # @param [String] path
+        #   The path to the file to read.
+        #
+        # @yield [tar]
+        #   If a block is given, it will be passed the tar reader object.
+        #
+        # @yieldparam [Tar::Reader] tar
+        #   The tar reader object.
+        #
+        # @return [Tar::Reader]
+        #   The tar reader object.
+        #
+        # @see tar_open
+        #
+        # @api public
+        #
+        def untar(path,&block)
+          Compression.untar(path,&block)
+        end
+
+        #
+        # Opens the tar file for writing.
+        #
+        # @param [String] path
+        #   The path to the file to write to.
+        #
+        # @yield [tar]
+        #   If a block is given, it will be passed the tar writer object.
+        #
+        # @yieldparam [Tar::Writer] tar
+        #   The tar writer object.
+        #
+        # @return [Tar::Writer]
+        #   The tar writer object.
+        #
+        # @see tar_open
+        #
+        # @api public
+        #
+        def tar(path,&block)
+          Compression.tar(path,&block)
+        end
       end
     end
   end
