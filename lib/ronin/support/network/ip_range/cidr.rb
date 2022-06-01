@@ -76,10 +76,10 @@ module Ronin
           #
           # Calcualtes the CIDR range between two IP addresses.
           #
-          # @param [String, IPAddr] first
+          # @param [String, IPAddr] first_ip
           #   The first IP address in the CIDR range.
           #
-          # @param [String, IPAddr] last
+          # @param [String, IPAddr] last_ip
           #   The last IP Address in the CIDR range.
           #
           # @return [CIDR]
@@ -89,28 +89,28 @@ module Ronin
           #   IPRange::CIDR.range("1.1.1.1","1.1.1.255")
           #   # => #<Ronin::Support::Network::IPRange::CIDR: 1.1.1.1/24>
           #
-          def self.range(first,last)
-            first_ipaddr = case first
-                           when IPAddr then first
-                           else             IPAddr.new(first)
+          def self.range(first_ip,last_ip)
+            first_ipaddr = case first_ip
+                           when IPAddr then first_ip
+                           else             IPAddr.new(first_ip)
                            end
 
-            last_ipaddr = case last
-                          when IPAddr then last
-                          else             IPAddr.new(last)
+            last_ipaddr = case last_ip
+                          when IPAddr then last_ip
+                          else             IPAddr.new(last_ip)
                           end
 
             if (first_ipaddr.ipv4? && !last_ipaddr.ipv4?) ||
                (first_ipaddr.ipv6? && !last_ipaddr.ipv6?)
-              raise(ArgumentError,"must specify two IPv4 or IPv6 addresses: #{first.inspect} #{last.inspect}")
+              raise(ArgumentError,"must specify two IPv4 or IPv6 addresses: #{first_ip.inspect} #{last_ip.inspect}")
             end
 
             if (difference = last_ipaddr.to_i - first_ipaddr.to_i) > 0
               suffix = Math.log2(difference).ceil
 
-              return new("#{first}/#{suffix}")
+              return new("#{first_ip}/#{suffix}")
             else
-              return new(first.to_s)
+              return new(first_ip.to_s)
             end
           end
 
