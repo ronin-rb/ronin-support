@@ -21,18 +21,18 @@ class Integer
 
   # Special shell bytes and their escaped Strings.
   SHELL_ESCAPE_BYTES = {
-    0x00 => "$'\\0'", # $'\0'
-    0x07 => "$'\\a'", # $'\a'
-    0x08 => "$'\\b'", # $'\b'
-    0x09 => "$'\\t'", # $'\t'
-    0x0a => "$'\\n'", # $'\n'
-    0x0b => "$'\\v'", # $'\v'
-    0x0c => "$'\\f'", # $'\f'
-    0x0d => "$'\\r'", # $'\r'
-    0x1B => "$'\\e'", # $'\e'
-    0x22 => "\\\"",   # \"
-    0x23 => "\\#",    # \#
-    0x5c => "\\\\"    # \\
+    0x00 => "\\0",  # $'\0'
+    0x07 => "\\a",  # $'\a'
+    0x08 => "\\b",  # $'\b'
+    0x09 => "\\t",  # $'\t'
+    0x0a => "\\n",  # $'\n'
+    0x0b => "\\v",  # $'\v'
+    0x0c => "\\f",  # $'\f'
+    0x0d => "\\r",  # $'\r'
+    0x1B => "\\e",  # $'\e'
+    0x22 => "\\\"", # \"
+    0x23 => "\\#",  # \#
+    0x5c => "\\\\"  # \\
   }
 
   #
@@ -46,13 +46,13 @@ class Integer
   #
   # @example 
   #   0x41.shell_encode
-  #   # => "$'\\x41'"
+  #   # => "\\x41"
   #   0x0a.shell_encode
-  #   # => "$'\\n'"
+  #   # => "\\n"
   #
   # @example Encoding unicode characters:
   #   1001.shell_encode
-  #   # => "$'\\u1001'"
+  #   # => "\\u1001"
   #
   # @since 1.0.0
   #
@@ -60,9 +60,9 @@ class Integer
   #
   def shell_encode
     if self >= 0x00 && self <= 0xff
-      "$'\\x%.2x'" % self
+      "\\x%.2x" % self
     elsif self > 0xff
-      "$'\\u%x'" % self
+      "\\u%x" % self
     else
       raise(RangeError,"#{self} out of char range")
     end
@@ -84,13 +84,13 @@ class Integer
   #   0x41.shell_escape
   #   # => "A"
   #   0x08.shell_escape
-  #   # => "$'\b'"
+  #   # => "\b"
   #   0xff.shell_escape
-  #   # => "$'\xff'"
+  #   # => "\xff"
   #
   # @example Escaping unicode characters:
   #   1001.shell_escape
-  #   # => "$'\\u1001'"
+  #   # => "\\u1001"
   #
   # @since 1.0.0
   #

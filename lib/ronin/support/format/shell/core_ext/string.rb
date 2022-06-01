@@ -45,7 +45,7 @@ class String
   #
   # @example
   #   "hello\nworld".shell_escape
-  #   # => "hello$'\\n'world"
+  #   # => "hello\\nworld"
   #
   # @api public
   #
@@ -62,7 +62,7 @@ class String
   #   The shell unescaped string.
   #
   # @example
-  #   "hello$'\\n'world".shell_unescape
+  #   "hello\\nworld".shell_unescape
   #   # => "hello\nworld"
   #
   # @api public
@@ -74,12 +74,12 @@ class String
     scanner   = StringScanner.new(self)
 
     until scanner.eos?
-      if (backslash_char = scanner.scan(/\$'\\[0abetnvfr]'/)) # $'\n'
-        unescaped << SHELL_BACKSLASHED_CHARS[backslash_char[3,1]]
-      elsif (hex_char = scanner.scan(/\$'\\x[0-9a-fA-F]+'/)) # $'\XX'
-        unescaped << hex_char[4..-2].to_i(16).chr
-      elsif (unicode_char = scanner.scan(/\$'\\u[0-9a-fA-F]+'/)) # $'\uXXXX'
-        unescaped << unicode_char[4..-2].to_i(16).chr(Encoding::UTF_8)
+      if (backslash_char = scanner.scan(/\\[0abetnvfr]/)) # \n
+        unescaped << SHELL_BACKSLASHED_CHARS[backslash_char[1..]]
+      elsif (hex_char = scanner.scan(/\\x[0-9a-fA-F]+/)) # \XX
+        unescaped << hex_char[2..].to_i(16).chr
+      elsif (unicode_char = scanner.scan(/\\u[0-9a-fA-F]+/)) # \uXXXX
+        unescaped << unicode_char[2..].to_i(16).chr(Encoding::UTF_8)
       else
         unescaped << scanner.getch
       end
@@ -96,7 +96,7 @@ class String
   #
   # @example
   #   "hello world".shell_encode
-  #   # => "$'\\x68'$'\\x65'$'\\x6c'$'\\x6c'$'\\x6f'$'\\x0a'$'\\x77'$'\\x6f'$'\\x72'$'\\x6c'$'\\x64'"
+  #   # => "\\x68\\x65\\x6c\\x6c\\x6f\\x0a\\x77\\x6f\\x72\\x6c\\x64"
   #
   # @api public
   #
@@ -115,15 +115,21 @@ class String
   #   The quoted and escaped shell string.
   #
   # @example
+  #   "hello world".shell_string
+  #   # => "\"hello world\""
   #   "hello\nworld".shell_string
-  #   # => "\"hello$'\\n'world\""
+  #   # => "$'hello\\nworld'"
   #
   # @api public
   #
   # @since 1.0.0
   #
   def shell_string
-    "\"#{shell_escape}\""
+    if self =~ /[^[:print:]]/
+      "$'#{shell_escape}'"
+    else
+      "\"#{shell_escape}\""
+    end
   end
 
 end

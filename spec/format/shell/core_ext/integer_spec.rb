@@ -34,16 +34,16 @@ describe Integer do
     context "when called on an Integer that does not map to an ASCII char" do
       subject { 0xFF }
 
-      it "must return the lowercase \"$'\\xXX'\" hex escaped String" do
-        expect(subject.shell_escape).to eq("$'\\xff'")
+      it "must return the lowercase \\xXX hex escaped String" do
+        expect(subject.shell_escape).to eq("\\xff")
       end
     end
 
     context "when called on an Integer is greater than 0xff" do
       subject { 0xFFFF }
 
-      it "must return the lowercase \"$'\\uXXXX'\" hex escaped String" do
-        expect(subject.shell_escape).to eq("$'\\uffff'")
+      it "must return the lowercase \\uXXXX hex escaped String" do
+        expect(subject.shell_escape).to eq("\\uffff")
       end
     end
 
@@ -63,15 +63,15 @@ describe Integer do
       subject { 0x41 }
 
       it "must encode the Integer as a shell hex character" do
-        expect(subject.shell_encode).to eq("$'\\x41'")
+        expect(subject.shell_encode).to eq("\\x41")
       end
     end
 
     context "when called on an Integer is greater than 0xff" do
       subject { 0xFFFF }
 
-      it "must return the lowercase \"$'\\uXXXX'\" hex escaped String" do
-        expect(subject.shell_encode).to eq("$'\\uffff'")
+      it "must return the lowercase \\uXXXX hex escaped String" do
+        expect(subject.shell_encode).to eq("\\uffff")
       end
     end
 
