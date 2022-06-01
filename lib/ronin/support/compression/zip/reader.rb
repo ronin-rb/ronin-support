@@ -134,7 +134,7 @@ module Ronin
           #
           # Finds the entry with the given name.
           #
-          # @param [String]
+          # @param [String] name
           #   The file name to search for.
           #
           # @return [Entry, nil]
