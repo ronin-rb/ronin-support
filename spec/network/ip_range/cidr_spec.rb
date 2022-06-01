@@ -38,6 +38,15 @@ describe Ronin::Support::Network::IPRange::CIDR do
       it "must calculate the CIDR range between them" do
         expect(subject.range(first,last)).to eq(subject.new("1.1.0.0/16"))
       end
+
+      context "when there is no difference between the two addresses" do
+        let(:first) { IPAddr.new('1.1.1.1') }
+        let(:last)  { IPAddr.new('1.1.1.1') }
+
+        it "must return the IPv4 address" do
+          expect(subject.range(first,last)).to eq(subject.new(first.to_s))
+        end
+      end
     end
 
     context "when given two IPv6 addresses" do
@@ -46,6 +55,15 @@ describe Ronin::Support::Network::IPRange::CIDR do
 
       it "must calculate the CIDR range between them" do
         expect(subject.range(first,last)).to eq(subject.new("2607:f8b0:4005:80c::0000/16"))
+      end
+
+      context "when there is no difference between the two addresses" do
+        let(:first) { IPAddr.new('2607:f8b0:4005:80c::200e') }
+        let(:last)  { IPAddr.new('2607:f8b0:4005:80c::200e') }
+
+        it "must return the IPv6 address" do
+          expect(subject.range(first,last)).to eq(subject.new(first.to_s))
+        end
       end
     end
 
