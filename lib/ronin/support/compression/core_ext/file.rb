@@ -81,10 +81,10 @@ class File
   # @yield [tar]
   #   If a block is given, it will be passed the tar reader object.
   #
-  # @yieldparam [Ronin::Support::Compression::Gzip::Reader] tar
+  # @yieldparam [Ronin::Support::Compression::Tar::Reader] tar
   #   The tar reader object.
   #
-  # @return [Ronin::Support::Compression::Gzip::Reader]
+  # @return [Ronin::Support::Compression::Tar::Reader]
   #   The tar reader object.
   #
   # @api public
@@ -104,10 +104,10 @@ class File
   # @yield [tar]
   #   If a block is given, it will be passed the tar writer object.
   #
-  # @yieldparam [Ronin::Support::Compression::Gzip::Writer] tar
+  # @yieldparam [Ronin::Support::Compression::Tar::Writer] tar
   #   The tar writer object.
   #
-  # @return [Ronin::Support::Compression::Gzip::Writer]
+  # @return [Ronin::Support::Compression::Tar::Writer]
   #   The tar writer object.
   #
   # @api public
