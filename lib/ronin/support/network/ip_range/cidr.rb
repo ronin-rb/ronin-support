@@ -105,10 +105,13 @@ module Ronin
               raise(ArgumentError,"must specify two IPv4 or IPv6 addresses: #{first.inspect} #{last.inspect}")
             end
 
-            difference = last_ipaddr.to_i - first_ipaddr.to_i
-            suffix     = Math.log2(difference).ceil
+            if (difference = last_ipaddr.to_i - first_ipaddr.to_i) > 0
+              suffix = Math.log2(difference).ceil
 
-            return new("#{first_ipaddr}/#{suffix}")
+              return new("#{first}/#{suffix}")
+            else
+              return new(first.to_s)
+            end
           end
 
           #
