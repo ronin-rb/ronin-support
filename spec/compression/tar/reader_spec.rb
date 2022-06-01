@@ -125,4 +125,20 @@ describe Ronin::Support::Compression::Tar::Reader do
       end
     end
   end
+
+  describe "#read" do
+    let(:name) { 'file.txt' }
+
+    it "must read the the full contents of the file within the archive" do
+      expect(subject.read(name)).to eq(txt_data)
+    end
+
+    context "when the length: keyword argument is given" do
+      let(:length) { 3 }
+
+      it "must only read length number of bytes" do
+        expect(subject.read(name, length: length)).to eq(txt_data[0,length])
+      end
+    end
+  end
 end

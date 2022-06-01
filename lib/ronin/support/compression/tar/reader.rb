@@ -111,6 +111,24 @@ module Ronin
             find { |entry| entry.full_name == name }
           end
 
+          #
+          # Reads the contents of an entry from the tar archive.
+          #
+          # @param [String] name
+          #   The name of the entry to read.
+          #
+          # @param [Integer, nil] length
+          #   Optional number of bytes to read.
+          #
+          # @return [String]
+          #   The read data.
+          #
+          def read(name, length: nil)
+            if (entry = self[name])
+              entry.read(length)
+            end
+          end
+
         end
       end
     end
