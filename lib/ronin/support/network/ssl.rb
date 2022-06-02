@@ -18,13 +18,8 @@
 #
 
 
+require 'ronin/support/network/ssl/openssl'
 require 'ronin/support/network/ssl/proxy'
-
-begin
-  require 'openssl'
-rescue ::LoadError
-  warn "WARNING: Ruby was not compiled with OpenSSL support"
-end
 
 module Ronin
   module Support
