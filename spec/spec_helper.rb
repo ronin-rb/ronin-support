@@ -4,6 +4,7 @@ require 'ronin/support/version'
 
 SimpleCov.start
 
+ENV['HOME'] = File.join(__dir__,'fixtures','home')
 ENV.delete('XDG_CACHE_HOME')
 ENV.delete('XDG_CONFIG_HOME')
 ENV.delete('XDG_DATA_HOME')
