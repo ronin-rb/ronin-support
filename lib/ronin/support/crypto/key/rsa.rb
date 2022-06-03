@@ -43,13 +43,16 @@ module Ronin
           # @param [Integer] key_size
           #   The size of the key in bits.
           #
+          # @param [Array] arguments
+          #   Additional arguments for [OpenSSL::PKey::RSA.generate](https://rubydoc.info/gems/openssl/OpenSSL/PKey/RSA#generate-class_method).
+          #
           # @return [RSA]
           #   The newly generated key.
           #
-          def self.random(key_size=4096)
+          def self.generate(key_size=4096,*arguments,&block)
             # HACK: openssl-3.0.0 will return an OpenSSL::PKey::RSA instance,
             # even though we subclassed OpenSSL::PKey::RSA.
-            new(generate(key_size))
+            new(super(key_size,*arguments,&block))
           end
 
           #

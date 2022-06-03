@@ -7,55 +7,33 @@ describe Ronin::Support::Crypto::Key::DH do
   let(:path) { File.join(fixtures_dir,'dh.key') }
   let(:der)  { File.binread(path) }
 
-  if RUBY_ENGINE == 'jruby'
-    describe ".generate" do
-      let(:key_size) { 1024 }
-
-      subject { described_class }
-
-      it "must call .new with the key size" do
-        expect(subject).to receive(:new).with(key_size)
-
-        subject.generate(key_size)
-      end
-
-      context "and when a generator number is given" do
-        let(:generator) { 2 }
-
-        it "must call .generate with the given key size and generator" do
-          expect(subject).to receive(:new).with(key_size,generator)
-
-          subject.generate(key_size,generator)
-        end
-      end
-    end
-  end
-
-  describe ".random" do
+  describe ".generate" do
     subject { described_class }
 
-    it "must call .generate with a key size of 1024" do
-      expect(subject).to receive(:generate).with(1024).and_return(der)
+    let(:openssl_key) { OpenSSL::PKey::DH.new(der) }
 
-      expect(subject.random).to be_kind_of(subject)
+    it "must call super() with a key size of 1024" do
+      expect(subject.superclass).to receive(:generate).with(1024).and_return(openssl_key)
+
+      expect(subject.generate).to be_kind_of(subject)
     end
 
     context "when given a key size" do
       let(:key_size) { 2048 }
 
-      it "must call .generate with the given key size" do
-        expect(subject).to receive(:generate).with(key_size).and_return(der)
+      it "must call super() with the given key size" do
+        expect(subject.superclass).to receive(:generate).with(key_size).and_return(openssl_key)
 
-        expect(subject.random(key_size)).to be_kind_of(subject)
+        expect(subject.generate(key_size)).to be_kind_of(subject)
       end
 
-      context "and when a generator number is given" do
+      context "and when the generator: keyword is given" do
         let(:generator) { 2 }
 
-        it "must call .generate with the given key size and generator" do
-          expect(subject).to receive(:generate).with(key_size,generator).and_return(der)
+        it "must call super() with the given key size and generator" do
+          expect(subject.superclass).to receive(:generate).with(key_size,generator).and_return(openssl_key)
 
-          expect(subject.random(key_size, generator: generator)).to be_kind_of(subject)
+          expect(subject.generate(key_size, generator: generator)).to be_kind_of(subject)
         end
       end
     end

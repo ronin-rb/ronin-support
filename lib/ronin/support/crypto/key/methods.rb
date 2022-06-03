@@ -43,6 +43,21 @@ module Ronin
 
           module ClassMethods
             #
+            # Generates a new random key.
+            #
+            # @param [Array] arguments
+            #   Additional arguments for `generate`.
+            #
+            # @return [Class<Methods>]
+            #   The newly generated key.
+            #
+            # @note Alias for `generate`.
+            #
+            def random(*arguments,&block)
+              generate(*arguments,&block)
+            end
+
+            #
             # Parses an PEM encoded key.
             #
             # @param [String] key

@@ -9,22 +9,24 @@ describe Ronin::Support::Crypto::Key::RSA do
   let(:path) { File.join(fixtures_dir,'rsa.pem') }
   let(:pem)  { File.read(path) }
 
-  describe ".random" do
+  describe ".generate" do
     subject { described_class }
 
-    it "must call .generate with a key size of 4096" do
-      expect(subject).to receive(:generate).with(4096).and_return(pem)
+    let(:openssl_key) { OpenSSL::PKey::RSA.new(pem) }
 
-      expect(subject.random).to be_kind_of(subject)
+    it "must call super() with a key size of 4096" do
+      expect(subject.superclass).to receive(:generate).with(4096).and_return(pem)
+
+      expect(subject.generate).to be_kind_of(subject)
     end
 
     context "when given a key size" do
       let(:key_size) { 2048 }
 
-      it "must call .generate with the given key size" do
-        expect(subject).to receive(:generate).with(key_size).and_return(pem)
+      it "must call super() with the given key size" do
+        expect(subject.superclass).to receive(:generate).with(key_size).and_return(pem)
 
-        expect(subject.random(key_size)).to be_kind_of(subject)
+        expect(subject.generate(key_size)).to be_kind_of(subject)
       end
     end
   end

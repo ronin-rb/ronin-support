@@ -16,6 +16,26 @@ shared_examples_for "Ronin::Support::Crypto::Key::Methods examples" do
   end
   let(:encrypted_pem) { File.read(encrypted_pem_file) }
 
+  describe ".random" do
+    subject { described_class }
+
+    it "must call .generate with no args" do
+      expect(subject).to receive(:generate).with(no_args).and_return(pem)
+
+      subject.random
+    end
+
+    context "when given a key size" do
+      let(:key_size) { 2048 }
+
+      it "must call .generate with the given key size" do
+        expect(subject).to receive(:generate).with(key_size).and_return(pem)
+
+        subject.random(key_size)
+      end
+    end
+  end
+
   describe ".parse" do
     subject { described_class }
 

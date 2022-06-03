@@ -37,30 +37,8 @@ module Ronin
 
           include Methods
 
-          if RUBY_ENGINE == 'jruby'
-            #
-            # Generates a new DH key.
-            #
-            # @param [Integer] key_size
-            #   The size of the key in bits.
-            #
-            # @param [Integer, nil] generator
-            #   A small number > 1, typically 2 or 5.
-            #
-            # @return [DH]
-            #   The newly generated key.
-            #
-            # @note
-            #   jruby's openssl does not define `OpenSSL::PKey::DH.generate`.
-            #   See https://github.com/jruby/jruby-openssl/issues/254
-            #
-            def self.generate(key_size,generator=nil)
-              new(key_size,*generator)
-            end
-          end
-
           #
-          # Generates a new random DH key.
+          # Generates a new DH key.
           #
           # @param [Integer] key_size
           #   The size of the key in bits.
@@ -71,8 +49,12 @@ module Ronin
           # @return [DH]
           #   The newly generated key.
           #
-          def self.random(key_size=1024, generator: nil)
-            new(generate(key_size,*generator))
+          # @note
+          #   jruby's openssl does not define `OpenSSL::PKey::DH.generate`.
+          #   See https://github.com/jruby/jruby-openssl/issues/254
+          #
+          def self.generate(key_size=1024, generator: nil)
+            new(super(key_size,*generator))
           end
 
           #
@@ -93,9 +75,11 @@ module Ronin
           #
           # @see https://rubydoc.info/stdlib/openssl/OpenSSL/BN
           #
+          # @note
+          #   jruby's openssl does not implement `OpenSSL::PKey::DH#q`.
+          #   See https://github.com/jruby/jruby-openssl/issues/253
+          #
           def q
-            # NOTE: jruby's openssl does not implement OpenSSL::PKey::DH#q
-            # https://github.com/jruby/jruby-openssl/issues/253
             super() unless RUBY_ENGINE == 'jruby'
           end
 

@@ -67,25 +67,6 @@ module Ronin
             super(*args)
           end
 
-          if RUBY_ENGINE == 'jruby'
-            #
-            # Generates a new DH key.
-            #
-            # @param [String] curve
-            #   The elliptical curve to use.
-            #
-            # @return [EC]
-            #   The newly generated key.
-            #
-            # @note
-            #   jruby's openssl does not define `OpenSSL::PKey::EC.generate`.
-            #   See https://github.com/jruby/jruby-openssl/issues/255
-            #
-            def self.generate(curve)
-              new(curve)
-            end
-          end
-
           #
           # The supported elliptical curves.
           #
@@ -105,8 +86,13 @@ module Ronin
           # @return [EC]
           #   The newly generated key.
           #
-          def self.random(curve)
-            ec = generate(curve)
+          def self.generate(curve)
+            # NOTE: jruby's openssl does not define OpenSSL::PKey::EC.generate
+            # https://github.com/jruby/jruby-openssl/issues/255
+            ec = if RUBY_ENGINE == 'jruby' then new(curve)
+                 else                           super(curve)
+                 end
+
             ec.generate_key
           end
 
