@@ -23,6 +23,8 @@ require 'ronin/support/crypto/cipher/aes'
 require 'ronin/support/crypto/cipher/aes128'
 require 'ronin/support/crypto/cipher/aes256'
 require 'ronin/support/crypto/key/rsa'
+require 'ronin/support/crypto/cert'
+require 'ronin/support/crypto/cert_chain'
 require 'ronin/support/crypto/mixin'
 require 'ronin/support/crypto/core_ext'
 
