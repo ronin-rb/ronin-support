@@ -134,7 +134,7 @@ module Ronin
         #
         # Determines the local IP.
         #
-        # @erturn [IP]
+        # @return [IP]
         #
         def self.local_ip
           new(local_address)
