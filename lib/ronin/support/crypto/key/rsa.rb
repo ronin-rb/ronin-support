@@ -52,7 +52,9 @@ module Ronin
           def self.generate(key_size=4096,*arguments,&block)
             # HACK: openssl-3.0.0 will return an OpenSSL::PKey::RSA instance,
             # even though we subclassed OpenSSL::PKey::RSA.
-            new(super(key_size,*arguments,&block))
+            new_key = allocate
+            new_key.send(:initialize_copy,p(super(key_size,*arguments,&block)))
+            new_key
           end
 
           #

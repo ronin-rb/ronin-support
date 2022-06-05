@@ -54,7 +54,9 @@ module Ronin
           #   See https://github.com/jruby/jruby-openssl/issues/254
           #
           def self.generate(key_size=1024, generator: nil)
-            new(super(key_size,*generator))
+            new_key = allocate
+            new_key.send(:initialize_copy,super(key_size,*generator))
+            new_key
           end
 
           #

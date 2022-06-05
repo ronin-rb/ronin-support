@@ -49,7 +49,9 @@ module Ronin
           def self.generate(key_size=1024)
             # HACK: openssl-3.0.0 will return an OpenSSL::PKey::SAA instance,
             # even though we subclassed OpenSSL::PKey::SAA.
-            new(super(key_size))
+            new_key = allocate
+            new_key.send(:initialize_copy,super(key_size))
+            new_key
           end
 
           #

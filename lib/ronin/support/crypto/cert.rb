@@ -175,7 +175,10 @@ module Ronin
           case name
           when String              then Name.parse(name)
           when Hash                then Name.build(**name)
-          when OpenSSL::X509::Name then Name.new(name.to_a)
+          when OpenSSL::X509::Name
+            new_name = Name.allocate
+            new_name.send(:initialize_copy,name)
+            new_name
           else
             raise(ArgumentError,"value must be either a String, Hash, or a OpenSSL::X509::Name object: #{name.inspect}")
           end
