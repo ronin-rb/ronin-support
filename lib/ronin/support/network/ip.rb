@@ -102,7 +102,15 @@ module Ronin
         # @return [Array<String>]
         #
         def self.local_addresses
-          Socket.ip_address_list.map(&:ip_address)
+          Socket.ip_address_list.map do |addrinfo|
+            address = addrinfo.ip_address
+
+            if address =~ /%.+$/
+              address = address.sub(/%.+$/,'')
+            end
+
+            address
+          end
         end
 
         #

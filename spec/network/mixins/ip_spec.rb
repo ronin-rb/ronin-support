@@ -101,6 +101,14 @@ describe Ronin::Support::Network::Mixins::IP do
         ip.ipv6_loopback?
       })
     end
+
+    it "must remove any '%iface' suffixes from the IP addresses" do
+      addresses = subject.local_addresses
+
+      expect(addresses).to all(satisfy { |address|
+        !(address =~ /%.+$/)
+      })
+    end
   end
 
   describe ".local_ips" do
