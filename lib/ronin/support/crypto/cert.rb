@@ -78,6 +78,86 @@ module Ronin
             return name
           end
 
+          #
+          # The parsed entries in the name.
+          #
+          # @return [Hash{String => String}]
+          #
+          def entries
+            @entries ||= Hash[to_a.map { |(oid,value,type)|
+              [oid, value]
+            }]
+          end
+
+          alias to_h entries
+
+          #
+          # Finds the entry with the given OID name.
+          #
+          # @param [String] oid
+          #
+          # @return [String, nil]
+          #
+          def [](oid)
+            entries[oid]
+          end
+
+          #
+          # The common name (`CN`) entry.
+          #
+          # @return [String, nil]
+          #
+          def common_name
+            self['CN']
+          end
+
+          #
+          # The organization (`O`) entry.
+          #
+          # @return [String, nil]
+          #
+          def organization
+            self['O']
+          end
+
+          #
+          # The organizational unit (`OU`) entry.
+          #
+          # @return [String, nil]
+          #
+          def organizational_unit
+            self['OU']
+          end
+
+          #
+          # The locality (`L`) entry.
+          #
+          # @return [String, nil]
+          #
+          def locality
+            self['L']
+          end
+
+          #
+          # The state or province (`ST`) entry.
+          #
+          # @return [String, nil]
+          #
+          def state
+            self['ST']
+          end
+
+          alias province state
+
+          #
+          # The country (`C`) entry.
+          #
+          # @return [String, nil]
+          #
+          def country
+            self['C']
+          end
+
         end
 
         #
@@ -279,6 +359,39 @@ module Ronin
 
           cert.sign(signing_key,signing_digest)
           return cert
+        end
+
+        #
+        # The issuer of the certificate.
+        #
+        # @return [Name, nil]
+        #
+        def issuer
+          @issuer ||= if (issuer = super)
+                        Name.new(issuer.to_a)
+                      end
+        end
+
+        #
+        # The subject of the certificate.
+        #
+        # @return [Name, nil]
+        #
+        def subject
+          @subject ||= if (subject = super)
+                         Name.new(subject.to_a)
+                       end
+        end
+
+        #
+        # The subjects common name (`CN`) entry.
+        #
+        # @return [String, nil]
+        #
+        def common_name
+          if (subject = self.subject)
+            subject.common_name
+          end
         end
 
         #

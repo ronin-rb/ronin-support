@@ -7,79 +7,166 @@ describe Ronin::Support::Crypto::Cert do
   let(:fixtures_dir) { File.join(__dir__,'fixtures') }
 
   describe described_class::Name do
-    subject { described_class }
+    describe ".build" do
+      subject { described_class }
 
-    it "must return a #{described_class} object" do
-      expect(subject.build).to be_kind_of(described_class)
-    end
+      it "must return a #{described_class} object" do
+        expect(subject.build).to be_kind_of(described_class)
+      end
 
-    context "when given the common_name: keyword argument" do
-      let(:common_name) { 'example.com' }
+      context "when given the common_name: keyword argument" do
+        let(:common_name) { 'example.com' }
 
-      subject { super().build(common_name: common_name) }
+        subject { super().build(common_name: common_name) }
 
-      it "must add a CN= entry" do
-        expect(subject.to_s).to eq("/CN=#{common_name}")
+        it "must add a CN= entry" do
+          expect(subject.to_s).to eq("/CN=#{common_name}")
+        end
+      end
+
+      context "when given the organizational_unit: keyword argument" do
+        let(:organizational_unit) { 'IT' }
+
+        subject { super().build(organizational_unit: organizational_unit) }
+
+        it "must add a OU= entry" do
+          expect(subject.to_s).to eq("/OU=#{organizational_unit}")
+        end
+      end
+
+      context "when given the organizational: keyword argument" do
+        let(:organization) { 'Mega Corp, Inc.' }
+
+        subject { super().build(organization: organization) }
+
+        it "must add a O= entry" do
+          expect(subject.to_s).to eq("/O=#{organization}")
+        end
+      end
+
+      context "when given the locality: keyword argument" do
+        let(:locality) { 'Mountain View' }
+
+        subject { super().build(locality: locality) }
+
+        it "must add a L= entry" do
+          expect(subject.to_s).to eq("/L=#{locality}")
+        end
+      end
+
+      context "when given the state: keyword argument" do
+        let(:state) { 'California' }
+
+        subject { super().build(state: state) }
+
+        it "must add a ST= entry" do
+          expect(subject.to_s).to eq("/ST=#{state}")
+        end
+      end
+
+      context "when given the province: keyword argument" do
+        let(:province) { 'California' }
+
+        subject { super().build(province: province) }
+
+        it "must add a ST= entry" do
+          expect(subject.to_s).to eq("/ST=#{province}")
+        end
+      end
+
+      context "when given the country: keyword argument" do
+        let(:country) { 'US' }
+
+        subject { super().build(country: country) }
+
+        it "must add a C= entry" do
+          expect(subject.to_s).to eq("/C=#{country}")
+        end
       end
     end
 
-    context "when given the organizational_unit: keyword argument" do
-      let(:organizational_unit) { 'IT' }
+    let(:common_name)         { 'test' }
+    let(:organization)        { 'Test, Inc.' }
+    let(:organizational_unit) { 'Test Dept' }
+    let(:locality)            { 'Test City' }
+    let(:state)               { 'XX' }
+    let(:country)             { 'US' }
 
-      subject { super().build(organizational_unit: organizational_unit) }
+    subject do
+      described_class.new(
+        [
+          ['CN', common_name],
+          ['O',  organization],
+          ['OU', organizational_unit],
+          ['L',  locality],
+          ['ST', state],
+          ['C',  country]
+        ]
+      )
+    end
 
-      it "must add a OU= entry" do
-        expect(subject.to_s).to eq("/OU=#{organizational_unit}")
+    describe "#entries" do
+      it "must return a Hash of the entries" do
+        expect(subject.entries).to eq(
+          {
+            'CN' => common_name,
+            'O'  => organization,
+            'OU' => organizational_unit,
+            'L'  => locality,
+            'ST' => state,
+            'C'  => country
+          }
+        )
       end
     end
 
-    context "when given the organizational: keyword argument" do
-      let(:organization) { 'Mega Corp, Inc.' }
+    describe "#[]" do
+      context "when given an OID name of an entry in the name" do
+        it "must return the corresponding value" do
+          expect(subject['CN']).to eq(common_name)
+        end
+      end
 
-      subject { super().build(organization: organization) }
-
-      it "must add a O= entry" do
-        expect(subject.to_s).to eq("/O=#{organization}")
+      context "when given an unknown OID name" do
+        it "must return nil" do
+          expect(subject['FOO']).to eq(nil)
+        end
       end
     end
 
-    context "when given the locality: keyword argument" do
-      let(:locality) { 'Mountain View' }
-
-      subject { super().build(locality: locality) }
-
-      it "must add a L= entry" do
-        expect(subject.to_s).to eq("/L=#{locality}")
+    describe "#common_name" do
+      it "must return the 'CN' entry value" do
+        expect(subject.common_name).to eq(common_name)
       end
     end
 
-    context "when given the state: keyword argument" do
-      let(:state) { 'California' }
-
-      subject { super().build(state: state) }
-
-      it "must add a ST= entry" do
-        expect(subject.to_s).to eq("/ST=#{state}")
+    describe "#organization" do
+      it "must return the 'O' entry value" do
+        expect(subject.organization).to eq(organization)
       end
     end
 
-    context "when given the province: keyword argument" do
-      let(:province) { 'California' }
-
-      subject { super().build(province: province) }
-
-      it "must add a ST= entry" do
-        expect(subject.to_s).to eq("/ST=#{province}")
+    describe "#organizational_unit" do
+      it "must return the 'OU' entry value" do
+        expect(subject.organizational_unit).to eq(organizational_unit)
       end
     end
 
-    context "when given the country: keyword argument" do
-      let(:country) { 'US' }
+    describe "#locality" do
+      it "must return the 'L' entry value" do
+        expect(subject.locality).to eq(locality)
+      end
+    end
 
-      subject { super().build(country: country) }
+    describe "#state" do
+      it "must return the 'ST' entry value" do
+        expect(subject.state).to eq(state)
+      end
+    end
 
-      it "must add a C= entry" do
-        expect(subject.to_s).to eq("/C=#{country}")
+    describe "#country" do
+      it "must return the 'C' entry value" do
+        expect(subject.country).to eq(country)
       end
     end
   end
@@ -448,6 +535,32 @@ describe Ronin::Support::Crypto::Cert do
   end
 
   subject { described_class.new(File.read(cert_path)) }
+
+  describe "#issuer" do
+    it "must return the issuer as a #{described_class}::Name" do
+      expect(subject.issuer).to be_kind_of(described_class::Name)
+    end
+
+    it "must return the same object" do
+      expect(subject.issuer).to be(subject.issuer)
+    end
+  end
+
+  describe "#subject" do
+    it "must return the subject as a #{described_class}::Name" do
+      expect(subject.subject).to be_kind_of(described_class::Name)
+    end
+
+    it "must return the same object" do
+      expect(subject.subject).to be(subject.subject)
+    end
+  end
+
+  describe "#common_name" do
+    it "must return the command name from the subject" do
+      expect(subject.common_name).to eq('www.example.org')
+    end
+  end
 
   describe "#extension_names" do
     it "must return the OID names of all extensions" do
