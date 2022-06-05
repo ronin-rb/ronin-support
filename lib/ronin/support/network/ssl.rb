@@ -50,7 +50,7 @@ module Ronin
         #   The default RSA key.
         #
         def self.key
-          @key || LocalKey.fetch
+          @key ||= LocalKey.fetch
         end
 
         #
@@ -73,7 +73,7 @@ module Ronin
         #   The default SSL certificate.
         #
         def self.cert
-          @cert || LocalCert.fetch
+          @cert ||= LocalCert.fetch
         end
 
         #

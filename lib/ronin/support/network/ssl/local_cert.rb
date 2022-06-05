@@ -86,9 +86,9 @@ module Ronin
           #   The default SSL certificate.
           #
           def self.fetch
-            @cert ||= if File.file?(PATH) then load
-                      else                     generate
-                      end
+            if File.file?(PATH) then load
+            else                     generate
+            end
           end
 
           private
