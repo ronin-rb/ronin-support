@@ -12,6 +12,12 @@ describe Ronin::Support::Network::Mixins::SSL do
     let(:server_host) { 'localhost' }
     let(:server_ip)   { Resolv.getaddress(server_host) }
 
+    let(:fixtures_dir) { File.join(__dir__,'..','fixtures')   }
+    let(:key_file)     { File.join(fixtures_dir,'ssl.key')    }
+    let(:key)          { Crypto::Key::RSA.load_file(key_file) }
+    let(:cert_file)    { File.join(fixtures_dir,'ssl.crt')    }
+    let(:cert)         { Crypto::Cert.load_file(cert_file)    }
+
     subject do
       obj = Object.new
       obj.extend described_class
@@ -105,44 +111,48 @@ describe Ronin::Support::Network::Mixins::SSL do
         end
       end
 
-      describe "when given the cert: keyword argument" do
-        let(:cert) { File.join(__dir__,'..','ssl.crt') }
+      describe "when given the verify: keyword argument" do
+        subject { super().ssl_context(verify: :peer) }
 
-        subject { super().ssl_context(cert: cert) }
+        it "must set verify_mode" do
+          expect(subject.verify_mode).to eq(OpenSSL::SSL::VERIFY_PEER)
+        end
+      end
+
+      describe "when given the cert_file: keyword argument" do
+        subject { super().ssl_context(key: key, cert_file: cert_file) }
 
         it "must set cert" do
-          expect(subject.cert.to_s).to eq(File.read(cert))
+          expect(subject.cert.to_s).to eq(File.read(cert_file))
         end
       end
 
-      describe "when given the key: keyword argument" do
-        let(:key) { File.join(__dir__,'..','ssl.key') }
-
-        subject { super().ssl_context(key: key) }
+      describe "when given the key_file: keyword argument" do
+        subject { super().ssl_context(key_file: key_file, cert: cert) }
 
         it "must set key" do
-          expect(subject.key.to_s).to eq(File.read(key))
+          expect(subject.key.to_s).to eq(File.read(key_file))
         end
       end
 
-      describe "when given the certs: keyword argument" do
+      describe "when given the ca_bundle: keyword argument" do
         context "when value is a file" do
-          let(:file) { File.join(__dir__,'..','ssl.crt') }
+          let(:ca_bundle) { File.join(fixtures_dir,'ca_bundle.crt') }
 
-          subject { super().ssl_context(certs: file) }
+          subject { super().ssl_context(ca_bundle: ca_bundle) }
 
           it "must set ca_file" do
-            expect(subject.ca_file).to eq(file)
+            expect(subject.ca_file).to eq(ca_bundle)
           end
         end
 
         context "when value is a directory" do
-          let(:dir) { File.dirname(__FILE__) }
+          let(:ca_bundle) { File.join(fixtures_dir,'ca_bundle') }
 
-          subject { super().ssl_context(certs: dir) }
+          subject { super().ssl_context(ca_bundle: ca_bundle) }
 
           it "must set ca_path" do
-            expect(subject.ca_path).to eq(dir)
+            expect(subject.ca_path).to eq(ca_bundle)
           end
         end
       end
