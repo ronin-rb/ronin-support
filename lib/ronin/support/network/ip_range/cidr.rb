@@ -106,7 +106,11 @@ module Ronin
             end
 
             if (difference = last_ipaddr.to_i - first_ipaddr.to_i) > 0
-              suffix = Math.log2(difference).ceil
+              ip_size = if first_ipaddr.ipv6? then 128
+                        else                       32
+                        end
+
+              suffix = ip_size - Math.log2(difference).ceil
 
               return new("#{first_ip}/#{suffix}")
             else

@@ -54,7 +54,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
       let(:last)  { IPAddr.new('2607:f8b0:4005:80c::ffff') }
 
       it "must calculate the CIDR range between them" do
-        expect(subject.range(first,last)).to eq(subject.new("2607:f8b0:4005:80c::0000/16"))
+        expect(subject.range(first,last)).to eq(subject.new("2607:f8b0:4005:80c::0000/112"))
       end
 
       context "when there is no difference between the two addresses" do
