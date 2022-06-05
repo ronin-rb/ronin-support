@@ -49,7 +49,16 @@ module Ronin
         # @param [String] address
         #   The address of the IP.
         #
+        # @note
+        #   If the IP address has an `%iface` suffix, it will be removed from
+        #   the IP address.
+        #
         def initialize(address,family=Socket::AF_UNSPEC)
+          # XXX: remove the %iface suffix for ruby < 3.1.0
+          if address =~ /%.+$/
+            address = address.sub(/%.+$/,'')
+          end
+
           super(address,family)
 
           @address = address

@@ -431,6 +431,14 @@ describe Ronin::Support::Network::IP do
         expect(subject.family).to eq(family)
       end
     end
+
+    context "when the address has an '%iface' suffix" do
+      subject { described_class.new("#{super()}%eth0") }
+
+      it "must strip the '%iface' suffix" do
+        expect(subject.address).to eq(address)
+      end
+    end
   end
 
   describe "#get_name"  do
