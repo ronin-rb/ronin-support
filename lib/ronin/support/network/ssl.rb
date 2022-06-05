@@ -17,8 +17,9 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 require 'ronin/support/network/ssl/openssl'
+require 'ronin/support/network/ssl/local_key'
+require 'ronin/support/network/ssl/local_cert'
 require 'ronin/support/network/ssl/proxy'
 
 module Ronin
@@ -42,11 +43,51 @@ module Ronin
           false              => OpenSSL::SSL::VERIFY_NONE
         }
 
-        # Default SSL key file
-        DEFAULT_KEY_FILE = File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','data','ronin','network','ssl','ssl.key'))
+        #
+        # The default RSA key used for all SSL server sockets.
+        #
+        # @return [Crypto::Key::RSA]
+        #   The default RSA key.
+        #
+        def self.key
+          @key || LocalKey.fetch
+        end
 
-        # Default SSL cert file
-        DEFAULT_CERT_FILE = File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','data','ronin','network','ssl','ssl.pem'))
+        #
+        # Overrides the default RSA key.
+        #
+        # @param [Crypto::Key::RSA, OpenSSL::PKey::RSA] new_key
+        #   The new RSA key.
+        #
+        # @return [Crypto::Key::RSA, OpenSSL::PKey::RSA]
+        #   The new default RSA key.
+        #
+        def self.key=(new_key)
+          @key = new_key
+        end
+
+        #
+        # The default SSL certificate used for all SSL server sockets.
+        #
+        # @return [Crypto::Cert]
+        #   The default SSL certificate.
+        #
+        def self.cert
+          @cert || LocalCert.fetch
+        end
+
+        #
+        # Overrides the default SSL certificate.
+        #
+        # @param [Crypto::Cert, OpenSSL::X509::Certificate] new_cert
+        #   The new SSL certificate.
+        #
+        # @return [Crypto::Cert, OpenSSL::X509::Certificate]
+        #   The new default SSL certificate.
+        #
+        def self.cert=(new_cert)
+          @cert = new_cert
+        end
 
         #
         # Creates a new SSL Context.
@@ -63,14 +104,20 @@ module Ronin
         #   * `:fail_if_no_peer_cert`
         #   * `:client_once`
         #
-        # @param [String] cert
-        #   The path to the SSL `.crt` file.
+        # @param [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] key
+        #   The RSA key to use for the SSL context.
         #
-        # @param [String] key
-        #   The path to the SSL `.key` file.
+        # @param [String, nil] key_file
+        #   The path to the RSA `.key` file.
         #
-        # @param [String] certs
-        #   Path to the CA certificate file or directory.
+        # @param [Crypto::Cert, OpenSSL::X509::Certificate, nil] cert
+        #   The X509 certificate to use for the SSL context.
+        #
+        # @param [String, nil] cert_file
+        #   The path to the SSL `.crt` or `.pem` file.
+        #
+        # @param [String, nil] ca_bundle
+        #   Path to the CA bundle file or directory.
         #
         # @return [OpenSSL::SSL::SSLContext]
         #   The newly created SSL Context.
@@ -79,11 +126,13 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.context(version: nil,
-                         verify:  :none,
-                         cert:    nil,
-                         key:     nil,
-                         certs:   nil)
+        def self.context(version:   nil,
+                         verify:    :none,
+                         key:       nil,
+                         key_file:  nil,
+                         cert:      nil,
+                         cert_file: nil,
+                         ca_bundle: nil)
           context = OpenSSL::SSL::SSLContext.new()
 
           if version
@@ -92,21 +141,23 @@ module Ronin
 
           context.verify_mode = VERIFY[verify]
 
-          if cert
-            file = File.new(cert)
-            context.cert = OpenSSL::X509::Certificate.new(file)
+          if (key_file || key) && (cert_file || cert)
+            context.key  = if key_file then Crypto::Key::RSA.load_file(key_file)
+                           else             key
+                           end
+
+            context.cert = if cert_file then Crypto::Cert.load_file(cert_file)
+                           else              cert
+                           end
+          elsif (key_file || key) || (cert_file || cert)
+            raise(ArgumentError,"cert_file: and cert: keyword arguments also require a key_file: or key: keyword argument")
           end
 
-          if key
-            file = File.new(key)
-            context.key = OpenSSL::PKey::RSA.new(file)
-          end
-
-          if certs
-            if File.file?(certs)
-              context.ca_file = certs
-            elsif File.directory?(certs)
-              context.ca_path = certs
+          if ca_bundle
+            if File.file?(ca_bundle)
+              context.ca_file = ca_bundle
+            elsif File.directory?(ca_bundle)
+              context.ca_path = ca_bundle
             end
           end
 
