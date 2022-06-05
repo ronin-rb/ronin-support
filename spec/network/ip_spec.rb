@@ -415,6 +415,24 @@ describe Ronin::Support::Network::IP do
     end
   end
 
+  describe "#initialize" do
+    subject { described_class.new(address) }
+
+    it "must set #address" do
+      expect(subject.address).to eq(address)
+    end
+
+    context "when also given a Socket address family" do
+      let(:family) { Socket::AF_INET }
+
+      subject { described_class.new(address,family) }
+
+      it "must set #family" do
+        expect(subject.family).to eq(family)
+      end
+    end
+  end
+
   describe "#get_name"  do
     context "integration", :network do
       let(:address) { reverse_address }
