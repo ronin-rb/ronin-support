@@ -15,6 +15,145 @@ describe Ronin::Support::Network::IP do
     end
   end
 
+  describe "IPINFO_URI" do
+    subject { described_class::IPINFO_URI }
+
+    it "must return a URI for 'https://ipinfo.io/ip'" do
+      expect(subject).to be_kind_of(URI::HTTPS)
+      expect(subject.to_s).to eq('https://ipinfo.io/ip')
+    end
+  end
+
+  describe ".public_address" do
+    subject { described_class }
+
+    context "integration", :network do
+      it "must determine our public facing IP Address", :network do
+        public_address = subject.public_address
+        expect(public_address).to be_kind_of(String)
+
+        public_address = Addrinfo.ip(public_address)
+        expect(public_address.ipv4_private?).to be(false)
+        expect(public_address.ipv4_loopback?).to be(false)
+        expect(public_address.ipv6_linklocal?).to be(false)
+        expect(public_address.ipv6_loopback?).to be(false)
+      end
+    end
+
+    let(:public_address) { '1.2.3.4' }
+    let(:response) do
+      double('Net::HTTPOK', code: '200', body: public_address)
+    end
+
+    it "must make a HTTP request to https://ipinfo.io/ip" do
+      expect(Net::HTTP).to receive(:get_response).with(described_class::IPINFO_URI).and_return(response)
+
+      expect(subject.public_address).to eq(public_address)
+    end
+
+    context "when the HTTP response status is not 200" do
+      let(:response) { double('Net::HTTPServerError', code: '500') }
+
+      before do
+        allow(Net::HTTP).to receive(:get_response).with(
+          described_class::IPINFO_URI
+        ).and_return(response)
+      end
+
+      it "must return nil" do
+        expect(subject.public_address).to be(nil)
+      end
+    end
+
+    context "when a network exception is raised" do
+      before do
+        allow(Net::HTTP).to receive(:get_response) do
+          raise(SocketError,"ailed to open TCP connection to ipinfo.io:443 (getaddrinfo: Name or service not known)")
+        end
+      end
+
+      it "must return nil" do
+        expect(subject.public_address).to be(nil)
+      end
+    end
+  end
+
+  describe ".public_ip" do
+    subject { described_class }
+
+    let(:public_address) { '1.2.3.4' }
+    let(:response) do
+      double('Net::HTTPOK', code: '200', body: public_address)
+    end
+
+    it "must call .public_address" do
+      expect(Net::HTTP).to receive(:get_response).with(described_class::IPINFO_URI).and_return(response)
+
+      public_ip = subject.public_ip
+
+      expect(public_ip).to be_kind_of(described_class)
+      expect(public_ip.address).to eq(public_address)
+    end
+
+    context "when https://ipinfo.io/ip does not return an IP" do
+      before { expect(subject).to receive(:public_address).and_return(nil) }
+
+      it "must return nil" do
+        expect(subject.public_ip).to be(nil)
+      end
+    end
+  end
+
+  describe ".local_addresses" do
+    subject { described_class }
+
+    it "must return the local addresses as Strings" do
+      addresses = subject.local_addresses
+
+      expect(addresses).to all(be_kind_of(String))
+
+      ips = addresses.map { |address| Addrinfo.ip(address) }
+
+      expect(ips).to all(satisfy { |ip|
+        ip.ipv4_private?   ||
+        ip.ipv4_loopback?  ||
+        ip.ipv6_linklocal? ||
+        ip.ipv6_loopback?
+      })
+    end
+  end
+
+  describe ".local_ips" do
+    subject { described_class }
+
+    it "must return the local addresses as #{described_class} objects" do
+      ips = subject.local_ips
+
+      expect(ips).to all(be_kind_of(described_class))
+      expect(ips).to all(satisfy { |ip|
+        ip.private?   ||
+        ip.loopback?  ||
+        ip.link_local?
+      })
+    end
+  end
+
+  describe ".local_address" do
+    subject { described_class }
+
+    it "must return the first local address" do
+      expect(subject.local_address).to eq(subject.local_addresses.first)
+    end
+  end
+
+  describe ".local_ip" do
+    subject { described_class }
+
+    it "must return the first local #{described_class}" do
+      expect(subject.local_ip).to eq(subject.local_ips.first)
+    end
+  end
+
   describe ".extract" do
     subject { described_class }
 

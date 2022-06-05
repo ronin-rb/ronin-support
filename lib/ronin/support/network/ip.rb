@@ -21,8 +21,10 @@ require 'ronin/support/network/dns'
 require 'ronin/support/network/host'
 require 'ronin/support/text/patterns'
 
-require 'combinatorics/list_comprehension'
 require 'ipaddr'
+require 'socket'
+require 'net/https'
+require 'combinatorics/list_comprehension'
 
 module Ronin
   module Support
@@ -51,6 +53,74 @@ module Ronin
           super(address,family)
 
           @address = address
+        end
+
+        # The URI for https://ipinfo.io/ip
+        IPINFO_URI = URI::HTTPS.build(host: 'ipinfo.io', path: '/ip')
+
+        #
+        # Determines the current public IP address.
+        #
+        # @return [String, nil]
+        #   The public IP address according to {https://ipinfo.io/ip}.
+        #
+        def self.public_address
+          response = begin
+                       Net::HTTP.get_response(IPINFO_URI)
+                     rescue
+                     end
+
+          if response && response.code == '200'
+            return response.body
+          end
+        end
+
+        #
+        # Determines the current public IP.
+        #
+        # @return [IP, nil]
+        #   The public IP according to {https://ipinfo.io/ip}.
+        #
+        def self.public_ip
+          if (address = public_address)
+            new(address)
+          end
+        end
+
+        #
+        # Determines all local IP addresses.
+        #
+        # @return [Array<String>]
+        #
+        def self.local_addresses
+          Socket.ip_address_list.map(&:ip_address)
+        end
+
+        #
+        # Determines all local IPs.
+        #
+        # @return [Array<IP>]
+        #
+        def self.local_ips
+          local_addresses.map(&method(:new))
+        end
+
+        #
+        # Determines the local IP address.
+        #
+        # @return [String]
+        #
+        def self.local_address
+          Socket.ip_address_list.first.ip_address
+        end
+
+        #
+        # Determines the local IP.
+        #
+        # @erturn [IP]
+        #
+        def self.local_ip
+          new(local_address)
         end
 
         #
