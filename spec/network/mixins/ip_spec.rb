@@ -2,28 +2,19 @@ require 'spec_helper'
 require 'ronin/support/network/mixins/ip'
 
 describe Ronin::Support::Network::Mixins::IP do
-  describe "IPINFO_URI" do
-    subject { described_class::IPINFO_URI }
-
-    it "must return a URI for 'https://ipinfo.io/ip'" do
-      expect(subject).to be_kind_of(URI::HTTPS)
-      expect(subject.to_s).to eq('https://ipinfo.io/ip')
-    end
-  end
-
   subject do
     obj = Object.new
     obj.extend described_class
     obj
   end
 
-  describe "#public_ip" do
+  describe ".public_address" do
     context "integration", :network do
       it "must determine our public facing IP Address", :network do
-        public_ip = subject.public_ip
-        expect(public_ip).to be_kind_of(String)
+        public_address = subject.public_address
+        expect(public_address).to be_kind_of(String)
 
-        public_address = Addrinfo.ip(public_ip)
+        public_address = Addrinfo.ip(public_address)
         expect(public_address.ipv4_private?).to be(false)
         expect(public_address.ipv4_loopback?).to be(false)
         expect(public_address.ipv6_linklocal?).to be(false)
@@ -31,15 +22,15 @@ describe Ronin::Support::Network::Mixins::IP do
       end
     end
 
-    let(:public_ip) { '1.2.3.4' }
+    let(:public_address) { '1.2.3.4' }
     let(:response) do
-      double('Net::HTTPOK', code: '200', body: public_ip)
+      double('Net::HTTPOK', code: '200', body: public_address)
     end
 
     it "must make a HTTP request to https://ipinfo.io/ip" do
-      expect(Net::HTTP).to receive(:get_response).with(described_class::IPINFO_URI).and_return(response)
+      expect(Net::HTTP).to receive(:get_response).with(Ronin::Support::Network::IP::IPINFO_URI).and_return(response)
 
-      expect(subject.public_ip).to eq(public_ip)
+      expect(subject.public_address).to eq(public_address)
     end
 
     context "when the HTTP response status is not 200" do
@@ -47,12 +38,12 @@ describe Ronin::Support::Network::Mixins::IP do
 
       before do
         allow(Net::HTTP).to receive(:get_response).with(
-          described_class::IPINFO_URI
+          Ronin::Support::Network::IP::IPINFO_URI
         ).and_return(response)
       end
 
       it "must return nil" do
-        expect(subject.public_ip).to be(nil)
+        expect(subject.public_address).to be(nil)
       end
     end
 
@@ -64,130 +55,76 @@ describe Ronin::Support::Network::Mixins::IP do
       end
 
       it "must return nil" do
+        expect(subject.public_address).to be(nil)
+      end
+    end
+  end
+
+  describe ".public_ip" do
+    let(:public_address) { '1.2.3.4' }
+    let(:response) do
+      double('Net::HTTPOK', code: '200', body: public_address)
+    end
+
+    it "must call .public_address" do
+      expect(Net::HTTP).to receive(:get_response).with(Ronin::Support::Network::IP::IPINFO_URI).and_return(response)
+
+      public_ip = subject.public_ip
+
+      expect(public_ip).to be_kind_of(Ronin::Support::Network::IP)
+      expect(public_ip.address).to eq(public_address)
+    end
+
+    context "when https://ipinfo.io/ip does not return an IP" do
+      before do
+        expect(Ronin::Support::Network::IP).to receive(:public_address).and_return(nil)
+      end
+
+      it "must return nil" do
         expect(subject.public_ip).to be(nil)
       end
     end
   end
 
-  describe "#local_ip" do
-    it "must determine our internal IP address" do
-      local_ip = subject.local_ip
+  describe ".local_addresses" do
+    it "must return the local addresses as Strings" do
+      addresses = subject.local_addresses
 
-      expect(local_ip).to be_kind_of(String)
+      expect(addresses).to all(be_kind_of(String))
 
-      local_address = Addrinfo.ip(local_ip)
-      expect(local_address).to be_ipv4_private.or(
-        be_ipv4_loopback
-      ).or(
-        be_ipv6_linklocal
-      ).or(
-        be_ipv6_loopback
-      )
-    end
+      ips = addresses.map { |address| Addrinfo.ip(address) }
 
-    context "when the host has an IPv4 private address" do
-      let(:ipv4_private_address)  { '192.168.1.42' }
-      let(:ipv4_loopback_address) { '127.0.0.1'    }
-      let(:addresses) do
-        [
-          Addrinfo.ip(ipv4_loopback_address),
-          Addrinfo.ip(ipv4_private_address)
-        ]
-      end
-
-      before do
-        allow(Socket).to receive(:ip_address_list).and_return(addresses)
-      end
-
-      it "must return the IPv4 private address instead of the loopback" do
-        expect(subject.local_ip).to eq(ipv4_private_address)
-      end
-    end
-
-    context "when the host has no IPv4 private address" do
-      context "but has a IPv6 link-local address" do
-        let(:ipv6_private_address)  { 'fe80::1111:2222:3333' }
-        let(:ipv6_loopback_address) { '::1' }
-        let(:addresses) do
-          [
-            Addrinfo.ip(ipv6_loopback_address),
-            Addrinfo.ip(ipv6_private_address)
-          ]
-        end
-
-        before do
-          allow(Socket).to receive(:ip_address_list).and_return(addresses)
-        end
-
-        it "must return the IPv6 link-local address" do
-          expect(subject.local_ip).to eq(ipv6_private_address)
-        end
-      end
-
-      context "but has no IPv6 link-local address" do
-        let(:ipv6_loopback_address) { '::1' }
-        let(:addresses) do
-          [Addrinfo.ip(ipv6_loopback_address)]
-        end
-
-        before do
-          allow(Socket).to receive(:ip_address_list).and_return(addresses)
-        end
-
-        it "must return the IPv6 loopback address instead" do
-          expect(subject.local_ip).to eq(ipv6_loopback_address)
-        end
-      end
-
-      context "but has no IPv6 addresses" do
-        let(:ipv4_loopback_address) { '127.0.0.1' }
-        let(:addresses) do
-          [Addrinfo.ip(ipv4_loopback_address)]
-        end
-
-        before do
-          allow(Socket).to receive(:ip_address_list).and_return(addresses)
-        end
-
-        it "must return the IPv4 loopback address instead" do
-          expect(subject.local_ip).to eq(ipv4_loopback_address)
-        end
-      end
+      expect(ips).to all(satisfy { |ip|
+        ip.ipv4_private?   ||
+        ip.ipv4_loopback?  ||
+        ip.ipv6_linklocal? ||
+        ip.ipv6_loopback?
+      })
     end
   end
 
-  describe "#current_ip" do
-    context "integration", :network do
-      it "must return either #public_ip or #local_ip" do
-        expect(subject.current_ip).to eq(subject.public_ip).or(
-          eq(subject.local_ip)
-        )
-      end
+  describe ".local_ips" do
+    it "must return the local addresses as Ronin::Support::Network::IP objects" do
+      ips = subject.local_ips
+
+      expect(ips).to all(be_kind_of(Ronin::Support::Network::IP))
+      expect(ips).to all(satisfy { |ip|
+        ip.private?   ||
+        ip.loopback?  ||
+        ip.link_local?
+      })
     end
+  end
 
-    context "when #public_ip returns a String" do
-      let(:public_ip) { double('public_ip') }
-
-      before do
-        allow(subject).to receive(:public_ip).and_return(public_ip)
-      end
-
-      it "must return #public_ip" do
-        expect(subject.current_ip).to eq(public_ip)
-      end
+  describe ".local_address" do
+    it "must return the first local address" do
+      expect(subject.local_address).to eq(subject.local_addresses.first)
     end
+  end
 
-    context "when #public_ip returns nil" do
-      let(:local_ip) { double('local_ip') }
-
-      before do
-        allow(subject).to receive(:public_ip).and_return(nil)
-        allow(subject).to receive(:local_ip).and_return(local_ip)
-      end
-
-      it "must fallback to #local_ip" do
-        expect(subject.current_ip).to eq(local_ip)
-      end
+  describe ".local_ip" do
+    it "must return the first local Ronin::Support::Network::IP" do
+      expect(subject.local_ip).to eq(subject.local_ips.first)
     end
   end
 end

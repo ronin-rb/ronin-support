@@ -17,8 +17,7 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'socket'
-require 'net/https'
+require 'ronin/support/network/ip'
 
 module Ronin
   module Support
@@ -27,58 +26,77 @@ module Ronin
         #
         # @since 0.6.0
         #
+        # @api public
+        #
         module IP
-          # The URI for https://ipinfo.io/ip
-          IPINFO_URI = URI::HTTPS.build(host: 'ipinfo.io', path: '/ip')
+          #
+          # @see Network::IP.public_address
+          #
+          # @since 1.0.0
+          #
+          def public_address
+            Network::IP.public_address
+          end
 
           #
-          # Determines the current public IP Address.
+          # Determines the current public IP.
           #
           # @return [String, nil]
-          #   The public IP Address according to {https://ipinfo.io/ip}.
+          #   The public IP according to {https://ipinfo.io/ip}.
           #
-          # @api public
+          # @see Network::IP.public_ip
           #
           def public_ip
-            response = begin
-                         Net::HTTP.get_response(IPINFO_URI)
-                       rescue
-                       end
-
-            if response && response.code == '200'
-              return response.body
-            end
+            Network::IP.public_ip
           end
 
           #
-          # Determines the local IP Address.
+          # Determines the local IP addresses.
+          #
+          # @return [Array<String>]
+          #
+          # @see Network::IP.local_addresses
+          #
+          # @since 1.0.0
+          #
+          def local_addresses
+            Network::IP.local_addresses
+          end
+
+          #
+          # Determines the local IP address.
           #
           # @return [String]
-          #   The non-loopback / non-multicast local IP Address.
           #
-          # @api public
+          # @see Network::IP.local_ip_address
+          #
+          # @since 1.0.0
+          #
+          def local_address
+            Network::IP.local_address
+          end
+
+          #
+          # Determines the local IPs.
+          #
+          # @see Network::IP.local_ips
+          #
+          # @return [Array<Network::IP>]
+          #
+          # @since 1.0.0
+          #
+          def local_ips
+            Network::IP.local_ips
+          end
+
+          #
+          # Determines the local IP.
+          #
+          # @return [Network::IP]
+          #   The private, link-local, or loopback IP.
           #
           def local_ip
-            addresses = Socket.ip_address_list
-            address   = addresses.find(&:ipv4_private?) ||
-                        addresses.find(&:ipv6_linklocal?) ||
-                        addresses.find(&:ipv4_loopback?)  ||
-                        addresses.find(&:ipv6_loopback?)
-
-            return address.ip_address
-          end
-
-          #
-          # Determines the accessible IP Address.
-          #
-          # @return [String]
-          #   The accessible IP Address according to {#public_ip} or
-          #   {#local_ip}.
-          #
-          # @api public
-          #
-          def current_ip
-            public_ip || local_ip
+            Network::IP.local_ip
           end
         end
       end
