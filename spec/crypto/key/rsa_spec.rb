@@ -15,7 +15,7 @@ describe Ronin::Support::Crypto::Key::RSA do
     let(:openssl_key) { OpenSSL::PKey::RSA.new(pem) }
 
     it "must call super() with a key size of 4096" do
-      expect(subject.superclass).to receive(:generate).with(4096).and_return(pem)
+      expect(subject.superclass).to receive(:generate).with(4096).and_return(openssl_key)
 
       expect(subject.generate).to be_kind_of(subject)
     end
@@ -24,7 +24,7 @@ describe Ronin::Support::Crypto::Key::RSA do
       let(:key_size) { 2048 }
 
       it "must call super() with the given key size" do
-        expect(subject.superclass).to receive(:generate).with(key_size).and_return(pem)
+        expect(subject.superclass).to receive(:generate).with(key_size).and_return(openssl_key)
 
         expect(subject.generate(key_size)).to be_kind_of(subject)
       end
