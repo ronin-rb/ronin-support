@@ -46,6 +46,13 @@ describe Ronin::Support::Network::SSL do
     end
   end
 
+  let(:fixtures_dir) { File.join(__dir__,'fixtures') }
+
+  let(:key_file)  { File.join(fixtures_dir,'ssl.key')    }
+  let(:key)       { Crypto::Key::RSA.load_file(key_file) }
+  let(:cert_file) { File.join(fixtures_dir,'ssl.crt')    }
+  let(:cert)      { Crypto::Cert.load_file(cert_file)    }
+
   describe ".context" do
     subject { described_class.context }
 
@@ -147,44 +154,56 @@ describe Ronin::Support::Network::SSL do
       end
     end
 
-    context "when given the cert: keyword argument" do
-      let(:cert) { File.join(__dir__,'ssl.crt') }
-
-      subject { described_class.context(cert: cert) }
-
-      it "must set cert" do
-        expect(subject.cert.to_s).to eq(File.read(cert))
-      end
-    end
-
     context "when given the key: keyword argument" do
-      let(:key) { File.join(__dir__,'ssl.key') }
-
-      subject { described_class.context(key: key) }
+      subject { described_class.context(key: key, cert: cert) }
 
       it "must set key" do
-        expect(subject.key.to_s).to eq(File.read(key))
+        expect(subject.key).to eq(key)
       end
     end
 
-    context "when given the certs: keyword argument" do
-      context "when value is a file" do
-        let(:file) { File.join(__dir__,'ssl.crt') }
+    context "when given the key_file: keyword argument" do
+      subject { described_class.context(key_file: key_file, cert: cert) }
 
-        subject { described_class.context(certs: file) }
+      it "must set key" do
+        expect(subject.key.to_s).to eq(key.to_s)
+      end
+    end
+
+    context "when given the cert: keyword argument" do
+      subject { described_class.context(key: key, cert: cert) }
+
+      it "must set cert" do
+        expect(subject.cert).to eq(cert)
+      end
+    end
+
+    context "when given the cert_file: keyword argument" do
+      subject { described_class.context(key: key, cert_file: cert_file) }
+
+      it "must set cert" do
+        expect(subject.cert.to_s).to eq(cert.to_s)
+      end
+    end
+
+    context "when given the ca_bundle: keyword argument" do
+      context "when value is a file" do
+        let(:ca_bundle) { File.join(fixtures_dir,'ssl.crt') }
+
+        subject { described_class.context(ca_bundle: ca_bundle) }
 
         it "must set ca_file" do
-          expect(subject.ca_file).to eq(file)
+          expect(subject.ca_file).to eq(ca_bundle)
         end
       end
 
       context "when value is a directory" do
-        let(:dir) { __dir__ }
+        let(:ca_bundle) { fixtures_dir }
 
-        subject { described_class.context(certs: dir) }
+        subject { described_class.context(ca_bundle: ca_bundle) }
 
         it "must set ca_path" do
-          expect(subject.ca_path).to eq(dir)
+          expect(subject.ca_path).to eq(ca_bundle)
         end
       end
     end
