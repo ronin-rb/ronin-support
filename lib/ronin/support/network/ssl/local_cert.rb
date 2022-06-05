@@ -102,7 +102,7 @@ module Ronin
             string = "DNS: localhost"
 
             # append the additional local IP addresses
-            IP.ip_addresses.each do |address|
+            IP.local_addresses.each do |address|
               string << ", IP: #{address}"
             end
 
