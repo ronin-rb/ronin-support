@@ -203,8 +203,12 @@ describe Ronin::Support::Crypto::Cert do
     context "when given a OpenSSL::X509::Name object" do
       let(:name) { OpenSSL::X509::Name.new }
 
-      it "must return the OpenSSL::X509::Name object" do
-        expect(subject.Name(name)).to be(name)
+      it "must return #{described_class}::Name object" do
+        expect(subject.Name(name)).to be_kind_of(described_class::Name)
+      end
+
+      it "must copy the entries of the name" do
+        expect(subject.Name(name).to_a).to eq(name.to_a)
       end
     end
 
