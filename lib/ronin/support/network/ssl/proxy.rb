@@ -124,15 +124,25 @@ module Ronin
           # @since 1.0.0
           attr_reader :version
 
-          # The path to the SSL `.crt` file.
+          # The RSA key to use.
           #
-          # @return [String]
-          attr_accessor :cert
+          # @return [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil]
+          attr_accessor :key
 
           # The path to the SSL `.key` file.
           #
-          # @return [String]
-          attr_accessor :key
+          # @return [String, nil]
+          attr_accessor :key_file
+
+          # The X509 certificate to use.
+          #
+          # @return [Crypto::Cert, OpenSSL::X509::Certificate, nil]
+          attr_accessor :cert
+
+          # The path to the X509 `.crt` or `.pem` file.
+          #
+          # @return [String, nil]
+          attr_accessor :cert_file
 
           # The SSL verify mode
           #
@@ -142,7 +152,7 @@ module Ronin
           # Path to the CA certificate file or directory.
           #
           # @return [String]
-          attr_accessor :certs
+          attr_accessor :ca_bundle
 
           #
           # Creates a new SSL Proxy.
@@ -166,7 +176,7 @@ module Ronin
           #   * `true` (alias for `:peer`)
           #   * `false` (alias for `:none`)
           #
-          # @param [String] certs
+          # @param [String, nil] ca_bundle
           #   Path to the CA certificate file or directory.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -174,18 +184,22 @@ module Ronin
           #
           # @see Network::Proxy#initialize
           #
-          def initialize(version: nil,
-                         cert:    SSL::DEFAULT_CERT_FILE,
-                         key:     SSL::DEFAULT_KEY_FILE,
-                         verify:  :none,
-                         certs:   nil,
+          def initialize(version:   nil,
+                         key:       SSL.key,
+                         key_file:  nil,
+                         cert:      SSL.cert,
+                         cert_file: nil,
+                         verify:    :none,
+                         ca_bundle: nil,
                          **kwargs,
                          &block)
-            @version = version
-            @cert    = cert
-            @key     = key
-            @verify  = verify
-            @certs   = certs
+            @version   = version
+            @key       = key
+            @key_file  = key_file
+            @cert      = cert
+            @cert_file = cert_file
+            @verify    = verify
+            @ca_bundle = ca_bundle
 
             super(**kwargs,&block)
           end
@@ -232,10 +246,12 @@ module Ronin
           #
           def accept_client_connection
             client  = super
-            context = SSL.context(version: @version,
-                                  cert:    @cert,
-                                  key:     @key,
-                                  verify:  @verify)
+            context = SSL.context(version:   @version,
+                                  key:       @key,
+                                  key_file:  @key_file,
+                                  cert:      @cert,
+                                  cert_file: @cert_file,
+                                  verify:    @verify)
 
             ssl_socket = OpenSSL::SSL::SSLSocket.new(client,context)
             ssl_socket.sync_close = true
@@ -257,7 +273,7 @@ module Ronin
           #
           def open_server_connection
             server_socket = super
-            context       = SSL.context(verify: @verify, certs:  @certs)
+            context       = SSL.context(verify: @verify, ca_bundle: @ca_bundle)
 
             ssl_socket = OpenSSL::SSL::SSLSocket.new(server_socket,context)
             ssl_socket.sync_close = true

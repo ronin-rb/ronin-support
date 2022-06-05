@@ -49,13 +49,19 @@ module Ronin
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
           #
-          # @option kwargs [String] :cert
-          #   The path to the SSL `.crt` file.
+          # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
+          #   The RSA key to use for the SSL context.
           #
-          # @option kwargs [String] :key
+          # @option kwargs [String] :key_file
           #   The path to the SSL `.key` file.
           #
-          # @option kwargs [String] :certs
+          # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The X509 certificate to use for the SSL context.
+          #
+          # @option kwargs [String] :cert_file
+          #   The path to the SSL `.crt` file.
+          #
+          # @option kwargs [String] :ca_bundle
           #   Path to the CA certificate file or directory.
           #
           # @return [OpenSSL::SSL::SSLContext]
@@ -88,11 +94,20 @@ module Ronin
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
           #
-          # @option kwargs [String] :cert
+          # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
+          #   The RSA key to use for the SSL context.
+          #
+          # @option kwargs [String] :key_file
+          #   The path to the SSL `.key` file.
+          #
+          # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The X509 certificate to use for the SSL context.
+          #
+          # @option kwargs [String] :cert_file
           #   The path to the SSL `.crt` file.
           #
-          # @option kwargs [String] :key
-          #   The path to the SSL `.key` file.
+          # @option kwargs [String] :ca_bundle
+          #   Path to the CA certificate file or directory.
           #
           # @return [OpenSSL::SSL::SSLSocket]
           #   the new SSL Socket.
@@ -136,11 +151,20 @@ module Ronin
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
           #
-          # @option options [String] :cert
+          # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
+          #   The RSA key to use for the SSL context.
+          #
+          # @option kwargs [String] :key_file
+          #   The path to the SSL `.key` file.
+          #
+          # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The X509 certificate to use for the SSL context.
+          #
+          # @option kwargs [String] :cert_file
           #   The path to the SSL `.crt` file.
           #
-          # @option options [String] :key
-          #   The path to the SSL `.key` file.
+          # @option kwargs [String] :ca_bundle
+          #   Path to the CA certificate file or directory.
           #
           # @return [Boolean, nil]
           #   Specifies whether the remote SSLed TCP port is open.
@@ -190,11 +214,20 @@ module Ronin
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
           #
-          # @option kwargs [String] :cert
+          # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
+          #   The RSA key to use for the SSL context.
+          #
+          # @option kwargs [String] :key_file
+          #   The path to the SSL `.key` file.
+          #
+          # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The X509 certificate to use for the SSL context.
+          #
+          # @option kwargs [String] :cert_file
           #   The path to the SSL `.crt` file.
           #
-          # @option kwargs [String] :key
-          #   The path to the SSL `.key` file.
+          # @option kwargs [String] :ca_bundle
+          #   Path to the CA certificate file or directory.
           #
           # @yield [ssl_socket]
           #   The given block will be passed the new SSL Socket.
@@ -253,14 +286,23 @@ module Ronin
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
           #
-          # @option kwargs [String] :cert
-          #   The path to the SSL `.crt` file.
-          #
-          # @option kwargs [String] :key
-          #   The path to the SSL `.key` file.
-          #
           # @yield [ssl_socket]
           #   The given block will be passed the newly created SSL Socket.
+          #
+          # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
+          #   The RSA key to use for the SSL context.
+          #
+          # @option kwargs [String] :key_file
+          #   The path to the SSL `.key` file.
+          #
+          # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The X509 certificate to use for the SSL context.
+          #
+          # @option kwargs [String] :cert_file
+          #   The path to the SSL `.crt` file.
+          #
+          # @option kwargs [String] :ca_bundle
+          #   Path to the CA certificate file or directory.
           #
           # @yieldparam [OpenSSL::SSL::SSLSocket] ssl_socket
           #   The newly created SSL Socket.
@@ -301,11 +343,20 @@ module Ronin
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
           #
-          # @option kwargs [String] :cert
+          # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
+          #   The RSA key to use for the SSL context.
+          #
+          # @option kwargs [String] :key_file
+          #   The path to the SSL `.key` file.
+          #
+          # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The X509 certificate to use for the SSL context.
+          #
+          # @option kwargs [String] :cert_file
           #   The path to the SSL `.crt` file.
           #
-          # @option kwargs [String] :key
-          #   The path to the SSL `.key` file.
+          # @option kwargs [String] :ca_bundle
+          #   Path to the CA certificate file or directory.
           #
           # @yield [ssl_socket]
           #   The given block will be passed the temporary SSL Socket.
@@ -361,11 +412,20 @@ module Ronin
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
           #
-          # @option kwargs [String] :cert
+          # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
+          #   The RSA key to use for the SSL context.
+          #
+          # @option kwargs [String] :key_file
+          #   The path to the SSL `.key` file.
+          #
+          # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The X509 certificate to use for the SSL context.
+          #
+          # @option kwargs [String] :cert_file
           #   The path to the SSL `.crt` file.
           #
-          # @option kwargs [String] :key
-          #   The path to the SSL `.key` file.
+          # @option kwargs [String] :ca_bundle
+          #   Path to the CA certificate file or directory.
           #
           # @yield [banner]
           #   If a block is given, it will be passed the grabbed banner.
@@ -420,11 +480,20 @@ module Ronin
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
           #
-          # @option kwargs [String] :cert
+          # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
+          #   The RSA key to use for the SSL context.
+          #
+          # @option kwargs [String] :key_file
+          #   The path to the SSL `.key` file.
+          #
+          # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The X509 certificate to use for the SSL context.
+          #
+          # @option kwargs [String] :cert_file
           #   The path to the SSL `.crt` file.
           #
-          # @option kwargs [String] :key
-          #   The path to the SSL `.key` file.
+          # @option kwargs [String] :ca_bundle
+          #   Path to the CA certificate file or directory.
           #
           # @return [true]
           #   The data was successfully sent.
@@ -460,12 +529,6 @@ module Ronin
           #   * `:peer`
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
-          #
-          # @option kwargs [String] :cert (DEFAULT_CERT_FILE)
-          #   The path to the SSL `.crt` file.
-          #
-          # @option kwargs [String] :key (DEFAULT_KEY_FILE)
-          #   The path to the SSL `.key` file.
           #
           # @return [OpenSSL::SSL::SSLSocket]
           #   the new SSL Socket.
@@ -505,11 +568,20 @@ module Ronin
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
           #
-          # @option kwargs [String] :cert (DEFAULT_CERT_FILE)
+          # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key (Network::SSL.key)
+          #   The RSA key to use for the SSL context.
+          #
+          # @option kwargs [String] :key_file
+          #   The path to the SSL `.key` file.
+          #
+          # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert (Network::SSL.cert)
+          #   The X509 certificate to use for the SSL context.
+          #
+          # @option kwargs [String] :cert_file
           #   The path to the SSL `.crt` file.
           #
-          # @option kwargs [String] :key (DEFAULT_KEY_FILE)
-          #   The path to the SSL `.key` file.
+          # @option kwargs [String] :ca_bundle
+          #   Path to the CA certificate file or directory.
           #
           # @yield [client]
           #   The given block will be passed the newly connected client.
@@ -562,11 +634,20 @@ module Ronin
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
           #
-          # @option kwargs [String] :cert (DEFAULT_CERT_FILE)
+          # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key (Network::SSL.key)
+          #   The RSA key to use for the SSL context.
+          #
+          # @option kwargs [String] :key_file
+          #   The path to the SSL `.key` file.
+          #
+          # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert (Network::SSL.cert)
+          #   The X509 certificate to use for the SSL context.
+          #
+          # @option kwargs [String] :cert_file
           #   The path to the SSL `.crt` file.
           #
-          # @option kwargs [String] :key (DEFAULT_KEY_FILE)
-          #   The path to the SSL `.key` file.
+          # @option kwargs [String] :ca_bundle
+          #   Path to the CA certificate file or directory.
           #
           # @example
           #   ssl_accept(1337) do |client|
