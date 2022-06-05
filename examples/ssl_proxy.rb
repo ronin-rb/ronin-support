@@ -3,7 +3,7 @@
 require 'bundler/setup'
 require 'ronin/support/network/ssl/proxy'
 
-Ronin::Support::Network::SSL::Proxy.start(port: 1337, server: ['rubygems.org', 443]) do |proxy|
+Ronin::Support::Network::SSL::Proxy.start(port: 1337, server: ['example.com', 443]) do |proxy|
   address = lambda { |socket|
     addrinfo = socket.peeraddr
 
