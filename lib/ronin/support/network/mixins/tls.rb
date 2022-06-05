@@ -171,10 +171,10 @@ module Ronin
           #   If the connection was not accepted, `nil` will be returned.
           #
           # @example
-          #   ssl_open?('www.bankofamerica.com',443)
+          #   tls_open?('www.bankofamerica.com',443)
           #
           # @example Using a timeout:
-          #   ssl_open?('example.com',80, timeout: 5)
+          #   tls_open?('example.com',80, timeout: 5)
           #   # => nil
           #
           # @api public
@@ -203,7 +203,7 @@ module Ronin
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#ssl_socket}.
+          #   Additional keyword arguments for {#tls_socket}.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -229,17 +229,17 @@ module Ronin
           # @option kwargs [String] :ca_bundle
           #   Path to the CA certificate file or directory.
           #
-          # @yield [ssl_socket]
+          # @yield [tls_socket]
           #   The given block will be passed the new SSL Socket.
           #
-          # @yieldparam [OpenSSL::SSL::SSLSocket] ssl_socket
+          # @yieldparam [OpenSSL::SSL::SSLSocket] tls_socket
           #   The new SSL Socket.
           #
           # @return [OpenSSL::SSL::SSLSocket]
           #   the new SSL Socket.
           #
           # @example
-          #   socket = ssl_connect('twitter.com',443)
+          #   socket = tls_connect('twitter.com',443)
           #
           # @see http://rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLSocket
           #
@@ -275,7 +275,7 @@ module Ronin
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#ssl_connect}.
+          #   Additional keyword arguments for {#tls_connect}.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -286,7 +286,7 @@ module Ronin
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
           #
-          # @yield [ssl_socket]
+          # @yield [tls_socket]
           #   The given block will be passed the newly created SSL Socket.
           #
           # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
@@ -304,7 +304,7 @@ module Ronin
           # @option kwargs [String] :ca_bundle
           #   Path to the CA certificate file or directory.
           #
-          # @yieldparam [OpenSSL::SSL::SSLSocket] ssl_socket
+          # @yieldparam [OpenSSL::SSL::SSLSocket] tls_socket
           #   The newly created SSL Socket.
           #
           # @api public
@@ -332,7 +332,7 @@ module Ronin
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#ssl_session}.
+          #   Additional keyword arguments for {#tls_session}.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -358,16 +358,16 @@ module Ronin
           # @option kwargs [String] :ca_bundle
           #   Path to the CA certificate file or directory.
           #
-          # @yield [ssl_socket]
+          # @yield [tls_socket]
           #   The given block will be passed the temporary SSL Socket.
           #
-          # @yieldparam [OpenSSL::SSL::SSLSocket] ssl_socket
+          # @yieldparam [OpenSSL::SSL::SSLSocket] tls_socket
           #   The temporary SSL Socket.
           #
           # @return [nil]
           #
           # @example
-          #   ssl_session('twitter.com',443) do |sock|
+          #   tls_session('twitter.com',443) do |sock|
           #     sock.write("GET / HTTP/1.1\n\r\n\r")
           #
           #     sock.each_line { |line| puts line }
@@ -401,7 +401,7 @@ module Ronin
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#ssl_session}.
+          #   Additional keyword arguments for {#tls_session}.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -437,7 +437,7 @@ module Ronin
           #   The grabbed banner.
           #
           # @example
-          #   ssl_banner('smtp.gmail.com',465)
+          #   tls_banner('smtp.gmail.com',465)
           #   # => "220 mx.google.com ESMTP c20sm3096959rvf.1"
           #
           # @api public
@@ -469,7 +469,7 @@ module Ronin
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#ssl_session}.
+          #   Additional keyword arguments for {#tls_session}.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -500,7 +500,7 @@ module Ronin
           #
           # @example
           #   buffer = "GET /#{'A' * 4096}\n\r"
-          #   ssl_send(buffer,'victim.com',443)
+          #   tls_send(buffer,'victim.com',443)
           #   # => true
           #
           # @api public
@@ -519,7 +519,7 @@ module Ronin
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#ssl_socket}.
+          #   Additional keyword arguments for {#tls_socket}.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -554,7 +554,7 @@ module Ronin
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#ssl_server_socket}.
+          #   Additional keyword arguments for {#tls_server_socket}.
           #
           # @option kwargs [Integer] :backlog (5)
           #   The maximum backlog of pending connections.
@@ -597,7 +597,7 @@ module Ronin
           #   # $ openssl req -new -key ssl.key -x509 -days 3653 -out ssl.crt
           #   # $ cat ssl.key ssl.crt > ssl.pem
           #   # $ chmod 600 ssl.key ssl.pem
-          #   ssl_server_loop(port: 1337, cert: 'ssl.crt', key: 'ssl.key') do |sock|
+          #   tls_server_loop(port: 1337, cert: 'ssl.crt', key: 'ssl.key') do |sock|
           #     sock.puts 'lol'
           #   end
           #
@@ -623,7 +623,7 @@ module Ronin
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#ssl_server_socket}.
+          #   Additional keyword arguments for {#tls_server_socket}.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -650,7 +650,7 @@ module Ronin
           #   Path to the CA certificate file or directory.
           #
           # @example
-          #   ssl_accept(1337) do |client|
+          #   tls_accept(1337) do |client|
           #     client.puts 'lol'
           #   end
           #
@@ -669,7 +669,7 @@ module Ronin
           #   # $ openssl req -new -key ssl.key -x509 -days 3653 -out ssl.crt
           #   # $ cat ssl.key ssl.crt > ssl.pem
           #   # $ chmod 600 ssl.key ssl.pem
-          #   ssl_accept(port: 1337, cert: 'ssl.crt', key: 'ssl.key') do |client|
+          #   tls_accept(port: 1337, cert: 'ssl.crt', key: 'ssl.key') do |client|
           #     client.puts 'lol'
           #   end
           #
