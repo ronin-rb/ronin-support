@@ -24,7 +24,6 @@ require 'ronin/support/text/patterns'
 require 'ipaddr'
 require 'socket'
 require 'net/https'
-require 'combinatorics/list_comprehension'
 
 module Ronin
   module Support
