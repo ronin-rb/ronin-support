@@ -461,6 +461,43 @@ describe Ronin::Support::Network::IP do
     end
   end
 
+  describe "#broadcast?" do
+    context "when the IP is an IPv4 adress" do
+      context "and the IP address is 255.255.255.255" do
+        let(:address) { '255.255.255.255' }
+
+        it "must return true" do
+          expect(subject.broadcast?).to be(true)
+        end
+      end
+
+      context "and the IP address ends in 255" do
+        let(:address) { '192.168.1.255' }
+
+        it "must return true" do
+          expect(subject.broadcast?).to be(true)
+        end
+      end
+
+      context "but the IP address does not end in 255" do
+        let(:address) { '1.1.1.1' }
+
+        it "must return false" do
+          expect(subject.broadcast?).to be(false)
+        end
+      end
+    end
+
+    context "when the IP is an IPv6 adress" do
+      let(:address) { '1234:abcd::ffff' }
+
+      it "must return false" do
+        # NOTE: IPv6 does not have broadcast addresses
+        expect(subject.broadcast?).to be(false)
+      end
+    end
+  end
+
   describe "#get_name"  do
     context "integration", :network do
       let(:address) { reverse_address }

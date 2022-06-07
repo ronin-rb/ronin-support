@@ -188,6 +188,27 @@ module Ronin
         end
 
         #
+        # Determines if the address is a IPv4 broadcast addresses.
+        #
+        # @return [Boolean]
+        #
+        # @example
+        #   ip = IPAddr.new('255.255.255.255')
+        #   ip.broadcast?
+        #   # => true
+        #   ip = IPAddr.new('192.168.1.255')
+        #   ip.broadcast?
+        #   # => true
+        #   ip = IPAddr.new('1.1.1.1')
+        #   ip.broadcast?
+        #   # => false
+        #
+        def broadcast?
+          # NOTE: IPv6 does not have broadcast addresses
+          ipv4? && (@addr & 0xff) == 0xff
+        end
+
+        #
         # Looks up the hostname of the address.
         #
         # @param [Hash{Symbol => Object}] kwargs
