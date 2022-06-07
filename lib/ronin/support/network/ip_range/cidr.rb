@@ -43,12 +43,6 @@ module Ronin
         #
         class CIDR < IPAddr
 
-          # Socket families and IP address masks
-          MASKS = {
-            Socket::AF_INET  => IN4MASK,
-            Socket::AF_INET6 => IN6MASK
-          }
-
           # The CIDR IP range string.
           #
           # @return [String]
@@ -73,13 +67,25 @@ module Ronin
             new(string)
           end
 
+          # Socket families and IP address sizes
+          SIZES = {
+            Socket::AF_INET  => 32,
+            Socket::AF_INET6 => 128
+          }
+
+          # Socket families and IP address masks
+          MASKS = {
+            Socket::AF_INET  => IN4MASK,
+            Socket::AF_INET6 => IN6MASK
+          }
+
           #
           # Calcualtes the CIDR range between two IP addresses.
           #
-          # @param [String, IPAddr] first_ip
+          # @param [String, IPAddr] first
           #   The first IP address in the CIDR range.
           #
-          # @param [String, IPAddr] last_ip
+          # @param [String, IPAddr] last
           #   The last IP Address in the CIDR range.
           #
           # @return [CIDR]
@@ -89,30 +95,29 @@ module Ronin
           #   IPRange::CIDR.range("1.1.1.1","1.1.1.255")
           #   # => #<Ronin::Support::Network::IPRange::CIDR: 1.1.1.1/24>
           #
-          def self.range(first_ip,last_ip)
-            first_ipaddr = case first_ip
-                           when IPAddr then first_ip
-                           else             IPAddr.new(first_ip)
-                           end
+          def self.range(first,last)
+            first_ip = case first
+                       when IPAddr then first
+                       else             IPAddr.new(first)
+                       end
 
-            last_ipaddr = case last_ip
-                          when IPAddr then last_ip
-                          else             IPAddr.new(last_ip)
-                          end
+            last_ip = case last
+                      when IPAddr then last
+                      else             IPAddr.new(last)
+                      end
 
-            if (first_ipaddr.ipv4? && !last_ipaddr.ipv4?) ||
-               (first_ipaddr.ipv6? && !last_ipaddr.ipv6?)
-              raise(ArgumentError,"must specify two IPv4 or IPv6 addresses: #{first_ip.inspect} #{last_ip.inspect}")
+            unless (first_ip.family == last_ip.family)
+              raise(ArgumentError,"must specify two IPv4 or IPv6 addresses: #{first.inspect} #{last.inspect}")
             end
 
-            if (difference = last_ipaddr.to_i - first_ipaddr.to_i) > 0
-              ip_size = if first_ipaddr.ipv6? then 128
-                        else                       32
-                        end
+            num_bits  = SIZES.fetch(first_ip.family)
+            mask      = MASKS.fetch(first_ip.family)
+            diff_bits = first_ip.to_i ^ last_ip.to_i
 
-              suffix = ip_size - Math.log2(difference).ceil
+            if diff_bits != 0
+              prefix_length = num_bits - Math.log2(diff_bits).ceil
 
-              return new("#{first_ip}/#{suffix}")
+              return new("#{first_ip}/#{prefix_length}")
             else
               return new(first_ip.to_s)
             end
