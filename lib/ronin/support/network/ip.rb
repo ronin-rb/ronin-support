@@ -373,26 +373,6 @@ module Ronin
 
         alias to_uint to_i
 
-        #
-        # Converts the IP into a String.
-        #
-        # @return [String]
-        #   The IP address.
-        #
-        def to_s
-          @address
-        end
-
-        #
-        # Converts the IP into a String.
-        #
-        # @return [String]
-        #   The IP address.
-        #
-        def to_str
-          @address
-        end
-
       end
     end
   end
