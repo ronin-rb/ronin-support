@@ -19,6 +19,7 @@
 
 require 'ronin/support/network/ip_range/cidr'
 require 'ronin/support/network/ip_range/glob'
+require 'ronin/support/network/ip_range/range'
 
 module Ronin
   module Support
