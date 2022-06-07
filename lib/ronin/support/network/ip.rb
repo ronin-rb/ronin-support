@@ -372,6 +372,8 @@ module Ronin
           DNS.get_ptr_names(@address,**kwargs)
         end
 
+        alias to_uint to_i
+
         #
         # Converts the IP into a String.
         #
