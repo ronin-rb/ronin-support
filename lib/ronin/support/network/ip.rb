@@ -209,6 +209,27 @@ module Ronin
         end
 
         #
+        # Determines if the address is a "logical" IP address.
+        #
+        # @return [Boolean]
+        #
+        # @example
+        #   ip = IPAddr.new('0.0.0.0')
+        #   ip.logical?
+        #   # => true
+        #   ip = IPAddr.new('192.168.1.0')
+        #   ip.logical?
+        #   # => true
+        #   ip = IPAddr.new('1.1.1.1')
+        #   ip.logical?
+        #   # => false
+        #
+        def logical?
+          (ipv6? && (@addr & 0xffff) == 0x0000) ||
+          (ipv4? && (@addr & 0xff) == 0x00)
+        end
+
+        #
         # Looks up the hostname of the address.
         #
         # @param [Hash{Symbol => Object}] kwargs

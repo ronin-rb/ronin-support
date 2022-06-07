@@ -498,6 +498,60 @@ describe Ronin::Support::Network::IP do
     end
   end
 
+  describe "#logical?" do
+    context "when the IP is an IPv4 adress" do
+      context "and the IP address is 0.0.0.0" do
+        let(:address) { '0.0.0.0' }
+
+        it "must return true" do
+          expect(subject.logical?).to be(true)
+        end
+      end
+
+      context "and the IP address ends in 0" do
+        let(:address) { '192.168.1.0' }
+
+        it "must return true" do
+          expect(subject.logical?).to be(true)
+        end
+      end
+
+      context "but the IP address does not end in 0" do
+        let(:address) { '1.1.1.1' }
+
+        it "must return false" do
+          expect(subject.logical?).to be(false)
+        end
+      end
+    end
+
+    context "when the IP is an IPv6 adress" do
+      context "and the IP address is '::'" do
+        let(:address) { '::' }
+
+        it "must return true" do
+          expect(subject.logical?).to be(true)
+        end
+      end
+
+      context "and the IP address ends in '::'" do
+        let(:address) { '1234:abcd::' }
+
+        it "must return true" do
+          expect(subject.logical?).to be(true)
+        end
+      end
+
+      context "but the IP address does not ends in '::'" do
+        let(:address) { '1234:abcd::1111' }
+
+        it "must return false" do
+          expect(subject.logical?).to be(false)
+        end
+      end
+    end
+  end
+
   describe "#get_name"  do
     context "integration", :network do
       let(:address) { reverse_address }
