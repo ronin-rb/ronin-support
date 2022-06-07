@@ -426,25 +426,37 @@ describe Ronin::Support::Network::IP do
   describe "#initialize" do
     subject { described_class.new(address) }
 
-    it "must set #address" do
-      expect(subject.address).to eq(address)
+    context "when given a String" do
+      it "must set #address" do
+        expect(subject.address).to eq(address)
+      end
+
+      context "when also given a Socket address family" do
+        let(:family) { Socket::AF_INET }
+
+        subject { described_class.new(address,family) }
+
+        it "must set #family" do
+          expect(subject.family).to eq(family)
+        end
+      end
+
+      context "when the address has an '%iface' suffix" do
+        subject { described_class.new("#{super()}%eth0") }
+
+        it "must strip the '%iface' suffix" do
+          expect(subject.address).to eq(address)
+        end
+      end
     end
 
-    context "when also given a Socket address family" do
+    context "when given an Integer and an address family" do
       let(:family) { Socket::AF_INET }
 
       subject { described_class.new(address,family) }
 
-      it "must set #family" do
-        expect(subject.family).to eq(family)
-      end
-    end
-
-    context "when the address has an '%iface' suffix" do
-      subject { described_class.new("#{super()}%eth0") }
-
-      it "must strip the '%iface' suffix" do
-        expect(subject.address).to eq(address)
+      it "must set #address to the IP representation of the Integer" do
+        expect(subject.address).to eq(IPAddr.new(address).to_s)
       end
     end
   end

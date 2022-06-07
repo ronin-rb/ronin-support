@@ -55,13 +55,18 @@ module Ronin
         #
         def initialize(address,family=Socket::AF_UNSPEC)
           # XXX: remove the %iface suffix for ruby < 3.1.0
-          if address =~ /%.+$/
+          if address.kind_of?(String) && address =~ /%.+$/
             address = address.sub(/%.+$/,'')
           end
 
           super(address,family)
 
-          @address = address
+          case address
+          when String
+            @address = address.to_s
+          else
+            @address = to_s
+          end
         end
 
         # The URI for https://ipinfo.io/ip
@@ -374,7 +379,7 @@ module Ronin
         #   The IP address.
         #
         def to_s
-          @address.to_s
+          @address
         end
 
         #
@@ -384,7 +389,7 @@ module Ronin
         #   The IP address.
         #
         def to_str
-          @address.to_str
+          @address
         end
 
       end
