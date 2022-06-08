@@ -423,6 +423,7 @@ module Ronin
           DNS.get_ptr_names(@address,**kwargs)
         end
 
+        alias canonical to_string
         alias to_uint to_i
         alias to_str to_s
 
