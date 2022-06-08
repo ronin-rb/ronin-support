@@ -4,7 +4,8 @@ require 'ronin/support/network/ip_range/cidr'
 
 describe Ronin::Support::Network::ASN::Record do
   let(:number)       { 3356 }
-  let(:range)        { Ronin::Support::Network::IPRange::CIDR.new('4.0.0.0/9') }
+  let(:cidr)         { '4.0.0.0/9' }
+  let(:range)        { Ronin::Support::Network::IPRange::CIDR.new(cidr) }
   let(:country_code) { 'US'     }
   let(:name)         { 'LEVEL3' }
 
