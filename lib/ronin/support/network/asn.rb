@@ -24,6 +24,13 @@ require 'ronin/support/network/asn/record'
 module Ronin
   module Support
     module Network
+      #
+      # Handles Autonomous System Numbers (ASN).
+      #
+      # @api public
+      #
+      # @since 1.0.0
+      #
       module ASN
         #
         # Queries the ASN information for the given IP.
