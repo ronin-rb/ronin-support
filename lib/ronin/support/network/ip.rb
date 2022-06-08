@@ -424,6 +424,7 @@ module Ronin
         end
 
         alias to_uint to_i
+        alias to_str to_s
 
       end
     end
