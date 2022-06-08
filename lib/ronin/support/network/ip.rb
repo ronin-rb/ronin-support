@@ -17,6 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/network/asn'
 require 'ronin/support/network/dns'
 require 'ronin/support/network/host'
 require 'ronin/support/text/patterns'
@@ -227,6 +228,15 @@ module Ronin
         def logical?
           (ipv6? && (@addr & 0xffff) == 0x0000) ||
           (ipv4? && (@addr & 0xff) == 0x00)
+        end
+
+        #
+        # The Autonomous System Number (ASN) information for the IP address.
+        #
+        # @return [ASN::Record]
+        #
+        def asn
+          @asn ||= ASN.query(self)
         end
 
         #

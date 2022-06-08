@@ -552,6 +552,42 @@ describe Ronin::Support::Network::IP do
     end
   end
 
+  describe "#asn" do
+    let(:address) { '4.4.4.4' }
+
+    let(:number)       { 3356 }
+    let(:cidr)         { '4.0.0.0/9' }
+    let(:range)        { Ronin::Support::Network::IPRange::CIDR.new(cidr) }
+    let(:country_code) { 'US'     }
+    let(:name)         { 'LEVEL3' }
+
+    it "must query the ASN information for the IP" do
+      expect(Ronin::Support::Network::ASN).to receive(:query).with(subject)
+
+      subject.asn
+    end
+
+    it "must cache the result of the ASN query" do
+      record = Ronin::Support::Network::ASN::Record.new(
+        number, range, country_code, name
+      )
+      expect(Ronin::Support::Network::ASN).to receive(:query).with(subject).and_return(record)
+
+      expect(subject.asn).to be(subject.asn)
+    end
+
+    it "must return a Ronin::Support::Network::ASN::Record with the ASN information for the IP address", :network do
+      record = subject.asn
+
+      expect(record).to be_kind_of(Ronin::Support::Network::ASN::Record)
+      expect(record.number).to eq(3356)
+      expect(record.range).to be_kind_of(Ronin::Support::Network::IPRange::CIDR)
+      expect(record.range.string).to eq('4.0.0.0/9')
+      expect(record.country_code).to eq('US')
+      expect(record.name).to eq('LEVEL3')
+    end
+  end
+
   describe "#get_name"  do
     context "integration", :network do
       let(:address) { reverse_address }
