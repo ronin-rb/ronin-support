@@ -35,7 +35,7 @@ module Ronin
         #
         # Queries the ASN information for the given IP.
         #
-        # @param [IPAddr, String] ip
+        # @param [IP, IPAddr, String] ip
         #   The IP address to query.
         #
         # @return [Record, nil]
