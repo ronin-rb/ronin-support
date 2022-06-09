@@ -130,7 +130,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
     context "when initialized with a class-C IP address range" do
       let(:cidr) { '10.1.1.2/24' }
       let(:addresses) do
-        (0..255).map { |d| "10.1.1.#{d}" }
+        (1..254).map { |d| "10.1.1.#{d}" }
       end
 
       it "must iterate over every IP address within the IP range" do
@@ -170,7 +170,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
     context "when initialized with a class-C IP address range" do
       let(:cidr) { '10.1.1.2/24' }
       let(:addresses) do
-        (0..255).map { |d| "10.1.1.#{d}" }
+        (1..254).map { |d| "10.1.1.#{d}" }
       end
 
       subject { described_class.new(cidr) }

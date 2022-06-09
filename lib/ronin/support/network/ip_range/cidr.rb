@@ -162,22 +162,35 @@ module Ronin
           #
           # @return [self]
           #
+          # @note
+          #   This method will skip IPv4 addresses ending in `.0` or `.255`.
+          #
           # @example
           #   cidr = IPAddr.new('10.1.1.1/24')
           #   cidr.each { |ip| puts ip }
           #   # 10.0.0.1
           #   # 10.0.0.2
           #   # ...
+          #   # 10.0.0.253
           #   # 10.0.0.254
-          #   # 10.0.0.255
           #
           def each
             return enum_for(__method__) unless block_given?
 
             family_mask = MASKS[@family]
+            octet_mask  = if ipv6? then 0xffff
+                          else          0xff
+                          end
 
             (0..((~@mask_addr) & family_mask)).each do |i|
-              yield _to_string(@addr | i)
+              ip_uint = (@addr | i)
+
+              # skip IPv4 addresses ending in .0 or .255
+              if (ipv4? && ((ip_uint & 0xff) == 0 || (ip_uint & 0xff) == 0xff))
+                next
+              end
+
+              yield _to_string(ip_uint)
             end
 
             return self
