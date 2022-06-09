@@ -101,9 +101,9 @@ describe Ronin::Support::Network::ASN::RecordSet do
   end
 
   describe "#country" do
-    let(:country) { 'US' }
+    let(:country_code) { 'US' }
 
-    subject { super().country(country) }
+    subject { super().country(country_code) }
 
     it "must return a #{described_class}" do
       expect(subject).to be_kind_of(described_class)
@@ -121,7 +121,7 @@ describe Ronin::Support::Network::ASN::RecordSet do
     subject { super().ranges }
 
     it "must return an Array of all record ranges" do
-      expect(subject).to eq(records.map(&:ranges))
+      expect(subject).to eq(records.map(&:range))
     end
   end
 
@@ -171,7 +171,7 @@ describe Ronin::Support::Network::ASN::RecordSet do
 
     it "must return a Set of all record names" do
       expect(subject).to be_kind_of(Set)
-      expect(subject).to eq(records.map(&:names).to_set)
+      expect(subject).to eq(records.map(&:name).to_set)
     end
   end
 
@@ -212,7 +212,7 @@ describe Ronin::Support::Network::ASN::RecordSet do
       subject do
         described_class.new(
           super().name('CLOUDFLARENET')
-        )
+        ).to_a
       end
 
       it "must convert records to an Array" do
