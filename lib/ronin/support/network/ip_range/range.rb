@@ -173,6 +173,24 @@ module Ronin
           # @note
           #   This method will skip IPv4 addresses ending in `.0` or `.255`.
           #
+          # @example
+          #   range = IPRange::Range.new('1.1.1.0','1.1.1.255')
+          #   range.each { |ip| puts ip }
+          #   # 1.1.1.1
+          #   # 1.1.1.2
+          #   # ...
+          #   # 1.1.1.253
+          #   # 1.1.1.254
+          #
+          # @example
+          #   range IPRange::Range.new('1.1.1.100','1.1.3.200')
+          #   range.each { |ip| puts ip }
+          #   # 1.1.1.100
+          #   # 1.1.1.101
+          #   # ...
+          #   # 1.1.3.199
+          #   # 1.1.3.200
+          #
           def each
             return enum_for(__method__) unless block_given?
 
