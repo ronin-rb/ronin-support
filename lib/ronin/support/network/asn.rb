@@ -20,6 +20,7 @@
 require 'ronin/support/network/dns'
 require 'ronin/support/network/ip_range/cidr'
 require 'ronin/support/network/asn/record'
+require 'ronin/support/network/asn/list'
 
 module Ronin
   module Support
@@ -72,6 +73,20 @@ module Ronin
           assignee.chomp!(", #{country_code}")
 
           return Record.new(asn,cidr_range,country_code,assignee)
+        end
+
+        #
+        # Downloads/updates then loads the cached file
+        # (`~/.local/share/ronin/ronin-support/ip2asn-combined.tsv.gz`).
+        #
+        # @return [List]
+        #   The loaded list file.
+        #
+        def self.list
+          @list ||= (
+            List.update
+            List.load_file
+          )
         end
       end
     end
