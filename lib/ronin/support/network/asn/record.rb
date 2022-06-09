@@ -66,7 +66,6 @@ module Ronin
           end
 
           alias to_i number
-          alias to_s name
 
           #
           # Determines if the ASN is routed.
@@ -124,6 +123,17 @@ module Ronin
               @range        == other.range &&
               @country_code == other.country_code &&
               @name         == other.name
+          end
+
+          #
+          # Converts the record into a humanly readable String.
+          #
+          # @return [String]
+          #   The String including the {#range}, {#number}, {#country_coe},
+          #   and {#name}.
+          #
+          def to_s
+            "#{@range} AS#{@number} (#{@country_code}) #{@name}"
           end
 
         end

@@ -171,4 +171,12 @@ describe Ronin::Support::Network::ASN::Record do
       end
     end
   end
+
+  describe "#to_s" do
+    it "must convert the record to a String containing the #range, #number, #country_code, and #name" do
+      expect(subject.to_s).to eq(
+        "#{range} AS#{number} (#{country_code}) #{name}"
+      )
+    end
+  end
 end
