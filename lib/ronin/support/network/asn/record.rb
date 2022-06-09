@@ -110,6 +110,22 @@ module Ronin
             @range.each(&block)
           end
 
+          #
+          # Compares the record to another object.
+          #
+          # @param [Object] other
+          #   The other object to compare to.
+          #
+          # @return [Boolean]
+          #
+          def ==(other)
+            self.class == other.class &&
+              @number       == other.number &&
+              @range        == other.range &&
+              @country_code == other.country_code &&
+              @name         == other.name
+          end
+
         end
       end
     end

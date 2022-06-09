@@ -100,4 +100,75 @@ describe Ronin::Support::Network::ASN::Record do
       end
     end
   end
+
+  describe "#==" do
+    context "when given another #{described_class} object" do
+      let(:number)       { 3356 }
+      let(:cidr)         { '4.0.0.0/9' }
+      let(:range)        { Ronin::Support::Network::IPRange::CIDR.new(cidr) }
+      let(:country_code) { 'US'     }
+      let(:name)         { 'LEVEL3' }
+
+      let(:other_number)       { number }
+      let(:other_cidr)         { cidr }
+      let(:other_range)        { Ronin::Support::Network::IPRange::CIDR.new(other_cidr) }
+      let(:other_country_code) { country_code }
+      let(:other_name)         { name }
+
+      let(:other) do
+        described_class.new(
+          other_number,
+          other_range,
+          other_country_code,
+          other_name
+        )
+      end
+
+      context "but the #number attributes are different" do
+        let(:other_number) { 1234 }
+
+        it "must return false" do
+          expect(subject == other).to be(false)
+        end
+      end
+
+      context "but the #range attributes are different" do
+        let(:other_cidr) { '1.0.0.0/24' }
+
+        it "must return false" do
+          expect(subject == other).to be(false)
+        end
+      end
+
+      context "but the #country_code attributes are different" do
+        let(:other_country_code) { 'JP' }
+
+        it "must return false" do
+          expect(subject == other).to be(false)
+        end
+      end
+
+      context "but the #name attributes are different" do
+        let(:other_name) { 'FOO' }
+
+        it "must return false" do
+          expect(subject == other).to be(false)
+        end
+      end
+
+      context "and when all attributes are the same" do
+        it "must return true" do
+          expect(subject == other).to be(true)
+        end
+      end
+    end
+
+    context "when given an Object" do
+      let(:other) { Object.new }
+
+      it "must return false" do
+        expect(subject == other).to eq(false)
+      end
+    end
+  end
 end
