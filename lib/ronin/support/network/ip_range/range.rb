@@ -184,6 +184,20 @@ module Ronin
           end
 
           #
+          # Compares the IP range to another object.
+          #
+          # @param [Object] other
+          #   The other object to compare to.
+          #
+          # @return [Boolean]
+          #
+          def ==(other)
+            self.class == other.class &&
+              self.begin == other.begin &&
+              self.end   == other.end
+          end
+
+          #
           # Converts the IP range to a String.
           #
           # @return [String]

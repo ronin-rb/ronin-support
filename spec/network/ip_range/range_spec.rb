@@ -256,6 +256,57 @@ describe Ronin::Support::Network::IPRange::Range do
     end
   end
 
+  describe "#==" do
+    context "when given another #{described_class} object" do
+      let(:first) { '1.0.0.0' }
+      let(:last)  { '1.0.0.255' }
+
+      context "but the #begin attributes are different" do
+        let(:other_first) { '1.0.0.1' }
+        let(:other_last)  { last }
+
+        subject { described_class.new(first,last) }
+        let(:other) { described_class.new(other_first,other_last) }
+
+        it "must return false" do
+          expect(subject == other).to be(false)
+        end
+      end
+
+      context "but the #end attributes are different" do
+        let(:other_first) { first }
+        let(:other_last)  { '1.0.1.255' }
+
+        subject { described_class.new(first,last) }
+        let(:other) { described_class.new(other_first,other_last) }
+
+        it "must return false" do
+          expect(subject == other).to be(false)
+        end
+      end
+
+      context "and when both #begin and #end attributes are the same" do
+        let(:other_first) { first }
+        let(:other_last)  { last  }
+
+        subject { described_class.new(first,last) }
+        let(:other) { described_class.new(other_first,other_last) }
+
+        it "must return true" do
+          expect(subject == other).to be(true)
+        end
+      end
+    end
+
+    context "when given an Object" do
+      let(:other) { Object.new }
+
+      it "must return false" do
+        expect(subject == other).to eq(false)
+      end
+    end
+  end
+
   describe "#to_s" do
     it "must return the two IP addresses" do
       expect(subject.to_s).to eq("#{first} - #{last}")
