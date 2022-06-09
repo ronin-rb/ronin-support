@@ -74,7 +74,7 @@ module Ronin
           # @return [Boolean]
           #
           def routed?
-            !@country_code.nil? && !@name.nil?
+            @number != 0
           end
 
           #
@@ -83,7 +83,7 @@ module Ronin
           # @return [Boolean]
           #
           def not_routed?
-            @country_code.nil? || @name.nil?
+            @number == 0
           end
 
           #

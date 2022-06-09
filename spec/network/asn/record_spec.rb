@@ -30,13 +30,14 @@ describe Ronin::Support::Network::ASN::Record do
   end
 
   describe "#routed?" do
-    context "when #country_code and #name are not nil" do
+    context "when #number is not 0" do
       it "must return true" do
         expect(subject.routed?).to be(true)
       end
     end
 
-    context "but when #country_code and #name are nil" do
+    context "but when #number is 0" do
+      let(:number)       { 0   }
       let(:country_code) { nil }
       let(:name)         { nil }
 
@@ -47,7 +48,8 @@ describe Ronin::Support::Network::ASN::Record do
   end
 
   describe "#not_routed?" do
-    context "when #country_code and #name are nil" do
+    context "when #number is 0" do
+      let(:number)       { 0   }
       let(:country_code) { nil }
       let(:name)         { nil }
 
@@ -56,7 +58,7 @@ describe Ronin::Support::Network::ASN::Record do
       end
     end
 
-    context "but when #country_code and #name are not nil" do
+    context "but when #number is not 0" do
       it "must return false" do
         expect(subject.not_routed?).to be(false)
       end
