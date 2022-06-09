@@ -210,7 +210,7 @@ module Ronin
         end
 
         #
-        # Determines if the address is a "logical" IP address.
+        # Determines if the address is a "logical" IPv4 address.
         #
         # @return [Boolean]
         #
@@ -226,8 +226,7 @@ module Ronin
         #   # => false
         #
         def logical?
-          (ipv6? && (@addr & 0xffff) == 0x0000) ||
-          (ipv4? && (@addr & 0xff) == 0x00)
+          ipv4? && (@addr & 0xff) == 0x00
         end
 
         #
