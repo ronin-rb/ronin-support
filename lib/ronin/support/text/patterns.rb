@@ -96,30 +96,25 @@ module Ronin
         # @since 0.4.0
         FILE_EXT = /(?:\.[A-Za-z0-9]+)+/
 
-        # Regular expression to find File names in text
+        # Regular expression to find file names in text
         #
         # @since 0.4.0
-        FILE_NAME = /(?:[^\/\\\. ]|\\[\/\\ ])+/
-
-        # Regular expression to find Files in text
-        #
-        # @since 0.4.0
-        FILE = /#{FILE_NAME}(?:#{FILE_EXT})?/
+        FILE_NAME = /(?:[^\/\\\. ]|\\[\/\\ ])+(?:#{FILE_EXT})?/
 
         # Regular expression to find Directory names in text
         #
         # @since 0.4.0
-        DIRECTORY = /(?:\.\.|\.|#{FILE})/
+        DIR_NAME = /(?:\.\.|\.|#{FILE_NAME})/
 
         # Regular expression to find local UNIX Paths in text
         #
         # @since 0.4.0
-        RELATIVE_UNIX_PATH = /(?:#{DIRECTORY}\/)+#{DIRECTORY}\/?/
+        RELATIVE_UNIX_PATH = /(?:#{DIR_NAME}\/)+#{DIR_NAME}\/?/
 
         # Regular expression to find absolute UNIX Paths in text
         #
         # @since 0.4.0
-        ABSOLUTE_UNIX_PATH = /(?:\/#{FILE})+\/?/
+        ABSOLUTE_UNIX_PATH = /(?:\/#{FILE_NAME})+\/?/
 
         # Regular expression to find UNIX Paths in text
         #
@@ -129,12 +124,12 @@ module Ronin
         # Regular expression to find local Windows Paths in text
         #
         # @since 0.4.0
-        RELATIVE_WINDOWS_PATH = /(?:#{DIRECTORY}\\)+#{DIRECTORY}\\?/
+        RELATIVE_WINDOWS_PATH = /(?:#{DIR_NAME}\\)+#{DIR_NAME}\\?/
 
         # Regular expression to find absolute Windows Paths in text
         #
         # @since 0.4.0
-        ABSOLUTE_WINDOWS_PATH = /[A-Za-z]:(?:\\#{FILE})+\\?/
+        ABSOLUTE_WINDOWS_PATH = /[A-Za-z]:(?:\\#{FILE_NAME})+\\?/
 
         # Regular expression to find Windows Paths in text
         #

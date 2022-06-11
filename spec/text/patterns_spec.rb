@@ -279,31 +279,27 @@ describe Ronin::Support::Text::Patterns do
   describe "FILE_NAME" do
     subject { described_class::FILE_NAME }
 
-    it "must match file names" do
-      filename = 'foo_bar'
-
-      expect(subject.match(filename)[0]).to eq(filename)
-    end
-
-    it "must match '\\' escapped characters" do
-      filename = 'foo\\ bar'
-
-      expect(subject.match(filename)[0]).to eq(filename)
-    end
-  end
-
-  describe "FILE" do
-    subject { described_class::FILE }
-
     it "must match the filename and extension" do
       filename = 'foo_bar.txt'
 
       expect(subject.match(filename)[0]).to eq(filename)
     end
+
+    it "must match '\\' escapped characters" do
+      filename = 'foo\\ bar.txt'
+
+      expect(subject.match(filename)[0]).to eq(filename)
+    end
+
+    it "must match file names without extensions" do
+      filename = 'foo_bar'
+
+      expect(subject.match(filename)[0]).to eq(filename)
+    end
   end
 
-  describe "DIRECTORY" do
-    subject { described_class::DIRECTORY }
+  describe "DIR_NAME" do
+    subject { described_class::DIR_NAME }
 
     it "must match directory names" do
       dir = 'foo_bar'
