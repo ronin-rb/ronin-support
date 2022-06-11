@@ -194,8 +194,8 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
-  describe "EMAIL_ADDR" do
-    subject { described_class::EMAIL_ADDR }
+  describe "EMAIL_ADDRESS" do
+    subject { described_class::EMAIL_ADDRESS }
 
     it "must match valid email addresses" do
       email = 'alice@example.com'
