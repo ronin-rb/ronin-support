@@ -108,7 +108,7 @@ module Ronin
 
         # Regular expression to find Directory names in text
         #
-        # @since 0.4.0
+        # @since 1.0.0
         DIR_NAME = /(?:\.\.|\.|#{FILE_NAME})/
 
         # Regular expression to find local UNIX Paths in text
