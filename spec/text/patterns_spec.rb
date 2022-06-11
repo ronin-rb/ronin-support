@@ -142,11 +142,35 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "DOMAIN" do
+    subject { described_class::DOMAIN }
+
+    it "must match valid domain names" do
+      domain = 'google.com'
+
+      expect(subject.match(domain)[0]).to eq(domain)
+    end
+
+    it "must not match hostnames without a TLD" do
+      expect(subject.match('foo')).to be_nil
+    end
+
+    it "must not match hostnames with unknown TLDs" do
+      expect(subject.match('foo.zzz')).to be_nil
+    end
+  end
+
   describe "HOST_NAME" do
     subject { described_class::HOST_NAME }
 
     it "must match valid hostnames" do
       hostname = 'www.google.com'
+
+      expect(subject.match(hostname)[0]).to eq(hostname)
+    end
+
+    it "must also match valid domain names" do
+      hostname = 'google.com'
 
       expect(subject.match(hostname)[0]).to eq(hostname)
     end

@@ -67,8 +67,13 @@ module Ronin
         # A regular expression for matching IP Addresses.
         IP = /#{IPv4}|#{IPv6}/
 
+        # Regular expression used to find domain names in text
+        #
+        # @since 1.0.0
+        DOMAIN = /(?:[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*)+\.(?:#{Regexp.union(Resolv::TLDS)})/i
+
         # Regular expression used to find host-names in text
-        HOST_NAME = /(?:[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*\.)+(?:#{Regexp.union(Resolv::TLDS)})/i
+        HOST_NAME = /(?:[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*\.)*#{DOMAIN}/i
 
         # Regular expression to match a word in the username of an email address
         USER_NAME = /[A-Za-z](?:[A-Za-z0-9]*[\._-])*[A-Za-z0-9]+/
