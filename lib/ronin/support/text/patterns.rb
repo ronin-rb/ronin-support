@@ -112,6 +112,20 @@ module Ronin
         # @since 0.4.0
         IDENTIFIER = /[_]*[a-zA-Z]+[a-zA-Z0-9_-]*/
 
+        # Regular expression to find all variable names in text.
+        #
+        # @see IDENTIFIER
+        #
+        # @since 1.0.0
+        VARIABLE_NAME = IDENTIFIER
+
+        # Regular expression to find all function names in text.
+        #
+        # @see IDENTIFIER
+        #
+        # @since 1.0.0
+        FUNCTION_NAME = IDENTIFIER
+
         # Regular expression to find File extensions in text
         #
         # @since 0.4.0
