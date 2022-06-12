@@ -478,6 +478,12 @@ describe Ronin::Support::Text::Patterns do
 
       expect(subject.match(string)[0]).to eq(string)
     end
+
+    it "must match alphabetic strings that include newline characters" do
+      string = "QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB\nQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB\nQUFBQUFBQUFBQQ==\n"
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
   end
 
   describe "FILE_EXT" do

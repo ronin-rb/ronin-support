@@ -36,10 +36,30 @@ module Ronin
         # @since 1.0.0
         HEX_NUMBER = /(?:0x)?[0-9a-fA-F]+/
 
+        # Regular expression for finding all MD5 hashes in text.
+        #
+        # @since 1.0.0
+        MD5 = /[0-9a-fA-F]{32}/
+
+        # Regular expression for finding all SHA1 hashes in text.
+        #
+        # @since 1.0.0
+        SHA1 = /[0-9a-fA-F]{40}/
+
+        # Regular expression for finding all SHA256 hashes in text.
+        #
+        # @since 1.0.0
+        SHA256 = /[0-9a-fA-F]{64}/
+
+        # Regular expression for finding all SHA512 hashes in text.
+        #
+        # @since 1.0.0
+        SHA512 = /[0-9a-fA-F]{128}/
+
         # Regular expression for finding all hashes in text.
         #
         # @since 1.0.0
-        HASH = /[0-9a-fA-F]{128}|[0-9a-fA-F]{64}|[0-9a-fA-F]{40}|[0-9a-fA-F]{32}/
+        HASH = /#{SHA512}|#{SHA256}|#{SHA1}|#{MD5}/
 
         # Regular expression for finding words
         #
@@ -160,7 +180,7 @@ module Ronin
         # Regular expression to find all Base64 encoded strings in the text.
         #
         # @since 1.0.0
-        BASE64 = /(?:[A-Za-z0-9+\/]{4})+(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?|[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=/
+        BASE64 = /(?:[A-Za-z0-9+\/]{4}\n?)+(?:[A-Za-z0-9+\/]{2}==\n?|[A-Za-z0-9+\/]{3}=\n?)?|[A-Za-z0-9+\/]{2}==\n?|[A-Za-z0-9+\/]{3}=\n?/
 
         # Regular expression to find File extensions in text
         #
