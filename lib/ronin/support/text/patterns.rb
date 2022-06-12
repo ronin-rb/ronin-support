@@ -61,6 +61,11 @@ module Ronin
         # @since 1.0.0
         HASH = /#{SHA512}|#{SHA256}|#{SHA1}|#{MD5}/
 
+        # Regular expression for finding all public keys in text.
+        #
+        # @since 1.0.0
+        PUBLIC_KEY = /-----BEGIN PUBLIC KEY-----\n(?:.+)\n-----END PUBLIC KEY-----/m
+
         # Regular expression for finding words
         #
         # @since 0.5.0

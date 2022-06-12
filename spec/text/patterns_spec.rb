@@ -94,6 +94,42 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "PUBLIC_KEY" do
+    subject { described_class::PUBLIC_KEY }
+
+    let(:pem) do
+      <<~EOS
+        -----BEGIN PUBLIC KEY-----
+        MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2Ca7a99b6o+WqjH5TJeH
+        ph+eBKSM2Qv2NpLkearcV4GmutK0/FgjA0JHCO+g2Fj2vNX8qojBwJPaPThfvurR
+        woaBRW/pGQaf3vCWL8lxKAg3yzW+8ro1nAipC5Gg0REO0+UPuxV6IAcxck9SWYiZ
+        Meoh+IZ/gUylM7z1+yXoqKdXw/hGaQMu0kEkNmKO78GSTQbn6a8y9WWRt+UKu7eq
+        f67HNWh2LRUzTRasUQnGtqFvD2suYNMMtuuxvewvyWvy0BmsQfNMpavXIPI6TPlJ
+        Ymqa9Vk3LHr4Mb4yNXC0o55RROI4jJUgQnXrGO2EBiUdFBYv3eHEtC6WOAO4V2jq
+        BEgLbsi5k82RKYvVYREBvXRWkfkRvo/qTsUABB3NqXLeG011OHGH1GStu0yRToGp
+        k+tCszh7F39+U1oAR/SOMzUVwzocdm2k3g4pV52pUXtS12Flb3bXnJprbzD9qnA7
+        axN0aNh0I8rKOZnJv1XnBi06wFbSFMGQ1MJYrzdD7iVLyrDTGry2Mt2REZV/eLJZ
+        +wYltRfARVjmLLni0ucyJy7c4ZD3xiVeFencyLKTa5WJEWKbaes6hiSlUDfraIxs
+        9FQLEha9hQqU5I+tDUTuX81yDTHfdsneJUa5MCaHP1HuJb5DV8CsDxQC27V+UrKU
+        q5HGzUly5ei6VmPzPDkKXZUCAwEAAQ==
+        -----END PUBLIC KEY-----
+      EOS
+    end
+
+    it "must match everything in between '-----BEGIN PUBLIC KEY-----' and '-----END PUBLIC KEY-----'" do
+      expect(subject.match(pem)[0]).to eq(pem.chomp)
+    end
+
+    it "must not match empty '-----BEGIN PUBLIC KEY-----' and '-----END PUBLIC KEY-----' blocks" do
+      empty_pem = <<~EOS
+        -----BEGIN PUBLIC KEY-----
+        -----END PUBLIC KEY-----
+      EOS
+
+      expect(subject.match(empty_pem)).to be(nil)
+    end
+  end
+
   describe "WORD" do
     let(:word) { 'dog' }
 
