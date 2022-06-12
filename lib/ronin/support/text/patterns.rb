@@ -42,19 +42,23 @@ module Ronin
         MAC_ADDR = /[0-9a-fA-F]{2}(?::[0-9a-fA-F]{2}){5}/
 
         # A regular expression for matching IPv4 Addresses.
-        IPv4 = /#{DECIMAL_OCTET}(?:\.#{DECIMAL_OCTET}){3}(?:\/\d{1,2})?/
+        #
+        # @since 1.0.0
+        IPV4_ADDR = /#{DECIMAL_OCTET}(?:\.#{DECIMAL_OCTET}){3}(?:\/\d{1,2})?/
 
         # A regular expression for matching IPv6 Addresses.
-        IPv6 = Regexp.union(
-          /(?:[0-9a-f]{1,4}:){6}#{IPv4}/,
-          /(?:[0-9a-f]{1,4}:){5}[0-9a-f]{1,4}:#{IPv4}/,
-          /(?:[0-9a-f]{1,4}:){5}:[0-9a-f]{1,4}:#{IPv4}/,
-          /(?:[0-9a-f]{1,4}:){1,1}(?::[0-9a-f]{1,4}){1,4}:#{IPv4}/,
-          /(?:[0-9a-f]{1,4}:){1,2}(?::[0-9a-f]{1,4}){1,3}:#{IPv4}/,
-          /(?:[0-9a-f]{1,4}:){1,3}(?::[0-9a-f]{1,4}){1,2}:#{IPv4}/,
-          /(?:[0-9a-f]{1,4}:){1,4}(?::[0-9a-f]{1,4}){1,1}:#{IPv4}/,
-          /:(?::[0-9a-f]{1,4}){1,5}:#{IPv4}/,
-          /(?:(?:[0-9a-f]{1,4}:){1,5}|:):#{IPv4}/,
+        #
+        # @since 1.0.0
+        IPV6_ADDR = Regexp.union(
+          /(?:[0-9a-f]{1,4}:){6}#{IPV4_ADDR}/,
+          /(?:[0-9a-f]{1,4}:){5}[0-9a-f]{1,4}:#{IPV4_ADDR}/,
+          /(?:[0-9a-f]{1,4}:){5}:[0-9a-f]{1,4}:#{IPV4_ADDR}/,
+          /(?:[0-9a-f]{1,4}:){1,1}(?::[0-9a-f]{1,4}){1,4}:#{IPV4_ADDR}/,
+          /(?:[0-9a-f]{1,4}:){1,2}(?::[0-9a-f]{1,4}){1,3}:#{IPV4_ADDR}/,
+          /(?:[0-9a-f]{1,4}:){1,3}(?::[0-9a-f]{1,4}){1,2}:#{IPV4_ADDR}/,
+          /(?:[0-9a-f]{1,4}:){1,4}(?::[0-9a-f]{1,4}){1,1}:#{IPV4_ADDR}/,
+          /:(?::[0-9a-f]{1,4}){1,5}:#{IPV4_ADDR}/,
+          /(?:(?:[0-9a-f]{1,4}:){1,5}|:):#{IPV4_ADDR}/,
           /(?:[0-9a-f]{1,4}:){1,1}(?::[0-9a-f]{1,4}){1,6}(?:\/\d{1,3})?/,
           /(?:[0-9a-f]{1,4}:){1,2}(?::[0-9a-f]{1,4}){1,5}(?:\/\d{1,3})?/,
           /(?:[0-9a-f]{1,4}:){1,3}(?::[0-9a-f]{1,4}){1,4}(?:\/\d{1,3})?/,
@@ -67,7 +71,12 @@ module Ronin
         )
 
         # A regular expression for matching IP Addresses.
-        IP = /#{IPv4}|#{IPv6}/
+        #
+        # @since 1.0.0
+        IP_ADDR = /#{IPV4_ADDR}|#{IPV6_ADDR}/
+
+        # @see IP_ADDR
+        IP = IP_ADDR
 
         # Regular expression used to find domain names in text
         #

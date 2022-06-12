@@ -58,8 +58,8 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
-  describe "IPv4" do
-    subject { described_class::IPv4 }
+  describe "IPV4_ADDR" do
+    subject { described_class::IPV4_ADDR }
 
     it "must match valid addresses" do
       ip = '127.0.0.1'
@@ -98,8 +98,8 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
-  describe "IPv6" do
-    subject { described_class::IPv6 }
+  describe "IPV6_ADDR" do
+    subject { described_class::IPV6_ADDR }
 
     it "must match valid IPv6 addresses" do
       ip = '2001:db8:85a3:0:0:8a2e:370:7334'
@@ -126,8 +126,8 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
-  describe "IP" do
-    subject { described_class::IP }
+  describe "IP_ADDR" do
+    subject { described_class::IP_ADDR }
 
     it "must match IPv4 addresses" do
       ip = '10.1.1.1'
