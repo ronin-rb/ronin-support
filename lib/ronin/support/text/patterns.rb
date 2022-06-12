@@ -154,6 +154,13 @@ module Ronin
         # @since 1.0.0
         VARIABLE_NAME = IDENTIFIER
 
+        # Regular expression to find all variable assignments in text.
+        #
+        # @see VARIABLE_NAME
+        #
+        # @since 1.0.0
+        VARIABLE_ASSIGNMENT = /#{VARIABLE_NAME}\s*=\s*[^;\n]+/
+
         # Regular expression to find all function names in text.
         #
         # @see IDENTIFIER
