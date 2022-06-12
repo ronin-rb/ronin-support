@@ -5,10 +5,52 @@ describe Ronin::Support::Text::Patterns do
   describe "NUMBER" do
     subject { described_class::NUMBER }
 
-    let(:number) { '01234' }
+    let(:number) { '0123456789' }
 
     it "must match one or more digits" do
       expect(subject.match(number)[0]).to eq(number)
+    end
+  end
+
+  describe "HEX_NUMBER" do
+    subject { described_class::HEX_NUMBER }
+
+    it "must match one or more decimal digits" do
+      number = "0123456789"
+
+      expect(subject.match(number)[0]).to eq(number)
+    end
+
+    it "must match one or more lowercase hexadecimal digits" do
+      hex = "0123456789abcdef"
+
+      expect(subject.match(hex)[0]).to eq(hex)
+    end
+
+    it "must match one or more uppercase hexadecimal digits" do
+      hex = "0123456789ABCDEF"
+
+      expect(subject.match(hex)[0]).to eq(hex)
+    end
+
+    context "when the number begins with '0x'" do
+      it "must match one or more decimal digits" do
+        number = "0x0123456789"
+
+        expect(subject.match(number)[0]).to eq(number)
+      end
+
+      it "must match one or more lowercase hexadecimal digits" do
+        hex = "0x0123456789abcdef"
+
+        expect(subject.match(hex)[0]).to eq(hex)
+      end
+
+      it "must match one or more uppercase hexadecimal digits" do
+        hex = "0x0123456789ABCDEF"
+
+        expect(subject.match(hex)[0]).to eq(hex)
+      end
     end
   end
 

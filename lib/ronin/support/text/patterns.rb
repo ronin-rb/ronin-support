@@ -31,6 +31,11 @@ module Ronin
         # @since 1.0.0
         NUMBER = /[0-9]+/
 
+        # Regular expression for finding all hexadecimal numbers in text.
+        #
+        # @since 1.0.0
+        HEX_NUMBER = /(?:0x)?[0-9a-fA-F]+/
+
         # Regular expression for finding words
         #
         # @since 0.5.0
