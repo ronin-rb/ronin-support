@@ -37,7 +37,9 @@ module Ronin
         DECIMAL_OCTET = /25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9]/
 
         # Regular expression for finding MAC addresses in text
-        MAC = /[0-9a-fA-F]{2}(?::[0-9a-fA-F]{2}){5}/
+        #
+        # @since 1.0.0
+        MAC_ADDR = /[0-9a-fA-F]{2}(?::[0-9a-fA-F]{2}){5}/
 
         # A regular expression for matching IPv4 Addresses.
         IPv4 = /#{DECIMAL_OCTET}(?:\.#{DECIMAL_OCTET}){3}(?:\/\d{1,2})?/

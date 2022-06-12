@@ -48,8 +48,8 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
-  describe "MAC" do
-    subject { described_class::MAC }
+  describe "MAC_ADDR" do
+    subject { described_class::MAC_ADDR }
 
     it "must match six hexadecimal bytes" do
       mac = '12:34:56:78:9a:bc'
