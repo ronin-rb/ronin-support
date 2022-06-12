@@ -374,6 +374,50 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "DOUBLE_QUOTED_STRING" do
+    subject { described_class::DOUBLE_QUOTED_STRING }
+
+    it "must not match non-quoted text" do
+      string = "foo"
+
+      expect(subject.match(string)).to be(nil)
+    end
+
+    it "must match double-quoted text" do
+      string = "\"foo\""
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+
+    it "must match double-quoted text containing backslash-escaped chars" do
+      string = "\"foo\\\"bar\\\"baz\\0\""
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+  end
+
+  describe "SINGLE_QUOTED_STRING" do
+    subject { described_class::SINGLE_QUOTED_STRING }
+
+    it "must not match non-quoted text" do
+      string = "foo"
+
+      expect(subject.match(string)).to be(nil)
+    end
+
+    it "must match single-quoted text" do
+      string = "'foo'"
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+
+    it "must match single-quoted text containing backslash-escaped chars" do
+      string = "'foo\\bar\\''"
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+  end
+
   describe "STRING" do
     subject { described_class::STRING }
 
@@ -391,6 +435,18 @@ describe Ronin::Support::Text::Patterns do
 
     it "must match double-quoted text containing backslash-escaped chars" do
       string = "\"foo\\\"bar\\\"baz\\0\""
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+
+    it "must match single-quoted text" do
+      string = "'foo'"
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+
+    it "must match single-quoted text containing backslash-escaped chars" do
+      string = "'foo\\bar\\''"
 
       expect(subject.match(string)[0]).to eq(string)
     end

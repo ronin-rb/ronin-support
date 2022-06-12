@@ -144,7 +144,18 @@ module Ronin
         # Regular expression to find all double quoted strings in text.
         #
         # @since 1.0.0
-        STRING = /"(\\.|[^"])*"/
+        DOUBLE_QUOTED_STRING = /"(\\.|[^"])*"/
+
+        # Regular expression to find all single quoted strings in text.
+        #
+        # @since 1.0.0
+        SINGLE_QUOTED_STRING = /'(\\[\\']|[^'])*'/
+
+        # Regular expression to find all single or double quoted strings in
+        # text.
+        #
+        # @since 1.0.0
+        STRING = /#{DOUBLE_QUOTED_STRING}|#{SINGLE_QUOTED_STRING}/
 
         # Regular expression to find all Base64 encoded strings in the text.
         #
