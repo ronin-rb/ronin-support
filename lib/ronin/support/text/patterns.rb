@@ -146,6 +146,11 @@ module Ronin
         # @since 1.0.0
         STRING = /"(\\.|[^"])*"/
 
+        # Regular expression to find all Base64 encoded strings in the text.
+        #
+        # @since 1.0.0
+        BASE64 = /(?:[A-Za-z0-9+\/]{4})+(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?|[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=/
+
         # Regular expression to find File extensions in text
         #
         # @since 0.4.0

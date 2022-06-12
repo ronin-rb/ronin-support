@@ -396,6 +396,34 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "BASE64" do
+    subject { described_class::BASE64 }
+
+    it "must not match alphabetic strings less then four characters long" do
+      string = "YWE"
+
+      expect(subject.match(string)).to be(nil)
+    end
+
+    it "must match alphabetic strings padded with '=' characters" do
+      string = "YQ=="
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+
+    it "must match alphabetic strings with four characters exactly" do
+      string = "YWFh"
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+
+    it "must match alphabetic strings longer than four characters but padded with '=' characters" do
+      string = "YWFhYQ=="
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+  end
+
   describe "FILE_EXT" do
     subject { described_class::FILE_EXT }
 
