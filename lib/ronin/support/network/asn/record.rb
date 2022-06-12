@@ -129,11 +129,15 @@ module Ronin
           # Converts the record into a humanly readable String.
           #
           # @return [String]
-          #   The String including the {#range}, {#number}, {#country_coe},
+          #   The String including the {#range}, {#number}, {#country_code},
           #   and {#name}.
           #
           def to_s
-            "#{@range} AS#{@number} (#{@country_code}) #{@name}"
+            if routed?
+              "#{@range} AS#{@number} (#{@country_code}) #{@name}"
+            else
+              "#{@range} Not routed"
+            end
           end
 
         end
