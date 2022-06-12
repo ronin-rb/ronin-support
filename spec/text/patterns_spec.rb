@@ -54,6 +54,46 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "HASH" do
+    subject { described_class::HASH }
+
+    it "must not match non-hex characters" do
+      string = 'X' * 32
+
+      expect(subject.match(string)).to be(nil)
+    end
+
+    it "must not match hex strings less than 32 characters" do
+      string = "0123456789abcdef"
+
+      expect(subject.match(string)).to be(nil)
+    end
+
+    it "must match hex strings with 32 characters" do
+      string = "5d41402abc4b2a76b9719d911017c592"
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+
+    it "must match hex strings with 40 characters" do
+      string = "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d"
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+
+    it "must match hex strings with 64 characters" do
+      string = "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+
+    it "must match hex strings with 128 characters" do
+      string = "9b71d224bd62f3785d96d46ad3ea3d73319bfbc2890caadae2dff72519673ca72323c3d99ba5c11d7c7acc6e14b8c5da0c4663475c2e5c3adef46f73bcdec043"
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+  end
+
   describe "WORD" do
     let(:word) { 'dog' }
 

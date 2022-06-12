@@ -36,6 +36,11 @@ module Ronin
         # @since 1.0.0
         HEX_NUMBER = /(?:0x)?[0-9a-fA-F]+/
 
+        # Regular expression for finding all hashes in text.
+        #
+        # @since 1.0.0
+        HASH = /[0-9a-fA-F]{128}|[0-9a-fA-F]{64}|[0-9a-fA-F]{40}|[0-9a-fA-F]{32}/
+
         # Regular expression for finding words
         #
         # @since 0.5.0
