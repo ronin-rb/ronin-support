@@ -36,6 +36,15 @@ module Ronin
         # @since 1.0.0
         HEX_NUMBER = /(?:0x)?[0-9a-fA-F]+/
 
+        # Regular expression for finding words
+        #
+        # @since 0.5.0
+        WORD = /[A-Za-z][A-Za-z'\-\.]*[A-Za-z]/
+
+        #
+        # @group Cryptography Patterns
+        #
+
         # Regular expression for finding all MD5 hashes in text.
         #
         # @since 1.0.0
@@ -96,10 +105,9 @@ module Ronin
         # @since 1.0.0
         PRIVATE_KEY = /#{RSA_PRIVATE_KEY}|#{DSA_PRIVATE_KEY}|#{EC_PRIVATE_KEY}/
 
-        # Regular expression for finding words
         #
-        # @since 0.5.0
-        WORD = /[A-Za-z][A-Za-z'\-\.]*[A-Za-z]/
+        # @group Networking Patterns
+        #
 
         # Regular expression for finding a decimal octet (0 - 255)
         #
@@ -156,6 +164,10 @@ module Ronin
         # Regular expression used to find host-names in text
         HOST_NAME = /(?:[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*\.)*#{DOMAIN}/i
 
+        #
+        # @group PII Patterns
+        #
+
         # Regular expression to match a word in the username of an email address
         USER_NAME = /[A-Za-z](?:[A-Za-z0-9]*[\._-])*[A-Za-z0-9]+/
 
@@ -171,6 +183,10 @@ module Ronin
         #
         # @since 0.5.0
         PHONE_NUMBER = /(?:\d[ \-\.]?)?(?:\d{3}[ \-\.]?)?\d{3}[ \-\.]?\d{4}(?:x\d+)?/
+
+        #
+        # @group Source Code Patterns
+        #
 
         # Regular expression to find deliminators in text
         #
@@ -223,6 +239,10 @@ module Ronin
         #
         # @since 1.0.0
         BASE64 = /(?:[A-Za-z0-9+\/]{4}\n?)+(?:[A-Za-z0-9+\/]{2}==\n?|[A-Za-z0-9+\/]{3}=\n?)?|[A-Za-z0-9+\/]{2}==\n?|[A-Za-z0-9+\/]{3}=\n?/
+
+        #
+        # @group File System Patterns
+        #
 
         # Regular expression to find File extensions in text
         #
