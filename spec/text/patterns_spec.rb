@@ -395,6 +395,30 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "VARIABLE_NAME" do
+    subject { described_class::VARIABLE_NAME }
+
+    let(:name) { "foo" }
+
+    it "must match identifiers followed by a '=' character" do
+      string = "#{name}=1"
+
+      expect(subject.match(string)[0]).to eq(name)
+    end
+
+    it "must match identifiers followed by a space then a '=' character" do
+      string = "#{name} = 1"
+
+      expect(subject.match(string)[0]).to eq(name)
+    end
+
+    it "must not match identifiers not followed by a '=' character" do
+      string = name
+
+      expect(subject.match(string)).to be(nil)
+    end
+  end
+
   describe "VARIABLE_ASSIGNMENT" do
     subject { described_class::VARIABLE_ASSIGNMENT }
 
