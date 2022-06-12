@@ -130,6 +130,121 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  let(:fixtures_dir) { File.join(__dir__,'..','crypto','fixtures') }
+
+  describe "DSA_PRIVATE_KEY" do
+    subject { described_class::DSA_PRIVATE_KEY }
+
+    let(:key_file) { File.join(fixtures_dir,'dsa.pem') }
+    let(:pem)      { File.read(key_file) }
+
+    it "must match everything in between '-----BEGIN DSA PRIVATE KEY-----' and '-----END DSA PRIVATE KEY-----'" do
+      expect(subject.match(pem)[0]).to eq(pem.chomp)
+    end
+
+    it "must not match empty '-----BEGIN DSA PRIVATE KEY-----' and '-----END DSA PRIVATE KEY-----' blocks" do
+      empty_pem = <<~EOS
+        -----BEGIN DSA PRIVATE KEY-----
+        -----END DSA PRIVATE KEY-----
+      EOS
+
+      expect(subject.match(empty_pem)).to be(nil)
+    end
+  end
+
+  describe "EC_PRIVATE_KEY" do
+    subject { described_class::EC_PRIVATE_KEY }
+
+    let(:key_file) { File.join(fixtures_dir,'ec.pem') }
+    let(:pem)      { File.read(key_file) }
+
+    it "must match everything in between '-----BEGIN EC PRIVATE KEY-----' and '-----END EC PRIVATE KEY-----'" do
+      expect(subject.match(pem)[0]).to eq(pem.chomp)
+    end
+
+    it "must not match empty '-----BEGIN EC PRIVATE KEY-----' and '-----END EC PRIVATE KEY-----' blocks" do
+      empty_pem = <<~EOS
+        -----BEGIN EC PRIVATE KEY-----
+        -----END EC PRIVATE KEY-----
+      EOS
+
+      expect(subject.match(empty_pem)).to be(nil)
+    end
+  end
+
+  describe "RSA_PRIVATE_KEY" do
+    subject { described_class::RSA_PRIVATE_KEY }
+
+    let(:key_file) { File.join(fixtures_dir,'rsa.pem') }
+    let(:pem)      { File.read(key_file) }
+
+    it "must match everything in between '-----BEGIN RSA PRIVATE KEY-----' and '-----END RSA PRIVATE KEY-----'" do
+      expect(subject.match(pem)[0]).to eq(pem.chomp)
+    end
+
+    it "must not match empty '-----BEGIN RSA PRIVATE KEY-----' and '-----END RSA PRIVATE KEY-----' blocks" do
+      empty_pem = <<~EOS
+        -----BEGIN RSA PRIVATE KEY-----
+        -----END RSA PRIVATE KEY-----
+      EOS
+
+      expect(subject.match(empty_pem)).to be(nil)
+    end
+  end
+
+  describe "PRIVATE_KEY" do
+    subject { described_class::PRIVATE_KEY }
+
+    let(:dsa_key_file) { File.join(fixtures_dir,'dsa.pem') }
+    let(:dsa_pem)      { File.read(dsa_key_file) }
+
+    let(:ec_key_file)  { File.join(fixtures_dir,'ec.pem') }
+    let(:ec_pem)       { File.read(ec_key_file) }
+
+    let(:rsa_key_file) { File.join(fixtures_dir,'rsa.pem') }
+    let(:rsa_pem)      { File.read(rsa_key_file) }
+
+
+    it "must match everything in between '-----BEGIN DSA PRIVATE KEY-----' and '-----END DSA PRIVATE KEY-----'" do
+      expect(subject.match(dsa_pem)[0]).to eq(dsa_pem.chomp)
+    end
+
+    it "must not match empty '-----BEGIN DSA PRIVATE KEY-----' and '-----END DSA PRIVATE KEY-----' blocks" do
+      empty_pem = <<~EOS
+        -----BEGIN DSA PRIVATE KEY-----
+        -----END DSA PRIVATE KEY-----
+      EOS
+
+      expect(subject.match(empty_pem)).to be(nil)
+    end
+
+    it "must match everything in between '-----BEGIN EC PRIVATE KEY-----' and '-----END EC PRIVATE KEY-----'" do
+      expect(subject.match(ec_pem)[0]).to eq(ec_pem.chomp)
+    end
+
+    it "must not match empty '-----BEGIN EC PRIVATE KEY-----' and '-----END EC PRIVATE KEY-----' blocks" do
+      empty_pem = <<~EOS
+        -----BEGIN EC PRIVATE KEY-----
+        -----END EC PRIVATE KEY-----
+      EOS
+
+      expect(subject.match(empty_pem)).to be(nil)
+    end
+
+    it "must match everything in between '-----BEGIN RSA PRIVATE KEY-----' and '-----END RSA PRIVATE KEY-----'" do
+      expect(subject.match(rsa_pem)[0]).to eq(rsa_pem.chomp)
+    end
+
+    it "must not match empty '-----BEGIN RSA PRIVATE KEY-----' and '-----END RSA PRIVATE KEY-----' blocks" do
+      empty_pem = <<~EOS
+        -----BEGIN RSA PRIVATE KEY-----
+        -----END RSA PRIVATE KEY-----
+      EOS
+
+      expect(subject.match(empty_pem)).to be(nil)
+    end
+  end
+
   describe "WORD" do
     let(:word) { 'dog' }
 

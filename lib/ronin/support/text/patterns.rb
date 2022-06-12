@@ -66,6 +66,26 @@ module Ronin
         # @since 1.0.0
         PUBLIC_KEY = /-----BEGIN PUBLIC KEY-----\n(?:.+)\n-----END PUBLIC KEY-----/m
 
+        # Regular expression for finding all DSA private keys in text.
+        #
+        # @since 1.0.0
+        DSA_PRIVATE_KEY = /-----BEGIN DSA PRIVATE KEY-----\n(?:.+)\n-----END DSA PRIVATE KEY-----/m
+
+        # Regular expression for finding all EC private keys in text.
+        #
+        # @since 1.0.0
+        EC_PRIVATE_KEY = /-----BEGIN EC PRIVATE KEY-----\n(?:.+)\n-----END EC PRIVATE KEY-----/m
+
+        # Regular expression for finding all RSA private keys in text.
+        #
+        # @since 1.0.0
+        RSA_PRIVATE_KEY = /-----BEGIN RSA PRIVATE KEY-----\n(?:.+)\n-----END RSA PRIVATE KEY-----/m
+
+        # Regular expression for finding all private keys in text.
+        #
+        # @since 1.0.0
+        PRIVATE_KEY = /#{RSA_PRIVATE_KEY}|#{DSA_PRIVATE_KEY}|#{EC_PRIVATE_KEY}/
+
         # Regular expression for finding words
         #
         # @since 0.5.0
