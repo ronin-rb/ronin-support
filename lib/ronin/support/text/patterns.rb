@@ -184,6 +184,11 @@ module Ronin
         # @since 0.5.0
         PHONE_NUMBER = /(?:\d[ \-\.]?)?(?:\d{3}[ \-\.]?)?\d{3}[ \-\.]?\d{4}(?:x\d+)?/
 
+        # Regular expression to find Social Security Numbers (SSNs) in text
+        #
+        # @since 1.0.0
+        SSN = /(?<=[^\d]|^)\d{3}-\d{2}-\d{4}(?=[^\d]|$)/
+
         #
         # @group Source Code Patterns
         #

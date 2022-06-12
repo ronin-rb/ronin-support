@@ -632,6 +632,28 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "SSN" do
+    subject { described_class::SSN }
+
+    it "must match NNN-NN-NNNN" do
+      ssn = "111-22-3333"
+
+      expect(subject.match(ssn)[0]).to eq(ssn)
+    end
+
+    it "must not match strings starting with more than three digits" do
+      bad_ssn = "111111111-22-3333"
+
+      expect(subject.match(bad_ssn)).to be(nil)
+    end
+
+    it "must not match strings ending with more than four digits" do
+      bad_ssn = "111-22-3333333333"
+
+      expect(subject.match(bad_ssn)).to be(nil)
+    end
+  end
+
   describe "IDENTIFIER" do
     subject { described_class::IDENTIFIER }
 
