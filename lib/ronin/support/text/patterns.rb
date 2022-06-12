@@ -141,6 +141,11 @@ module Ronin
         # @since 1.0.0
         FUNCTION_NAME = IDENTIFIER
 
+        # Regular expression to find all double quoted strings in text.
+        #
+        # @since 1.0.0
+        STRING = /"(\\.|[^"])*"/
+
         # Regular expression to find File extensions in text
         #
         # @since 0.4.0

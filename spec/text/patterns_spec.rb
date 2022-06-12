@@ -374,6 +374,28 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "STRING" do
+    subject { described_class::STRING }
+
+    it "must not match non-quoted text" do
+      string = "foo"
+
+      expect(subject.match(string)).to be(nil)
+    end
+
+    it "must match double-quoted text" do
+      string = "\"foo\""
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+
+    it "must match double-quoted text containing backslash-escaped chars" do
+      string = "\"foo\\\"bar\\\"baz\\0\""
+
+      expect(subject.match(string)[0]).to eq(string)
+    end
+  end
+
   describe "FILE_EXT" do
     subject { described_class::FILE_EXT }
 
