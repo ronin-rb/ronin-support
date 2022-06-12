@@ -79,7 +79,12 @@ module Ronin
         USER_NAME = /[A-Za-z](?:[A-Za-z0-9]*[\._-])*[A-Za-z0-9]+/
 
         # Regular expression to find email addresses in text
+        #
+        # @since 1.0.0
         EMAIL_ADDRESS = /#{USER_NAME}\@#{HOST_NAME}/
+
+        # @see EMAIL_ADDRESS
+        EMAIL_ADDR = EMAIL_ADDRESS
 
         # Regular expression to find phone numbers in text
         #
