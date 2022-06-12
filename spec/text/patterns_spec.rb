@@ -2,6 +2,16 @@ require 'spec_helper'
 require 'ronin/support/text/patterns'
 
 describe Ronin::Support::Text::Patterns do
+  describe "NUMBER" do
+    subject { described_class::NUMBER }
+
+    let(:number) { '01234' }
+
+    it "must match one or more digits" do
+      expect(subject.match(number)[0]).to eq(number)
+    end
+  end
+
   describe "WORD" do
     let(:word) { 'dog' }
 

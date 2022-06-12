@@ -26,6 +26,11 @@ module Ronin
       # @since 0.3.0
       #
       module Patterns
+        # Regular expression for finding all numbers in text.
+        #
+        # @since 1.0.0
+        NUMBER = /[0-9]+/
+
         # Regular expression for finding words
         #
         # @since 0.5.0
