@@ -116,7 +116,7 @@ module Ronin
         # Regular expression used to find domain names in text
         #
         # @since 1.0.0
-        DOMAIN = /(?:[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*)+\.(?:#{Regexp.union(Resolv::TLDS)})/i
+        DOMAIN = /(?:[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*)+\.(?:#{Regexp.union(Resolv::TLDS)}(?=\s|$))/i
 
         # Regular expression used to find host-names in text
         HOST_NAME = /(?:[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*\.)*#{DOMAIN}/i

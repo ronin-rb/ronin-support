@@ -250,6 +250,10 @@ describe Ronin::Support::Text::Patterns do
     it "must not match hostnames with unknown TLDs" do
       expect(subject.match('foo.zzz')).to be_nil
     end
+
+    it "must not partially match a string which contains a TLD name" do
+      expect(subject.match('foo.commmmm')).to be(nil)
+    end
   end
 
   describe "HOST_NAME" do
