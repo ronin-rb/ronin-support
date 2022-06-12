@@ -94,6 +94,74 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "SSH_PUBLIC_KEY" do
+    subject { described_class::SSH_PUBLIC_KEY }
+
+    it "must match 'ssh-rsa AAAA... user@domain'" do
+      ssh_rsa_pubkey = <<~EOS
+        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDQyYe+dnOTC+H/Mj6n40sNlNy64wspivT8RMrElDaBEiib+HAc9f66dCHN/27Z+sWoq0/p56hHIrsfztHLhFx51xr6/Z6UUnBmeCfP+Wm2lIWoQuepLY8/gsWNwD+Z01gMz9tciDsSbUrwybOLXY+69sTnM2PCDDvTWw5DPjHi6C1O/zJDWNBPy4fxBXpD+PK/Cx43m55emj5ZpLjQCrJvYPA5AL81R3swnBGkduvLNEMcwOaywLn5adTFsKLNwvIIUBmgZftFmTs46vlT0gxSek4E4s6fD5bJkdywu/my7vl56rPP+/kr3QjKfzfhhMR85uwQB37DPi3gu8Cqj7xp8z91cnfizVPpc5YyWgZteU12VphuU6iFJuaoQK9UFqhl5GZO1Ea8ul8k/4YaQRPdD5bUsl4tBYI4SE4ugHq1o/Homa2Syid02eCz6ILhhkk/kERnLNnlb8uoXtmuT7NQU0G52KRyEzKURLLfK+G+4d0TyEDfcVey1Q7Shhyt1KdfABdvtmugPUT0OZFpgABKDmhHJEsDazF8/6sQnAhxhDPz8tSgw60ecjBqPjFYzpfKXKjmZjTeZ7Whiv4R4oZA4Bmwkik9KfNTem8cmAmjZYUSrtS5isW0IHlIlxCMGYPMHec6CxxwpGPvgmjv+hcD9kuZeC8OePofWeLNfNOttQ== test@example.com
+      EOS
+
+      expect(subject.match(ssh_rsa_pubkey)[0]).to eq(ssh_rsa_pubkey.chomp)
+    end
+
+    it "must match 'ssh-dss AAAA... user@domain'" do
+      ssh_dsa_pubkey = <<~EOS
+        ssh-dss AAAAB3NzaC1kc3MAAACBANTQuv28rnsPgMjQ0OBiuHYHeWdDs4iWEHkTTFSahtI+30dJQ1o8dTz38ZRy5WTIkrEC2h0WI6JjGI9anlCuOFUrxIKzotE7hjm6l7gbGygdg35zI/k8QsqCX/7pGEg7WyaQx0Y5GFl3QKzPini04ZvtyDi1C1i3OwcnjtR1yiY3AAAAFQCI7Wx0KjrHnZd4qEekHvBzWxkaOQAAAIBciaLycTTgopllldv2LjaCOlvdrCiuYPyYbwVQvpPwwuZB0CYpe9L+tvyPo3XyMvQi6xuETGzh5E0tiph0+HwUfmJV8VVZmqMInzIGNgKNP/wI1UPN2MRdzy6k3D1W/b0JL3wqzl3rIMl36lsKkvKWzL57vA9LMwKZFd+W8ELRUAAAAIEApasZdOkHW2stegT4CtASxvbY1GbQ03mQAhC9cLSOUmLwbentL7MHfW1UhD+MYRDn7+YbAxBPCqnc4goOHOt4TTKny8QAhY/BKiVhQGW0D33VmCctSjkMUZGqDI3yJPwEpmQjQFecqy4prD0ExjSWm4CyMQ4njcXG/Qf1F+gZMZ8= test@example.com
+      EOS
+
+      expect(subject.match(ssh_dsa_pubkey)[0]).to eq(ssh_dsa_pubkey.chomp)
+    end
+
+    it "must match 'ecdsa-sha2-nistp256 AAAA... user@domain'" do
+      ssh_ecdsa_pubkey = <<~EOS
+        ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBF3ob/ktTVokdKx3E1UTDHW+60beSRSIsTfHHRHnaRAoQhaq8Y6bNk6f/48sHbFnE3AUEPwKomEQc+5wALjIbeQ= test@example.com
+      EOS
+
+      expect(subject.match(ssh_ecdsa_pubkey)[0]).to eq(ssh_ecdsa_pubkey.chomp)
+    end
+
+    it "must match 'ecdsa-sha2-nistp384 AAAA... user@domain'" do
+      ssh_ecdsa_pubkey = <<~EOS
+        ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzODQAAABhBD2JcEAE50xLmN12XS2BF3KGRaOIy19A6Qc71eqCNPeW4cThk1AjLgDZmtny9sYffdt09wEjhqzijxtj2GDM/6IW/ox1tDCekAOVJ9H+y1BM8w31+oJnEgTpFQ1dUBO+hw== test@example.com
+      EOS
+
+      expect(subject.match(ssh_ecdsa_pubkey)[0]).to eq(ssh_ecdsa_pubkey.chomp)
+    end
+
+    it "must match 'ecdsa-sha2-nistp521 AAAA... user@domain'" do
+      ssh_ecdsa_pubkey = <<~EOS
+        ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAGI+HpWu8ltNAHTZz3G0c88BsgMQH87/L6RG+jVb/Nrsdkn6nU95JvD3O24c/0RwuQxx/qxnleRb+T7oQbkMHELywDvNxv9U72MwG6d/GyKTHLIdEei+KpouMIE+jVRVlk7MczL9m/ocy8Ep+i/YAeefNshge4PZqsxxierY57t3T3UTg== test@example.com
+      EOS
+
+      expect(subject.match(ssh_ecdsa_pubkey)[0]).to eq(ssh_ecdsa_pubkey.chomp)
+    end
+
+    it "must match 'ecdsa-sha2-nistp256@openssh.com AAAA... user@domain'" do
+      ssh_ecdsa_pubkey = <<~EOS
+        ecdsa-sha2-nistp256@openssh.com AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBF3ob/ktTVokdKx3E1UTDHW+60beSRSIsTfHHRHnaRAoQhaq8Y6bNk6f/48sHbFnE3AUEPwKomEQc+5wALjIbeQ= test@example.com
+      EOS
+
+      expect(subject.match(ssh_ecdsa_pubkey)[0]).to eq(ssh_ecdsa_pubkey.chomp)
+    end
+
+    it "must match 'ssh-ed25519 AAAA... user@domain'" do
+      ssh_ed25519_pubkey = <<~EOS
+        ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFKdiXXLq/ezeabNyv1AOdc4xeUQB41kbSCXBsq9hQ7X test@example.com
+      EOS
+
+      expect(subject.match(ssh_ed25519_pubkey)[0]).to eq(ssh_ed25519_pubkey.chomp)
+    end
+
+    it "must match 'ssh-ed25519@openssh.com AAAA... user@domain'" do
+      ssh_ed25519_pubkey = <<~EOS
+        ssh-ed25519@openssh.com AAAAC3NzaC1lZDI1NTE5AAAAIFKdiXXLq/ezeabNyv1AOdc4xeUQB41kbSCXBsq9hQ7X test@example.com
+      EOS
+
+      expect(subject.match(ssh_ed25519_pubkey)[0]).to eq(ssh_ed25519_pubkey.chomp)
+    end
+  end
+
   describe "PUBLIC_KEY" do
     subject { described_class::PUBLIC_KEY }
 
