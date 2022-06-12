@@ -162,6 +162,67 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "PRIVATE_KEY" do
+    subject { described_class::SSH_PRIVATE_KEY }
+
+    let(:pem) do
+      <<~EOS
+        -----BEGIN OPENSSH PRIVATE KEY-----
+        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
+        L+swREJQgxmikV3PoMgaxuLhuak=
+        -----END OPENSSH PRIVATE KEY-----
+      EOS
+    end
+
+    it "must match the data between '-----BEGIN OPENSSH PRIVATE KEY-----' and '-----END OPENSSH PRIVATE KEY-----'" do
+      expect(subject.match(pem)[0]).to eq(pem.chomp)
+    end
+
+    it "must not match empty '-----BEGIN OPENSSH PRIVATE KEY-----' and '-----END OPENSSH PRIVATE KEY-----' blocks" do
+      empty_pem = <<~EOS
+        -----BEGIN OPENSSH PRIVATE KEY-----
+        -----END OPENSSH PRIVATE KEY-----
+      EOS
+
+      expect(subject.match(empty_pem)).to be(nil)
+    end
+  end
+
   describe "PUBLIC_KEY" do
     subject { described_class::PUBLIC_KEY }
 
