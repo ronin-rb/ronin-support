@@ -159,7 +159,7 @@ module Ronin
         # @see IDENTIFIER
         #
         # @since 1.0.0
-        FUNCTION_NAME = IDENTIFIER
+        FUNCTION_NAME = /#{IDENTIFIER}(?=\()/
 
         # Regular expression to find all double quoted strings in text.
         #

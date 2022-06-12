@@ -378,6 +378,23 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "FUNCTION_NAME" do
+    subject { described_class::FUNCTION_NAME }
+
+    it "must match identifiers that are followed by an opening parenthesis" do
+      name   = "foo"
+      string = "#{name}("
+
+      expect(subject.match(string)[0]).to eq(name)
+    end
+
+    it "must not match an identifier name without parenthesis following it" do
+      string = "foo"
+
+      expect(subject.match(string)).to be(nil)
+    end
+  end
+
   describe "DOUBLE_QUOTED_STRING" do
     subject { described_class::DOUBLE_QUOTED_STRING }
 
