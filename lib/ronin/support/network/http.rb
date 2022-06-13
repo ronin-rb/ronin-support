@@ -42,13 +42,17 @@ module Ronin
         #   The Ronin HTTP proxy.
         #
         # @note
+        #   If the `RONIN_HTTP_PROXY` environment variable is specified, it
+        #   will be used as the default value.
         #   If the `HTTP_PROXY` environment variable is specified, it will
         #   be used as the default value.
         #
         # @api public
         #
         def self.proxy
-          @proxy ||= if ENV['HTTP_PROXY']
+          @proxy ||= if ENV['RONIN_HTTP_PROXY']
+                       URI.parse(ENV['RONIN_HTTP_PROXY'])
+                     elsif ENV['HTTP_PROXY']
                        URI.parse(ENV['HTTP_PROXY'])
                      end
         end

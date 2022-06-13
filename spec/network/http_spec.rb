@@ -10,6 +10,32 @@ describe Network::HTTP do
     it "must return nil by default" do
       expect(subject.proxy).to be(nil)
     end
+
+    context "when the RONIN_HTTP_PROXY environment variable was set" do
+      before { ENV['RONIN_HTTP_PROXY'] = 'http://example.com:8080' }
+
+      it "must parse the RONIN_HTTP_PROXY environment variable" do
+        expect(subject.proxy).to eq(URI(ENV['RONIN_HTTP_PROXY']))
+      end
+
+      after do
+        subject.proxy = nil
+        ENV.delete('RONIN_HTTP_PROXY')
+      end
+    end
+
+    context "when the HTTP_PROXY environment variable was set" do
+      before { ENV['HTTP_PROXY'] = 'http://example.com:8080' }
+
+      it "must parse the HTTP_PROXY environment variable" do
+        expect(subject.proxy).to eq(URI(ENV['HTTP_PROXY']))
+      end
+
+      after do
+        subject.proxy = nil
+        ENV.delete('HTTP_PROXY')
+      end
+    end
   end
 
   describe ".proxy=" do
