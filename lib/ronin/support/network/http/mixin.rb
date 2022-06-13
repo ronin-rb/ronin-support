@@ -49,7 +49,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String,Array}, nil] :headers
           #   Additional headers to add to each request.
           #
-          # @option kwargs [String, nil] user_agent (HTTP.user_agent)
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @option ssl [String, nil] :ca_bundle
@@ -121,7 +121,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String,Array}, nil] :headers
           #   Additional headers to add to each request.
           #
-          # @option kwargs [String, nil] user_agent (HTTP.user_agent)
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -229,6 +229,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @option ssl [String, nil] :ca_bundle
           #   The path to the CA bundle directory or file.
           #
@@ -328,6 +331,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -420,6 +426,9 @@ module Ronin
           #
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
+          #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
@@ -515,6 +524,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -609,6 +621,9 @@ module Ronin
           #
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
+          #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
@@ -706,6 +721,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -801,6 +819,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -893,6 +914,9 @@ module Ronin
           #
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
+          #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
@@ -991,6 +1015,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -1087,6 +1114,9 @@ module Ronin
           #
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
+          #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
@@ -1186,6 +1216,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -1280,6 +1313,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -1370,6 +1406,9 @@ module Ronin
           #
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
+          #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
@@ -1468,6 +1507,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -1564,6 +1606,9 @@ module Ronin
           #
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
+          #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
@@ -1662,6 +1707,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -1759,6 +1807,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -1855,6 +1906,9 @@ module Ronin
           #
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
+          #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
@@ -1955,6 +2009,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -2053,6 +2110,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -2147,6 +2207,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -2237,6 +2300,9 @@ module Ronin
           #
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
+          #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
@@ -2337,6 +2403,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -2435,6 +2504,9 @@ module Ronin
           #
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
+          #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
@@ -2535,6 +2607,9 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
@@ -2634,6 +2709,9 @@ module Ronin
           #
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
+          #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
           #   Specifies whether to enable SSL and/or the SSL context

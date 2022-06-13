@@ -3418,10 +3418,6 @@ module Ronin
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
         #
