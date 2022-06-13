@@ -17,31 +17,29 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/mixins/http'
+require 'ronin/support/network/http'
 
 require 'uri/http'
 
 module URI
   class HTTP < Generic
 
-    include Ronin::Support::Network::Mixins::HTTP
-
     #
     # Returns the Status Code of the HTTP Response for the URI.
     #
     # @param [Hash{Symbol => Object}] kwargs
     #   Additional keyword arguments for
-    #   {Ronin::Support::Network::Mixins::HTTP#http_status}.
+    #   {Ronin::Support::Network::HTTP.response_status}.
     #
     # @return [Integer]
     #   The HTTP Response Status.
     #
-    # @see Ronin::Support::Network::Mixins::HTTP#http_status
+    # @see Ronin::Support::Network::HTTP.response_status
     #
     # @since 0.3.0
     #
     def status(**kwargs)
-      http_status(url: self)
+      Ronin::Support::Network::HTTP.response_status(self,**kwargs)
     end
 
     #
@@ -49,17 +47,17 @@ module URI
     #
     # @param [Hash{Symbol => Object}] kwargs
     #   Additional keyword arguments for
-    #   {Ronin::Support::Network::Mixins::HTTP#http_ok?}.
+    #   {Ronin::Support::Network::HTTP.ok?}.
     #
     # @return [Boolean]
     #   Specifies whether the response had an HTTP OK status code or not.
     #
-    # @see Ronin::Support::Network::Mixins::HTTP#http_ok?
+    # @see Ronin::Support::Network::HTTP.ok?
     #
     # @since 0.3.0
     #
     def ok?(**kwargs)
-      http_ok?(url: self, **kwargs)
+      Ronin::Support::Network::HTTP.ok?(self,**kwargs)
     end
 
   end

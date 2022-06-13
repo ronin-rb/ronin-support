@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/http/http'
+require 'ronin/support/network/http'
 
 module Ronin
   module Support
@@ -26,821 +26,2679 @@ module Ronin
         #
         # Provides helper methods for communicating with HTTP Servers.
         #
+        # @api public
+        #
         module HTTP
           #
-          # Starts a HTTP connection with the server.
+          # Creates a HTTP connection to the host nad port.
+          #
+          # @param [String] host
+          #   The host to connect to.
+          #
+          # @param [Integer] port
+          #   The port to connect to.
+          #
+          # @param [Boolean, Hash{Symbol => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments.
+          #   Additional keyword arguments for {Network::HTTP.connect}.
           #
-          # @option kwargs [String, URI::HTTP] :url
-          #   The full URL to request.
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   The optional proxy to send requests through.
           #
-          # @option kwargs [String] :host
-          #   The host the HTTP server is running on.
+          # @option kwargs [Hash{Symbol,String => String,Array}, nil] :headers
+          #   Additional headers to add to each request.
           #
-          # @option kwargs [Integer] :port (DEFAULT_PORT)
-          #   The port the HTTP server is listening on.
+          # @option kwargs [String, nil] user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
           #
-          # @option kwargs [URI::HTTP, String, nil] :proxy (Network::HTTP.proxy)
-          #   A Hash of proxy settings to use when connecting to the HTTP
-          #   server.
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
           #
-          # @option kwargs [String] :user
-          #   The user to authenticate with when connecting to the HTTP server.
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
           #
-          # @option kwargs [String] :password
-          #   The password to authenticate with when connecting to the HTTP
-          #   server.
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
           #
-          # @option kwargs [Boolean, Hash] :ssl
-          #   Enables SSL for the HTTP connection.
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
           #
-          # @option :ssl [Symbol] :verify
-          #   Specifies the SSL certificate verification mode.
-          #   
-          # @yield [http]
-          #   If a block is given, it will be passed the newly created HTTP
-          #   session object.
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
           #
-          # @yieldparam [Net::HTTP] http
-          #   The newly created HTTP session.
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
           #
-          # @return [Net::HTTP]
-          #   The HTTP session object.
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
           #
-          # @api public
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
           #
-          def http_connect(**kwargs,&block)
-            options = Network::HTTP.normalize_options(kwargs)
-
-            host  = options[:host].to_s
-            port  = options[:port]
-            proxy = options[:proxy]
-
-            http = if proxy
-                     Net::HTTP.new(
-                       host, port,
-                       proxy.host, proxy.port, proxy.user, proxy.password
-                     )
-                   else
-                     Net::HTTP.new(host,port)
-                   end
-
-            if options[:ssl]
-              http.use_ssl     = true
-              http.verify_mode = SSL::VERIFY[options[:ssl][:verify]]
-            end
-
-            http.start()
-
-            if block
-              if block.arity == 2
-                block.call(http,options)
-              else
-                block.call(http)
-              end
-            end
-
-            return http
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
+          #
+          # @since 1.0.0
+          #
+          def http_connect(host,port, ssl: nil, **kwargs,&block)
+            Network::HTTP.connect(host,port, ssl: ssl, **kwargs,&block)
           end
 
           #
-          # Creates a new temporary HTTP session with the server.
+          # Creates a temporary HTTP session to the host and port.
+          #
+          # @param [String] host
+          #   The host to connect to.
+          #
+          # @param [Integer] port
+          #   The port to connect to.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_connect}.
+          #   Additional keyword arguments for {Network::HTTP.session}.
           #
-          # @option kwargs [String, URI::HTTP] :url
-          #   The full URL to request.
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   The optional proxy to send requests through.
           #
-          # @option kwargs [String] :host
-          #   The host the HTTP server is running on.
+          # @option kwargs [Hash{Symbol,String => String,Array}, nil] :headers
+          #   Additional headers to add to each request.
           #
-          # @option kwargs [Integer] :port (DEFAULT_PORT)
-          #   The port the HTTP server is listening on.
+          # @option kwargs [String, nil] user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
           #
-          # @option kwargs [String] :user
-          #   The user to authenticate with when connecting to the HTTP server.
+          # @param [Boolean, Hash{Symbol => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
           #
-          # @option kwargs [String] :password
-          #   The password to authenticate with when connecting to the HTTP
-          #   server.
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
           #
-          # @option kwargs [URI::HTTP, String, nil] :proxy (HTTP.proxy)
-          #   A Hash of proxy settings to use when connecting to the HTTP
-          #   server.
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
           #
-          # @option kwargs [Boolean, Hash] :ssl
-          #   Enables SSL for the HTTP connection.
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
           #
-          # @option :ssl [Symbol] :verify
-          #   Specifies the SSL certificate verification mode.
-          #   
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           # @yield [http]
           #   If a block is given, it will be passed the newly created HTTP
           #   session object.
           #
-          # @yieldparam [Net::HTTP] http
+          # @yieldparam [HTTP] http
           #   The newly created HTTP session.
           #
           # @return [nil]
           #
-          # @see #http_connect
+          # @see Network::HTTP.session
           #
           # @api public
           #
-          def http_session(**kwargs)
-            http_connect(**kwargs) do |http|
-              yield http if block_given?
-
-              http.finish
-            end
-
-            return nil
+          def http_session(host,port, ssl: nil, **kwargs,&block)
+            Network::HTTP.session(host,port, ssl: ssl, **kwargs,&block)
           end
 
           #
-          # Connects to the HTTP server and sends an HTTP Request.
+          # Performs and arbitrary HTTP request.
           #
-          # @param [String, URI::HTTP] url
-          #   The full URL to request.
+          # @param [Symbol, String] method
+          #   The HTTP method to use for the request.
           #
-          # @param [String] host
-          #   The host the HTTP server is running on.
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
-          # @param [Integer] port
-          #   The port the HTTP server is listening on.
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
           #
-          # @param [URI::HTTP, String, nil] proxy
-          #   A Hash of proxy settings to use when connecting to the HTTP
-          #   server.
-          #
-          # @param [Boolean, Hash, nil] ssl
-          #   Enables SSL for the HTTP connection.
-          #
-          # @option ssl [Symbol] :verify
-          #   Specifies the SSL certificate verification mode.
-          #   
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {Network::HTTP.request}.
+          #   Additional arguments for {Network::HTTP.request}.
           #
-          # @option kwargs [Symbol, String] :method
-          #   The HTTP method to use in the request.
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
           #
-          # @option kwargs [String] user
-          #   The user to authenticate with when connecting to the HTTP server.
-          #
-          # @option kwargs [String] password
-          #   The password to authenticate with when connecting to the HTTP
-          #   server.
-          #
-          # @option kwargs [String] :path ('/')
-          #   The path to request from the HTTP server.
-          #
-          # @option kwargs [String] :query
+          # @option kwargs [String, nil] :query
           #   The query-string to append to the request path.
           #
-          # @option kwargs [String] :query_params
+          # @option kwargs [Hash, nil] :query_params
           #   The query-params to append to the request path.
           #
-          # @option kwargs [String] :body
+          # @option kwargs [String, nil] :body
           #   The body of the request.
           #
-          # @option kwargs [Hash] :headers
-          #   The Hash of the HTTP headers to send with the request.
-          #   May contain either Strings or Symbols, lower-case or camel-case
-          #   keys.
-          #
-          # @option kwargs [String] :body
-          #   The body of the request.
-          #
-          # @option kwargs [Hash, String] :form_data
+          # @option kwargs [Hash, String, nil] :form_data
           #   The form data that may be sent in the body of the request.
           #
-          # @yield [request, (options)]
-          #   If a block is given, it will be passed the HTTP request object.
-          #   If the block has an arity of 2, it will also be passed the
-          #   expanded version of the given `kwargs`.
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
           #
-          # @yieldparam [Net::HTTPRequest] request
-          #   The HTTP request object to use in the request.
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
           #
-          # @yieldparam [Hash] options
-          #   The expanded version of the given `kwargs`.
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
+          #
+          # @yield [response]
+          #   If a block is given it will be passed the received HTTP response.
+          #
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
           #
           # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
+          #   The new HTTP Request object.
           #
           # @raise [ArgumentError]
-          #   The `:method` option must be specified.
-          #
-          # @raise [UnknownRequest]
-          #   The `:method` option did not match a known Net::HTTP request
+          #   The `:method` option did not match a known `Net::HTTP` request
           #   class.
           #
-          # @see #http_session
-          # @see http_request
+          # @see Network::HTTP.request
           #
           # @api public
           #
-          def http_request(url: nil, host: nil, port: nil, proxy: nil, ssl: nil, **kwargs)
-            response = nil
-
-            http_session(url: url, host: host, port: port, proxy: proxy, ssl: ssl) do |http|
-              req = Network::HTTP.request(url: url, **kwargs)
-
-              yield req if block_given?
-
-              response = http.request(req)
-            end
-
-            return response
+          def http_request(method,uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.request(method,uri, ssl: ssl, **kwargs,&block)
           end
 
           #
-          # Returns the Status Code of the Response.
+          # Sends an arbitrary HTTP request and returns the response status.
           #
           # @param [Symbol, String] method
-          #   The method to use for the request.
+          #   The HTTP method to use for the request.
           #
-          # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @return [Integer]
-          #   The HTTP Response Status.
+          #   The status code of the response.
           #
-          # @see #http_request
+          # @see Network::HTTP.response_status
           #
-          # @since 0.2.0
+          # @since 1.0.0
           #
-          # @api public
-          #
-          def http_status(method: :head, **kwargs)
-            return http_request(method: method, **kwargs).code.to_i
+          def http_response_status(method=:head,uri, ssl: nil, **kwargs)
+            Network::HTTP.response_status(method,uri, ssl: ssl, **kwargs)
           end
 
           #
-          # Checks if the response has an HTTP `OK` status code.
+          # Sends a HTTP request and determines if the response status was 200.
           #
-          # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_status}.
+          # @param [Symbol, String] method
+          #   The HTTP method to use for the request.
           #
-          # @option kwargs [Symbol, String] :method (:head)
-          #   The method to use for the request.
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @return [Boolean]
-          #   Specifies whether the response had an HTTP OK status code or not.
+          #   Indicates that the response status was 200.
           #
-          # @see #http_status
+          # @see Network::HTTP.ok?
           #
-          # @api public
-          #
-          def http_ok?(**kwargs)
-            http_status(**kwargs) == 200
+          def http_ok?(method=:head,uri, ssl: nil, **kwargs)
+            Network::HTTP.ok?(method,uri, ssl: ssl, **kwargs)
           end
 
           #
-          # Sends a HTTP Head request and returns the HTTP `Server` header.
+          # Sends an arbitrary HTTP request and returns the response headers.
           #
           # @param [Symbol, String] method
-          #   The method to use for the request.
+          #   The HTTP method to use for the request.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
+          #
+          # @return [Hash{String => String}]
+          #   The response headers.
+          #
+          #
+          # @see Network::HTTP.response_headers
+          #
+          def http_response_headers(method=:head,uri, ssl: nil, **kwargs)
+            Network::HTTP.response_headers(method,uri, ssl: ssl, **kwargs)
+          end
+
+          #
+          # Sends an HTTP request and returns the `Server` header.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [Symbol, String] :method
+          #   The HTTP method to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
+          #
+          # @return [String, nil]
+          #   The `Server` header.
+          #
+          # @see Network::HTTP.server_header
+          #
+          # @since 1.0.0
+          #
+          def http_server_header(uri, ssl: nil, **kwargs)
+            Network::HTTP.server_header(uri, ssl: ssl, **kwargs)
+          end
+
+          #
+          # Sends an HTTP request and returns the `X-Powered-By` header.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [Symbol, String] :method
+          #   The HTTP method to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
+          #
+          # @return [String, nil]
+          #   The `X-Powered-By` header.
+          #
+          #
+          # @see Network::HTTP.powered_by_header
+          #
+          def http_powered_by_header(uri, ssl: nil, **kwargs)
+            Network::HTTP.powered_by_header(uri, ssl: ssl, **kwargs)
+          end
+
+          #
+          # Sends an arbitrary HTTP request and returns the response body.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [Symbol, String] :method
+          #   The HTTP method to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @return [String]
-          #   The HTTP `Server` header.
+          #   The response body.
           #
-          # @see #http_request
+          # @see Network::HTTP.response_body
           #
-          # @api public
+          # @since 1.0.0
           #
-          def http_server(method: :head, **kwargs)
-            http_request(method: method, **kwargs)['server']
+          def http_response_body(method=:get,uri, ssl: nil, **kwargs)
+            Network::HTTP.response_body(method,uri, ssl: ssl, **kwargs)
           end
 
           #
-          # Sends an HTTP Head request and returns the HTTP `X-Powered-By`
-          # header.
+          # Performs a `COPY` request for the given URI.
           #
-          # @param [Symbol, String] method
-          #   The method to use for the request.
-          #
-          # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
-          #
-          # @return [String]
-          #   The HTTP `X-Powered-By` header.
-          #
-          # @see #http_request
-          #
-          # @api public
-          #
-          def http_powered_by(method: :head, **kwargs)
-            return http_request(method: method, **kwargs)['x-powered-by']
-          end
-
-          #
-          # Performs an HTTP `COPY` request.
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @yield [response]
-          #   If a block is given, it will be passed the response received
-          #   from the request.
+          #   If a block is given it will be passed the received HTTP response.
           #
-          # @yieldparam [Net::HTTPResponse] response
-          #   The HTTP response object.
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
           #
           # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
+          #   The new HTTP Request object.
           #
-          # @see #http_request
+          # @see Network::HTTP.copy
           #
-          # @api public
-          #
-          def http_copy(**kwargs)
-            response = http_request(method: :copy, **kwargs)
-
-            yield response if block_given?
-            return response
+          def http_copy(uri, ssl: nil, **kwargs)
+            Network::HTTP.copy(uri, ssl: ssl, **kwargs)
           end
 
           #
-          # Performs an HTTP `DELETE` request.
+          # Performs a `DELETE` request for the given URI.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
           #
-          # @param [Hash, nil] headers
-          #   Additional headers to send.
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @yield [response]
-          #   If a block is given, it will be passed the response received from
-          #   the request.
+          #   If a block is given it will be passed the received HTTP response.
           #
-          # @yieldparam [Net::HTTPResponse] response
-          #   The HTTP response object.
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
           #
           # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
+          #   The new HTTP Request object.
           #
-          # @see #http_request
+          # @see Network::HTTP.delete
           #
-          # @api public
-          #
-          def http_delete(headers: nil, **kwargs, &block)
-            original_headers = headers
-
-            # set the HTTP Depth header
-            headers = {depth: 'Infinity'}
-            headers.merge!(original_headers) if original_headers
-
-            response = http_request(
-              method: :delete,
-              headers: headers,
-              **kwargs
-            )
-
-            yield response if block_given?
-            return response
+          def http_delete(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.delete(uri, ssl: ssl, **kwargs,&block)
           end
 
           #
-          # Performs an HTTP `GET` request.
+          # Performs a `GET` request for the given URI.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @yield [response]
-          #   If a block is given, it will be passed the response received from
-          #   the request.
+          #   If a block is given it will be passed the received HTTP response.
           #
-          # @yieldparam [Net::HTTPResponse] response
-          #   The HTTP response object.
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
           #
           # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
+          #   The new HTTP Request object.
           #
-          # @see #http_request
+          # @see Network::HTTP.get
           #
-          # @api public
-          #
-          def http_get(**kwargs,&block)
-            response = http_request(method: :get, **kwargs)
-
-            yield response if block_given?
-            return response
+          def http_get(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.get(uri, ssl: ssl, **kwargs,&block)
           end
 
           #
-          # Performs an HTTP `GET` request and returns the Response Headers.
+          # Performs a `GET` request for the given URI and returns the response
+          # headers.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_get}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
           #
-          # @return [Hash{String => Array<String>}]
-          #   The Headers of the HTTP response.
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
           #
-          # @see #http_get
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
+          #
+          # @return [Hash{String => String}]
+          #   The response headers.
+          #
+          # @see Network::HTTP.get_headers
           #
           # @since 0.2.0
           #
-          # @api public
-          #
-          def http_get_headers(**kwargs)
-            headers = {}
-
-            http_get(**kwargs).each_header do |name,value|
-              headers[Network::HTTP.header_name(name)] = value
-            end
-
-            return headers
+          def http_get_headers(uri, ssl: nil, **kwargs)
+            Network::HTTP.get_headers(uri, ssl: ssl, **kwargs)
           end
 
           #
-          # Performs an HTTP `GET` request and returns the Respond Body.
+          # Performs a `GET` request for the given URI and returns the response
+          # body.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_get}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @return [String]
-          #   The body of the HTTP response.
+          #   The response body.
           #
-          # @see #http_get
+          # @see Network::HTTP.get_body
           #
-          # @api public
-          #
-          def http_get_body(**kwargs)
-            http_get(**kwargs).body
+          def http_get_body(uri, ssl: nil, **kwargs)
+            Network::HTTP.get_body(uri, ssl: ssl, **kwargs)
           end
 
           #
-          # Performs an HTTP `HEAD` request.
+          # Performs a `HEAD` request for the given URI.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @yield [response]
-          #   If a block is given, it will be passed the response received from
-          #   the request.
+          #   If a block is given it will be passed the received HTTP response.
           #
-          # @yieldparam [Net::HTTPResponse] response
-          #   The HTTP response object.
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
           #
           # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
+          #   The new HTTP Request object.
           #
-          # @see #http_request
+          # @see Network::HTTP.head
           #
-          # @api public
-          #
-          def http_head(**kwargs,&block)
-            response = http_request(method: :head, **kwargs)
-
-            yield response if block_given?
-            return response
+          def http_head(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.head(uri, ssl: ssl, **kwargs,&block)
           end
 
           #
-          # Performs an HTTP `LOCK` request.
+          # Performs a `LOCK` request for the given URI.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @yield [response]
-          #   If a block is given, it will be passed the response received from
-          #   the request.
+          #   If a block is given it will be passed the received HTTP response.
           #
-          # @yieldparam [Net::HTTPResponse] response
-          #   The HTTP response object.
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
           #
           # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
+          #   The new HTTP Request object.
           #
-          # @see #http_request
+          # @see Network::HTTP.lock
           #
-          # @api public
-          #
-          def http_lock(**kwargs,&block)
-            response = http_request(method: :lock, **kwargs)
-
-            yield response if block_given?
-            return response
+          def http_lock(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.lock(uri, ssl: ssl, **kwargs,&block)
           end
 
           #
-          # Performs an HTTP `MKCOL` request.
+          # Performs a `MKCOL` request for the given URI.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @yield [response]
-          #   If a block is given, it will be passed the response received from
-          #   the request.
+          #   If a block is given it will be passed the received HTTP response.
           #
-          # @yieldparam [Net::HTTPResponse] response
-          #   The HTTP response object.
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
           #
           # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
+          #   The new HTTP Request object.
           #
-          # @see #http_request
+          # @see Network::HTTP.mkcol
           #
-          # @api public
-          #
-          def http_mkcol(**kwargs,&block)
-            response = http_request(method: :mkcol, **kwargs)
-
-            yield response if block_given?
-            return response
+          def http_mkcol(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.mkcol(uri, ssl: ssl, **kwargs,&block)
           end
 
           #
-          # Performs an HTTP `MOVE` request.
+          # Performs a `MOVE` request for the given URI.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @yield [response]
-          #   If a block is given, it will be passed the response received from
-          #   the request.
+          #   If a block is given it will be passed the received HTTP response.
           #
-          # @yieldparam [Net::HTTPResponse] response
-          #   The HTTP response object.
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
           #
           # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
+          #   The new HTTP Request object.
           #
-          # @see #http_request
+          # @see Network::HTTP.move
           #
-          # @api public
-          #
-          def http_move(**kwargs,&block)
-            response = http_request(method: :move, **kwargs)
-
-            yield response if block_given?
-            return response
+          def http_move(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.move(uri, ssl: ssl, **kwargs,&block)
           end
 
           #
-          # Performs an HTTP `OPTIONS` request.
+          # Performs a `OPTIONS` request for the given URI.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @yield [response]
-          #   If a block is given, it will be passed the response received from
-          #   the request.
+          #   If a block is given it will be passed the received HTTP response.
           #
-          # @yieldparam [Net::HTTPResponse] response
-          #   The HTTP response object.
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
           #
           # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
+          #   The new HTTP Request object.
           #
-          # @see #http_request
+          # @see Network::HTTP.options
           #
-          # @api public
-          #
-          def http_options(**kwargs,&block)
-            response = http_request(method: :options, **kwargs)
-
-            yield response if block_given?
-            return response
+          def http_options(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.options(uri, ssl: ssl, **kwargs,&block)
           end
 
           #
-          # Performs an HTTP `POST` request.
+          # Performs a `PATCH` request for the given URI.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
           #
-          # @option kwargs [Hash, String] :form_data
-          #   The form data to send with the HTTP Post request.
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @yield [response]
-          #   If a block is given, it will be passed the response received from
-          #   the request.
+          #   If a block is given it will be passed the received HTTP response.
           #
-          # @yieldparam [Net::HTTPResponse] response
-          #   The HTTP response object.
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
           #
           # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
+          #   The new HTTP Request object.
           #
-          # @see #http_request
+          # @see Network::HTTP.patch
           #
-          # @api public
+          # @since 1.0.0
           #
-          def http_post(**kwargs,&block)
-            response = http_request(method: :post, **kwargs)
-
-            yield response if block_given?
-            return response
+          def http_patch(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.patch(uri, ssl: ssl, **kwargs,&block)
           end
 
           #
-          # Performs an HTTP `POST` request and returns the Response Headers.
+          # Performs a `POST` request for the given URI.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_post}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
           #
-          # @option kwargs [Hash, String] :form_data
-          #   The form data to send with the HTTP Post request.
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
           #
-          # @return [Hash{String => Array<String>}]
-          #   The headers of the HTTP response.
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
           #
-          # @see #http_post
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
+          #
+          # @yield [response]
+          #   If a block is given it will be passed the received HTTP response.
+          #
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
+          #
+          # @return [Net::HTTPResponse]
+          #   The new HTTP Request object.
+          #
+          # @see Network::HTTP.post
+          #
+          def http_post(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.post(uri, ssl: ssl, **kwargs,&block)
+          end
+
+          #
+          # Performs a `POST` request on the given URI and returns the response
+          # headers.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
+          #
+          # @return [Hash{String => String}]
+          #   The response headers.
+          #
+          # @see Network::HTTP.post_headers
           #
           # @since 0.2.0
           #
-          # @api public
-          #
-          def http_post_headers(**kwargs)
-            headers = {}
-
-            http_post(**kwargs).each_header do |name,value|
-              headers[Network::HTTP.header_name(name)] = value
-            end
-
-            return headers
+          def http_post_headers(uri, ssl: nil, **kwargs)
+            Network::HTTP.post_headers(uri, ssl: ssl, **kwargs)
           end
 
           #
-          # Performs an HTTP `POST` request and returns the Response Body.
+          # Performs a `POST` request for the given URI and returns the response
+          # body.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_post}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
           #
-          # @option kwargs [Hash, String] :form_data
-          #   The form data to send with the HTTP Post request.
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @return [String]
-          #   The body of the HTTP response.
+          #   The response body.
           #
-          # @see #http_post
+          # @see Network::HTTP.post_body
           #
-          # @api public
-          #
-          def http_post_body(**kwargs)
-            http_post(**kwargs).body
+          def http_post_body(uri, ssl: nil, **kwargs)
+            Network::HTTP.post_body(uri, ssl: ssl, **kwargs)
           end
 
           #
-          # Performs an HTTP `PUT` request.
+          # Performs a `PROPFIND` request for the given URI.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
           #
-          # @option kwargs [String] :body
-          #   The body for the request.
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
           #
-          # @option kwargs [Hash, String] :form_data
-          #   The form data to send with the HTTP PUT request.
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @yield [response]
-          #   If a block is given, it will be passed the response received from
-          #   the request.
+          #   If a block is given it will be passed the received HTTP response.
           #
-          # @yieldparam [Net::HTTPResponse] response
-          #   The HTTP response object.
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
           #
           # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
+          #   The new HTTP Request object.
           #
-          # @see #http_request
+          # @see Network::HTTP.propfind
+          #
+          def http_propfind(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.propfind(uri, ssl: ssl, **kwargs,&block)
+          end
+
+          alias http_prop_find http_propfind
+
+          #
+          # Performs a `PROPPATCH` request for the given URI.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
+          #
+          # @yield [response]
+          #   If a block is given it will be passed the received HTTP response.
+          #
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
+          #
+          # @return [Net::HTTPResponse]
+          #   The new HTTP Request object.
+          #
+          # @see Network::HTTP.proppatch
+          #
+          def http_proppatch(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.proppatch(uri, ssl: ssl, **kwargs,&block)
+          end
+
+          alias http_prop_patch http_proppatch
+
+          #
+          # Performs a `PUT` request for the given URI.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
+          #
+          # @yield [response]
+          #   If a block is given it will be passed the received HTTP response.
+          #
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
+          #
+          # @return [Net::HTTPResponse]
+          #   The new HTTP Request object.
+          #
+          # @see Network::HTTP.put
           #
           # @since 0.4.0
           #
-          # @api public
-          #
-          def http_put(**kwargs)
-            response = http_request(method: :put, **kwargs)
-
-            yield response if block_given?
-            return response
+          def http_put(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.put(uri, ssl: ssl, **kwargs,&block)
           end
 
           #
-          # Performs an HTTP `PROPFIND` request.
+          # Performs a `TRACE` request for the given URI.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @yield [response]
-          #   If a block is given, it will be passed the response received from
-          #   the request.
+          #   If a block is given it will be passed the received HTTP response.
           #
-          # @yieldparam [Net::HTTPResponse] response
-          #   The HTTP response object.
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
           #
           # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
+          #   The new HTTP Request object.
           #
-          # @see #http_request
+          # @see Network::HTTP.trace
           #
           # @api public
           #
-          def http_prop_find(headers: nil, **kwargs,&block)
-            original_headers = headers
-
-            # set the HTTP Depth header
-            headers = {depth: '0'}
-            headers.merge!(original_headers) if original_headers
-
-            response = http_request(
-              method: :propfind,
-              headers: headers,
-              **kwargs
-            )
-
-            yield response if block_given?
-            return response
+          def http_trace(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.trace(uri, ssl: ssl, **kwargs,&block)
           end
 
           #
-          # Performs an HTTP `PROPPATCH` request.
+          # Performs a `UNLOCK` request for the given URI.
+          #
+          # @param [URI::HTTP, String, nil] uri
+          #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.request}.
+          #
+          # @option [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
           #
           # @yield [response]
-          #   If a block is given, it will be passed the response received from
-          #   the request.
+          #   If a block is given it will be passed the received HTTP response.
           #
-          # @yieldparam [Net::HTTPResponse] response
-          #   The HTTP response object.
-          #
-          # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
-          #
-          # @see #http_request
-          #
-          # @api public
-          #
-          def http_prop_patch(**kwargs,&block)
-            response = http_request(method: :proppatch, **kwargs)
-
-            yield response if block_given?
-            return response
-          end
-
-          #
-          # Performs an HTTP `TRACE` request.
-          #
-          # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
-          #
-          # @yield [response]
-          #   If a block is given, it will be passed the response received from
-          #   the request.
-          #
-          # @yieldparam [Net::HTTPResponse] response
-          #   The HTTP response object.
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
           #
           # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
+          #   The new HTTP Request object.
           #
-          # @see #http_request
+          # @see Network::HTTP.unlock
           #
-          # @api public
-          #
-          def http_trace(**kwargs,&block)
-            response = http_request(method: :trace, **kwargs)
-
-            yield response if block_given?
-            return response
-          end
-
-          #
-          # Performs an HTTP `UNLOCK` request.
-          #
-          # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#http_request}.
-          #
-          # @yield [response]
-          #   If a block is given, it will be passed the response received from
-          #   the request.
-          #
-          # @yieldparam [Net::HTTPResponse] response
-          #   The HTTP response object.
-          #
-          # @return [Net::HTTPResponse]
-          #   The response of the HTTP request.
-          #
-          # @see #http_request
-          #
-          # @api public
-          #
-          def http_unlock(**kwargs,&block)
-            response = http_request(method: :unlock, **kwargs)
-
-            yield response if block_given?
-            return response
+          def http_unlock(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.unlock(uri, ssl: ssl, **kwargs,&block)
           end
         end
       end
