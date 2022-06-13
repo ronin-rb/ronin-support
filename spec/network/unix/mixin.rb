@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'network/shared/unix_server'
-require 'ronin/support/network/mixins/unix'
+require 'ronin/support/network/unix/mixin'
 
 require 'fileutils'
 
-describe Ronin::Support::Network::Mixins::UNIX do
+describe Ronin::Support::Network::UNIX::Mixin do
   subject do
     obj = Object.new
     obj.extend described_class

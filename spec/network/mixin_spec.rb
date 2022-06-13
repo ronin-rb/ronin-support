@@ -2,51 +2,51 @@ require 'spec_helper'
 require 'ronin/support/network/mixin'
 
 describe Ronin::Support::Network::Mixin do
-  it "must include `Ronin::Support::Network::Mixins::IP`" do
-    expect(subject).to include(Ronin::Support::Network::Mixins::IP)
+  it "must include `Ronin::Support::Network::IP::Mixin`" do
+    expect(subject).to include(Ronin::Support::Network::IP::Mixin)
   end
 
-  it "must include `Ronin::Support::Network::Mixins::DNS`" do
-    expect(subject).to include(Ronin::Support::Network::Mixins::DNS)
+  it "must include `Ronin::Support::Network::DNS::Mixin`" do
+    expect(subject).to include(Ronin::Support::Network::DNS::Mixin)
   end
 
-  it "must include `Ronin::Support::Network::Mixins::TCP`" do
-    expect(subject).to include(Ronin::Support::Network::Mixins::TCP)
+  it "must include `Ronin::Support::Network::TCP::Mixin`" do
+    expect(subject).to include(Ronin::Support::Network::TCP::Mixin)
   end
 
-  it "must include `Ronin::Support::Network::Mixins::UDP`" do
-    expect(subject).to include(Ronin::Support::Network::Mixins::UDP)
+  it "must include `Ronin::Support::Network::UDP::Mixin`" do
+    expect(subject).to include(Ronin::Support::Network::UDP::Mixin)
   end
 
-  it "must include `Ronin::Support::Network::Mixins::SSL`" do
-    expect(subject).to include(Ronin::Support::Network::Mixins::SSL)
+  it "must include `Ronin::Support::Network::SSL::Mixin`" do
+    expect(subject).to include(Ronin::Support::Network::SSL::Mixin)
   end
 
-  it "must include `Ronin::Support::Network::Mixins::UNIX`" do
-    expect(subject).to include(Ronin::Support::Network::Mixins::UNIX)
+  it "must include `Ronin::Support::Network::UNIX::Mixin`" do
+    expect(subject).to include(Ronin::Support::Network::UNIX::Mixin)
   end
 
-  it "must include `Ronin::Support::Network::Mixins::HTTP`" do
-    expect(subject).to include(Ronin::Support::Network::Mixins::HTTP)
+  it "must include `Ronin::Support::Network::HTTP::Mixin`" do
+    expect(subject).to include(Ronin::Support::Network::HTTP::Mixin)
   end
 
-  it "must include `Ronin::Support::Network::Mixins::FTP`" do
-    expect(subject).to include(Ronin::Support::Network::Mixins::FTP)
+  it "must include `Ronin::Support::Network::FTP::Mixin`" do
+    expect(subject).to include(Ronin::Support::Network::FTP::Mixin)
   end
 
-  it "must include `Ronin::Support::Network::Mixins::SMTP`" do
-    expect(subject).to include(Ronin::Support::Network::Mixins::SMTP)
+  it "must include `Ronin::Support::Network::SMTP::Mixin`" do
+    expect(subject).to include(Ronin::Support::Network::SMTP::Mixin)
   end
 
-  it "must include `Ronin::Support::Network::Mixins::ESMTP`" do
-    expect(subject).to include(Ronin::Support::Network::Mixins::ESMTP)
+  it "must include `Ronin::Support::Network::ESMTP::Mixin`" do
+    expect(subject).to include(Ronin::Support::Network::ESMTP::Mixin)
   end
 
-  it "must include `Ronin::Support::Network::Mixins::POP3`" do
-    expect(subject).to include(Ronin::Support::Network::Mixins::POP3)
+  it "must include `Ronin::Support::Network::POP3::Mixin`" do
+    expect(subject).to include(Ronin::Support::Network::POP3::Mixin)
   end
 
-  it "must include `Ronin::Support::Network::Mixins::IMAP`" do
-    expect(subject).to include(Ronin::Support::Network::Mixins::IMAP)
+  it "must include `Ronin::Support::Network::IMAP::Mixin`" do
+    expect(subject).to include(Ronin::Support::Network::IMAP::Mixin)
   end
 end

@@ -17,17 +17,17 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/mixins/smtp'
+require 'ronin/support/network/smtp/mixin'
 
 module Ronin
   module Support
     module Network
-      module Mixins
+      module ESMTP
         #
         # Provides helper methods for communicating with ESMTP services.
         #
-        module ESMTP
-          include Mixins::SMTP
+        module Mixin
+          include SMTP::Mixin
 
           #
           # @see SMTP.message

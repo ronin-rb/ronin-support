@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'ronin/support/network/tls/proxy'
-require 'ronin/support/network/mixins/tls'
+require 'ronin/support/network/tls/mixin'
 
 describe Network::TLS::Proxy do
   let(:port)   { 1337                  }
@@ -28,7 +28,7 @@ describe Network::TLS::Proxy do
 end
 
 describe Network::TLS::Proxy, network: true do
-  include Ronin::Support::Network::Mixins::TLS
+  include Ronin::Support::Network::TLS::Mixin
 
   let(:port)   { 1337                  }
   let(:host)   { 'localhost'           }

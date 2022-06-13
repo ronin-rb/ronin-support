@@ -29,11 +29,11 @@ end
 module Ronin
   module Support
     module Network
-      module Mixins
+      module IMAP
         #
         # Provides helper methods for communicating with IMAP services.
         #
-        module IMAP
+        module Mixin
           # Default IMAP port
           DEFAULT_PORT = 143
 

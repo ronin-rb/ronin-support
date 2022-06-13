@@ -27,13 +27,11 @@ end
 module Ronin
   module Support
     module Network
-      module Mixins
+      module FTP
         #
         # Provides helper methods for communicating with FTP servers.
         #
-        # @since 0.5.0
-        #
-        module FTP
+        module Mixin
           # Default FTP port
           DEFAULT_PORT = 21
 

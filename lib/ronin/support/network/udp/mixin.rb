@@ -23,11 +23,11 @@ require 'timeout'
 module Ronin
   module Support
     module Network
-      module Mixins
+      module UDP
         #
         # Provides helper methods for using the UDP protocol.
         #
-        module UDP
+        module Mixin
           #
           # Tests whether a remote UDP port is open.
           #

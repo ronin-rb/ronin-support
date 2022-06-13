@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/network/mixins/ftp'
+require 'ronin/support/network/ftp/mixin'
 
-describe Ronin::Support::Network::Mixins::FTP do
+describe Ronin::Support::Network::FTP::Mixin do
   subject do
     obj = Object.new
     obj.extend described_class

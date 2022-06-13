@@ -18,17 +18,17 @@
 #
 
 require 'ronin/support/network/ssl'
-require 'ronin/support/network/mixins/tcp'
+require 'ronin/support/network/tcp/mixin'
 
 module Ronin
   module Support
     module Network
-      module Mixins
+      module SSL
         #
         # Provides helper methods for communicating with SSL-enabled services.
         #
-        module SSL
-          include Mixins::TCP
+        module Mixin
+          include TCP::Mixin
 
           #
           # Creates a new SSL Context.

@@ -17,18 +17,18 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/mixins/ip'
-require 'ronin/support/network/mixins/dns'
-require 'ronin/support/network/mixins/tcp'
-require 'ronin/support/network/mixins/udp'
-require 'ronin/support/network/mixins/ssl'
-require 'ronin/support/network/mixins/unix'
-require 'ronin/support/network/mixins/http'
-require 'ronin/support/network/mixins/ftp'
-require 'ronin/support/network/mixins/pop3'
-require 'ronin/support/network/mixins/imap'
-require 'ronin/support/network/mixins/smtp'
-require 'ronin/support/network/mixins/esmtp'
+require 'ronin/support/network/ip/mixin'
+require 'ronin/support/network/dns/mixin'
+require 'ronin/support/network/tcp/mixin'
+require 'ronin/support/network/udp/mixin'
+require 'ronin/support/network/ssl/mixin'
+require 'ronin/support/network/unix/mixin'
+require 'ronin/support/network/http/mixin'
+require 'ronin/support/network/ftp/mixin'
+require 'ronin/support/network/smtp/mixin'
+require 'ronin/support/network/esmtp/mixin'
+require 'ronin/support/network/pop3/mixin'
+require 'ronin/support/network/imap/mixin'
 
 module Ronin
   module Support
@@ -41,18 +41,18 @@ module Ronin
       # @since 1.0.0
       #
       module Mixin
-        include Mixins::IP
-        include Mixins::DNS
-        include Mixins::TCP
-        include Mixins::UDP
-        include Mixins::SSL
-        include Mixins::UNIX
-        include Mixins::HTTP
-        include Mixins::FTP
-        include Mixins::SMTP
-        include Mixins::ESMTP
-        include Mixins::POP3
-        include Mixins::IMAP
+        include IP::Mixin
+        include DNS::Mixin
+        include TCP::Mixin
+        include UDP::Mixin
+        include SSL::Mixin
+        include UNIX::Mixin
+        include HTTP::Mixin
+        include FTP::Mixin
+        include SMTP::Mixin
+        include ESMTP::Mixin
+        include POP3::Mixin
+        include IMAP::Mixin
       end
     end
   end

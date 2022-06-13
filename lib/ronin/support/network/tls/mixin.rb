@@ -17,19 +17,17 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/mixins/ssl'
+require 'ronin/support/network/ssl/mixin'
 
 module Ronin
   module Support
     module Network
-      module Mixins
+      module TLS
         #
         # Provides helper methods for communicating with TLS-enabled services.
         #
-        # @since 1.0.0
-        #
-        module TLS
-          include Mixins::SSL
+        module Mixin
+          include SSL::Mixin
 
           #
           # Creates a new TLS Context.

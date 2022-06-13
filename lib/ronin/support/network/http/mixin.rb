@@ -22,13 +22,11 @@ require 'ronin/support/network/http'
 module Ronin
   module Support
     module Network
-      module Mixins
+      class HTTP
         #
         # Provides helper methods for communicating with HTTP Servers.
         #
-        # @api public
-        #
-        module HTTP
+        module Mixin
           #
           # Creates a HTTP connection to the host nad port.
           #

@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'ronin/support/network/mixins/ssl'
+require 'ronin/support/network/tls/mixin'
 
 require 'tmpdir'
 require 'resolv'
 
-describe Ronin::Support::Network::Mixins::SSL do
+describe Ronin::Support::Network::TLS::Mixin do
   describe "helpers", network: true do
     let(:host) { 'smtp.gmail.com' }
     let(:port) { 465 }
@@ -24,9 +24,9 @@ describe Ronin::Support::Network::Mixins::SSL do
       obj
     end
 
-    describe "#ssl_context", network: false do
+    describe "#tls_context", network: false do
       describe "defaults" do
-        subject { super().ssl_context }
+        subject { super().tls_context }
 
         it "must return an OpenSSL::SSL::SSLContext object" do
           expect(subject).to be_kind_of(OpenSSL::SSL::SSLContext)
@@ -45,6 +45,18 @@ describe Ronin::Support::Network::Mixins::SSL do
         end
       end
 
+      context "when no version: keyword argument is given" do
+        let(:context) { double(OpenSSL::SSL::SSLContext) }
+
+        it "must call OpenSSL::SSL::SSLContext#ssl_version with :TLSv1_2" do
+          expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+          expect(context).to receive(:ssl_version=).with(:TLSv1_2)
+          allow(context).to receive(:verify_mode=).with(0)
+
+          subject.tls_context(version: 1.2)
+        end
+      end
+
       context "when given the version: keyword argument" do
         let(:context) { double(OpenSSL::SSL::SSLContext) }
 
@@ -54,7 +66,7 @@ describe Ronin::Support::Network::Mixins::SSL do
             expect(context).to receive(:ssl_version=).with(:TLSv1)
             allow(context).to receive(:verify_mode=).with(0)
 
-            subject.ssl_context(version: 1)
+            subject.tls_context(version: 1)
           end
         end
 
@@ -64,7 +76,7 @@ describe Ronin::Support::Network::Mixins::SSL do
             expect(context).to receive(:ssl_version=).with(:TLSv1_1)
             allow(context).to receive(:verify_mode=).with(0)
 
-            subject.ssl_context(version: 1.1)
+            subject.tls_context(version: 1.1)
           end
         end
 
@@ -74,7 +86,7 @@ describe Ronin::Support::Network::Mixins::SSL do
             expect(context).to receive(:ssl_version=).with(:TLSv1_2)
             allow(context).to receive(:verify_mode=).with(0)
 
-            subject.ssl_context(version: 1.2)
+            subject.tls_context(version: 1.2)
           end
         end
 
@@ -86,7 +98,7 @@ describe Ronin::Support::Network::Mixins::SSL do
             expect(context).to receive(:ssl_version=).with(symbol)
             allow(context).to receive(:verify_mode=).with(0)
 
-            subject.ssl_context(version: symbol)
+            subject.tls_context(version: symbol)
           end
         end
 
@@ -98,21 +110,13 @@ describe Ronin::Support::Network::Mixins::SSL do
             expect(context).to receive(:ssl_version=).with(string)
             allow(context).to receive(:verify_mode=).with(0)
 
-            subject.ssl_context(version: string)
+            subject.tls_context(version: string)
           end
         end
       end
 
       describe "when given the verify: keyword argument" do
-        subject { super().ssl_context(verify: :peer) }
-
-        it "must set verify_mode" do
-          expect(subject.verify_mode).to eq(OpenSSL::SSL::VERIFY_PEER)
-        end
-      end
-
-      describe "when given the verify: keyword argument" do
-        subject { super().ssl_context(verify: :peer) }
+        subject { super().tls_context(verify: :peer) }
 
         it "must set verify_mode" do
           expect(subject.verify_mode).to eq(OpenSSL::SSL::VERIFY_PEER)
@@ -120,7 +124,7 @@ describe Ronin::Support::Network::Mixins::SSL do
       end
 
       describe "when given the cert_file: keyword argument" do
-        subject { super().ssl_context(key: key, cert_file: cert_file) }
+        subject { super().tls_context(key: key, cert_file: cert_file) }
 
         it "must set cert" do
           expect(subject.cert.to_s).to eq(File.read(cert_file))
@@ -128,7 +132,7 @@ describe Ronin::Support::Network::Mixins::SSL do
       end
 
       describe "when given the key_file: keyword argument" do
-        subject { super().ssl_context(key_file: key_file, cert: cert) }
+        subject { super().tls_context(key_file: key_file, cert: cert) }
 
         it "must set key" do
           expect(subject.key.to_s).to eq(File.read(key_file))
@@ -139,7 +143,7 @@ describe Ronin::Support::Network::Mixins::SSL do
         context "when value is a file" do
           let(:ca_bundle) { File.join(fixtures_dir,'ca_bundle.crt') }
 
-          subject { super().ssl_context(ca_bundle: ca_bundle) }
+          subject { super().tls_context(ca_bundle: ca_bundle) }
 
           it "must set ca_file" do
             expect(subject.ca_file).to eq(ca_bundle)
@@ -149,7 +153,7 @@ describe Ronin::Support::Network::Mixins::SSL do
         context "when value is a directory" do
           let(:ca_bundle) { File.join(fixtures_dir,'ca_bundle') }
 
-          subject { super().ssl_context(ca_bundle: ca_bundle) }
+          subject { super().tls_context(ca_bundle: ca_bundle) }
 
           it "must set ca_path" do
             expect(subject.ca_path).to eq(ca_bundle)
@@ -158,37 +162,37 @@ describe Ronin::Support::Network::Mixins::SSL do
       end
     end
 
-    describe "#ssl_socket" do
+    describe "#tls_socket" do
       let(:socket) { TCPSocket.new(host,port) }
 
       it "must create a new OpenSSL::SSL::SSLSocket" do
-        expect(subject.ssl_socket(socket)).to be_kind_of(OpenSSL::SSL::SSLSocket)
+        expect(subject.tls_socket(socket)).to be_kind_of(OpenSSL::SSL::SSLSocket)
       end
     end
 
-    describe "#ssl_open?" do
+    describe "#tls_open?" do
       it "must return true for open ports" do
-        expect(subject.ssl_open?(host,port)).to be(true)
+        expect(subject.tls_open?(host,port)).to be(true)
       end
 
       it "must return false for closed ports" do
-        expect(subject.ssl_open?('localhost',rand(1024) + 1)).to be(false)
+        expect(subject.tls_open?('localhost',rand(1024) + 1)).to be(false)
       end
 
       it "must have a timeout for firewalled ports" do
         timeout = 2
 
         t1 = Time.now
-        subject.ssl_open?(host,1337, timeout: timeout)
+        subject.tls_open?(host,1337, timeout: timeout)
         t2 = Time.now
 
         expect((t2 - t1).to_i).to be <= timeout
       end
     end
 
-    describe "#ssl_connect" do
+    describe "#tls_connect" do
       it "must return an OpenSSL::SSL::SSLSocket" do
-        socket = subject.ssl_connect(host,port)
+        socket = subject.tls_connect(host,port)
 
         expect(socket).to be_kind_of(OpenSSL::SSL::SSLSocket)
       end
@@ -197,7 +201,7 @@ describe Ronin::Support::Network::Mixins::SSL do
         it "must yield the OpenSSL::SSL::SSLSocket" do
           socket = nil
 
-          subject.ssl_connect(host,port) do |yielded_socket|
+          subject.tls_connect(host,port) do |yielded_socket|
             socket = yielded_socket
           end
 
@@ -206,14 +210,14 @@ describe Ronin::Support::Network::Mixins::SSL do
       end
     end
 
-    describe "#ssl_connect_and_send" do
+    describe "#tls_connect_and_send" do
       let(:data) { "HELO ronin\n" }
       let(:expected_response) do
         /^250 (smtp\.gmail\.com|mx\.google\.com) at your service\r\n$/
       end
 
       it "must connect and then send data" do
-        socket   = subject.ssl_connect_and_send(data,host,port)
+        socket   = subject.tls_connect_and_send(data,host,port)
         banner   = socket.readline
         response = socket.readline
 
@@ -225,7 +229,7 @@ describe Ronin::Support::Network::Mixins::SSL do
       it "must yield the OpenSSL::SSL::SSLSocket" do
         response = nil
 
-        socket = subject.ssl_connect_and_send(data,host,port) do |socket|
+        socket = subject.tls_connect_and_send(data,host,port) do |socket|
           banner   = socket.readline
           response = socket.readline
         end
@@ -236,11 +240,11 @@ describe Ronin::Support::Network::Mixins::SSL do
       end
     end
 
-    describe "#ssl_session" do
+    describe "#tls_session" do
       it "must open then close a OpenSSL::SSL::SSLSocket" do
         socket = nil
 
-        subject.ssl_session(host,port) do |yielded_socket|
+        subject.tls_session(host,port) do |yielded_socket|
           socket = yielded_socket
         end
 
@@ -249,11 +253,11 @@ describe Ronin::Support::Network::Mixins::SSL do
       end
     end
 
-    describe "#ssl_banner" do
+    describe "#tls_banner" do
       let(:expected_banner) { /^220 (smtp\.gmail\.com|mx\.google\.com) ESMTP/ }
 
       it "must return the read service banner" do
-        banner = subject.ssl_banner(host,port)
+        banner = subject.tls_banner(host,port)
 
         expect(banner).to be =~ expected_banner
       end
@@ -262,7 +266,7 @@ describe Ronin::Support::Network::Mixins::SSL do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a local host and port" do
-          banner = subject.ssl_banner(host,port,nil,local_port)
+          banner = subject.tls_banner(host,port,nil,local_port)
 
           expect(banner).to be =~ expected_banner
         end
@@ -271,7 +275,7 @@ describe Ronin::Support::Network::Mixins::SSL do
       it "must yield the banner" do
         banner = nil
 
-        subject.ssl_banner(host,port) do |yielded_banner|
+        subject.tls_banner(host,port) do |yielded_banner|
           banner = yielded_banner
         end
 
@@ -279,15 +283,15 @@ describe Ronin::Support::Network::Mixins::SSL do
       end
     end
 
-    describe "#ssl_server_socket" do
+    describe "#tls_server_socket" do
       pending "need to automate connecting to the SSL server"
     end
 
-    describe "#ssl_server_loop" do
+    describe "#tls_server_loop" do
       pending "need to automate connecting to the SSL server"
     end
 
-    describe "#ssl_accept" do
+    describe "#tls_accept" do
       pending "need to automate connecting to the SSL server"
     end
   end

@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/network/mixins/pop3'
+require 'ronin/support/network/pop3/mixin'
 
-describe Ronin::Support::Network::Mixins::POP3 do
+describe Ronin::Support::Network::POP3::Mixin do
   subject do
     obj = Object.new
     obj.extend described_class

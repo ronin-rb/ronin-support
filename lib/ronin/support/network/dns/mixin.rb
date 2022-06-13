@@ -22,15 +22,11 @@ require 'ronin/support/network/dns'
 module Ronin
   module Support
     module Network
-      module Mixins
+      module DNS
         #
         # Provides helper methods for performing DNS queries.
         #
-        # @api public
-        #
-        # @since 1.0.0
-        #
-        module DNS
+        module Mixin
           #
           # Sets the DNS nameservers to query.
           #

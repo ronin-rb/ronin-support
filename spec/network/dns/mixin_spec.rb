@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'ronin/support/network/mixins/dns'
+require 'ronin/support/network/dns/mixin'
 
 require 'ipaddr'
 
-describe Ronin::Support::Network::Mixins::DNS do
+describe Ronin::Support::Network::DNS::Mixin do
   subject do
     obj = Object.new
     obj.extend described_class

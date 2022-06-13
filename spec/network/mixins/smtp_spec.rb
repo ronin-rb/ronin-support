@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/network/mixins/smtp'
+require 'ronin/support/network/smtp/mixin'
 
-describe Ronin::Support::Network::Mixins::SMTP do
+describe Ronin::Support::Network::SMTP::Mixin do
   subject do
     obj = Object.new
     obj.extend described_class

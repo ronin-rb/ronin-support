@@ -22,13 +22,12 @@ require 'ronin/support/network/ip'
 module Ronin
   module Support
     module Network
-      module Mixins
+      class IP < IPAddr
         #
-        # @since 0.6.0
+        # Provides helper methods for looking up the public and local IP
+        # address.
         #
-        # @api public
-        #
-        module IP
+        module Mixin
           #
           # @see Network::IP.public_address
           #
@@ -45,6 +44,8 @@ module Ronin
           #   The public IP according to {https://ipinfo.io/ip}.
           #
           # @see Network::IP.public_ip
+          #
+          # @since 0.6.0
           #
           def public_ip
             Network::IP.public_ip
@@ -94,6 +95,8 @@ module Ronin
           #
           # @return [Network::IP]
           #   The private, link-local, or loopback IP.
+          #
+          # @since 0.6.0
           #
           def local_ip
             Network::IP.local_ip

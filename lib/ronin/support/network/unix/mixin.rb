@@ -23,13 +23,11 @@ require 'timeout'
 module Ronin
   module Support
     module Network
-      module Mixins
+      module UNIX
         #
         # Provides helper methods for communicating with UNIX sockets.
         #
-        # @since 0.5.0
-        #
-        module UNIX
+        module Mixin
           #
           # Tests whether a UNIX socket is open.
           #

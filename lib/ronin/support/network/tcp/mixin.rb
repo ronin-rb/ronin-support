@@ -23,11 +23,11 @@ require 'timeout'
 module Ronin
   module Support
     module Network
-      module Mixins
+      module TCP
         #
         # Provides helper methods for using the TCP protocol.
         #
-        module TCP
+        module Mixin
           #
           # Tests whether a remote TCP port is open.
           #

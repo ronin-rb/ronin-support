@@ -27,11 +27,11 @@ end
 module Ronin
   module Support
     module Network
-      module Mixins
+      module POP3
         #
         # Provides helper methods for communicating with POP3 services.
         #
-        module POP3
+        module Mixin
           # Default POP3 port
           DEFAULT_PORT = 110
 

@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'ronin/support/network/mixins/udp'
+require 'ronin/support/network/udp/mixin'
 
 require 'resolv'
 
-describe Ronin::Support::Network::Mixins::UDP do
+describe Ronin::Support::Network::UDP::Mixin do
   let(:host) { 'scanme.nmap.org' }
   let(:port) { 123 }
 

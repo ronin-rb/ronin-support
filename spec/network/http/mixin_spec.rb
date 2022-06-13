@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'ronin/support/network/mixins/http'
+require 'ronin/support/network/http/mixin'
 
 require 'webmock/rspec'
 
-describe Ronin::Support::Network::Mixins::HTTP do
+describe Ronin::Support::Network::HTTP::Mixin do
   let(:host) { 'www.example.com' }
   let(:port) { 80 }
   let(:path) { '/index.html' }

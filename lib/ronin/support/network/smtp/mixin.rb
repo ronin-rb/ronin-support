@@ -18,7 +18,7 @@
 #
 
 require 'ronin/support/network/smtp/email'
-require 'ronin/support/network/mixins/ssl'
+require 'ronin/support/network/ssl/mixin'
 
 begin
   require 'net/smtp'
@@ -30,12 +30,12 @@ end
 module Ronin
   module Support
     module Network
-      module Mixins
+      module SMTP
         #
         # Provides helper methods for communicating with SMTP services.
         #
-        module SMTP
-          include Mixins::SSL
+        module Mixin
+          include SSL::Mixin
 
           # Default SMTP port
           DEFAULT_PORT = 25

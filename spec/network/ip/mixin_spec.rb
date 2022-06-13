@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/network/mixins/ip'
+require 'ronin/support/network/ip/mixin'
 
-describe Ronin::Support::Network::Mixins::IP do
+describe Ronin::Support::Network::IP::Mixin do
   subject do
     obj = Object.new
     obj.extend described_class
