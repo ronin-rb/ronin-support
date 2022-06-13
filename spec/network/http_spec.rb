@@ -129,6 +129,10 @@ describe Network::HTTP do
       expect(subject.port).to eq(port)
     end
 
+    it "must default #headers to {}" do
+      expect(subject.headers).to eq({})
+    end
+
     context "when initialized with the headers: keyword argument" do
       let(:headers) do
         {'X-Foo' => 'foo', 'X-Bar' => 'bar'}
@@ -138,6 +142,36 @@ describe Network::HTTP do
 
       it "must set #headers" do
         expect(subject.headers).to eq(headers)
+      end
+    end
+
+    context "when initialized with the user_agent: keyword argument" do
+      let(:user_agent) { 'Mozilla/5.0 Foo Bar' }
+
+      context "when given a String" do
+        subject { described_class.new(host,port, user_agent: user_agent) }
+
+        it "must set the user agent" do
+          expect(subject.user_agent).to eq(user_agent)
+        end
+      end
+
+      described_class::USER_AGENTS.each do |name,string|
+        context "when given #{name.inspect}" do
+          subject { described_class.new(host,port, user_agent: name) }
+
+          it "must set the user agent to #{string.inspect}" do
+            expect(subject.user_agent).to eq(string)
+          end
+        end
+      end
+
+      describe "when given :random" do
+        subject { described_class.new(host,port, user_agent: :random) }
+
+        it "must set the user agent to a random value from #{described_class}::USER_AGENTS" do
+          expect(described_class::USER_AGENTS.values).to include(subject.user_agent)
+        end
       end
     end
 

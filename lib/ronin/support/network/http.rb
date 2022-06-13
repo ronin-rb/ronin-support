@@ -240,7 +240,7 @@ module Ronin
           @port  = port.to_i
 
           @headers        = headers
-          self.user_agent = user_agent.to_s if user_agent
+          self.user_agent = user_agent if user_agent
 
           if proxy
             @proxy = URI(proxy)
