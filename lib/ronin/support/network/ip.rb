@@ -176,9 +176,9 @@ module Ronin
           return enum_for(__method__,text,version).to_a unless block_given?
 
           regexp = case version
-                   when :ipv4, :v4, 4 then Text::Patterns::IPv4
-                   when :ipv6, :v6, 6 then Text::Patterns::IPv6
-                   else                    Text::Patterns::IP
+                   when :ipv4, :v4, 4 then Text::Patterns::IPV4_ADDR
+                   when :ipv6, :v6, 6 then Text::Patterns::IPV6_ADDR
+                   else                    Text::Patterns::IP_ADDR
                    end
 
           text.scan(regexp) do |match|
