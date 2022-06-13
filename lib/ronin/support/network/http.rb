@@ -177,7 +177,7 @@ module Ronin
         # @param [Hash{Symbol,String => String,Array}, nil] headers
         #   Additional headers to add to each request.
         #
-        # @param [String, nil] user_agent
+        # @param [String, Symbol, :random, nil] user_agent
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -372,7 +372,7 @@ module Ronin
         # @option kwargs [Hash{Symbol,String => String,Array}, nil] :headers
         #   Additional headers to add to each request.
         #
-        # @option kwargs [String, nil] user_agent (HTTP.user_agent)
+        # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -471,7 +471,7 @@ module Ronin
         # @option kwargs [Hash{Symbol,String => String,Array}, nil] :headers
         #   Additional headers to add to each request.
         #
-        # @option kwargs [String, nil] user_agent (HTTP.user_agent)
+        # @option kwargs [String, Symbol, :random, nil] user_agent (HTTP.user_agent)
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -1718,6 +1718,12 @@ module Ronin
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
+        #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional arguments for {#request}.
         #
@@ -1738,9 +1744,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -1803,13 +1806,18 @@ module Ronin
         # @see .connect_uri
         # @see #request
         #
-        def self.request(method,uri, proxy: self.proxy,
-                                     ssl:   nil,
+        def self.request(method,uri, proxy:      self.proxy,
+                                     ssl:        nil,
+                                     headers:    {},
+                                     user_agent: nil,
                                      **kwargs,
                                      &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.request(method,path,**kwargs,&block)
         end
@@ -1825,6 +1833,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -1843,13 +1861,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -1904,12 +1915,17 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.response_status(method=:head,uri, proxy: self.proxy,
-                                                   ssl:   nil,
+        def self.response_status(method=:head,uri, proxy:      self.proxy,
+                                                   ssl:        nil,
+                                                   headers:    {},
+                                                   user_agent: nil,
                                                    **kwargs)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.response_status(method,path,**kwargs)
         end
@@ -1925,6 +1941,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -1943,13 +1969,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -2004,12 +2023,17 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.ok?(method=:head,uri, proxy: self.proxy,
-                                       ssl:   nil,
+        def self.ok?(method=:head,uri, proxy:      self.proxy,
+                                       ssl:        nil,
+                                       headers:    {},
+                                       user_agent: nil,
                                        **kwargs)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.ok?(method,path,**kwargs)
         end
@@ -2025,6 +2049,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -2046,13 +2080,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -2107,12 +2134,17 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.response_headers(method=:head,uri, proxy: self.proxy,
-                                                    ssl:   nil,
+        def self.response_headers(method=:head,uri, proxy:      self.proxy,
+                                                    ssl:        nil,
+                                                    headers:    {},
+                                                    user_agent: nil,
                                                     **kwargs)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.response_headers(method,path,**kwargs)
         end
@@ -2125,6 +2157,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -2149,13 +2191,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -2210,12 +2245,17 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.server_header(uri, proxy:  self.proxy,
-                                    ssl:    nil,
+        def self.server_header(uri, proxy:      self.proxy,
+                                    ssl:        nil,
+                                    headers:    {},
+                                    user_agent: nil,
                                     **kwargs)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.server_header(path: path, **kwargs)
         end
@@ -2228,6 +2268,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -2252,13 +2302,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -2313,12 +2356,17 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.powered_by_header(uri, proxy:  self.proxy,
-                                        ssl:    nil,
+        def self.powered_by_header(uri, proxy:      self.proxy,
+                                        ssl:        nil,
+                                        headers:    {},
+                                        user_agent: nil,
                                         **kwargs)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.powered_by_header(path: path, **kwargs)
         end
@@ -2331,6 +2379,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -2355,13 +2413,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -2416,12 +2467,17 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.response_body(method=:get,uri, proxy: self.proxy,
-                                                ssl:   nil,
+        def self.response_body(method=:get,uri, proxy:      self.proxy,
+                                                ssl:        nil,
+                                                headers:    {},
+                                                user_agent: nil,
                                                 **kwargs)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.response_body(method,path,**kwargs)
         end
@@ -2434,6 +2490,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -2455,13 +2521,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -2522,10 +2581,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.copy(uri, proxy: self.proxy, ssl: nil, **kwargs,&block)
+        def self.copy(uri, proxy:      self.proxy,
+                           ssl:        nil,
+                           headers:    {},
+                           user_agent: nil,
+                           **kwargs,
+                           &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.copy(path,**kwargs,&block)
         end
@@ -2538,6 +2605,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -2559,13 +2636,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -2626,10 +2696,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.delete(uri, proxy: self.proxy, ssl: nil, **kwargs,&block)
+        def self.delete(uri, proxy:      self.proxy,
+                             ssl:        nil,
+                             headers:    {},
+                             user_agent: nil,
+                             **kwargs,
+                             &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.delete(path,**kwargs,&block)
         end
@@ -2642,6 +2720,10 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -2663,13 +2745,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -2730,10 +2805,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.get(uri, proxy: self.proxy, ssl: nil, **kwargs, &block)
+        def self.get(uri, proxy:      self.proxy,
+                          ssl:        nil,
+                          headers:    {},
+                          user_agent: nil,
+                          **kwargs,
+                          &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.get(path,**kwargs,&block)
         end
@@ -2747,6 +2830,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -2768,13 +2861,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -2829,10 +2915,17 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.get_headers(uri, proxy: self.proxy, ssl: nil, **kwargs)
+        def self.get_headers(uri, proxy:      self.proxy,
+                                  ssl:        nil,
+                                  headers:    {},
+                                  user_agent: nil,
+                                  **kwargs)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.get_headers(path,**kwargs)
         end
@@ -2846,6 +2939,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -2867,13 +2970,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -2928,10 +3024,17 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.get_body(uri, proxy: self.proxy, ssl: nil, **kwargs)
+        def self.get_body(uri, proxy:      self.proxy,
+                               ssl:        nil,
+                               headers:    {},
+                               user_agent: nil,
+                               **kwargs)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.get_body(path,**kwargs)
         end
@@ -2944,6 +3047,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -2965,13 +3078,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -3032,10 +3138,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.head(uri, proxy: self.proxy, ssl: nil, **kwargs,&block)
+        def self.head(uri, proxy:      self.proxy,
+                           ssl:        nil,
+                           headers:    {},
+                           user_agent: nil,
+                           **kwargs,
+                           &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.head(path,**kwargs,&block)
         end
@@ -3048,6 +3162,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -3069,13 +3193,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -3136,10 +3253,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.lock(uri, proxy: self.proxy, ssl: nil, **kwargs,&block)
+        def self.lock(uri, proxy:      self.proxy,
+                           ssl:        nil,
+                           headers:    {},
+                           user_agent: nil,
+                           **kwargs,
+                           &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.lock(path,**kwargs,&block)
         end
@@ -3152,6 +3277,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -3173,13 +3308,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -3240,10 +3368,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.mkcol(uri, proxy: self.proxy, ssl: nil, **kwargs,&block)
+        def self.mkcol(uri, proxy:      self.proxy,
+                            ssl:        nil,
+                            headers:    {},
+                            user_agent: nil,
+                            **kwargs,
+                            &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.mkcol(path,**kwargs,&block)
         end
@@ -3256,6 +3392,10 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -3277,9 +3417,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
         #
         # @param [Boolean, Hash{Symbo => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
@@ -3344,10 +3481,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.move(uri, proxy: self.proxy, ssl: nil, **kwargs,&block)
+        def self.move(uri, proxy:      self.proxy,
+                           ssl:        nil,
+                           headers:    {},
+                           user_agent: nil,
+                           **kwargs,
+                           &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.move(path,**kwargs,&block)
         end
@@ -3360,6 +3505,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -3381,13 +3536,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -3448,10 +3596,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.options(uri, proxy: self.proxy, ssl: nil, **kwargs,&block)
+        def self.options(uri, proxy:      self.proxy,
+                              ssl:        nil,
+                              headers:    {},
+                              user_agent: nil,
+                              **kwargs,
+                              &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.options(path,**kwargs,&block)
         end
@@ -3464,6 +3620,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -3485,13 +3651,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -3552,10 +3711,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.patch(uri, proxy: self.proxy, ssl: nil, **kwargs,&block)
+        def self.patch(uri, proxy:      self.proxy,
+                            ssl:        nil,
+                            headers:    {},
+                            user_agent: nil,
+                            **kwargs,
+                            &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.patch(path,**kwargs,&block)
         end
@@ -3568,6 +3735,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -3589,13 +3766,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -3656,10 +3826,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.post(uri, proxy: self.proxy, ssl: nil, **kwargs,&block)
+        def self.post(uri, proxy:      self.proxy,
+                           ssl:        nil,
+                           headers:    {},
+                           user_agent: nil,
+                           **kwargs,
+                           &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.post(path,**kwargs,&block)
         end
@@ -3673,6 +3851,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -3694,13 +3882,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -3755,10 +3936,17 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.post_headers(uri, proxy: self.proxy, ssl: nil, **kwargs)
+        def self.post_headers(uri, proxy:      self.proxy,
+                                   ssl:        nil,
+                                   headers:    {},
+                                   user_agent: nil,
+                                   **kwargs)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.post_headers(path,**kwargs)
         end
@@ -3772,6 +3960,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -3793,13 +3991,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -3854,10 +4045,17 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.post_body(uri, proxy: self.proxy, ssl: nil, **kwargs)
+        def self.post_body(uri, proxy:      self.proxy,
+                                ssl:        nil,
+                                headers:    {},
+                                user_agent: nil,
+                                **kwargs)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.post_body(path,**kwargs)
         end
@@ -3870,6 +4068,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -3891,13 +4099,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -3958,10 +4159,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.propfind(uri, proxy: self.proxy, ssl: nil, **kwargs,&block)
+        def self.propfind(uri, proxy:      self.proxy,
+                               ssl:        nil,
+                               headers:    {},
+                               user_agent: nil,
+                               **kwargs,
+                               &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.propfind(path,**kwargs,&block)
         end
@@ -3976,6 +4185,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -3997,13 +4216,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -4064,10 +4276,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.proppatch(uri, proxy: self.proxy, ssl: nil, **kwargs,&block)
+        def self.proppatch(uri, proxy:      self.proxy,
+                                ssl:        nil,
+                                headers:    {},
+                                user_agent: nil,
+                                **kwargs,
+                                &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.proppatch(path,**kwargs,&block)
         end
@@ -4082,6 +4302,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -4103,13 +4333,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -4170,10 +4393,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.put(uri, proxy: self.proxy, ssl: nil, **kwargs,&block)
+        def self.put(uri, proxy:      self.proxy,
+                          ssl:        nil,
+                          headers:    {},
+                          user_agent: nil,
+                          **kwargs,
+                          &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.put(path,**kwargs,&block)
         end
@@ -4186,6 +4417,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -4207,13 +4448,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -4274,10 +4508,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.trace(uri, proxy: self.proxy, ssl: nil, **kwargs,&block)
+        def self.trace(uri, proxy:      self.proxy,
+                            ssl:        nil,
+                            headers:    {},
+                            user_agent: nil,
+                            **kwargs,
+                            &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.trace(path,**kwargs,&block)
         end
@@ -4290,6 +4532,16 @@ module Ronin
         #
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
+        #
+        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
+        # @param [Hash{Symbol,String => String,Array}, nil] headers
+        #   Additional headers to add to each request.
+        #
+        # @param [String, Symbol, :random, nil] user_agent
+        #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
@@ -4311,13 +4563,6 @@ module Ronin
         #
         # @option kwargs [String, nil] :password
         #   The password to authenticate with.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP headers to use for the request.
-        #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -4378,10 +4623,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.unlock(uri, proxy: self.proxy, ssl: nil, **kwargs,&block)
+        def self.unlock(uri, proxy:      self.proxy,
+                             ssl:        nil,
+                             headers:    {},
+                             user_agent: nil,
+                             **kwargs,
+                             &block)
           uri  = URI(uri)
           path = uri.request_uri
-          http = connect_uri(uri, proxy: proxy, ssl: ssl)
+          http = connect_uri(uri, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent)
 
           http.unlock(path,**kwargs,&block)
         end
