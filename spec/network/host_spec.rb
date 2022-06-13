@@ -10,6 +10,12 @@ describe Ronin::Support::Network::Host do
   let(:reverse_address)  { '142.251.33.110' }
   let(:reverse_hostname) { 'sea30s10-in-f14.1e100.net' }
 
+  let(:example_spf_record) { "v=spf1 -all" }
+  let(:example_txt_record) { "wgyf8z8cgvm2qmxpnbnldrcltvk4xqfn" }
+
+  let(:google_spf_record) { "v=spf1 include:_netblocks.google.com include:_netblocks2.google.com include:_netblocks3.google.com ~all" }
+  let(:google_txt_record) { "wgyf8z8cgvm2qmxpnbnldrcltvk4xqfn" }
+
   subject { described_class.new(hostname) }
 
   describe "#initialize" do
@@ -146,15 +152,16 @@ describe Ronin::Support::Network::Host do
 
   describe "#get_record" do
     context "integration", :network do
-      let(:record_type) { Resolv::DNS::Resource::IN::TXT }
+      let(:record_type)  { :txt }
+      let(:record_class) { Resolv::DNS::Resource::IN::TXT }
 
       it "must return the first DNS record for the host name and record type" do
         record = subject.get_record(record_type)
 
-        expect(record).to be_kind_of(record_type)
-        expect(record.strings).to eq(["v=spf1 -all"]).or(eq(
-          ["yxvy9m4blrswgrsz8ndjh467n2y7mgl2"]
-        ))
+        expect(record).to be_kind_of(record_class)
+        expect(record.strings.first).to eq(example_spf_record).or(
+          eq(example_txt_record)
+        )
       end
 
       context "when the host name does not exist" do
@@ -166,7 +173,7 @@ describe Ronin::Support::Network::Host do
       end
 
       context "when the host name has no matching records" do
-        let(:record_type) { Resolv::DNS::Resource::IN::CNAME }
+        let(:record_type)  { :cname }
 
         it "must return nil" do
           expect(subject.get_record(record_type)).to be(nil)
@@ -176,12 +183,13 @@ describe Ronin::Support::Network::Host do
       context "when a record name is given" do
         let(:hostname )   { 'twitter.com' }
         let(:name)        { 'dev' }
-        let(:record_type) { Resolv::DNS::Resource::IN::CNAME }
+        let(:record_type)  { :cname }
+        let(:record_class) { Resolv::DNS::Resource::IN::CNAME }
 
         it "must query the record and and type under the host name" do
           record = subject.get_record(name,record_type)
 
-          expect(record).to be_kind_of(record_type)
+          expect(record).to be_kind_of(record_class)
           expect(record.name.to_s).to eq('s.twitter.com')
         end
       end
@@ -190,16 +198,17 @@ describe Ronin::Support::Network::Host do
 
   describe "#get_records" do
     context "integration", :network do
-      let(:record_type) { Resolv::DNS::Resource::IN::TXT }
+      let(:record_type)  { :txt }
+      let(:record_class) { Resolv::DNS::Resource::IN::TXT }
 
       it "must return all DNS record of the given type for the host name" do
         records = subject.get_records(record_type)
 
         expect(records).to_not be_empty
-        expect(records).to all(be_kind_of(record_type))
-        expect(records.first.strings).to eq(["v=spf1 -all"]).or(eq(
-          ["yxvy9m4blrswgrsz8ndjh467n2y7mgl2"]
-        ))
+        expect(records).to all(be_kind_of(record_class))
+        expect(records.map(&:strings).flatten).to match_array(
+          [example_spf_record, example_txt_record]
+        )
       end
 
       context "when the host name does not exist" do
@@ -211,7 +220,7 @@ describe Ronin::Support::Network::Host do
       end
 
       context "when the host name has no matching records" do
-        let(:record_type) { Resolv::DNS::Resource::IN::CNAME }
+        let(:record_type) { :cname }
 
         it "must return an empty Array" do
           expect(subject.get_records(record_type)).to eq([])
@@ -219,15 +228,16 @@ describe Ronin::Support::Network::Host do
       end
 
       context "when a record name is given" do
-        let(:hostname )   { 'twitter.com' }
-        let(:name)        { 'dev' }
-        let(:record_type) { Resolv::DNS::Resource::IN::CNAME }
+        let(:hostname )    { 'twitter.com' }
+        let(:name)         { 'dev' }
+        let(:record_type)  { :cname }
+        let(:record_class) { Resolv::DNS::Resource::IN::CNAME }
 
         it "must query the records and and type under the host name" do
           records = subject.get_records(name,record_type)
 
           expect(records).to_not be_empty
-          expect(records).to all(be_kind_of(record_type))
+          expect(records).to all(be_kind_of(record_class))
           expect(records.first.name.to_s).to eq('s.twitter.com')
         end
       end
@@ -1009,9 +1019,9 @@ describe Ronin::Support::Network::Host do
         txt_record = subject.get_txt_record
 
         expect(txt_record).to be_kind_of(Resolv::DNS::Resource::IN::TXT)
-        expect(txt_record.strings).to eq(['v=spf1 -all']).or(eq(
-          ["yxvy9m4blrswgrsz8ndjh467n2y7mgl2"]
-        ))
+        expect(txt_record.strings).to eq([example_spf_record]).or(
+          eq([example_txt_record])
+        )
       end
 
       context "when the host name does not have any TXT records" do
@@ -1030,9 +1040,9 @@ describe Ronin::Support::Network::Host do
           txt_record = subject.get_txt_record(name)
 
           expect(txt_record).to be_kind_of(Resolv::DNS::Resource::IN::TXT)
-          expect(txt_record.strings).to eq([
-            "v=spf1 include:_netblocks.google.com include:_netblocks2.google.com include:_netblocks3.google.com ~all"
-          ])
+          expect(txt_record.strings).to eq([google_spf_record]).or(
+            eq([google_txt_record])
+          )
         end
       end
     end
@@ -1043,9 +1053,9 @@ describe Ronin::Support::Network::Host do
       let(:hostname) { 'example.com' }
 
       it "must return the first TXT string" do
-        expect(subject.get_txt_string).to eq('v=spf1 -all').or(eq(
-          "yxvy9m4blrswgrsz8ndjh467n2y7mgl2"
-        ))
+        expect(subject.get_txt_string).to eq(example_spf_record).or(
+          eq(example_txt_record)
+        )
       end
 
       context "when the host name does not have any TXT records" do
@@ -1061,8 +1071,8 @@ describe Ronin::Support::Network::Host do
         let(:name)         { '_spf' }
 
         it "must query the first TXT string for the name under the host name" do
-          expect(subject.get_txt_string(name)).to eq(
-            "v=spf1 include:_netblocks.google.com include:_netblocks2.google.com include:_netblocks3.google.com ~all"
+          expect(subject.get_txt_string(name)).to eq(google_spf_record).or(
+            eq(google_txt_record)
           )
         end
       end
@@ -1077,9 +1087,9 @@ describe Ronin::Support::Network::Host do
         txt_records = subject.get_txt_records
 
         expect(txt_records).to all(be_kind_of(Resolv::DNS::Resource::IN::TXT))
-        expect(txt_records.first.strings).to eq(['v=spf1 -all']).or(eq(
-          ["yxvy9m4blrswgrsz8ndjh467n2y7mgl2"]
-        ))
+        expect(txt_records.map(&:strings).flatten).to match_array(
+          [example_spf_record, example_txt_record]
+        )
       end
 
       context "when the host name does not have any TXT records" do
@@ -1099,9 +1109,7 @@ describe Ronin::Support::Network::Host do
 
           expect(txt_records).to_not be_empty
           expect(txt_records).to all(be_kind_of(Resolv::DNS::Resource::IN::TXT))
-          expect(txt_records.first.strings).to eq([
-            "v=spf1 include:_netblocks.google.com include:_netblocks2.google.com include:_netblocks3.google.com ~all"
-          ])
+          expect(txt_records.map(&:strings).flatten).to eq([google_spf_record])
         end
       end
     end
@@ -1113,10 +1121,7 @@ describe Ronin::Support::Network::Host do
 
       it "must return all TXT string" do
         expect(subject.get_txt_strings).to match_array(
-          [
-            'v=spf1 -all',
-            'yxvy9m4blrswgrsz8ndjh467n2y7mgl2'
-          ]
+          [example_spf_record, example_txt_record]
         )
       end
 
@@ -1133,9 +1138,7 @@ describe Ronin::Support::Network::Host do
         let(:name)         { '_spf' }
 
         it "must query the first TXT string for the name under the host name" do
-          expect(subject.get_txt_strings(name)).to eq([
-            "v=spf1 include:_netblocks.google.com include:_netblocks2.google.com include:_netblocks3.google.com ~all"
-          ])
+          expect(subject.get_txt_strings(name)).to eq([google_spf_record])
         end
       end
     end
@@ -1146,11 +1149,8 @@ describe Ronin::Support::Network::Host do
       let(:hostname) { 'example.com' }
 
       it "must return all TXT string" do
-        expect(subject.txt_strings).to match_array(
-          [
-            'v=spf1 -all',
-            'yxvy9m4blrswgrsz8ndjh467n2y7mgl2'
-          ]
+        expect(subject.get_txt_strings).to match_array(
+          [example_spf_record, example_txt_record]
         )
       end
 
