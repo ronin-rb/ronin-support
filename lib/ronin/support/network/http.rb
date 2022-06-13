@@ -78,6 +78,30 @@ module Ronin
                    end
         end
 
+        # Built-in `User-Agent` strings for impersonating various browsers.
+        USER_AGENTS = {
+          chrome_linux: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36',
+          chrome_macos: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36',
+          chrome_windows: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36',
+          chrome_iphone: 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/102.0.5005.87 Mobile/15E148 Safari/604.1',
+          chrome_ipad: 'Mozilla/5.0 (iPad; CPU OS 15_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/102.0.5005.87 Mobile/15E148 Safari/604.1',
+          chrome_android: 'Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.99 Mobile Safari/537.36',
+
+          firefox_linux: 'Mozilla/5.0 (Linux x86_64; rv:101.0) Gecko/20100101 Firefox/101.0',
+          firefox_macos: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 12.4; rv:101.0) Gecko/20100101 Firefox/101.0',
+          firefox_windows: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0',
+          firefox_iphone: 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/101.0 Mobile/15E148 Safari/605.1.15',
+          firefox_ipad: 'Mozilla/5.0 (iPad; CPU OS 12_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/101.0 Mobile/15E148 Safari/605.1.15',
+
+          firefox_android: 'Mozilla/5.0 (Android 12; Mobile; rv:68.0) Gecko/68.0 Firefox/101.0',
+
+          safari_macos: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 12_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15',
+          safari_iphone: 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Mobile/15E148 Safari/604.1',
+          safari_ipad: 'Mozilla/5.0 (iPad; CPU OS 15_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Mobile/15E148 Safari/604.1',
+
+          edge: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36 Edg/102.0.1245.33'
+        }
+
         #
         # The default Ronin HTTP `User-Agent` string.
         #
@@ -93,13 +117,29 @@ module Ronin
         #
         # Sets the default Ronin HTTP `User-Agent` string.
         #
-        # @param [String] new_user_agent
+        # @param [String, Symbol, nil] new_user_agent
         #   The new `User-Agent` string to use.
+        #   If a Symbol is given, it will be looked up in {USER_AGENTS}.
+        #   If `:random` is given, a random value from {USER_AGENTS} will be
+        #   selected.
+        #   If `nil` is given, then the `User-Agent` header will be deleted.
+        #
+        # @return [String, nil]
+        #   The new `User-Agent` string.
         #
         # @api public
         #
         def self.user_agent=(new_user_agent)
-          @user_agent = new_user_agent
+          @user_agent = case new_user_agent
+                        when :random
+                          USER_AGENTS.values.sample
+                        when Symbol
+                          USER_AGENTS.fetch(new_user_agent) do
+                            raise(ArgumentError,"unknown user agent alias: #{new_user_agent.inspect}")
+                          end
+                        else
+                          new_user_agent
+                        end
         end
 
         # The proxy to send requests through.
@@ -539,17 +579,30 @@ module Ronin
         #
         # Sets the `User-Agent` header value.
         #
-        # @param [String, nil] new_user_agent
-        #   The `User-Agent` new value. If `nil` is given, then the
-        #   `User-Agent` header will be deleted.
+        # @param [String, Symbol, :random, nil] new_user_agent
+        #   The `User-Agent` new value.
+        #   If a Symbol is given, it will be looked up in {USER_AGENTS}.
+        #   If `:random` is given, a random value from {USER_AGENTS} will be
+        #   selected.
+        #   If `nil` is given, then the `User-Agent` header will be deleted.
         #
         # @return [String, nil]
+        #   The new `User-Agent` string.
         #
         # @since 1.0.0
         #
         def user_agent=(new_user_agent)
           if new_user_agent
-            @headers['User-Agent'] = new_user_agent
+            @headers['User-Agent'] = case new_user_agent
+                                     when :random
+                                       USER_AGENTS.values.sample
+                                     when Symbol
+                                       USER_AGENTS.fetch(new_user_agent) do
+                                         raise(ArgumentError,"unknown user agent alias: #{new_user_agent.inspect}")
+                                       end
+                                     else
+                                       new_user_agent
+                                     end
           else
             @headers.delete('User-Agent')
             return nil

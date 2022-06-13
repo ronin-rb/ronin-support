@@ -62,16 +62,32 @@ describe Network::HTTP do
     end
   end
 
-  describe ".user_agent=" do
-    subject { described_class }
-
+  shared_examples_for "user_agents=" do
     let(:user_agent) { 'Mozilla/5.0 Foo Bar' }
 
     context "when given a String" do
       before { subject.user_agent = user_agent }
 
-      it "must set .user_agent" do
+      it "must set the user agent" do
         expect(subject.user_agent).to be(user_agent)
+      end
+    end
+
+    described_class::USER_AGENTS.each do |name,string|
+      context "when given #{name.inspect}" do
+        before { subject.user_agent = name }
+
+        it "must set the user agent to #{string.inspect}" do
+          expect(subject.user_agent).to eq(string)
+        end
+      end
+    end
+
+    describe "when given :random" do
+      it "must set the user agent to a random value from #{described_class}::USER_AGENTS" do
+        subject.user_agent = :random
+
+        expect(described_class::USER_AGENTS.values).to include(subject.user_agent)
       end
     end
 
@@ -85,6 +101,14 @@ describe Network::HTTP do
         expect(subject.user_agent).to be(nil)
       end
     end
+  end
+
+  describe ".user_agent=" do
+    subject { described_class }
+
+    include_context "user_agents="
+
+    after { subject.user_agent = nil }
   end
 
   let(:host) { 'www.example.com' }
@@ -262,13 +286,7 @@ describe Network::HTTP do
   end
 
   describe "#user_agent=" do
-    let(:user_agent) { 'Mozilla/5.0 Foo Bar' }
-
-    before { subject.user_agent = user_agent }
-
-    it "must set the 'User-Agent' header in #headers" do
-      expect(subject.headers['User-Agent']).to eq(user_agent)
-    end
+    include_context "user_agents="
   end
 
   describe "#request" do
