@@ -5,6 +5,10 @@ module Ronin
     #
     # @see https://datatracker.ietf.org/doc/html/rfc3548#page-6
     #
+    # @api public
+    #
+    # @since 1.0.0
+    #
     module Base32
       #
       # Base32 encodes the given String.
