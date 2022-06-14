@@ -189,6 +189,36 @@ module Ronin
         # @since 1.0.0
         SSN = /(?<=[^\d]|^)\d{3}-\d{2}-\d{4}(?=[^\d]|$)/
 
+        # Regular expression to find AMEX card numbers in text
+        #
+        # @since 1.0.0
+        AMEX_CC = /(?<=[^\d]|^)3[47][0-9]{13}(?=[^\d]|$)/
+
+        # Regular expression to find Discord card numbers in text
+        #
+        # @since 1.0.0
+        DISCOVER_CC = /(?<=[^\d]|^)(?:65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(?:622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10}))(?=[^\d]|$)/
+
+        # Regular expression to find Masterdard numbers in text
+        #
+        # @since 1.0.0
+        MASTERCARD_CC = /(?<=[^\d]|^)(?:5[1-5][0-9]{14}|2(?:22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))(?=[^\d]|$)/
+
+        # Regular expression to find VISA numbers in text
+        #
+        # @since 1.0.0
+        VISA_CC = /(?<=[^\d]|^)4[0-9]{12}(?:[0-9]{3})?(?=[^\d]|$)/
+
+        # Regular expression to find VISA Masterdard numbers in text
+        #
+        # @since 1.0.0
+        VISA_MASTERCARD_CC = /(?<=[^\d]|^)(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14})(?=[^\d]|$)/
+
+        # Regular expression to find Credit Card (CC) numbers in text
+        #
+        # @since 1.0.0
+        CC = /#{VISA_CC}|#{VISA_MASTERCARD_CC}|#{MASTERCARD_CC}|#{DISCOVER_CC}|#{AMEX_CC}/
+
         #
         # @group Source Code Patterns
         #
