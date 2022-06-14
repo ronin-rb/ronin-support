@@ -26,6 +26,15 @@ module Ronin
       # @since 0.3.0
       #
       module Patterns
+        # Regular expression for finding words
+        #
+        # @since 0.5.0
+        WORD = /[A-Za-z][A-Za-z'\-\.]*[A-Za-z]/
+
+        #
+        # @group Numeric Patterns
+        #
+        
         # Regular expression for finding all numbers in text.
         #
         # @since 1.0.0
@@ -40,11 +49,6 @@ module Ronin
         #
         # @since 1.0.0
         HEX_NUMBER = /(?:0x)?[0-9a-fA-F]+/
-
-        # Regular expression for finding words
-        #
-        # @since 0.5.0
-        WORD = /[A-Za-z][A-Za-z'\-\.]*[A-Za-z]/
 
         #
         # @group Cryptography Patterns
