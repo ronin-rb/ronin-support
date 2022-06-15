@@ -137,7 +137,9 @@ module Ronin
           #   An optional alternate path to the list file.
           #
           def self.update(url: URL, path: PATH)
-            if stale?(path)
+            if !downloaded?(path)
+              download(url: url, path: path)
+            elsif stale?(path)
               begin
                 download(url: url, path: path)
               rescue

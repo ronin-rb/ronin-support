@@ -187,35 +187,61 @@ describe Ronin::Support::Network::ASN::List do
       subject { described_class }
 
       context "when given no keyword arguments" do
-        context "and when .stale? returns true" do
-          before { allow(subject).to receive(:stale?).and_return(true) }
+        context "and when .downloaded? returns false" do
+          before { allow(subject).to receive(:downloaded?).and_return(false) }
 
           it "must call .download" do
             expect(subject).to receive(:download)
 
             subject.update
           end
-        end
 
-        context "and when .stale? returns false" do
-          before { allow(subject).to receive(:stale?).and_return(false) }
+          context "but when .download raises an exception" do
+            let(:exception) { RuntimeError.new("download failed") }
 
-          it "must not call .download" do
-            expect(subject).to_not receive(:download)
+            it "must ignore any exceptions" do
+              allow(subject).to receive(:download).and_raise(exception)
 
-            subject.update
+              expect {
+                subject.update
+              }.to raise_error(exception)
+            end
           end
         end
 
-        context "but when .download raises an exception" do
-          it "must ignore any exceptions" do
-            allow(subject).to receive(:download).and_raise(
-              RuntimeError.new("download failed")
-            )
+        context "and when .downloaded? returns true" do
+          before { allow(subject).to receive(:downloaded?).and_return(true) }
 
-            expect {
+          context "and when .stale? returns true" do
+            before { allow(subject).to receive(:stale?).and_return(true) }
+
+            it "must call .download" do
+              expect(subject).to receive(:download)
+
               subject.update
-            }.to_not raise_error
+            end
+
+            context "but when .download raises an exception" do
+              it "must ignore any exceptions" do
+                allow(subject).to receive(:download).and_raise(
+                  RuntimeError.new("download failed")
+                )
+
+                expect {
+                  subject.update
+                }.to_not raise_error
+              end
+            end
+          end
+
+          context "and when .stale? returns false" do
+            before { allow(subject).to receive(:stale?).and_return(false) }
+
+            it "must not call .download" do
+              expect(subject).to_not receive(:download)
+
+              subject.update
+            end
           end
         end
       end
