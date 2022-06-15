@@ -88,6 +88,13 @@ module Ronin
 
         new_string
       end
+
+      #
+      # @see camelcase
+      #
+      def self.camelize(name)
+        camelcase(name)
+      end
     end
   end
 end

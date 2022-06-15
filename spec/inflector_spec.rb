@@ -125,4 +125,10 @@ describe Ronin::Support::Inflector do
       end
     end
   end
+
+  describe ".camelize" do
+    it "must call .camelcase" do
+      expect(subject.camelize("foo_bar")).to eq("FooBar")
+    end
+  end
 end
