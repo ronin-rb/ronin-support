@@ -206,6 +206,18 @@ describe Ronin::Support::Network::ASN::List do
             subject.update
           end
         end
+
+        context "but when .download raises an exception" do
+          it "must ignore any exceptions" do
+            allow(subject).to receive(:download).and_raise(
+              RuntimeError.new("download failed")
+            )
+
+            expect {
+              subject.update
+            }.to_not raise_error
+          end
+        end
       end
     end
 
