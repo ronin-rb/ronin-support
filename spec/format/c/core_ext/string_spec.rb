@@ -70,7 +70,7 @@ describe String do
     end
 
     context "when the String contains escaped octal characters" do
-      subject { "\\150\\145\\154\\154\\157\\40\\167\\157\\162\\154\\144" }
+      subject { "\\150\\145\\154\\154\\157\\040\\167\\157\\162\\154\\144" }
 
       let(:unescaped) { "hello world" }
 
