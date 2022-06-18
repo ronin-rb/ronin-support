@@ -131,20 +131,64 @@ describe String do
       expect("hello".unescape).to eq("hello")
     end
 
-    it "must unescape a hex String" do
-      expect("\\x68\\x65\\x6c\\x6c\\x6f\\x4e".unescape).to eq("hello\x4e")
+    context "when the String contains escaped hexadecimal characters" do
+      subject { "\\x68\\x65\\x6c\\x6c\\x6f\\x4e" }
+
+      let(:unescaped) { "hello\x4e" }
+
+      it "must unescape a hex String" do
+        expect(subject.unescape).to eq(unescaped)
+      end
     end
 
-    it "must unescape an octal String" do
-      expect("hello\\012".unescape).to eq("hello\n")
+    context "when the String contains escaped unicode characters" do
+      subject { "\\u00D8\\u2070E" }
+
+      let(:unescaped) { "Ø𠜎" }
+
+      it "must unescape the hexadecimal characters" do
+        expect(subject.unescape).to eq(unescaped)
+      end
     end
 
-    it "must unescape control characters" do
-      expect("hello\\n".unescape).to eq("hello\n")
+    context "when the String contains escaped unicode characters" do
+      subject { "hello\\012" }
+
+      let(:unescaped) { "hello\n" }
+
+      it "must unescape an octal String" do
+        expect(subject.unescape).to eq(unescaped)
+      end
     end
 
-    it "must unescape normal characters" do
-      expect("hell\\o".unescape).to eq("hello")
+    context "when the String contains escaped octal characters" do
+      subject { "\\150\\145\\154\\154\\157\\040\\167\\157\\162\\154\\144" }
+
+      let(:unescaped) { "hello world" }
+
+      it "must unescape the octal characters" do
+        expect(subject.unescape).to eq(unescaped)
+      end
+    end
+
+    context "when the String contains escaped special characters" do
+      subject { "hello\\0world\\n" }
+
+      let(:unescaped) { "hello\0world\n" }
+
+      it "must unescape C special characters" do
+        expect(subject.unescape).to eq(unescaped)
+      end
+    end
+
+    context "when the String contains escaped regular characters" do
+      subject { "hell\\o" }
+
+      let(:unescaped) { "hello" }
+
+      it "must unescape normal characters" do
+        expect(subject.unescape).to eq(unescaped)
+      end
     end
   end
 end
