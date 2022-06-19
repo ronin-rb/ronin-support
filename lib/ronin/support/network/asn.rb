@@ -19,7 +19,7 @@
 
 require 'ronin/support/network/dns'
 require 'ronin/support/network/ip_range/cidr'
-require 'ronin/support/network/asn/record'
+require 'ronin/support/network/asn/dns_record'
 require 'ronin/support/network/asn/list'
 
 module Ronin
@@ -68,11 +68,7 @@ module Ronin
           asn = asn.to_i
           cidr_range = IPRange::CIDR.new(cidr_range)
 
-          string   = DNS.get_txt_string("AS#{asn}.asn.cymru.com")
-          assignee = string.split(' | ',5).last
-          assignee.chomp!(", #{country_code}")
-
-          return Record.new(asn,cidr_range,country_code,assignee)
+          return DNSRecord.new(asn,cidr_range,country_code)
         end
 
         #

@@ -8,7 +8,7 @@ describe Ronin::Support::Network::ASN do
     it "must query the ASN information for the IP and return an ASN record" do
       record = subject.query(ip)
 
-      expect(record).to be_kind_of(described_class::Record)
+      expect(record).to be_kind_of(described_class::DNSRecord)
       expect(record.number).to eq(3356)
       expect(record.range).to be_kind_of(Ronin::Support::Network::IPRange::CIDR)
       expect(record.range.string).to eq('4.0.0.0/9')
@@ -30,7 +30,7 @@ describe Ronin::Support::Network::ASN do
       it "must query the ASN information for the IPv6 address" do
         record = subject.query(ip)
 
-        expect(record).to be_kind_of(described_class::Record)
+        expect(record).to be_kind_of(described_class::DNSRecord)
         expect(record.number).to eq(15133)
         expect(record.range).to be_kind_of(Ronin::Support::Network::IPRange::CIDR)
         expect(record.range.string).to eq('2606:2800:220::/48')
@@ -45,7 +45,7 @@ describe Ronin::Support::Network::ASN do
       it "must still query the IP address" do
         record = subject.query(ip)
 
-        expect(record).to be_kind_of(described_class::Record)
+        expect(record).to be_kind_of(described_class::DNSRecord)
         expect(record.number).to eq(3356)
         expect(record.range).to be_kind_of(Ronin::Support::Network::IPRange::CIDR)
         expect(record.range.string).to eq('4.0.0.0/9')
