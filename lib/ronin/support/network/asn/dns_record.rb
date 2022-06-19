@@ -24,6 +24,12 @@ module Ronin
   module Support
     module Network
       module ASN
+        #
+        # Represents a DNS record returned by
+        # [Team Cymru's ASN rDNS service][1].
+        #
+        # [1]: https://team-cymru.com/community-services/ip-asn-mapping/
+        #
         class DNSRecord < Record
 
           #
@@ -45,7 +51,11 @@ module Ronin
           #
           # The name of the ASN record.
           #
-          # @return [String, nil]
+          # @return [String]
+          #
+          # @note
+          #   Calling this method for the first time will lazy query
+          #   `AS<nnn>.asn.cymru.com` for the additional ASN information.
           #
           def name
             query_additional_info! if @name.nil?

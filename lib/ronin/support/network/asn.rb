@@ -44,8 +44,7 @@ module Ronin
         #
         # @note
         #   Performs rDNS queries using `*.nmap.asn.cymru.com` for IPv4
-        #   addresses, `*.nmap6.asn.cymru.com` for IPv6 addresses,
-        #   and `AS<nnn>.asn.cymru.com` for ASN information.
+        #   addresses and `*.nmap6.asn.cymru.com` for IPv6 addresses.
         #
         def self.query(ip)
           ip = IPAddr.new(ip) unless ip.kind_of?(IPAddr)
