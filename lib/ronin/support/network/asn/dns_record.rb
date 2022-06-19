@@ -62,6 +62,34 @@ module Ronin
             return @name
           end
 
+          #
+          # The registry's name of the ASN record.
+          #
+          # @return [String]
+          #
+          # @note
+          #   Calling this method for the first time will lazy query
+          #   `AS<nnn>.asn.cymru.com` for the additional ASN information.
+          #
+          def registry
+            query_additional_info! if @registry.nil?
+            return @registry
+          end
+
+          #
+          # The date the ASN record was registered.
+          #
+          # @return [Date]
+          #
+          # @note
+          #   Calling this method for the first time will lazy query
+          #   `AS<nnn>.asn.cymru.com` for the additional ASN information.
+          #
+          def date
+            query_additional_info! if @date.nil?
+            return @date
+          end
+
           private
 
           #
@@ -70,7 +98,9 @@ module Ronin
           def query_additional_info!
             string = DNS.get_txt_string("AS#{@number}.asn.cymru.com")
 
-            @name = string.split(' | ',5).last
+            _, _, @registry, @date, @name = string.split(' | ',5)
+
+            @date = Date.parse(@date)
             @name.chomp!(", #{country_code}")
           end
 
