@@ -20,6 +20,8 @@
 require 'ronin/support/network/asn/record'
 require 'ronin/support/network/dns'
 
+require 'date'
+
 module Ronin
   module Support
     module Network
