@@ -544,6 +544,33 @@ describe Ronin::Support::Text::Patterns do
       expect(html.match(subject)[0]).to eq(domain)
     end
 
+    it "must match domains within hostnames" do
+      domain   = 'example.com'
+      hostname = "www.#{domain}"
+
+      expect(hostname.match(subject)[0]).to eq(domain)
+    end
+
+    it "must not match domains starting with a '_' character" do
+      expect("_foo.com").to_not match(subject)
+    end
+
+    it "must not match domains ending with a '_' character" do
+      expect("foo_.com").to_not match(subject)
+    end
+
+    it "must not match domains containing '_' characters" do
+      expect("foo_bar.com").to_not match(subject)
+    end
+
+    it "must not match domains starting with a '-' character" do
+      expect("-foo.com").to_not match(subject)
+    end
+
+    it "must not match domains ending with a '-' character" do
+      expect("foo-.com").to_not match(subject)
+    end
+
     it "must not match domains with unknown TLDs" do
       expect('foo.zzz').to_not match(subject)
     end
@@ -566,8 +593,20 @@ describe Ronin::Support::Text::Patterns do
       expect(hostname).to fully_match(subject)
     end
 
+    it "must match sub-sub-domains" do
+      hostname = 'foo.bar.example.com'
+
+      expect(hostname).to fully_match(subject)
+    end
+
     it "must also match valid domain names" do
       hostname = 'example.com'
+
+      expect(hostname).to fully_match(subject)
+    end
+
+    it "must match hostnames starting with a '_' character" do
+      hostname = '_spf.example.com'
 
       expect(hostname).to fully_match(subject)
     end
@@ -577,6 +616,17 @@ describe Ronin::Support::Text::Patterns do
       html     = "<a href=\"https://#{hostname}/foo>link</a>"
 
       expect(html.match(subject)[0]).to eq(hostname)
+    end
+
+    it "must not match hostnames starting with a '.' character" do
+      expect('.www.example.com').to_not match(subject)
+    end
+
+    it "must not match hostnames with labels longer than 63 characters" do
+      label    = 'a' * 64
+      hostname = "#{label}.example.com"
+
+      expect(hostname).to_not match(subject)
     end
 
     it "must not match hostnames without a TLD" do
