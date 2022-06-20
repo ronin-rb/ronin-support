@@ -2,13 +2,23 @@ require 'spec_helper'
 require 'ronin/support/text/patterns'
 
 describe Ronin::Support::Text::Patterns do
+  RSpec::Matchers.define :fully_match do |expected|
+    match do |actual|
+      expect(actual.match(expected)[0]).to eq(actual)
+    end
+
+    description do
+      "to fully match #{expected.inspect}"
+    end
+  end
+
   describe "NUMBER" do
     subject { described_class::NUMBER }
 
     let(:number) { '0123456789' }
 
     it "must match one or more digits" do
-      expect(number).to match(subject)
+      expect(number).to fully_match(subject)
     end
   end
 
@@ -18,38 +28,38 @@ describe Ronin::Support::Text::Patterns do
     it "must match one or more decimal digits" do
       number = "0123456789"
 
-      expect(number).to match(subject)
+      expect(number).to fully_match(subject)
     end
 
     it "must match one or more lowercase hexadecimal digits" do
       hex = "0123456789abcdef"
 
-      expect(hex).to match(subject)
+      expect(hex).to fully_match(subject)
     end
 
     it "must match one or more uppercase hexadecimal digits" do
       hex = "0123456789ABCDEF"
 
-      expect(hex).to match(subject)
+      expect(hex).to fully_match(subject)
     end
 
     context "when the number begins with '0x'" do
       it "must match one or more decimal digits" do
         number = "0x0123456789"
 
-        expect(number).to match(subject)
+        expect(number).to fully_match(subject)
       end
 
       it "must match one or more lowercase hexadecimal digits" do
         hex = "0x0123456789abcdef"
 
-        expect(hex).to match(subject)
+        expect(hex).to fully_match(subject)
       end
 
       it "must match one or more uppercase hexadecimal digits" do
         hex = "0x0123456789ABCDEF"
 
-        expect(hex).to match(subject)
+        expect(hex).to fully_match(subject)
       end
     end
   end
@@ -72,25 +82,25 @@ describe Ronin::Support::Text::Patterns do
     it "must match hex strings with 32 characters" do
       string = "5d41402abc4b2a76b9719d911017c592"
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
 
     it "must match hex strings with 40 characters" do
       string = "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d"
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
 
     it "must match hex strings with 64 characters" do
       string = "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
 
     it "must match hex strings with 128 characters" do
       string = "9b71d224bd62f3785d96d46ad3ea3d73319bfbc2890caadae2dff72519673ca72323c3d99ba5c11d7c7acc6e14b8c5da0c4663475c2e5c3adef46f73bcdec043"
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
   end
 
@@ -98,67 +108,67 @@ describe Ronin::Support::Text::Patterns do
     subject { described_class::SSH_PUBLIC_KEY }
 
     it "must match 'ssh-rsa AAAA... user@domain'" do
-      ssh_rsa_pubkey = <<~EOS
+      ssh_rsa_pubkey = <<~EOS.chomp
         ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDQyYe+dnOTC+H/Mj6n40sNlNy64wspivT8RMrElDaBEiib+HAc9f66dCHN/27Z+sWoq0/p56hHIrsfztHLhFx51xr6/Z6UUnBmeCfP+Wm2lIWoQuepLY8/gsWNwD+Z01gMz9tciDsSbUrwybOLXY+69sTnM2PCDDvTWw5DPjHi6C1O/zJDWNBPy4fxBXpD+PK/Cx43m55emj5ZpLjQCrJvYPA5AL81R3swnBGkduvLNEMcwOaywLn5adTFsKLNwvIIUBmgZftFmTs46vlT0gxSek4E4s6fD5bJkdywu/my7vl56rPP+/kr3QjKfzfhhMR85uwQB37DPi3gu8Cqj7xp8z91cnfizVPpc5YyWgZteU12VphuU6iFJuaoQK9UFqhl5GZO1Ea8ul8k/4YaQRPdD5bUsl4tBYI4SE4ugHq1o/Homa2Syid02eCz6ILhhkk/kERnLNnlb8uoXtmuT7NQU0G52KRyEzKURLLfK+G+4d0TyEDfcVey1Q7Shhyt1KdfABdvtmugPUT0OZFpgABKDmhHJEsDazF8/6sQnAhxhDPz8tSgw60ecjBqPjFYzpfKXKjmZjTeZ7Whiv4R4oZA4Bmwkik9KfNTem8cmAmjZYUSrtS5isW0IHlIlxCMGYPMHec6CxxwpGPvgmjv+hcD9kuZeC8OePofWeLNfNOttQ== test@example.com
       EOS
 
-      expect(ssh_rsa_pubkey).to match(subject)
+      expect(ssh_rsa_pubkey).to fully_match(subject)
     end
 
     it "must match 'ssh-dss AAAA... user@domain'" do
-      ssh_dsa_pubkey = <<~EOS
+      ssh_dsa_pubkey = <<~EOS.chomp
         ssh-dss AAAAB3NzaC1kc3MAAACBANTQuv28rnsPgMjQ0OBiuHYHeWdDs4iWEHkTTFSahtI+30dJQ1o8dTz38ZRy5WTIkrEC2h0WI6JjGI9anlCuOFUrxIKzotE7hjm6l7gbGygdg35zI/k8QsqCX/7pGEg7WyaQx0Y5GFl3QKzPini04ZvtyDi1C1i3OwcnjtR1yiY3AAAAFQCI7Wx0KjrHnZd4qEekHvBzWxkaOQAAAIBciaLycTTgopllldv2LjaCOlvdrCiuYPyYbwVQvpPwwuZB0CYpe9L+tvyPo3XyMvQi6xuETGzh5E0tiph0+HwUfmJV8VVZmqMInzIGNgKNP/wI1UPN2MRdzy6k3D1W/b0JL3wqzl3rIMl36lsKkvKWzL57vA9LMwKZFd+W8ELRUAAAAIEApasZdOkHW2stegT4CtASxvbY1GbQ03mQAhC9cLSOUmLwbentL7MHfW1UhD+MYRDn7+YbAxBPCqnc4goOHOt4TTKny8QAhY/BKiVhQGW0D33VmCctSjkMUZGqDI3yJPwEpmQjQFecqy4prD0ExjSWm4CyMQ4njcXG/Qf1F+gZMZ8= test@example.com
       EOS
 
-      expect(ssh_dsa_pubkey).to match(subject)
+      expect(ssh_dsa_pubkey).to fully_match(subject)
     end
 
     it "must match 'ecdsa-sha2-nistp256 AAAA... user@domain'" do
-      ssh_ecdsa_pubkey = <<~EOS
+      ssh_ecdsa_pubkey = <<~EOS.chomp
         ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBF3ob/ktTVokdKx3E1UTDHW+60beSRSIsTfHHRHnaRAoQhaq8Y6bNk6f/48sHbFnE3AUEPwKomEQc+5wALjIbeQ= test@example.com
       EOS
 
-      expect(ssh_ecdsa_pubkey).to match(subject)
+      expect(ssh_ecdsa_pubkey).to fully_match(subject)
     end
 
     it "must match 'ecdsa-sha2-nistp384 AAAA... user@domain'" do
-      ssh_ecdsa_pubkey = <<~EOS
+      ssh_ecdsa_pubkey = <<~EOS.chomp
         ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzODQAAABhBD2JcEAE50xLmN12XS2BF3KGRaOIy19A6Qc71eqCNPeW4cThk1AjLgDZmtny9sYffdt09wEjhqzijxtj2GDM/6IW/ox1tDCekAOVJ9H+y1BM8w31+oJnEgTpFQ1dUBO+hw== test@example.com
       EOS
 
-      expect(ssh_ecdsa_pubkey).to match(subject)
+      expect(ssh_ecdsa_pubkey).to fully_match(subject)
     end
 
     it "must match 'ecdsa-sha2-nistp521 AAAA... user@domain'" do
-      ssh_ecdsa_pubkey = <<~EOS
+      ssh_ecdsa_pubkey = <<~EOS.chomp
         ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAGI+HpWu8ltNAHTZz3G0c88BsgMQH87/L6RG+jVb/Nrsdkn6nU95JvD3O24c/0RwuQxx/qxnleRb+T7oQbkMHELywDvNxv9U72MwG6d/GyKTHLIdEei+KpouMIE+jVRVlk7MczL9m/ocy8Ep+i/YAeefNshge4PZqsxxierY57t3T3UTg== test@example.com
       EOS
 
-      expect(ssh_ecdsa_pubkey).to match(subject)
+      expect(ssh_ecdsa_pubkey).to fully_match(subject)
     end
 
     it "must match 'ecdsa-sha2-nistp256@openssh.com AAAA... user@domain'" do
-      ssh_ecdsa_pubkey = <<~EOS
+      ssh_ecdsa_pubkey = <<~EOS.chomp
         ecdsa-sha2-nistp256@openssh.com AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBF3ob/ktTVokdKx3E1UTDHW+60beSRSIsTfHHRHnaRAoQhaq8Y6bNk6f/48sHbFnE3AUEPwKomEQc+5wALjIbeQ= test@example.com
       EOS
 
-      expect(ssh_ecdsa_pubkey).to match(subject)
+      expect(ssh_ecdsa_pubkey).to fully_match(subject)
     end
 
     it "must match 'ssh-ed25519 AAAA... user@domain'" do
-      ssh_ed25519_pubkey = <<~EOS
+      ssh_ed25519_pubkey = <<~EOS.chomp
         ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFKdiXXLq/ezeabNyv1AOdc4xeUQB41kbSCXBsq9hQ7X test@example.com
       EOS
 
-      expect(ssh_ed25519_pubkey).to match(subject)
+      expect(ssh_ed25519_pubkey).to fully_match(subject)
     end
 
     it "must match 'ssh-ed25519@openssh.com AAAA... user@domain'" do
-      ssh_ed25519_pubkey = <<~EOS
+      ssh_ed25519_pubkey = <<~EOS.chomp
         ssh-ed25519@openssh.com AAAAC3NzaC1lZDI1NTE5AAAAIFKdiXXLq/ezeabNyv1AOdc4xeUQB41kbSCXBsq9hQ7X test@example.com
       EOS
 
-      expect(ssh_ed25519_pubkey).to match(subject)
+      expect(ssh_ed25519_pubkey).to fully_match(subject)
     end
   end
 
@@ -166,7 +176,7 @@ describe Ronin::Support::Text::Patterns do
     subject { described_class::SSH_PRIVATE_KEY }
 
     let(:pem) do
-      <<~EOS
+      <<~EOS.chomp
         -----BEGIN OPENSSH PRIVATE KEY-----
         b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABD9PGSaAf
         Dq62GrgiZvZw2/AAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQC7brcxQofg
@@ -210,11 +220,11 @@ describe Ronin::Support::Text::Patterns do
     end
 
     it "must match the data between '-----BEGIN OPENSSH PRIVATE KEY-----' and '-----END OPENSSH PRIVATE KEY-----'" do
-      expect(pem).to match(subject)
+      expect(pem).to fully_match(subject)
     end
 
     it "must not match empty '-----BEGIN OPENSSH PRIVATE KEY-----' and '-----END OPENSSH PRIVATE KEY-----' blocks" do
-      empty_pem = <<~EOS
+      empty_pem = <<~EOS.chomp
         -----BEGIN OPENSSH PRIVATE KEY-----
         -----END OPENSSH PRIVATE KEY-----
       EOS
@@ -227,7 +237,7 @@ describe Ronin::Support::Text::Patterns do
     subject { described_class::PUBLIC_KEY }
 
     let(:pem) do
-      <<~EOS
+      <<~EOS.chomp
         -----BEGIN PUBLIC KEY-----
         MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2Ca7a99b6o+WqjH5TJeH
         ph+eBKSM2Qv2NpLkearcV4GmutK0/FgjA0JHCO+g2Fj2vNX8qojBwJPaPThfvurR
@@ -246,11 +256,11 @@ describe Ronin::Support::Text::Patterns do
     end
 
     it "must match everything in between '-----BEGIN PUBLIC KEY-----' and '-----END PUBLIC KEY-----'" do
-      expect(pem).to match(subject)
+      expect(pem).to fully_match(subject)
     end
 
     it "must not match empty '-----BEGIN PUBLIC KEY-----' and '-----END PUBLIC KEY-----' blocks" do
-      empty_pem = <<~EOS
+      empty_pem = <<~EOS.chomp
         -----BEGIN PUBLIC KEY-----
         -----END PUBLIC KEY-----
       EOS
@@ -265,14 +275,14 @@ describe Ronin::Support::Text::Patterns do
     subject { described_class::DSA_PRIVATE_KEY }
 
     let(:key_file) { File.join(fixtures_dir,'dsa.pem') }
-    let(:pem)      { File.read(key_file) }
+    let(:pem)      { File.read(key_file).chomp }
 
     it "must match everything in between '-----BEGIN DSA PRIVATE KEY-----' and '-----END DSA PRIVATE KEY-----'" do
-      expect(pem).to match(subject)
+      expect(pem).to fully_match(subject)
     end
 
     it "must not match empty '-----BEGIN DSA PRIVATE KEY-----' and '-----END DSA PRIVATE KEY-----' blocks" do
-      empty_pem = <<~EOS
+      empty_pem = <<~EOS.chomp
         -----BEGIN DSA PRIVATE KEY-----
         -----END DSA PRIVATE KEY-----
       EOS
@@ -285,14 +295,14 @@ describe Ronin::Support::Text::Patterns do
     subject { described_class::EC_PRIVATE_KEY }
 
     let(:key_file) { File.join(fixtures_dir,'ec.pem') }
-    let(:pem)      { File.read(key_file) }
+    let(:pem)      { File.read(key_file).chomp }
 
     it "must match everything in between '-----BEGIN EC PRIVATE KEY-----' and '-----END EC PRIVATE KEY-----'" do
-      expect(pem).to match(subject)
+      expect(pem).to fully_match(subject)
     end
 
     it "must not match empty '-----BEGIN EC PRIVATE KEY-----' and '-----END EC PRIVATE KEY-----' blocks" do
-      empty_pem = <<~EOS
+      empty_pem = <<~EOS.chomp
         -----BEGIN EC PRIVATE KEY-----
         -----END EC PRIVATE KEY-----
       EOS
@@ -305,10 +315,10 @@ describe Ronin::Support::Text::Patterns do
     subject { described_class::RSA_PRIVATE_KEY }
 
     let(:key_file) { File.join(fixtures_dir,'rsa.pem') }
-    let(:pem)      { File.read(key_file) }
+    let(:pem)      { File.read(key_file).chomp }
 
     it "must match everything in between '-----BEGIN RSA PRIVATE KEY-----' and '-----END RSA PRIVATE KEY-----'" do
-      expect(pem).to match(subject)
+      expect(pem).to fully_match(subject)
     end
 
     it "must not match empty '-----BEGIN RSA PRIVATE KEY-----' and '-----END RSA PRIVATE KEY-----' blocks" do
@@ -325,21 +335,21 @@ describe Ronin::Support::Text::Patterns do
     subject { described_class::PRIVATE_KEY }
 
     let(:dsa_key_file) { File.join(fixtures_dir,'dsa.pem') }
-    let(:dsa_pem)      { File.read(dsa_key_file) }
+    let(:dsa_pem)      { File.read(dsa_key_file).chomp }
 
     let(:ec_key_file)  { File.join(fixtures_dir,'ec.pem') }
-    let(:ec_pem)       { File.read(ec_key_file) }
+    let(:ec_pem)       { File.read(ec_key_file).chomp }
 
     let(:rsa_key_file) { File.join(fixtures_dir,'rsa.pem') }
-    let(:rsa_pem)      { File.read(rsa_key_file) }
+    let(:rsa_pem)      { File.read(rsa_key_file).chomp }
 
 
     it "must match everything in between '-----BEGIN DSA PRIVATE KEY-----' and '-----END DSA PRIVATE KEY-----'" do
-      expect(dsa_pem).to match(subject)
+      expect(dsa_pem).to fully_match(subject)
     end
 
     it "must not match empty '-----BEGIN DSA PRIVATE KEY-----' and '-----END DSA PRIVATE KEY-----' blocks" do
-      empty_pem = <<~EOS
+      empty_pem = <<~EOS.chomp
         -----BEGIN DSA PRIVATE KEY-----
         -----END DSA PRIVATE KEY-----
       EOS
@@ -348,11 +358,11 @@ describe Ronin::Support::Text::Patterns do
     end
 
     it "must match everything in between '-----BEGIN EC PRIVATE KEY-----' and '-----END EC PRIVATE KEY-----'" do
-      expect(ec_pem).to match(subject)
+      expect(ec_pem).to fully_match(subject)
     end
 
     it "must not match empty '-----BEGIN EC PRIVATE KEY-----' and '-----END EC PRIVATE KEY-----' blocks" do
-      empty_pem = <<~EOS
+      empty_pem = <<~EOS.chomp
         -----BEGIN EC PRIVATE KEY-----
         -----END EC PRIVATE KEY-----
       EOS
@@ -361,11 +371,11 @@ describe Ronin::Support::Text::Patterns do
     end
 
     it "must match everything in between '-----BEGIN RSA PRIVATE KEY-----' and '-----END RSA PRIVATE KEY-----'" do
-      expect(rsa_pem).to match(subject)
+      expect(rsa_pem).to fully_match(subject)
     end
 
     it "must not match empty '-----BEGIN RSA PRIVATE KEY-----' and '-----END RSA PRIVATE KEY-----' blocks" do
-      empty_pem = <<~EOS
+      empty_pem = <<~EOS.chomp
         -----BEGIN RSA PRIVATE KEY-----
         -----END RSA PRIVATE KEY-----
       EOS
@@ -402,7 +412,7 @@ describe Ronin::Support::Text::Patterns do
     it "must include punctuation in the middle of the word" do
       name = "O'Brian"
 
-      expect(name).to match(subject)
+      expect(name).to fully_match(subject)
     end
   end
 
@@ -426,7 +436,7 @@ describe Ronin::Support::Text::Patterns do
     it "must match six hexadecimal bytes" do
       mac_addr = '12:34:56:78:9a:bc'
 
-      expect(mac_addr).to match(subject)
+      expect(mac_addr).to fully_match(subject)
     end
   end
 
@@ -436,25 +446,25 @@ describe Ronin::Support::Text::Patterns do
     it "must match valid addresses" do
       ip = '127.0.0.1'
 
-      expect(ip).to match(subject)
+      expect(ip).to fully_match(subject)
     end
 
     it "must match the Any address" do
       ip = '0.0.0.0'
 
-      expect(ip).to match(subject)
+      expect(ip).to fully_match(subject)
     end
 
     it "must match the broadcast address" do
       ip = '255.255.255.255'
 
-      expect(ip).to match(subject)
+      expect(ip).to fully_match(subject)
     end
 
     it "must match addresses with netmasks" do
       ip = '10.1.1.1/24'
 
-      expect(ip).to match(subject)
+      expect(ip).to fully_match(subject)
     end
 
     it "must not match addresses with octets > 255" do
@@ -476,25 +486,25 @@ describe Ronin::Support::Text::Patterns do
     it "must match valid IPv6 addresses" do
       ip = '2001:db8:85a3:0:0:8a2e:370:7334'
 
-      expect(ip).to match(subject)
+      expect(ip).to fully_match(subject)
     end
 
     it "must match IPv6 addresses with netmasks" do
       ip = '2001:db8:1234::/48'
 
-      expect(ip).to match(subject)
+      expect(ip).to fully_match(subject)
     end
 
     it "must match truncated IPv6 addresses" do
       ip = '2001:db8:85a3::8a2e:370:7334'
 
-      expect(ip).to match(subject)
+      expect(ip).to fully_match(subject)
     end
 
     it "must match IPv4-mapped IPv6 addresses" do
       ip = '::ffff:192.0.2.128'
 
-      expect(ip).to match(subject)
+      expect(ip).to fully_match(subject)
     end
   end
 
@@ -504,13 +514,13 @@ describe Ronin::Support::Text::Patterns do
     it "must match IPv4 addresses" do
       ip = '10.1.1.1'
 
-      expect(ip).to match(subject)
+      expect(ip).to fully_match(subject)
     end
 
     it "must match IPv6 addresses" do
       ip = '2001:db8:85a3:0:0:8a2e:370:7334'
 
-      expect(ip).to match(subject)
+      expect(ip).to fully_match(subject)
     end
   end
 
@@ -520,7 +530,7 @@ describe Ronin::Support::Text::Patterns do
     it "must match valid domain names" do
       domain = 'google.com'
 
-      expect(domain).to match(subject)
+      expect(domain).to fully_match(subject)
     end
 
     it "must not match hostnames without a TLD" do
@@ -542,13 +552,13 @@ describe Ronin::Support::Text::Patterns do
     it "must match valid hostnames" do
       hostname = 'www.google.com'
 
-      expect(hostname).to match(subject)
+      expect(hostname).to fully_match(subject)
     end
 
     it "must also match valid domain names" do
       hostname = 'google.com'
 
-      expect(hostname).to match(subject)
+      expect(hostname).to fully_match(subject)
     end
 
     it "must not match hostnames without a TLD" do
@@ -564,123 +574,123 @@ describe Ronin::Support::Text::Patterns do
     subject { described_class::URL }
 
     it "must match http://example.com" do
-      expect("http://example.com").to match(subject)
+      expect("http://example.com").to fully_match(subject)
     end
 
     it "must match https://example.com" do
-      expect("https://example.com").to match(subject)
+      expect("https://example.com").to fully_match(subject)
     end
 
     it "must match http://www.example.com" do
-      expect("http://example.com").to match(subject)
+      expect("http://example.com").to fully_match(subject)
     end
 
     it "must match http://127.0.0.1" do
-      expect("http://127.0.0.1").to match(subject)
+      expect("http://127.0.0.1").to fully_match(subject)
     end
 
     it "must match http://127.0.0.1:8000" do
-      expect("http://127.0.0.1:8000").to match(subject)
+      expect("http://127.0.0.1:8000").to fully_match(subject)
     end
 
     it "must match http://[::1]" do
-      expect("http://[::1]").to match(subject)
+      expect("http://[::1]").to fully_match(subject)
     end
 
     it "must match http://[::1]:8000" do
-      expect("http://[::1]:8000").to match(subject)
+      expect("http://[::1]:8000").to fully_match(subject)
     end
 
     it "must match http://example.com:8000" do
-      expect("http://example.com:8000").to match(subject)
+      expect("http://example.com:8000").to fully_match(subject)
     end
 
     it "must match http://user@example.com" do
-      expect("http://user@example.com").to match(subject)
+      expect("http://user@example.com").to fully_match(subject)
     end
 
     it "must match http://user:password@example.com" do
-      expect("http://user:password@example.com").to match(subject)
+      expect("http://user:password@example.com").to fully_match(subject)
     end
 
     it "must match http://user:password@example.com:8000" do
-      expect("http://user:password@example.com:8000").to match(subject)
+      expect("http://user:password@example.com:8000").to fully_match(subject)
     end
 
     it "must match http://example.com/" do
-      expect("http://example.com/").to match(subject)
+      expect("http://example.com/").to fully_match(subject)
     end
 
     it "must match http://example.com:8000/" do
-      expect("http://example.com:8000/").to match(subject)
+      expect("http://example.com:8000/").to fully_match(subject)
     end
 
     it "must match http://example.com/foo" do
-      expect("http://example.com/foo").to match(subject)
+      expect("http://example.com/foo").to fully_match(subject)
     end
 
     it "must match http://example.com/foo/bar" do
-      expect("http://example.com/foo/bar").to match(subject)
+      expect("http://example.com/foo/bar").to fully_match(subject)
     end
 
     it "must match http://example.com/foo/./bar" do
-      expect("http://example.com/foo/./bar").to match(subject)
+      expect("http://example.com/foo/./bar").to fully_match(subject)
     end
 
     it "must match http://example.com/foo/../bar" do
-      expect("http://example.com/foo/../bar").to match(subject)
+      expect("http://example.com/foo/../bar").to fully_match(subject)
     end
 
     it "must match http://example.com/foo%20bar" do
-      expect("http://example.com/foo%20bar").to match(subject)
+      expect("http://example.com/foo%20bar").to fully_match(subject)
     end
 
     it "must match http://example.com?id=1" do
-      expect("http://example.com?id=1").to match(subject)
+      expect("http://example.com?id=1").to fully_match(subject)
     end
 
     it "must match http://example.com/?id=1" do
-      expect("http://example.com/?id=1").to match(subject)
+      expect("http://example.com/?id=1").to fully_match(subject)
     end
 
     it "must match http://example.com/foo?id=1" do
-      expect("http://example.com/foo?id=1").to match(subject)
+      expect("http://example.com/foo?id=1").to fully_match(subject)
     end
 
     it "must match http://example.com/foo?id=%20" do
-      expect("http://example.com/foo?id=%20").to match(subject)
+      expect("http://example.com/foo?id=%20").to fully_match(subject)
     end
 
     it "must match http://example.com#fragment" do
-      expect("http://example.com#fragment").to match(subject)
+      expect("http://example.com#fragment").to fully_match(subject)
     end
 
     it "must match http://example.com/#fragment" do
-      expect("http://example.com/#fragment").to match(subject)
+      expect("http://example.com/#fragment").to fully_match(subject)
     end
 
     it "must match http://example.com/foo#fragment" do
-      expect("http://example.com/foo#fragment").to match(subject)
+      expect("http://example.com/foo#fragment").to fully_match(subject)
     end
 
     it "must match http://example.com?id=1#fragment" do
-      expect("http://example.com?id=1#fragment").to match(subject)
+      expect("http://example.com?id=1#fragment").to fully_match(subject)
     end
 
     it "must match http://example.com/?id=1#fragment" do
-      expect("http://example.com/?id=1#fragment").to match(subject)
+      expect("http://example.com/?id=1#fragment").to fully_match(subject)
     end
 
     it "must match http://example.com/foo?id=1#fragment" do
-      expect("http://example.com/foo?id=1#fragment").to match(subject)
+      expect("http://example.com/foo?id=1#fragment").to fully_match(subject)
     end
 
     it "must match ssh://user@host.example.com" do
-      expect("ssh://user@host.example.com").to match(subject)
+      expect("ssh://user@host.example.com").to fully_match(subject)
     end
 
     it "must match ldap://ds.example.com:389" do
-      expect("ldap://ds.example.com:389").to match(subject)
+      expect("ldap://ds.example.com:389").to fully_match(subject)
     end
   end
 
@@ -690,19 +700,19 @@ describe Ronin::Support::Text::Patterns do
     it "must match valid user-names" do
       username = 'alice1234'
 
-      expect(username).to match(subject)
+      expect(username).to fully_match(subject)
     end
 
     it "must match user-names containing '_' characters" do
       username = 'alice_1234'
 
-      expect(username).to match(subject)
+      expect(username).to fully_match(subject)
     end
 
     it "must match user-names containing '.' characters" do
       username = 'alice.1234'
 
-      expect(username).to match(subject)
+      expect(username).to fully_match(subject)
     end
 
     it "must not match user-names beginning with numbers" do
@@ -724,7 +734,7 @@ describe Ronin::Support::Text::Patterns do
     it "must match valid email addresses" do
       email = 'alice@example.com'
 
-      expect(email).to match(subject)
+      expect(email).to fully_match(subject)
     end
   end
 
@@ -734,25 +744,25 @@ describe Ronin::Support::Text::Patterns do
     it "must match 111-2222" do
       number = '111-2222'
 
-      expect(number).to match(subject)
+      expect(number).to fully_match(subject)
     end
 
     it "must match 111-2222x9" do
       number = '111-2222x9'
 
-      expect(number).to match(subject)
+      expect(number).to fully_match(subject)
     end
 
     it "must match 800-111-2222" do
       number = '800-111-2222'
 
-      expect(number).to match(subject)
+      expect(number).to fully_match(subject)
     end
 
     it "must match 1-800-111-2222" do
       number = '1-800-111-2222'
 
-      expect(number).to match(subject)
+      expect(number).to fully_match(subject)
     end
   end
 
@@ -762,7 +772,7 @@ describe Ronin::Support::Text::Patterns do
     it "must match NNN-NN-NNNN" do
       ssn = "111-22-3333"
 
-      expect(ssn).to match(subject)
+      expect(ssn).to fully_match(subject)
     end
 
     it "must not match strings starting with more than three digits" do
@@ -784,13 +794,13 @@ describe Ronin::Support::Text::Patterns do
     it "must match 34XXXXXXXXXXXXX" do
       cc = "341111111111111"
 
-      expect(cc).to match(subject)
+      expect(cc).to fully_match(subject)
     end
 
     it "must match 37XXXXXXXXXXXXX" do
       cc = "371111111111111"
 
-      expect(cc).to match(subject)
+      expect(cc).to fully_match(subject)
     end
 
     it "must not match strings not starting with a 34 or 37" do
@@ -969,7 +979,7 @@ describe Ronin::Support::Text::Patterns do
     it "must match strings with the 2720XXXXXXXXXXXX prefix" do
       cc = "2720111111111111"
 
-      expect(cc).to match(subject)
+      expect(cc).to fully_match(subject)
     end
 
     it "must not match strings with less than 16 digits" do
@@ -1027,13 +1037,13 @@ describe Ronin::Support::Text::Patterns do
     it "must match strings with the 4XXXXXXXXXXXX prefix" do
       cc = "4111111111111"
 
-      expect(cc).to match(subject)
+      expect(cc).to fully_match(subject)
     end
 
     it "must also match 4XXXXXXXXXXXX strings with an extra XXX suffix" do
       cc = "4111111111111222"
 
-      expect(cc).to match(subject)
+      expect(cc).to fully_match(subject)
     end
 
     it "must not match strings with less than 13 digits" do
@@ -1055,13 +1065,13 @@ describe Ronin::Support::Text::Patterns do
     it "must match strings with the 4XXXXXXXXXXXX prefix" do
       cc = "4111111111111"
 
-      expect(cc).to match(subject)
+      expect(cc).to fully_match(subject)
     end
 
     it "must also match 4XXXXXXXXXXXX strings with an extra XXX suffix" do
       cc = "4111111111111012"
 
-      expect(cc).to match(subject)
+      expect(cc).to fully_match(subject)
     end
 
     it "must match strings between 51XXXXXXXXXXXXXX - 55XXXXXXXXXXXXXX" do
@@ -1113,31 +1123,31 @@ describe Ronin::Support::Text::Patterns do
     it "must match a VISA CC number" do
       cc = "4111111111111"
 
-      expect(cc).to match(subject)
+      expect(cc).to fully_match(subject)
     end
 
     it "must match a VISA/Mastercard CC number" do
       cc = "5511111111111111"
 
-      expect(cc).to match(subject)
+      expect(cc).to fully_match(subject)
     end
 
     it "must match a Mastercard CC number" do
       cc = "2229111111111111"
 
-      expect(cc).to match(subject)
+      expect(cc).to fully_match(subject)
     end
 
     it "must match a Discover Card CC number" do
       cc = "6229201111111111"
 
-      expect(cc).to match(subject)
+      expect(cc).to fully_match(subject)
     end
 
     it "must match a AMEX CC number" do
       cc = "371111111111111"
 
-      expect(cc).to match(subject)
+      expect(cc).to fully_match(subject)
     end
   end
 
@@ -1147,13 +1157,13 @@ describe Ronin::Support::Text::Patterns do
     it "must match Strings beginning with a '_' character" do
       identifier = '_foo'
 
-      expect(identifier).to match(subject)
+      expect(identifier).to fully_match(subject)
     end
 
     it "must match Strings ending with a '_' character" do
       identifier = 'foo_'
 
-      expect(identifier).to match(subject)
+      expect(identifier).to fully_match(subject)
     end
 
     it "must not match Strings beginning with numberic characters" do
@@ -1214,13 +1224,13 @@ describe Ronin::Support::Text::Patterns do
     it "must match identifiers followed by a '=' character" do
       string = "foo=1"
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
 
     it "must match identifiers followed by a space then a '=' character" do
       string = "foo = 1"
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
 
     it "must not match identifiers not followed by a '=' character" do
@@ -1242,13 +1252,13 @@ describe Ronin::Support::Text::Patterns do
     it "must match double-quoted text" do
       string = "\"foo\""
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
 
     it "must match double-quoted text containing backslash-escaped chars" do
       string = "\"foo\\\"bar\\\"baz\\0\""
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
   end
 
@@ -1264,13 +1274,13 @@ describe Ronin::Support::Text::Patterns do
     it "must match single-quoted text" do
       string = "'foo'"
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
 
     it "must match single-quoted text containing backslash-escaped chars" do
       string = "'foo\\bar\\''"
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
   end
 
@@ -1286,25 +1296,25 @@ describe Ronin::Support::Text::Patterns do
     it "must match double-quoted text" do
       string = "\"foo\""
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
 
     it "must match double-quoted text containing backslash-escaped chars" do
       string = "\"foo\\\"bar\\\"baz\\0\""
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
 
     it "must match single-quoted text" do
       string = "'foo'"
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
 
     it "must match single-quoted text containing backslash-escaped chars" do
       string = "'foo\\bar\\''"
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
   end
 
@@ -1320,25 +1330,25 @@ describe Ronin::Support::Text::Patterns do
     it "must match alphabetic strings padded with '=' characters" do
       string = "YQ=="
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
 
     it "must match alphabetic strings with four characters exactly" do
       string = "YWFh"
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
 
     it "must match alphabetic strings longer than four characters but padded with '=' characters" do
       string = "YWFhYQ=="
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
 
     it "must match alphabetic strings that include newline characters" do
       string = "QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB\nQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB\nQUFBQUFBQUFBQQ==\n"
 
-      expect(string).to match(subject)
+      expect(string).to fully_match(subject)
     end
   end
 
@@ -1348,7 +1358,7 @@ describe Ronin::Support::Text::Patterns do
     it "must match the '.' separator character" do
       ext = '.txt'
 
-      expect(ext).to match(subject)
+      expect(ext).to fully_match(subject)
     end
 
     it "must not allow '_' characters" do
@@ -1370,19 +1380,19 @@ describe Ronin::Support::Text::Patterns do
     it "must match the filename and extension" do
       filename = 'foo_bar.txt'
 
-      expect(filename).to match(subject)
+      expect(filename).to fully_match(subject)
     end
 
     it "must match '\\' escapped characters" do
       filename = 'foo\\ bar.txt'
 
-      expect(filename).to match(subject)
+      expect(filename).to fully_match(subject)
     end
 
     it "must match file names without extensions" do
       filename = 'foo_bar'
 
-      expect(filename).to match(subject)
+      expect(filename).to fully_match(subject)
     end
   end
 
@@ -1392,19 +1402,19 @@ describe Ronin::Support::Text::Patterns do
     it "must match directory names" do
       dir = 'foo_bar'
 
-      expect(dir).to match(subject)
+      expect(dir).to fully_match(subject)
     end
 
     it "must match '.'" do
       dir = '.'
 
-      expect(dir).to match(subject)
+      expect(dir).to fully_match(subject)
     end
 
     it "must match '..'" do
       dir = '..'
 
-      expect(dir).to match(subject)
+      expect(dir).to fully_match(subject)
     end
   end
 
@@ -1414,7 +1424,7 @@ describe Ronin::Support::Text::Patterns do
     it "must match multiple directories" do
       path = 'foo/./bar/../baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
   end
 
@@ -1424,13 +1434,13 @@ describe Ronin::Support::Text::Patterns do
     it "must match absolute paths" do
       path = '/foo/bar/baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
 
     it "must match trailing '/' characters" do
       path = '/foo/bar/baz/'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
 
     it "must not match relative directories" do
@@ -1446,13 +1456,13 @@ describe Ronin::Support::Text::Patterns do
     it "must match relative paths" do
       path = 'foo/./bar/../baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
 
     it "must match absolute paths" do
       path = '/foo/bar/baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
   end
 
@@ -1462,7 +1472,7 @@ describe Ronin::Support::Text::Patterns do
     it "must match multiple directories" do
       path = 'foo\\.\\bar\\..\\baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
   end
 
@@ -1472,7 +1482,7 @@ describe Ronin::Support::Text::Patterns do
     it "must match absolute paths" do
       path = 'C:\\foo\\bar\\baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
 
     it "must match trailing '/' characters" do
@@ -1494,13 +1504,13 @@ describe Ronin::Support::Text::Patterns do
     it "must match relative paths" do
       path = 'foo\\.\\bar\\..\\baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
 
     it "must match absolute paths" do
       path = 'C:\\foo\\bar\\baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
   end
 
@@ -1510,13 +1520,13 @@ describe Ronin::Support::Text::Patterns do
     it "must match relative UNIX paths" do
       path = 'foo/./bar/../baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
 
     it "must match relative Windows paths" do
       path = 'foo\\.\\bar\\..\\baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
   end
 
@@ -1526,13 +1536,13 @@ describe Ronin::Support::Text::Patterns do
     it "must match absolute UNIX paths" do
       path = '/foo/bar/baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
 
     it "must match absolute Windows paths" do
       path = 'C:\\foo\\bar\\baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
   end
 
@@ -1542,25 +1552,25 @@ describe Ronin::Support::Text::Patterns do
     it "must match relative UNIX paths" do
       path = 'foo/./bar/../baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
 
     it "must match absolute UNIX paths" do
       path = '/foo/bar/baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
 
     it "must match relative Windows paths" do
       path = 'foo\\.\\bar\\..\\baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
 
     it "must match absolute Windows paths" do
       path = 'C:\\foo\\bar\\baz'
 
-      expect(path).to match(subject)
+      expect(path).to fully_match(subject)
     end
   end
 end
