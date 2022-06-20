@@ -544,7 +544,7 @@ describe Ronin::Support::Text::Patterns do
       expect(html.match(subject)[0]).to eq(domain)
     end
 
-    it "must not match hostnames with unknown TLDs" do
+    it "must not match domains with unknown TLDs" do
       expect('foo.zzz').to_not match(subject)
     end
 
