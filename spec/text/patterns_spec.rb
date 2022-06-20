@@ -528,7 +528,7 @@ describe Ronin::Support::Text::Patterns do
     subject { described_class::DOMAIN }
 
     it "must match valid domain names" do
-      domain = 'google.com'
+      domain = 'example.com'
 
       expect(domain).to fully_match(subject)
     end
@@ -557,13 +557,13 @@ describe Ronin::Support::Text::Patterns do
     subject { described_class::HOST_NAME }
 
     it "must match valid hostnames" do
-      hostname = 'www.google.com'
+      hostname = 'www.example.com'
 
       expect(hostname).to fully_match(subject)
     end
 
     it "must also match valid domain names" do
-      hostname = 'google.com'
+      hostname = 'example.com'
 
       expect(hostname).to fully_match(subject)
     end
