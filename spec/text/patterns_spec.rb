@@ -537,6 +537,13 @@ describe Ronin::Support::Text::Patterns do
       expect('foo').to_not match(subject)
     end
 
+    it "must match domains within punctuation" do
+      domain = 'example.com'
+      html   = "<a href=\"https://#{domain}/foo>link</a>"
+
+      expect(html.match(subject)[0]).to eq(domain)
+    end
+
     it "must not match hostnames with unknown TLDs" do
       expect('foo.zzz').to_not match(subject)
     end
@@ -559,6 +566,13 @@ describe Ronin::Support::Text::Patterns do
       hostname = 'google.com'
 
       expect(hostname).to fully_match(subject)
+    end
+
+    it "must match hostnames within punctuation" do
+      hostname = 'www.example.com'
+      html     = "<a href=\"https://#{hostname}/foo>link</a>"
+
+      expect(html.match(subject)[0]).to eq(hostname)
     end
 
     it "must not match hostnames without a TLD" do
