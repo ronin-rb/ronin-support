@@ -551,6 +551,10 @@ describe Ronin::Support::Text::Patterns do
     it "must not partially match a string which contains a TLD name" do
       expect('foo.commmmm').to_not match(subject)
     end
+
+    it "must not match domains with TLDs that begin with a valid TLD" do
+      expect("foo.comzzz").to_not match(subject)
+    end
   end
 
   describe "HOST_NAME" do
@@ -576,11 +580,15 @@ describe Ronin::Support::Text::Patterns do
     end
 
     it "must not match hostnames without a TLD" do
-      expect('foo').to_not match(subject)
+      expect('www.foo').to_not match(subject)
     end
 
     it "must not match hostnames with unknown TLDs" do
-      expect('foo.zzz').to_not match(subject)
+      expect('www.foo.zzz').to_not match(subject)
+    end
+
+    it "must not match hostnames with TLDs that begin with a valid TLD" do
+      expect("www.foo.comzzz").to_not match(subject)
     end
   end
 
