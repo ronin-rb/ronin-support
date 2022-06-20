@@ -217,6 +217,14 @@ module Ronin
         # @see EMAIL_ADDRESS
         EMAIL_ADDR = EMAIL_ADDRESS
 
+        # Regular expression to find obfuscated email addresses in text.
+        #
+        # @since 1.0.0
+        OBFUSCATED_EMAIL_ADDRESS = /[a-zA-Z][a-zA-Z0-9_-]*(?:(?:\.|\s+DOT\s+)[a-zA-Z][a-zA-Z0-9_-]*)*(?:@|\s+AT\s+)(?:[a-zA-Z0-9_-]{1,63}(?:\.|\s+DOT\s+))*[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*(?:\.|\s+DOT\s+)#{Regexp.union(Resolv::TLDS)}(?=[^a-zA-Z0-9\._-]|$)/
+
+        # @see OBFUSCATED_EMAIL_ADDRESS
+        OBFUSCATED_EMAIL_ADDR = OBFUSCATED_EMAIL_ADDRESS
+
         # Regular expression to find phone numbers in text
         #
         # @since 0.5.0

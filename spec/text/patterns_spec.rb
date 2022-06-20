@@ -810,6 +810,28 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "OBFUSCATED_EMAIL_ADDRESS" do
+    subject { described_class::OBFUSCATED_EMAIL_ADDRESS }
+
+    it "must match valid email addresses" do
+      email = 'alice@example.com'
+
+      expect(email).to fully_match(subject)
+    end
+
+    it "must match an email addresses where the '@' character have been replaced by ' AT '" do
+      email = 'alice AT example.com'
+
+      expect(email).to fully_match(subject)
+    end
+
+    it "must match an email addresses where '.' characters have been replaced by ' DOT '" do
+      email = 'foo DOT bar@example DOT com'
+
+      expect(email).to fully_match(subject)
+    end
+  end
+
   describe "PHONE_NUMBER" do
     subject { described_class::PHONE_NUMBER }
 
