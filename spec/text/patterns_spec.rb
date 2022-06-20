@@ -560,6 +560,130 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "URL" do
+    subject { described_class::URL }
+
+    it "must match http://example.com" do
+      expect("http://example.com").to match(subject)
+    end
+
+    it "must match https://example.com" do
+      expect("https://example.com").to match(subject)
+    end
+
+    it "must match http://www.example.com" do
+      expect("http://example.com").to match(subject)
+    end
+
+    it "must match http://127.0.0.1" do
+      expect("http://127.0.0.1").to match(subject)
+    end
+
+    it "must match http://127.0.0.1:8000" do
+      expect("http://127.0.0.1:8000").to match(subject)
+    end
+
+    it "must match http://[::1]" do
+      expect("http://[::1]").to match(subject)
+    end
+
+    it "must match http://[::1]:8000" do
+      expect("http://[::1]:8000").to match(subject)
+    end
+
+    it "must match http://example.com:8000" do
+      expect("http://example.com:8000").to match(subject)
+    end
+
+    it "must match http://user@example.com" do
+      expect("http://user@example.com").to match(subject)
+    end
+
+    it "must match http://user:password@example.com" do
+      expect("http://user:password@example.com").to match(subject)
+    end
+
+    it "must match http://user:password@example.com:8000" do
+      expect("http://user:password@example.com:8000").to match(subject)
+    end
+
+    it "must match http://example.com/" do
+      expect("http://example.com/").to match(subject)
+    end
+
+    it "must match http://example.com:8000/" do
+      expect("http://example.com:8000/").to match(subject)
+    end
+
+    it "must match http://example.com/foo" do
+      expect("http://example.com/foo").to match(subject)
+    end
+
+    it "must match http://example.com/foo/bar" do
+      expect("http://example.com/foo/bar").to match(subject)
+    end
+
+    it "must match http://example.com/foo/./bar" do
+      expect("http://example.com/foo/./bar").to match(subject)
+    end
+
+    it "must match http://example.com/foo/../bar" do
+      expect("http://example.com/foo/../bar").to match(subject)
+    end
+
+    it "must match http://example.com/foo%20bar" do
+      expect("http://example.com/foo%20bar").to match(subject)
+    end
+
+    it "must match http://example.com?id=1" do
+      expect("http://example.com?id=1").to match(subject)
+    end
+
+    it "must match http://example.com/?id=1" do
+      expect("http://example.com/?id=1").to match(subject)
+    end
+
+    it "must match http://example.com/foo?id=1" do
+      expect("http://example.com/foo?id=1").to match(subject)
+    end
+
+    it "must match http://example.com/foo?id=%20" do
+      expect("http://example.com/foo?id=%20").to match(subject)
+    end
+
+    it "must match http://example.com#fragment" do
+      expect("http://example.com#fragment").to match(subject)
+    end
+
+    it "must match http://example.com/#fragment" do
+      expect("http://example.com/#fragment").to match(subject)
+    end
+
+    it "must match http://example.com/foo#fragment" do
+      expect("http://example.com/foo#fragment").to match(subject)
+    end
+
+    it "must match http://example.com?id=1#fragment" do
+      expect("http://example.com?id=1#fragment").to match(subject)
+    end
+
+    it "must match http://example.com/?id=1#fragment" do
+      expect("http://example.com/?id=1#fragment").to match(subject)
+    end
+
+    it "must match http://example.com/foo?id=1#fragment" do
+      expect("http://example.com/foo?id=1#fragment").to match(subject)
+    end
+
+    it "must match ssh://user@host.example.com" do
+      expect("ssh://user@host.example.com").to match(subject)
+    end
+
+    it "must match ldap://ds.example.com:389" do
+      expect("ldap://ds.example.com:389").to match(subject)
+    end
+  end
+
   describe "USER_NAME" do
     subject { described_class::USER_NAME }
 

@@ -168,6 +168,40 @@ module Ronin
         # Regular expression used to find host-names in text
         HOST_NAME = /(?:[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*\.)*#{DOMAIN}/i
 
+        scheme           = "[a-zA-Z][\\-+.a-zA-Z\\d]*"
+        reserved_chars   = ";/?:@&=+$,\\[\\]"
+        unreserved_chars = "\\-_.!~*'()a-zA-Z\\d"
+        escaped_char     = "%[a-fA-F\\d]{2}"
+        user_info        = "(?:[#{unreserved_chars};:&=+$,]|#{escaped_char})*"
+        reg_name         = "(?:[#{unreserved_chars}$,;:@&=+]|#{escaped_char})+"
+        pchar            = "(?:[#{unreserved_chars}:@&=+$,]|#{escaped_char})"
+        param            = "#{pchar}*"
+        path_segment     = "#{pchar}*(?:;#{param})*"
+        path_segments    = "#{path_segment}(?:/#{path_segment})*"
+        abs_path         = "/#{path_segments}"
+        char             = "(?:[#{unreserved_chars}#{reserved_chars}]|#{escaped_char})"
+        query            = "#{char}*"
+        fragment         = "#{char}*"
+
+        # Regular expression to match URLs in text
+        #
+        # @since 1.0.0
+        URL = %r{
+          #{scheme}:                                         (?# 1: scheme)
+          (?:
+            //
+            (?:
+              (?:#{user_info}@)?                             (?# 1: userinfo)
+              (?:#{HOST_NAME}|#{IPV4_ADDR}|\[#{IPV6_ADDR}\]) (?# 2: host)
+              (?::\d*)?                                      (?# 3: port)
+              |#{reg_name}                                   (?# 4: registry)
+            )
+          )?
+          (?:#{abs_path})?                                   (?# 6: abs_path)
+          (?:\?#{query})?                                    (?# 7: query)
+          (?:\##{fragment})?                                 (?# 8: fragment)
+        }x
+
         #
         # @group PII Patterns
         #
