@@ -5,11 +5,9 @@ require 'fileutils'
 require 'tmpdir'
 
 describe Ronin::Support::Network::ASN::List do
-  let(:fixtures_dir) { File.join(__dir__,'fixtures')      }
-  let(:list_file)    { File.join(fixtures_dir,'list.tsv') }
-  let(:records) do
-    Ronin::Support::Network::ASN::List.parse(list_file).to_a
-  end
+  let(:fixtures_dir) { File.join(__dir__,'fixtures')         }
+  let(:list_file)    { File.join(fixtures_dir,'list.tsv')    }
+  let(:records)      { described_class.parse(list_file).to_a }
 
   let(:path) { list_file }
   subject { described_class.new(path) }
