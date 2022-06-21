@@ -449,8 +449,12 @@ describe Ronin::Support::Network::PublicSuffix::List do
       expect(subject.to_regexp).to be_kind_of(Regexp)
     end
 
+    let(:suffixes) do
+      subject.list.reject { |suffix| suffix.include?('*') }
+    end
+
     it "must match every suffix in the #list" do
-      expect(subject.list).to all(match(subject.to_regexp))
+      expect(suffixes).to all(match(subject.to_regexp))
     end
   end
 

@@ -268,7 +268,7 @@ module Ronin
               tld_regexp(tld,subtree)
             })
 
-            return /(?<=\.|^)#{regexp}(?=[^\.a-z0-9-]|$)/
+            return /(?<=[^a-zA-Z0-9_-]|^)#{regexp}(?=[^\.a-z0-9-]|$)/
           end
 
           #
