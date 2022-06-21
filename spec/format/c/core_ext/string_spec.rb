@@ -69,7 +69,27 @@ describe String do
       end
     end
 
-    context "when the String contains escaped octal characters" do
+    context "when the String contains single character escaped octal characters" do
+      subject { "\\0\\1\\2\\3\\4\\5\\6\\7" }
+
+      let(:unescaped) { "\0\1\2\3\4\5\6\7" }
+
+      it "must unescape the octal characters" do
+        expect(subject.c_unescape).to eq(unescaped)
+      end
+    end
+
+    context "when the String contains two character escaped octal characters" do
+      subject { "\\10\\11\\12\\13\\14\\15\\16\\17\\20" }
+
+      let(:unescaped) { "\10\11\12\13\14\15\16\17\20" }
+
+      it "must unescape the octal characters" do
+        expect(subject.c_unescape).to eq(unescaped)
+      end
+    end
+
+    context "when the String contains three character escaped octal characters" do
       subject { "\\150\\145\\154\\154\\157\\040\\167\\157\\162\\154\\144" }
 
       let(:unescaped) { "hello world" }
