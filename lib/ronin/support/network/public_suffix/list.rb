@@ -20,6 +20,7 @@
 require 'ronin/support/home'
 
 require 'net/https'
+require 'fileutils'
 
 module Ronin
   module Support

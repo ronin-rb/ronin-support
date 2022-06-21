@@ -22,6 +22,7 @@ require 'ronin/support/network/asn/record_set'
 require 'ronin/support/network/ip_range/range'
 require 'ronin/support/home'
 
+require 'fileutils'
 require 'net/https'
 require 'zlib'
 
