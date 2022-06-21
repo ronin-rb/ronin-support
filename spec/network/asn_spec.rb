@@ -56,7 +56,7 @@ describe Ronin::Support::Network::ASN do
   end
 
   describe ".list" do
-    let(:fixtures_dir) { File.join(__dir__,'asn','fixtures')      }
+    let(:fixtures_dir) { File.join(__dir__,'asn','fixtures')   }
     let(:list_file)    { File.join(fixtures_dir,'list.tsv.gz') }
 
     it "must call #{described_class}::List.update and #{described_class}::List.load_file" do
