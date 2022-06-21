@@ -7,9 +7,9 @@ describe Network::SSL::Proxy, network: true do
 
   let(:port)   { 1337                  }
   let(:host)   { 'localhost'           }
-  let(:server) { ['www.iana.org', 443] }
+  let(:server) { ['www.example.com', 443] }
 
-  let(:request) { "GET / HTTP/1.1\r\nHost: #{server[0]}\r\n\r\n" }
+  let(:request) { "GET / HTTP/1.1\r\nHost: #{server[0]}\r\nConnection: close\r\n\r\n" }
 
   before(:each) do
     @proxy  = described_class.new(
@@ -34,7 +34,7 @@ describe Network::SSL::Proxy, network: true do
     end
 
     it "must trigger when a new client connects" do
-      @socket.readline.should == injection
+      expect(@socket.readline).to eq(injection)
     end
 
     after { @socket.close }
@@ -52,7 +52,7 @@ describe Network::SSL::Proxy, network: true do
     end
 
     it "must trigger after a new client connects" do
-      @socket.readline.should == injection
+      expect(@socket.readline).to eq(injection)
     end
 
     after { @socket.close }
@@ -70,7 +70,7 @@ describe Network::SSL::Proxy, network: true do
     it "must trigger when the client sends data" do
       @socket.write(request)
 
-      @socket.readline.should == "HTTP/1.1 404 NOT FOUND\r\n"
+      expect(@socket.readline).to eq("HTTP/1.1 404 Not Found\r\n")
     end
 
     after { @socket.close }
@@ -79,7 +79,7 @@ describe Network::SSL::Proxy, network: true do
   describe "#on_server_data" do
     before do
       @proxy.on_server_data do |client,server,data|
-        data.gsub!(/Connection: \S+/,'Connection: keep-alive')
+        data.gsub!(/HTTP\/\d\.\d/,'HTTP 9000')
       end
 
       @socket = ssl_connect(host,port)
@@ -88,7 +88,7 @@ describe Network::SSL::Proxy, network: true do
     it "must trigger when the server sends data" do
       @socket.write(request)
 
-      @socket.read.should include("Connection: keep-alive\r\n")
+      expect(@socket.readline).to include("HTTP 9000 200 OK\r\n")
     end
 
     after { @socket.close }
@@ -108,7 +108,7 @@ describe Network::SSL::Proxy, network: true do
     it "must trigger when the server closes the connection" do
       @socket.write(request)
 
-      @socket.read.end_with?(injection).should be_true
+      expect(@socket.read.end_with?(injection)).to be(true)
     end
 
     after { @socket.close }
