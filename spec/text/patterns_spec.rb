@@ -630,7 +630,7 @@ describe Ronin::Support::Text::Patterns do
     end
 
     it "must not match hostnames without a TLD" do
-      expect('www.foo').to_not match(subject)
+      expect('www.has-no-tld').to_not match(subject)
     end
 
     it "must not match hostnames with unknown TLDs" do
