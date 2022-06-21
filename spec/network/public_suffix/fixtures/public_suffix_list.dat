@@ -1,0 +1,21 @@
+// Test public_suffix_list.dat
+com
+net
+org
+
+*.nom.br
+
+// uk : https://en.wikipedia.org/wiki/.uk
+// Submitted by registry <Michael.Daly@nominet.org.uk>
+uk
+ac.uk
+co.uk
+gov.uk
+ltd.uk
+me.uk
+net.uk
+nhs.uk
+org.uk
+plc.uk
+police.uk
+*.sch.uk
