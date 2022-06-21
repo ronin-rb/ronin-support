@@ -37,3 +37,23 @@ task :default => :spec
 require 'yard'
 YARD::Rake::YardocTask.new
 task :docs => :yard
+
+namespace :public_suffix do
+  desc 'Downloads the public_suffix_list.dat file'
+  task :download do
+    require 'ronin/support/network/public_suffix/list'
+    Ronin::Support::Network::PublicSuffix::List.download(
+      path: 'public_suffix_list.dat'
+    )
+  end
+
+  desc 'Builds a regex for every public suffix'
+  task :regex => :download do
+    require 'ronin/support/network/public_suffix/list'
+    list = Ronin::Support::Network::PublicSuffix::List.load_file(
+      'public_suffix_list.dat'
+    )
+    
+    puts list.to_regexp.inspect
+  end
+end
