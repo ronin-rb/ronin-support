@@ -36,7 +36,7 @@ module Ronin
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {SSL#ssl_context}.
+          #   Additional keyword arguments for {SSL.context}.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
