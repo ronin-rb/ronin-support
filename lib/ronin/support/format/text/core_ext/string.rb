@@ -254,7 +254,7 @@ class String
     scanner = StringScanner.new(self)
 
     until scanner.eos?
-      if (unicode_escape = scanner.scan(/\\[0-7]{3}/))
+      if (unicode_escape = scanner.scan(/\\(?:[0-7]{1,3}|[0-7])/))
         buffer << unicode_escape[1,3].to_i(8).chr
       elsif (hex_escape = scanner.scan(/\\u[0-9a-fA-F]{4,8}/))
         buffer << hex_escape[2..-1].to_i(16).chr(Encoding::UTF_8)
