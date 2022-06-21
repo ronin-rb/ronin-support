@@ -241,6 +241,8 @@ module Ronin
           end
 
           #
+          # Accepts a client connection from the server socket.
+          #
           # @return [OpenSSL::SSL::SSLSocket]
           #   The new SSL connection.
           #
