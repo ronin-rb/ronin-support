@@ -139,6 +139,16 @@ describe Ronin::Support::Network::ASN::RecordSet do
   end
 
   describe "#ipv6" do
+    subject { super().ipv6 }
+
+    it "must return a #{described_class}" do
+      expect(subject).to be_kind_of(described_class)
+    end
+
+    it "must return the records with IPv6 ranges" do
+      expect(subject.records).to be_kind_of(Enumerator::Lazy)
+      expect(subject.records.to_a).to all(be_ipv6)
+    end
   end
 
   describe "#ip" do
