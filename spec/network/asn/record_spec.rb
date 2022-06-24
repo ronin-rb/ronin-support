@@ -1,13 +1,20 @@
 require 'spec_helper'
 require 'ronin/support/network/asn/record'
-require 'ronin/support/network/ip_range/cidr'
+require 'ronin/support/network/ip_range/range'
 
 describe Ronin::Support::Network::ASN::Record do
   let(:number)       { 3356 }
-  let(:cidr)         { '4.0.0.0/9' }
-  let(:range)        { Ronin::Support::Network::IPRange::CIDR.new(cidr) }
+  let(:start)        { '4.0.0.0' }
+  let(:stop)         { '4.7.168.255' }
+  let(:range)        { Ronin::Support::Network::IPRange::Range.new(start,stop) }
   let(:country_code) { 'US'     }
   let(:name)         { 'LEVEL3' }
+
+  let(:ipv6_start) { '2a02:16d8:103::' }
+  let(:ipv6_stop)  { '2a02:16d8:103:ffff:ffff:ffff:ffff:ffff' }
+  let(:ipv6_range) do
+    Ronin::Support::Network::IPRange::Range.new(ipv6_start,ipv6_stop)
+  end
 
   subject { described_class.new(number,range,country_code,name) }
 
@@ -61,6 +68,38 @@ describe Ronin::Support::Network::ASN::Record do
     context "but when #number is not 0" do
       it "must return false" do
         expect(subject.not_routed?).to be(false)
+      end
+    end
+  end
+
+  describe "#ipv4?" do
+    context "when the ASN record contains an IPv4 IP range" do
+      it "must return true" do
+        expect(subject.ipv4?).to be(true)
+      end
+    end
+
+    context "when the ASN record contains an IPv6 IP range" do
+      let(:range) { ipv6_range }
+
+      it "must return false" do
+        expect(subject.ipv4?).to be(false)
+      end
+    end
+  end
+
+  describe "#ipv6?" do
+    context "when the ASN record contains an IPv4 IP range" do
+      it "must return false" do
+        expect(subject.ipv6?).to be(false)
+      end
+    end
+
+    context "when the ASN record contains an IPv6 IP range" do
+      let(:range) { ipv6_range }
+
+      it "must return true" do
+        expect(subject.ipv6?).to be(true)
       end
     end
   end

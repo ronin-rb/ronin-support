@@ -86,6 +86,24 @@ module Ronin
           end
 
           #
+          # Determines if the ASN record has an IPv4 IP range.
+          #
+          # @return [Boolean]
+          #
+          def ipv4?
+            @range.ipv4?
+          end
+
+          #
+          # Determines if the ASN record has an IPv6 IP range.
+          #
+          # @return [Boolean]
+          #
+          def ipv6?
+            @range.ipv6?
+          end
+
+          #
           # Determines if the IP belongs to the ASN range.
           #
           # @param [IPAddr, String] ip
