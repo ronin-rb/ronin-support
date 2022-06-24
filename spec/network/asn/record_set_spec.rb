@@ -85,6 +85,7 @@ describe Ronin::Support::Network::ASN::RecordSet do
 
     it "must initialize the new #{described_class} with a Enumerator::Lazy for records with the matching number" do
       expect(subject.records).to be_kind_of(Enumerator::Lazy)
+      expect(subject.records.to_a).to_not be_empty
       expect(subject.records.to_a).to eq(records.select { |record|
         record.number == number
       })
@@ -111,6 +112,7 @@ describe Ronin::Support::Network::ASN::RecordSet do
 
     it "must initialize the new #{described_class} with a Enumerator::Lazy for records with the matching country_code" do
       expect(subject.records).to be_kind_of(Enumerator::Lazy)
+      expect(subject.records.to_a).to_not be_empty
       expect(subject.records.to_a).to eq(records.select { |record|
         record.country_code == country_code
       })
@@ -134,6 +136,7 @@ describe Ronin::Support::Network::ASN::RecordSet do
 
     it "must return the records with IPv4 ranges" do
       expect(subject.records).to be_kind_of(Enumerator::Lazy)
+      expect(subject.records.to_a).to_not be_empty
       expect(subject.records.to_a).to all(be_ipv4)
     end
   end
@@ -147,6 +150,7 @@ describe Ronin::Support::Network::ASN::RecordSet do
 
     it "must return the records with IPv6 ranges" do
       expect(subject.records).to be_kind_of(Enumerator::Lazy)
+      expect(subject.records.to_a).to_not be_empty
       expect(subject.records.to_a).to all(be_ipv6)
     end
   end
@@ -212,6 +216,7 @@ describe Ronin::Support::Network::ASN::RecordSet do
 
     it "must initialize the new #{described_class} with a Enumerator::Lazy for records with the matching name" do
       expect(subject.records).to be_kind_of(Enumerator::Lazy)
+      expect(subject.records.to_a).to_not be_empty
       expect(subject.records.to_a).to eq(records.select { |record|
         record.name == name
       })
