@@ -133,6 +133,26 @@ module Ronin
           end
 
           #
+          # Selects only the records with IPv4 ranges.
+          #
+          # @return [RecordSet]
+          #   The new sub-set of records.
+          #
+          def ipv4
+            RecordSet.new(lazy.select(&:ipv4?))
+          end
+
+          #
+          # Selects only the records with IPv6 ranges.
+          #
+          # @return [RecordSet]
+          #   The new sub-set of records.
+          #
+          def ipv6
+            RecordSet.new(lazy.select(&:ipv6?))
+          end
+
+          #
           # Finds the ASN record for the given IP address.
           #
           # @param [IP, IPaddr, String] ip
