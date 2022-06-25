@@ -152,9 +152,9 @@ module Ronin
           #
           def to_s
             if routed?
-              "#{@range} AS#{@number} (#{@country_code}) #{@name}"
+              "#{range} AS#{number} (#{country_code}) #{name}"
             else
-              "#{@range} Not routed"
+              "#{range} Not routed"
             end
           end
 
