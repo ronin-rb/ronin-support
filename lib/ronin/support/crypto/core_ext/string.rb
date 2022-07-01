@@ -496,7 +496,10 @@ class String
   # @param [Integer] n
   #   The number of characters to shift each character by.
   #
-  # @param [Array<Enumerable>] alphabets
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [Array<Array<String>>] :alphabets
   #   The alphabet(s) to use.
   #
   # @return [String]
@@ -516,24 +519,8 @@ class String
   #
   # @since 1.0.0
   #
-  def rot(n=13, alphabets: [('A'..'Z').to_a, ('a'..'z').to_a, ('0'..'9').to_a])
-    translation_table = {}
-
-    alphabets.each do |alphabet|
-      modulo = alphabet.count
-
-      alphabet.each_with_index do |char,index|
-        translation_table[char] = alphabet[(index + n) % modulo]
-      end
-    end
-
-    new_string = String.new(encoding: encoding)
-
-    each_char do |char|
-      new_string << translation_table.fetch(char,char)
-    end
-
-    return new_string
+  def rot(n=13,**kwargs)
+    Ronin::Support::Crypto.rot(self,n,**kwargs)
   end
 
   #
@@ -556,20 +543,7 @@ class String
   # @api public
   #
   def xor(key)
-    key = case key
-          when Integer then [key]
-          when String  then key.bytes
-          else              key
-          end
-
-    key    = key.cycle
-    result = ''
-
-    bytes.each do |b|
-      result << (b ^ key.next).chr
-    end
-
-    return result
+    Ronin::Support::Crypto.xor(self,key)
   end
 
   alias ^ xor

@@ -519,4 +519,69 @@ describe Crypto do
       end
     end
   end
+
+  describe ".rot" do
+    let(:string) { "The quick brown fox jumps over 13 lazy dogs" }
+
+    it "must ROT13 \"encrypt\" the String by default" do
+      expect(subject.rot(string)).to eq("Gur dhvpx oebja sbk whzcf bire 46 ynml qbtf")
+    end
+
+    context "when the String's encoding is not Encoding::UTF_8" do
+      let(:string) { String.new(super(), encoding: Encoding::ASCII_8BIT) }
+
+      it "must return a new String of the same encoding as the String" do
+        expect(subject.rot(string).encoding).to eq(string.encoding)
+      end
+    end
+
+    context "when the String contains characters not within the alphabets" do
+      let(:string) { "The quick brown fox, jumps over 13 lazy dogs." }
+
+      it "must leave the characters un-rotated" do
+        expect(subject.rot(string)).to eq("Gur dhvpx oebja sbk, whzcf bire 46 ynml qbtf.")
+      end
+    end
+
+    context "when given a specific 'n' value" do
+      it "must rotate forward the characters by that amount" do
+        expect(subject.rot(string,3)).to eq("Wkh txlfn eurzq ira mxpsv ryhu 46 odcb grjv")
+      end
+
+      context "and when the 'n' value is negative" do
+        let(:string) { "Wkh txlfn eurzq ira mxpsv ryhu 46 odcb grjv" }
+
+        it "must rotate backwards the characters by that amount" do
+          expect(subject.rot(string,-3)).to eq("The quick brown fox jumps over 13 lazy dogs")
+        end
+      end
+    end
+  end
+
+  describe ".xor" do
+    let(:string) { 'hello' }
+
+    let(:key) { 0x50 }
+    let(:keys) { [0x50, 0x55] }
+
+    it "must not contain the key used in the xor" do
+      expect(subject.xor(string,key)).to_not include(key.chr)
+    end
+
+    it "must not equal the original string" do
+      expect(subject.xor(string,key)).to_not eq(string)
+    end
+
+    it "must be able to be decoded with another xor" do
+      expect(subject.xor(subject.xor(string,key),key)).to eq(string)
+    end
+
+    it "must allow xoring against a single key" do
+      expect(subject.xor(string,key)).to eq("85<<?")
+    end
+
+    it "must allow xoring against multiple keys" do
+      expect(subject.xor(string,keys)).to eq("80<9?")
+    end
+  end
 end

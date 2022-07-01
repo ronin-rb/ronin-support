@@ -684,6 +684,94 @@ module Ronin
 
         return rsa.private_decrypt(data,**kwargs)
       end
+
+      #
+      # Rotates the characters in the given string using the given alphabet.
+      #
+      # @param [String] string
+      #   The String to rotate.
+      #
+      # @param [Integer] n
+      #   The number of characters to shift each character by.
+      #
+      # @param [Array<Array<String>>] alphabets
+      #   The alphabet(s) to use.
+      #
+      # @return [String]
+      #   The rotated string.
+      #
+      # @note
+      #   This method was added as a joke and should not be used for secure
+      #   cryptographic communications.
+      #
+      # @example ROT13 "encryption":
+      #   Crypto.rot("The quick brown fox jumps over 13 lazy dogs.")
+      #   # => "Gur dhvpx oebja sbk whzcf bire 46 ynml qbtf."
+      #
+      # @example ROT13 "decryption":
+      #   Crypto.rot("Gur dhvpx oebja sbk whzcf bire 46 ynml qbtf.", -13)
+      #   # => "The quick brown fox jumps over 13 lazy dogs."
+      #
+      # @since 1.0.0
+      #
+      def self.rot(string,n=13, alphabets: [('A'..'Z').to_a, ('a'..'z').to_a, ('0'..'9').to_a])
+        translation_table = {}
+
+        alphabets.each do |alphabet|
+          modulo = alphabet.count
+
+          alphabet.each_with_index do |char,index|
+            translation_table[char] = alphabet[(index + n) % modulo]
+          end
+        end
+
+        new_string = String.new(encoding: string.encoding)
+
+        string.each_char do |char|
+          new_string << translation_table.fetch(char,char)
+        end
+
+        return new_string
+      end
+
+      #
+      # XOR encodes the String.
+      #
+      # @param [String] string
+      #   The String to XOR.
+      #
+      # @param [Enumerable, Integer] key
+      #   The byte to XOR against each byte in the String.
+      #
+      # @return [String]
+      #   The XOR encoded String.
+      #
+      # @example
+      #   Crypto.xor("hello", 0x41)
+      #   # => ")$--."
+      #
+      # @example
+      #   Crypto.xor("hello again", [0x55, 0x41, 0xe1])
+      #   # => "=$\x8d9.\xc14&\x80</"
+      #
+      # @since 1.0.0
+      #
+      def self.xor(string,key)
+        key = case key
+              when Integer then [key]
+              when String  then key.bytes
+              else              key
+              end
+
+        key    = key.cycle
+        result = ''
+
+        string.bytes.each do |b|
+          result << (b ^ key.next).chr
+        end
+
+        return result
+      end
     end
   end
 end
