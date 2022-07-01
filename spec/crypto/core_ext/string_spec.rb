@@ -394,11 +394,11 @@ describe String do
   describe "#xor" do
     subject { 'hello' }
 
-    let(:key) { 0x50 }
+    let(:key)  { 0x50 }
     let(:keys) { [0x50, 0x55] }
 
     it "must not contain the key used in the xor" do
-      expect(subject).to_not include(key.chr)
+      expect(subject.xor(key)).to_not include(key.chr)
     end
 
     it "must not equal the original string" do
