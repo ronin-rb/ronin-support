@@ -561,8 +561,9 @@ describe Crypto do
   describe ".xor" do
     let(:string) { 'hello' }
 
-    let(:key) { 0x50 }
-    let(:keys) { [0x50, 0x55] }
+    let(:key)        { 0x50 }
+    let(:keys)       { [0x50, 0x55] }
+    let(:key_string) { "\x50\x55" }
 
     it "must not contain the key used in the xor" do
       expect(subject.xor(string,key)).to_not include(key.chr)
@@ -576,12 +577,22 @@ describe Crypto do
       expect(subject.xor(subject.xor(string,key),key)).to eq(string)
     end
 
-    it "must allow xoring against a single key" do
-      expect(subject.xor(string,key)).to eq("85<<?")
+    context "when the key is a single byte" do
+      it "must xor each byte against the single byte" do
+        expect(subject.xor(string,key)).to eq("85<<?")
+      end
     end
 
-    it "must allow xoring against multiple keys" do
-      expect(subject.xor(string,keys)).to eq("80<9?")
+    context "when the key is multiple bytes" do
+      it "must xor each byte against the multiple bytes" do
+        expect(subject.xor(string,keys)).to eq("80<9?")
+      end
+    end
+
+    context "when the key is a String" do
+      it "must xor each byte against the bytes in the key String" do
+        expect(subject.xor(string,key_string)).to eq("80<9?")
+      end
     end
 
     context "when the String's encoding is not Encoding::UTF_8" do
