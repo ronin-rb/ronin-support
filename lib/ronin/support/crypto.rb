@@ -764,7 +764,7 @@ module Ronin
               end
 
         key    = key.cycle
-        result = ''
+        result = String.new(encoding: string.encoding)
 
         string.bytes.each do |b|
           result << (b ^ key.next).chr

@@ -583,5 +583,13 @@ describe Crypto do
     it "must allow xoring against multiple keys" do
       expect(subject.xor(string,keys)).to eq("80<9?")
     end
+
+    context "when the String's encoding is not Encoding::UTF_8" do
+      let(:string) { String.new(super(), encoding: Encoding::ASCII_8BIT) }
+
+      it "must return a new String of the same encoding as the String" do
+        expect(subject.xor(string,key).encoding).to eq(string.encoding)
+      end
+    end
   end
 end
