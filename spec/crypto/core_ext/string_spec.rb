@@ -402,7 +402,7 @@ describe String do
     end
 
     it "must not equal the original string" do
-      expect(subject.xor(key)).to_not be == subject
+      expect(subject.xor(key)).to_not eq(subject)
     end
 
     it "must be able to be decoded with another xor" do
