@@ -145,4 +145,34 @@ describe String do
       expect(subject.c_string).to eq(c_string)
     end
   end
+
+  describe "#c_unquote" do
+    context "when the String is double-quoted" do
+      subject { "\"hello\\nworld\"" }
+
+      let(:unescaped) { "hello\nworld" }
+
+      it "must remove double-quotes and unescape the C string" do
+        expect(subject.c_unquote).to eq(unescaped)
+      end
+    end
+
+    context "when the String is a single-quoted character" do
+      subject { "'\\n'" }
+
+      let(:unescaped) { "\n" }
+
+      it "must remove single-quotes and unescape the C character" do
+        expect(subject.c_unquote).to eq(unescaped)
+      end
+    end
+
+    context "when the String is not quoted" do
+      subject { "hello world" }
+
+      it "must return the same String" do
+        expect(subject.c_unquote).to be(subject)
+      end
+    end
+  end
 end

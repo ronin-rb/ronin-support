@@ -160,4 +160,28 @@ class String
     "\"#{c_escape}\""
   end
 
+  #
+  # Removes the quotes an unescapes a C string.
+  #
+  # @return [String]
+  #   The un-quoted String if the String begins and ends with quotes, or the
+  #   same String if it is not quoted.
+  #
+  # @example
+  #   "\"hello\\nworld\"".c_unquote
+  #   # => "hello\nworld"
+  #
+  # @since 1.0.0
+  #
+  # @api public
+  #
+  def c_unquote
+    if ((self[0] == '"' && self[-1] == '"') ||
+        (self[0] == "'" && self[-1] == "'"))
+      self[1..-2].c_unescape
+    else
+      self
+    end
+  end
+
 end
