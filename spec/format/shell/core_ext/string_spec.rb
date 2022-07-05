@@ -89,9 +89,9 @@ describe String do
     end
 
     context "when the String contains escaped special characters" do
-      subject { "hello\\0world\\n" }
+      subject { "\\0\\a\\b\\e\\t\\n\\v\\f\\r\\\'\\\"" }
 
-      let(:unescaped) { "hello\0world\n" }
+      let(:unescaped) { "\0\a\b\e\t\n\v\f\r\'\"" }
 
       it "must unescape escaped special characters" do
         expect(subject.shell_unescape).to eq(unescaped)
@@ -135,6 +135,36 @@ describe String do
 
       it "must return a double quoted shell string" do
         expect(subject.shell_string).to eq(shell_string)
+      end
+    end
+  end
+
+  describe "#shell_unquote" do
+    context "when the String is double-quoted" do
+      subject { "\"hello\\\"world\\\"\"" }
+
+      let(:unescaped) { "hello\"world\"" }
+
+      it "must remove double-quotes and unescape the shell string" do
+        expect(subject.shell_unquote).to eq(unescaped)
+      end
+    end
+
+    context "when the String is $'...' quoted" do
+      subject { "$'hello\\nworld'" }
+
+      let(:unescaped) { "hello\nworld" }
+
+      it "must remove $'...' and unescape the shell string" do
+        expect(subject.shell_unquote).to eq(unescaped)
+      end
+    end
+
+    context "when the String is not quoted" do
+      subject { "hello world" }
+
+      it "must return the same String" do
+        expect(subject.shell_unquote).to be(subject)
       end
     end
   end
