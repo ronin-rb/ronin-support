@@ -201,4 +201,34 @@ describe String do
       end
     end
   end
+
+  describe "#unquote" do
+    context "when the String is double-quoted" do
+      subject { "\"hello\\nworld\"" }
+
+      let(:unescaped) { "hello\nworld" }
+
+      it "must remove double-quotes and unescape the string" do
+        expect(subject.unquote).to eq(unescaped)
+      end
+    end
+
+    context "when the String is single-quoted" do
+      subject { "'hello\\'world'" }
+
+      let(:unescaped) { "hello'world" }
+
+      it "must remove single-quotes and unescape any backslash single-quotes" do
+        expect(subject.unquote).to eq(unescaped)
+      end
+    end
+
+    context "when the String is not quoted" do
+      subject { "hello world" }
+
+      it "must return the same String" do
+        expect(subject.unquote).to be(subject)
+      end
+    end
+  end
 end

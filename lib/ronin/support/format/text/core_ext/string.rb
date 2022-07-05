@@ -270,4 +270,29 @@ class String
     return buffer.force_encoding(__ENCODING__)
   end
 
+  #
+  # Removes the quotes an unescapes a quoted string.
+  #
+  # @return [String]
+  #
+  # @example
+  #   "\"hello\\nworld\"".unquote
+  #   # => "hello\nworld"
+  #   "'hello\\'world'".unquote
+  #   # => "hello'world"
+  #
+  # @since 1.0.0
+  #
+  # @api public
+  #
+  def unquote
+    if (self[0] == '"' && self[-1] == '"')
+      self[1..-2].unescape
+    elsif (self[0] == "'" && self[-1] == "'")
+      self[1..-2].gsub("\\'","'")
+    else
+      self
+    end
+  end
+
 end
