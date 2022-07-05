@@ -30,6 +30,7 @@ class String
     "\\f"  => "\f",
     "\\r"  => "\r",
     "\\\"" => "\"",
+    "\\\'" => "'",
     "\\\\" => "\\"
   }
 
@@ -73,7 +74,7 @@ class String
   def js_unescape
     unescaped = String.new
 
-    scan(/[\\%]u[0-9a-fA-F]{1,4}|[\\%][0-9a-fA-F]{1,2}|\\[btnfr"\\]|./) do |c|
+    scan(/[\\%]u[0-9a-fA-F]{1,4}|[\\%][0-9a-fA-F]{1,2}|\\[btnfr\'\"\\]|./) do |c|
       unescaped << JS_BACKSLASHED_CHARS.fetch(c) do
         if (c.start_with?("\\u") || c.start_with?("%u"))
           c[2..-1].to_i(16)
@@ -148,6 +149,30 @@ class String
   #
   def js_string
     "\"#{js_escape}\""
+  end
+
+  #
+  # Removes the quotes an unescapes a JavaScript string.
+  #
+  # @return [String]
+  #   The un-quoted String if the String begins and ends with quotes, or the
+  #   same String if it is not quoted.
+  #
+  # @example
+  #   "\"hello\\nworld\"".js_unquote
+  #   # => "hello\nworld"
+  #
+  # @since 1.0.0
+  #
+  # @api public
+  #
+  def js_unquote
+    if ((self[0] == '"' && self[-1] == '"') ||
+        (self[0] == "'" && self[-1] == "'"))
+      self[1..-2].js_unescape
+    else
+      self
+    end
   end
 
 end

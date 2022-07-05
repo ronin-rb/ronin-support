@@ -39,7 +39,7 @@ describe String do
     end
 
     it "must unescape backslash-escaped characters" do
-      expect("\\b\\t\\n\\f\\r\\\"\\\\".js_unescape).to eq("\b\t\n\f\r\"\\")
+      expect("\\b\\t\\n\\f\\r\\\"\\\'\\\\".js_unescape).to eq("\b\t\n\f\r\"'\\")
     end
 
     it "must ignore non-escaped characters" do
@@ -72,6 +72,36 @@ describe String do
 
     it "must return a double quoted JavaScript string" do
       expect(subject.js_string).to eq(js_string)
+    end
+  end
+
+  describe "#js_unquote" do
+    context "when the String is double-quoted" do
+      subject { "\"hello\\nworld\"" }
+
+      let(:unescaped) { "hello\nworld" }
+
+      it "must remove double-quotes and unescape the JavaScript string" do
+        expect(subject.js_unquote).to eq(unescaped)
+      end
+    end
+
+    context "when the String is single-quoted" do
+      subject { "'hello\\'world'" }
+
+      let(:unescaped) { "hello'world" }
+
+      it "must remove the single-quotes and unescape the JavaScript string" do
+        expect(subject.js_unquote).to eq(unescaped)
+      end
+    end
+
+    context "when the String is not quoted" do
+      subject { "hello world" }
+
+      it "must return the same String" do
+        expect(subject.js_unquote).to be(subject)
+      end
     end
   end
 end
