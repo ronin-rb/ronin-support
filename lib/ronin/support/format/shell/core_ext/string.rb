@@ -144,6 +144,8 @@ class String
   # @example
   #   "\"hello \\\"world\\\"\"".shell_unquote
   #   # => "hello \"world\""
+  #   "'hello\\'world'".shell_unquote
+  #   # => "hello'world"
   #   "$'hello\\nworld'".shell_unquote
   #   # => "hello\nworld"
   #
@@ -154,9 +156,10 @@ class String
   def shell_unquote
     if (self[0,2] == "$'" && self[-1] == "'")
       self[2..-2].shell_unescape
-    elsif ((self[0] == '"' && self[-1] == '"') ||
-           (self[0] == "'" && self[-1] == "'"))
-      self[1..-2].shell_unescape
+    elsif (self[0] == '"' && self[-1] == '"')
+      self[1..-2].gsub("\\\"",'"')
+    elsif (self[0] == "'" && self[-1] == "'")
+      self[1..-2].gsub("\\'","'")
     else
       self
     end

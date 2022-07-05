@@ -145,7 +145,17 @@ describe String do
 
       let(:unescaped) { "hello\"world\"" }
 
-      it "must remove double-quotes and unescape the shell string" do
+      it "must remove double-quotes and unescape any escaped double-quotes" do
+        expect(subject.shell_unquote).to eq(unescaped)
+      end
+    end
+
+    context "when the String is single-quoted" do
+      subject { "'hello\\'world'" }
+
+      let(:unescaped) { "hello'world" }
+
+      it "must remove single-quotes and unescape any escaped single-quotes" do
         expect(subject.shell_unquote).to eq(unescaped)
       end
     end
