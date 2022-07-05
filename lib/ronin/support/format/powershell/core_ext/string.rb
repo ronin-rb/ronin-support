@@ -65,7 +65,7 @@ class String
   #   The PowerShell unescaped string.
   #
   # @example
-  #   "hello$`nworld".powershell_unescape
+  #   "hello`nworld".powershell_unescape
   #   # => "hello\nworld"
   #
   # @api public
@@ -126,7 +126,7 @@ class String
   #
   # @example
   #   "hello\nworld".powershell_string
-  #   # => "\"hello$`nworld\""
+  #   # => "\"hello`nworld\""
   #
   # @api public
   #
@@ -137,5 +137,34 @@ class String
   end
 
   alias psh_string powershell_string
+
+  #
+  # Removes the quotes an unescapes a PowerShell string.
+  #
+  # @return [String]
+  #   The un-quoted String if the String begins and ends with quotes, or the
+  #   same String if it is not quoted.
+  #
+  # @example
+  #   "\"hello`nworld\"".powershell_unquote
+  #   # => "hello\nworld"
+  #   "'hello''world'".powershell_unquote
+  #   # => "hello'world"
+  #
+  # @since 1.0.0
+  #
+  # @api public
+  #
+  def powershell_unquote
+    if (self[0] == '"' && self[-1] == '"')
+      self[1..-2].powershell_unescape
+    elsif (self[0] == "'" && self[-1] == "'")
+      self[1..-2].gsub("''","'")
+    else
+      self
+    end
+  end
+
+  alias psh_unquote powershell_unquote
 
 end

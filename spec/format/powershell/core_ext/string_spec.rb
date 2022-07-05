@@ -149,4 +149,34 @@ describe String do
       expect(subject.powershell_string).to eq(powershell_string)
     end
   end
+
+  describe "#powershell_unquote" do
+    context "when the String is double-quoted" do
+      subject { "\"hello`nworld\"" }
+
+      let(:unescaped) { "hello\nworld" }
+
+      it "must remove double-quotes and unescape the PowerShell string" do
+        expect(subject.powershell_unquote).to eq(unescaped)
+      end
+    end
+
+    context "when the String is single-quoted" do
+      subject { "'hello''world'" }
+
+      let(:unescaped) { "hello'world" }
+
+      it "must remove single-quotes and unescape any double single-quotes" do
+        expect(subject.powershell_unquote).to eq(unescaped)
+      end
+    end
+
+    context "when the String is not quoted" do
+      subject { "hello world" }
+
+      it "must return the same String" do
+        expect(subject.powershell_unquote).to be(subject)
+      end
+    end
+  end
 end
