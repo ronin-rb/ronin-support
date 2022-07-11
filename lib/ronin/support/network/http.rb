@@ -18,6 +18,7 @@
 #
 
 require 'ronin/support/network/http/request'
+require 'ronin/support/network/http/set_cookie'
 require 'ronin/support/network/http/core_ext'
 require 'ronin/support/network/ssl'
 
@@ -616,7 +617,9 @@ module Ronin
         #
         # Sends an arbitrary HTTP request.
         #
-        # @param [Symbol] method
+        # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #         :options, :patch, :post, :propfind, :proppatch, :put,
+        #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
         # @param [String, nil] path
@@ -730,7 +733,9 @@ module Ronin
         #
         # Sends an arbitrary HTTP request and returns the response status.
         #
-        # @param [Symbol] method
+        # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #         :options, :patch, :post, :propfind, :proppatch, :put,
+        #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
         # @param [String, nil] path
@@ -752,7 +757,9 @@ module Ronin
         #
         # Sends a HTTP request and determines if the response status was 200.
         #
-        # @param [Symbol] method
+        # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #         :options, :patch, :post, :propfind, :proppatch, :put,
+        #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
         # @param [String, nil] path
@@ -773,7 +780,9 @@ module Ronin
         #
         # Sends an arbitrary HTTP request and returns the response headers.
         #
-        # @param [Symbol] method
+        # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #         :options, :patch, :post, :propfind, :proppatch, :put,
+        #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
         # @param [String, nil] path
@@ -800,7 +809,9 @@ module Ronin
         #
         # Sends an HTTP request and returns the `Server` header.
         #
-        # @param [Symbol] method
+        # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #         :options, :patch, :post, :propfind, :proppatch, :put,
+        #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
         # @param [String, nil] path
@@ -822,7 +833,9 @@ module Ronin
         #
         # Sends an HTTP request and returns the `X-Powered-By` header.
         #
-        # @param [Symbol] method
+        # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #         :options, :patch, :post, :propfind, :proppatch, :put,
+        #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
         # @param [String, nil] path
@@ -844,7 +857,9 @@ module Ronin
         #
         # Sends an arbitrary HTTP request and returns the response body.
         #
-        # @param [Symbol] method
+        # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #         :options, :patch, :post, :propfind, :proppatch, :put,
+        #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
         # @param [String, nil] path
@@ -1709,7 +1724,9 @@ module Ronin
         #
         # Performs and arbitrary HTTP request.
         #
-        # @param [Symbol, String] method
+        # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #         :options, :patch, :post, :propfind, :proppatch, :put,
+        #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
         # @param [URI::HTTP, String, nil] uri
@@ -1829,7 +1846,9 @@ module Ronin
         #
         # Sends an arbitrary HTTP request and returns the response status.
         #
-        # @param [Symbol, String] method
+        # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #         :options, :patch, :post, :propfind, :proppatch, :put,
+        #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
         # @param [URI::HTTP, String, nil] uri
@@ -1937,7 +1956,9 @@ module Ronin
         #
         # Sends a HTTP request and determines if the response status was 200.
         #
-        # @param [Symbol, String] method
+        # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #         :options, :patch, :post, :propfind, :proppatch, :put,
+        #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
         # @param [URI::HTTP, String, nil] uri
@@ -2045,7 +2066,9 @@ module Ronin
         #
         # Sends an arbitrary HTTP request and returns the response headers.
         #
-        # @param [Symbol, String] method
+        # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #         :options, :patch, :post, :propfind, :proppatch, :put,
+        #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
         # @param [URI::HTTP, String, nil] uri
@@ -2175,7 +2198,9 @@ module Ronin
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
         #
-        # @option kwargs [Symbol, String] :method
+        # @option kwargs [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #                 :options, :patch, :post, :propfind, :proppatch, :put,
+        #                 :trace, :unlock] :method
         #   The HTTP method to use for the request.
         #
         # @option kwargs [String, nil] :query
@@ -2286,7 +2311,9 @@ module Ronin
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
         #
-        # @option kwargs [Symbol, String] :method
+        # @option kwargs [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #                 :options, :patch, :post, :propfind, :proppatch, :put,
+        #                 :trace, :unlock] :method
         #   The HTTP method to use for the request.
         #
         # @option kwargs [String, nil] :query
@@ -2397,7 +2424,9 @@ module Ronin
         # @param [Hash{Symbol => Object}] kwargs
         #   Aditional keyword arguments and headers for {#request}.
         #
-        # @option kwargs [Symbol, String] :method
+        # @option kwargs [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #                 :options, :patch, :post, :propfind, :proppatch, :put,
+        #                 :trace, :unlock] :method
         #   The HTTP method to use for the request.
         #
         # @option kwargs [String, nil] :query

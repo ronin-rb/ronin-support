@@ -83,7 +83,10 @@ module Ronin
           #
           # Creates a new `Net::HTTP` request.
           #
-          # @param [Symbol] method
+          # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+          #         :options, :patch, :post, :propfind, :proppatch, :put,
+          #         :trace, :unlock] method
+          #   The HTTP request method to use.
           #
           # @param [String] path
           #
