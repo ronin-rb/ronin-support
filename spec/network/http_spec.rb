@@ -639,9 +639,6 @@ describe Network::HTTP do
     end
 
     context "when the response contains no Set-Cookie headers" do
-      let(:name)  { 'foo' }
-      let(:value) { 'bar' }
-
       let(:headers) { {} }
 
       it "must return an empty Array" do
