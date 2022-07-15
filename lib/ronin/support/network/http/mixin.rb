@@ -195,7 +195,7 @@ module Ronin
           # @param [Symbol, String] method
           #   The HTTP method to use for the request.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Boolean, Hash{Symbo => Object}, nil] ssl
@@ -304,7 +304,7 @@ module Ronin
           # @param [Symbol, String] method
           #   The HTTP method to use for the request.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
@@ -400,7 +400,7 @@ module Ronin
           # @param [Symbol, String] method
           #   The HTTP method to use for the request.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
@@ -494,7 +494,7 @@ module Ronin
           # @param [Symbol, String] method
           #   The HTTP method to use for the request.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
@@ -589,7 +589,7 @@ module Ronin
           #
           # Sends an HTTP request and returns the `Server` header.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -688,7 +688,7 @@ module Ronin
           #
           # Sends an HTTP request and returns the `X-Powered-By` header.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -786,7 +786,7 @@ module Ronin
           #
           # Sends an arbitrary HTTP request and returns the response body.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -885,7 +885,7 @@ module Ronin
           #
           # Performs a `COPY` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -985,7 +985,7 @@ module Ronin
           #
           # Performs a `DELETE` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1085,7 +1085,7 @@ module Ronin
           #
           # Performs a `GET` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1186,7 +1186,7 @@ module Ronin
           # Performs a `GET` request for the given URI and returns the response
           # headers.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1283,7 +1283,7 @@ module Ronin
           # Sends an HTTP request and returns the parsed `Set-Cookie`
           # header(s).
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1378,7 +1378,7 @@ module Ronin
           # Performs a `GET` request for the given URI and returns the response
           # body.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1472,7 +1472,7 @@ module Ronin
           #
           # Performs a `HEAD` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1572,7 +1572,7 @@ module Ronin
           #
           # Performs a `LOCK` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1672,7 +1672,7 @@ module Ronin
           #
           # Performs a `MKCOL` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1772,7 +1772,7 @@ module Ronin
           #
           # Performs a `MOVE` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1872,7 +1872,7 @@ module Ronin
           #
           # Performs a `OPTIONS` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1972,7 +1972,7 @@ module Ronin
           #
           # Performs a `PATCH` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2074,7 +2074,7 @@ module Ronin
           #
           # Performs a `POST` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2175,7 +2175,7 @@ module Ronin
           # Performs a `POST` request on the given URI and returns the response
           # headers.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2272,7 +2272,7 @@ module Ronin
           # Performs a `POST` request for the given URI and returns the response
           # body.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2366,7 +2366,7 @@ module Ronin
           #
           # Performs a `PROPFIND` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2468,7 +2468,7 @@ module Ronin
           #
           # Performs a `PROPPATCH` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2570,7 +2570,7 @@ module Ronin
           #
           # Performs a `PUT` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2672,7 +2672,7 @@ module Ronin
           #
           # Performs a `TRACE` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2774,7 +2774,7 @@ module Ronin
           #
           # Performs a `UNLOCK` request for the given URI.
           #
-          # @param [URI::HTTP, String, nil] uri
+          # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs

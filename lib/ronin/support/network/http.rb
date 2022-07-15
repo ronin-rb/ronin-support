@@ -622,7 +622,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [String, nil] user
@@ -738,7 +738,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => String}] kwargs
@@ -762,7 +762,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => String}] kwargs
@@ -785,7 +785,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => String}] kwargs
@@ -814,7 +814,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => String}] kwargs
@@ -838,7 +838,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => String}] kwargs
@@ -862,7 +862,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => String}] kwargs
@@ -880,7 +880,7 @@ module Ronin
         #
         # Sends a `COPY` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -925,7 +925,7 @@ module Ronin
         #
         # Sends a `DELETE` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -970,7 +970,7 @@ module Ronin
         #
         # Sends a `GET` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1015,7 +1015,7 @@ module Ronin
         #
         # Sends a `GET` HTTP request and returns the response headers.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1054,7 +1054,7 @@ module Ronin
         #
         # Sends an HTTP request and returns the parsed `Set-Cookie` header(s).
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => String}] kwargs
@@ -1080,7 +1080,7 @@ module Ronin
         #
         # Sends a `GET` HTTP request and returns the response body.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1119,7 +1119,7 @@ module Ronin
         #
         # Sends a `HEAD` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1164,7 +1164,7 @@ module Ronin
         #
         # Sends a `LOCK` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1209,7 +1209,7 @@ module Ronin
         #
         # Sends a `MKCOL` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1254,7 +1254,7 @@ module Ronin
         #
         # Sends a `MOVE` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1299,7 +1299,7 @@ module Ronin
         #
         # Sends a `OPTIONS` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1344,7 +1344,7 @@ module Ronin
         #
         # Sends a `PATH` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1389,7 +1389,7 @@ module Ronin
         #
         # Sends a `POST` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1434,7 +1434,7 @@ module Ronin
         #
         # Sends a `POST` HTTP request and returns the response headers.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1473,7 +1473,7 @@ module Ronin
         #
         # Sends a `POST` HTTP request and returns the response body.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1512,7 +1512,7 @@ module Ronin
         #
         # Sends a `PROPFIND` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1559,7 +1559,7 @@ module Ronin
         #
         # Sends a `PROPPATCH` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1606,7 +1606,7 @@ module Ronin
         #
         # Sends a `PUT` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1651,7 +1651,7 @@ module Ronin
         #
         # Sends a `TRACE` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1696,7 +1696,7 @@ module Ronin
         #
         # Sends a `UNLOCK` HTTP request.
         #
-        # @param [String, nil] path
+        # @param [String] path
         #   The path to to make the request for.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -1755,7 +1755,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -1877,7 +1877,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -1987,7 +1987,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2097,7 +2097,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2205,7 +2205,7 @@ module Ronin
         #
         # Sends an HTTP request and returns the `Server` header.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2318,7 +2318,7 @@ module Ronin
         #
         # Sends an HTTP request and returns the `X-Powered-By` header.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2431,7 +2431,7 @@ module Ronin
         #
         # Sends an arbitrary HTTP request and returns the response body.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2544,7 +2544,7 @@ module Ronin
         #
         # Performs a `COPY` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2659,7 +2659,7 @@ module Ronin
         #
         # Performs a `DELETE` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2774,7 +2774,7 @@ module Ronin
         #
         # Performs a `GET` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2884,7 +2884,7 @@ module Ronin
         # Performs a `GET` request for the given URI and returns the response
         # headers.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2992,7 +2992,7 @@ module Ronin
         #
         # Sends an HTTP request and returns the parsed `Set-Cookie` header(s).
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3106,7 +3106,7 @@ module Ronin
         # Performs a `GET` request for the given URI and returns the response
         # body.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3214,7 +3214,7 @@ module Ronin
         #
         # Performs a `HEAD` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3329,7 +3329,7 @@ module Ronin
         #
         # Performs a `LOCK` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3444,7 +3444,7 @@ module Ronin
         #
         # Performs a `MKCOL` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3559,7 +3559,7 @@ module Ronin
         #
         # Performs a `MOVE` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3668,7 +3668,7 @@ module Ronin
         #
         # Performs a `OPTIONS` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3783,7 +3783,7 @@ module Ronin
         #
         # Performs a `PATCH` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3898,7 +3898,7 @@ module Ronin
         #
         # Performs a `POST` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4014,7 +4014,7 @@ module Ronin
         # Performs a `POST` request on the given URI and returns the response
         # headers.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4123,7 +4123,7 @@ module Ronin
         # Performs a `POST` request for the given URI and returns the response
         # body.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4231,7 +4231,7 @@ module Ronin
         #
         # Performs a `PROPFIND` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4348,7 +4348,7 @@ module Ronin
         #
         # Performs a `PROPPATCH` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4465,7 +4465,7 @@ module Ronin
         #
         # Performs a `PUT` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4580,7 +4580,7 @@ module Ronin
         #
         # Performs a `TRACE` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4695,7 +4695,7 @@ module Ronin
         #
         # Performs a `UNLOCK` request for the given URI.
         #
-        # @param [URI::HTTP, String, nil] uri
+        # @param [URI::HTTP, String] uri
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
