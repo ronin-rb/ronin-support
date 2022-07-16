@@ -575,6 +575,17 @@ describe Network::HTTP do
     end
   end
 
+  describe "#allowed_methods" do
+    let(:allow)   { "OPTIONS, GET, HEAD, POST"     }
+    let(:methods) { [:options, :get, :head, :post] }
+
+    it "must send an OPTIONS request for the given path and return the parsed Allow header" do
+      stub_request(:options,uri).to_return(headers: {'Allow' => allow})
+
+      expect(subject.allowed_methods(path)).to eq(methods)
+    end
+  end
+
   describe "#get_headers" do
     let(:headers) do
       {'X-Test' => 'foo'}
@@ -866,6 +877,19 @@ describe Network::HTTP do
 
         expect(subject.send(method,uri)).to be_kind_of(Net::HTTPResponse)
       end
+    end
+  end
+
+  describe ".allowed_methods" do
+    subject { described_class }
+
+    let(:allow)   { "OPTIONS, GET, HEAD, POST"     }
+    let(:methods) { [:options, :get, :head, :post] }
+
+    it "must send an OPTIONS request for the given URI and return the parsed Allow header" do
+      stub_request(:options,uri).to_return(headers: {'Allow' => allow})
+
+      expect(subject.allowed_methods(uri)).to eq(methods)
     end
   end
 
