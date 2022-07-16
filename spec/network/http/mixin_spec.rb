@@ -430,6 +430,26 @@ describe Ronin::Support::Network::HTTP::Mixin do
       end
     end
 
+    describe "#http_options" do
+      it "must send an OPTIONS request for the given URI and return a response object" do
+        expect(subject.http_options(uri)).to be_kind_of(Net::HTTPOK)
+      end
+    end
+
+    describe "#http_allowed_methods" do
+      it "must send an OPTIONS request for the given URI and parse the Allow header" do
+        expect(subject.http_allowed_methods(uri)).to eq(
+          [:options, :get, :head, :post]
+        )
+      end
+    end
+
+    describe "#http_post" do
+      it "must send a POST request and return a response" do
+        expect(subject.http_post(uri)).to be_kind_of(Net::HTTPOK)
+      end
+    end
+
     describe "#http_post_headers" do
       let(:headers) { subject.http_post_headers(uri) }
 

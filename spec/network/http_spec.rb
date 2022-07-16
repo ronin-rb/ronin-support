@@ -1089,6 +1089,18 @@ describe Network::HTTP do
       end
     end
 
+    describe "#get_cookies" do
+      let(:host) { 'github.com' }
+      let(:path) { '/signin'    }
+
+      it "must get and parse the Set-Cookies headers for a given path" do
+        cookies = subject.get_cookies(path)
+
+        expect(cookies).to_not be_empty
+        expect(cookies).to all(be_kind_of(described_class::SetCookie))
+      end
+    end
+
     describe "#get_body" do
       it "must return the response body as a String" do
         body = subject.get_body(path)
@@ -1101,6 +1113,26 @@ describe Network::HTTP do
     describe "#head" do
       it "must send an HTTP HEAD request and return an appropriate Net::HTTP response object" do
         expect(subject.head(path)).to be_kind_of(Net::HTTPOK)
+      end
+    end
+
+    describe "#options" do
+      it "must send an OPTIONS request for the given path and return a response object" do
+        expect(subject.options(path)).to be_kind_of(Net::HTTPOK)
+      end
+    end
+
+    describe "#allowed_methods" do
+      it "must send an OPTIONS request for the given path and parse the Allow header" do
+        expect(subject.allowed_methods(path)).to eq(
+          [:options, :get, :head, :post]
+        )
+      end
+    end
+
+    describe "#post" do
+      it "must send a POST request and return a response" do
+        expect(subject.post(path)).to be_kind_of(Net::HTTPOK)
       end
     end
 
@@ -1209,6 +1241,20 @@ describe Network::HTTP do
       end
     end
 
+    describe ".get_cookies" do
+      subject { described_class }
+
+      let(:host) { 'github.com' }
+      let(:path) { '/signin'    }
+
+      it "must get and parse the Set-Cookies headers for a given URI" do
+        cookies = subject.get_cookies(uri)
+
+        expect(cookies).to_not be_empty
+        expect(cookies).to all(be_kind_of(described_class::SetCookie))
+      end
+    end
+
     describe ".get_body" do
       subject { described_class }
 
@@ -1225,6 +1271,32 @@ describe Network::HTTP do
 
       it "must send an HTTP HEAD request and return an appropriate Net::HTTP response object" do
         expect(subject.head(uri)).to be_kind_of(Net::HTTPOK)
+      end
+    end
+
+    describe ".options" do
+      subject { described_class }
+
+      it "must send an OPTIONS request for the given URI and return a response object" do
+        expect(subject.options(uri)).to be_kind_of(Net::HTTPOK)
+      end
+    end
+
+    describe ".allowed_methods" do
+      subject { described_class }
+
+      it "must send an OPTIONS request for the given URI and parse the Allow header" do
+        expect(subject.allowed_methods(uri)).to eq(
+          [:options, :get, :head, :post]
+        )
+      end
+    end
+
+    describe ".post" do
+      subject { described_class }
+
+      it "must send a POST request for the given URI and return a response" do
+        expect(subject.post(uri)).to be_kind_of(Net::HTTPOK)
       end
     end
 
