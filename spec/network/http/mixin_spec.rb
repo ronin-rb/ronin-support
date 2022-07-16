@@ -219,6 +219,17 @@ describe Ronin::Support::Network::HTTP::Mixin do
     end
   end
 
+  describe ".allowed_methods" do
+    let(:allow)   { "OPTIONS, GET, HEAD, POST"     }
+    let(:methods) { [:options, :get, :head, :post] }
+
+    it "must send an OPTIONS request for the given URI and return the parsed Allow header" do
+      stub_request(:options,uri).to_return(headers: {'Allow' => allow})
+
+      expect(subject.http_allowed_methods(uri)).to eq(methods)
+    end
+  end
+
   describe "#http_get_headers" do
      let(:headers) do
       {'X-Test' => 'foo'}

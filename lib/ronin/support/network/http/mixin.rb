@@ -1970,6 +1970,107 @@ module Ronin
           end
 
           #
+          # Performs a `OPTIONS` HTTP request for the given URI and parses the
+          # `Allow` response header.
+          #
+          # @param [URI::HTTP, String] uri
+          #   Optional URL to create the HTTP request for.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #
+          # @option kwargs [String, URI::HTTP, nil] :proxy
+          #   Optional proxy to use for the request.
+          #
+          # @option kwargs [String, nil] :query
+          #   The query-string to append to the request path.
+          #
+          # @option kwargs [Hash, nil] :query_params
+          #   The query-params to append to the request path.
+          #
+          # @option kwargs [String, nil] :body
+          #   The body of the request.
+          #
+          # @option kwargs [Hash, String, nil] :form_data
+          #   The form data that may be sent in the body of the request.
+          #
+          # @option kwargs [String, nil] :user
+          #   The user to authenticate as.
+          #
+          # @option kwargs [String, nil] :password
+          #   The password to authenticate with.
+          #
+          # @option kwargs [Hash{Symbol,String => String}, nil] :headers
+          #   Additional HTTP headers to use for the request.
+          #
+          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          #   The default `User-Agent` string to add to each request.
+          #
+          # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @option ssl [String, nil] :ca_bundle
+          #   The path to the CA bundle directory or file.
+          #
+          # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The certificate to use for the SSL/TLS connection.
+          #
+          # @option ssl [OpenSSL::X509::Store, nil] :cert_store
+          #   The certificate store to use for the SSL/TLS connection.
+          #
+          # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+          #   The accepted ciphers to use for the SSL/TLS connection.
+          #
+          # @option ssl [Crypto::Cert,
+          #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
+          #   The extra certificate to add to the SSL/TLS certificate chain.
+          #
+          # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
+          #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+          #   The RSA or DSA key to use for the SSL/TLS connection.
+          #
+          # @option ssl [Integer, nil] :timeout
+          #   The connection timeout limit.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+          #   The desired SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   The minimum SSL/TLS version.
+          #
+          # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   The maximum SSL/TLS version.
+          #
+          # @option ssl [Proc, nil] :verify_callback
+          #   The callback to use when verifying the server's certificate.
+          #
+          # @option ssl [Integer, nil] :verify_depth
+          #   The verification depth limit.
+          #
+          # @option ssl [:none, :peer, :fail_if_no_peer_cert,
+          #         true, false, Integer, nil] :verify
+          #   The verification mode.
+          #
+          # @option ssl [Boolean, nil] :verify_hostname
+          #   Indicates whether to verify the server's hostname.
+          #
+          # @yield [response]
+          #   If a block is given it will be passed the received HTTP response.
+          #
+          # @yieldparam [Net::HTTPRresponse] response
+          #   The received HTTP response object.
+          #
+          # @return [Array<Symbol>]
+          #   The allowed HTTP request methods for the given URL.
+          #
+          # @see Network::HTTP.allowed_methods
+          #
+          def http_allowed_methods(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.allowed_methods(uri, ssl: ssl, **kwargs,&block)
+          end
+
+          #
           # Performs a `PATCH` request for the given URI.
           #
           # @param [URI::HTTP, String] uri
