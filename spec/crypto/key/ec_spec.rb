@@ -16,20 +16,6 @@ describe Ronin::Support::Crypto::Key::EC do
     end
   end
 
-  describe ".generate" do
-    subject { described_class }
-
-    let(:curve) { 'prime256v1' }
-
-    it "must call .generate with the curve name and then call .generate_key" do
-      new_key = subject.generate(curve)
-
-      expect(new_key).to be_kind_of(described_class)
-      expect(new_key.public_key).to be_kind_of(OpenSSL::PKey::EC::Point)
-      expect(new_key.private_key).to be_kind_of(OpenSSL::BN)
-    end
-  end
-
   describe ".parse" do
     subject { described_class }
 
