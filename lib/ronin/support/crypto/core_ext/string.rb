@@ -121,10 +121,8 @@ class String
   #
   # @api public
   #
-  def hmac(key,digest=:sha1)
-    hmac = Ronin::Support::Crypto.hmac(key,digest)
-    hmac.update(self)
-
+  def hmac(key: , digest: :sha1)
+    hmac = Ronin::Support::Crypto.hmac(self, key: key, digest: digest)
     return hmac.hexdigest
   end
 

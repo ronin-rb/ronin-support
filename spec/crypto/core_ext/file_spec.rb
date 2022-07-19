@@ -92,7 +92,7 @@ describe File do
     let(:hash) { 'cf5073193fae1bfdaa1b31355076f99bfb249f51' }
 
     it "must calculate the HMAC of the file" do
-      expect(subject.hmac(path,key)).to eq(hash)
+      expect(subject.hmac(path, key: key)).to eq(hash)
     end
 
     context "when digest is not given" do
@@ -100,7 +100,7 @@ describe File do
       let(:digest_hash) { '8319187ae2b6c1623205354d8f5d1a6e' }
 
       it "must use the digest when calculating the HMAC" do
-        expect(subject.hmac(path,key,digest)).to eq(digest_hash)
+        expect(subject.hmac(path, key: key, digest: digest)).to eq(digest_hash)
       end
     end
   end

@@ -170,8 +170,8 @@ class File
   #
   # @api public
   #
-  def self.hmac(path,key,digest=:sha1)
-    hmac = Ronin::Support::Crypto.hmac(key,digest)
+  def self.hmac(path, key: , digest: :sha1)
+    hmac = Ronin::Support::Crypto.hmac(key: key, digest: digest)
 
     open(path,'rb') do |file|
       until file.eof?

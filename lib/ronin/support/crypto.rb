@@ -18,6 +18,7 @@
 #
 
 require 'ronin/support/crypto/openssl'
+require 'ronin/support/crypto/hmac'
 require 'ronin/support/crypto/cipher'
 require 'ronin/support/crypto/cipher/aes'
 require 'ronin/support/crypto/cipher/aes128'
@@ -60,22 +61,50 @@ module Ronin
       #
       # Creates a new HMAC.
       #
+      # @param [String, nil] data
+      #   The optional data to sign.
+      #
       # @param [String] key
       #   The secret key for the HMAC.
       #
       # @param [Symbol] digest
       #   The digest algorithm for the HMAC.
       #
-      # @return [String]
-      #   The hex-encoded HMAC for the String.
+      # @yield [hmac]
+      #   If a block is given, it will be passed the new HMAC object, which can
+      #   then be populated.
+      #
+      # @yieldparam [OpenSSL::HMAC] hmac
+      #   The new HMAC object.
+      #
+      # @return [OpenSSL::HMAC]
+      #   The HMAC object.
       #
       # @example
-      #   Crypto.hmac('secret')
+      #   hmac = Crypto.hmac("hello world", key: 'secret')
+      #   # => #<Ronin::Support::Crypto::HMAC: 03376ee7ad7bbfceee98660439a4d8b125122a5a>
+      #   hmac.hexdigest
+      #   # => "03376ee7ad7bbfceee98660439a4d8b125122a5a"
+      #   hmac.digest
+      #   # => "\x037n\xE7\xAD{\xBF\xCE\xEE\x98f\x049\xA4\xD8\xB1%\x12*Z"
       #
-      # @see http://rubydoc.info/stdlib/openssl/OpenSSL/HMAC
+      # @example with a block:
+      #   hmac = Crypto.hmac("hello world", key: 'secret') do |hmac|
+      #     hmac << "hello"
+      #     hmac << " world"
+      #   end
+      #   # => #<Ronin::Support::Crypto::HMAC: 03376ee7ad7bbfceee98660439a4d8b125122a5a>
       #
-      def self.hmac(key,digest=:sha1)
-        OpenSSL::HMAC.new(key,digest(digest).new)
+      # @see HMAC
+      #
+      def self.hmac(data=nil, key: , digest: :sha1)
+        hmac = HMAC.new(key,digest(digest).new)
+
+        if    block_given? then yield hmac
+        elsif data         then hmac.update(data)
+        end
+
+        return hmac
       end
 
       #

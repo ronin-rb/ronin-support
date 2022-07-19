@@ -84,7 +84,7 @@ describe String do
     let(:hash) { 'cf5073193fae1bfdaa1b31355076f99bfb249f51' }
 
     it "must calculate the HMAC of the String" do
-      expect(subject.hmac(key)).to eq(hash)
+      expect(subject.hmac(key: key)).to eq(hash)
     end
 
     context "when digest is not given" do
@@ -92,7 +92,7 @@ describe String do
       let(:digest_hash) { '8319187ae2b6c1623205354d8f5d1a6e' }
 
       it "must default to using SHA1" do
-        expect(subject.hmac(key,digest)).to eq(digest_hash)
+        expect(subject.hmac(key: key, digest: digest)).to eq(digest_hash)
       end
     end
   end

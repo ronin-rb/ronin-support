@@ -40,14 +40,16 @@ describe Ronin::Support::Crypto::Mixin do
 
   describe "#crypto_hmac" do
     let(:key)  { 'secret' }
-    let(:hash) { 'cf5073193fae1bfdaa1b31355076f99bfb249f51' }
 
     it "must return an OpenSSL::HMAC" do
-      expect(subject.crypto_hmac(key)).to be_kind_of(OpenSSL::HMAC)
+      expect(subject.crypto_hmac(key: key)).to be_kind_of(OpenSSL::HMAC)
     end
 
+    let(:data) { "hello world" }
+    let(:hash) { 'cf5073193fae1bfdaa1b31355076f99bfb249f51' }
+
     it "must use the key when calculating the HMAC" do
-      hmac = subject.crypto_hmac(key)
+      hmac = subject.crypto_hmac(key: key)
       hmac.update(clear_text)
 
       expect(hmac.hexdigest).to eq(hash)
@@ -55,13 +57,35 @@ describe Ronin::Support::Crypto::Mixin do
 
     context "when digest is given" do
       let(:digest) { :md5 }
-      let(:hash) { '8319187ae2b6c1623205354d8f5d1a6e' }
+      let(:hash)   { '8319187ae2b6c1623205354d8f5d1a6e' }
 
       it "must use the digest algorithm when calculating the HMAC" do
-        hmac = subject.crypto_hmac(key,digest)
+        hmac = subject.crypto_hmac(key: key, digest: digest)
         hmac.update(clear_text)
 
         expect(hmac.hexdigest).to eq(hash)
+      end
+    end
+
+    context "when given a data argument" do
+      let(:data) { "hello world" }
+      let(:hash) { 'cf5073193fae1bfdaa1b31355076f99bfb249f51' }
+
+      it "must use the key when calculating the HMAC" do
+        hmac = subject.crypto_hmac(clear_text, key: key)
+
+        expect(hmac.hexdigest).to eq(hash)
+      end
+
+      context "when digest is given" do
+        let(:digest) { :md5 }
+        let(:hash)   { '8319187ae2b6c1623205354d8f5d1a6e' }
+
+        it "must use the digest algorithm when calculating the HMAC" do
+          hmac = subject.crypto_hmac(clear_text, key: key, digest: digest)
+
+          expect(hmac.hexdigest).to eq(hash)
+        end
       end
     end
   end

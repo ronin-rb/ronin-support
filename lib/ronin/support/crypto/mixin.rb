@@ -54,6 +54,9 @@ module Ronin
         #
         # Creates a new HMAC.
         #
+        # @param [String, nil] data
+        #   The optional data to sign.
+        #
         # @param [String] key
         #   The secret key for the HMAC.
         #
@@ -70,8 +73,8 @@ module Ronin
         #
         # @see Crypto.hmac
         #
-        def crypto_hmac(key,digest=:sha1)
-          Crypto.hmac(key,digest)
+        def crypto_hmac(data=nil, key: , digest: :sha1)
+          Crypto.hmac(data, key: key, digest: digest)
         end
 
         alias hmac crypto_hmac
