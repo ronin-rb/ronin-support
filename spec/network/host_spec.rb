@@ -74,6 +74,7 @@ describe Ronin::Support::Network::Host do
 
     context "when the hostname does not end in a valid suffix" do
       let(:hostname) { "example.X" }
+
       it do
         expect {
           subject.domain
