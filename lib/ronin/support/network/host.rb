@@ -19,6 +19,7 @@
 
 require 'ronin/support/network/dns'
 require 'ronin/support/network/ip'
+require 'ronin/support/network/public_suffix'
 
 module Ronin
   module Support
@@ -44,6 +45,25 @@ module Ronin
         #
         def initialize(name)
           @name = name
+        end
+
+        #
+        # Returns the associated domain for the hostname.
+        #
+        # @return [Domain]
+        #   The domain object derived from the hostname, without any sub-domain
+        #   components (ex: `www`).
+        #
+        def domain
+          @domain ||= begin
+            domain, suffix = PublicSuffix.list.split(@name)
+
+            if (last_dot = domain.rindex('.'))
+              domain = domain[(last_dot+1)..]
+            end
+
+            Domain.new("#{domain}#{suffix}")
+          end
         end
 
         #
@@ -992,3 +1012,5 @@ module Ronin
     end
   end
 end
+
+require 'ronin/support/network/domain'

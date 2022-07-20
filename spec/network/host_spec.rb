@@ -24,6 +24,44 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#domain" do
+    it "must return a Ronin::Support::Network::Domain object" do
+      expect(subject.domain).to be_kind_of(Ronin::Support::Network::Domain)
+    end
+
+    context "when the hostname is already a domain name" do
+      let(:hostname) { 'example.com' }
+
+      it "the resulting domain must have the same hostname" do
+        expect(subject.domain.name).to eq(subject.name)
+      end
+    end
+
+    context "when the hostname is a sub-domain name" do
+      let(:hostname) { "foo.bar.example.com" }
+
+      it "must strip the sub-domains from the domain name" do
+        expect(subject.domain.name).to eq('example.com')
+      end
+    end
+
+    context "when the hostname has a multi-component suffix" do
+      let(:hostname) { 'www.example.co.uk' }
+
+      it "must separate the domain name from the multi-part suffix" do
+        expect(subject.domain.name).to eq('example.co.uk')
+      end
+
+      context "and the hostname is also a sub-domain name" do
+        let(:hostname) { "foo.bar.example.co.uk" }
+
+        it "must strip the sub-domains from the domain name" do
+          expect(subject.domain.name).to eq('example.co.uk')
+        end
+      end
+    end
+  end
+
   describe "#get_address" do
     context "integration", :network do
       it "must lookup the address for a hostname" do
