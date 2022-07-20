@@ -78,7 +78,7 @@ describe Ronin::Support::Network::Host do
       it do
         expect {
           subject.domain
-        }.to raise_error(Ronin::Support::Network::PublicSuffix::InvalidHostname,"hostname does not have a valid suffix: #{hostname.inspect}")
+        }.to raise_error(Ronin::Support::Network::InvalidHostname,"hostname does not have a valid suffix: #{hostname.inspect}")
       end
     end
   end
