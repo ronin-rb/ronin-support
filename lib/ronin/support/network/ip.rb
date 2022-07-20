@@ -61,12 +61,10 @@ module Ronin
 
           super(address,family)
 
-          case address
-          when String
-            @address = address.to_s
-          else
-            @address = to_s
-          end
+          @address = case address
+                     when String then address.to_s
+                     else             to_s
+                     end
         end
 
         # The URI for https://ipinfo.io/ip
