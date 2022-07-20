@@ -17,6 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/network/public_suffix/exceptions'
 require 'ronin/support/home'
 
 require 'net/https'
@@ -223,13 +224,16 @@ module Ronin
           end
 
           #
-          # Splits a host name into it's name and tld components.
+          # Splits a hostname into it's name and tld components.
           #
           # @param [String] host_name
           #   The host name to split.
           #
           # @return [(String, String)]
           #   The host name's name and tld components.
+          #
+          # @raise [InvalidHostname]
+          #   The given hostname does not end with a valid suffix.
           #
           def split(host_name)
             host_name = host_name.dup
@@ -254,7 +258,11 @@ module Ronin
               tree = subtree
             end
 
-            return host_name, suffix unless suffix.empty?
+            if suffix.empty?
+              raise(InvalidHostname,"hostname does not have a valid suffix: #{host_name.inspect}")
+            end
+
+            return host_name, suffix
           end
 
           #

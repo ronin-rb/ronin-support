@@ -408,6 +408,16 @@ describe Ronin::Support::Network::PublicSuffix::List do
           expect(subject.split(domain)).to eq([prefix, ".#{label}.#{suffix}"])
         end
       end
+
+      context "but the domain name does not end in a valid suffix" do
+        let(:domain) { "example.X" }
+
+        it do
+          expect {
+            subject.split(domain)
+          }.to raise_error(Ronin::Support::Network::PublicSuffix::InvalidHostname,"hostname does not have a valid suffix: #{domain.inspect}")
+        end
+      end
     end
 
     context "when given a hostname" do
@@ -439,6 +449,16 @@ describe Ronin::Support::Network::PublicSuffix::List do
 
         it "must consume an arbitrary label for the '*' wildcard label" do
           expect(subject.split(hostname)).to eq([prefix, ".#{label}.#{suffix}"])
+        end
+      end
+
+      context "but the hostname name does not end in a valid suffix" do
+        let(:domain) { "www.example.X" }
+
+        it do
+          expect {
+            subject.split(domain)
+          }.to raise_error(Ronin::Support::Network::PublicSuffix::InvalidHostname,"hostname does not have a valid suffix: #{domain.inspect}")
         end
       end
     end
