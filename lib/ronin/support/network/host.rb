@@ -54,6 +54,9 @@ module Ronin
         #   The domain object derived from the hostname, without any sub-domain
         #   components (ex: `www`).
         #
+        # @raise [PublicSuffix::InvalidHostname]
+        #   The hostname does not end with a valid suffix.
+        #
         def domain
           @domain ||= begin
             domain, suffix = PublicSuffix.list.split(@name)

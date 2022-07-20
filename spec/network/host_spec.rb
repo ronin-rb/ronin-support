@@ -71,6 +71,15 @@ describe Ronin::Support::Network::Host do
         end
       end
     end
+
+    context "when the hostname does not end in a valid suffix" do
+      let(:hostname) { "example.X" }
+      it do
+        expect {
+          subject.domain
+        }.to raise_error(Ronin::Support::Network::PublicSuffix::InvalidHostname,"hostname does not have a valid suffix: #{hostname.inspect}")
+      end
+    end
   end
 
   describe "#get_address" do
