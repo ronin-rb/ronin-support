@@ -25,6 +25,17 @@ describe Ronin::Support::Network::Host do
   end
 
   describe "#domain" do
+    let(:fixtures_dir) { File.join(__dir__,'public_suffix','fixtures') }
+    let(:list_file)    { File.join(fixtures_dir,'public_suffix_list.dat') }
+
+    let(:public_suffix_list) do
+      Ronin::Support::Network::PublicSuffix::List.load_file(list_file)
+    end
+
+    before do
+      allow(Ronin::Support::Network::PublicSuffix).to receive(:list).and_return(public_suffix_list)
+    end
+
     it "must return a Ronin::Support::Network::Domain object" do
       expect(subject.domain).to be_kind_of(Ronin::Support::Network::Domain)
     end
