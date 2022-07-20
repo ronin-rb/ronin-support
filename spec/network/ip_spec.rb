@@ -459,6 +459,16 @@ describe Ronin::Support::Network::IP do
         expect(subject.address).to eq(IPAddr.new(address).to_s)
       end
     end
+
+    context "when given an invalid IP address" do
+      let(:address) { "foo" }
+
+      it do
+        expect {
+          described_class.new(address)
+        }.to raise_error(Ronin::Support::Network::InvalidIP,"invalid IP address: #{address.inspect}")
+      end
+    end
   end
 
   describe "#broadcast?" do

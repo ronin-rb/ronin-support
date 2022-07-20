@@ -17,6 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/network/exceptions'
 require 'ronin/support/network/asn'
 require 'ronin/support/network/dns'
 require 'ronin/support/network/host'
@@ -49,6 +50,9 @@ module Ronin
         # @param [String] address
         #   The address of the IP.
         #
+        # @raise [InvalidIP]
+        #   The given address is not a valid IP address.
+        #
         # @note
         #   If the IP address has an `%iface` suffix, it will be removed from
         #   the IP address.
@@ -59,7 +63,11 @@ module Ronin
             address = address.sub(/%.+$/,'')
           end
 
-          super(address,family)
+          begin
+            super(address,family)
+          rescue IPAddr::InvalidAddressError => error
+            raise(InvalidIP,"invalid IP address: #{address.inspect}")
+          end
 
           @address = case address
                      when String then address.to_s

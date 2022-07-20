@@ -17,12 +17,21 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ipaddr'
+
 module Ronin
   module Support
     module Network
-      module PublicSuffix
-        class InvalidHostname < RuntimeError
-        end
+      #
+      # Exception for when a given IP address is invalid.
+      #
+      class InvalidIP < IPAddr::InvalidAddressError
+      end
+
+      #
+      # Exception for when a given hostname is invalid.
+      #
+      class InvalidHostname < RuntimeError
       end
     end
   end

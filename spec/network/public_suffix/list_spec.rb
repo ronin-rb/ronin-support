@@ -415,7 +415,7 @@ describe Ronin::Support::Network::PublicSuffix::List do
         it do
           expect {
             subject.split(domain)
-          }.to raise_error(Ronin::Support::Network::PublicSuffix::InvalidHostname,"hostname does not have a valid suffix: #{domain.inspect}")
+          }.to raise_error(Ronin::Support::Network::InvalidHostname,"hostname does not have a valid suffix: #{domain.inspect}")
         end
       end
     end
@@ -458,7 +458,7 @@ describe Ronin::Support::Network::PublicSuffix::List do
         it do
           expect {
             subject.split(domain)
-          }.to raise_error(Ronin::Support::Network::PublicSuffix::InvalidHostname,"hostname does not have a valid suffix: #{domain.inspect}")
+          }.to raise_error(Ronin::Support::Network::InvalidHostname,"hostname does not have a valid suffix: #{domain.inspect}")
         end
       end
     end

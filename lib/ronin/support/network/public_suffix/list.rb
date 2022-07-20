@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/public_suffix/exceptions'
+require 'ronin/support/network/exceptions'
 require 'ronin/support/home'
 
 require 'net/https'
