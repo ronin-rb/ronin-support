@@ -83,6 +83,48 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#change_suffix" do
+    let(:fixtures_dir) { File.join(__dir__,'public_suffix','fixtures') }
+    let(:list_file)    { File.join(fixtures_dir,'public_suffix_list.dat') }
+
+    let(:public_suffix_list) do
+      Ronin::Support::Network::PublicSuffix::List.load_file(list_file)
+    end
+
+    before do
+      allow(Ronin::Support::Network::PublicSuffix).to receive(:list).and_return(public_suffix_list)
+    end
+
+    let(:hostname)   { 'www.example.com' }
+    let(:new_suffix) { '.net' }
+
+    it "must return a Ronin::Support::Network::Host object" do
+      expect(subject.change_suffix(new_suffix)).to be_kind_of(Ronin::Support::Network::Host)
+    end
+
+    it "must replace the suffix with the new suffix" do
+      expect(subject.change_suffix(new_suffix).name).to eq('www.example.net')
+    end
+
+    context "when the hostname has a multi-component suffix" do
+      let(:hostname) { 'www.example.co.uk' }
+
+      it "must replace the multi-part suffix with the new suffix" do
+        expect(subject.change_suffix(new_suffix).name).to eq('www.example.net')
+      end
+    end
+
+    context "when the hostname does not end in a valid suffix" do
+      let(:hostname) { "example.X" }
+
+      it do
+        expect {
+          subject.change_suffix(new_suffix)
+        }.to raise_error(Ronin::Support::Network::InvalidHostname,"hostname does not have a valid suffix: #{hostname.inspect}")
+      end
+    end
+  end
+
   describe "#get_address" do
     context "integration", :network do
       it "must lookup the address for a hostname" do

@@ -70,6 +70,26 @@ module Ronin
         end
 
         #
+        # Changes the suffix of the hostname.
+        #
+        # @param [String] new_suffix
+        #   The new suffix for the hostname.
+        #
+        # @return [Host]
+        #   The new host object with the new suffix.
+        #
+        # @raise [PublicSuffix::InvalidHostname]
+        #   The hostname does not end with a valid suffix.
+        #
+        def change_suffix(new_suffix)
+          name, suffix = PublicSuffix.list.split(@name)
+
+          return self.class.new("#{name}#{new_suffix}")
+        end
+
+        alias change_tld change_suffix
+
+        #
         # Looks up the address of a hostname.
         #
         # @param [Hash{Symbol => Object}] kwargs
