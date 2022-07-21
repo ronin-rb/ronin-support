@@ -227,10 +227,22 @@ module Ronin
         # @see EMAIL_ADDRESS
         EMAIL_ADDR = EMAIL_ADDRESS
 
+        # Regular expression to match `.`, ` AT `, ` at `, `[AT]`, `[at]`,
+        # `<AT>`, `<at>`, `{AT}`, `{at}`, `(AT)`, `(at)`.
+        #
+        # @since 1.0.0
+        OBFUSCATED_EMAIL_AT = /\@|\s+(?:AT|at)\s+|\s*\[(?:AT|at)\]\s*|\s*\<(?:AT|at)\>\s*|\s*\{(?:AT|at)\}\s*|\s*\((?:AT|at)\)\s*/
+
+        # Regular expression to match `.`, ` DOT `, ` dot `, `[DOT]`, `[dot]`,
+        # `<DOT>`, `<dot>`, `{DOT}`, `{dot}`, `(DOT)`, `(dot)`.
+        #
+        # @since 1.0.0
+        OBFUSCATED_EMAIL_DOT = /\.|\s+(?:DOT|dot)\s+|\s*\[(?:DOT|dot)\]\s*|\s*\<(?:DOT|dot)\>\s*|\s*\{(?:DOT|dot)\}\s*|\s*\((?:DOT|dot)\)\s*/
+
         # Regular expression to find obfuscated email addresses in text.
         #
         # @since 1.0.0
-        OBFUSCATED_EMAIL_ADDRESS = /[a-zA-Z][a-zA-Z0-9_-]*(?:(?:\.|\s+DOT\s+)[a-zA-Z][a-zA-Z0-9_-]*)*(?:\@|\s+AT\s+)(?:[a-zA-Z0-9_-]{1,63}(?:\.|\s+DOT\s+))*[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*(?:\.|\s+DOT\s+)#{PUBLIC_SUFFIX}(?=[^a-zA-Z0-9\._-]|$)/
+        OBFUSCATED_EMAIL_ADDRESS = /[a-zA-Z][a-zA-Z0-9_-]*(?:#{OBFUSCATED_EMAIL_DOT}[a-zA-Z][a-zA-Z0-9_-]*)*#{OBFUSCATED_EMAIL_AT}(?:[a-zA-Z0-9_-]{1,63}#{OBFUSCATED_EMAIL_DOT})*[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*#{OBFUSCATED_EMAIL_DOT}#{PUBLIC_SUFFIX}(?=[^a-zA-Z0-9\._-]|$)/
 
         # @see OBFUSCATED_EMAIL_ADDRESS
         OBFUSCATED_EMAIL_ADDR = OBFUSCATED_EMAIL_ADDRESS
