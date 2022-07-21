@@ -33,6 +33,12 @@ module Ronin
       #
       class InvalidHostname < RuntimeError
       end
+
+      #
+      # Exception for when a given email address is invalid.
+      #
+      class InvalidEmailAddress < RuntimeError
+      end
     end
   end
 end
