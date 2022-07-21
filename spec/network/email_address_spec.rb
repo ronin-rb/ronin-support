@@ -628,6 +628,7 @@ describe Ronin::Support::Network::EmailAddress do
 
   let(:obfuscated_emails) do
     [
+      'john.smith @ example.com',
       'john.smith AT example.com',
       'john.smith at example.com',
       'john.smith[AT]example.com',
