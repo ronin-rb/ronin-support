@@ -31,6 +31,74 @@ module Ronin
       # * Supports {EmailAddress.deobfuscate deobfuscating} email addresses.
       # * Supports {EmailAddress#obfuscate obfuscating} email addresses.
       #
+      # ## Examples
+      #
+      # Builds a new email address:
+      #
+      #     email = EmailAddress.new(mailbox: 'john.smith', domain: 'example.com')
+      #
+      # Parses an email address:
+      #
+      #     email = EmailAddress.parse("John Smith <john.smith@example.com>")
+      #     # => #<Ronin::Support::Network::EmailAddress:0x00007f49586d6a20
+      #           @address=nil,
+      #           @domain="example.com",
+      #           @mailbox="john.smith",
+      #           @name="John Smith",
+      #           @routing=nil,
+      #           @tag=nil>
+      #
+      # Deobfuscate an obfuscated email address:
+      #
+      #     EmailAddress.deobfuscate("john[dot]smith [at] example[dot]com")
+      #     # => "john.smith@example.com"
+      #
+      # Obfuscate an email address:
+      #
+      #     email = EmailAddress.parse("john.smith@example.com")
+      #     email.obfuscate
+      #     # => "john <dot> smith <at> example <dot> com"
+      #
+      # Get every obfuscation of an email address:
+      #
+      #      email.obfuscations
+      #      # => ["john.smith AT example.com",
+      #      #     "john.smith at example.com",
+      #      #     "john.smith[AT]example.com",
+      #      #     "john.smith[at]example.com",
+      #      #     "john.smith [AT] example.com",
+      #      #     "john.smith [at] example.com",
+      #      #     "john.smith<AT>example.com",
+      #      #     "john.smith<at>example.com",
+      #      #     "john.smith <AT> example.com",
+      #      #     "john.smith <at> example.com",
+      #      #     "john.smith{AT}example.com",
+      #      #     "john.smith{at}example.com",
+      #      #     "john.smith {AT} example.com",
+      #      #     "john.smith {at} example.com",
+      #      #     "john.smith(AT)example.com",
+      #      #     "john.smith(at)example.com",
+      #      #     "john.smith (AT) example.com",
+      #      #     "john.smith (at) example.com",
+      #      #     "john DOT smith AT example DOT com",
+      #      #     "john dot smith at example dot com",
+      #      #     "john[DOT]smith[AT]example[DOT]com",
+      #      #     "john[dot]smith[at]example[dot]com",
+      #      #     "john [DOT] smith [AT] example [DOT] com",
+      #      #     "john [dot] smith [at] example [dot] com",
+      #      #     "john<DOT>smith<AT>example<DOT>com",
+      #      #     "john<dot>smith<at>example<dot>com",
+      #      #     "john <DOT> smith <AT> example <DOT> com",
+      #      #     "john <dot> smith <at> example <dot> com",
+      #      #     "john{DOT}smith{AT}example{DOT}com",
+      #      #     "john{dot}smith{at}example{dot}com",
+      #      #     "john {DOT} smith {AT} example {DOT} com",
+      #      #     "john {dot} smith {at} example {dot} com",
+      #      #     "john(DOT)smith(AT)example(DOT)com",
+      #      #     "john(dot)smith(at)example(dot)com",
+      #      #     "john (DOT) smith (AT) example (DOT) com",
+      #      #     "john (dot) smith (at) example (dot) com"]
+      #
       # @see https://datatracker.ietf.org/doc/html/rfc2822#section-3.4
       #
       # @api public
@@ -101,6 +169,15 @@ module Ronin
         # @raise [ArgumentError]
         #   Must specify either the `domain:` or `address:` keyword arguments.
         #
+        # @example Initializing a basic email address.
+        #   email = EmailAddress.new(mailbox: 'john.smith', domain: 'example.com')
+        #
+        # @example Initializing an email address with a name:
+        #   email = EmailAddress.new(name: 'John Smith', mailbox: 'john.smith', domain: 'example.com')
+        #
+        # @example Initializing an email address with a sorting tag:
+        #   email = EmailAddress.new(mailbox: 'john.smith', tag: 'spam', domain: 'example.com')
+        #
         def initialize(name: nil, mailbox: , tag: nil, routing: nil, domain: nil, address: nil)
           @name    = name
           @mailbox = mailbox
@@ -126,6 +203,16 @@ module Ronin
         #
         # @raise [InvalidEmailAddress]
         #   The string is not a valid formatted email address.
+        #
+        # @example
+        #   email = EmailAddress.parse("John Smith <john.smith@example.com>")
+        #   # => #<Ronin::Support::Network::EmailAddress:0x00007f49586d6a20
+        #         @address=nil,
+        #         @domain="example.com",
+        #         @mailbox="john.smith",
+        #         @name="John Smith",
+        #         @routing=nil,
+        #         @tag=nil>
         #
         # @see https://datatracker.ietf.org/doc/html/rfc2822#section-3.4
         #
@@ -266,6 +353,10 @@ module Ronin
         # @return [String]
         #   The deobfuscated email address.
         #
+        # @example
+        #   EmailAddress.deobfuscate("john[dot]smith [at] example[dot]com")
+        #   # => "john.smith@example.com"
+        #
         def self.deobfuscate(string)
           DEOBFUSCATIONS.each do |pattern,replace|
             string = string.gsub(pattern,replace)
@@ -280,6 +371,11 @@ module Ronin
         #
         # @return [EmailAddress]
         #   The new normalized email address object.
+        #
+        # @example
+        #   email = EmailAddress.parse("John Smith <john.smith+spam@example.com>")
+        #   email.normalize.to_s
+        #   # => "john.smith@example.com"
         #
         def normalize
           EmailAddress.new(
@@ -304,6 +400,11 @@ module Ronin
         #
         # @return [String]
         #   The string representation of the email address.
+        #
+        # @example
+        #   email = EmailAddress.parse("John Smith <john.smith+spam@example.com>")
+        #   email.to_s
+        #   # => "John Smith <john.smith+spam@example.com>"
         #
         def to_s
           string = "#{@mailbox}"
@@ -371,6 +472,13 @@ module Ronin
         #
         # @see OBFUSCATIONS
         #
+        # @example
+        #   email = EmailAddress.parse("john.smith@example.com")
+        #   email.obfuscate
+        #   # => "john.smith [AT] example.com"
+        #   email.obfuscate
+        #   # => "john <dot> smith <at> example <dot> com"
+        #
         def obfuscate
           string = to_s
           string.gsub!(*OBFUSCATIONS.sample)
@@ -389,6 +497,10 @@ module Ronin
         #
         # @return [Enumerator]
         #   If no block is given, an Enumerator will be returned.
+        #
+        # @example
+        #   email = EmailAddress.parse("john.smith@example.com")
+        #   email.each_obfuscation { |obfuscated_email| ... }
         #
         # @see OBFUSCATIONS
         #
@@ -409,6 +521,46 @@ module Ronin
         #
         # @return [Array<String>]
         #   The Array containing every obfuscation of the email address.
+        #
+        # @example
+        #   email = EmailAddress.parse("john.smith@example.com")
+        #   email.obfuscations
+        #   # => ["john.smith AT example.com",
+        #   #     "john.smith at example.com",
+        #   #     "john.smith[AT]example.com",
+        #   #     "john.smith[at]example.com",
+        #   #     "john.smith [AT] example.com",
+        #   #     "john.smith [at] example.com",
+        #   #     "john.smith<AT>example.com",
+        #   #     "john.smith<at>example.com",
+        #   #     "john.smith <AT> example.com",
+        #   #     "john.smith <at> example.com",
+        #   #     "john.smith{AT}example.com",
+        #   #     "john.smith{at}example.com",
+        #   #     "john.smith {AT} example.com",
+        #   #     "john.smith {at} example.com",
+        #   #     "john.smith(AT)example.com",
+        #   #     "john.smith(at)example.com",
+        #   #     "john.smith (AT) example.com",
+        #   #     "john.smith (at) example.com",
+        #   #     "john DOT smith AT example DOT com",
+        #   #     "john dot smith at example dot com",
+        #   #     "john[DOT]smith[AT]example[DOT]com",
+        #   #     "john[dot]smith[at]example[dot]com",
+        #   #     "john [DOT] smith [AT] example [DOT] com",
+        #   #     "john [dot] smith [at] example [dot] com",
+        #   #     "john<DOT>smith<AT>example<DOT>com",
+        #   #     "john<dot>smith<at>example<dot>com",
+        #   #     "john <DOT> smith <AT> example <DOT> com",
+        #   #     "john <dot> smith <at> example <dot> com",
+        #   #     "john{DOT}smith{AT}example{DOT}com",
+        #   #     "john{dot}smith{at}example{dot}com",
+        #   #     "john {DOT} smith {AT} example {DOT} com",
+        #   #     "john {dot} smith {at} example {dot} com",
+        #   #     "john(DOT)smith(AT)example(DOT)com",
+        #   #     "john(dot)smith(at)example(dot)com",
+        #   #     "john (DOT) smith (AT) example (DOT) com",
+        #   #     "john (dot) smith (at) example (dot) com"]
         #
         # @see #each_obfuscation
         #
