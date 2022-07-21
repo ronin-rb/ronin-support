@@ -18,6 +18,9 @@
 #
 
 require 'ronin/support/network/ip'
+require 'ronin/support/network/host'
+require 'ronin/support/network/domain'
+require 'ronin/support/network/email_address'
 require 'ronin/support/network/dns'
 require 'ronin/support/network/tcp'
 require 'ronin/support/network/udp'
