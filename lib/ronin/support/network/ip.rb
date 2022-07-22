@@ -44,13 +44,13 @@ module Ronin
       #     ip.get_names
       #     # => ["lb-192-30-255-113-sea.github.com"]
       #     ip.get_host
-      #     # => #<Ronin::Support::Network::Host:0x00007f3414049170 @name="lb-192-30-255-113-sea.github.com">
+      #     # => #<Ronin::Support::Network::Host: lb-192-30-255-113-sea.github.com>
       #     ip.get_hosts
-      #     # => [#<Ronin::Support::Network::Host:0x00007f3413ff3888 @name="lb-192-30-255-113-sea.github.com">]
+      #     # => [#<Ronin::Support::Network::Host: lb-192-30-255-113-sea.github.com>]
       #     ip.host
-      #     # => #<Ronin::Support::Network::Host:0x00007f3414ae2a50 @name="lb-192-30-255-113-sea.github.com">
+      #     # => #<Ronin::Support::Network::Host: lb-192-30-255-113-sea.github.com>
       #     ip.hosts
-      #     # => [#<Ronin::Support::Network::Host:0x00007f3414ae2a50 @name="lb-192-30-255-113-sea.github.com">]
+      #     # => [#<Ronin::Support::Network::Host: lb-192-30-255-113-sea.github.com>]
       #
       # Get ASN information:
       #
@@ -371,7 +371,7 @@ module Ronin
         # @example
         #   ip = IP.new('192.30.255.113')
         #   ip.get_host
-        #   # => #<Ronin::Support::Network::Host:0x00007f3414049170 @name="lb-192-30-255-113-sea.github.com">
+        #   # => #<Ronin::Support::Network::Host: lb-192-30-255-113-sea.github.com>
         #
         def get_host(**kwargs)
           if (name = get_name(**kwargs))
@@ -397,7 +397,7 @@ module Ronin
         # @example
         #   ip = IP.new('192.30.255.113')
         #   ip.get_hosts
-        #   # => [#<Ronin::Support::Network::Host:0x00007f3413ff3888 @name="lb-192-30-255-113-sea.github.com">]
+        #   # => [#<Ronin::Support::Network::Host: lb-192-30-255-113-sea.github.com>]
         #
         def get_hosts(**kwargs)
           get_names(**kwargs).map { |name| Host.new(name) }
@@ -413,7 +413,7 @@ module Ronin
         # @example
         #   ip = IP.new('192.30.255.113')
         #   ip.hosts
-        #   # => [#<Ronin::Support::Network::Host:0x00007f3414ae2a50 @name="lb-192-30-255-113-sea.github.com">]
+        #   # => [#<Ronin::Support::Network::Host: lb-192-30-255-113-sea.github.com>]
         #
         # @note This method returns memoized data.
         #
@@ -430,7 +430,7 @@ module Ronin
         # @example
         #   ip = IP.new('192.30.255.113')
         #   ip.host
-        #   # => #<Ronin::Support::Network::Host:0x00007f3414ae2a50 @name="lb-192-30-255-113-sea.github.com">
+        #   # => #<Ronin::Support::Network::Host: lb-192-30-255-113-sea.github.com>
         #
         def host
           hosts.first
