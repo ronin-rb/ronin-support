@@ -258,6 +258,32 @@ module Ronin
         # @param [Hash{Symbol => Object}, String, ByteSlice] buffer_or_values
         #   Optional values to initialize the members of the struct.
         #
+        # @example Initiializing a new struct from a buffer:
+        #   class MyStruct < Ronin::Support::Binary::Struct
+        #   
+        #     member :x,    :uint32
+        #     member :f,    :double
+        #     member :nums, [:uint8, 10]
+        #   
+        #   end
+        #   
+        #   struct = MyStruct.new("\x01\x00\x00\x00\x00\x00\x00\x00333333\xD3?\x01\x02\x03\x00\x00\x00\x00\x00\x00\x00")
+        #   struct.x
+        #   # => 1
+        #   struct.f
+        #   # => 0.3
+        #   struct.nums.to_a
+        #   # => [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]
+        #
+        # @example Initializing a new struct with values:
+        #   struct = MyStruct.new(x: 1, f: 0.3, nums: [1,2,3])
+        #   struct.x
+        #   # => 1
+        #   struct.f
+        #   # => 0.3
+        #   struct.nums.to_a
+        #   # => [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]
+        #
         # @api public
         #
         def initialize(buffer_or_values={})
@@ -300,6 +326,17 @@ module Ronin
         #
         # @return [Integer]
         #   The size of the struct in bytes.
+        #
+        # @example
+        #   class MyStruct < Ronin::Support::Binary::Struct
+        #   
+        #     member :x, :uint32
+        #     member :y, :uint32
+        #   
+        #   end
+        #   
+        #   MyStruct.size
+        #   # => 8
         #
         # @api public
         #
@@ -374,7 +411,19 @@ module Ronin
         # @return [String]
         #   The packed struct.
         #
+        # @example
+        #
         # @api public
+        #   class MyStruct < Ronin::Support::Binary::Struct
+        #   
+        #     member :x,    :uint32
+        #     member :f,    :double
+        #     member :nums, [:uint8, 10]
+        #   
+        #   end
+        #
+        #   MyStruct.pack(x: 1, f: 0.3, nums: [1,2,3])
+        #   # => "\x01\x00\x00\x00\x00\x00\x00\x00333333\xD3?\x01\x02\x03\x00\x00\x00\x00\x00\x00\x00"
         #
         def self.pack(values)
           new(values).to_s
@@ -388,6 +437,17 @@ module Ronin
         #
         # @return [Struct]
         #   The newly unpacked struct.
+        #
+        # @example
+        #   class MyStruct < Ronin::Support::Binary::Struct
+        #   
+        #     member :x,    :uint32
+        #     member :f,    :double
+        #     member :nums, [:uint8, 10]
+        #   
+        #   end
+        #   
+        #   struct = MyStruct.unpack("\x01\x00\x00\x00\x00\x00\x00\x00333333\xD3?\x01\x02\x03\x00\x00\x00\x00\x00\x00\x00")
         #
         # @api public
         #
@@ -422,6 +482,23 @@ module Ronin
         #
         # @raise [ArgumentError]
         #   The struct does not contain the member.
+        #
+        # @example
+        #   class MyStruct < Ronin::Support::Binary::Struct
+        #   
+        #     member :x,    :uint32
+        #     member :f,    :double
+        #     member :nums, [:uint8, 10]
+        #   
+        #   end
+        #   
+        #   struct = MyStruct.new("\x01\x00\x00\x00\x00\x00\x00\x00333333\xD3?\x01\x02\x03\x00\x00\x00\x00\x00\x00\x00")
+        #   struct[:x]
+        #   # => 1
+        #   struct[:f]
+        #   # => 0.3
+        #   struct[:nums].to_a
+        #   # => [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]
         #
         # @api public
         #
@@ -463,6 +540,26 @@ module Ronin
         # @raise [ArgumentError]
         #   The struct does not contain the member.
         #
+        # @example
+        #   class MyStruct < Ronin::Support::Binary::Struct
+        #   
+        #     member :x,    :uint32
+        #     member :f,    :double
+        #     member :nums, [:uint8, 10]
+        #   
+        #   end
+        #   
+        #   struct = MyStruct.new
+        #   struct[:x] = 1
+        #   struct[:x]
+        #   # => 1
+        #   struct[:f] = 0.3
+        #   struct[:f]
+        #   # => 0.3
+        #   struct[:nums] = [1,2,3]
+        #   struct[:nums].to_a
+        #   # => [1, 2, 3, 0, 0, 0, 0, 0, 0, 0]
+        #
         # @api public
         #
         def []=(name,value)
@@ -480,12 +577,17 @@ module Ronin
         # Enumerates over the members within the struct.
         #
         # @yield [name, value]
+        #   If a block is given, it will be passed each member name and value
+        #   from within the struct.
         #
         # @yieldparam [Symbol] name
+        #   The name of the struct memeber.
         #
         # @yieldparam [Object] value
+        #   The decoded value of the struct member.
         #
         # @return [Enumerator]
+        #   If no block is given, an Enumerator object will be returned.
         #
         # @api public
         #
