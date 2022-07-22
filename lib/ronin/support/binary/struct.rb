@@ -412,8 +412,6 @@ module Ronin
         #   The packed struct.
         #
         # @example
-        #
-        # @api public
         #   class MyStruct < Ronin::Support::Binary::Struct
         #   
         #     member :x,    :uint32
@@ -421,9 +419,11 @@ module Ronin
         #     member :nums, [:uint8, 10]
         #   
         #   end
-        #
+        #   
         #   MyStruct.pack(x: 1, f: 0.3, nums: [1,2,3])
         #   # => "\x01\x00\x00\x00\x00\x00\x00\x00333333\xD3?\x01\x02\x03\x00\x00\x00\x00\x00\x00\x00"
+        #
+        # @api public
         #
         def self.pack(values)
           new(values).to_s
