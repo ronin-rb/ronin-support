@@ -462,6 +462,19 @@ module Ronin
         #   The IO object to read from.
         #
         # @return [Struct]
+        #   The read struct.
+        #
+        # @example
+        #   class MyStruct < Ronin::Support::Binary::Struct
+        #   
+        #     member :x,    :uint32
+        #     member :f,    :double
+        #     member :nums, [:uint8, 10]
+        #   
+        #   end
+        #   
+        #   file   = File.new('binary.dat','b')
+        #   struct = MyStruct.read_from(file)
         #
         # @see #read_from
         #
