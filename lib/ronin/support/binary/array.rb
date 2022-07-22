@@ -34,24 +34,24 @@ module Ronin
       #
       # ## Examples
       #
-      # Creating a buffer of `int32`s:
+      # Creating an array of `int32`s:
       #
-      #     buffer = Buffer.new(:int32, 4)
+      #     array = Binary::Array.new(:int32, 4)
       #     # => #<Ronin::Support::Binary::Binary::Array: "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00">
-      #     buffer[0] = 0x11111111
-      #     buffer[1] = 0x22222222
-      #     buffer[2] = 0x33333333
-      #     buffer[3] = -1
-      #     buffer.to_s
+      #     array[0] = 0x11111111
+      #     array[1] = 0x22222222
+      #     array[2] = 0x33333333
+      #     array[3] = -1
+      #     array.to_s
       #     # => "\x11\x11\x11\x11\"\"\"\"3333\xFF\xFF\xFF\xFF"
       #
-      # Creating a buffer from an existing String:
+      # Creating an array from an existing String:
       #
-      #     buffer = Buffer.new(:uint32_le, "\x41\x00\x00\x00\x42\x00\x00\x00")
+      #     array = Binary::Array.new(:uint32_le, "\x41\x00\x00\x00\x42\x00\x00\x00")
       #     # => #<Ronin::Support::Binary::Binary::Array: "A\u0000\u0000\u0000B\u0000\u0000\u0000">
-      #     buffer[0]
+      #     array[0]
       #     # => 65
-      #     buffer[1]
+      #     array[1]
       #     # => 66
       #
       # @api public
