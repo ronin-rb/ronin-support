@@ -145,8 +145,6 @@ module Ronin
         #
         # @see #read_from
         #
-        # @api public
-        #
         def self.read_from(io,type,length)
           new(type,length).read_from(io)
         end
