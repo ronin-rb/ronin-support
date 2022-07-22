@@ -242,27 +242,6 @@ module Ronin
         end
 
         #
-        # Converts the array buffer to a String.
-        #
-        # @return [String]
-        #   The raw binary buffer.
-        #
-        # @example
-        #   array = Binary::Array.new(:int32, 4)
-        #   array[0] = 0x11111111
-        #   array[1] = 0x22222222
-        #   array[2] = 0x33333333
-        #   array[3] = -1
-        #   array.to_s
-        #   # => "\x11\x11\x11\x11\"\"\"\"3333\xFF\xFF\xFF\xFF"
-        #
-        def to_s
-          @string
-        end
-
-        alias to_str to_s
-
-        #
         # Inspects the array buffer.
         #
         # @return [String]

@@ -402,18 +402,6 @@ describe Ronin::Support::Binary::Array do
     end
   end
 
-  describe "#to_s" do
-    it "must return #string" do
-      expect(subject.to_s).to be(subject.string)
-    end
-  end
-
-  describe "#to_str" do
-    it "must return #string" do
-      expect(subject.to_str).to be(subject.string)
-    end
-  end
-
   describe "#inspect" do
     it "must return the class name and the buffer string" do
       expect(subject.inspect).to eq("#<#{described_class}: #{subject.string.inspect}>")
