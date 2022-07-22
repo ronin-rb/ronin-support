@@ -1280,4 +1280,10 @@ describe Ronin::Support::Network::Host do
       expect(subject.to_str).to eq(hostname)
     end
   end
+
+  describe "#inspect" do
+    it "must return the class name and #name" do
+      expect(subject.inspect).to eq("#<#{described_class}: #{hostname}>")
+    end
+  end
 end

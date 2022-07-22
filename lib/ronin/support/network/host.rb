@@ -34,7 +34,7 @@ module Ronin
       # Resolve parent domain:
       #
       #     host.domain
-      #     # => #<Ronin::Support::Network::Domain:0x00007eff235b1c00 @name="example.co.uk">
+      #     # => #<Ronin::Support::Network::Domain: example.co.uk>
       #
       # Resolve IP addresses:
       #
@@ -170,7 +170,7 @@ module Ronin
         # @example
         #   host = Host.new('foo.bar.example.co.uk')
         #   host.domain
-        #   # => #<Ronin::Support::Network::Domain:0x00007eff235b1c00 @name="example.co.uk">
+        #   # => #<Ronin::Support::Network::Domain: example.co.uk>
         #
         # @note This method returns memoized data.
         #
@@ -201,7 +201,7 @@ module Ronin
         # @example
         #   host = Host.new('www.example.co.uk')
         #   host.change_suffix('.com')
-        #   # => #<Ronin::Support::Network::Host:0x00007eff23806078 @name="www.example.com">
+        #   # => #<Ronin::Support::Network::Host: www.example.com>
         #
         def change_suffix(new_suffix)
           name, suffix = PublicSuffix.list.split(@name)
@@ -1235,6 +1235,16 @@ module Ronin
         #
         def to_str
           @name.to_str
+        end
+
+        #
+        # Inspects the host.
+        #
+        # @return [String]
+        #   The inspected host object.
+        #
+        def inspect
+          "#<#{self.class}: #{@name}>"
         end
 
       end
