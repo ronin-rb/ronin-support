@@ -142,6 +142,11 @@ module Ronin
         #   The desired length of the array.
         #
         # @return [Struct]
+        #   The read array.
+        #
+        # @example
+        #   file  = File.new('binary.dat','b')
+        #   array = Binary::Array.read_from(file,:int32,10)
         #
         # @see #read_from
         #
@@ -157,6 +162,13 @@ module Ronin
         #
         # @return [Integer, Float, String, Binary::Array, Binary::Struct]
         #   The integer, float, or character read from the given index.
+        #
+        # @example
+        #   array = Binary::Array.new(:uint32_le, "\x41\x00\x00\x00\x42\x00\x00\x00")
+        #   array[0]
+        #   # => 65
+        #   array[1]
+        #   # => 66
         #
         def [](index)
           offset = index * @type.size
@@ -188,6 +200,14 @@ module Ronin
         #
         # @return [Integer, Float, String, Binary::Array, Binary::Struct]
         #   The integer, float, or character value that was written.
+        #
+        # @example
+        #   array = Binary::Array.new(:int32, 4)
+        #   array[0]
+        #   # => 0
+        #   array[0] = 0x11111111
+        #   array[0]
+        #   # => 286331153
         #   
         def []=(index,value)
           offset = index * @type.size
@@ -226,6 +246,15 @@ module Ronin
         #
         # @return [String]
         #   The raw binary buffer.
+        #
+        # @example
+        #   array = Binary::Array.new(:int32, 4)
+        #   array[0] = 0x11111111
+        #   array[1] = 0x22222222
+        #   array[2] = 0x33333333
+        #   array[3] = -1
+        #   array.to_s
+        #   # => "\x11\x11\x11\x11\"\"\"\"3333\xFF\xFF\xFF\xFF"
         #
         def to_s
           @string
