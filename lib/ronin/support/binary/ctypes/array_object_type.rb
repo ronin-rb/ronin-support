@@ -25,7 +25,7 @@ module Ronin
     module Binary
       module CTypes
         #
-        # Represents a {Binary::Struct} in memory.
+        # Represents a {Binary::Array} in memory.
         #
         # @api private
         #
