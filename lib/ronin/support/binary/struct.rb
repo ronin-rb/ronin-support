@@ -158,7 +158,7 @@ module Ronin
       #     struct.pack
       #     # => "\x00\x00\xAA\xBB\x00\x00\xCC\xDD"
       #
-      # ## Struct Architecture
+      # ### Struct Architecture
       #
       #     class MyStruct < Ronin::Support::Binary::Struct
       #     
@@ -177,7 +177,7 @@ module Ronin
       #     struct.pack
       #     # => "\x00\x00\x00d\xFF\xFF\xFF\x9C@<\xA5\xDC\x1Ac\xC1\xF8"
       #
-      # ## Struct Operating System (OS)
+      # ### Struct Operating System (OS)
       #    
       #     class MyStruct < Ronin::Support::Binary::Struct
       #     
