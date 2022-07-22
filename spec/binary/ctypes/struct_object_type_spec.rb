@@ -101,6 +101,16 @@ describe Ronin::Support::Binary::CTypes::StructObjectType do
         expect(subject.pack(hash)).to eq(subject.struct_type.pack(hash))
       end
     end
+
+    context "when given an object other than a Binary::Struct or Hash" do
+      let(:struct) { Object.new }
+
+      it do
+        expect {
+          subject.pack(struct)
+        }.to raise_error(ArgumentError,"value must be either a #{Ronin::Support::Binary::Struct} or an #{Hash}: #{struct.inspect}")
+      end
+    end
   end
 
   describe "#unpack" do

@@ -109,12 +109,17 @@ module Ronin
           # @return [String]
           #   The underlying binary data for the memory object.
           #
+          # @raise [ArgumentError]
+          #   The given value was not a {Binary::Struct} or {Hash}.
+          #
           def pack(struct)
             case struct
             when Binary::Struct
               struct.to_s
             when Hash
               @struct_type.pack(struct)
+            else
+              raise(ArgumentError,"value must be either a #{Binary::Struct} or an #{Hash}: #{struct.inspect}")
             end
           end
 

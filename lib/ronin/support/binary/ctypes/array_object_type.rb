@@ -100,12 +100,17 @@ module Ronin
           # @return [String]
           #   The underlying binary data for the memory object.
           #
+          # @raise [ArgumentError]
+          #   The given value was not a {Binary::Array} or {::Array}.
+          #
           def pack(array)
             case array
             when Binary::Array
               array.to_s
             when ::Array
               @array_type.pack(array)
+            else
+              raise(ArgumentError,"value must be either a #{Binary::Array} or an #{::Array}: #{array.inspect}")
             end
           end
 

@@ -101,6 +101,16 @@ describe Ronin::Support::Binary::CTypes::UnionObjectType do
         expect(subject.pack(hash)).to eq(subject.union_type.pack(hash))
       end
     end
+
+    context "when given an object other than a Binary::Union or Hash" do
+      let(:union) { Object.new }
+
+      it do
+        expect {
+          subject.pack(union)
+        }.to raise_error(ArgumentError,"value must be either a #{Ronin::Support::Binary::Union} or an #{Hash}: #{union.inspect}")
+      end
+    end
   end
 
   describe "#unpack" do

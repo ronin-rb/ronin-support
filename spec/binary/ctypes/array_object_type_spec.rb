@@ -94,6 +94,16 @@ describe Ronin::Support::Binary::CTypes::ArrayObjectType do
         expect(subject.pack(array)).to eq(subject.array_type.pack(array))
       end
     end
+
+    context "when given an object other than a Binary::Array or ::Array" do
+      let(:array) { Object.new }
+
+      it do
+        expect {
+          subject.pack(array)
+        }.to raise_error(ArgumentError,"value must be either a #{Ronin::Support::Binary::Array} or an #{::Array}: #{array.inspect}")
+      end
+    end
   end
 
   describe "#unpack" do

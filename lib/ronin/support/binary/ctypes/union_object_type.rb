@@ -109,12 +109,17 @@ module Ronin
           # @return [String]
           #   The underlying binary data for the memory object.
           #
+          # @raise [ArgumentError]
+          #   The given value was not a {Binary::Union} or {Hash}.
+          #
           def pack(union)
             case union
             when Binary::Union
               union.to_s
             when Hash
               @union_type.pack(union)
+            else
+              raise(ArgumentError,"value must be either a #{Binary::Union} or an #{Hash}: #{union.inspect}")
             end
           end
 
