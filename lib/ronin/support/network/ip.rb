@@ -166,10 +166,10 @@ module Ronin
         #
         # @example
         #   IP.local_ips
-        #   # => [#<Ronin::Support::Network::IP: IPv4:127.0.0.1/255.255.255.255>,
-        #         #<Ronin::Support::Network::IP: IPv4:192.168.1.42/255.255.255.255>,
-        #         #<Ronin::Support::Network::IP: IPv6:0000:0000:0000:0000:0000:0000:0000:0001/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff>,
-        #         #<Ronin::Support::Network::IP: IPv6:fe80:0000:0000:0000:04ba:612f:09e2:37e2/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff>]
+        #   # => [#<Ronin::Support::Network::IP: 127.0.0.1>,
+        #         #<Ronin::Support::Network::IP: 192.168.1.42>,
+        #         #<Ronin::Support::Network::IP: ::1>,
+        #         #<Ronin::Support::Network::IP: fe80::04ba:612f:09e2:37e2>]
         #
         def self.local_ips
           local_addresses.map(&method(:new))
@@ -195,7 +195,7 @@ module Ronin
         #
         # @example
         #   IP.local_ip
-        #   # => #<Ronin::Support::Network::IP: IPv4:127.0.0.1/255.255.255.255>
+        #   # => #<Ronin::Support::Network::IP: 127.0.0.1>
         #
         def self.local_ip
           new(local_address)
@@ -520,6 +520,16 @@ module Ronin
         alias canonical to_string
         alias to_uint to_i
         alias to_str to_s
+
+        #
+        # Inspects the IP.
+        #
+        # @return [String]
+        #   The inspected IP object.
+        #
+        def inspect
+          "#<#{self.class}: #{@address}>"
+        end
 
       end
     end

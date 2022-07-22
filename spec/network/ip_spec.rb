@@ -870,4 +870,10 @@ describe Ronin::Support::Network::IP do
       end
     end
   end
+
+  describe "#inspect" do
+    it "must return the class name and address" do
+      expect(subject.inspect).to eq("#<#{described_class}: #{address}>")
+    end
+  end
 end

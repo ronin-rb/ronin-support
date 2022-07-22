@@ -29,9 +29,9 @@ module Ronin
       #
       #     domain = Domain.new('github.com')
       #     domain.ips
-      #     # => [#<Ronin::Support::Network::IP: IPv4:192.30.255.113/255.255.255.255>]
+      #     # => [#<Ronin::Support::Network::IP: 192.30.255.113>]
       #     domain.ip
-      #     # => #<Ronin::Support::Network::IP: IPv4:192.30.255.113/255.255.255.255>
+      #     # => #<Ronin::Support::Network::IP: 192.30.255.113>
       #     domain.mailservers
       #     # => ["aspmx.l.google.com",
       #           "alt3.aspmx.l.google.com",

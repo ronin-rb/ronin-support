@@ -43,13 +43,13 @@ module Ronin
       #     host.get_addresses
       #     # => ["104.21.2.18", "172.67.128.149"]
       #     host.get_ip
-      #     # => #<Ronin::Support::Network::IP: IPv4:172.67.128.149/255.255.255.255>
+      #     # => #<Ronin::Support::Network::IP: 172.67.128.149>
       #     host.get_ips
-      #     # => [#<Ronin::Support::Network::IP: IPv4:104.21.2.18/255.255.255.255>, #<Ronin::Support::Network::IP: IPv4:172.67.128.149/255.255.255.255>]
+      #     # => [#<Ronin::Support::Network::IP: 104.21.2.18>, #<Ronin::Support::Network::IP: 172.67.128.149>]
       #     host.ip
-      #     # => #<Ronin::Support::Network::IP: IPv4:172.67.128.149/255.255.255.255>
+      #     # => #<Ronin::Support::Network::IP: 172.67.128.149>
       #     host.ips
-      #     # => [#<Ronin::Support::Network::IP: IPv4:104.21.2.18/255.255.255.255>, #<Ronin::Support::Network::IP: IPv4:172.67.128.149/255.255.255.255>]
+      #     # => [#<Ronin::Support::Network::IP: 104.21.2.18>, #<Ronin::Support::Network::IP: 172.67.128.149>]
       #
       # Other DNS queries:
       #
@@ -279,7 +279,8 @@ module Ronin
         # @example
         #   host = Host.new('www.example.com')
         #   host.get_ip
-        #   # => #<Ronin::Support::Network::IP: IPv4:172.67.128.149/255.255.255.255>
+        #   # => #<Ronin::Support::Network::IP: 172.67.128.149>
+        #
         def get_ip(**kwargs)
           if (address = get_address(**kwargs))
             IP.new(address)
@@ -304,7 +305,7 @@ module Ronin
         # @example
         #   host = Host.new('www.example.com')
         #   host.get_ips
-        #   # => [#<Ronin::Support::Network::IP: IPv4:104.21.2.18/255.255.255.255>, #<Ronin::Support::Network::IP: IPv4:172.67.128.149/255.255.255.255>]
+        #   # => [#<Ronin::Support::Network::IP: 104.21.2.18>, #<Ronin::Support::Network::IP: 172.67.128.149>]
         #
         def get_ips(**kwargs)
           get_addresses(**kwargs).map { |address| IP.new(address) }
@@ -320,7 +321,7 @@ module Ronin
         # @example
         #   host = Host.new('www.example.com')
         #   host.ips
-        #   # => [#<Ronin::Support::Network::IP: IPv4:104.21.2.18/255.255.255.255>, #<Ronin::Support::Network::IP: IPv4:172.67.128.149/255.255.255.255>]
+        #   # => [#<Ronin::Support::Network::IP: 104.21.2.18>, #<Ronin::Support::Network::IP: 172.67.128.149>]
         #
         # @note This method returns memoized data.
         #
@@ -337,7 +338,7 @@ module Ronin
         # @example
         #   host = Host.new('www.example.com')
         #   host.ip
-        #   # => #<Ronin::Support::Network::IP: IPv4:104.21.2.18/255.255.255.255>
+        #   # => #<Ronin::Support::Network::IP: 104.21.2.18>
         #
         def ip
           ips.first
