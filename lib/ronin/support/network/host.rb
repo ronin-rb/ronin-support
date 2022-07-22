@@ -27,6 +27,112 @@ module Ronin
       #
       # Represents a host or host name.
       #
+      # ## Examples
+      # 
+      #     host = Host.new('www.example.com')
+      #
+      # Resolve parent domain:
+      #
+      #     host.domain
+      #     # => #<Ronin::Support::Network::Domain:0x00007eff235b1c00 @name="example.co.uk">
+      #
+      # Resolve IP addresses:
+      #
+      #     host.get_address
+      #     # => "172.67.128.149"
+      #     host.get_addresses
+      #     # => ["104.21.2.18", "172.67.128.149"]
+      #     host.get_ip
+      #     # => #<Ronin::Support::Network::IP: IPv4:172.67.128.149/255.255.255.255>
+      #     host.get_ips
+      #     # => [#<Ronin::Support::Network::IP: IPv4:104.21.2.18/255.255.255.255>, #<Ronin::Support::Network::IP: IPv4:172.67.128.149/255.255.255.255>]
+      #     host.ip
+      #     # => #<Ronin::Support::Network::IP: IPv4:172.67.128.149/255.255.255.255>
+      #     host.ips
+      #     # => [#<Ronin::Support::Network::IP: IPv4:104.21.2.18/255.255.255.255>, #<Ronin::Support::Network::IP: IPv4:172.67.128.149/255.255.255.255>]
+      #
+      # Other DNS queries:
+      #
+      #     host = Host.new('www.github.com')
+      #     host.get_record(:txt)
+      #     # => #<Resolv::DNS::Resource::IN::TXT:0x00007f7e500777d8 @strings=["MS=ms58704441"], @ttl=3575>
+      #     host.get_records(:txt)
+      #     # => [#<Resolv::DNS::Resource::IN::TXT:0x00007f7e500777d8 @strings=["MS=ms58704441"], @ttl=3575>, ...]
+      #     host.get_cname_record
+      #     # => #<Resolv::DNS::Resource::IN::CNAME:0x00007f7e50063da0 @name=#<Resolv::DNS::Name: github.com.>, @ttl=3500>
+      #     host.get_cname
+      #     # => "github.com"
+      #     host.cname
+      #     # => "github.com"
+      #     host.get_mx_records
+      #     # => [#<Resolv::DNS::Resource::IN::MX:0x00007f7e50035658 @exchange=#<Resolv::DNS::Name: aspmx.l.google.com.>, @preference=1, @ttl=3600>, ...]
+      #     host.get_mailservers
+      #     # => ["alt1.aspmx.l.google.com",
+      #           "alt4.aspmx.l.google.com",
+      #           "alt3.aspmx.l.google.com",
+      #           "alt2.aspmx.l.google.com",
+      #           "aspmx.l.google.com"]
+      #     host.mailservers
+      #     # => ["alt1.aspmx.l.google.com",
+      #           "alt4.aspmx.l.google.com",
+      #           "alt3.aspmx.l.google.com",
+      #           "alt2.aspmx.l.google.com",
+      #           "aspmx.l.google.com"]
+      #     host.get_ns_records
+      #     # => [#<Resolv::DNS::Resource::IN::NS:0x00007f7e4f972258 @name=#<Resolv::DNS::Name: dns1.p08.nsone.net.>, @ttl=900>, ...]
+      #     host.get_nameservers
+      #     # => ["dns3.p08.nsone.net",
+      #           "ns-1707.awsdns-21.co.uk",
+      #           "dns2.p08.nsone.net",
+      #           "ns-1283.awsdns-32.org",
+      #           "dns4.p08.nsone.net",
+      #           "ns-421.awsdns-52.com",
+      #           "dns1.p08.nsone.net",
+      #           "ns-520.awsdns-01.net"]
+      #     host.nameservers
+      #     # => ["dns3.p08.nsone.net",
+      #           "ns-1707.awsdns-21.co.uk",
+      #           "dns2.p08.nsone.net",
+      #           "ns-1283.awsdns-32.org",
+      #           "dns4.p08.nsone.net",
+      #           "ns-421.awsdns-52.com",
+      #           "dns1.p08.nsone.net",
+      #           "ns-520.awsdns-01.net"]
+      #     host.get_soa_record
+      #     # => #<Resolv::DNS::Resource::IN::SOA:0x00007f7e4f63d0b0 @mname=#<Resolv::DNS::Name: ns-1707.awsdns-21.co.uk.>, @rname=#<Resolv::DNS::Name: awsdns-hostmaster.amazon.com.>, @serial=1, @refresh=7200, @retry=900, @expire=1209600, @minimum=86400, @ttl=880>
+      #     host.soa_record
+      #     # => #<Resolv::DNS::Resource::IN::SOA:0x00007f7e4f63d0b0 @mname=#<Resolv::DNS::Name: ns-1707.awsdns-21.co.uk.>, @rname=#<Resolv::DNS::Name: awsdns-hostmaster.amazon.com.>, @serial=1, @refresh=7200, @retry=900, @expire=1209600, @minimum=86400, @ttl=880>
+      #     host.get_txt_record
+      #     # => #<Resolv::DNS::Resource::IN::TXT:0x00007f7e4f8cbbb0 @strings=[\"adobe-idp-site-verification=b92c9e999aef825edc36e0a3d847d2dbad5b2fc0e05c79ddd7a16139b48ecf4b\"], @ttl=2887>
+      #     host.get_txt_string
+      #     # => "stripe-verification=f88ef17321660a01bab1660454192e014defa29ba7b8de9633c69d6b4912217f"
+      #     host.get_txt_records
+      #     # => [#<Resolv::DNS::Resource::IN::TXT:0x00007f7e4f67c648 @strings=[\"apple-domain-verification=RyQhdzTl6Z6x8ZP4\"], @ttl=2852>, ...]
+      #     host.get_txt_strings
+      #     # => ["apple-domain-verification=RyQhdzTl6Z6x8ZP4",
+      #           "MS=ms58704441",
+      #           "atlassian-domain-verification=jjgw98AKv2aeoYFxiL/VFaoyPkn3undEssTRuMg6C/3Fp/iqhkV4HVV7WjYlVeF8",
+      #           "MS=6BF03E6AF5CB689E315FB6199603BABF2C88D805",
+      #           "v=spf1 ip4:192.30.252.0/22 include:_netblocks.google.com include:_netblocks2.google.com include:_netblocks3.google.com include:spf.protection.outlook.com include:mail.zendesk.com include:_spf.salesforce.com include:servers.mcsv.net ip4:166.78.69.169 ip4:1",
+      #           "66.78.69.170 ip4:166.78.71.131 ip4:167.89.101.2 ip4:167.89.101.192/28 ip4:192.254.112.60 ip4:192.254.112.98/31 ip4:192.254.113.10 ip4:192.254.113.101 ip4:192.254.114.176 ip4:62.253.227.114 ~all",
+      #           "docusign=087098e3-3d46-47b7-9b4e-8a23028154cd",
+      #           "google-site-verification=UTM-3akMgubp6tQtgEuAkYNYLyYAvpTnnSrDMWoDR3o",
+      #           "stripe-verification=f88ef17321660a01bab1660454192e014defa29ba7b8de9633c69d6b4912217f",
+      #           "adobe-idp-site-verification=b92c9e999aef825edc36e0a3d847d2dbad5b2fc0e05c79ddd7a16139b48ecf4b",
+      #           "MS=ms44452932"]
+      #     host.txt_strings
+      #     # => ["apple-domain-verification=RyQhdzTl6Z6x8ZP4",
+      #           "MS=ms58704441",
+      #           "atlassian-domain-verification=jjgw98AKv2aeoYFxiL/VFaoyPkn3undEssTRuMg6C/3Fp/iqhkV4HVV7WjYlVeF8",
+      #           "MS=6BF03E6AF5CB689E315FB6199603BABF2C88D805",
+      #           "v=spf1 ip4:192.30.252.0/22 include:_netblocks.google.com include:_netblocks2.google.com include:_netblocks3.google.com include:spf.protection.outlook.com include:mail.zendesk.com include:_spf.salesforce.com include:servers.mcsv.net ip4:166.78.69.169 ip4:1",
+      #           "66.78.69.170 ip4:166.78.71.131 ip4:167.89.101.2 ip4:167.89.101.192/28 ip4:192.254.112.60 ip4:192.254.112.98/31 ip4:192.254.113.10 ip4:192.254.113.101 ip4:192.254.114.176 ip4:62.253.227.114 ~all",
+      #           "docusign=087098e3-3d46-47b7-9b4e-8a23028154cd",
+      #           "google-site-verification=UTM-3akMgubp6tQtgEuAkYNYLyYAvpTnnSrDMWoDR3o",
+      #           "stripe-verification=f88ef17321660a01bab1660454192e014defa29ba7b8de9633c69d6b4912217f",
+      #           "adobe-idp-site-verification=b92c9e999aef825edc36e0a3d847d2dbad5b2fc0e05c79ddd7a16139b48ecf4b",
+      #           "MS=ms44452932"]
+      #
       # @api public
       #
       # @since 1.0.0
@@ -42,6 +148,10 @@ module Ronin
         # Initializes the host.
         #
         # @param [String] name
+        #   The host's hostname.
+        #
+        # @example
+        #   host = Host.new('www.example.com')
         #
         def initialize(name)
           @name = name
@@ -56,6 +166,13 @@ module Ronin
         #
         # @raise [PublicSuffix::InvalidHostname]
         #   The hostname does not end with a valid suffix.
+        #
+        # @example
+        #   host = Host.new('foo.bar.example.co.uk')
+        #   host.domain
+        #   # => #<Ronin::Support::Network::Domain:0x00007eff235b1c00 @name="example.co.uk">
+        #
+        # @note This method returns memoized data.
         #
         def domain
           @domain ||= begin
@@ -81,6 +198,11 @@ module Ronin
         # @raise [PublicSuffix::InvalidHostname]
         #   The hostname does not end with a valid suffix.
         #
+        # @example
+        #   host = Host.new('www.example.co.uk')
+        #   host.change_suffix('.com')
+        #   # => #<Ronin::Support::Network::Host:0x00007eff23806078 @name="www.example.com">
+        #
         def change_suffix(new_suffix)
           name, suffix = PublicSuffix.list.split(@name)
 
@@ -104,6 +226,11 @@ module Ronin
         # @return [String, nil]
         #   The address of the hostname.
         #
+        # @example
+        #   host = Host.new('www.example.com')
+        #   host.get_address
+        #   # => "172.67.128.149"
+        #
         def get_address(**kwargs)
           DNS.resolver(**kwargs).get_address(@name)
         end
@@ -125,6 +252,11 @@ module Ronin
         # @return [Array<String>]
         #   The addresses of the hostname.
         #
+        # @example
+        #   host = Host.new('www.example.com')
+        #   host.get_addresses
+        #   # => ["104.21.2.18", "172.67.128.149"]
+        #
         def get_addresses(**kwargs)
           DNS.resolver(**kwargs).get_addresses(@name)
         end
@@ -144,6 +276,10 @@ module Ronin
         # @return [String, nil]
         #   The IP for the host.
         #
+        # @example
+        #   host = Host.new('www.example.com')
+        #   host.get_ip
+        #   # => #<Ronin::Support::Network::IP: IPv4:172.67.128.149/255.255.255.255>
         def get_ip(**kwargs)
           if (address = get_address(**kwargs))
             IP.new(address)
@@ -165,6 +301,11 @@ module Ronin
         # @return [Array<IP>]
         #   The IPs for the host.
         #
+        # @example
+        #   host = Host.new('www.example.com')
+        #   host.get_ips
+        #   # => [#<Ronin::Support::Network::IP: IPv4:104.21.2.18/255.255.255.255>, #<Ronin::Support::Network::IP: IPv4:172.67.128.149/255.255.255.255>]
+        #
         def get_ips(**kwargs)
           get_addresses(**kwargs).map { |address| IP.new(address) }
         end
@@ -175,6 +316,11 @@ module Ronin
         # @return [Array<IP>]
         #   The IPs of the host or an empty Array if the host has no IP
         #   addresses.
+        #
+        # @example
+        #   host = Host.new('www.example.com')
+        #   host.ips
+        #   # => [#<Ronin::Support::Network::IP: IPv4:104.21.2.18/255.255.255.255>, #<Ronin::Support::Network::IP: IPv4:172.67.128.149/255.255.255.255>]
         #
         # @note This method returns memoized data.
         #
@@ -187,6 +333,11 @@ module Ronin
         #
         # @return [IP, nil]
         #   The IP for the host or `nil` if the host has no IP addresses.
+        #
+        # @example
+        #   host = Host.new('www.example.com')
+        #   host.ip
+        #   # => #<Ronin::Support::Network::IP: IPv4:104.21.2.18/255.255.255.255>
         #
         def ip
           ips.first
@@ -214,7 +365,11 @@ module Ronin
         #   The matching DNS records or `nil` if no matching DNS records
         #   could be found.
         #
+        # @example
+        #   host = Host.new('www.example.com')
+        #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource
+        # @see DNS::Resolver#get_record
         #
         def get_record(name=nil,type_class,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -246,6 +401,7 @@ module Ronin
         #   All matching DNS records.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource
+        # @see DNS::Resolver#get_records
         #
         def get_records(name=nil,type_class,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -273,7 +429,7 @@ module Ronin
         # @return [Array<Resolv::DNS::Resource>]
         #   All of the DNS records belonging to the host name.
         #
-        # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/ANY
+        # @see DNS::Resolver#get_any_records
         #
         def get_any_records(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -303,6 +459,7 @@ module Ronin
         #   record.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/CNAME
+        # @see DNS::Resolver#get_cname_record
         #
         def get_cname_record(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -331,6 +488,9 @@ module Ronin
         #   The canonical name for the host or `nil` if the host has no
         #   `CNAME` record.
         #
+        # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/CNAME
+        # @see DNS::Resolver#get_cname
+        #
         def get_cname(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
                  else         @name
@@ -346,6 +506,8 @@ module Ronin
         #   The `CNAME` host name.
         #
         # @note This method returns memoized data.
+        #
+        # @see #get_cname
         #
         def cname
           @cname ||= get_cname
@@ -371,6 +533,7 @@ module Ronin
         #   record.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/HINFO
+        # @see DNS::Resolver#get_hinfo_record
         #
         def get_hinfo_record(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -387,9 +550,10 @@ module Ronin
         #   The `HINFO` DNS record or `nil` if the host name has no `HINFO`
         #   record.
         #
-        # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/HINFO
-        #
         # @note This method returns memoized data.
+        #
+        # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/HINFO
+        # @see #get_hinfo_record
         #
         def hinfo_record
           @hinfo_record ||= get_hinfo_record
@@ -415,6 +579,7 @@ module Ronin
         #   records.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/IN/A
+        # @see DNS::Resolver#get_a_record
         #
         def get_a_record(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -441,6 +606,8 @@ module Ronin
         #
         # @return [String, nil]
         #   The first IPv4 address belonging to the host name.
+        #
+        # @see DNS::Resolver#get_a_address
         #
         def get_a_address(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -469,6 +636,7 @@ module Ronin
         #   All of the `A` DNS records belonging to the host name.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/IN/A
+        # @see DNS::Resolver#get_a_records
         #
         def get_a_records(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -495,6 +663,8 @@ module Ronin
         #
         # @return [Array<String>]
         #   All of the IPv4 addresses belonging to the host name.
+        #
+        # @see DNS::Resolver#get_a_addresses
         #
         def get_a_addresses(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -524,6 +694,7 @@ module Ronin
         #   `AAAA` records.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/IN/AAAA
+        # @see DNS::Resolver#get_aaaa_record
         #
         def get_aaaa_record(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -552,6 +723,8 @@ module Ronin
         #   The first IPv6 address or `nil` if the host name has no IPv6
         #   addresses.
         #
+        # @see DNS::Resolver#get_aaaa_address
+        #
         def get_aaaa_address(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
                  else         @name
@@ -579,6 +752,7 @@ module Ronin
         #   All of the `AAAA` DNS records belonging to the host name.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/IN/AAAA
+        # @see DNS::Resolver#get_aaaa_records
         #
         def get_aaaa_records(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -605,6 +779,8 @@ module Ronin
         #
         # @return [Array<String>]
         #   All IPv6 addresses belonging to the host name.
+        #
+        # @see DNS::Resolver#get_aaaa_addresses
         #
         def get_aaaa_addresses(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -633,6 +809,7 @@ module Ronin
         #   All `SRV` DNS records belonging to the host name.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/IN/SRV
+        # @see DNS::Resolver#get_srv_records
         #
         def get_srv_records(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -662,6 +839,7 @@ module Ronin
         #   All `WKS` DNS records belonging to the host name.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/IN/WKS
+        # @see DNS::Resolver#get_wks_records
         #
         def get_wks_records(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -691,6 +869,7 @@ module Ronin
         #   has no `LOC` record.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/LOC
+        # @see DNS::Resolver#get_loc_record
         #
         def get_loc_record(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -720,6 +899,7 @@ module Ronin
         #   has no `MINFO` record.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/MINFO
+        # @see DNS::Resolver#get_minfo_record
         #
         def get_minfo_record(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -748,6 +928,7 @@ module Ronin
         #   All `MX` DNS records belonging to the host name.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/MX
+        # @see DNS::Resolver#get_mx_records
         #
         def get_mx_records(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -772,6 +953,8 @@ module Ronin
         # @return [Array<String>]
         #   The host names of the mailservers serving the given host name.
         #
+        # @see DNS::Resolver#get_mailservers
+        #
         def get_mailservers(**kwargs)
           DNS.resolver(**kwargs).get_mailservers(@name)
         end
@@ -783,6 +966,8 @@ module Ronin
         #   The mailserver host names for the host.
         #
         # @note This method returns memoized data.
+        #
+        # @see #get_mailservers
         #
         def mailservers
           @mailservers ||= get_mailservers
@@ -807,6 +992,7 @@ module Ronin
         #   All `NS` DNS records belonging to the host name.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/NS
+        # @see DNS::Resolver#get_ns_records
         #
         def get_ns_records(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -831,6 +1017,8 @@ module Ronin
         # @return [Array<String>]
         #   The host names of the nameservers serving the given host name.
         #
+        # @see DNS::Resolver#get_nameservers
+        #
         def get_nameservers(**kwargs)
           DNS.resolver(**kwargs).get_nameservers(@name)
         end
@@ -842,6 +1030,8 @@ module Ronin
         #   The nameserver IP addresses for the host.
         #
         # @note This method returns memoized data.
+        #
+        # @see #get_nameservers
         #
         def nameservers
           @nameservers ||= get_nameservers
@@ -867,6 +1057,7 @@ module Ronin
         #   name has no `SOA` records.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/SOA
+        # @see DNS::Resolver#get_soa_record
         #
         def get_soa_record(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -884,6 +1075,7 @@ module Ronin
         #   name has no `SOA` records.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/SOA
+        # @see #get_soa_record
         #
         # @note This method returns memoized data.
         #
@@ -911,6 +1103,7 @@ module Ronin
         #   name has no `TXT` records.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/TXT
+        # @see DNS::Resolver#get_txt_record
         #
         def get_txt_record(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -939,6 +1132,8 @@ module Ronin
         #   The first `TXT` string belonging to the host name or `nil` if the
         #   host name has no `TXT` records.
         #
+        # @see DNS::Resolver#get_txt_string
+        #
         def get_txt_string(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
                  else         @name
@@ -966,6 +1161,7 @@ module Ronin
         #   All of the `TXT` DNS records belonging to the host name.
         #
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource/TXT
+        # @see DNS::Resolver#get_txt_records
         #
         def get_txt_records(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
@@ -993,6 +1189,8 @@ module Ronin
         # @return [Array<String>]
         #   All `TXT` string values belonging of the host name.
         #
+        # @see DNS::Resolver#get_txt_strings
+        #
         def get_txt_strings(name=nil,**kwargs)
           name = if name then "#{name}.#{@name}"
                  else         @name
@@ -1009,6 +1207,8 @@ module Ronin
         #
         # @note This method returns memoized data.
         #
+        # @see #get_txt_strings
+        #
         def txt_strings
           @txt_strings ||= get_txt_strings
         end
@@ -1017,6 +1217,12 @@ module Ronin
         # Converts the host to a String.
         #
         # @return [String]
+        #   The host's hostname.
+        #
+        # @example
+        #   host = Host.new('www.example.com')
+        #   host.to_s
+        #   # => "www.example.com"
         #
         def to_s
           @name.to_s

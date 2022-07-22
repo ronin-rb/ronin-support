@@ -33,6 +33,34 @@ module Ronin
       #
       # Represents a single IP address.
       #
+      # ## Examples
+      #
+      #     ip = IP.new('192.30.255.113')
+      #
+      # Reverse DNS lookup:
+      #
+      #     ip.get_name
+      #     # => "lb-192-30-255-113-sea.github.com"
+      #     ip.get_names
+      #     # => ["lb-192-30-255-113-sea.github.com"]
+      #     ip.get_host
+      #     # => #<Ronin::Support::Network::Host:0x00007f3414049170 @name="lb-192-30-255-113-sea.github.com">
+      #     ip.get_hosts
+      #     # => [#<Ronin::Support::Network::Host:0x00007f3413ff3888 @name="lb-192-30-255-113-sea.github.com">]
+      #     ip.host
+      #     # => #<Ronin::Support::Network::Host:0x00007f3414ae2a50 @name="lb-192-30-255-113-sea.github.com">
+      #     ip.hosts
+      #     # => [#<Ronin::Support::Network::Host:0x00007f3414ae2a50 @name="lb-192-30-255-113-sea.github.com">]
+      #
+      # Get ASN information:
+      #
+      #     ip.asn
+      #     # => #<Ronin::Support::Network::ASN::DNSRecord:0x00007f34142de598
+      #           @country_code="US",
+      #           @name=nil,
+      #           @number=15133,
+      #           @range=#<Ronin::Support::Network::IPRange::CIDR: 93.184.216.0/24>>
+      #
       # @api public
       #
       # @since 1.0.0
@@ -52,6 +80,9 @@ module Ronin
         #
         # @raise [InvalidIP]
         #   The given address is not a valid IP address.
+        #
+        # @example
+        #   ip = IP.new('192.30.255.113')
         #
         # @note
         #   If the IP address has an `%iface` suffix, it will be removed from
@@ -112,6 +143,10 @@ module Ronin
         #
         # @return [Array<String>]
         #
+        # @example
+        #   IP.local_addresses
+        #   # => ["127.0.0.1", "192.168.1.42", "::1", "fe80::4ba:612f:9e2:37e2"]
+        #
         def self.local_addresses
           Socket.ip_address_list.map do |addrinfo|
             address = addrinfo.ip_address
@@ -129,6 +164,13 @@ module Ronin
         #
         # @return [Array<IP>]
         #
+        # @example
+        #   IP.local_ips
+        #   # => [#<Ronin::Support::Network::IP: IPv4:127.0.0.1/255.255.255.255>,
+        #         #<Ronin::Support::Network::IP: IPv4:192.168.1.42/255.255.255.255>,
+        #         #<Ronin::Support::Network::IP: IPv6:0000:0000:0000:0000:0000:0000:0000:0001/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff>,
+        #         #<Ronin::Support::Network::IP: IPv6:fe80:0000:0000:0000:04ba:612f:09e2:37e2/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff>]
+        #
         def self.local_ips
           local_addresses.map(&method(:new))
         end
@@ -138,6 +180,10 @@ module Ronin
         #
         # @return [String]
         #
+        # @example
+        #   IP.local_address
+        #   # => "127.0.0.1"
+        #
         def self.local_address
           Socket.ip_address_list.first.ip_address
         end
@@ -146,6 +192,10 @@ module Ronin
         # Determines the local IP.
         #
         # @return [IP]
+        #
+        # @example
+        #   IP.local_ip
+        #   # => #<Ronin::Support::Network::IP: IPv4:127.0.0.1/255.255.255.255>
         #
         def self.local_ip
           new(local_address)
@@ -240,6 +290,15 @@ module Ronin
         #
         # @return [ASN::Record]
         #
+        # @example
+        #   ip = IP.new('93.184.216.34')
+        #   ip.asn
+        #   # => #<Ronin::Support::Network::ASN::DNSRecord:0x00007f34142de598
+        #         @country_code="US",
+        #         @name=nil,
+        #         @number=15133,
+        #         @range=#<Ronin::Support::Network::IPRange::CIDR: 93.184.216.0/24>>
+        #
         def asn
           @asn ||= ASN.query(self)
         end
@@ -258,6 +317,11 @@ module Ronin
         #
         # @return [String, nil]
         #   The hostname of the address.
+        #
+        # @example
+        #   ip = IP.new('192.30.255.113')
+        #   ip.get_name
+        #   # => "lb-192-30-255-113-sea.github.com"
         #
         def get_name(**kwargs)
           DNS.get_name(@address,**kwargs)
@@ -280,6 +344,11 @@ module Ronin
         # @return [Array<String>]
         #   The hostnames of the address.
         #
+        # @example
+        #   ip = IP.new('192.30.255.113')
+        #   ip.get_names
+        #   # => ["lb-192-30-255-113-sea.github.com"]
+        #
         def get_names(**kwargs)
           DNS.get_names(@address,**kwargs)
         end
@@ -298,6 +367,11 @@ module Ronin
         #
         # @return [Host, nil]
         #   The host for the IP.
+        #
+        # @example
+        #   ip = IP.new('192.30.255.113')
+        #   ip.get_host
+        #   # => #<Ronin::Support::Network::Host:0x00007f3414049170 @name="lb-192-30-255-113-sea.github.com">
         #
         def get_host(**kwargs)
           if (name = get_name(**kwargs))
@@ -320,6 +394,11 @@ module Ronin
         # @return [Array<Host>]
         #   The hosts for the IP.
         #
+        # @example
+        #   ip = IP.new('192.30.255.113')
+        #   ip.get_hosts
+        #   # => [#<Ronin::Support::Network::Host:0x00007f3413ff3888 @name="lb-192-30-255-113-sea.github.com">]
+        #
         def get_hosts(**kwargs)
           get_names(**kwargs).map { |name| Host.new(name) }
         end
@@ -330,6 +409,11 @@ module Ronin
         # @return [Array<Host>]
         #   The host names of the address or an empty Array if the IP address
         #   has no host names.
+        #
+        # @example
+        #   ip = IP.new('192.30.255.113')
+        #   ip.hosts
+        #   # => [#<Ronin::Support::Network::Host:0x00007f3414ae2a50 @name="lb-192-30-255-113-sea.github.com">]
         #
         # @note This method returns memoized data.
         #
@@ -342,6 +426,11 @@ module Ronin
         #
         # @return [Host, nil]
         #   The host name or `nil` if the IP address has no host names.
+        #
+        # @example
+        #   ip = IP.new('192.30.255.113')
+        #   ip.host
+        #   # => #<Ronin::Support::Network::Host:0x00007f3414ae2a50 @name="lb-192-30-255-113-sea.github.com">
         #
         def host
           hosts.first
