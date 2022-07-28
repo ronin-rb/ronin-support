@@ -27,6 +27,10 @@ class String
   # @return [String]
   #   The quoted-printable escaped String.
   #
+  # @example
+  #   '<a href="https://example.com/">link</a>'.quoted_printable_escape
+  #   # => "<a href=3D\"https://example.com/\">link</a>=\n"
+  #
   # @api public
   #
   # @since 1.0.0
@@ -46,6 +50,10 @@ class String
   #
   # @return [String]
   #   The unescaped String.
+  #
+  # @example
+  #   "<a href=3D\"https://example.com/\">link</a>=\n".quoted_printable_unescape
+  #   # => "<a href=\"https://example.com/\">link</a>"
   #
   # @api public
   #
