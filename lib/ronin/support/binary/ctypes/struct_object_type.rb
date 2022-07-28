@@ -110,7 +110,7 @@ module Ronin
           #   The underlying binary data for the memory object.
           #
           # @raise [ArgumentError]
-          #   The given value was not a {Binary::Struct} or {Hash}.
+          #   The given value was not a {Binary::Struct} or `Hash`.
           #
           def pack(struct)
             case struct
