@@ -22,7 +22,9 @@ require 'base64'
 class String
 
   #
-  # Base64 encodes a string.
+  # [Base64] encodes a string.
+  #
+  # [Base64]: https://en.wikipedia.org/wiki/Base64
   #
   # @param [Symbol, nil] mode
   #   The base64 mode to use. May be either:
@@ -49,7 +51,9 @@ class String
   end
 
   #
-  # Base64 decodes a string.
+  # [Base64] decodes a string.
+  #
+  # [Base64]: https://en.wikipedia.org/wiki/Base64
   #
   # @param [Symbol, nil] mode
   #   The base64 mode to use. May be either:

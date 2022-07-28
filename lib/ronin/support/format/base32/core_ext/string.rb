@@ -22,7 +22,9 @@ require 'ronin/support/base32'
 class String
 
   #
-  # Base32 encodes the String.
+  # [Base32] encodes the String.
+  #
+  # [Base32]: https://en.wikipedia.org/wiki/Base32
   #
   # @return [String]
   #   The Base32 encoded String.
@@ -40,7 +42,9 @@ class String
   end
 
   #
-  # Base32 decodes the String.
+  # [Base32] decodes the String.
+  #
+  # [Base32]: https://en.wikipedia.org/wiki/Base32
   #
   # @return [String]
   #   The Base32 decodes String.

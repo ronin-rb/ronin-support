@@ -23,6 +23,8 @@ require 'ronin/support/format/powershell/core_ext/integer'
 class String
 
   # PowerShell characters that must be grave-accent escaped.
+  #
+  # @see https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
   POWERSHELL_BACKSLASHED_CHARS = {
     '0'  => "\0",
     'a'  => "\a",
@@ -39,7 +41,9 @@ class String
   }
 
   #
-  # PowerShell escapes the characters in the String.
+  # [PowerShell escapes][1] the characters in the String.
+  #
+  # [1]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
   #
   # @return [String]
   #   The PowerShell escaped string.
@@ -59,7 +63,9 @@ class String
   alias psh_escape powershell_escape
 
   #
-  # PowerShell unescapes the characters in the String.
+  # [PowerShell unescapes][1] the characters in the String.
+  #
+  # [1]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
   #
   # @return [String]
   #   The PowerShell unescaped string.
@@ -96,7 +102,9 @@ class String
   alias psh_unescape powershell_unescape
 
   #
-  # PowerShell encodes every character in the String.
+  # [PowerShell encodes][1] every character in the String.
+  #
+  # [1]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
   #
   # @return [String]
   #   The PowerShell encoded String.
