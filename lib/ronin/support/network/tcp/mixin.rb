@@ -37,14 +37,17 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host (nil)
-          #   The local host to bind to.
-          #
-          # @param [Integer] local_port (nil)
-          #   The local port to bind to.
-          #
           # @param [Integer] timeout (5)
           #   The maximum time to attempt connecting.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {#tcp_session}.
+          #
+          # @option kwargs [String, nil] local_host
+          #   The local host to bind to.
+          #
+          # @option kwargs [Integer, nil] local_port
+          #   The local port to bind to.
           #
           # @return [Boolean, nil]
           #   Specifies whether the remote TCP port is open.
@@ -62,12 +65,10 @@ module Ronin
           #
           # @since 0.5.0
           #
-          def tcp_open?(host,port,local_host=nil,local_port=nil,timeout=nil)
-            timeout ||= 5
-
+          def tcp_open?(host,port, timeout: 5, **kwargs)
             begin
               Timeout.timeout(timeout) do
-                tcp_session(host,port,local_host,local_port)
+                tcp_session(host,port,**kwargs)
               end
 
               return true
@@ -87,10 +88,10 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host (nil)
+          # @param [String, nil] local_host
           #   The local host to bind to.
           #
-          # @param [Integer] local_port (nil)
+          # @param [Integer, nil] local_port
           #   The local port to bind to.
           #
           # @yield [socket]
@@ -117,15 +118,12 @@ module Ronin
           #
           # @api public
           #
-          def tcp_connect(host,port,local_host=nil,local_port=nil)
+          def tcp_connect(host,port, local_host: nil, local_port: nil)
             host = host.to_s
             port = port.to_i
 
             socket = if local_host || local_port
-                       local_host = local_host.to_s
-                       local_port = local_port.to_i
-
-                       TCPSocket.new(host,port,local_host,local_port)
+                       TCPSocket.new(host,port,local_host.to_s,local_port.to_i)
                      else
                        TCPSocket.new(host,port)
                      end
@@ -147,10 +145,13 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host (nil)
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {#tcp_connect}.
+          #
+          # @option kwargs [String, nil] :local_host
           #   The local host to bind to.
           #
-          # @param [Integer] local_port (nil)
+          # @option kwargs [Integer, nil] :local_port
           #   The local port to bind to.
           #
           # @yield [socket]
@@ -161,8 +162,8 @@ module Ronin
           #
           # @api public
           #
-          def tcp_connect_and_send(data,host,port,local_host=nil,local_port=nil)
-            socket = tcp_connect(host,port,local_host,local_port)
+          def tcp_connect_and_send(data,host,port,**kwargs)
+            socket = tcp_connect(host,port,**kwargs)
             socket.write(data)
 
             yield socket if block_given?
@@ -179,10 +180,13 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host (nil)
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {#tcp_connect}.
+          #
+          # @option kwargs [String] :local_host
           #   The local host to bind to.
           #
-          # @param [Integer] local_port (nil)
+          # @option kwargs [Integer] :local_port
           #   The local port to bind to.
           #
           # @yield [socket]
@@ -196,8 +200,8 @@ module Ronin
           #
           # @api public
           #
-          def tcp_session(host,port,local_host=nil,local_port=nil)
-            socket = tcp_connect(host,port,local_host,local_port)
+          def tcp_session(host,port,**kwargs)
+            socket = tcp_connect(host,port,**kwargs)
 
             yield socket if block_given?
             socket.close
@@ -213,10 +217,13 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host (nil)
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {#tcp_session}.
+          #
+          # @option kwargs [String] :local_host
           #   The local host to bind to.
           #
-          # @param [Integer] local_port (nil)
+          # @option kwargs [Integer] :local_port
           #   The local port to bind to.
           #
           # @yield [banner]
@@ -234,10 +241,10 @@ module Ronin
           #
           # @api public
           #
-          def tcp_banner(host,port,local_host=nil,local_port=nil)
+          def tcp_banner(host,port,**kwargs)
             banner = nil
 
-            tcp_session(host,port,local_host,local_port) do |socket|
+            tcp_session(host,port,**kwargs) do |socket|
               banner = socket.readline.strip
             end
 
@@ -258,10 +265,13 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host (nil)
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {#tcp_session}.
+          #
+          # @option kwargs [String] :local_host
           #   The local host to bind to.
           #
-          # @param [Integer] local_port (nil)
+          # @option kwargs [Integer] :local_port
           #   The local port to bind to.
           #
           # @return [true]
@@ -274,8 +284,8 @@ module Ronin
           #
           # @api public
           #
-          def tcp_send(data,host,port,local_host=nil,local_port=nil)
-            tcp_session(host,port,local_host,local_port) do |socket|
+          def tcp_send(data,host,port,**kwargs)
+            tcp_session(host,port,**kwargs) do |socket|
               socket.write(data)
             end
 
@@ -285,10 +295,10 @@ module Ronin
           #
           # Creates a new TCPServer listening on a given host and port.
           #
-          # @param [Integer] port (nil)
+          # @param [Integer, nil] port
           #   The local port to listen on.
           #
-          # @param [String] host (nil)
+          # @param [String, nil] host
           #   The host to bind to.
           #
           # @param [Integer] backlog (5)
@@ -310,14 +320,11 @@ module Ronin
           #
           # @api public
           #
-          def tcp_server(port=nil,host=nil,backlog=5)
-            port = port.to_i
-
+          def tcp_server(port: 0, host: nil, backlog: 5)
             server = if host
-                       host = host.to_s
-                       TCPServer.new(host,port)
+                       TCPServer.new(host.to_s,port.to_i)
                      else
-                       TCPServer.new(port)
+                       TCPServer.new(port.to_i)
                      end
             server.listen(backlog)
 
@@ -328,13 +335,16 @@ module Ronin
           #
           # Creates a new temporary TCPServer listening on a host and port.
           #
-          # @param [Integer] port (nil)
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {#tcp_server}.
+          #
+          # @option kwargs [Integer, nil] :port
           #   The local port to bind to.
           #
-          # @param [String] host (nil)
+          # @option kwargs [String, nil] :host
           #   The host to bind to.
           #
-          # @param [Integer] backlog (5)
+          # @option kwargs [Integer] :backlog (5)
           #   The maximum backlog of pending connections.
           #
           # @yield [server]
@@ -359,8 +369,8 @@ module Ronin
           #
           # @api public
           #
-          def tcp_server_session(port=nil,host=nil,backlog=5,&block)
-            server = tcp_server(port,host,backlog,&block)
+          def tcp_server_session(**kwargs,&block)
+            server = tcp_server(**kwargs,&block)
             server.close()
             return nil
           end
@@ -369,11 +379,17 @@ module Ronin
           # Creates a new TCPServer listening on a given host and port,
           # accepting clients in a loop.
           #
-          # @param [Integer] port (nil)
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {#tcp_server}.
+          #
+          # @option kwargs [Integer, nil] :port
           #   The local port to bind to.
           #
-          # @param [String] host (nil)
+          # @option kwargs [String, nil] :host
           #   The host to bind to.
+          #
+          # @option kwargs [Integer] :backlog (5)
+          #   The maximum backlog of pending connections.
           #
           # @yield [client]
           #   The given block will be passed the newly connected client.
@@ -393,8 +409,8 @@ module Ronin
           #
           # @since 0.5.0
           #
-          def tcp_server_loop(port=nil,host=nil)
-            tcp_server_session(port,host) do |server|
+          def tcp_server_loop(**kwargs)
+            tcp_server_session(**kwargs) do |server|
               loop do
                 client = server.accept
 
@@ -408,11 +424,17 @@ module Ronin
           # Creates a new TCPServer listening on a given host and port,
           # accepts only one client and then stops listening.
           #
-          # @param [Integer] port (nil)
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {#tcp_server}.
+          #
+          # @option kwargs [Integer, nil] :port
           #   The local port to bind to.
           #
-          # @param [String] host (nil
+          # @option kwargs [String, nil] :host
           #   The host to bind to.
+          #
+          # @option kwargs [Integer] :backlog (1)
+          #   The maximum backlog of pending connections.
           #
           # @yield [client]
           #   The given block will be passed the newly connected client.
@@ -433,8 +455,8 @@ module Ronin
           #
           # @since 0.5.0
           #
-          def tcp_accept(port=nil,host=nil)
-            tcp_server_session(port,host,1) do |server|
+          def tcp_accept(backlog: 1, **kwargs)
+            tcp_server_session(backlog: backlog, **kwargs) do |server|
               client = server.accept
 
               yield client if block_given?

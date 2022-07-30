@@ -45,7 +45,7 @@ describe Ronin::Support::Network::UDP::Mixin do
         timeout = 2
 
         t1 = Time.now
-        subject.udp_open?(host,1337,nil,nil,timeout)
+        subject.udp_open?(host,1337, timeout: timeout)
         t2 = Time.now
 
         expect((t2 - t1).to_i).to be <= timeout
@@ -68,7 +68,7 @@ describe Ronin::Support::Network::UDP::Mixin do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a local port" do
-          socket      = subject.udp_connect(host,port,nil,local_port)
+          socket      = subject.udp_connect(host,port, local_port: local_port)
           bound_port = socket.addr[1]
 
           expect(bound_port).to eq(local_port)
@@ -109,7 +109,9 @@ describe Ronin::Support::Network::UDP::Mixin do
         end
 
         it "must bind to a local port" do
-          socket      = subject.udp_connect_and_send(data,host,port,nil,local_port)
+          socket      = subject.udp_connect_and_send(
+                          data,host,port, local_port: local_port
+                       )
           bound_port = socket.addr[1]
 
           expect(bound_port).to eq(local_port)
@@ -152,7 +154,7 @@ describe Ronin::Support::Network::UDP::Mixin do
         it "must bind to a local host and port" do
           bound_port = nil
 
-          subject.udp_session(host,port,nil,local_port) do |socket|
+          subject.udp_session(host,port, local_port: local_port) do |socket|
             bound_port = socket.addr[1]
           end
 
@@ -178,7 +180,7 @@ describe Ronin::Support::Network::UDP::Mixin do
 
         context "when given a local host and port" do
           it "must bind to a local host and port" do
-            banner = subject.udp_banner(host,port,nil,local_port)
+            banner = subject.udp_banner(host,port, local_port: local_port)
 
             expect(banner.start_with?('220')).to be_true
           end
@@ -220,8 +222,10 @@ describe Ronin::Support::Network::UDP::Mixin do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a local host and port" do
-          subject.udp_send(data,server_bind_ip,server_bind_port,server_bind_ip,local_port)
-
+          subject.udp_send(
+            data,server_bind_ip,server_bind_port, local_host: server_bind_ip,
+                                                  local_port: local_port
+          )
           mesg = server.recvfrom(data.length)
 
           client_address = mesg[1]
@@ -246,7 +250,7 @@ describe Ronin::Support::Network::UDP::Mixin do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a specific port and host" do
-          server      = subject.udp_server(local_port,local_host)
+          server      = subject.udp_server(port: local_port, host: local_host)
           bound_host = server.addr[3]
           bound_port = server.addr[1]
 
@@ -294,7 +298,7 @@ describe Ronin::Support::Network::UDP::Mixin do
           bound_host = nil
           bound_port = nil
 
-          subject.udp_server_session(local_port,local_host) do |new_server|
+          subject.udp_server_session(port: local_port, host: local_host) do |new_server|
             bound_host = new_server.addr[3]
             bound_port = new_server.addr[1]
           end

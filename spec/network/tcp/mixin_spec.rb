@@ -47,7 +47,7 @@ describe Ronin::Support::Network::TCP::Mixin do
           timeout = 2
 
           t1 = Time.now
-          subject.tcp_open?(host,port+1,nil,nil,timeout)
+          subject.tcp_open?(host,port+1, timeout: timeout)
           t2 = Time.now
 
           expect((t2 - t1).to_i).to be <= timeout
@@ -74,7 +74,7 @@ describe Ronin::Support::Network::TCP::Mixin do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a local host and port" do
-          socket     = subject.tcp_connect(host,port,nil,local_port)
+          socket     = subject.tcp_connect(host,port, local_port: local_port)
           bound_port = socket.addr[1]
 
           expect(bound_port).to eq(local_port)
@@ -118,7 +118,9 @@ describe Ronin::Support::Network::TCP::Mixin do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a local host and port" do
-          socket     = subject.tcp_connect_and_send(data,host,port,nil,local_port)
+          socket     = subject.tcp_connect_and_send(
+                         data,host,port, local_port: local_port
+                       )
           bound_port = socket.addr[1]
 
           expect(bound_port).to eq(local_port)
@@ -163,7 +165,7 @@ describe Ronin::Support::Network::TCP::Mixin do
         it "must bind to a local host and port" do
           bound_port = nil
 
-          subject.tcp_session(host,port,nil,local_port) do |socket|
+          subject.tcp_session(host,port, local_port: local_port) do |socket|
             bound_port = socket.addr[1]
           end
 
@@ -192,7 +194,7 @@ describe Ronin::Support::Network::TCP::Mixin do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a local host and port" do
-          banner = subject.tcp_banner(host,port,nil,local_port)
+          banner = subject.tcp_banner(host,port, local_port: local_port)
 
           expect(banner).to match(expected_banner)
         end
@@ -236,7 +238,11 @@ describe Ronin::Support::Network::TCP::Mixin do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a local host and port" do
-          subject.tcp_send(data,server_bind_ip,server_bind_port,server_bind_ip,local_port)
+          subject.tcp_send(
+            data, server_bind_ip, server_bind_port,
+            local_host: server_bind_ip,
+            local_port: local_port
+          )
 
           client      = server.accept
           client_port = client.peeraddr[1]
@@ -264,7 +270,7 @@ describe Ronin::Support::Network::TCP::Mixin do
         let(:local_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a specific port and host" do
-          server     = subject.tcp_server(local_port,local_host)
+          server     = subject.tcp_server(port: local_port, host: local_host)
           bound_host = server.addr[3]
           bound_port = server.addr[1]
 
@@ -312,7 +318,7 @@ describe Ronin::Support::Network::TCP::Mixin do
           bound_host = nil
           bound_port = nil
 
-          subject.tcp_server_session(local_port,local_host) do |server|
+          subject.tcp_server_session(port: local_port, host: local_host) do |server|
             bound_host = server.addr[3]
             bound_port = server.addr[1]
           end
