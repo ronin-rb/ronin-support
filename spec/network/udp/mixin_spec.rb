@@ -14,7 +14,7 @@ describe Ronin::Support::Network::UDP::Mixin do
   end
 
   shared_examples "UDP Server" do
-    let(:server_host) { local_host }
+    let(:server_host) { bind_host }
     let(:server_port) { 1024 + rand(65535 - 1024) }
     let(:server)      { UDPSocket.new }
     let(:server_bind_ip)   { server.addr[3] }
@@ -65,13 +65,13 @@ describe Ronin::Support::Network::UDP::Mixin do
       end
 
       context "when given a local port" do
-        let(:local_port) { 1024 + rand(65535 - 1024) }
+        let(:bind_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a local port" do
-          socket      = subject.udp_connect(host,port, local_port: local_port)
+          socket      = subject.udp_connect(host,port, bind_port: bind_port)
           bound_port = socket.addr[1]
 
-          expect(bound_port).to eq(local_port)
+          expect(bound_port).to eq(bind_port)
 
           socket.close
         end
@@ -96,7 +96,7 @@ describe Ronin::Support::Network::UDP::Mixin do
     context "integration", :network do
       pending "need to find a UDP Service for these specs" do
         let(:data) { "HELO ronin\n" }
-        let(:local_port) { 1024 + rand(65535 - 1024) }
+        let(:bind_port) { 1024 + rand(65535 - 1024) }
 
         it "must connect and then send data" do
           socket   = subject.udp_connect_and_send(data,host,port)
@@ -110,11 +110,11 @@ describe Ronin::Support::Network::UDP::Mixin do
 
         it "must bind to a local port" do
           socket      = subject.udp_connect_and_send(
-                          data,host,port, local_port: local_port
+                          data,host,port, bind_port: bind_port
                        )
           bound_port = socket.addr[1]
 
-          expect(bound_port).to eq(local_port)
+          expect(bound_port).to eq(bind_port)
 
           socket.close
         end
@@ -137,7 +137,7 @@ describe Ronin::Support::Network::UDP::Mixin do
 
   describe "#udp_session" do
     context "integration", :network do
-      let(:local_port) { 1024 + rand(65535 - 1024) }
+      let(:bind_port) { 1024 + rand(65535 - 1024) }
 
       it "must open then close a UDPSocket" do
         socket = nil
@@ -154,11 +154,11 @@ describe Ronin::Support::Network::UDP::Mixin do
         it "must bind to a local host and port" do
           bound_port = nil
 
-          subject.udp_session(host,port, local_port: local_port) do |socket|
+          subject.udp_session(host,port, bind_port: bind_port) do |socket|
             bound_port = socket.addr[1]
           end
 
-          expect(bound_port).to eq(local_port)
+          expect(bound_port).to eq(bind_port)
         end
       end
     end
@@ -170,7 +170,7 @@ describe Ronin::Support::Network::UDP::Mixin do
         let(:host) { 'smtp.gmail.com' }
         let(:port) { 25 }
 
-        let(:local_port) { 1024 + rand(65535 - 1024) }
+        let(:bind_port) { 1024 + rand(65535 - 1024) }
 
         it "must read the service banner" do
           banner = subject.udp_banner(host,port)
@@ -180,7 +180,7 @@ describe Ronin::Support::Network::UDP::Mixin do
 
         context "when given a local host and port" do
           it "must bind to a local host and port" do
-            banner = subject.udp_banner(host,port, local_port: local_port)
+            banner = subject.udp_banner(host,port, bind_port: bind_port)
 
             expect(banner.start_with?('220')).to be_true
           end
@@ -201,7 +201,7 @@ describe Ronin::Support::Network::UDP::Mixin do
     end
   end
 
-  let(:local_host) { 'localhost' }
+  let(:bind_host) { 'localhost' }
   let(:local_ip)   { '127.0.0.1' } # XXX: UPDSocket defaults to using IPv4
 
   describe "#udp_send" do
@@ -219,17 +219,17 @@ describe Ronin::Support::Network::UDP::Mixin do
       end
 
       context "when given a local host and port" do
-        let(:local_port) { 1024 + rand(65535 - 1024) }
+        let(:bind_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a local host and port" do
           subject.udp_send(
-            data,server_bind_ip,server_bind_port, local_host: server_bind_ip,
-                                                  local_port: local_port
+            data,server_bind_ip,server_bind_port, bind_host: server_bind_ip,
+                                                  bind_port: bind_port
           )
           mesg = server.recvfrom(data.length)
 
           client_address = mesg[1]
-          expect(client_address[1]).to eq(local_port)
+          expect(client_address[1]).to eq(bind_port)
         end
       end
     end
@@ -247,15 +247,15 @@ describe Ronin::Support::Network::UDP::Mixin do
       end
 
       context "when given a port and host" do
-        let(:local_port) { 1024 + rand(65535 - 1024) }
+        let(:bind_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a specific port and host" do
-          server      = subject.udp_server(port: local_port, host: local_host)
+          server      = subject.udp_server(port: bind_port, host: bind_host)
           bound_host = server.addr[3]
           bound_port = server.addr[1]
 
           expect(bound_host).to eq(local_ip)
-          expect(bound_port).to eq(local_port)
+          expect(bound_port).to eq(bind_port)
 
           server.close
         end
@@ -292,19 +292,19 @@ describe Ronin::Support::Network::UDP::Mixin do
       end
 
       context "when given a port and a host" do
-        let(:local_port) { 1024 + rand(65535 - 1024) }
+        let(:bind_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a specific port and host" do
           bound_host = nil
           bound_port = nil
 
-          subject.udp_server_session(port: local_port, host: local_host) do |new_server|
+          subject.udp_server_session(port: bind_port, host: bind_host) do |new_server|
             bound_host = new_server.addr[3]
             bound_port = new_server.addr[1]
           end
 
           expect(bound_host).to eq(local_ip)
-          expect(bound_port).to eq(local_port)
+          expect(bound_port).to eq(bind_port)
         end
       end
     end

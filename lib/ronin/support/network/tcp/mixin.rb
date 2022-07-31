@@ -43,10 +43,10 @@ module Ronin
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#tcp_session}.
           #
-          # @option kwargs [String, nil] local_host
+          # @option kwargs [String, nil] bind_host
           #   The local host to bind to.
           #
-          # @option kwargs [Integer, nil] local_port
+          # @option kwargs [Integer, nil] bind_port
           #   The local port to bind to.
           #
           # @return [Boolean, nil]
@@ -88,10 +88,10 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String, nil] local_host
+          # @param [String, nil] bind_host
           #   The local host to bind to.
           #
-          # @param [Integer, nil] local_port
+          # @param [Integer, nil] bind_port
           #   The local port to bind to.
           #
           # @yield [socket]
@@ -118,12 +118,12 @@ module Ronin
           #
           # @api public
           #
-          def tcp_connect(host,port, local_host: nil, local_port: nil)
+          def tcp_connect(host,port, bind_host: nil, bind_port: nil)
             host = host.to_s
             port = port.to_i
 
-            socket = if local_host || local_port
-                       TCPSocket.new(host,port,local_host.to_s,local_port.to_i)
+            socket = if bind_host || bind_port
+                       TCPSocket.new(host,port,bind_host.to_s,bind_port.to_i)
                      else
                        TCPSocket.new(host,port)
                      end
@@ -148,10 +148,10 @@ module Ronin
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#tcp_connect}.
           #
-          # @option kwargs [String, nil] :local_host
+          # @option kwargs [String, nil] :bind_host
           #   The local host to bind to.
           #
-          # @option kwargs [Integer, nil] :local_port
+          # @option kwargs [Integer, nil] :bind_port
           #   The local port to bind to.
           #
           # @yield [socket]
@@ -183,10 +183,10 @@ module Ronin
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#tcp_connect}.
           #
-          # @option kwargs [String] :local_host
+          # @option kwargs [String] :bind_host
           #   The local host to bind to.
           #
-          # @option kwargs [Integer] :local_port
+          # @option kwargs [Integer] :bind_port
           #   The local port to bind to.
           #
           # @yield [socket]
@@ -220,10 +220,10 @@ module Ronin
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#tcp_session}.
           #
-          # @option kwargs [String] :local_host
+          # @option kwargs [String] :bind_host
           #   The local host to bind to.
           #
-          # @option kwargs [Integer] :local_port
+          # @option kwargs [Integer] :bind_port
           #   The local port to bind to.
           #
           # @yield [banner]
@@ -268,10 +268,10 @@ module Ronin
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#tcp_session}.
           #
-          # @option kwargs [String] :local_host
+          # @option kwargs [String] :bind_host
           #   The local host to bind to.
           #
-          # @option kwargs [Integer] :local_port
+          # @option kwargs [Integer] :bind_port
           #   The local port to bind to.
           #
           # @return [true]

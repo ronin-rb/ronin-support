@@ -43,10 +43,10 @@ module Ronin
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#udp_session}.
           #
-          # @option kwargs [String, nil] :local_host
+          # @option kwargs [String, nil] :bind_host
           #   The local host to bind to.
           #
-          # @option kwargs [Integer, nil] :local_port
+          # @option kwargs [Integer, nil] :bind_port
           #   The local port to bind to.
           #
           # @return [Boolean, nil]
@@ -95,10 +95,10 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String, nil] local_host
+          # @param [String, nil] bind_host
           #   The local host to bind to.
           #
-          # @param [Integer, nil] local_port
+          # @param [Integer, nil] bind_port
           #   The local port to bind to.
           #
           # @yield [socket]
@@ -123,14 +123,14 @@ module Ronin
           #
           # @api public
           #
-          def udp_connect(host,port, local_host: nil, local_port: nil)
+          def udp_connect(host,port, bind_host: nil, bind_port: nil)
             host = host.to_s
             port = port.to_i
 
             socket = UDPSocket.new
 
-            if local_host || local_port
-              socket.bind(local_host.to_s,local_port.to_i)
+            if bind_host || bind_port
+              socket.bind(bind_host.to_s,bind_port.to_i)
             end
 
             socket.connect(host,port)
@@ -155,10 +155,10 @@ module Ronin
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#udp_connect}.
           #
-          # @option kwargs [String, nil] :local_host
+          # @option kwargs [String, nil] :bind_host
           #   The local host to bind to.
           #
-          # @option kwargs [Integer, nil] :local_port
+          # @option kwargs [Integer, nil] :bind_port
           #   The local port to bind to.
           #
           # @yield [socket]
@@ -193,10 +193,10 @@ module Ronin
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#udp_connect}.
           #
-          # @option kwargs [String, nil] :local_host
+          # @option kwargs [String, nil] :bind_host
           #   The local host to bind to.
           #
-          # @option kwargs [Integer, nil] :local_port
+          # @option kwargs [Integer, nil] :bind_port
           #   The local port to bind to.
           #
           # @yield [socket]
@@ -234,10 +234,10 @@ module Ronin
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#udp_session}.
           #
-          # @option kwargs [String, nil] :local_host
+          # @option kwargs [String, nil] :bind_host
           #   The local host to bind to.
           #
-          # @option kwargs [Integer, nil] :local_port
+          # @option kwargs [Integer, nil] :bind_port
           #   The local port to bind to.
           #
           # @return [true]
@@ -273,10 +273,10 @@ module Ronin
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#udp_session}.
           #
-          # @option kwargs [String, nil] :local_host
+          # @option kwargs [String, nil] :bind_host
           #   The local host to bind to.
           #
-          # @option kwargs [Integer, nil] :local_port
+          # @option kwargs [Integer, nil] :bind_port
           #   The local port to bind to.
           #
           # @yield [banner]
