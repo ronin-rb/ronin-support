@@ -95,9 +95,7 @@ module Ronin
         #
         # @note Does not include the {SWAP_SYMBOLS} typo rules.
         DEFAULT = Generator.new(
-          OMIT_CHARS.rules +
-          REPEAT_CHARS.rules +
-          SWAP_CHARS.rules +
+          OMIT_CHARS.rules + REPEAT_CHARS.rules + SWAP_CHARS.rules +
           CHANGE_SUFFIX.rules
         )
 
@@ -196,7 +194,7 @@ module Ronin
         #
         # Returns a random typo substitution for the given word.
         #
-        # @param [String] string
+        # @param [String] word
         #   The given String.
         #
         # @param [Hash{Symbol => Boolean}] kwargs
@@ -217,14 +215,14 @@ module Ronin
         # @return [String]
         #   A random typo of the given word.
         #
-        def self.substitute(string,**kwargs)
-          generator(**kwargs).substitute(string)
+        def self.substitute(word,**kwargs)
+          generator(**kwargs).substitute(word)
         end
 
         #
         # Enumerates over every typo mistake for the given word.
         #
-        # @param [String] string
+        # @param [String] word
         #   The given String.
         #
         # @param [Hash{Symbol => Boolean}] kwargs
@@ -252,8 +250,8 @@ module Ronin
         # @return [Enumerator]
         #   If no block is given, an Enumerator will be returned.
         #
-        def self.each_substitution(string,**kwargs,&block)
-          generator(**kwargs).each_substitution(string,&block)
+        def self.each_substitution(word,**kwargs,&block)
+          generator(**kwargs).each_substitution(word,&block)
         end
       end
     end
