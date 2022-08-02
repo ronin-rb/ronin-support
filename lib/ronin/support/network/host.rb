@@ -158,6 +158,21 @@ module Ronin
         end
 
         #
+        # The public suffix of the hostname.
+        #
+        # @return [String]
+        #   The suffix of the hostname (ex: `.co.uk`).
+        #
+        # @example
+        #   host = Host.new('foo.bar.example.co.uk')
+        #   host.suffix
+        #   # => ".co.uk"
+        #
+        def suffix
+          @suffix ||= PublicSuffix.list.split(@name).last
+        end
+
+        #
         # Returns the associated domain for the hostname.
         #
         # @return [Domain]

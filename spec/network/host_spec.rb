@@ -24,18 +24,36 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  let(:fixtures_dir) { File.join(__dir__,'public_suffix','fixtures') }
+  let(:list_file)    { File.join(fixtures_dir,'public_suffix_list.dat') }
+
+  let(:public_suffix_list) do
+    Ronin::Support::Network::PublicSuffix::List.load_file(list_file)
+  end
+
+  before do
+    allow(Ronin::Support::Network::PublicSuffix).to receive(:list).and_return(public_suffix_list)
+  end
+
+  describe "#suffix" do
+    context "when the hostname is already a domain name" do
+      let(:hostname) { 'example.com' }
+
+      it "must return the suffix of the hostname" do
+        expect(subject.suffix).to eq('.com')
+      end
+    end
+
+    context "when the hostname has a multi-component suffix" do
+      let(:hostname) { 'www.example.co.uk' }
+
+      it "must return the full suffix of the hostname" do
+        expect(subject.suffix).to eq('.co.uk')
+      end
+    end
+  end
+
   describe "#domain" do
-    let(:fixtures_dir) { File.join(__dir__,'public_suffix','fixtures') }
-    let(:list_file)    { File.join(fixtures_dir,'public_suffix_list.dat') }
-
-    let(:public_suffix_list) do
-      Ronin::Support::Network::PublicSuffix::List.load_file(list_file)
-    end
-
-    before do
-      allow(Ronin::Support::Network::PublicSuffix).to receive(:list).and_return(public_suffix_list)
-    end
-
     it "must return a Ronin::Support::Network::Domain object" do
       expect(subject.domain).to be_kind_of(Ronin::Support::Network::Domain)
     end
