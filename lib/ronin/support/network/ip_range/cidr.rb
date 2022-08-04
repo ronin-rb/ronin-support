@@ -199,6 +199,24 @@ module Ronin
           end
 
           #
+          # The first IP address of the CIDR Range.
+          #
+          # @return [String]
+          #
+          def first
+            _to_string(@addr)
+          end
+
+          #
+          # The last IP address of the CIDR range.
+          #
+          # @return [String]
+          #
+          def last
+            _to_string(@addr | ~@mask_addr)
+          end
+
+          #
           # Converts the CIDR range back into a String.
           #
           # @return [String]
