@@ -43,6 +43,8 @@ module Ronin
         #
         class CIDR < IPAddr
 
+          include Enumerable
+
           # The CIDR IP range string.
           #
           # @return [String]

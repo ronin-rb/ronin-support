@@ -54,6 +54,8 @@ module Ronin
         #
         class Glob
 
+          include Enumerable
+
           # The IP glob string.
           #
           # @return [String]
