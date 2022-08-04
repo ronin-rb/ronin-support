@@ -50,11 +50,13 @@ module Ronin
           #
           # @return [IP]
           attr_reader :begin
+          alias first begin
 
           # The last IP address of the ASN IP range.
           #
           # @return [IP]
           attr_reader :end
+          alias last end
 
           # The common prefix shared by the first and last IP addresses in the
           # ASN IP range.
