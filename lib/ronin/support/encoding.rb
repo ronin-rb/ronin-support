@@ -36,6 +36,8 @@ module Ronin
     #
     # Contains additional encoding/decoding modules.
     #
+    # @since 1.0.0
+    #
     class Encoding < ::Encoding
     end
   end
