@@ -17,4 +17,63 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'base64'
+
+module Ronin
+  module Support
+    class Encoding < ::Encoding
+      #
+      # Base64 encoding/decoding.
+      #
+      # @api public
+      #
+      module Base64
+        #
+        # Base64 encodes the given data.
+        #
+        # @param [String] data
+        #   The data to Base64 encode.
+        #
+        # @param [:strict, :url_safe, nil] mode
+        #   The Base64 encoding mode.
+        #
+        # @return [String]
+        #   The Base64 encoded data.
+        #
+        def self.encode(data, mode: nil)
+          case mode
+          when :strict   then ::Base64.strict_encode64(data)
+          when :url_safe then ::Base64.urlsafe_encode64(data)
+          when nil       then ::Base64.encode64(data)
+          else
+            raise(ArgumentError,"Base64 mode must be either :string, :url, or nil: #{mode.inspect}")
+          end
+        end
+
+        #
+        # Base64 decodes the given data.
+        #
+        # @param [String] data
+        #   The Base64 data to decode.
+        #
+        # @param [:strict, :url_safe, nil] mode
+        #   The Base64 encoding mode.
+        #
+        # @return [String]
+        #   The decoded data.
+        #
+        def self.decode(data, mode: nil)
+          case mode
+          when :strict   then ::Base64.strict_decode64(data)
+          when :url_safe then ::Base64.urlsafe_decode64(data)
+          when nil       then ::Base64.decode64(data)
+          else
+            raise(ArgumentError,"Base64 mode must be either :string, :url, or nil: #{mode.inspect}")
+          end
+        end
+      end
+    end
+  end
+end
+
 require 'ronin/support/encoding/base64/core_ext'

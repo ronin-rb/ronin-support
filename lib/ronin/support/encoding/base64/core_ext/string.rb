@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'base64'
+require 'ronin/support/encoding/base64'
 
 class String
 
@@ -43,11 +43,7 @@ class String
   # @api public
   #
   def base64_encode(mode=nil)
-    case mode
-    when :strict        then Base64.strict_encode64(self)
-    when :url, :urlsafe then Base64.urlsafe_encode64(self)
-    else                     Base64.encode64(self)
-    end
+    Ronin::Support::Encoding::Base64.encode(self, mode: mode)
   end
 
   #
@@ -75,11 +71,7 @@ class String
   # @api public
   #
   def base64_decode(mode=nil)
-    case mode
-    when :strict        then Base64.strict_decode64(self)
-    when :url, :urlsafe then Base64.urlsafe_decode64(self)
-    else                     Base64.decode64(self)
-    end
+    Ronin::Support::Encoding::Base64.decode(self, mode: mode)
   end
 
 end
