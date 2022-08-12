@@ -49,4 +49,34 @@ describe String do
       expect(subject.hex_string).to eq("\"hello\\x0aworld\"")
     end
   end
+
+  describe "#hex_unquote" do
+    context "when the String is double-quoted" do
+      subject { "\"hello\\nworld\"" }
+
+      let(:unescaped) { "hello\nworld" }
+
+      it "must remove double-quotes and unescape the JavaScript string" do
+        expect(subject.hex_unquote).to eq(unescaped)
+      end
+    end
+
+    context "when the String is single-quoted" do
+      subject { "'hello\\'world'" }
+
+      let(:unescaped) { "hello'world" }
+
+      it "must remove the single-quotes and unescape the JavaScript string" do
+        expect(subject.hex_unquote).to eq(unescaped)
+      end
+    end
+
+    context "when the String is not quoted" do
+      subject { "hello world" }
+
+      it "must return the same String" do
+        expect(subject.hex_unquote).to be(subject)
+      end
+    end
+  end
 end

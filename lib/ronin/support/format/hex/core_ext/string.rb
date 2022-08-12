@@ -92,4 +92,28 @@ class String
 
   alias hex_unescape unescape
 
+  #
+  # Removes the quotes an unescapes a hex string.
+  #
+  # @return [String]
+  #   The un-quoted String if the String begins and ends with quotes, or the
+  #   same String if it is not quoted.
+  #
+  # @example
+  #   "\"hello\\nworld\"".hex_unquote
+  #   # => "hello\nworld"
+  #
+  # @since 1.0.0
+  #
+  # @api public
+  #
+  def hex_unquote
+    if ((self[0] == '"' && self[-1] == '"') ||
+        (self[0] == "'" && self[-1] == "'"))
+      self[1..-2].hex_unescape
+    else
+      self
+    end
+  end
+
 end
