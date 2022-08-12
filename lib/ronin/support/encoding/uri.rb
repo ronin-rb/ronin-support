@@ -17,19 +17,4 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/core_ext/string'
-require 'ronin/support/core_ext/file'
-require 'ronin/support/core_ext/integer'
-require 'ronin/support/core_ext/ipaddr'
-require 'ronin/support/core_ext/resolv'
-require 'ronin/support/core_ext/kernel'
-require 'ronin/support/inflector/core_ext'
-require 'ronin/support/compression/core_ext'
-require 'ronin/support/archive/core_ext'
-require 'ronin/support/crypto/core_ext'
-require 'ronin/support/encoding/core_ext'
-require 'ronin/support/text/core_ext'
-require 'ronin/support/network/core_ext'
-
-require 'hexdump/core_ext'
-require 'uri/query_params/core_ext'
+require 'ronin/support/encoding/uri/core_ext'
