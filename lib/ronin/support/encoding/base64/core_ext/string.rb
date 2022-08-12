@@ -31,7 +31,7 @@ class String
   #
   #   * `nil`
   #   * `:strict`
-  #   * `:url` / `:urlsafe`
+  #   * `:url_safe`
   #
   # @return [String]
   #   The base64 encoded form of the string.
@@ -42,7 +42,7 @@ class String
   #
   # @api public
   #
-  def base64_encode(mode=nil)
+  def base64_encode(mode: nil)
     Ronin::Support::Encoding::Base64.encode(self, mode: mode)
   end
 
@@ -56,7 +56,7 @@ class String
   #
   #   * `nil`
   #   * `:strict`
-  #   * `:url` / `:urlsafe`
+  #   * `:url_safe`
   #
   # @return [String]
   #   The base64 decoded form of the string.
@@ -70,7 +70,7 @@ class String
   #
   # @api public
   #
-  def base64_decode(mode=nil)
+  def base64_decode(mode: nil)
     Ronin::Support::Encoding::Base64.decode(self, mode: mode)
   end
 
