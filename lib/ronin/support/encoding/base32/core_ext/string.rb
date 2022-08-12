@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/base32'
+require 'ronin/support/encoding/base32'
 
 class String
 
@@ -38,7 +38,7 @@ class String
   # @since 1.0.0
   #
   def base32_encode
-    Ronin::Support::Base32.encode(self)
+    Ronin::Support::Encoding::Base32.encode(self)
   end
 
   #
@@ -58,7 +58,7 @@ class String
   # @since 1.0.0
   #
   def base32_decode
-    Ronin::Support::Base32.decode(self)
+    Ronin::Support::Encoding::Base32.decode(self)
   end
 
 end

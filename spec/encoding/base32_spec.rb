@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/base32'
+require 'ronin/support/encoding/base32'
 
-describe Ronin::Support::Base32 do
+describe Ronin::Support::Encoding::Base32 do
   let(:decoded) { "The quick brown fox jumps over the lazy dog" }
   let(:encoded) do
     "KRUGKIDROVUWG2ZAMJZG653OEBTG66BANJ2W24DTEBXXMZLSEB2GQZJANRQXU6JAMRXWO==="
