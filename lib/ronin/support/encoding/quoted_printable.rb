@@ -17,4 +17,68 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'strscan'
+
+module Ronin
+  module Support
+    class Encoding < ::Encoding
+      #
+      # Contains methods for encoding/decoding Quoted Printable data.
+      #
+      # @api public
+      #
+      module QuotedPrintable
+        #
+        # Escapes the data as [Quoted-Printable].
+        #
+        # [Quoted-Printable]: https://en.wikipedia.org/wiki/Quoted-printable
+        #
+        # @param [String] data
+        #   The data to escape.
+        #
+        # @return [String]
+        #   The quoted-printable escaped String.
+        #
+        # @example
+        #   Encoding::QuotedPrintable.escape('<a href="https://example.com/">link</a>')
+        #   # => "<a href=3D\"https://example.com/\">link</a>=\n"
+        #
+        def self.escape(data)
+          [data].pack('M')
+        end
+
+        #
+        # @see escape
+        #
+        def self.encode(data)
+          escape(data)
+        end
+
+        #
+        # Unescapes a [Quoted-Printable] encoded String.
+        #
+        # [Quoted-Printable]: https://en.wikipedia.org/wiki/Quoted-printable
+        #
+        # @return [String]
+        #   The unescaped String.
+        #
+        # @example
+        #   Encoding::QuotedPrintable.unescape("<a href=3D\"https://example.com/\">link</a>=\n")
+        #   # => "<a href=\"https://example.com/\">link</a>"
+        #
+        def self.unescape(data)
+          data.unpack1('M')
+        end
+
+        #
+        # @see unescape
+        #
+        def self.decode(data)
+          unescape(data)
+        end
+      end
+    end
+  end
+end
+
 require 'ronin/support/encoding/quoted_printable/core_ext'

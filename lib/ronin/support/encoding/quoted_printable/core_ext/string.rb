@@ -17,6 +17,8 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/encoding/quoted_printable'
+
 class String
 
   #
@@ -31,12 +33,14 @@ class String
   #   '<a href="https://example.com/">link</a>'.quoted_printable_escape
   #   # => "<a href=3D\"https://example.com/\">link</a>=\n"
   #
+  # @see Ronin::Support::Encoding::QuotedPrintable.escape
+  #
   # @api public
   #
   # @since 1.0.0
   #
   def quoted_printable_escape
-    [self].pack('M')
+    Ronin::Support::Encoding::QuotedPrintable.escape(self)
   end
 
   alias quoted_printable_encode quoted_printable_escape
@@ -55,12 +59,14 @@ class String
   #   "<a href=3D\"https://example.com/\">link</a>=\n".quoted_printable_unescape
   #   # => "<a href=\"https://example.com/\">link</a>"
   #
+  # @see Ronin::Support::Encoding::QuotedPrintable.unescape
+  #
   # @api public
   #
   # @since 1.0.0
   #
   def quoted_printable_unescape
-    unpack1('M')
+    Ronin::Support::Encoding::QuotedPrintable.unescape(self)
   end
 
   alias quoted_printable_decode quoted_printable_unescape
