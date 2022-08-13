@@ -8,6 +8,10 @@ describe Integer do
     expect(subject).to respond_to(:http_encode)
   end
 
+  it "must provide Integer#http_escape" do
+    expect(subject).to respond_to(:http_escape)
+  end
+
   describe "#http_encode" do
     let(:http_formatted) { '%20' }
 
