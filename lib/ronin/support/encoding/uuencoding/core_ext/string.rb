@@ -17,6 +17,8 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/encoding/uuencoding'
+
 class String
 
   #
@@ -29,13 +31,16 @@ class String
   #
   # @example
   #   "hello world".uu_encode
+  #   # => "+:&5L;&\\@=V]R;&0`\n"
+  #
+  # @see Ronin::Support::Encoding::UUEncoding.encode
   #
   # @api public
   #
   # @since 1.0.0
   #
   def uu_encode
-    [self].pack('u')
+    Ronin::Support::Encoding::UUEncoding.encode(self)
   end
 
   alias uuencode uu_encode
@@ -49,12 +54,18 @@ class String
   # @return [String]
   #   The decoded String.
   #
+  # @example
+  #   "+:&5L;&\\@=V]R;&0`\n".uu_decode
+  #   # => "hello world"
+  #
+  # @see Ronin::Support::Encoding::UUEncoding.decode
+  #
   # @api public
   #
   # @since 1.0.0
   #
   def uu_decode
-    unpack1('u')
+    Ronin::Support::Encoding::UUEncoding.decode(self)
   end
 
   alias uudecode uu_decode

@@ -17,4 +17,55 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+module Ronin
+  module Support
+    class Encoding < ::Encoding
+      #
+      # Contains methods for encoding/decoding UUEncoded data.
+      #
+      # @api public
+      #
+      module UUEncoding
+        #
+        # [uuencodes][uuencoding] the String.
+        #
+        # [uuencoding]: https://en.wikipedia.org/wiki/Uuencoding
+        #
+        # @param [String] data
+        #   The data to uuencode.
+        #
+        # @return [String]
+        #   The UU encoded String.
+        #
+        # @example
+        #   Encoding::UUEncoding.encode("hello world")
+        #   # => "+:&5L;&\\@=V]R;&0`\n"
+        #
+        def self.encode(data)
+          [data].pack('u')
+        end
+
+        #
+        # Decodes the [uuencoded][uuencoding] String.
+        #
+        # [uuencoding]: https://en.wikipedia.org/wiki/Uuencoding
+        #
+        # @param [String] data
+        #   The data to uudecode.
+        #
+        # @return [String]
+        #   The decoded String.
+        #
+        # @example
+        #   Encoding::UUEncoding.encode("+:&5L;&\\@=V]R;&0`\n")
+        #   # => "hello world"
+        #
+        def self.decode(data)
+          data.unpack1('u')
+        end
+      end
+    end
+  end
+end
+
 require 'ronin/support/encoding/uuencoding/core_ext'
