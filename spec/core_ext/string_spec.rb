@@ -2,6 +2,20 @@ require 'spec_helper'
 require 'ronin/support/core_ext/string'
 
 describe String do
+  subject { "hello" }
+
+  it "must provide String#random_case" do
+    expect(subject).to respond_to(:random_case)
+  end
+
+  it "must provide String#insert_before" do
+    expect(subject).to respond_to(:insert_before)
+  end
+
+  it "must provide String#insert_after" do
+    expect(subject).to respond_to(:insert_after)
+  end
+
   describe ".ascii" do
     subject { described_class }
 
@@ -18,8 +32,6 @@ describe String do
   end
 
   describe "#to_ascii" do
-    subject { "hello" }
-
     it "must return a new String" do
       expect(subject.to_ascii).to eq(subject)
       expect(subject.to_ascii).to_not be(subject)
@@ -44,8 +56,6 @@ describe String do
   end
 
   describe "#each_substring" do
-    subject { 'hello' }
-
     it "must enumerate over each sub-string within the String" do
       subject.each_substring do |sub_string|
         expect(subject).to include(sub_string)
@@ -196,6 +206,48 @@ describe String do
       uncommon = 'Tell me baby what'
 
       expect(one.uncommon_substring(two)).to eq(uncommon)
+    end
+  end
+
+  describe "#random_case" do
+    it "must capitalize each character when :probability is 1.0" do
+      new_string = subject.random_case(probability: 1.0)
+
+      expect(subject.upcase).to eq(new_string)
+    end
+
+    it "must not capitalize any characters when :probability is 0.0" do
+      new_string = subject.random_case(probability: 0.0)
+
+      expect(subject).to eq(new_string)
+    end
+  end
+
+  describe "#insert_before" do
+    it "must inject data before a matched String" do
+      expect(subject.insert_before('ll','x')).to eq("hexllo")
+    end
+
+    it "must inject data before a matched Regexp" do
+      expect(subject.insert_before(/l+/,'x')).to eq("hexllo")
+    end
+
+    it "must not inject data if no matches are found" do
+      expect(subject.insert_before(/x/,'x')).to eq(subject)
+    end
+  end
+
+  describe "#insert_after" do
+    it "must inject data after a matched String" do
+      expect(subject.insert_after('ll','x')).to eq("hellxo")
+    end
+
+    it "must inject data after a matched Regexp" do
+      expect(subject.insert_after(/l+/,'x')).to eq("hellxo")
+    end
+
+    it "must not inject data if no matches are found" do
+      expect(subject.insert_after(/x/,'x')).to eq(subject)
     end
   end
 end
