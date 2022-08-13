@@ -8,8 +8,8 @@ describe Integer do
     expect(subject).to respond_to(:html_escape)
   end
 
-  it "must provide String#format_html" do
-    expect(subject).to respond_to(:format_html)
+  it "must provide String#html_encode" do
+    expect(subject).to respond_to(:html_encode)
   end
 
   describe "#html_escape" do
@@ -18,9 +18,9 @@ describe Integer do
     end
   end
 
-  describe "#format_html" do
-    it "must have like #format_xml" do
-      expect(subject.format_html).to eq(subject.format_xml)
+  describe "#html_enocde" do
+    it "must have like #xml_encode" do
+      expect(subject.html_encode).to eq(subject.xml_encode)
     end
   end
 end

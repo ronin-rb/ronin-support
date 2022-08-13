@@ -12,8 +12,8 @@ describe String do
     expect(subject).to respond_to(:html_unescape)
   end
 
-  it "must provide String#format_html" do
-    expect(subject).to respond_to(:format_html)
+  it "must provide String#html_encode" do
+    expect(subject).to respond_to(:html_encode)
   end
 
   describe "#html_escape" do
@@ -32,17 +32,9 @@ describe String do
     end
   end
 
-  describe "#format_html" do
-    it "must behave like #format_xml" do
-      expect(subject.format_html).to eq(subject.format_xml)
-    end
-  end
-
   describe "#html_encode" do
-    subject { "ABC" }
-
-    it "must encode each character in the String" do
-      expect(subject.html_encode).to eq("&#65;&#66;&#67;")
+    it "must behave like #xml_enocde" do
+      expect(subject.html_encode).to eq(subject.xml_encode)
     end
   end
 end

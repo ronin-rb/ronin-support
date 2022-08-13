@@ -69,46 +69,21 @@ class String
   #
   # Formats the chars in the String for HTML.
   #
-  # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {#format_chars}.
-  #
   # @return [String]
   #   The formatted HTML String.
-  #
-  # @example
-  #   "abc".format_html
-  #   # => "&#97;&#98;&#99;"
-  #
-  # @see Integer#format_html
-  #
-  # @since 0.2.0
-  #
-  # @see #format_xml
-  #
-  # @api public
-  #
-  def format_html(**kwargs)
-    format_xml(**kwargs)
-  end
-
-  #
-  # Encodes the characters in the String as HTML.
-  #
-  # @return [String]
-  #   The HTML encoded String.
   #
   # @example
   #   "abc".html_encode
   #   # => "&#97;&#98;&#99;"
   #
-  # @since 1.0.0
+  # @see #xml_encode
   #
-  # @see #format_html
+  # @since 0.2.0
   #
   # @api public
   #
   def html_encode
-    format_html
+    xml_encode
   end
 
   alias html_decode html_unescape

@@ -56,14 +56,12 @@ class Integer
   #
   # @since 0.2.0
   #
-  # @see #format_xml
+  # @see #xml_encode
   #
   # @api public
   #
-  def format_html
-    format_xml
+  def html_encode
+    xml_encode
   end
-
-  alias html_encode format_html
 
 end
