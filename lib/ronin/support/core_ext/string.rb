@@ -309,7 +309,7 @@ class String
   # @param [String] padding
   #   The text to pad the new String with.
   #
-  # @param [String] max_length
+  # @param [String] length
   #   The maximum length to pad the new String out to.
   #
   # @return [String]
@@ -321,22 +321,8 @@ class String
   #
   # @api public
   #
-  def pad(padding,max_length=length)
-    padding = padding.to_s
-
-    if max_length > length
-      max_length -= length
-    else
-      max_length = 0
-    end
-
-    padded = self + (padding * (max_length / padding.length))
-
-    unless (remaining = (max_length % padding.length)) == 0
-      padded << padding[0,remaining]
-    end
-
-    return padded
+  def pad(padding,length)
+    ljust(length,padding)
   end
 
 end
