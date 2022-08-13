@@ -90,29 +90,6 @@ class String
   end
 
   #
-  # Formats a String for JavaScript.
-  #
-  # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {#format_chars}.
-  #
-  # @return [String]
-  #   The JavaScript formatted String.
-  #
-  # @example
-  #   "hello".format_js
-  #   # => "\\u0068\\u0065\\u006C\\u006C\\u006F"
-  #
-  # @see Integer#format_js
-  #
-  # @since 0.2.0
-  #
-  # @api public
-  #
-  def format_js(**kwargs)
-    format_chars(**kwargs) { |c| c.ord.format_js }
-  end
-
-  #
   # JavaScript escapes every character of the String.
   #
   # @return [String]
@@ -122,14 +99,14 @@ class String
   #   "hello".js_encode
   #   # => "\\u0068\\u0065\\u006C\\u006C\\u006F"
   #
-  # @see #format_js
+  # @see #js_encode
   #
   # @api public
   #
   # @since 1.0.0
   #
-  def js_encode
-    format_js
+  def js_encode(**kwargs)
+    format_chars(**kwargs) { |c| c.ord.js_encode }
   end
 
   alias js_decode js_unescape

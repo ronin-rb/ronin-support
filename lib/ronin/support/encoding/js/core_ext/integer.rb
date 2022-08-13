@@ -80,31 +80,29 @@ class Integer
   # @api public
   #
   def js_escape
-    if self > 0xff then format_js
+    if self > 0xff then js_encode
     else                JS_ESCAPE_BYTES.fetch(self,chr)
     end
   end
 
   #
-  # Formats the Integer as a JavaScript character.
+  # Encodes the Integer as a JavaScript character.
   #
   # @return [String]
-  #   The formatted JavaScript character.
+  #   The encoded JavaScript character.
   #
   # @example
-  #   0x41.format_js
+  #   0x41.js_encode
   #   # => "%41"
   #
-  # @since 0.2.0
+  # @since 1.0.0
   #
   # @api public
   #
-  def format_js
+  def js_encode
     if self > 0xff then "\\u%.4X" % self
     else                "\\x%.2X" % self
     end
   end
-
-  alias js_encode format_js
 
 end

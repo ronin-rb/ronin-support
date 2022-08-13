@@ -5,7 +5,7 @@ describe Integer do
   subject { 0x26 }
 
   it { expect(subject).to respond_to(:js_escape) }
-  it { expect(subject).to respond_to(:format_js) }
+  it { expect(subject).to respond_to(:js_encode) }
 
   describe "#js_escape" do
     let(:special_byte) { 0x0a }
@@ -23,15 +23,15 @@ describe Integer do
     end
   end
 
-  describe "#format_js" do
+  describe "#js_encode" do
     let(:js_escaped) { '\x26' }
 
     it "must JavaScript format ascii bytes" do
-      expect(subject.format_js).to eq(js_escaped)
+      expect(subject.js_encode).to eq(js_escaped)
     end
 
     it "must JavaScript format unicode bytes" do
-      expect(0xd556.format_js).to eq('\uD556')
+      expect(0xd556.js_encode).to eq('\uD556')
     end
   end
 end
