@@ -4,15 +4,15 @@ require 'ronin/support/encoding/http/core_ext/integer'
 describe Integer do
   subject { 0x20 }
 
-  it "must provide Integer#format_http" do
-    expect(subject).to respond_to(:format_http)
+  it "must provide Integer#http_encode" do
+    expect(subject).to respond_to(:http_encode)
   end
 
-  describe "#format_http" do
+  describe "#http_encode" do
     let(:http_formatted) { '%20' }
 
     it "must format the byte" do
-      expect(subject.format_http).to eq(http_formatted)
+      expect(subject.http_encode).to eq(http_formatted)
     end
   end
 

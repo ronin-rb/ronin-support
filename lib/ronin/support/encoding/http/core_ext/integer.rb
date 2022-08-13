@@ -28,16 +28,14 @@ class Integer
   #   The formatted byte.
   #
   # @example
-  #   0x41.format_http
+  #   0x41.http_encode
   #   # => "%41"
   #
   # @api public
   #
-  def format_http
+  def http_encode
     "%%%X" % self
   end
-
-  alias http_encode format_http
 
   #
   # HTTP escapes the Integer.

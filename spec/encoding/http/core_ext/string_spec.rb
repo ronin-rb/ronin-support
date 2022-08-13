@@ -4,17 +4,17 @@ require 'ronin/support/encoding/http/core_ext/string'
 describe String do
   subject { "hello" }
 
-  it "must provide String#format_http" do
-    expect(subject).to respond_to(:format_http)
+  it "must provide String#http_encode" do
+    expect(subject).to respond_to(:http_encode)
   end
 
-  describe "#format_http" do
+  describe "#http_encode" do
     subject { "mod % 3" }
 
-    let(:http_formatted) { "%6D%6F%64%20%25%20%33" }
+    let(:http_encoded) { "%6D%6F%64%20%25%20%33" }
 
     it "must format each byte of the String" do
-      expect(subject.format_http).to eq(http_formatted)
+      expect(subject.http_encode).to eq(http_encoded)
     end
   end
 
