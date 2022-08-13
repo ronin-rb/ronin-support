@@ -65,11 +65,11 @@ class Integer
         if self >= 0x20 && self <= 0x7e
           chr
         else
-          format_c
+          c_encode
         end
       end
     else
-      format_c
+      c_encode
     end
   end
 
@@ -82,14 +82,14 @@ class Integer
   #   The escaped C character.
   #
   # @example
-  #   0x41.format_c
+  #   0x41.c_encode
   #   # => "\x41"
   #
   # @since 1.0.0
   #
   # @api public
   #
-  def format_c
+  def c_encode
     if self >= 0x00 && self <= 0xff
       "\\x%.2x" % self
     elsif self >= 0x100 && self <= 0xffff
@@ -100,7 +100,5 @@ class Integer
       raise(RangeError,"#{self} out of char range")
     end
   end
-
-  alias c_encode format_c
 
 end

@@ -6,7 +6,7 @@ describe String do
 
   it { expect(subject).to respond_to(:c_escape)   }
   it { expect(subject).to respond_to(:c_unescape) }
-  it { expect(subject).to respond_to(:format_c)   }
+  it { expect(subject).to respond_to(:c_encode)   }
 
   describe "#c_escape" do
     context "when the String does not contain special characters" do
@@ -115,14 +115,6 @@ describe String do
       it "must return the String" do
         expect(subject.c_unescape).to eq(subject)
       end
-    end
-  end
-
-  describe "#format_c" do
-    let(:c_formatted) { '\x68\x65\x6c\x6c\x6f\x20\x77\x6f\x72\x6c\x64' }
-
-    it "must C escape all characters" do
-      expect(subject.format_c).to eq(c_formatted)
     end
   end
 

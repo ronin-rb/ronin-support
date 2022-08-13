@@ -99,29 +99,6 @@ class String
   end
 
   #
-  # Formats a String for C.
-  #
-  # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {#format_chars}.
-  #
-  # @return [String]
-  #   The C escaped String.
-  #
-  # @example
-  #   "hello".format_c
-  #   # => "\\x68\\x65\\x6c\\x6c\\x6f"
-  #
-  # @see Integer#format_c
-  #
-  # @since 1.0.0
-  #
-  # @api public
-  #
-  def format_c(**kwargs)
-    format_chars(**kwargs) { |c| c.ord.format_c }
-  end
-
-  #
   # C escapes every character in the String.
   #
   # @return [String]
@@ -131,14 +108,12 @@ class String
   #   "hello".c_encode
   #   # => "\\x68\\x65\\x6c\\x6c\\x6f"
   #
-  # @see #format_c
-  #
   # @api public
   #
   # @since 1.0.0
   #
   def c_encode
-    format_c
+    format_chars { |c| c.ord.c_encode }
   end
 
   alias c_decode c_unescape

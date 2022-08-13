@@ -5,7 +5,7 @@ describe Integer do
   subject { 0x26 }
 
   it { expect(subject).to respond_to(:c_escape) }
-  it { expect(subject).to respond_to(:format_c) }
+  it { expect(subject).to respond_to(:c_encode) }
 
   describe "#c_escape" do
     described_class::C_ESCAPE_BYTES.each do |byte,escaped_char|
@@ -61,18 +61,18 @@ describe Integer do
     end
   end
 
-  describe "#format_c" do
+  describe "#c_encode" do
     let(:c_formatted) { '\x26' }
 
     it "must return the '\\xXX' form of the byte" do
-      expect(subject.format_c).to eq(c_formatted)
+      expect(subject.c_encode).to eq(c_formatted)
     end
 
     context "when called on an Integer that does not map to an ASCII char" do
       subject { 0xFF }
 
       it "must return the lowercase '\\xXX' hex escaped String" do
-        expect(subject.format_c).to eq('\xff')
+        expect(subject.c_encode).to eq('\xff')
       end
     end
 
@@ -80,7 +80,7 @@ describe Integer do
       subject { 0xFFFF }
 
       it "must return the lowercase '\\uXXXX' hex escaped String" do
-        expect(subject.format_c).to eq('\uffff')
+        expect(subject.c_encode).to eq('\uffff')
       end
     end
 
@@ -88,7 +88,7 @@ describe Integer do
       subject { 0x10000}
 
       it "must return the lowercase '\\uXXXXXXXX' hex escaped String" do
-        expect(subject.format_c).to eq('\u00010000')
+        expect(subject.c_encode).to eq('\u00010000')
       end
     end
 
@@ -97,7 +97,7 @@ describe Integer do
 
       it do
         expect {
-          subject.format_c
+          subject.c_encode
         }.to raise_error(RangeError,"#{subject} out of char range")
       end
     end
