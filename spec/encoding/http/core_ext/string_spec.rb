@@ -4,8 +4,40 @@ require 'ronin/support/encoding/http/core_ext/string'
 describe String do
   subject { "hello" }
 
+  it "must provide String#http_escape" do
+    expect(subject).to respond_to(:http_escape)
+  end
+
+  it "must provide String#http_unescape" do
+    expect(subject).to respond_to(:http_encode)
+  end
+
   it "must provide String#http_encode" do
     expect(subject).to respond_to(:http_encode)
+  end
+
+  it "must provide String#http_decode" do
+    expect(subject).to respond_to(:http_encode)
+  end
+
+  describe "#http_escape" do
+    subject { "mod % 3" }
+
+    let(:http_escaped) { "mod+%25+3" }
+
+    it "must escape special characters as '%XX'" do
+      expect(subject.http_escape).to eq(http_escaped)
+    end
+  end
+
+  describe "#http_unescape" do
+    subject { "mod %25 3" }
+    
+    let(:http_unescaped) { "mod % 3" }
+
+    it "must unescape '%XX' characters" do
+      expect(subject.http_unescape).to eq(http_unescaped)
+    end
   end
 
   describe "#http_encode" do
