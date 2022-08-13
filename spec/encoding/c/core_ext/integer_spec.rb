@@ -8,7 +8,7 @@ describe Integer do
   it { expect(subject).to respond_to(:c_encode) }
 
   describe "#c_escape" do
-    described_class::C_ESCAPE_BYTES.each do |byte,escaped_char|
+    Ronin::Support::Encoding::C::ESCAPE_BYTES.each do |byte,escaped_char|
       context "when called on #{byte}" do
         subject { byte }
 

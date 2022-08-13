@@ -17,25 +17,9 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/encoding/c/core_ext/integer'
-require 'ronin/support/encoding/text/core_ext/string'
-
-require 'strscan'
+require 'ronin/support/encoding/c'
 
 class String
-
-  # C characters that must be back-slashed.
-  C_BACKSLASHED_CHARS = {
-    '0'  => "\0",
-    'a'  => "\a",
-    'b'  => "\b",
-    'e'  => "\e",
-    't'  => "\t",
-    'n'  => "\n",
-    'v'  => "\v",
-    'f'  => "\f",
-    'r'  => "\r"
-  }
 
   #
   # Escapes a String for C.
@@ -50,14 +34,14 @@ class String
   #   "hello\nworld\n".c_escape
   #   # => "hello\\nworld\\n"
   #
-  # @see Integer#c_escape
+  # @see Ronin::Support::Encoding::C.escape
   #
   # @since 1.0.0
   #
   # @api public
   #
-  def c_escape(**kwargs)
-    format_chars(**kwargs) { |c| c.ord.c_escape }
+  def c_escape
+    Ronin::Support::Encoding::C.escape(self)
   end
 
   #
@@ -70,32 +54,14 @@ class String
   #   "\x68\x65\x6c\x6c\x6f\x20\x77\x6f\x72\x6c\x64".c_unescape
   #   # => "hello world"
   #
+  # @see Ronin::Support::Encoding::C.unescape
+  #
   # @since 1.0.0
   #
   # @api public
   #
   def c_unescape
-    unescaped = String.new
-    scanner   = StringScanner.new(self)
-
-    until scanner.eos?
-      unescaped << case (char = scanner.getch)
-                   when "\\" # backslash
-                     if (hex_char = scanner.scan(/x[0-9a-fA-F]{1,2}/)) # \xXX
-                       hex_char[1..].to_i(16).chr
-                     elsif (hex_char = scanner.scan(/u[0-9a-fA-F]{4,8}/)) # \u..
-                       hex_char[1..].to_i(16).chr(Encoding::UTF_8)
-                     elsif (octal_char = scanner.scan(/[0-7]{1,3}/)) # \N, \NN, or \NNN
-                       octal_char.to_i(8).chr
-                     elsif (special_char = scanner.getch) # \[A-Za-z]
-                       C_BACKSLASHED_CHARS.fetch(special_char,special_char)
-                     end
-                   else
-                     char
-                   end
-    end
-
-    return unescaped
+    Ronin::Support::Encoding::C.unescape(self)
   end
 
   #
@@ -108,12 +74,14 @@ class String
   #   "hello".c_encode
   #   # => "\\x68\\x65\\x6c\\x6c\\x6f"
   #
+  # @see Ronin::Support::Encoding::C.encode
+  #
   # @api public
   #
   # @since 1.0.0
   #
   def c_encode
-    format_chars { |c| c.ord.c_encode }
+    Ronin::Support::Encoding::C.encode(self)
   end
 
   alias c_decode c_unescape
@@ -127,12 +95,14 @@ class String
   #   "hello\nworld\n".c_string
   #   # => "\"hello\\nworld\\n\""
   #
+  # @see Ronin::Support::Encoding::C.quote
+  #
   # @since 1.0.0
   #
   # @api public
   #
   def c_string
-    "\"#{c_escape}\""
+    Ronin::Support::Encoding::C.quote(self)
   end
 
   #
@@ -146,17 +116,14 @@ class String
   #   "\"hello\\nworld\"".c_unquote
   #   # => "hello\nworld"
   #
+  # @see Ronin::Support::Encoding::C.unquote
+  #
   # @since 1.0.0
   #
   # @api public
   #
   def c_unquote
-    if ((self[0] == '"' && self[-1] == '"') ||
-        (self[0] == "'" && self[-1] == "'"))
-      self[1..-2].c_unescape
-    else
-      self
-    end
+    Ronin::Support::Encoding::C.unquote(self)
   end
 
 end

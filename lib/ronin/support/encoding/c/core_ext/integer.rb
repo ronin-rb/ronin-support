@@ -17,22 +17,9 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-class Integer
+require 'ronin/support/encoding/c'
 
-  # Special C bytes and their escaped Strings.
-  C_ESCAPE_BYTES = {
-    0x00 => '\0',
-    0x07 => '\a',
-    0x08 => '\b',
-    0x09 => '\t',
-    0x0a => '\n',
-    0x0b => '\v',
-    0x0c => '\f',
-    0x0d => '\r',
-    0x22 => '\"',
-    0x1B => '\e',
-    0x5c => '\\\\'
-  }
+class Integer
 
   #
   # Escapes the Integer as a C character.
@@ -55,22 +42,14 @@ class Integer
   #   0xffff.c_escape
   #   # => "\\uFFFF"
   #
+  # @see Ronin::Support::Encoding::C.escape_byte
+  #
   # @since 1.0.0
   #
   # @api public
   #
   def c_escape
-    if self >= 0x00 && self <= 0xff
-      C_ESCAPE_BYTES.fetch(self) do
-        if self >= 0x20 && self <= 0x7e
-          chr
-        else
-          c_encode
-        end
-      end
-    else
-      c_encode
-    end
+    Ronin::Support::Encoding::C.escape_byte(self)
   end
 
   alias c_char c_escape
@@ -85,20 +64,14 @@ class Integer
   #   0x41.c_encode
   #   # => "\x41"
   #
+  # @see Ronin::Support::Encoding::C.encode_byte
+  #
   # @since 1.0.0
   #
   # @api public
   #
   def c_encode
-    if self >= 0x00 && self <= 0xff
-      "\\x%.2x" % self
-    elsif self >= 0x100 && self <= 0xffff
-      "\\u%.4x" % self
-    elsif self >= 0x10000
-      "\\u%.8x" % self
-    else
-      raise(RangeError,"#{self} out of char range")
-    end
+    Ronin::Support::Encoding::C.encode_byte(self)
   end
 
 end
