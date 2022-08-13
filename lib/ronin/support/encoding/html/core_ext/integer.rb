@@ -45,13 +45,13 @@ class Integer
   end
 
   #
-  # Formats the Integer as a HTML String.
+  # Encodes the Integer as a HTML String.
   #
   # @return [String]
-  #   The HTML String.
+  #   The encoded HTML String.
   #
   # @example
-  #   0x41.format_html
+  #   0x41.html_enocde
   #   # => "&#65;"
   #
   # @since 0.2.0

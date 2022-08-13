@@ -67,10 +67,10 @@ class String
   end
 
   #
-  # Formats the chars in the String for HTML.
+  # Encodes the chars in the String for HTML.
   #
   # @return [String]
-  #   The formatted HTML String.
+  #   The encoded HTML String.
   #
   # @example
   #   "abc".html_encode
