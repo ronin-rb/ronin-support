@@ -4,11 +4,11 @@ require 'ronin/support/encoding/html/core_ext/integer'
 describe Integer do
   subject { 0x26 }
 
-  it "must provide String#html_escape" do
+  it "must provide Integer#html_escape" do
     expect(subject).to respond_to(:html_escape)
   end
 
-  it "must provide String#html_encode" do
+  it "must provide Integer#html_encode" do
     expect(subject).to respond_to(:html_encode)
   end
 
