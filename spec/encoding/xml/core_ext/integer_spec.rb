@@ -4,11 +4,11 @@ require 'ronin/support/encoding/xml/core_ext/integer'
 describe Integer do
   subject { 0x26 }
 
-  it "must provide String#xml_escape" do
+  it "must provide Integer#xml_escape" do
     should respond_to(:xml_escape)
   end
 
-  it "must provide String#format_xml" do
+  it "must provide Integer#format_xml" do
     should respond_to(:format_xml)
   end
 
