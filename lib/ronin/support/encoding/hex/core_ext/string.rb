@@ -79,8 +79,8 @@ class String
   # @return [String]
   #
   # @example
-  #   "hello".hex_string
-  #   # => "\"\\x68\\x65\\x6c\\x6c\\x6f\""
+  #   "hello\nworld".hex_string
+  #   # => "\"hello\\nworld\""
   #
   # @since 1.0.0
   #
