@@ -65,29 +65,6 @@ class String
   end
 
   #
-  # Formats the chars in the String for XML.
-  #
-  # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {#format_chars}.
-  #
-  # @return [String]
-  #   The formatted XML String.
-  #
-  # @example
-  #   "abc".format_xml
-  #   # => "&#97;&#98;&#99;"
-  #
-  # @see Integer#format_xml
-  #
-  # @since 0.2.0
-  #
-  # @api public
-  #
-  def format_xml(**kwargs)
-    format_chars(**kwargs) { |c| c.ord.format_xml }
-  end
-
-  #
   # Encodes each character in the String as an XML character.
   #
   # @return [String]
@@ -97,14 +74,12 @@ class String
   #   "abc".xml_encode
   #   # => "&#97;&#98;&#99;"
   #
-  # @see #format_xml
-  #
   # @since 1.0.0
   #
   # @api public
   #
   def xml_encode
-    format_xml
+    format_chars { |c| c.ord.xml_encode }
   end
 
   alias xml_decode xml_unescape

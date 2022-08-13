@@ -40,23 +40,21 @@ class Integer
   end
 
   #
-  # Formats the Integer as a XML String.
+  # Encodes the Integer as a XML String.
   #
   # @return [String]
   #   The XML String.
   #
   # @example
-  #   0x41.format_xml
+  #   0x41.xml_encode
   #   # => "&#65;"
   #
   # @since 0.2.0
   #
   # @api public
   #
-  def format_xml
+  def xml_encode
     "&#%d;" % self
   end
-
-  alias xml_encode format_xml
 
 end
