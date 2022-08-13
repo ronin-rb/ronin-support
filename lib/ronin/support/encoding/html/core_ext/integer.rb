@@ -17,10 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/encoding/xml/core_ext/integer'
-require 'ronin/support/encoding/js/core_ext/integer'
-
-require 'cgi'
+require 'ronin/support/encoding/html'
 
 class Integer
 
@@ -36,12 +33,12 @@ class Integer
   #
   # @since 0.2.0
   #
-  # @see #xml_escape
+  # @see Ronin::Support::Encoding::HTML.escape_byte
   #
   # @api public
   #
   def html_escape
-    xml_escape
+    Ronin::Support::Encoding::HTML.escape_byte(self)
   end
 
   #
@@ -56,12 +53,12 @@ class Integer
   #
   # @since 0.2.0
   #
-  # @see #xml_encode
+  # @see Ronin::Support::Encoding::HTML.encode_byte
   #
   # @api public
   #
   def html_encode
-    xml_encode
+    Ronin::Support::Encoding::HTML.encode_byte(self)
   end
 
 end

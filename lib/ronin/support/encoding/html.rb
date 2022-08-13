@@ -17,4 +17,117 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/encoding/xml'
+
+module Ronin
+  module Support
+    class Encoding < ::Encoding
+      #
+      # Contains methods for encoding/decoding escaping/unescaping HTML data.
+      #
+      # @api public
+      #
+      module HTML
+        #
+        # Escapes the byte as a HTML decimal character.
+        #
+        # @param [Integer] byte
+        #   The byte to HTML escape.
+        #
+        # @return [String]
+        #   The HTML decimal character.
+        #
+        # @example
+        #   Encoding::HTML.escape_byte(0x41)
+        #   # => "A"
+        #   Encoding::HTML.escape_byte(0x26)
+        #   # => "&amp;"
+        #
+        def self.escape_byte(byte)
+          XML.escape_byte(byte)
+        end
+
+        #
+        # Encodes the byte as a HTML decimal character.
+        #
+        # @param [Integer] byte
+        #   The byte to HTML encode.
+        #
+        # @return [String]
+        #   The HTML decimal character.
+        #
+        # @example
+        #   Encoding::HTML.encode_byte(0x41)
+        #   # => "&#65;"
+        #
+        def self.encode_byte(byte)
+          XML.encode_byte(byte)
+        end
+
+        #
+        # Encodes each character in the given data as an HTML character.
+        #
+        # @param [String] data
+        #   The data to HTML encode.
+        #
+        # @return [String]
+        #   The HTML encoded String.
+        #
+        # @example
+        #   Encoding::HTML.encode("abc")
+        #   # => "&#97;&#98;&#99;"
+        #
+        def self.encode(data)
+          XML.encode(data)
+        end
+
+        #
+        # @see unescape
+        #
+        def self.decode(data)
+          XML.decode(data)
+        end
+
+        #
+        # HTML escapes the data.
+        #
+        # @param [String] data
+        #   The data to HTML escape.
+        #
+        # @return [String]
+        #   The HTML escaped String.
+        #
+        # @example
+        #   Encoding::HTML.escape("one & two")
+        #   # => "one &amp; two"
+        #
+        # @see http://rubydoc.info/stdlib/cgi/CGI.escapeHTML
+        #
+        def self.escape(data)
+          XML.escape(data)
+        end
+
+        #
+        # Unescapes the HTML encoded data.
+        #
+        # @param [String] data
+        #   The data to HTML unescape.
+        #
+        # @return [String]
+        #   The unescaped String.
+        #
+        # @example
+        #   Encoding::HTML.unescape("&lt;p&gt;one &lt;span&gt;two&lt;/span&gt;&lt;/p&gt;")
+        #   # => "<p>one <span>two</span></p>"
+        #
+        # @see http://rubydoc.info/stdlib/cgi/CGI.unescapeHash
+        #
+        def self.unescape(data)
+          XML.unescape(data)
+        end
+      end
+    end
+  end
+end
+
 require 'ronin/support/encoding/html/core_ext'

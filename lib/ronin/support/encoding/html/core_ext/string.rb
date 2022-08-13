@@ -17,8 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/encoding/xml/core_ext/string'
-require 'ronin/support/encoding/js/core_ext/string'
+require 'ronin/support/encoding/html'
 
 class String
 
@@ -33,15 +32,14 @@ class String
   #   # => "one &amp; two"
   #
   # @see https://rubydoc.info/stdlib/cgi/1.9.2/CGI.escapeHTML
+  # @see Ronin::Support::Encoding::HTML.escape
   #
   # @since 0.2.0
-  #
-  # @see #xml_escape
   #
   # @api public
   #
   def html_escape
-    xml_escape
+    Ronin::Support::Encoding::HTML.escape(self)
   end
 
   #
@@ -55,15 +53,14 @@ class String
   #   # => "<p>one <span>two</span></p>"
   #
   # @see https://rubydoc.info/stdlib/cgi/1.9.2/CGI.unescapeHTML
+  # @see Ronin::Support::Encoding::HTML.unescape
   #
   # @since 0.2.0
-  #
-  # @see #xml_unescape
   #
   # @api public
   #
   def html_unescape
-    xml_unescape
+    Ronin::Support::Encoding::HTML.unescape(self)
   end
 
   #
@@ -76,14 +73,14 @@ class String
   #   "abc".html_encode
   #   # => "&#97;&#98;&#99;"
   #
-  # @see #xml_encode
+  # @see Ronin::Support::Encoding::HTML.encode
   #
   # @since 0.2.0
   #
   # @api public
   #
   def html_encode
-    xml_encode
+    Ronin::Support::Encoding::HTML.encode(self)
   end
 
   alias html_decode html_unescape
