@@ -11,7 +11,7 @@ describe Integer do
   it { expect(subject).to respond_to(:psh_escape) }
 
   describe "#powershell_escape" do
-    described_class::POWERSHELL_ESCAPE_BYTES.each do |byte,escaped_char|
+    Ronin::Support::Encoding::PowerShell::ESCAPE_BYTES.each do |byte,escaped_char|
       context "when called on #{byte}" do
         subject { byte }
 

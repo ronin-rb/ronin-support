@@ -17,28 +17,9 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/encoding/text/core_ext/string'
-require 'ronin/support/encoding/powershell/core_ext/integer'
+require 'ronin/support/encoding/powershell'
 
 class String
-
-  # PowerShell characters that must be grave-accent escaped.
-  #
-  # @see https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
-  POWERSHELL_BACKSLASHED_CHARS = {
-    '0'  => "\0",
-    'a'  => "\a",
-    'b'  => "\b",
-    't'  => "\t",
-    'n'  => "\n",
-    'v'  => "\v",
-    'f'  => "\f",
-    'r'  => "\r",
-    '"'  => '"',
-    '#'  => '#',
-    "'"  => "'",
-    "`"  => "`"
-  }
 
   #
   # [PowerShell escapes][1] the characters in the String.
@@ -52,12 +33,14 @@ class String
   #   "hello\nworld".powershell_escape
   #   # => "hello`nworld"
   #
+  # @see Ronin::Support::Encoding::PowerShell.escape
+  #
   # @api public
   #
   # @since 1.0.0
   #
   def powershell_escape
-    encode_chars { |c| c.ord.powershell_escape }
+    Ronin::Support::Encoding::PowerShell.escape(self)
   end
 
   alias psh_escape powershell_escape
@@ -74,29 +57,14 @@ class String
   #   "hello`nworld".powershell_unescape
   #   # => "hello\nworld"
   #
+  # @see Ronin::Support::Encoding::PowerShell.unescape
+  #
   # @api public
   #
   # @since 1.0.0
   #
   def powershell_unescape
-    unescaped = String.new
-    scanner   = StringScanner.new(self)
-
-    until scanner.eos?
-      if (backslash_char = scanner.scan(/`[0abetnvfr]/)) # `c
-        unescaped << POWERSHELL_BACKSLASHED_CHARS[backslash_char[1,1]]
-      elsif (hex_char = scanner.scan(/\$\(\[char\]0x[0-9a-fA-F]{1,2}\)/)) # [char]0xXX
-        unescaped << hex_char[10..-2].to_i(16).chr
-      elsif (hex_char = scanner.scan(/\$\(\[char\]0x[0-9a-fA-F]{3,}\)/)) # [char]0xXX
-        unescaped << hex_char[10..-2].to_i(16).chr(Encoding::UTF_8)
-      elsif (unicode_char = scanner.scan(/`u\{[0-9a-fA-F]+\}/)) # `u{XXXX}'
-        unescaped << unicode_char[3..-2].to_i(16).chr(Encoding::UTF_8)
-      else
-        unescaped << scanner.getch
-      end
-    end
-
-    return unescaped
+    Ronin::Support::Encoding::PowerShell.unescape(self)
   end
 
   alias psh_unescape powershell_unescape
@@ -110,15 +78,17 @@ class String
   #   The PowerShell encoded String.
   #
   # @example
-  #   "hello world".shell_encode
-  #   # => 
+  #   "hello world".powershell_encode
+  #   # => "$([char]0x68)$([char]0x65)$([char]0x6c)$([char]0x6c)$([char]0x6f)$([char]0x20)$([char]0x77)$([char]0x6f)$([char]0x72)$([char]0x6c)$([char]0x64)"
+  #
+  # @see Ronin::Support::Encoding::PowerShell.encode
   #
   # @api public
   #
   # @since 1.0.0
   #
   def powershell_encode
-    encode_chars { |c| c.ord.powershell_encode }
+    Ronin::Support::Encoding::PowerShell.encode(self)
   end
 
   alias psh_encode powershell_encode
@@ -136,12 +106,14 @@ class String
   #   "hello\nworld".powershell_string
   #   # => "\"hello`nworld\""
   #
+  # @see Ronin::Support::Encoding::PowerShell.quote
+  #
   # @api public
   #
   # @since 1.0.0
   #
   def powershell_string
-    "\"#{powershell_escape}\""
+    Ronin::Support::Encoding::PowerShell.quote(self)
   end
 
   alias psh_string powershell_string
@@ -159,18 +131,14 @@ class String
   #   "'hello''world'".powershell_unquote
   #   # => "hello'world"
   #
+  # @see Ronin::Support::Encoding::PowerShell.unquote
+  #
   # @since 1.0.0
   #
   # @api public
   #
   def powershell_unquote
-    if (self[0] == '"' && self[-1] == '"')
-      self[1..-2].powershell_unescape
-    elsif (self[0] == "'" && self[-1] == "'")
-      self[1..-2].gsub("''","'")
-    else
-      self
-    end
+    Ronin::Support::Encoding::PowerShell.unquote(self)
   end
 
   alias psh_unquote powershell_unquote

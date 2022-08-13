@@ -17,24 +17,9 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-class Integer
+require 'ronin/support/encoding/powershell'
 
-  # Special PowerShell bytes and their escaped Strings.
-  POWERSHELL_ESCAPE_BYTES = {
-    0x00 => "`0",
-    0x07 => "`a",
-    0x08 => "`b",
-    0x09 => "`t",
-    0x0a => "`n",
-    0x0b => "`v",
-    0x0c => "`f",
-    0x0d => "`r",
-    0x22 => '`"',
-    0x23 => "`#",
-    0x27 => "`'",
-    0x5c => "\\\\", # \\
-    0x60 => "``"
-  }
+class Integer
 
   #
   # Encodes the Integer as a PowerShell character.
@@ -55,18 +40,14 @@ class Integer
   #   1001.powershell_escape
   #   # => "`u{1001}"
   #
+  # @see Ronin::Support::Encoding::PowerShell.encode_byte
+  #
   # @since 1.0.0
   #
   # @api public
   #
   def powershell_encode
-    if self >= 0x00 && self <= 0xff
-      "$([char]0x%.2x)" % self
-    elsif self > 0xff
-      "$([char]0x%x)" % self
-    else
-      raise(RangeError,"#{self} out of char range")
-    end
+    Ronin::Support::Encoding::PowerShell.encode_byte(self)
   end
 
   alias psh_encode powershell_encode
@@ -92,22 +73,14 @@ class Integer
   #   1001.powershell_escape
   #   # => "`u{1001}"
   #
+  # @see Ronin::Support::Encoding::PowerShell.escape_byte
+  #
   # @since 1.0.0
   #
   # @api public
   #
   def powershell_escape
-    if self >= 0x00 && self <= 0xff
-      POWERSHELL_ESCAPE_BYTES.fetch(self) do
-        if self >= 0x20 && self <= 0x7e
-          chr
-        else
-          powershell_encode
-        end
-      end
-    else
-      powershell_encode
-    end
+    Ronin::Support::Encoding::PowerShell.escape_byte(self)
   end
 
   alias psh_escape powershell_escape
