@@ -25,7 +25,7 @@ class String
   # Escapes a String for C.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {#format_chars}.
+  #   Additional keyword arguments for {#encode_chars}.
   #
   # @return [String]
   #   The C escaped String.

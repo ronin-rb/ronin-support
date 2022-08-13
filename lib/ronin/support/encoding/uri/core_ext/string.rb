@@ -76,7 +76,7 @@ class String
   # @api public
   #
   def uri_encode
-    format_chars { |c| c.ord.uri_encode }
+    encode_chars { |c| c.ord.uri_encode }
   end
 
   alias uri_decode uri_unescape
@@ -140,7 +140,7 @@ class String
   # @since 1.0.0
   #
   def uri_form_encode
-    format_bytes { |b| b.uri_form_encode }
+    encode_bytes { |b| b.uri_form_encode }
   end
 
   alias www_form_encode uri_form_encode

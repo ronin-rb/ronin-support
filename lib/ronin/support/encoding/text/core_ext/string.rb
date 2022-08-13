@@ -42,12 +42,12 @@ class String
   #   The formatted version of the String.
   #
   # @example
-  #   "hello".format_bytes { |b| "%x" % b }
+  #   "hello".encode_bytes { |b| "%x" % b }
   #   # => "68656c6c6f"
   #
   # @api public
   #
-  def format_bytes(include: nil, exclude: nil)
+  def encode_bytes(include: nil, exclude: nil)
     included  = (Chars::CharSet.new(*include) if include)
     excluded  = (Chars::CharSet.new(*exclude) if exclude)
     formatted = ''
@@ -84,12 +84,12 @@ class String
   #   The formatted version of the String.
   #
   # @example
-  #   "hello".format_chars { |c| c * 3 }
+  #   "hello".encode_chars { |c| c * 3 }
   #   # => "hhheeellllllooo"
   #
   # @api public
   #
-  def format_chars(include: nil, exclude: nil)
+  def encode_chars(include: nil, exclude: nil)
     included  = (Chars::CharSet.new(*include) if include)
     excluded  = (Chars::CharSet.new(*exclude) if exclude)
     formatted = ''
@@ -114,18 +114,18 @@ class String
   #   The probability that a character will have it's case changed.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {#format_chars].
+  #   Additional keyword arguments for {#encode_chars].
   #
   # @example
   #   "get out your checkbook".random_case
   #   # => "gEt Out YOur CHEckbook"
   #
-  # @see #format_chars
+  # @see #encode_chars
   #
   # @api public
   #
   def random_case(probability: 0.5, **kwargs)
-    format_chars(**kwargs) do |c|
+    encode_chars(**kwargs) do |c|
       if rand <= probability then c.swapcase 
       else                        c
       end

@@ -77,7 +77,7 @@ class String
   # @since 1.0.0
   #
   def http_encode(**kwargs)
-    format_bytes(**kwargs) { |b| b.http_encode }
+    encode_bytes(**kwargs) { |b| b.http_encode }
   end
 
   alias http_decode http_unescape

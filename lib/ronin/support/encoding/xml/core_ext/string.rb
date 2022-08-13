@@ -79,7 +79,7 @@ class String
   # @api public
   #
   def xml_encode
-    format_chars { |c| c.ord.xml_encode }
+    encode_chars { |c| c.ord.xml_encode }
   end
 
   alias xml_decode xml_unescape

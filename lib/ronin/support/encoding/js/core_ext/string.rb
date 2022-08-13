@@ -38,7 +38,7 @@ class String
   # Escapes a String for JavaScript.
   #
   # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {#format_chars}.
+  #   Additional keyword arguments for {#encode_chars}.
   #
   # @return [String]
   #   The JavaScript escaped String.
@@ -54,7 +54,7 @@ class String
   # @api public
   #
   def js_escape(**kwargs)
-    format_chars(**kwargs) { |c| c.ord.js_escape }
+    encode_chars(**kwargs) { |c| c.ord.js_escape }
   end
 
   #
@@ -106,7 +106,7 @@ class String
   # @since 1.0.0
   #
   def js_encode(**kwargs)
-    format_chars(**kwargs) { |c| c.ord.js_encode }
+    encode_chars(**kwargs) { |c| c.ord.js_encode }
   end
 
   alias js_decode js_unescape

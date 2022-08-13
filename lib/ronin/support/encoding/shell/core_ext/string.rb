@@ -54,7 +54,7 @@ class String
   # @since 1.0.0
   #
   def shell_escape
-    format_chars { |c| c.ord.shell_escape }
+    encode_chars { |c| c.ord.shell_escape }
   end
 
   #
@@ -105,7 +105,7 @@ class String
   # @since 1.0.0
   #
   def shell_encode
-    format_chars { |c| c.ord.shell_encode }
+    encode_chars { |c| c.ord.shell_encode }
   end
 
   alias shell_decode shell_unescape

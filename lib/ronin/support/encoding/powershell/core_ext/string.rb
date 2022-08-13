@@ -57,7 +57,7 @@ class String
   # @since 1.0.0
   #
   def powershell_escape
-    format_chars { |c| c.ord.powershell_escape }
+    encode_chars { |c| c.ord.powershell_escape }
   end
 
   alias psh_escape powershell_escape
@@ -118,7 +118,7 @@ class String
   # @since 1.0.0
   #
   def powershell_encode
-    format_chars { |c| c.ord.powershell_encode }
+    encode_chars { |c| c.ord.powershell_encode }
   end
 
   alias psh_encode powershell_encode
