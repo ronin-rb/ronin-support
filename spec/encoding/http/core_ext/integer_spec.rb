@@ -4,7 +4,7 @@ require 'ronin/support/encoding/http/core_ext/integer'
 describe Integer do
   subject { 0x20 }
 
-  it "must provide String#format_http" do
+  it "must provide Integer#format_http" do
     expect(subject).to respond_to(:format_http)
   end
 
