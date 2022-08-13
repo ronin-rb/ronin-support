@@ -17,22 +17,9 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/encoding/js/core_ext/integer'
-require 'ronin/support/encoding/text/core_ext/string'
+require 'ronin/support/encoding/js'
 
 class String
-
-  # JavaScript characters that must be back-slashed.
-  JS_BACKSLASHED_CHARS = {
-    "\\b"  => "\b",
-    "\\t"  => "\t",
-    "\\n"  => "\n",
-    "\\f"  => "\f",
-    "\\r"  => "\r",
-    "\\\"" => "\"",
-    "\\\'" => "'",
-    "\\\\" => "\\"
-  }
 
   #
   # Escapes a String for JavaScript.
@@ -47,14 +34,14 @@ class String
   #   "hello\nworld\n".js_escape
   #   # => "hello\\nworld\\n"
   #
-  # @see Integer#js_escape
+  # @see Ronin::Support::Encoding::JS.escape
   #
   # @since 0.2.0
   #
   # @api public
   #
-  def js_escape(**kwargs)
-    encode_chars(**kwargs) { |c| c.ord.js_escape }
+  def js_escape
+    Ronin::Support::Encoding::JS.escape(self)
   end
 
   #
@@ -67,26 +54,14 @@ class String
   #   "\\u0068\\u0065\\u006C\\u006C\\u006F world".js_unescape
   #   # => "hello world"
   #
+  # @see Ronin::Support::Encoding::JS.unescape
+  #
   # @since 0.2.0
   #
   # @api public
   #
   def js_unescape
-    unescaped = String.new
-
-    scan(/[\\%]u[0-9a-fA-F]{1,4}|[\\%][0-9a-fA-F]{1,2}|\\[btnfr\'\"\\]|./) do |c|
-      unescaped << JS_BACKSLASHED_CHARS.fetch(c) do
-        if (c.start_with?("\\u") || c.start_with?("%u"))
-          c[2..-1].to_i(16)
-        elsif (c.start_with?("\\") || c.start_with?("%"))
-          c[1..-1].to_i(16)
-        else
-          c
-        end
-      end
-    end
-
-    return unescaped
+    Ronin::Support::Encoding::JS.unescape(self)
   end
 
   #
@@ -99,14 +74,14 @@ class String
   #   "hello".js_encode
   #   # => "\\u0068\\u0065\\u006C\\u006C\\u006F"
   #
-  # @see #js_encode
+  # @see Ronin::Support::Encoding::JS.encode
   #
   # @api public
   #
   # @since 1.0.0
   #
-  def js_encode(**kwargs)
-    encode_chars(**kwargs) { |c| c.ord.js_encode }
+  def js_encode
+    Ronin::Support::Encoding::JS.encode(self)
   end
 
   alias js_decode js_unescape
@@ -120,12 +95,14 @@ class String
   #   "hello\nworld\n".js_string
   #   # => "\"hello\\nworld\\n\""
   #
+  # @see Ronin::Support::Encoding::JS.quote
+  #
   # @since 1.0.0
   #
   # @api public
   #
   def js_string
-    "\"#{js_escape}\""
+    Ronin::Support::Encoding::JS.quote(self)
   end
 
   #
@@ -139,17 +116,14 @@ class String
   #   "\"hello\\nworld\"".js_unquote
   #   # => "hello\nworld"
   #
+  # @see Ronin::Support::Encoding::JS.unquote
+  #
   # @since 1.0.0
   #
   # @api public
   #
   def js_unquote
-    if ((self[0] == '"' && self[-1] == '"') ||
-        (self[0] == "'" && self[-1] == "'"))
-      self[1..-2].js_unescape
-    else
-      self
-    end
+    Ronin::Support::Encoding::JS.unquote(self)
   end
 
 end

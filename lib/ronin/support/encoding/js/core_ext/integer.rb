@@ -17,45 +17,9 @@
 # along with Ronin Support.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-class Integer
+require 'ronin/support/encoding/js'
 
-  # Special JavaScript bytes and their escaped Strings.
-  JS_ESCAPE_BYTES = {
-    0x00 => '\u0000',
-    0x01 => '\u0001',
-    0x02 => '\u0002',
-    0x03 => '\u0003',
-    0x04 => '\u0004',
-    0x05 => '\u0005',
-    0x06 => '\u0006',
-    0x07 => '\u0007',
-    0x08 => '\b',
-    0x09 => '\t',
-    0x0a => '\n',
-    0x0b => '\u000b',
-    0x0c => '\f',
-    0x0d => '\r',
-    0x0e => '\u000e',
-    0x0f => '\u000f',
-    0x10 => '\u0010',
-    0x11 => '\u0011',
-    0x12 => '\u0012',
-    0x13 => '\u0013',
-    0x14 => '\u0014',
-    0x15 => '\u0015',
-    0x16 => '\u0016',
-    0x17 => '\u0017',
-    0x18 => '\u0018',
-    0x19 => '\u0019',
-    0x1a => '\u001a',
-    0x1b => '\u001b',
-    0x1c => '\u001c',
-    0x1d => '\u001d',
-    0x1e => '\u001e',
-    0x1f => '\u001f',
-    0x22 => '\"',
-    0x5c => '\\\\'
-  }
+class Integer
 
   #
   # Escapes the Integer as a JavaScript character.
@@ -66,23 +30,19 @@ class Integer
   # @example 
   #   0x41.js_escape
   #   # => "A"
-  #
-  # @example 
   #   0x22.js_escape
   #   # => "\\\""
-  #
-  # @example
   #   0x7f.js_escape
   #   # => "\x7F"
+  #
+  # @see Ronin::Support::Encoding::JS.escape_byte
   #
   # @since 0.2.0
   #
   # @api public
   #
   def js_escape
-    if self > 0xff then js_encode
-    else                JS_ESCAPE_BYTES.fetch(self,chr)
-    end
+    Ronin::Support::Encoding::JS.escape_byte(self)
   end
 
   #
@@ -95,14 +55,14 @@ class Integer
   #   0x41.js_encode
   #   # => "%41"
   #
+  # @see Ronin::Support::Encoding::JS.encode_byte
+  #
   # @since 1.0.0
   #
   # @api public
   #
   def js_encode
-    if self > 0xff then "\\u%.4X" % self
-    else                "\\x%.2X" % self
-    end
+    Ronin::Support::Encoding::JS.encode_byte(self)
   end
 
 end
