@@ -7,6 +7,8 @@ describe String do
   it { expect(subject).to respond_to(:js_escape)   }
   it { expect(subject).to respond_to(:js_unescape) }
   it { expect(subject).to respond_to(:js_encode)   }
+  it { expect(subject).to respond_to(:js_string)   }
+  it { expect(subject).to respond_to(:js_unquote)  }
 
   describe "#js_escape" do
     let(:special_chars) { "\t\n\r" }
@@ -48,19 +50,9 @@ describe String do
   end
 
   describe "#js_encode" do
-    let(:js_formatted) { '\x6F\x6E\x65\x20\x26\x20\x74\x77\x6F' }
+    let(:js_encoded) { '\x6F\x6E\x65\x20\x26\x20\x74\x77\x6F' }
 
     it "must JavaScript escape all characters" do
-      expect(subject.js_encode).to eq(js_formatted)
-    end
-  end
-
-  describe "#js_encode" do
-    subject { "ABC" }
-
-    let(:js_encoded) { "\\x41\\x42\\x43" }
-
-    it "must JavaScript encode each character in the string" do
       expect(subject.js_encode).to eq(js_encoded)
     end
   end
