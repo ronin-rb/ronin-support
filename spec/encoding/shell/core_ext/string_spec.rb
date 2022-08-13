@@ -6,6 +6,10 @@ describe String do
 
   it { expect(subject).to respond_to(:shell_escape)   }
   it { expect(subject).to respond_to(:shell_unescape) }
+  it { expect(subject).to respond_to(:shell_encode)   }
+  it { expect(subject).to respond_to(:shell_decode)   }
+  it { expect(subject).to respond_to(:shell_string)   }
+  it { expect(subject).to respond_to(:shell_unquote)  }
 
   describe "#shell_escape" do
     context "when the String does not contain special characters" do
