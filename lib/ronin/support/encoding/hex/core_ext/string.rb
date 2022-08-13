@@ -17,8 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/encoding/text/core_ext/string'
-require 'ronin/support/encoding/hex/core_ext/integer'
+require 'ronin/support/encoding/hex'
 
 class String
 
@@ -32,10 +31,12 @@ class String
   #   "hello".hex_encode
   #   # => "68656C6C6F"
   #
+  # @see Ronin::Support::Encoding::Hex.encodde
+  #
   # @since 0.6.0
   #
   def hex_encode
-    format_bytes { |b| b.hex_encode }
+    Ronin::Support::Encoding::Hex.encode(self)
   end
 
   #
@@ -48,29 +49,46 @@ class String
   #   "68656C6C6F".hex_decode
   #   # => "hello"
   #
+  # @see Ronin::Support::Encoding::Hex.decodde
+  #
   def hex_decode
-    scan(/../).map { |hex| hex.to_i(16).chr }.join
+    Ronin::Support::Encoding::Hex.decode(self)
   end
 
   #
-  # Hex-escapes characters in the String.
-  #
-  # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {#format_bytes}.
+  # Hex-escapes the characters within the String.
   #
   # @return [String]
   #   The hex escaped version of the String.
   #
   # @example
-  #   "hello".hex_escape
-  #   # => "\\x68\\x65\\x6c\\x6c\\x6f"
+  #   "hello\nworld".hex_escape
+  #   # => "hello\\nworld"
   #
-  # @see String#format_bytes
+  # @see Ronin::Support::Encoding::Hex.escape
   #
   # @api public
   #
-  def hex_escape(**kwargs)
-    format_chars(**kwargs) { |c| c.ord.hex_escape }
+  def hex_escape
+    Ronin::Support::Encoding::Hex.escape(self)
+  end
+
+  #
+  # Unescapes the characters within the String.
+  #
+  # @return [String]
+  #   The hex unescaped version of the String.
+  #
+  # @example
+  #   "hello\\nworld".hex_escape
+  #   # => "hello\nworld"
+  #
+  # @see Ronin::Support::Encoding::Hex.unescape
+  #
+  # @api public
+  #
+  def hex_unescape
+    Ronin::Support::Encoding::Hex.unescape(self)
   end
 
   #
@@ -82,15 +100,15 @@ class String
   #   "hello\nworld".hex_string
   #   # => "\"hello\\nworld\""
   #
+  # @see Ronin::Support::Encoding::Hex.quote
+  #
   # @since 1.0.0
   #
   # @api public
   #
   def hex_string
-    "\"#{hex_escape}\""
+    Ronin::Support::Encoding::Hex.quote(self)
   end
-
-  alias hex_unescape unescape
 
   #
   # Removes the quotes and unescapes a hex string.
@@ -103,17 +121,14 @@ class String
   #   "\"hello\\nworld\"".hex_unquote
   #   # => "hello\nworld"
   #
+  # @see Ronin::Support::Encoding::Hex.unquote
+  #
   # @since 1.0.0
   #
   # @api public
   #
   def hex_unquote
-    if ((self[0] == '"' && self[-1] == '"') ||
-        (self[0] == "'" && self[-1] == "'"))
-      self[1..-2].hex_unescape
-    else
-      self
-    end
+    Ronin::Support::Encoding::Hex.unquote(self)
   end
 
 end

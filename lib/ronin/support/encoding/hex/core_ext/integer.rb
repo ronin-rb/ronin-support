@@ -17,6 +17,8 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/encoding/hex'
+
 class Integer
 
   #
@@ -29,10 +31,12 @@ class Integer
   #   0x41.hex_encode
   #   # => "41"
   #
+  # @see Ronin::Support::Encoding::Hex.encode_byte
+  #
   # @since 0.6.0
   #
   def hex_encode
-    "%.2x" % self
+    Ronin::Support::Encoding::Hex.encode_byte(self)
   end
 
   alias to_hex hex_encode
@@ -50,24 +54,12 @@ class Integer
   #   42.hex_char
   #   # => "\\x2a"
   #
+  # @see Ronin::Support::Encoding::Hex.escape_byte
+  #
   # @api public
   #
   def hex_escape
-    if self >= 0x00 && self <= 0xff
-      if    self == 0x22
-        "\\\""
-      elsif self == 0x5d
-        "\\\\"
-      elsif self >= 0x20 && self <= 0x7e
-        chr
-      else
-        "\\x%.2x" % self
-      end
-    elsif self > 0xff
-      "\\x%x" % self
-    else
-      raise(RangeError,"#{self} out of char range")
-    end
+    Ronin::Support::Encoding::Hex.escape_byte(self)
   end
 
   alias hex_char hex_escape
@@ -81,6 +73,8 @@ class Integer
   # @example
   #   42.hex_int
   #   # => "0x2e"
+  #
+  # @api public
   #
   def hex_int
     "0x%.2x" % self

@@ -1,5 +1,3 @@
-# encoding: US-ASCII
-
 require 'spec_helper'
 require 'ronin/support/encoding/hex/core_ext/string'
 
@@ -35,10 +33,49 @@ describe String do
   end
 
   describe "#hex_escape" do
-    subject { "hello\xff" }
+    subject { "hello\xff".force_encoding(Encoding::ASCII_8BIT) }
 
     it "must hex escape a String" do
       expect(subject.hex_escape).to eq("hello\\xff")
+    end
+  end
+
+  describe "#hex_unescape" do
+    context "when the given String contains escaped hexadecimal characters" do
+      subject do
+        "\\x68\\x65\\x6c\\x6c\\x6f\\x20\\x77\\x6f\\x72\\x6c\\x64"
+      end
+      let(:unescaped) { "hello world" }
+
+      it "must unescape the hexadecimal characters" do
+        expect(subject.hex_unescape).to eq(unescaped)
+      end
+    end
+
+    context "when the given String contains escaped multi-byte characters" do
+      subject { "\\x00D8\\x2070E" }
+
+      let(:unescaped) { "Ø𠜎" }
+
+      it "must unescape the hexadecimal characters" do
+        expect(subject.hex_unescape).to eq(unescaped)
+      end
+    end
+
+    context "when the given String contains escaped special characters" do
+      subject { "hello\\0world\\n" }
+
+      let(:unescaped) { "hello\0world\n"   }
+
+      it "must unescape C special characters" do
+        expect(subject.hex_unescape).to eq(unescaped)
+      end
+    end
+
+    context "when the given String does not contain escaped characters" do
+      it "must return the given String" do
+        expect(subject.hex_unescape).to eq(subject)
+      end
     end
   end
 
