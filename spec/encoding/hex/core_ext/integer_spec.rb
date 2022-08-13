@@ -54,7 +54,7 @@ describe Integer do
 
       it do
         expect {
-          subject.shell_escape
+          subject.hex_escape
         }.to raise_error(RangeError,"#{subject} out of char range")
       end
     end
