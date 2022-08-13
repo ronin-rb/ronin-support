@@ -17,27 +17,11 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/encoding/text/core_ext/string'
-require 'ronin/support/encoding/shell/core_ext/integer'
+require 'ronin/support/encoding/shell'
 
 require 'strscan'
 
 class String
-
-  # Shell characters that must be back-slashed.
-  SHELL_BACKSLASHED_CHARS = {
-    '0'  => "\0",
-    'a'  => "\a",
-    'b'  => "\b",
-    'e'  => "\e",
-    't'  => "\t",
-    'n'  => "\n",
-    'v'  => "\v",
-    'f'  => "\f",
-    'r'  => "\r",
-    "'"  => "'",
-    '"'  => '"'
-  }
 
   #
   # Shell escapes the characters in the String.
@@ -49,12 +33,14 @@ class String
   #   "hello\nworld".shell_escape
   #   # => "hello\\nworld"
   #
+  # @see Ronin::Support::Encoding::Shell.escape
+  #
   # @api public
   #
   # @since 1.0.0
   #
   def shell_escape
-    encode_chars { |c| c.ord.shell_escape }
+    Ronin::Support::Encoding::Shell.escape(self)
   end
 
   #
@@ -67,27 +53,14 @@ class String
   #   "hello\\nworld".shell_unescape
   #   # => "hello\nworld"
   #
+  # @see Ronin::Support::Encoding::Shell.unescape
+  #
   # @api public
   #
   # @since 1.0.0
   #
   def shell_unescape
-    unescaped = String.new
-    scanner   = StringScanner.new(self)
-
-    until scanner.eos?
-      if (backslash_char = scanner.scan(/\\[0abetnvfr\'\"]/)) # \n
-        unescaped << SHELL_BACKSLASHED_CHARS[backslash_char[1..]]
-      elsif (hex_char = scanner.scan(/\\x[0-9a-fA-F]+/)) # \XX
-        unescaped << hex_char[2..].to_i(16).chr
-      elsif (unicode_char = scanner.scan(/\\u[0-9a-fA-F]+/)) # \uXXXX
-        unescaped << unicode_char[2..].to_i(16).chr(Encoding::UTF_8)
-      else
-        unescaped << scanner.getch
-      end
-    end
-
-    return unescaped
+    Ronin::Support::Encoding::Shell.unescape(self)
   end
 
   #
@@ -100,12 +73,14 @@ class String
   #   "hello world".shell_encode
   #   # => "\\x68\\x65\\x6c\\x6c\\x6f\\x0a\\x77\\x6f\\x72\\x6c\\x64"
   #
+  # @see Ronin::Support::Encoding::Shell.encode
+  #
   # @api public
   #
   # @since 1.0.0
   #
   def shell_encode
-    encode_chars { |c| c.ord.shell_encode }
+    Ronin::Support::Encoding::Shell.encode(self)
   end
 
   alias shell_decode shell_unescape
@@ -122,16 +97,14 @@ class String
   #   "hello\nworld".shell_string
   #   # => "$'hello\\nworld'"
   #
+  # @see Ronin::Support::Encoding::Shell.quote
+  #
   # @api public
   #
   # @since 1.0.0
   #
   def shell_string
-    if self =~ /[^[:print:]]/
-      "$'#{shell_escape}'"
-    else
-      "\"#{shell_escape}\""
-    end
+    Ronin::Support::Encoding::Shell.quote(self)
   end
 
   #
@@ -149,20 +122,14 @@ class String
   #   "$'hello\\nworld'".shell_unquote
   #   # => "hello\nworld"
   #
+  # @see Ronin::Support::Encoding::Shell.unquote
+  #
   # @since 1.0.0
   #
   # @api public
   #
   def shell_unquote
-    if (self[0,2] == "$'" && self[-1] == "'")
-      self[2..-2].shell_unescape
-    elsif (self[0] == '"' && self[-1] == '"')
-      self[1..-2].gsub("\\\"",'"')
-    elsif (self[0] == "'" && self[-1] == "'")
-      self[1..-2].gsub("\\'","'")
-    else
-      self
-    end
+    Ronin::Support::Encoding::Shell.unquote(self)
   end
 
 end
