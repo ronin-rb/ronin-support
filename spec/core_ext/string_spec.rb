@@ -250,4 +250,16 @@ describe String do
       expect(subject.insert_after(/x/,'x')).to eq(subject)
     end
   end
+
+  describe "#pad" do
+    it "must append the padding String until the string is the desired length" do
+      expect(subject.pad('A',10)).to eq("helloAAAAA")
+    end
+
+    context "when padding String does not evenly divide by the desired length" do
+      it "must truncate the last appended copy of the padding String" do
+        expect(subject.pad('AB',10)).to eq("helloABABA")
+      end
+    end
+  end
 end
