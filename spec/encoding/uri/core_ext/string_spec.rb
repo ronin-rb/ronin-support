@@ -4,9 +4,8 @@ require 'ronin/support/encoding/uri/core_ext/string'
 describe String do
   subject { "hello" }
 
-  it { expect(subject).to respond_to(:uri_encode)   }
-  it { expect(subject).to respond_to(:uri_decode)   }
-  it { expect(subject).to respond_to(:format_uri)   }
+  it { expect(subject).to respond_to(:uri_encode) }
+  it { expect(subject).to respond_to(:uri_decode) }
 
   describe "#uri_escape" do
     subject { "mod % 3" }
@@ -36,13 +35,13 @@ describe String do
     end
   end
 
-  describe "#format_uri" do
+  describe "#uri_encode" do
     subject { "hello world" }
 
-    let(:uri_formatted) { "%68%65%6C%6C%6F%20%77%6F%72%6C%64" }
+    let(:uri_encoded) { "%68%65%6C%6C%6F%20%77%6F%72%6C%64" }
 
     it "must URI encode every character in the String" do
-      expect(subject.format_uri).to eq(uri_formatted)
+      expect(subject.uri_encode).to eq(uri_encoded)
     end
   end
 
@@ -66,13 +65,13 @@ describe String do
     end
   end
 
-  describe "#format_uri" do
+  describe "#uri_form_encode" do
     subject { "hello world" }
 
-    let(:uri_form_formatted) { "%68%65%6C%6C%6F+%77%6F%72%6C%64" }
+    let(:uri_form_encoded) { "%68%65%6C%6C%6F+%77%6F%72%6C%64" }
 
     it "must URI encode every character in the String" do
-      expect(subject.format_uri_form).to eq(uri_form_formatted)
+      expect(subject.uri_form_encode).to eq(uri_form_encoded)
     end
   end
 end

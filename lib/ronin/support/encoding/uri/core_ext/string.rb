@@ -62,27 +62,6 @@ class String
   end
 
   #
-  # URI formats the characters in the String.
-  #
-  # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {#format_chars}.
-  #
-  # @return [String]
-  #   The URI formatted String.
-  #
-  # @example
-  #   "hello".format_uri
-  #   # => "%68%65%6C%6C%6F"
-  #
-  # @since 1.0.0
-  #
-  # @api public
-  #
-  def format_uri(**kwargs)
-    format_chars(**kwargs) { |c| c.ord.uri_encode }
-  end
-
-  #
   # URI encodes the String.
   #
   # @return [String]
@@ -97,7 +76,7 @@ class String
   # @api public
   #
   def uri_encode
-    format_uri
+    format_chars { |c| c.ord.uri_encode }
   end
 
   alias uri_decode uri_unescape
@@ -147,31 +126,6 @@ class String
   #
   # URI Form encodes every character in the String.
   #
-  # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {#format_bytes}.
-  #
-  # @return [String]
-  #   The URI Form encoded String.
-  #
-  # @example
-  #   "hello world".uri_form_encode
-  #   # => 
-  #
-  # @see Integer#uri_form_encode
-  #
-  # @api public
-  #
-  # @since 1.0.0
-  #
-  def format_uri_form(**kwargs)
-    format_bytes(**kwargs) { |b| b.uri_form_encode }
-  end
-
-  alias format_www_form format_uri_form
-
-  #
-  # URI Form encodes every character in the String.
-  #
   # @return [String]
   #   The URI Form encoded String.
   #
@@ -186,7 +140,7 @@ class String
   # @since 1.0.0
   #
   def uri_form_encode
-    format_uri_form
+    format_bytes { |b| b.uri_form_encode }
   end
 
   alias www_form_encode uri_form_encode
