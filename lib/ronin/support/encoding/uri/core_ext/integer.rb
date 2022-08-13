@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'uri/common'
+require 'ronin/support/encoding/uri'
 
 class Integer
 
@@ -31,10 +31,12 @@ class Integer
   #   0x41.uri_encode
   #   # => "%41"
   #
+  # @see Ronin::Support::Encoding::URI.encode_byte
+  #
   # @api public
   #
   def uri_encode
-    "%%%2X" % self
+    Ronin::Support::Encoding::URI.encode_byte(self)
   end
 
   #
@@ -52,12 +54,12 @@ class Integer
   #   0x3d.uri_escape
   #   # => "%3D"
   #
+  # @see Ronin::Support::Encoding::URI.escape_byte
+  #
   # @api public
   #
   def uri_escape(unsafe: nil)
-    if unsafe then URI::DEFAULT_PARSER.escape(chr,unsafe.join)
-    else           URI::DEFAULT_PARSER.escape(chr)
-    end
+    Ronin::Support::Encoding::URI.escape_byte(self, unsafe: unsafe)
   end
 
   #
@@ -72,12 +74,14 @@ class Integer
   #   0x20.uri_form_escape
   #   # => "+"
   #
+  # @see Ronin::Support::Encoding::URI::Form.escape_byte
+  #
   # @api public
   #
   # @since 1.0.0
   #
   def uri_form_escape
-    URI.encode_www_form_component(chr)
+    Ronin::Support::Encoding::URI::Form.escape_byte(self)
   end
 
   #
@@ -92,14 +96,14 @@ class Integer
   #   0x20.uri_form_encode
   #   # => "+"
   #
+  # @see Ronin::Support::Encoding::URI::Form.encode_byte
+  #
   # @api public
   #
   # @since 1.0.0
   #
   def uri_form_encode
-    if self == 0x20 then '+'
-    else                 uri_encode
-    end
+    Ronin::Support::Encoding::URI::Form.encode_byte(self)
   end
 
 end

@@ -17,10 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/encoding/uri/core_ext/integer'
-require 'ronin/support/encoding/text/core_ext/string'
-
-require 'uri'
+require 'ronin/support/encoding/uri'
 
 class String
 
@@ -37,12 +34,12 @@ class String
   #   "x > y".uri_escape
   #   # => "x%20%3E%20y"
   #
+  # @see Ronin::Support::Encoding::URI.escape
+  #
   # @api public
   #
   def uri_escape(unsafe: nil)
-    if unsafe then URI::DEFAULT_PARSER.escape(self,unsafe.join)
-    else           URI::DEFAULT_PARSER.escape(self)
-    end
+    Ronin::Support::Encoding::URI.escape(self, unsafe: unsafe)
   end
 
   #
@@ -55,10 +52,12 @@ class String
   #   "sweet%20%26%20sour".uri_unescape
   #   # => "sweet & sour"
   #
+  # @see Ronin::Support::Encoding::URI.unescape
+  #
   # @api public
   #
   def uri_unescape
-    URI::DEFAULT_PARSER.unescape(self)
+    Ronin::Support::Encoding::URI.unescape(self)
   end
 
   #
@@ -71,12 +70,12 @@ class String
   #   "plain text".uri_encode
   #   # => "%70%6C%61%69%6E%20%74%65%78%74"
   #
-  # @see #format_uri
+  # @see Ronin::Support::Encoding::URI.encode
   #
   # @api public
   #
   def uri_encode
-    encode_chars { |c| c.ord.uri_encode }
+    Ronin::Support::Encoding::URI.encode(self)
   end
 
   alias uri_decode uri_unescape
@@ -94,13 +93,14 @@ class String
   #   # => "hello%00world"
   #
   # @see https://www.w3.org/TR/2013/CR-html5-20130806/forms.html#url-encoded-form-data
+  # @see Ronin::Support::Encoding::URI::Form.escape
   #
   # @api public
   #
   # @since 1.0.0
   #
   def uri_form_escape
-    URI.encode_www_form_component(self)
+    Ronin::Support::Encoding::URI::Form.escape(self)
   end
 
   alias www_form_escape uri_form_escape
@@ -117,8 +117,12 @@ class String
   #   "hello%00world".uri_form_unescape
   #   # => "hello\u0000world"
   #
+  # @see Ronin::Support::Encoding::URI::Form.unescape
+  #
+  # @api public
+  #
   def uri_form_unescape
-    URI.decode_www_form_component(self)
+    Ronin::Support::Encoding::URI::Form.unescape(self)
   end
 
   alias www_form_unescape uri_form_unescape
@@ -133,14 +137,14 @@ class String
   #   "hello world".uri_form_encode
   #   # => 
   #
-  # @see Integer#uri_form_encode
+  # @see Ronin::Support::Encoding::URI::Form.unescape
   #
   # @api public
   #
   # @since 1.0.0
   #
   def uri_form_encode
-    encode_bytes { |b| b.uri_form_encode }
+    Ronin::Support::Encoding::URI::Form.encode(self)
   end
 
   alias www_form_encode uri_form_encode
