@@ -50,13 +50,13 @@ describe String do
     end
   end
 
-  describe "#http_encode" do
-    subject { "ABC" }
+  describe "#http_decode" do
+    subject { "%41%42%43" }
 
-    let(:http_encoded) { "%41%42%43" }
+    let(:http_decoded) { "ABC" }
 
-    it "must encode each byte of the String" do
-      expect(subject.http_encode).to eq(http_encoded)
+    it "must decode each byte of the String" do
+      expect(subject.http_decode).to eq(http_decoded)
     end
   end
 end
