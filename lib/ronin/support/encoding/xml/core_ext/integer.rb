@@ -17,7 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'cgi'
+require 'ronin/support/encoding/xml'
 
 class Integer
 
@@ -31,12 +31,14 @@ class Integer
   #   0x26.xml_escape
   #   # => "&amp;"
   #
+  # @see Ronin::Support::Encoding::XML.escape_byte
+  #
   # @since 0.2.0
   #
   # @api public
   #
   def xml_escape
-    CGI.escapeHTML(chr)
+    Ronin::Support::Encoding::XML.escape_byte(self)
   end
 
   #
@@ -49,12 +51,14 @@ class Integer
   #   0x41.xml_encode
   #   # => "&#65;"
   #
+  # @see Ronin::Support::Encoding::XML.encode_byte
+  #
   # @since 0.2.0
   #
   # @api public
   #
   def xml_encode
-    "&#%d;" % self
+    Ronin::Support::Encoding::XML.encode_byte(self)
   end
 
 end

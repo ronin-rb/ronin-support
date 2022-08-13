@@ -21,10 +21,10 @@ describe Integer do
   end
 
   describe "#xml_encode" do
-    let(:formatted_xml) { "&#38;" }
+    let(:encoded_xml) { "&#38;" }
 
     it "must XML format all chars" do
-      expect(subject.xml_encode).to eq(formatted_xml)
+      expect(subject.xml_encode).to eq(encoded_xml)
     end
   end
 end
