@@ -4,8 +4,10 @@ require 'ronin/support/encoding/uri/core_ext/string'
 describe String do
   subject { "hello" }
 
-  it { expect(subject).to respond_to(:uri_encode) }
-  it { expect(subject).to respond_to(:uri_decode) }
+  it { expect(subject).to respond_to(:uri_encode)   }
+  it { expect(subject).to respond_to(:uri_decode)   }
+  it { expect(subject).to respond_to(:uri_escape)   }
+  it { expect(subject).to respond_to(:uri_unescape) }
 
   describe "#uri_escape" do
     subject { "mod % 3" }
