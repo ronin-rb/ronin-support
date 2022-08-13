@@ -93,7 +93,7 @@ class String
   alias hex_unescape unescape
 
   #
-  # Removes the quotes an unescapes a hex string.
+  # Removes the quotes and unescapes a hex string.
   #
   # @return [String]
   #   The un-quoted String if the String begins and ends with quotes, or the
