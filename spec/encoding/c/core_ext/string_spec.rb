@@ -7,6 +7,9 @@ describe String do
   it { expect(subject).to respond_to(:c_escape)   }
   it { expect(subject).to respond_to(:c_unescape) }
   it { expect(subject).to respond_to(:c_encode)   }
+  it { expect(subject).to respond_to(:c_decode)   }
+  it { expect(subject).to respond_to(:c_string)   }
+  it { expect(subject).to respond_to(:c_unquote)  }
 
   describe "#c_escape" do
     context "when the String does not contain special characters" do
