@@ -34,12 +34,14 @@ class String
   #   "x > y".http_escape
   #   # => "x+%3E+y"
   #
+  # @see Ronin::Support::Encoding::HTTP.escape
+  #
   # @api public
   #
   # @since 0.6.0
   #
   def http_escape
-    CGI.escape(self)
+    Ronin::Support::Encoding::HTTP.escape(self)
   end
 
   #
@@ -52,12 +54,14 @@ class String
   #   "sweet+%26+sour".http_unescape
   #   # => "sweet & sour"
   #
+  # @see Ronin::Support::Encoding::HTTP.unescape
+  #
   # @api public
   #
   # @since 0.6.0
   #
   def http_unescape
-    CGI.unescape(self)
+    Ronin::Support::Encoding::HTTP.unescape(self)
   end
 
   #
@@ -70,16 +74,32 @@ class String
   #   "hello".http_encode
   #   # => "%68%65%6c%6c%6f"
   #
-  # @see String#http_encode
+  # @see Ronin::Support::Encoding::HTTP.encode
   #
   # @api public
   #
   # @since 1.0.0
   #
-  def http_encode(**kwargs)
-    encode_bytes(**kwargs) { |b| b.http_encode }
+  def http_encode
+    Ronin::Support::Encoding::HTTP.encode(self)
   end
 
-  alias http_decode http_unescape
+  #
+  # HTTP decodes the HTTP encoded String.
+  #
+  # @return [String]
+  #   The decoded String.
+  #
+  # @example
+  #   "sweet+%26+sour".http_decode
+  #   # => "sweet & sour"
+  #
+  # @see Ronin::Support::Encoding::HTTP.decode
+  #
+  # @api public
+  #
+  def http_decode
+    Ronin::Support::Encoding::HTTP.decode(self)
+  end
 
 end

@@ -17,24 +17,26 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'cgi'
+require 'ronin/support/encoding/http'
 
 class Integer
 
   #
-  # Formats the byte for HTTP.
+  # Encodes the byte as an escaped HTTP decimal character.
   #
   # @return [String]
-  #   The formatted byte.
+  #   The encoded HTTP byte.
   #
   # @example
   #   0x41.http_encode
   #   # => "%41"
   #
+  # @see Ronin::Support::Encoding::HTTP.encode_byte
+  #
   # @api public
   #
   def http_encode
-    "%%%X" % self
+    Ronin::Support::Encoding::HTTP.encode_byte(self)
   end
 
   #
@@ -47,12 +49,14 @@ class Integer
   #   62.http_escape
   #   # => "%3E"
   #
+  # @see Ronin::Support::Encoding::HTTP.escape_byte
+  #
   # @api public
   #
   # @since 0.6.0
   #
   def http_escape
-    CGI.escape(chr)
+    Ronin::Support::Encoding::HTTP.escape_byte(self)
   end
 
 end
