@@ -16,18 +16,6 @@ describe String do
     expect(subject).to respond_to(:format_html)
   end
 
-  it "must provide String#js_escape" do
-    expect(subject).to respond_to(:js_escape)
-  end
-
-  it "must provide String#js_unescape" do
-    expect(subject).to respond_to(:js_unescape)
-  end
-
-  it "must provide String#format_js" do
-    expect(subject).to respond_to(:format_js)
-  end
-
   describe "#html_escape" do
     subject { "one &amp; two" }
 
