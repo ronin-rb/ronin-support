@@ -432,6 +432,118 @@ describe Ronin::Support::Binary::ByteSlice do
     end
   end
 
+  describe "#getbyte" do
+    context "when the index is less than #length" do
+      let(:index) { 1 }
+
+      it "must return the byte at the given index plus the offset" do
+        expect(subject.getbyte(index)).to eq(string.getbyte(offset+index))
+      end
+    end
+
+    context "when the index is equal to the length" do
+      let(:index) { length }
+
+      it "must return nil" do
+        expect(subject.getbyte(index)).to be(nil)
+      end
+    end
+
+    context "when the index is greater than the length" do
+      let(:index) { length+1 }
+
+      it "must return nil" do
+        expect(subject.getbyte(index)).to be(nil)
+      end
+    end
+  end
+
+  describe "#setbyte" do
+    let(:byte) { 0x41 }
+
+    context "when the index is less than #length" do
+      let(:index) { 1 }
+
+      before { subject.setbyte(index,byte) }
+
+      it "must set the byte at the given index plus the offset" do
+        expect(string.getbyte(offset+index)).to eq(byte)
+      end
+    end
+
+    context "when the index is equal to the length" do
+      let(:index) { length }
+
+      it "must raise an IndexError" do
+        expect {
+          subject.setbyte(index,byte)
+        }.to raise_error(IndexError,"index #{index.inspect} is out of bounds")
+      end
+    end
+
+    context "when the index is greater than the length" do
+      let(:index) { length+1 }
+
+      it "must raise an IndexError" do
+        expect {
+          subject.setbyte(index,byte)
+        }.to raise_error(IndexError,"index #{index.inspect} is out of bounds")
+      end
+    end
+  end
+
+  describe "#each_byte" do
+    let(:expected_bytes) { string[offset,length].bytes }
+
+    context "when given a block" do
+      it "must yield each byte within the bounds of the byte slice" do
+        expect { |b|
+          subject.each_byte(&b)
+        }.to yield_successive_args(*expected_bytes)
+      end
+    end
+
+    context "when not given a block" do
+      it "must return an Enumerator for the #each_byte method" do
+        expect(subject.each_byte.to_a).to eq(expected_bytes)
+      end
+    end
+  end
+
+  describe "#bytes" do
+    let(:expected_bytes) { string[offset,length].bytes }
+
+    it "must return the bytes within the bounds of the byte slice" do
+      expect(subject.bytes).to eq(expected_bytes)
+    end
+  end
+
+  describe "#each_char" do
+    let(:expected_chars) { string[offset,length].chars }
+
+    context "when given a block" do
+      it "must yield each char within the bounds of the char slice" do
+        expect { |b|
+          subject.each_char(&b)
+        }.to yield_successive_args(*expected_chars)
+      end
+    end
+
+    context "when not given a block" do
+      it "must return an Enumerator for the #each_char method" do
+        expect(subject.each_char.to_a).to eq(expected_chars)
+      end
+    end
+  end
+
+  describe "#chars" do
+    let(:expected_chars) { string[offset,length].chars }
+
+    it "must return the chars within the bounds of the char slice" do
+      expect(subject.chars).to eq(expected_chars)
+    end
+  end
+
   describe "#to_s" do
     context "when #offset is 0" do
       let(:offset) { 0 }

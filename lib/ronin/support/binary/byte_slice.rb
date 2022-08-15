@@ -209,6 +209,102 @@ module Ronin
         end
 
         #
+        # Gets the byte at the given index within the byte slice.
+        #
+        # @param [Integer] index
+        # 
+        # @return [Integer, nil]
+        #   The byte at the given index, or nil if the index is out of bounds.
+        #
+        def getbyte(index)
+          if index < @length
+            @string.getbyte(@offset+index)
+          end
+        end
+
+        #
+        # Sets the byte at the given index within the byte slice.
+        #
+        # @param [Integer] index
+        #   The index to set.
+        #
+        # @param [Integer] byte
+        #   The new byte value to set.
+        #
+        # @raise [IndexError]
+        #   The index was out of bounds.
+        #
+        def setbyte(index,byte)
+          if index < @length
+            @string.setbyte(@offset+index,byte)
+          else
+            raise(IndexError,"index #{index.inspect} is out of bounds")
+          end
+        end
+
+        #
+        # Enumerates over each byte in the byte slice.
+        #
+        # @yield [byte]
+        #   If a block is given, it will be passed each byte within the byte
+        #   slice.
+        #
+        # @yieldparam [Integer] byte
+        #   A byte value from the byte slice.
+        #
+        # @return [Enumerator]
+        #   If no block is given, an Enumerator will be returned.
+        #
+        def each_byte
+          return enum_for(__method__) unless block_given?
+
+          (@offset...(@offset+@length)).each do |index|
+            yield @string.getbyte(index)
+          end
+        end
+
+        #
+        # The bytes within the byte slice.
+        #
+        # @return [Array<Integer>]
+        #   The Array of bytes within the byte slice.
+        #
+        def bytes
+          each_byte.to_a
+        end
+
+        #
+        # Enumerates over each character within the byte slice.
+        #
+        # @yield [char]
+        #   If a block is given, it will be passed each character within the
+        #   byte slice.
+        #
+        # @yieldparam [String] char
+        #   A character value from the byte slice.
+        #
+        # @return [Enumerator]
+        #   If no block is given, an Enumerator will be returned.
+        #
+        def each_char
+          return enum_for(__method__) unless block_given?
+
+          (@offset...(@offset+@length)).each do |index|
+            yield @string[index]
+          end
+        end
+
+        #
+        # The characters within the byte slice.
+        #
+        # @return [Array<String>]
+        #   The Array of characters within the byte slice.
+        #
+        def chars
+          each_char.to_a
+        end
+
+        #
         # Converts the byte slice to a String.
         #
         # @return [String]
