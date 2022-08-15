@@ -24,9 +24,6 @@ class String
   #
   # Escapes a String for JavaScript.
   #
-  # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments for {#encode_chars}.
-  #
   # @return [String]
   #   The JavaScript escaped String.
   #
