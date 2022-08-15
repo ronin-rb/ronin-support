@@ -233,12 +233,12 @@
 * Added `Ronin::Network::SMTP::Email#headers`.
 * Added {Integer#html_escape}.
 * Added {Integer#js_escape}.
-* Added {Integer#format_js}.
+* Added `Integer#format_js`.
 * Added {String#html_escape}.
 * Added {String#html_unescape}.
 * Added {String#js_escape}.
 * Added {String#js_unescape}.
-* Added {String#format_js}.
+* Added `String#format_js`.
 * Added `Net.smtp_send_message`.
 * Added `Net.http_status`.
 * Added `Net.http_get_headers`.
@@ -251,7 +251,7 @@
 * Improved the performance of {Integer#bytes}.
 * Only redefine `String#dump` for Ruby 1.8.x.
   * Ruby >= 1.9.1 correctly hex-escapes special characters.
-* Fixed a bug in {String#format_chars}, where it was not using `each_char`
+* Fixed a bug in `String#format_chars`, where it was not using `each_char`
   for unicode characters.
 * Deprecated `String#common_postfix`, in favor of {String#common_suffix}.
   `String#common_postfix` will be removed in ronin-support 1.0.0.
