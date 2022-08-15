@@ -34,7 +34,7 @@ module Ronin
 
         # The underlying String buffer.
         #
-        # @return [String]
+        # @return [String, ByteSlice]
         attr_reader :string
 
         #
