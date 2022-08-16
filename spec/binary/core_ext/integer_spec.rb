@@ -7,6 +7,22 @@ describe Integer do
   it { expect(subject).to respond_to(:each_bit_flip) }
   it { expect(subject).to respond_to(:bit_flips)     }
   it { expect(subject).to respond_to(:pack)          }
+  it { expect(subject).to respond_to(:to_uint8)      }
+  it { expect(subject).to respond_to(:to_uint16)     }
+  it { expect(subject).to respond_to(:to_uint32)     }
+  it { expect(subject).to respond_to(:to_uint64)     }
+  it { expect(subject).to respond_to(:to_u8)         }
+  it { expect(subject).to respond_to(:to_u16)        }
+  it { expect(subject).to respond_to(:to_u32)        }
+  it { expect(subject).to respond_to(:to_u64)        }
+  it { expect(subject).to respond_to(:to_int8)       }
+  it { expect(subject).to respond_to(:to_int16)      }
+  it { expect(subject).to respond_to(:to_int32)      }
+  it { expect(subject).to respond_to(:to_int64)      }
+  it { expect(subject).to respond_to(:to_i8)         }
+  it { expect(subject).to respond_to(:to_i16)        }
+  it { expect(subject).to respond_to(:to_i32)        }
+  it { expect(subject).to respond_to(:to_i64)        }
 
   describe "#each_bit_flip" do
     subject { 0b00001111 }
