@@ -187,98 +187,98 @@ describe Integer do
     end
   end
 
-  describe "#to_u8" do
+  describe "#to_uint8" do
     subject { 0x1fff }
 
     it "must truncate the integer to 8-bits" do
-      expect(subject.to_u8).to eq(0xff)
+      expect(subject.to_uint8).to eq(0xff)
     end
   end
 
-  describe "#to_u16" do
+  describe "#to_uint16" do
     subject { 0x1fffff }
 
     it "must truncate the integer to 16-bits" do
-      expect(subject.to_u16).to eq(0xffff)
+      expect(subject.to_uint16).to eq(0xffff)
     end
   end
 
-  describe "#to_u32" do
+  describe "#to_uint32" do
     subject { 0x1fffffffff }
 
     it "must truncate the integer to 32-bits" do
-      expect(subject.to_u32).to eq(0xffffffff)
+      expect(subject.to_uint32).to eq(0xffffffff)
     end
   end
 
-  describe "#to_u64" do
+  describe "#to_uint64" do
     subject { 0x1fffffffffffffffff }
 
     it "must truncate the integer to 64-bits" do
-      expect(subject.to_u64).to eq(0xffffffffffffffff)
+      expect(subject.to_uint64).to eq(0xffffffffffffffff)
     end
   end
 
-  describe "#to_i8" do
+  describe "#to_int8" do
     subject { 0x100 | 127 }
 
     it "must truncate the integer to 8-bits" do
-      expect(subject.to_i8).to eq(127)
+      expect(subject.to_int8).to eq(127)
     end
 
     context "but the 7th bit is 1" do
       subject { 0xfe }
 
       it "must interpret the 7th bit as a signedness bit" do
-        expect(subject.to_i8).to eq(-2)
+        expect(subject.to_int8).to eq(-2)
       end
     end
   end
 
-  describe "#to_i16" do
+  describe "#to_int16" do
     subject { 0x10000 | 32767 }
 
     it "must truncate the integer to 16-bits" do
-      expect(subject.to_i16).to eq(32767)
+      expect(subject.to_int16).to eq(32767)
     end
 
     context "but the 15th bit is 1" do
       subject { 0xfffe }
 
       it "must interpret the 15th bit as a signedness bit" do
-        expect(subject.to_i16).to eq(-2)
+        expect(subject.to_int16).to eq(-2)
       end
     end
   end
 
-  describe "#to_i32" do
+  describe "#to_int32" do
     subject { 0x100000000 | 2147483647 }
 
     it "must truncate the integer to 32-bits" do
-      expect(subject.to_i32).to eq(2147483647)
+      expect(subject.to_int32).to eq(2147483647)
     end
 
     context "but the 31th bit is 1" do
       subject { 0xfffffffe }
 
       it "must interpret the 31th bit as a signedness bit" do
-        expect(subject.to_i32).to eq(-2)
+        expect(subject.to_int32).to eq(-2)
       end
     end
   end
 
-  describe "#to_i64" do
+  describe "#to_int64" do
     subject { 0x10000000000000000 | 9223372036854775807 }
 
     it "must truncate the integer to 64-bits" do
-      expect(subject.to_i64).to eq(9223372036854775807)
+      expect(subject.to_int64).to eq(9223372036854775807)
     end
 
     context "but the 63th bit is 1" do
       subject { 0xfffffffffffffffe }
 
       it "must interpret the 63th bit as a signedness bit" do
-        expect(subject.to_i64).to eq(-2)
+        expect(subject.to_int64).to eq(-2)
       end
     end
   end

@@ -222,9 +222,11 @@ class Integer
   #
   # @since 1.0.0
   #
-  def to_u8
+  def to_uint8
     self & 0xff
   end
+
+  alias to_u8 to_uint8
 
   #
   # Converts the integer into an 16-bit unsigned integer.
@@ -236,9 +238,11 @@ class Integer
   #
   # @since 1.0.0
   #
-  def to_u16
+  def to_uint16
     self & 0xffff
   end
+
+  alias to_u16 to_uint16
 
   #
   # Converts the integer into an 32-bit unsigned integer.
@@ -250,9 +254,11 @@ class Integer
   #
   # @since 1.0.0
   #
-  def to_u32
+  def to_uint32
     self & 0xffffffff
   end
+
+  alias to_u32 to_uint32
 
   #
   # Converts the integer into an 64-bit unsigned integer.
@@ -264,9 +270,11 @@ class Integer
   #
   # @since 1.0.0
   #
-  def to_u64
+  def to_uint64
     self & 0xffffffffffffffff
   end
+
+  alias to_u64 to_uint64
 
   #
   # Converts the integer into an 8-bit signed integer.
@@ -278,7 +286,7 @@ class Integer
   #
   # @since 1.0.0
   #
-  def to_i8
+  def to_int8
     int = self & 0xff
 
     if int[7] == 1
@@ -288,6 +296,8 @@ class Integer
 
     return int
   end
+
+  alias to_i8 to_int8
 
   #
   # Converts the integer into an 16-bit signed integer.
@@ -299,7 +309,7 @@ class Integer
   #
   # @since 1.0.0
   #
-  def to_i16
+  def to_int16
     int = self & 0xffff
 
     if int[15] == 1
@@ -309,6 +319,8 @@ class Integer
 
     return int
   end
+
+  alias to_i16 to_int16
 
   #
   # Converts the integer into an 32-bit signed integer.
@@ -320,7 +332,7 @@ class Integer
   #
   # @since 1.0.0
   #
-  def to_i32
+  def to_int32
     int = self & 0xffffffff
 
     if int[31] == 1
@@ -330,6 +342,8 @@ class Integer
 
     return int
   end
+
+  alias to_i32 to_int32
 
   #
   # Converts the integer into an 64-bit signed integer.
@@ -341,7 +355,7 @@ class Integer
   #
   # @since 1.0.0
   #
-  def to_i64
+  def to_int64
     int = self & 0xffffffffffffffff
 
     if int[63] == 1
@@ -351,5 +365,7 @@ class Integer
 
     return int
   end
+
+  alias to_i64 to_int64
 
 end
