@@ -4,17 +4,9 @@ require 'ronin/support/binary/core_ext/integer'
 describe Integer do
   subject { 0x00 }
 
-  it "must provide Integer#each_bit_flip" do
-    expect(subject).to respond_to(:each_bit_flip)
-  end
-
-  it "must provide Integer#bit_flips" do
-    expect(subject).to respond_to(:bit_flips)
-  end
-
-  it "must provide Integer#pack" do
-    expect(subject).to respond_to(:pack)
-  end
+  it { expect(subject).to respond_to(:each_bit_flip) }
+  it { expect(subject).to respond_to(:bit_flips)     }
+  it { expect(subject).to respond_to(:pack)          }
 
   describe "#each_bit_flip" do
     subject { 0b00001111 }
