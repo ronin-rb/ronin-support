@@ -36,6 +36,9 @@ class Integer
   # @return [Enumerator]
   #   If no block is given, an Enumerator object will be returned.
   #
+  # @raise [ArgumentError]
+  #   The given bits must be either a Range or an Integer.
+  #
   # @example bit-flip all eight bits:
   #   0x41.each_bit_flip(8) { |int| puts "%.8b" % int }
   #
@@ -69,6 +72,9 @@ class Integer
   #
   # @return [Array<Integer>]
   #   The bit-flipped integers.
+  #
+  # @raise [ArgumentError]
+  #   The given bits must be either a Range or an Integer.
   #
   # @example bit-flip all eight bits:
   #   0x41.bit_flips(8)
