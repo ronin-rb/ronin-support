@@ -58,7 +58,7 @@ module Ronin
           #   # => true
           #
           # @example Using a timeout:
-          #   udp_open?('example.com',1111,nil,nil,5)
+          #   udp_open?('example.com',1111, timeout: 5)
           #   # => nil
           #
           # @api public
@@ -314,7 +314,7 @@ module Ronin
           #   The new UDP server.
           #
           # @example
-          #   udp_server(1337)
+          #   udp_server(port: 1337)
           #
           # @see https://rubydoc.info/stdlib/socket/UDPSocket
           #
@@ -351,7 +351,7 @@ module Ronin
           # @return [nil]
           #
           # @example
-          #   udp_server_session(1337) do |server|
+          #   udp_server_session(port: 1337) do |server|
           #     data, sender = server.recvfrom(1024)
           #   end
           #
@@ -395,7 +395,7 @@ module Ronin
           # @return [nil]
           #
           # @example
-          #   udp_server_loop(1337) do |server,(host,port),mesg|
+          #   udp_server_loop(port: 1337) do |server,(host,port),mesg|
           #     server.send('hello',host,port)
           #   end
           #
@@ -445,7 +445,7 @@ module Ronin
           # @return [nil]
           #
           # @example
-          #   udp_recv(1337) do |server,(host,port),mesg|
+          #   udp_recv(port: 1337) do |server,(host,port),mesg|
           #     server.send('hello',host,port)
           #   end
           #

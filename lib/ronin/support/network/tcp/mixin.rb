@@ -58,7 +58,7 @@ module Ronin
           #   # => true
           #
           # @example Using a timeout:
-          #   tcp_open?('example.com',1111,nil,nil,5)
+          #   tcp_open?('example.com',1111, timeout: 5)
           #   # => nil
           #
           # @api public
@@ -314,7 +314,7 @@ module Ronin
           #   The new TCP server.
           #
           # @example
-          #   tcp_server(1337)
+          #   tcp_server(port: 1337)
           #
           # @see https://rubydoc.info/stdlib/socket/TCPServer
           #
@@ -357,7 +357,7 @@ module Ronin
           # @return [nil]
           #
           # @example
-          #   tcp_server_session(1337) do |server|
+          #   tcp_server_session(port: 1337) do |server|
           #     client1 = server.accept
           #     client2 = server.accept
           #
@@ -401,7 +401,7 @@ module Ronin
           # @return [nil]
           #
           # @example
-          #   tcp_server_loop(1337) do |client|
+          #   tcp_server_loop(port: 1337) do |client|
           #     client.puts 'lol'
           #   end
           #
@@ -447,7 +447,7 @@ module Ronin
           # @return [nil]
           #
           # @example
-          #   tcp_accept(1337) do |client|
+          #   tcp_accept(port: 1337) do |client|
           #     client.puts 'lol'
           #   end
           #
