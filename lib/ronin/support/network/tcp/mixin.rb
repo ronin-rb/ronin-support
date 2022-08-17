@@ -201,6 +201,12 @@ module Ronin
           #
           # @return [nil]
           #
+          # @example
+          #   tcp_session('www.example.com',80) do |socket|
+          #     # ...
+          #   end
+          #   # => nil
+          #
           # @api public
           #
           def tcp_session(host,port,**kwargs)
