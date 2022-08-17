@@ -160,6 +160,9 @@ module Ronin
           # @yieldparam [TCPSocket] socket
           #   The newly created TCPSocket object.
           #
+          # @return [TCPSocket]
+          #   The newly created TCPSocket object.
+          #
           # @api public
           #
           def tcp_connect_and_send(data,host,port,**kwargs)
