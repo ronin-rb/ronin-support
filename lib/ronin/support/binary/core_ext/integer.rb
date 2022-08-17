@@ -191,8 +191,21 @@ class Integer
   #   0x41.pack('V')
   #   # => "A\0\0\0"
   #
-  # @example using {Ronin::Support::Binary::Format} types:
+  # @example using {Ronin::Support::Binary::CTypes} types:
   #   0x41.pack(:uint32_le)
+  #   # => "A\x00\x00\x00"
+  #
+  # @example specifying the endian-ness:
+  #   0x41.pack(:uint32, endian: :big)
+  #   # => "\x00\x00\x00A"
+  #
+  # @example specifying the architecture:
+  #   0x41.pack(:ulong, arch: :arm64)
+  #   # => "A\x00\x00\x00\x00\x00\x00\x00"
+  #
+  # @example specifying the architecture and Operating System (OS):
+  #   0x41.pack(:size_t, arch: :arm64, os: :linux)
+  #   # => "A\x00\x00\x00\x00\x00\x00\x00"
   #
   # @see http://rubydoc.info/stdlib/core/Array:pack
   # @see Ronin::Support::Binary::Format
