@@ -212,7 +212,8 @@ module Ronin
           end
 
           #
-          # Reads the banner from the service running on the given host and port.
+          # Reads the banner from the service running on the given host and
+          # port.
           #
           # @param [String] host
           #   The host to connect to.
