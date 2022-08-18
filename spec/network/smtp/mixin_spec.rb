@@ -31,59 +31,32 @@ describe Ronin::Support::Network::SMTP::Mixin do
       end
 
       context "when given a block" do
-        it "must yield the new Net::SMTP object" do
+        it "must yield a new Net::SMTP object" do
           pending "need valid SMTP credentials"
 
-          smtp = subject.smtp_connect(host,user,password) do |smtp|
-            smtp.should be_kind_of(Net::SMTP)
+          yielded_smtp = nil
+
+          subject.smtp_connect(host,user,passowrd) do |smtp|
+            yielded_smtp = smtp
           end
 
-          smtp.finish
+          yielded_smtp.should be_kind_of(Net::SMTP)
         end
-      end
 
-      context "when :ssl is given" do
-        let(:port) { 587 }
-
-        it "must initiate a SSL connection" do
+        it "must finish the SMTP session after yielding it" do
           pending "need valid SMTP credentials"
 
-          smtp = subject.smtp_connect(host,user,password, port: port, ssl: true)
+          smtp        = nil
+          was_started = nil
 
-          smtp.should be_started
-          smtp.finish
+          subject.smtp_connect(host,user,password) do |yielded_smtp|
+            smtp        = yielded_smtp
+            was_started = smtp.started?
+          end
+
+          was_started.should == true
+          smtp.should_not be_started
         end
-      end
-    end
-  end
-
-  describe "#smtp_session" do
-    context "integration", :network do
-      it "must yield a new Net::SMTP object" do
-        pending "need valid SMTP credentials"
-
-        yielded_smtp = nil
-
-        subject.smtp_session(host,user,passowrd) do |smtp|
-          yielded_smtp = smtp
-        end
-
-        yielded_smtp.should be_kind_of(Net::SMTP)
-      end
-
-      it "must finish the SMTP session after yielding it" do
-        pending "need valid SMTP credentials"
-
-        smtp        = nil
-        was_started = nil
-
-        subject.smtp_session(host,user,password) do |yielded_smtp|
-          smtp        = yielded_smtp
-          was_started = smtp.started?
-        end
-
-        was_started.should == true
-        smtp.should_not be_started
       end
     end
   end

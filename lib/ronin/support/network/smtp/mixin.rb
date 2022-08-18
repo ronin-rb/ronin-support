@@ -119,15 +119,22 @@ module Ronin
           #
           # @yield [smtp]
           #   If a block is given, it will be passed an SMTP session object.
+          #   Once the block returns the SMTP session will be closed.
           #
           # @yieldparam [Net::SMTP] smtp
           #   The SMTP session.
           #
-          # @return [Net::SMTP]
-          #   The SMTP session.
+          # @return [Net::SMTP, nil]
+          #   The SMTP session. If a block is given, then `nil` will be
+          #   returned.
           #
           # @example
           #   smtp_connect('www.example.com', user: 'joe')
+          #
+          # @example
+          #   smtp_connect('www.example.com', user: 'joe') do |smtp|
+          #     # ...
+          #   end
           #
           # @api public
           #
@@ -152,42 +159,12 @@ module Ronin
             smtp.enable_starttls(context) if ssl
             smtp.start(helo,user,password,auth)
 
-            yield smtp if block_given?
-            return smtp
-          end
-
-          #
-          # Starts a session with the SMTP server.
-          #
-          # @param [String] host
-          #   The host to connect to.
-          #
-          # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#smtp_connect}.
-          #
-          # @yield [smtp]
-          #   If a block is given, it will be passed an SMTP session object.
-          #   After the block has returned, the session will be closed.
-          #
-          # @yieldparam [Net::SMTP] smtp
-          #   The SMTP session.
-          #
-          # @example
-          #   smtp_session('www.example.com', user: 'joe') do |smtp|
-          #     # ...
-          #   end
-          #
-          # @see #smtp_connect
-          #
-          # @api public
-          #
-          def smtp_session(host,user,password, **kwargs)
-            smtp = smtp_connect(host,**kwargs)
-
-            yield smtp if block_given?
-
-            smtp.finish
-            return nil
+            if block_given?
+              yield smtp
+              smtp.finish
+            else
+              return smtp
+            end
           end
 
           #
@@ -242,7 +219,7 @@ module Ronin
           # @yieldparam [SMTP::Email] email
           #   The new email to be sent.
           #
-          # @see #smtp_session
+          # @see #smtp_connect
           #
           # @example
           #   smtp_send_message 'www.example.com',
@@ -289,7 +266,7 @@ module Ronin
               &block
             )
 
-            smtp_session(host,user,password,
+            smtp_connect(host,user,password,
                          port: port, ssl: ssl, helo: helo, auth: auth) do |smtp|
               smtp.send_message(email.to_s, email.from, email.to)
             end
