@@ -68,7 +68,8 @@ module Ronin
           def tcp_open?(host,port, timeout: 5, **kwargs)
             begin
               Timeout.timeout(timeout) do
-                tcp_connect(host,port,**kwargs)
+                socket = tcp_connect(host,port,**kwargs)
+                socket.close
               end
 
               return true
