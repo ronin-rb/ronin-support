@@ -62,13 +62,14 @@ module Ronin
           #
           # @yield [pop3]
           #   If a block is given, it will be passed the newly created POP3
-          #   session.
+          #   session. Once the block returns the POP3 session will be closed.
           #
           # @yieldparam [Net::POP3] pop3
           #   The newly created POP3 session.
           #
-          # @return [Net::POP3]
-          #   The newly created POP3 session.
+          # @return [Net::POP3, nil]
+          #   The newly created POP3 session. If a block is given, `nil` will be
+          #   returned.
           #
           # @api public
           #
@@ -97,37 +98,12 @@ module Ronin
             pop3.enable_ssl(ssl_verify,ssl_certs) if ssl
             pop3.start(user,password)
 
-            yield pop3 if block_given?
-            return pop3
-          end
-
-          #
-          # Starts a session with the POP3 server.
-          #
-          # @param [String] host
-          #   The host to connect to.
-          #
-          # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#pop3_connect}.
-          #
-          # @yield [pop3]
-          #   If a block is given, it will be passed the newly created POP3
-          #   session. After the block has returned, the session will be closed.
-          #
-          # @yieldparam [Net::POP3] pop3
-          #   The newly created POP3 session.
-          #
-          # @return [nil]
-          #
-          # @api public
-          #
-          def pop3_session(host,**kwargs)
-            pop3 = pop3_connect(host,**kwargs)
-
-            yield pop3 if block_given?
-
-            pop3.finish
-            return nil
+            if block_given?
+              yield pop3
+              pop3.finish
+            else
+              return pop3
+            end
           end
         end
       end

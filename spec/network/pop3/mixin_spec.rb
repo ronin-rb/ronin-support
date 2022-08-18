@@ -31,45 +31,32 @@ describe Ronin::Support::Network::POP3::Mixin do
       end
 
       context "when given a block" do
-        it "must yield the new Net::POP3 object" do
+        it "must yield a new Net::POP3 object" do
           pending "need valid POP3 credentials"
-          pop3 = subject.pop3_connect(host, port: port, ssl: true) do |pop3|
-            pop3.should be_kind_of(Net::POP3)
+
+          yielded_pop3 = nil
+
+          subject.pop3_connect(host, port: port, ssl: true) do |pop3|
+            yielded_pop3 = pop3
           end
 
-          pop3.finish
-        end
-      end
-    end
-  end
-
-  describe "#pop3_session" do
-    context "integration", :network do
-      it "must yield a new Net::POP3 object" do
-        pending "need valid POP3 credentials"
-
-        yielded_pop3 = nil
-
-        subject.pop3_session(host, port: port, ssl: true) do |pop3|
-          yielded_pop3 = pop3
+          yielded_pop3.should be_kind_of(Net::POP3)
         end
 
-        yielded_pop3.should be_kind_of(Net::POP3)
-      end
+        it "must finish the POP3 session after yielding it" do
+          pending "need valid POP3 credentials"
 
-      it "must finish the POP3 session after yielding it" do
-        pending "need valid POP3 credentials"
+          pop3        = nil
+          was_started = nil
 
-        pop3        = nil
-        was_started = nil
+          subject.pop3_connect(host, port: port, ssl: true) do |yielded_pop3|
+            pop3        = yielded_pop3
+            was_started = pop3.started?
+          end
 
-        subject.pop3_session(host, port: port, ssl: true) do |yielded_pop3|
-          pop3        = yielded_pop3
-          was_started = pop3.started?
+          was_started.should == true
+          pop3.should_not be_started
         end
-
-        was_started.should == true
-        pop3.should_not be_started
       end
     end
   end
