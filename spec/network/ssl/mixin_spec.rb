@@ -194,7 +194,7 @@ describe Ronin::Support::Network::SSL::Mixin do
       end
 
       context "when a block is given" do
-        it "must yield the OpenSSL::SSL::SSLSocket" do
+        it "must open then close a OpenSSL::SSL::SSLSocket" do
           socket = nil
 
           subject.ssl_connect(host,port) do |yielded_socket|
@@ -202,6 +202,7 @@ describe Ronin::Support::Network::SSL::Mixin do
           end
 
           expect(socket).to be_kind_of(OpenSSL::SSL::SSLSocket)
+          expect(socket).to be_closed
         end
       end
     end
@@ -233,19 +234,6 @@ describe Ronin::Support::Network::SSL::Mixin do
         expect(response).to be =~ expected_response
 
         socket.close
-      end
-    end
-
-    describe "#ssl_session" do
-      it "must open then close a OpenSSL::SSL::SSLSocket" do
-        socket = nil
-
-        subject.ssl_session(host,port) do |yielded_socket|
-          socket = yielded_socket
-        end
-
-        expect(socket).to be_kind_of(OpenSSL::SSL::SSLSocket)
-        expect(socket).to be_closed
       end
     end
 

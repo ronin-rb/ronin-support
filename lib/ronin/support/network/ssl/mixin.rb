@@ -139,7 +139,7 @@ module Ronin
           #   The maximum time to attempt connecting.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#ssl_session}.
+          #   Additional keyword arguments for {#ssl_connect}.
           #
           # @option options [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -184,7 +184,7 @@ module Ronin
                                                                  **kwargs)
             begin
               Timeout.timeout(timeout) do
-                ssl_session(host,port,local_host,local_port,**kwargs)
+                ssl_connect(host,port,local_host,local_port,**kwargs)
               end
 
               return true
@@ -238,16 +238,25 @@ module Ronin
           #   Path to the CA certificate file or directory.
           #
           # @yield [ssl_socket]
-          #   The given block will be passed the new SSL Socket.
+          #   The given block will be passed the new SSL socket. Once the block
+          #   returns the SSL socket will be closed.
           #
           # @yieldparam [OpenSSL::SSL::SSLSocket] ssl_socket
           #   The new SSL Socket.
           #
-          # @return [OpenSSL::SSL::SSLSocket]
-          #   the new SSL Socket.
+          # @return [OpenSSL::SSL::SSLSocket, nil]
+          #   the new SSL Socket. If a block is given, then `nil` will be
+          #   returned.
           #
           # @example
           #   socket = ssl_connect('twitter.com',443)
+          #
+          # @example
+          #   ssl_connect('twitter.com',443) do |sock|
+          #     sock.write("GET / HTTP/1.1\n\r\n\r")
+          #
+          #     sock.each_line { |line| puts line }
+          #   end
           #
           # @see http://rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLSocket
           #
@@ -258,8 +267,12 @@ module Ronin
             ssl_socket = ssl_socket(socket,**kwargs)
             ssl_socket.connect
 
-            yield ssl_socket if block_given?
-            return ssl_socket
+            if block_given?
+              yield ssl_socket
+              ssl_socket.close
+            else
+              return ssl_socket
+            end
           end
 
           #
@@ -326,73 +339,6 @@ module Ronin
           end
 
           #
-          # Creates a new temporary SSL connection.
-          #
-          # @param [String] host
-          #   The host to connect to.
-          #
-          # @param [Integer] port
-          #   The port to connect to.
-          #
-          # @param [String] local_host
-          #   The local host to bind to.
-          #
-          # @param [Integer] local_port
-          #   The local port to bind to.
-          #
-          # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#ssl_connect}.
-          #
-          # @option kwargs [Symbol, Boolean] :verify
-          #   Specifies whether to verify the SSL certificate.
-          #   May be one of the following:
-          #
-          #   * `:none`
-          #   * `:peer`
-          #   * `:fail_if_no_peer_cert`
-          #   * `:client_once`
-          #
-          # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
-          #   The RSA key to use for the SSL context.
-          #
-          # @option kwargs [String] :key_file
-          #   The path to the SSL `.key` file.
-          #
-          # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-          #   The X509 certificate to use for the SSL context.
-          #
-          # @option kwargs [String] :cert_file
-          #   The path to the SSL `.crt` file.
-          #
-          # @option kwargs [String] :ca_bundle
-          #   Path to the CA certificate file or directory.
-          #
-          # @yield [ssl_socket]
-          #   The given block will be passed the temporary SSL Socket.
-          #
-          # @yieldparam [OpenSSL::SSL::SSLSocket] ssl_socket
-          #   The temporary SSL Socket.
-          #
-          # @return [nil]
-          #
-          # @example
-          #   ssl_session('twitter.com',443) do |sock|
-          #     sock.write("GET / HTTP/1.1\n\r\n\r")
-          #
-          #     sock.each_line { |line| puts line }
-          #   end
-          #
-          # @see http://rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLSocket
-          #
-          # @api public
-          #
-          def ssl_session(host,port,local_host=nil,local_port=nil,**kwargs,&block)
-            socket = ssl_connect(host,port,local_host,local_port,**kwargs,&block)
-            socket.close
-            return nil
-          end
-
-          #
           # Reads the banner from the service running on the given host and
           # port.
           #
@@ -409,7 +355,7 @@ module Ronin
           #   The local port to bind to.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#ssl_session}.
+          #   Additional keyword arguments for {#ssl_connect}.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -455,7 +401,7 @@ module Ronin
           def ssl_banner(host,port,local_host=nil,local_port=nil,**kwargs)
             banner = nil
 
-            ssl_session(host,port,local_host,local_port,**kwargs) do |ssl_socket|
+            ssl_connect(host,port,local_host,local_port,**kwargs) do |ssl_socket|
               banner = ssl_socket.readline.strip
             end
 
@@ -483,7 +429,7 @@ module Ronin
           #   The local port to bind to.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#ssl_session}.
+          #   Additional keyword arguments for {#ssl_connect}.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -522,7 +468,7 @@ module Ronin
           # @since 0.6.0
           #
           def ssl_send(data,host,port,local_host=nil,local_port=nil,**kwargs)
-            ssl_session(host,port,local_host,local_port,**kwargs) do |socket|
+            ssl_connect(host,port,local_host,local_port,**kwargs) do |socket|
               socket.write(data)
             end
 
