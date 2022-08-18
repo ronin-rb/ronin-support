@@ -149,6 +149,11 @@ module Ronin
         #   telnet_connect('towel.blinkenlights.nl')
         #   # => #<Net::Telnet: ...>
         #
+        # @example
+        #   telnet_connect('towel.blinkenlights.nl') do |movie|
+        #     movie.each_line { |line| puts line }
+        #   end
+        #
         # @api public
         #
         def telnet_connect(host, # connection options
@@ -183,45 +188,12 @@ module Ronin
           telnet = Net::Telnet.new(telnet_options)
           telnet.login(user,password) if user
 
-          yield telnet if block_given?
-          return telnet
-        end
-
-        #
-        # Starts a new Telnet session.
-        #
-        # @param [String] host
-        #   The host to connect to.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {#telnet_connect}.
-        #
-        # @yield [telnet]
-        #   If a block is given, it will be passed the newly created
-        #   Telnet session. After the block has returned, the Telnet session
-        #   will be closed.
-        #
-        # @yieldparam [Net::Telnet] telnet
-        #   The newly created Telnet session.
-        #
-        # @return [nil]
-        #
-        # @example
-        #   telnet_session('towel.blinkenlights.nl') do |movie|
-        #     movie.each_line { |line| puts line }
-        #   end
-        #
-        # @see #telnet_connect
-        #
-        # @api public
-        #
-        def telnet_session(host,**kwargs)
-          telnet = telnet_connect(host,**kwargs)
-
-          yield telnet if block_given?
-
-          telnet.close
-          return nil
+          if block_given?
+            yield telnet
+            telnet.close
+          else
+            return telnet
+          end
         end
       end
 

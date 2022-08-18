@@ -26,43 +26,28 @@ describe Network::Telnet do
       end
 
       context "when given a block" do
-        it "must yield the new Net::Telnet object" do
-          telnet = nil
+        it "must yield a new Net::Telnet object" do
+          yielded_telnet = nil
 
-          subject.telnet_connect(host) do |telnet_object|
-            telnet = telnet_object
+          subject.telnet_connect(host) do |telnet|
+            yielded_telnet = telnet
           end
 
-          expect(telnet).to be_kind_of(Net::Telnet)
-          telnet.close
-        end
-      end
-    end
-  end
-
-  describe "#telnet_session" do
-    context "integration", :network do
-      it "must yield a new Net::Telnet object" do
-        yielded_telnet = nil
-
-        subject.telnet_session(host) do |telnet|
-          yielded_telnet = telnet
+          expect(yielded_telnet).to be_kind_of(Net::Telnet)
         end
 
-        expect(yielded_telnet).to be_kind_of(Net::Telnet)
-      end
+        it "must close the Telnet session after yielding it" do
+          session  = nil
+          was_open = nil
 
-      it "must close the Telnet session after yielding it" do
-        session  = nil
-        was_open = nil
+          subject.telnet_connect(host) do |telnet|
+            session   = telnet
+            was_open  = !telnet.sock.closed?
+          end
 
-        subject.telnet_session(host) do |telnet|
-          session   = telnet
-          was_open  = !telnet.sock.closed?
+          expect(was_open).to be(true)
+          expect(session.sock).to be_closed
         end
-
-        expect(was_open).to be(true)
-        expect(session.sock).to be_closed
       end
     end
   end
