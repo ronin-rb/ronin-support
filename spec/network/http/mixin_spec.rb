@@ -25,25 +25,17 @@ describe Ronin::Support::Network::HTTP::Mixin do
     end
 
     context "when a block is given" do
-      it "must yield the Ronin::Support::Network::HTTP object" do
-        expect { |b|
-          subject.http_connect(host,port,&b)
-        }.to yield_with_args(Ronin::Support::Network::HTTP)
+      it "must yield a Ronin::Support::Network::HTTP instance with the host and port" do
+        yielded_http = nil
+
+        subject.http_connect(host,port) do |http|
+          yielded_http = http
+        end
+
+        expect(yielded_http).to be_kind_of(Ronin::Support::Network::HTTP)
+        expect(yielded_http.host).to eq(host)
+        expect(yielded_http.port).to eq(port)
       end
-    end
-  end
-
-  describe "#http_session" do
-    it "must yield a Ronin::Support::Network::HTTP instance with the host and port" do
-      yielded_http = nil
-
-      subject.http_session(host,port) do |http|
-        yielded_http = http
-      end
-
-      expect(yielded_http).to be_kind_of(Ronin::Support::Network::HTTP)
-      expect(yielded_http.host).to eq(host)
-      expect(yielded_http.port).to eq(port)
     end
   end
 
