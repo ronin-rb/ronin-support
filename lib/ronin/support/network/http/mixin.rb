@@ -116,6 +116,34 @@ module Ronin
           end
 
           #
+          # Creates a HTTP connection using the URI.
+          #
+          # @param [URI::HTTP, String] uri
+          #   The URI to connect to.
+          #
+          # @param [Boolean, Hash{Symbol => Object}, nil] ssl
+          #   Specifies whether to enable SSL and/or the SSL context
+          #   configuration.
+          #
+          # @yield [http]
+          #   If a block is given, it will be passed the newly created HTTP
+          #   session object. Once the block returns, the HTTP session will be
+          #   closed.
+          #
+          # @yieldparam [HTTP] http
+          #   The HTTP session object.
+          #
+          # @return [HTTP, nil]
+          #   The HTTP session object. If a block is given, then `nil` will be
+          #   returned.
+          #
+          # @since 1.0.0
+          #
+          def http_connect_uri(uri, ssl: nil, **kwargs,&block)
+            Network::HTTP.connect_uri(uri, ssl: ssl, **kwargs,&block)
+          end
+
+          #
           # Performs and arbitrary HTTP request.
           #
           # @param [Symbol, String] method

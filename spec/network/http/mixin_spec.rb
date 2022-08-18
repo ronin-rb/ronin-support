@@ -39,6 +39,30 @@ describe Ronin::Support::Network::HTTP::Mixin do
     end
   end
 
+  describe "#http_connect_uri" do
+    it "must create a Ronin::Support::Network::HTTP instance with the host nad port of the given URI" do
+      http = subject.http_connect_uri(uri)
+
+      expect(http).to be_kind_of(Ronin::Support::Network::HTTP)
+      expect(http.host).to eq(host)
+      expect(http.port).to eq(port)
+    end
+
+    context "when a block is given" do
+      it "must yield a Ronin::Support::Network::HTTP instance with the host and port of the given URI" do
+        yielded_http = nil
+
+        subject.http_connect_uri(uri) do |http|
+          yielded_http = http
+        end
+
+        expect(yielded_http).to be_kind_of(Ronin::Support::Network::HTTP)
+        expect(yielded_http.host).to eq(host)
+        expect(yielded_http.port).to eq(port)
+      end
+    end
+  end
+
   describe "#http_request" do
     let(:method) { :get }
 
