@@ -262,11 +262,11 @@ describe Ronin::Support::Network::TLS::Mixin do
         expect(banner).to be =~ expected_banner
       end
 
-      context "when local_port is given" do
-        let(:local_port) { 1024 + rand(65535 - 1024) }
+      context "when the bind_port: keyword argument is given" do
+        let(:bind_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a local host and port" do
-          banner = subject.tls_banner(host,port,nil,local_port)
+          banner = subject.tls_banner(host,port, bind_port: bind_port)
 
           expect(banner).to be =~ expected_banner
         end

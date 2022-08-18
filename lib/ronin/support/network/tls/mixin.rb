@@ -125,17 +125,17 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host
-          #   The local host to bind to.
-          #
-          # @param [Integer] local_port
-          #   The local port to bind to.
-          #
           # @param [1, 1.1, 1.2, String, Symbol, nil] version
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#ssl_session}.
+          #
+          # @option kwargs [String] :bind_host
+          #   The local host to bind to.
+          #
+          # @option kwargs [Integer] :bind_port
+          #   The local port to bind to.
           #
           # @option kwargs [Integer] :timeout (5)
           #   The maximum time to attempt connecting.
@@ -177,9 +177,8 @@ module Ronin
           #
           # @api public
           #
-          def tls_open?(host,port,local_host=nil,local_port=nil, version: 1.2,
-                                                                 **kwargs)
-            ssl_open?(host,port,local_host,local_port, version: version, **kwargs)
+          def tls_open?(host,port, version: 1.2, **kwargs)
+            ssl_open?(host,port, version: version, **kwargs)
           end
 
           #
@@ -191,17 +190,17 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host
-          #   The local host to bind to.
-          #
-          # @param [Integer] local_port
-          #   The local port to bind to.
-          #
           # @param [1, 1.1, 1.2, String, Symbol, nil] version
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#tls_socket}.
+          #
+          # @option kwargs [String] :bind_host
+          #   The local host to bind to.
+          #
+          # @option kwargs [Integer] :bind_port
+          #   The local port to bind to.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -243,12 +242,8 @@ module Ronin
           #
           # @api public
           #
-          def tls_connect(host,port,local_host=nil,local_port=nil, version: 1.2,
-                                                                   **kwargs,
-                                                                   &block)
-            ssl_connect(host,port,local_host,local_port, version: version,
-                                                         **kwargs,
-                                                         &block)
+          def tls_connect(host,port, version: 1.2, **kwargs, &block)
+            ssl_connect(host,port, version: version, **kwargs, &block)
           end
 
           #
@@ -263,17 +258,17 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host
-          #   The local host to bind to.
-          #
-          # @param [Integer] local_port
-          #   The local port to bind to.
-          #
           # @param [1, 1.1, 1.2, String, Symbol, nil] version
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#tls_connect}.
+          #
+          # @option kwargs [String] :bind_host
+          #   The local host to bind to.
+          #
+          # @option kwargs [Integer] :bind_port
+          #   The local port to bind to.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -307,8 +302,8 @@ module Ronin
           #
           # @api public
           #
-          def tls_connect_and_send(data,host,port,local_host=nil,local_port=nil,version: 1.2, **kwargs,&block)
-            ssl_connect_and_send(data,host,port,local_host=nil,local_port=nil,version: version, **kwargs,&block)
+          def tls_connect_and_send(data,host,port, version: 1.2, **kwargs, &block)
+            ssl_connect_and_send(data,host,port, version: version, **kwargs, &block)
           end
 
           #
@@ -320,17 +315,17 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host
-          #   The local host to bind to.
-          #
-          # @param [Integer] local_port
-          #   The local port to bind to.
-          #
           # @param [1, 1.1, 1.2, String, Symbol, nil] version
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#tls_session}.
+          #
+          # @option kwargs [String] :bind_host
+          #   The local host to bind to.
+          #
+          # @option kwargs [Integer] :bind_port
+          #   The local port to bind to.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -375,8 +370,8 @@ module Ronin
           #
           # @api public
           #
-          def tls_session(host,port,local_host=nil,local_port=nil, version: 1.2, **kwargs,&block)
-            ssl_session(host,port,local_host=nil,local_port=nil, version: version, **kwargs,&block)
+          def tls_session(host,port, version: 1.2, **kwargs, &block)
+            ssl_session(host,port, version: version, **kwargs, &block)
           end
 
           #
@@ -389,17 +384,17 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host
-          #   The local host to bind to.
-          #
-          # @param [Integer] local_port
-          #   The local port to bind to.
-          #
           # @param [1, 1.1, 1.2, String, Symbol, nil] version
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#tls_session}.
+          #
+          # @option kwargs [String] :bind_host
+          #   The local host to bind to.
+          #
+          # @option kwargs [Integer] :bind_port
+          #   The local port to bind to.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -440,8 +435,8 @@ module Ronin
           #
           # @api public
           #
-          def tls_banner(host,port,local_host=nil,local_port=nil, version: 1.2, **kwargs,&block)
-            ssl_banner(host,port,local_host,local_port, version: version, **kwargs,&block)
+          def tls_banner(host,port, version: 1.2, **kwargs, &block)
+            ssl_banner(host,port, version: version, **kwargs, &block)
           end
 
           #
@@ -457,17 +452,17 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host
-          #   The local host to bind to.
-          #
-          # @param [Integer] local_port
-          #   The local port to bind to.
-          #
           # @param [1, 1.1, 1.2, String, Symbol, nil] version
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#tls_session}.
+          #
+          # @option kwargs [String] :bind_host
+          #   The local host to bind to.
+          #
+          # @option kwargs [Integer] :bind_port
+          #   The local port to bind to.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -503,8 +498,8 @@ module Ronin
           #
           # @api public
           #
-          def tls_send(data,host,port,local_host=nil,local_port=nil, version: 1.2, **kwargs)
-            ssl_send(data,host,port,local_host,local_port, version: version, **kwargs)
+          def tls_send(data,host,port, version: 1.2, **kwargs)
+            ssl_send(data,host,port, version: version, **kwargs)
           end
 
           #
@@ -533,8 +528,7 @@ module Ronin
           #
           # @api public
           #
-          def tls_server_socket(socket, version: 1.2,
-                                        **kwargs)
+          def tls_server_socket(socket, version: 1.2, **kwargs)
             ssl_server_socket(socket, version: version, **kwargs)
           end
 
@@ -542,17 +536,17 @@ module Ronin
           # Creates a new SSL socket listening on a given host and port,
           # accepting clients in a loop.
           #
-          # @param [Integer] port
-          #   The local port to listen on.
-          #
-          # @param [String] host
-          #   The host to bind to.
-          #
           # @param [1, 1.1, 1.2, String, Symbol, nil] version
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#tls_server_socket}.
+          #
+          # @option kwargs [Integer] :port
+          #   The local port to listen on.
+          #
+          # @option kwargs [String] :host
+          #   The host to bind to.
           #
           # @option kwargs [Integer] :backlog (5)
           #   The maximum backlog of pending connections.
@@ -601,27 +595,25 @@ module Ronin
           #
           # @api public
           #
-          def tls_server_loop(port=nil,host=nil, version: 1.2,
-                                                 **kwargs,
-                                                 &block)
-            ssl_server_loop(port,host, version: 1.2, **kwargs, &block)
+          def tls_server_loop(version: 1.2, **kwargs, &block)
+            ssl_server_loop(version: 1.2, **kwargs, &block)
           end
 
           #
           # Creates a new SSL socket listening on a given host and port,
           # accepts only one client and then stops listening.
           #
-          # @param [Integer] port
-          #   The local port to listen on.
-          #
-          # @param [String] host
-          #   The host to bind to.
-          #
           # @param [1, 1.1, 1.2, String, Symbol, nil] version
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#tls_server_socket}.
+          #
+          # @option kwargs [Integer] :port
+          #   The local port to listen on.
+          #
+          # @option kwargs [String] :host
+          #   The host to bind to.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -673,8 +665,8 @@ module Ronin
           #
           # @api public
           #
-          def tls_accept(port=nil,host=nil, version: 1.2, **kwargs, &block)
-            ssl_accept(port,host, version: version, **kwargs, &block)
+          def tls_accept(version: 1.2, **kwargs, &block)
+            ssl_accept(version: version, **kwargs, &block)
           end
         end
       end
