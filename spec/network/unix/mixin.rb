@@ -54,15 +54,17 @@ describe Ronin::Support::Network::UNIX::Mixin do
         socket.close
       end
 
-      it "must yield the new UNIXSocket" do
-        socket = nil
+      context "when a block is given" do
+        it "must open then close a UNIXSocket" do
+          socket = nil
 
-        subject.unix_connect(path) do |yielded_socket|
-          socket = yielded_socket
+          subject.unix_connect(path) do |yielded_socket|
+            socket = yielded_socket
+          end
+
+          expect(socket).to be_kind_of(UNIXSocket)
+          expect(socket).to be_closed
         end
-
-        expect(socket).not_to be_closed
-        socket.close
       end
     end
   end
@@ -92,23 +94,6 @@ describe Ronin::Support::Network::UNIX::Mixin do
         expect(response).to eq(data)
 
         socket.close
-      end
-    end
-  end
-
-  describe "#unix_session" do
-    context "integration", :network do
-      include_context "UNIX Server"
-
-      it "must open then close a UNIXSocket" do
-        socket = nil
-
-        subject.unix_session(path) do |yielded_socket|
-          socket = yielded_socket
-        end
-
-        expect(socket).to be_kind_of(UNIXSocket)
-        expect(socket).to be_closed
       end
     end
   end

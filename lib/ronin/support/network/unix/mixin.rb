@@ -49,7 +49,10 @@ module Ronin
             timeout ||= 5
 
             begin
-              Timeout.timeout(timeout) { unix_session(path) }
+              Timeout.timeout(timeout) do
+                socket = unix_connect(path)
+                socket.close
+              end
               return true
             rescue Timeout::Error
               return nil
@@ -66,15 +69,21 @@ module Ronin
           #
           # @yield [socket]
           #   If a block is given, it will be passed an UNIX socket object.
+          #   Once the block has returned, the UNIX socket will be closed.
           #
           # @yieldparam [UNIXSocket] socket
           #   The UNIX socket.
           #
-          # @return [UNIXSocket]
-          #   The UNIX socket.
+          # @return [UNIXSocket, nil]
+          #   The UNIX socket. If a block was given, `nil` will be returned.
           #
           # @example
           #   unix_connect('/tmp/haproxy.stats.socket')
+          #
+          # @example
+          #   unix_connect('/tmp/haproxy.stats.socket') do |socket|
+          #     # ...
+          #   end
           #
           # @see https://rubydoc.info/stdlib/socket/UNIXSocket
           #
@@ -83,8 +92,12 @@ module Ronin
           def unix_connect(path)
             socket = UNIXSocket.new(path)
 
-            yield socket if block_given?
-            return socket
+            if block_given?
+              yield socket
+              socket.close
+            else
+              return socket
+            end
           end
 
           #
@@ -116,33 +129,6 @@ module Ronin
           end
 
           #
-          # Temporarily connects to a UNIX socket.
-          #
-          # @param [String] path
-          #   The path to the UNIX socket.
-          #
-          # @yield [socket]
-          #   If a block is given, it will be passed an UNIX socket object.
-          #
-          # @yieldparam [UNIXSocket] socket
-          #   The UNIX socket.
-          #
-          # @example
-          #   unix_session('/tmp/haproxy.stats.socket') do |socket|
-          #     # ...
-          #   end
-          #
-          # @api public
-          #
-          def unix_session(path)
-            socket = unix_connect(path)
-
-            yield socket if block_given?
-            socket.close
-            return nil
-          end
-
-          #
           # Connects to a UNIX socket, sends the given data and then closes the
           # socket.
           #
@@ -163,7 +149,7 @@ module Ronin
           # @api public
           #
           def unix_send(data,path)
-            unix_session(path) do |socket|
+            unix_connect(path) do |socket|
               socket.write(data)
             end
 
