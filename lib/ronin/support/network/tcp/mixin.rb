@@ -41,7 +41,7 @@ module Ronin
           #   The maximum time to attempt connecting.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#tcp_session}.
+          #   Additional keyword arguments for {#tcp_connect}.
           #
           # @option kwargs [String, nil] bind_host
           #   The local host to bind to.
@@ -68,7 +68,7 @@ module Ronin
           def tcp_open?(host,port, timeout: 5, **kwargs)
             begin
               Timeout.timeout(timeout) do
-                tcp_session(host,port,**kwargs)
+                tcp_connect(host,port,**kwargs)
               end
 
               return true
@@ -80,7 +80,7 @@ module Ronin
           end
 
           #
-          # Creates a new TCPSocket object connected to a given host and port.
+          # Creates a new TCP socket connected to a given host and port.
           #
           # @param [String] host
           #   The host to connect to.
@@ -96,22 +96,24 @@ module Ronin
           #
           # @yield [socket]
           #   If a block is given, it will be passed the newly created socket.
+          #   Once the block returns the socket will be closed.
           #
           # @yieldparam [TCPsocket] socket
-          #   The newly created TCPSocket object.
+          #   The newly created TCP socket.
           #
-          # @return [TCPSocket]
-          #   The newly created TCPSocket object.
+          # @return [TCPSocket, nil]
+          #   The newly created TCPSocket object. If a block is given a `nil`
+          #   will be returned.
           #
           # @example
-          #   tcp_connect('www.hackety.org',80) # => TCPSocket
+          #   tcp_connect('www.example.com',80)
+          #   # => #<TCPSocket:fd 5, AF_INET, 192.168.122.165, 40364>
           #
           # @example
           #   tcp_connect('www.wired.com',80) do |socket|
           #     socket.write("GET /\n\n")
           #
           #     puts socket.readlines
-          #     socket.close
           #   end
           #
           # @see https://rubydoc.info/stdlib/socket/TCPSocket
@@ -128,8 +130,12 @@ module Ronin
                        TCPSocket.new(host,port)
                      end
 
-            yield socket if block_given?
-            return socket
+            if block_given?
+              yield socket
+              socket.close
+            else
+              return socket
+            end
           end
 
           #
@@ -174,50 +180,6 @@ module Ronin
           end
 
           #
-          # Creates a new temporary TCPSocket object, connected to the given
-          # host and port.
-          #
-          # @param [String] host
-          #   The host to connect to.
-          #
-          # @param [Integer] port
-          #   The port to connect to.
-          #
-          # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#tcp_connect}.
-          #
-          # @option kwargs [String] :bind_host
-          #   The local host to bind to.
-          #
-          # @option kwargs [Integer] :bind_port
-          #   The local port to bind to.
-          #
-          # @yield [socket]
-          #   If a block is given, it will be passed the newly created socket.
-          #   After the block has returned, the socket will then be closed.
-          #
-          # @yieldparam [TCPsocket] socket
-          #   The newly created TCPSocket object.
-          #
-          # @return [nil]
-          #
-          # @example
-          #   tcp_session('www.example.com',80) do |socket|
-          #     # ...
-          #   end
-          #   # => nil
-          #
-          # @api public
-          #
-          def tcp_session(host,port,**kwargs)
-            socket = tcp_connect(host,port,**kwargs)
-
-            yield socket if block_given?
-            socket.close
-            return nil
-          end
-
-          #
           # Reads the banner from the service running on the given host and
           # port.
           #
@@ -228,7 +190,7 @@ module Ronin
           #   The port to connect to.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#tcp_session}.
+          #   Additional keyword arguments for {#tcp_connect}.
           #
           # @option kwargs [String] :bind_host
           #   The local host to bind to.
@@ -254,7 +216,7 @@ module Ronin
           def tcp_banner(host,port,**kwargs)
             banner = nil
 
-            tcp_session(host,port,**kwargs) do |socket|
+            tcp_connect(host,port,**kwargs) do |socket|
               banner = socket.readline.strip
             end
 
@@ -276,7 +238,7 @@ module Ronin
           #   The port to connect to.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#tcp_session}.
+          #   Additional keyword arguments for {#tcp_connect}.
           #
           # @option kwargs [String] :bind_host
           #   The local host to bind to.
@@ -295,7 +257,7 @@ module Ronin
           # @api public
           #
           def tcp_send(data,host,port,**kwargs)
-            tcp_session(host,port,**kwargs) do |socket|
+            tcp_connect(host,port,**kwargs) do |socket|
               socket.write(data)
             end
 

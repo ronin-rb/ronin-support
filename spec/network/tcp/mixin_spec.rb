@@ -84,15 +84,29 @@ describe Ronin::Support::Network::TCP::Mixin do
       end
 
       context "when given a block" do
-        it "must yield the new TCPSocket" do
+        it "must open then close a TCPSocket" do
           socket = nil
 
           subject.tcp_connect(host,port) do |yielded_socket|
             socket = yielded_socket
           end
 
-          expect(socket).not_to be_closed
-          socket.close
+          expect(socket).to be_kind_of(TCPSocket)
+          expect(socket).to be_closed
+        end
+
+        context "when given a local host and port" do
+          let(:bind_port) { 1024 + rand(65535 - 1024) }
+
+          it "must bind to a local host and port" do
+            bound_port = nil
+
+            subject.tcp_connect(host,port, bind_port: bind_port) do |socket|
+              bound_port = socket.addr[1]
+            end
+
+            expect(bound_port).to eq(bind_port)
+          end
         end
       end
     end
@@ -141,35 +155,6 @@ describe Ronin::Support::Network::TCP::Mixin do
           expect(response).to eq(expected_response)
 
           socket.close
-        end
-      end
-    end
-  end
-
-  describe "#tcp_session" do
-    context "integration", :network do
-      it "must open then close a TCPSocket" do
-        socket = nil
-
-        subject.tcp_session(host,port) do |yielded_socket|
-          socket = yielded_socket
-        end
-
-        expect(socket).to be_kind_of(TCPSocket)
-        expect(socket).to be_closed
-      end
-
-      context "when given a local host and port" do
-        let(:bind_port) { 1024 + rand(65535 - 1024) }
-
-        it "must bind to a local host and port" do
-          bound_port = nil
-
-          subject.tcp_session(host,port, bind_port: bind_port) do |socket|
-            bound_port = socket.addr[1]
-          end
-
-          expect(bound_port).to eq(bind_port)
         end
       end
     end
