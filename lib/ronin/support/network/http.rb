@@ -429,10 +429,29 @@ module Ronin
         # @option ssl [Boolean, nil] :verify_hostname
         #   Indicates whether to verify the server's hostname.
         #
+        # @yield [http]
+        #   If a block is given, it will be passed the newly created HTTP
+        #   session object. Once the block returns, the HTTP session will be
+        #   closed.
+        #
+        # @yieldparam [HTTP] http
+        #   The HTTP session object.
+        #
+        # @return [HTTP, nil]
+        #   The HTTP session object. If a block is given, then `nil` will be
+        #   returned.
+        #
         # @since 1.0.0
         #
-        def self.connect(host,port, ssl: nil, **kwargs,&block)
-          new(host,port, ssl: ssl, **kwargs,&block)
+        def self.connect(host,port, ssl: nil, **kwargs)
+          http = new(host,port, ssl: ssl, **kwargs)
+
+          if block_given?
+            yield http
+            http.close
+          else
+            return http
+          end
         end
 
         #
@@ -445,118 +464,27 @@ module Ronin
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
+        # @yield [http]
+        #   If a block is given, it will be passed the newly created HTTP
+        #   session object. Once the block returns, the HTTP session will be
+        #   closed.
+        #
+        # @yieldparam [HTTP] http
+        #   The HTTP session object.
+        #
+        # @return [HTTP, nil]
+        #   The HTTP session object. If a block is given, then `nil` will be
+        #   returned.
+        #
         # @since 1.0.0
         #
         def self.connect_uri(uri, ssl: nil, **kwargs,&block)
-          uri  = URI(uri)
-          host = uri.host
-          port = uri.port
-          path = uri.request_uri
-
+          uri   = URI(uri)
+          host  = uri.host
+          port  = uri.port
           ssl ||= uri.scheme == 'https'
 
-          return new(host,port, ssl: ssl, **kwargs,&block)
-        end
-
-        #
-        # Creates a temporary HTTP session to the host and port.
-        #
-        # @param [String] host
-        #   The host to connect to.
-        #
-        # @param [Integer] port
-        #   The port to connect to.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {#initialize}.
-        #
-        # @option kwargs [String, URI::HTTP, nil] :proxy
-        #   The optional proxy to send requests through.
-        #
-        # @option kwargs [Hash{Symbol,String => String,Array}, nil] :headers
-        #   Additional headers to add to each request.
-        #
-        # @option kwargs [String, Symbol, :random, nil] user_agent (HTTP.user_agent)
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
-        # @yield [http]
-        #   If a block is given, it will be passed the newly created HTTP
-        #   session object.
-        #
-        # @yieldparam [HTTP] http
-        #   The newly created HTTP session.
-        #
-        # @return [nil]
-        #
-        # @see #initialize
-        #
-        # @api public
-        #
-        # @since 1.0.0
-        #
-        def self.session(host,port, ssl: nil, **kwargs)
-          http = connect(host,port, ssl: ssl, **kwargs)
-          yield http
-          http.close
-        end
-
-        #
-        # Creates a temporary HTTP session using the URI.
-        #
-        # @since 1.0.0
-        #
-        def self.session_uri(uri,**kwargs)
-          http = connect_uri(host,port,**kwargs)
-          yield http
-          http.close
+          return connect(host,port, ssl: ssl, **kwargs,&block)
         end
 
         #
