@@ -73,13 +73,14 @@ module Ronin
           #
           # @yield [imap]
           #   If a block is given, it will be passed the newly created IMAP
-          #   session.
+          #   session. Once the block returns, it will close the IMAP session.
           #
           # @yieldparam [Net::IMAP] imap
           #   The newly created IMAP session object.
           #
-          # @return [Net::IMAP]
-          #   The newly created IMAP session object.
+          # @return [Net::IMAP, nil]
+          #   The newly created IMAP session object. If a block is given, `nil`
+          #   will be returned.
           #
           # @raise [ArgumentType]
           #   The `auth:` keyword argument must be either `:login` or
@@ -113,41 +114,14 @@ module Ronin
             imap = Net::IMAP.new(host,port,ssl,ssl_certs,ssl_verify)
             imap.authenticate(auth_type,user,passwd)
 
-            yield imap if block_given?
-            return imap
-          end
-
-          #
-          # Starts an IMAP session with the IMAP server.
-          #
-          # @param [String] host
-          #   The host to connect to.
-          #
-          # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#imap_connect}.
-          #
-          # @yield [imap]
-          #   If a block is given, it will be passed the newly created IMAP
-          #   session. After the block has returned, the session will be closed.
-          #
-          # @yieldparam [Net::IMAP] imap
-          #   The newly created IMAP session object.
-          #
-          # @return [nil]
-          #
-          # @see #imap_connect
-          #
-          # @api public
-          #
-          def imap_session(host,user,password,**kwargs)
-            imap = imap_connect(host,**kwargs)
-
-            yield imap if block_given?
-
-            imap.logout
-            imap.close
-            imap.disconnect
-            return nil
+            if block_given?
+              yield imap
+              imap.logout
+              imap.close
+              imap.disconnect
+            else
+              return imap
+            end
           end
         end
       end
