@@ -41,7 +41,7 @@ module Ronin
           #   The maximum time to attempt connecting.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#udp_session}.
+          #   Additional keyword arguments for {#udp_connect}.
           #
           # @option kwargs [String, nil] :bind_host
           #   The local host to bind to.
@@ -68,7 +68,7 @@ module Ronin
           def udp_open?(host,port, timeout: 5, **kwargs)
             begin
               Timeout.timeout(timeout) do
-                udp_session(host,port,**kwargs) do |socket|
+                udp_connect(host,port,**kwargs) do |socket|
                   # send an empty UDP packet, just like nmap
                   socket.syswrite('')
 
@@ -103,20 +103,22 @@ module Ronin
           #
           # @yield [socket]
           #   If a block is given, it will be passed the newly created socket.
+          #   Once the block returns the socket will be closed.
           #
           # @yieldparam [UDPsocket] socket
-          #   The newly created UDPSocket object.
+          #   The newly created UDP socket.
           #
-          # @return [UDPSocket]
-          #   The newly created UDPSocket object.
-          #
-          # @example
-          #   udp_connect('www.hackety.org',80)
-          #   # => UDPSocket
+          # @return [UDPSocket, nil]
+          #   The newly created UDP socket object. If a block is given a `nil`
+          #   will be returned.
           #
           # @example
-          #   udp_connect('www.wired.com',80) do |socket|
-          #     puts socket.readlines
+          #   udp_connect('8.8.8.8',53)
+          #   # => #<UDPSocket:fd 5, AF_INET, 192.168.122.165, 48313>
+          #
+          # @example
+          #   udp_connect('8.8.8.8',53) do |socket|
+          #     # ...
           #   end
           #
           # @see https://rubydoc.info/stdlib/socket/UDPSocket
@@ -135,8 +137,12 @@ module Ronin
 
             socket.connect(host,port)
 
-            yield socket if block_given?
-            return socket
+            if block_given?
+              yield socket
+              socket.close
+            else
+              return socket
+            end
           end
 
           #
@@ -181,44 +187,6 @@ module Ronin
           end
 
           #
-          # Creates a new temporary UDPSocket object, connected to the given
-          # host and port.
-          #
-          # @param [String] host
-          #   The host to connect to.
-          #
-          # @param [Integer] port
-          #   The port to connect to.
-          #
-          # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#udp_connect}.
-          #
-          # @option kwargs [String, nil] :bind_host
-          #   The local host to bind to.
-          #
-          # @option kwargs [Integer, nil] :bind_port
-          #   The local port to bind to.
-          #
-          # @yield [socket]
-          #   If a block is given, it will be passed the newly created socket.
-          #   After the block has returned, the socket will then be closed.
-          #
-          # @yieldparam [UDPsocket] socket
-          #   The newly created UDPSocket object.
-          #
-          # @return [nil]
-          #
-          # @api public
-          #
-          def udp_session(host,port,**kwargs)
-            socket = udp_connect(host,port,**kwargs)
-
-            yield socket if block_given?
-            socket.close
-            return nil
-          end
-
-          #
           # Connects to a specified host and port, sends the given data and then
           # closes the connection.
           #
@@ -232,7 +200,7 @@ module Ronin
           #   The port to connect to.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#udp_session}.
+          #   Additional keyword arguments for {#udp_connect}.
           #
           # @option kwargs [String, nil] :bind_host
           #   The local host to bind to.
@@ -253,7 +221,7 @@ module Ronin
           # @since 0.4.0
           #
           def udp_send(data,host,port,**kwargs)
-            udp_session(host,port,**kwargs) do |socket|
+            udp_connect(host,port,**kwargs) do |socket|
               socket.write(data)
             end
 
@@ -271,7 +239,7 @@ module Ronin
           #   The port to connect to.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#udp_session}.
+          #   Additional keyword arguments for {#udp_connect}.
           #
           # @option kwargs [String, nil] :bind_host
           #   The local host to bind to.
@@ -293,7 +261,7 @@ module Ronin
           def udp_banner(host,port,**kwargs)
             banner = nil
 
-            udp_session(host,port,**kwargs) do |socket|
+            udp_connect(host,port,**kwargs) do |socket|
               banner = socket.readline
             end
 

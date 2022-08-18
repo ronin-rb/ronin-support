@@ -78,15 +78,29 @@ describe Ronin::Support::Network::UDP::Mixin do
       end
 
       context "when given a block" do
-        it "must yield the new UDPSocket" do
+        let(:bind_port) { 1024 + rand(65535 - 1024) }
+
+        it "must open then close a UDPSocket" do
           socket = nil
 
           subject.udp_connect(host,port) do |yielded_socket|
             socket = yielded_socket
           end
 
-          expect(socket).not_to be_closed
-          socket.close
+          expect(socket).to be_kind_of(UDPSocket)
+          expect(socket).to be_closed
+        end
+
+        context "when given a local host and port" do
+          it "must bind to a local host and port" do
+            bound_port = nil
+
+            subject.udp_connect(host,port, bind_port: bind_port) do |socket|
+              bound_port = socket.addr[1]
+            end
+
+            expect(bound_port).to eq(bind_port)
+          end
         end
       end
     end
@@ -130,35 +144,6 @@ describe Ronin::Support::Network::UDP::Mixin do
           expect(response.start_with?('250')).to be_true
 
           socket.close
-        end
-      end
-    end
-  end
-
-  describe "#udp_session" do
-    context "integration", :network do
-      let(:bind_port) { 1024 + rand(65535 - 1024) }
-
-      it "must open then close a UDPSocket" do
-        socket = nil
-
-        subject.udp_session(host,port) do |yielded_socket|
-          socket = yielded_socket
-        end
-
-        expect(socket).to be_kind_of(UDPSocket)
-        expect(socket).to be_closed
-      end
-
-      context "when given a local host and port" do
-        it "must bind to a local host and port" do
-          bound_port = nil
-
-          subject.udp_session(host,port, bind_port: bind_port) do |socket|
-            bound_port = socket.addr[1]
-          end
-
-          expect(bound_port).to eq(bind_port)
         end
       end
     end
