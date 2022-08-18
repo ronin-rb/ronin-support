@@ -129,10 +129,10 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host
+          # @param [String] bind_host
           #   The local host to bind to.
           #
-          # @param [Integer] local_port
+          # @param [Integer] bind_port
           #   The local port to bind to.
           #
           # @param [Integer] timeout (5)
@@ -180,11 +180,13 @@ module Ronin
           #
           # @since 0.6.0
           #
-          def ssl_open?(host,port,local_host=nil,local_port=nil, timeout: 5,
-                                                                 **kwargs)
+          def ssl_open?(host,port, bind_host: nil, bind_port: nil, timeout: 5,
+                                                                   **kwargs)
             begin
               Timeout.timeout(timeout) do
-                ssl_connect(host,port,local_host,local_port,**kwargs)
+                ssl_connect(host,port, bind_host: bind_host,
+                                       bind_port: bind_port,
+                                       **kwargs)
               end
 
               return true
@@ -204,10 +206,10 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host
+          # @param [String] bind_host
           #   The local host to bind to.
           #
-          # @param [Integer] local_port
+          # @param [Integer] bind_port
           #   The local port to bind to.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -262,8 +264,9 @@ module Ronin
           #
           # @api public
           #
-          def ssl_connect(host,port,local_host=nil,local_port=nil,**kwargs)
-            socket     = tcp_connect(host,port,local_host,local_port)
+          def ssl_connect(host,port, bind_host: nil, bind_port: nil, **kwargs)
+            socket     = tcp_connect(host,port,bind_host: bind_host,
+                                               bind_port: bind_port)
             ssl_socket = ssl_socket(socket,**kwargs)
             ssl_socket.connect
 
@@ -287,10 +290,10 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host
+          # @param [String] bind_host
           #   The local host to bind to.
           #
-          # @param [Integer] local_port
+          # @param [Integer] bind_port
           #   The local port to bind to.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -330,8 +333,12 @@ module Ronin
           #
           # @since 0.6.0
           #
-          def ssl_connect_and_send(data,host,port,local_host=nil,local_port=nil,**kwargs)
-            socket = ssl_connect(host,port,local_host,local_port,**kwargs)
+          def ssl_connect_and_send(data,host,port, bind_host: nil,
+                                                   bind_port: nil,
+                                                   **kwargs)
+            socket = ssl_connect(host,port, bind_host: bind_host,
+                                            bind_port: bind_port,
+                                            **kwargs)
             socket.write(data)
 
             yield socket if block_given?
@@ -348,10 +355,10 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host
+          # @param [String] bind_host
           #   The local host to bind to.
           #
-          # @param [Integer] local_port
+          # @param [Integer] bind_port
           #   The local port to bind to.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -398,10 +405,12 @@ module Ronin
           #
           # @since 0.6.0
           #
-          def ssl_banner(host,port,local_host=nil,local_port=nil,**kwargs)
+          def ssl_banner(host,port, bind_host: nil, bind_port: nil, **kwargs)
             banner = nil
 
-            ssl_connect(host,port,local_host,local_port,**kwargs) do |ssl_socket|
+            ssl_connect(host,port, bind_host: bind_host,
+                                   bind_port: bind_port,
+                                   **kwargs) do |ssl_socket|
               banner = ssl_socket.readline.strip
             end
 
@@ -422,10 +431,10 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] local_host
+          # @param [String] bind_host
           #   The local host to bind to.
           #
-          # @param [Integer] local_port
+          # @param [Integer] bind_port
           #   The local port to bind to.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -467,8 +476,9 @@ module Ronin
           #
           # @since 0.6.0
           #
-          def ssl_send(data,host,port,local_host=nil,local_port=nil,**kwargs)
-            ssl_connect(host,port,local_host,local_port,**kwargs) do |socket|
+          def ssl_send(data,host,port, bind_host: nil, bind_port: nil,**kwargs)
+            ssl_connect(host,port, bind_host: bind_host,
+                                   bind_port: bind_port,**kwargs) do |socket|
               socket.write(data)
             end
 
@@ -583,8 +593,8 @@ module Ronin
           #
           # @since 0.6.0
           #
-          def ssl_server_loop(port=nil,host=nil, backlog: 5, **kwargs)
-            return tcp_server_session(port,host,backlog) do |server|
+          def ssl_server_loop(port: nil, host: nil, backlog: 5, **kwargs)
+            return tcp_server_session(port: port, host: host, backlog: backlog) do |server|
               loop do
                 client     = server.accept
                 ssl_client = ssl_server_socket(client,**kwargs)
@@ -661,8 +671,8 @@ module Ronin
           #
           # @since 0.6.0
           #
-          def ssl_accept(port=nil,host=nil,**kwargs)
-            tcp_server_session(port,host,1) do |server|
+          def ssl_accept(port: nil, host: nil,**kwargs)
+            tcp_server_session(port: port, host: host, backlog: 1) do |server|
               client     = server.accept
               ssl_client = ssl_server_socket(client,options)
               ssl_client.accept
