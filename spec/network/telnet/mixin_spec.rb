@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/network/telnet'
+require 'ronin/support/network/telnet/mixin'
 
-describe Network::Telnet do
+describe Network::Telnet::Mixin do
   let(:host) { 'towel.blinkenlights.nl' }
 
   subject do
