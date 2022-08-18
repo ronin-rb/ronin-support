@@ -72,6 +72,11 @@ module Ronin
           # @example
           #   ftp_connect('www.example.com', user: 'joe', password: 'secret')
           #
+          # @example
+          #   ftp_connect('www.example.com', user: 'joe', password: 'secret') do |ftp|
+          #     # ...
+          #   end
+          #
           # @api public
           #
           def ftp_connect(host, port:     DEFAULT_PORT,
