@@ -50,6 +50,9 @@ module Ronin
           # @return [String, nil]
           attr_reader :password
 
+          # The temp directory where the contents of the zip archive will be
+          # written into before zipping.
+          #
           # @return [String]
           #
           # @api private
@@ -80,7 +83,24 @@ module Ronin
           end
 
           #
-          # Alias for `new`.
+          # Alias for {new}.
+          #
+          # @param [String] path
+          #   The path to the zip archive.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {new}.
+          #
+          # @option kwargs [String, nil] :password
+          #   The optional password for the zip archive.
+          #
+          # @yield [zip]
+          #   If a block is given it will be passed the zip archive writer.
+          #
+          # @yieldparam [Writer] zip
+          #   The newly created zip archive writer.
+          #
+          # @see new
           #
           def self.open(path,**kwargs,&block)
             new(path,**kwargs,&block)
