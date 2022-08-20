@@ -35,7 +35,7 @@ module Ronin
 
           # The {Struct} class.
           #
-          # @return [Struct.class]
+          # @return [Class<Binary::Struct>]
           attr_reader :struct_class
 
           # The type used for packing literal `Hash` values.
@@ -46,7 +46,7 @@ module Ronin
           #
           # Initializes the memory-mapped struct type.
           #
-          # @param [Binary::Struct.class] struct_class
+          # @param [<Binary::Struct>] struct_class
           #   The {Struct} class.
           #
           # @param [StructType] struct_type
