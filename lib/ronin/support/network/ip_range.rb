@@ -105,6 +105,9 @@ module Ronin
         # @yieldparam [String] ip
         #   An IP address.
         #
+        # @return [Enumerator]
+        #   If no block is given an Enumerator will be returned.
+        #
         # @example Enumerating over a CIDR range:
         #   IPRange.each('10.0.0.1/24') { |ip| puts ip }
         #   # 10.0.0.0
