@@ -63,7 +63,7 @@ module Ronin
           # @param [String, nil] country
           #   The country for the cert (ex: `US`).
           #
-          # @return [Nmae]
+          # @return [Name]
           #   The populated name.
           #
           def self.build(common_name: nil, organizational_unit: nil, organization: nil, locality: nil, state: nil, province: nil, country: nil)
