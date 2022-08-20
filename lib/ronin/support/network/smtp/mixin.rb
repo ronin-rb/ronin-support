@@ -78,6 +78,9 @@ module Ronin
           # @yieldparam [Email] email
           #   The new email.
           #
+          # @return [Email]
+          #   the new email message object.
+          #
           # @see Email#initialize
           #
           # @api public
