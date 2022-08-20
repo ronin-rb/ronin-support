@@ -818,7 +818,7 @@ module Ronin
       #         :arm64, :arm64_le, :arm64_be, nil] arch
       #   The new architecture for the struct.
       #
-      # @return [Class<Struct>]
+      # @return [Class<Binary::Struct>]
       #   The configured {Struct} sub-class.
       #
       # @see Struct.translate
