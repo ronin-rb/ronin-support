@@ -39,10 +39,13 @@ module Ronin
           # [Request-URI]: https://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5.1.2
           #
           # @param [String] path
+          #   The path of the request.
           #
           # @param [String, nil] query
+          #   The optional query string for the request.
           #
           # @param [Hash{String,Symbol => Object}, nil] query_params
+          #   Additional query params for the request.
           #
           # @return [String]
           #
