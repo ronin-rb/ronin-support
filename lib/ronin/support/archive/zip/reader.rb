@@ -77,7 +77,16 @@ module Ronin
           end
 
           #
-          # Alias to `new`.
+          # Alias to {#initialize new}.
+          #
+          # @param [String] path
+          #   The path to the zip archive file.
+          #
+          # @yield [zip]
+          #   If a block is given, it will be yielded the new zip reader.
+          #
+          # @yieldparam [Reader] zip
+          #   The new zip reacher.
           #
           # @see #initialize
           #
