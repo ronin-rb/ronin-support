@@ -42,7 +42,7 @@ module Ronin
           #
           # Initializes the type resolver.
           #
-          # @return [#[]] types
+          # @param [#[]] types
           #   The types module or object that provides a `[]` method for
           #   looking up type names.
           #
