@@ -63,6 +63,14 @@ module Ronin
           end
 
           #
+          # Alias for {#new}.
+          #
+          # @param [String] string
+          #   The CIDR range string to parse.
+          #
+          # @return [CIDR]
+          #   The parsed CIDR range.
+          #
           # @see new
           #
           def self.parse(string)
