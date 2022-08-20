@@ -123,7 +123,7 @@ module Ronin
         #
         # Writes a value to the buffer at the given index.
         #
-        # @param [Integer, Range(Integer)] index_or_range
+        # @param [Integer, Range<Integer,Integer>] index_or_range
         #   The index within the string to write to.
         #
         # @param [Integer, nil] length
@@ -646,10 +646,10 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer that the struct starts at.
         #
-        # @param [Struct.class] struct_class
+        # @param [Class<Binary::Struct>] struct_class
         #   The struct class.
         #
-        # @return [Struct]
+        # @return [Binary::Struct]
         #   The new struct instance.
         #
         # @example
@@ -670,7 +670,7 @@ module Ronin
         # @param [Integer] offset
         #   The offset within the buffer that the union starts at.
         #
-        # @param [Union.class] union_class
+        # @param [Class<Union>] union_class
         #   The union class.
         #
         # @return [Union]
