@@ -69,7 +69,8 @@ module Ronin
         #
         # Resets text formatting.
         #
-        # @return [RESET]
+        # @return [String, nil]
+        #   The ANSI reset String or `nil` if STDOUT is not a TTY.
         #
         # @see RESET
         #
@@ -81,6 +82,11 @@ module Ronin
           end
         end
 
+        #
+        # Alias for {reset}.
+        #
+        # @return [String, nil]
+        #   The ANSI reset String or `nil` if STDOUT is not a TTY.
         #
         # @see reset
         #
@@ -96,7 +102,7 @@ module Ronin
         # @param [String, nil] string
         #   An optional string.
         #
-        # @return [String, BOLD_ON]
+        # @return [String]
         #   The bolded string or just {BOLD_ON} if no arguments were given.
         #
         # @see BOLD_ON
@@ -125,7 +131,7 @@ module Ronin
         # @param [String, nil] string
         #   An optional string.
         #
-        # @return [String, BLACK]
+        # @return [String]
         #   The colorized string or just {BLACK} if no arguments were given.
         #
         # @see BLACK
@@ -150,7 +156,7 @@ module Ronin
         # @param [String, nil] string
         #   An optional string.
         #
-        # @return [String, RED]
+        # @return [String]
         #   The colorized string or just {RED} if no arguments were given.
         #
         # @see RED
@@ -175,7 +181,7 @@ module Ronin
         # @param [String, nil] string
         #   An optional string.
         #
-        # @return [String, GREEN]
+        # @return [String]
         #   The colorized string or just {GREEN} if no arguments were given.
         #
         # @see GREEN
@@ -200,7 +206,7 @@ module Ronin
         # @param [String, nil] string
         #   An optional string.
         #
-        # @return [String, YELLOW]
+        # @return [String]
         #   The colorized string or just {YELLOW} if no arguments were given.
         #
         # @see YELLOW
@@ -225,7 +231,7 @@ module Ronin
         # @param [String, nil] string
         #   An optional string.
         #
-        # @return [String, BLUE]
+        # @return [String]
         #   The colorized string or just {BLUE} if no arguments were given.
         #
         # @see BLUE
@@ -250,7 +256,7 @@ module Ronin
         # @param [String, nil] string
         #   An optional string.
         #
-        # @return [String, MAGENTA]
+        # @return [String]
         #   The colorized string or just {MAGENTA} if no arguments were given.
         #
         # @see MAGENTA
@@ -275,7 +281,7 @@ module Ronin
         # @param [String, nil] string
         #   An optional string.
         #
-        # @return [String, CYAN]
+        # @return [String]
         #   The colorized string or just {CYAN} if no arguments were given.
         #
         # @see CYAN
@@ -300,7 +306,7 @@ module Ronin
         # @param [String, nil] string
         #   An optional string.
         #
-        # @return [String, WHITE]
+        # @return [String]
         #   The colorized string or just {WHITE} if no arguments were given.
         #
         # @see WHITE
