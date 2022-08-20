@@ -65,7 +65,7 @@ module Ronin
         # @param [String] path
         #   The path to the tar file.
         #
-        # @param ["r", "w", "a"] mode
+        # @param [String] mode
         #   The mode to open the file as.
         #
         # @yield [tar]
@@ -140,7 +140,7 @@ module Ronin
         # @param [String] path
         #   The path to the zip file.
         #
-        # @param ["r", "w", "a"] mode
+        # @param [String] mode
         #   The mode to open the file as.
         #
         # @yield [zip]
