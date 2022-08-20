@@ -76,6 +76,20 @@ module Ronin
             end
 
             #
+            # Alias for {#parse}.
+            #
+            # @param [String] key
+            #   The PEM or DER encoded key string.
+            #
+            # @param [Hash{Symbol => Object}] kwargs
+            #   Additional keyword arguments for {#parse}.
+            #
+            # @option kwargs [String, nil] :password
+            #   Optional password to decrypt the key.
+            #
+            # @return [OpenSSL::PKey]
+            #   The parsed key.
+            #
             # @see parse
             #
             # @api public
