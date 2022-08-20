@@ -56,6 +56,10 @@ module Ronin
           # @param [String] string
           #   The CIDR range string to parse.
           #
+          # @param [Integer] family
+          #   The address family for the CIDR range. This is mainly for
+          #   backwards compatibility with `IPAddr#initialize`.
+          #
           def initialize(string,family=Socket::AF_UNSPEC)
             super(string,family)
 
