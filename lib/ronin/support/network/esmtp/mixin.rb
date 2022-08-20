@@ -30,6 +30,14 @@ module Ronin
           include SMTP::Mixin
 
           #
+          # Alias for {SMTP::Mixin#smtp_message}.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {SMTP::Mixin#smtp_message}.
+          #
+          # @return [SMTP::Email]
+          #   The new email object.
+          #
           # @see SMTP.message
           #
           # @api public
