@@ -37,6 +37,9 @@ module Ronin
         # @param [String] path
         #   The path of the zip archive.
         #
+        # @param [String] mode
+        #   The mode to open the zip archive in.
+        #
         # @yield [zip]
         #   If a block is given, it will be passed the zip stream object.
         #
@@ -70,7 +73,7 @@ module Ronin
         #   The path to the zip file.
         #
         # @param [String] mode
-        #   The mode to open the file as.
+        #   The mode to open the zip file in.
         #
         # @yield [gz]
         #   If a block is given, it will be passed the zip writer object.
