@@ -84,6 +84,9 @@ module Ronin
         #
         # HTTP unescapes the String.
         #
+        # @param [String] data
+        #   The data to unescape.
+        #
         # @return [String]
         #   The raw String.
         #
