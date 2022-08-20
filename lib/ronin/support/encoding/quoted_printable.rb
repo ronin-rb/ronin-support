@@ -67,6 +67,9 @@ module Ronin
         #
         # [Quoted-Printable]: https://en.wikipedia.org/wiki/Quoted-printable
         #
+        # @param [String] data
+        #   The Quoted-Printable String to unescape.
+        #
         # @return [String]
         #   The unescaped String.
         #
@@ -78,6 +81,14 @@ module Ronin
           data.unpack1('M')
         end
 
+        #
+        # Alias for {unescape}.
+        #
+        # @param [String] data
+        #   The Quoted-Printable String to unescape.
+        #
+        # @return [String]
+        #   The unescaped String.
         #
         # @see unescape
         #
