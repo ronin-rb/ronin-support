@@ -48,6 +48,14 @@ module Ronin
         end
 
         #
+        # Alias for {escape}.
+        #
+        # @param [String] data
+        #   The data to escape.
+        #
+        # @return [String]
+        #   The quoted-printable escaped String.
+        #
         # @see escape
         #
         def self.encode(data)
