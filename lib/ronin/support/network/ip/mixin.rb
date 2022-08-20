@@ -29,6 +29,11 @@ module Ronin
         #
         module Mixin
           #
+          # Determines the current public IP address.
+          #
+          # @return [String, nil]
+          #   The public IP address according to {https://ipinfo.io/ip}.
+          #
           # @see Network::IP.public_address
           #
           # @since 1.0.0
@@ -80,9 +85,9 @@ module Ronin
           #
           # Determines the local IPs.
           #
-          # @see Network::IP.local_ips
-          #
           # @return [Array<Network::IP>]
+          #
+          # @see Network::IP.local_ips
           #
           # @since 1.0.0
           #
@@ -95,6 +100,8 @@ module Ronin
           #
           # @return [Network::IP]
           #   The private, link-local, or loopback IP.
+          #
+          # @see Network::IP.local_ip
           #
           # @since 0.6.0
           #
