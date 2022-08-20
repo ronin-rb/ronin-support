@@ -112,7 +112,7 @@ module Ronin
           # @param [String, nil] password
           #   The password to authenticate with.
           #
-          # @param [Hash{Symbol,String => String}, nil] headers
+          # @param [Hash{Symbol => String}, Hash{String => String}, nil] headers
           #   Additional HTTP header names and values to add to the request.
           #
           # @return [Net::HTTP::Copy,
