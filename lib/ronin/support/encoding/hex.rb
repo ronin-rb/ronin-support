@@ -210,6 +210,9 @@ module Ronin
         #
         # Removes the quotes and unescapes a hex string.
         #
+        # @param [String] data
+        #   The quoted hex String to unescape and unquote.
+        #
         # @return [String]
         #   The un-quoted String if the String begins and ends with quotes, or
         #   the same String if it is not quoted.
