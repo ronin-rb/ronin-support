@@ -141,7 +141,7 @@ module Ronin
         # @param [Integer] length
         #   The desired length of the array.
         #
-        # @return [Struct]
+        # @return [Binary::Struct]
         #   The read array.
         #
         # @example
