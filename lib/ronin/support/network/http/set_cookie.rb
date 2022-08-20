@@ -59,10 +59,14 @@ module Ronin
           # @return [:strict, :lax, :none]
           attr_reader :same_site
 
-          # Sets or unsets the `HttpOnly` flag.
+          # The `HttpOnly` flag.
+          #
+          # @return [true, nil]
           attr_reader :http_only
 
-          # Sets or unsets the `Secure` flag.
+          # The `Secure` flag.
+          #
+          # @return [true, nil]
           attr_reader :secure
 
           #

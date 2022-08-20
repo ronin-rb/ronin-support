@@ -30,24 +30,38 @@ module Ronin
           CRLF = "\n\r"
 
           # Sender of the email
+          #
+          # @return [String]
           attr_accessor :from
 
           # Recipient of the email
+          #
+          # @return [Array<#to_s>, String]
           attr_accessor :to
 
           # Subject of the email
+          #
+          # @return [String]
           attr_accessor :subject
 
           # Date of the email
+          #
+          # @return [String, Time]
           attr_accessor :date
 
           # Unique message-id string
+          #
+          # @return [String]
           attr_accessor :message_id
 
           # Additional headers
+          #
+          # @return [Hash{String => String}]
           attr_reader :headers
 
           # Body of the email
+          #
+          # @return [String, Array<String>]
           attr_accessor :body
 
           #
@@ -56,7 +70,7 @@ module Ronin
           # @param [String] from
           #   The address the email is from.
           #
-          # @param [Array, String] to
+          # @param [Array<#to_s>, String] to
           #   The address that the email should be sent to.
           #
           # @param [String] subject
