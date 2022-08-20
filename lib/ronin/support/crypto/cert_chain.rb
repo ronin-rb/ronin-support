@@ -75,6 +75,14 @@ module Ronin
         end
 
         #
+        # Alias for {parse}.
+        #
+        # @param [String] string
+        #   The string to parse.
+        #
+        # @return [CertChain]
+        #   The parsed certificate chain.
+        #
         # @see parse
         #
         def self.load(string)
