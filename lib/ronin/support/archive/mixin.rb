@@ -36,6 +36,9 @@ module Ronin
         # @param [IO, StringIO] io
         #   The IO object to read or write data to.
         #
+        # @param [String] mode
+        #   The mode to open the tar stream with.
+        #
         # @yield [tar]
         #   If a block is given, it will be passed the tar stream object.
         #
@@ -62,7 +65,7 @@ module Ronin
         # @param [String] path
         #   The path to the tar file.
         #
-        # @param [String] mode
+        # @param ["r", "w", "a"] mode
         #   The mode to open the file as.
         #
         # @yield [tar]
@@ -137,7 +140,7 @@ module Ronin
         # @param [String] path
         #   The path to the zip file.
         #
-        # @param [String] mode
+        # @param ["r", "w", "a"] mode
         #   The mode to open the file as.
         #
         # @yield [zip]

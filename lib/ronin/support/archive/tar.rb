@@ -67,6 +67,9 @@ module Ronin
         # @param [IO, StringIO, String] io
         #   The IO object to read or write data to.
         #
+        # @param [String] mode
+        #   The mode to open the tar stream with.
+        #
         # @yield [tar]
         #   If a block is given, it will be passed the tar stream object.
         #
