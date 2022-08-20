@@ -376,7 +376,7 @@ module Ronin
           #
           # Triggers the `client_connect` event.
           #
-          # @param [connection] client_connection
+          # @param [TCPSocket] client_connection
           #   The new connection from a client to the proxy.
           #
           def client_connect(client_connection)
@@ -388,10 +388,10 @@ module Ronin
           #
           # Triggers the `client_disconnect` event.
           #
-          # @param [connection] client_connection
+          # @param [TCPSocket] client_connection
           #   The connection from a client to the proxy.
           #
-          # @param [connection] server_connection
+          # @param [TCPSocket] server_connection
           #   The connection from the proxy to the server.
           #
           def client_disconnect(client_connection,server_connection)
@@ -403,7 +403,7 @@ module Ronin
           #
           # Triggers the `server_connect` event.
           #
-          # @param [connection] client_connection
+          # @param [TCPSocket] client_connection
           #   The connection from a client to the proxy.
           #
           def server_connect(client_connection)
@@ -417,10 +417,10 @@ module Ronin
           #
           # Triggers the `server_disconnect` event.
           #
-          # @param [connection] client_connection
+          # @param [TCPSocket] client_connection
           #   The connection from a client to the proxy.
           #
-          # @param [connection] server_connection
+          # @param [TCPSocket] server_connection
           #   The connection from the proxy to the server.
           #
           def server_disconnect(client_connection,server_connection)
