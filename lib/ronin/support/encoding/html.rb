@@ -82,7 +82,13 @@ module Ronin
         end
 
         #
-        # @see unescape
+        # Decoded the HTML encoded data.
+        #
+        # @param [String] data
+        #   The HTML encoded data to decode.
+        #
+        # @return [String]
+        #   The decoded String.
         #
         def self.decode(data)
           XML.decode(data)
