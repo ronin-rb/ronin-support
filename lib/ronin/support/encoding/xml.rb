@@ -88,6 +88,14 @@ module Ronin
         end
 
         #
+        # Alias for {unescape}.
+        #
+        # @param [String] data
+        #   The data to XML unescape.
+        #
+        # @return [String]
+        #   The unescaped String.
+        #
         # @see unescape
         #
         def self.decode(data)
