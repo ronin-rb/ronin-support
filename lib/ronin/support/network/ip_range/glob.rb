@@ -253,7 +253,7 @@ module Ronin
           # @param [String] range
           #   The string to parse.
           #
-          # @return [Range(Integer,Integer)]
+          # @return [Range<Integer,Integer>]
           #   The parsed range.
           #
           def parse_range(range)
