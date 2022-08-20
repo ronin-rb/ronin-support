@@ -200,6 +200,9 @@ module Ronin
         #
         # [1]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
         #
+        # @param [String] data
+        #   The data to encode.
+        #
         # @return [String]
         #   The PowerShell encoded String.
         #
@@ -218,6 +221,14 @@ module Ronin
         end
 
         #
+        # Alias for {unescape}.
+        #
+        # @param [String] data
+        #   The PowerShell encoded data to unescape.
+        #
+        # @return [String]
+        #   The unescaped string.
+        #
         # @see unescape
         #
         def self.decode(data)
@@ -226,6 +237,9 @@ module Ronin
 
         #
         # Converts the data into a double-quoted PowerShell escaped String.
+        #
+        # @param [String] data
+        #   the data to escape and quote.
         #
         # @return [String]
         #   The quoted and escaped PowerShell string.
@@ -240,6 +254,9 @@ module Ronin
 
         #
         # Removes the quotes an unescapes a PowerShell string.
+        #
+        # @param [String] data
+        #   The PowerShell string to unquote.
         #
         # @return [String]
         #   The un-quoted String if the String begins and ends with quotes, or
