@@ -160,11 +160,17 @@ module Ronin
           # @param [1, 1.1, 1.2, String, Symbol, nil] version
           #   The SSL version to use.
           #
-          # @param [String] cert
-          #   The path to the SSL `.crt` file.
+          # @param [Crypto::Key::RSA, OpenSSL::PKey::RSA] key
+          #   The SSL key.
           #
-          # @param [String] key
+          # @param [String] key_file
           #   The path to the SSL `.key` file.
+          #
+          # @param [Crypto::Cert, OpenSSL::X509::Certificate] cert
+          #   The SSL X509 certificate.
+          #
+          # @param [String] cert_file
+          #   The path to the SSL `.crt` file.
           #
           # @param [Symbol, Boolean] verify
           #   The SSL verify mode. Must be one of:
