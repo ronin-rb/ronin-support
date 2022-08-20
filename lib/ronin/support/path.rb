@@ -30,6 +30,8 @@ module Ronin
     class Path < Pathname
 
       # The separator to join paths together with
+      #
+      # @return [String]
       attr_accessor :separator
 
       #
