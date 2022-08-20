@@ -143,7 +143,11 @@ module Ronin
         #
         # Determines if the IP range is a CIDR range.
         #
+        # @param [String] string
+        #   The IP range string to inspect.
+        #
         # @return [Boolean]
+        #   Indicates that the IP range is a CIDR range.
         #
         def self.cidr?(string)
           !glob?(string)
@@ -152,7 +156,11 @@ module Ronin
         #
         # Determines if the IP range is a IP-glob range.
         #
+        # @param [String] string
+        #   The IP range string to inspect.
+        #
         # @return [Boolean]
+        #   Indicates that the IP range is a IP-glob range.
         #
         def self.glob?(string)
           string.include?('*') ||
