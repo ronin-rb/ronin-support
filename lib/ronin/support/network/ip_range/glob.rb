@@ -93,7 +93,15 @@ module Ronin
           end
 
           #
-          # @see new
+          # Alias for {#initialize new}.
+          #
+          # @param [String] string
+          #   The IP-glob string to parse.
+          #
+          # @return [Glob]
+          #   The parsed IP-glob range.
+          #
+          # @see #initialize
           #
           def self.parse(string)
             new(string)
