@@ -82,6 +82,12 @@ module Ronin
           # @param [String] path
           #   The path to the zip archive file.
           #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {#initialize new}.
+          #
+          # @option kwargs [String, nil] :password
+          #   Optional password to use when reading the zip archive.
+          #
           # @yield [zip]
           #   If a block is given, it will be yielded the new zip reader.
           #
@@ -90,8 +96,8 @@ module Ronin
           #
           # @see #initialize
           #
-          def self.open(path,&block)
-            new(path,&block)
+          def self.open(path,**kwargs,&block)
+            new(path,**kwargs,&block)
           end
 
           #
