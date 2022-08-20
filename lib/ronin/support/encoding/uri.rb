@@ -136,6 +136,14 @@ module Ronin
         end
 
         #
+        # Alias for {unescape}.
+        #
+        # @param [String] data
+        #   The URI escaped data to decode.
+        #
+        # @return [String]
+        #   The decoded URI form of the String.
+        #
         # @see unescape
         #
         def self.decode(data)
@@ -149,6 +157,15 @@ module Ronin
         # @api public
         #
         module Form
+          #
+          # URI Form encodes the given byte.
+          #
+          # @param [Integer] byte
+          #   The byte to URI Form encode.
+          #
+          # @return [String]
+          #   The URI Form encoded byte.
+          #
           def self.encode_byte(byte)
             if byte == 0x20 then '+'
             else                 URI.encode_byte(byte)
@@ -156,13 +173,13 @@ module Ronin
           end
 
           #
-          # URI Form escapes the Integer.
+          # URI Form escapes the given byte.
           #
           # @param [Integer] byte
           #   The byte to URI Form escape.
           #
           # @return [String]
-          #   The URI Form escaped Integer.
+          #   The URI Form escaped byte.
           #
           # @example
           #   Encoding::URI::Form.escape(0x41)
@@ -196,6 +213,9 @@ module Ronin
 
           #
           # URI Form unescapes the String.
+          #
+          # @param [String] data
+          #   The URI Form escaped data to unescape.
           #
           # @return [String]
           #   The URI Form unescaped String.
@@ -233,6 +253,14 @@ module Ronin
             return encoded
           end
 
+          #
+          # Alias for {unescape}.
+          #
+          # @param [String] data
+          #   The URI Form escaped data to decode.
+          #
+          # @return [String]
+          #   The URI Form decoded String.
           #
           # @see unescape
           #
