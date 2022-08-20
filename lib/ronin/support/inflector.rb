@@ -90,6 +90,17 @@ module Ronin
       end
 
       #
+      # Alias for {camelcase}.
+      #
+      # @param [String] name
+      #   The under_scored name.
+      #
+      # @return [String]
+      #   The CamelCased name.
+      #
+      # @raise [ArgumentError]
+      #   The given under_scored string contained non-alpha-numeric characters.
+      #
       # @see camelcase
       #
       def self.camelize(name)
