@@ -71,7 +71,7 @@ module Ronin
         #         :full_width, nil] char_set
         #   The character set name.
         #
-        # @return [Table, DEFAULT]
+        # @return [Table]
         #   The specific homoglyph character set or {DEFAULT} if no name was
         #   given.
         #
