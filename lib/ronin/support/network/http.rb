@@ -1738,7 +1738,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -1860,7 +1860,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -1970,7 +1970,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -2080,7 +2080,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -2188,7 +2188,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -2301,7 +2301,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -2414,7 +2414,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -2527,7 +2527,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -2642,7 +2642,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -2757,7 +2757,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -2867,7 +2867,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -2975,7 +2975,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -3089,7 +3089,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -3197,7 +3197,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -3312,7 +3312,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -3427,7 +3427,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -3542,7 +3542,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -3651,7 +3651,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -3767,7 +3767,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -3876,7 +3876,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -3991,7 +3991,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -4107,7 +4107,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -4216,7 +4216,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -4324,7 +4324,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -4441,7 +4441,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -4558,7 +4558,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -4673,7 +4673,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
@@ -4788,7 +4788,7 @@ module Ronin
         # @param [String, URI::HTTP, nil] proxy
         #   Optional proxy to use for the request.
         #
-        # @param [Boolean, Hash{Symbo => Object}, nil] ssl
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
         #
