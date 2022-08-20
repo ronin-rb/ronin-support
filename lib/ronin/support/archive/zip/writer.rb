@@ -100,6 +100,9 @@ module Ronin
           # @yieldparam [Writer] zip
           #   The newly created zip archive writer.
           #
+          # @return [Writer]
+          #   The newly created zip archive writer.
+          #
           # @see new
           #
           def self.open(path,**kwargs,&block)
