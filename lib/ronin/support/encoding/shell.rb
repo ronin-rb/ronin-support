@@ -207,6 +207,17 @@ module Ronin
           return encoded
         end
 
+        #
+        # Alias for {unescape}.
+        #
+        # @param [String] data
+        #   The data to shell unescape.
+        #
+        # @return [String]
+        #   The shell unescaped string.
+        #
+        # @see unescape
+        #
         def self.decode(data)
           unescape(data)
         end
