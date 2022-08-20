@@ -140,6 +140,9 @@ module Ronin
           # @param [String] name
           #   The name or relative path of the new file.
           #
+          # @param [Integer] size
+          #   The size of the file in bytes.
+          #
           # @param [Integer] mode
           #   The permission mode for the new file.
           #
