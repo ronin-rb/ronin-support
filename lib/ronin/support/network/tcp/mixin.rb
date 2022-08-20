@@ -274,7 +274,7 @@ module Ronin
           # @param [String, nil] host
           #   The host to bind to.
           #
-          # @param [Integer] backlog (5)
+          # @param [Integer] backlog
           #   The maximum backlog of pending connections.
           #
           # @yield [server]
@@ -397,6 +397,9 @@ module Ronin
           # Creates a new TCPServer listening on a given host and port,
           # accepts only one client and then stops listening.
           #
+          # @param [Integer] backlog
+          #   The maximum backlog of pending connections.
+          #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#tcp_server}.
           #
@@ -405,9 +408,6 @@ module Ronin
           #
           # @option kwargs [String, nil] :host
           #   The host to bind to.
-          #
-          # @option kwargs [Integer] :backlog (1)
-          #   The maximum backlog of pending connections.
           #
           # @yield [client]
           #   The given block will be passed the newly connected client.
