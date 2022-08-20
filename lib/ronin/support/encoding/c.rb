@@ -147,6 +147,9 @@ module Ronin
         #
         # Escapes the C encoded data.
         #
+        # @param [String] data
+        #   The data to C escape.
+        #
         # @return [String]
         #   The C escaped String.
         #
