@@ -66,21 +66,33 @@ module Ronin
         DEFAULT_BUFFER_SIZE = 4096
 
         # The host the proxy will listen on
+        #
+        # @return [String]
         attr_reader :host
 
         # The port the proxy will listen on
+        #
+        # @return [Integer]
         attr_reader :port
 
         # The remote port the proxy will relay data to
+        # 
+        # @return [String]
         attr_reader :server_host
 
         # The remote host the proxy will relay data to
+        # 
+        # @return [Integer]
         attr_reader :server_port
 
         # The size of read buffer
+        #
+        # @return [Integer]
         attr_accessor :buffer_size
 
         # The connections maintained by the proxy
+        #
+        # @return [Hash{Socket => Socket}]
         attr_reader :connections
 
         #
@@ -199,7 +211,7 @@ module Ronin
         #
         # Sends data to a connection.
         #
-        # @param [connection] connection
+        # @param [Socket] connection
         #   The connection.
         #
         # @param [String] data
@@ -215,7 +227,7 @@ module Ronin
         #
         # Receives data from a connection.
         #
-        # @param [connection] connection
+        # @param [Socket] connection
         #   The connection.
         #
         # @api public
@@ -249,8 +261,17 @@ module Ronin
         # Registers a callback for when a client sends data.
         #
         # @yield [client, server, data]
+        #   The given block will be passed the client connection, the server
+        #   connection, and the received data.
+        #
+        # @yieldparam [Socket] client
+        #   The connection to the client.
+        #
+        # @yieldparam [Socket] server
+        #   The connection to the server.
         #
         # @yieldparam [String] data
+        #   The recieved data.
         #
         # @api public
         #
@@ -262,8 +283,17 @@ module Ronin
         # Registers a callback for when a server sends data.
         #
         # @yield [client, server, data]
+        #   The given block will be passed the client connection, the server
+        #   connection, and the received data.
+        #
+        # @yieldparam [Socket] client
+        #   The connection to the client.
+        #
+        # @yieldparam [Socket] server
+        #   The connection to the server.
         #
         # @yieldparam [String] data
+        #   The recieved data.
         #
         # @api public
         #
@@ -276,8 +306,17 @@ module Ronin
         # data.
         #
         # @yield [client, server, data]
+        #   The given block will be passed the client connection, the server
+        #   connection, and the received data.
+        #
+        # @yieldparam [Socket] client
+        #   The connection to the client.
+        #
+        # @yieldparam [Socket] server
+        #   The connection to the server.
         #
         # @yieldparam [String] data
+        #   The recieved data.
         #
         # @api public
         #
@@ -325,7 +364,7 @@ module Ronin
         #
         # Connections from clients.
         #
-        # @return [Array<connection>]
+        # @return [Array<Socket>]
         #   Client connections.
         #
         def client_connections
@@ -335,7 +374,7 @@ module Ronin
         #
         # Connections to the server.
         #
-        # @return [Array<connection>]
+        # @return [Array<Socket>]
         #   Server connections.
         #
         def server_connections
@@ -345,10 +384,10 @@ module Ronin
         #
         # Finds the connection to the server, associated with the client.
         #
-        # @param [connection] client_connection
+        # @param [Socket] client_connection
         #   The connection from the client.
         #
-        # @return [connection]
+        # @return [Socket]
         #   The connection to the server.
         #
         def server_connection_for(client_connection)
@@ -359,10 +398,10 @@ module Ronin
         # Finds the connection from the client, associated with the server
         # connection.
         #
-        # @param [connection] server_connection
+        # @param [Socket] server_connection
         #   The connection to the server.
         #
-        # @return [connection]
+        # @return [Socket]
         #   The connection from the client.
         #
         def client_connection_for(server_connection)
@@ -394,7 +433,7 @@ module Ronin
         #
         # Creates a new connection to the server.
         #
-        # @return [connection]
+        # @return [Socket]
         #   The new connection.
         #
         # @abstract
@@ -405,7 +444,7 @@ module Ronin
         #
         # Closes a client connection to the proxy.
         #
-        # @param [connection] connection
+        # @param [Socket] connection
         #   The client connection.
         #
         # @abstract
@@ -416,7 +455,7 @@ module Ronin
         #
         # Closes a connection to the server.
         #
-        # @param [connection] connection
+        # @param [Socket] connection
         #   The server connection.
         #
         # @abstract
@@ -435,10 +474,10 @@ module Ronin
         #
         # Resets a server connection.
         #
-        # @param [connection] client_connection
+        # @param [Socket] client_connection
         #   The connection from the client to the proxy.
         #
-        # @param [connection] server_connection
+        # @param [Socket] server_connection
         #   The connection from the proxy to the server.
         #
         def reset_connection(client_connection,server_connection)
@@ -450,10 +489,10 @@ module Ronin
         #
         # Closes both the client and server connections.
         #
-        # @param [connection] client_connection
+        # @param [Socket] client_connection
         #   The connection from the client to the proxy.
         #
-        # @param [connection] server_connection
+        # @param [Socket] server_connection
         #   The connection from the proxy to the server.
         #
         def close_connection(client_connection,server_connection=nil)
@@ -481,10 +520,10 @@ module Ronin
         # @param [Symbol] event
         #   The event being triggered.
         #
-        # @param [connection] client_connection
+        # @param [Socket] client_connection
         #   The connection from the client to the proxy.
         #
-        # @param [connection] server_connection
+        # @param [Socket] server_connection
         #   The connection from the proxy to the server.
         #
         # @param [String] data
@@ -525,10 +564,10 @@ module Ronin
         #
         # Triggers the `client_data` event.
         #
-        # @param [connection] client_connection
+        # @param [Socket] client_connection
         #   The connection from a client to the proxy.
         #
-        # @param [connection] server_connection
+        # @param [Socket] server_connection
         #   The connection from the proxy to the server.
         #
         # @param [String] data
@@ -543,10 +582,10 @@ module Ronin
         #
         # Triggers the `server_data` event.
         #
-        # @param [connection] client_connection
+        # @param [Socket] client_connection
         #   The connection from a client to the proxy.
         #
-        # @param [connection] server_connection
+        # @param [Socket] server_connection
         #   The connection from the proxy to the server.
         #
         # @param [String] data
