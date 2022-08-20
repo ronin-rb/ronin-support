@@ -36,13 +36,13 @@ module Ronin
 
         # The certificates in the certificate chain.
         #
-        # @return [Array<Certificate>]
+        # @return [Array<Cert>]
         attr_reader :certs
 
         #
         # The certificates in the certificate chain.
         #
-        # @param [Array<Certificate>] certs
+        # @param [Array<Cert>] certs
         #   The certificates that make up the certificate chain.
         #
         def initialize(certs)
@@ -101,7 +101,7 @@ module Ronin
         #   If a block is given, it will be passed each certificate in the
         #   certificate chain.
         #
-        # @yieldparam [Certificate] cert
+        # @yieldparam [Cert] cert
         #   A parsed certificate object in the certificate chain.
         #
         # @return [Enumerator]
@@ -114,13 +114,13 @@ module Ronin
         #
         # Accesses one or more certificates at the index or range/length.
         #
-        # @param [Integer, Range(Integer,Integer)] index_or_range
+        # @param [Integer, Range<Integer,Integer>] index_or_range
         #   The index or range of indices.
         #
         # @param [Integer, nil] length
         #   Optional length.
         #
-        # @return [Certificate, Array<Certificate>, nil]
+        # @return [Cert, Array<Cert>, nil]
         #   The certificate(s) at the index or range of indices.
         #
         def [](index_or_range,length=nil)
@@ -130,7 +130,7 @@ module Ronin
         #
         # The leaf certificate.
         #
-        # @return [Certificate]
+        # @return [Cert]
         #   The last certificate in the certiificate chain.
         #
         def leaf
@@ -140,7 +140,7 @@ module Ronin
         #
         # The issuer certificate.
         #
-        # @return [Certificate]
+        # @return [Cert]
         #   The second-to-last certificate in the certificate chain.
         #
         def issuer
@@ -154,7 +154,7 @@ module Ronin
         #
         # The intermediary certificates.
         #
-        # @return [Array<Certificate>]
+        # @return [Array<Cert>]
         #   The certificates between the {#root} and {#leaf} certificates.
         #
         def intermediates
@@ -164,7 +164,7 @@ module Ronin
         #
         # The root certificate.
         #
-        # @return [Certificate]
+        # @return [Cert]
         #   The first certificate in the certificate chain.
         #
         def root
