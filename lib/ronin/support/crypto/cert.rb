@@ -166,7 +166,7 @@ module Ronin
         # @param [String, Hash, OpenSSL::X509::Name] name
         #   The name value to coerce.
         #
-        # @return [Name]
+        # @return [Cert::Name]
         #   The name object.
         #
         # @api semipublic
