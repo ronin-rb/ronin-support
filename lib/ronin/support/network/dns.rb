@@ -122,6 +122,17 @@ module Ronin
         end
 
         #
+        # Alias for {get_address}.
+        #
+        # @param [String] host
+        #   The hostname to lookup.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {get_address}.
+        #
+        # @return [String, nil]
+        #   The address of the hostname.
+        #
         # @see get_address
         #
         def self.lookup(host,**kwargs)
@@ -176,6 +187,17 @@ module Ronin
           resolver(**kwargs).get_name(ip.to_s)
         end
 
+        #
+        # Alias for {get_name}.
+        #
+        # @param [String] ip
+        #   The IP address to lookup.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {get_name}.
+        #
+        # @return [String, nil]
+        #   The hostname of the address.
         #
         # @see get_name
         #
