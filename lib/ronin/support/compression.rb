@@ -73,6 +73,9 @@ module Ronin
       # @param [IO, StringIO] io
       #   The IO object to read or write data to.
       #
+      # @param ["r", "w", "a"] mode
+      #   The mode of the gzip stream.
+      #
       # @yield [gz]
       #   If a block is given, it will be passed the gzip stream object.
       #
