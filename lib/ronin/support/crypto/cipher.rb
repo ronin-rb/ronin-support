@@ -52,6 +52,9 @@ module Ronin
         #
         # Initializes the cipher.
         #
+        # @param [String] name
+        #   The name of the cipher.
+        #
         # @param [:encrypt, :decrypt] direction
         #   Specifies whether the cipher will be used to encrypt or decrypt
         #   data.
