@@ -233,7 +233,7 @@ module Ronin
         #
         # Removes the quotes an unescapes a JavaScript string.
         #
-        # @param [String]
+        # @param [String] data
         #   The JavaScript string to unquote.
         #
         # @return [String]
