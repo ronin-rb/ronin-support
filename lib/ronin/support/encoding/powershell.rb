@@ -49,7 +49,7 @@ module Ronin
         #
         # Encodes the byte as a PowerShell character.
         #
-        # @param [Intger] byte
+        # @param [Integer] byte
         #   The byte to escape.
         #
         # @return [String]
