@@ -78,6 +78,10 @@ module Ronin
         # @param [String] address
         #   The address of the IP.
         #
+        # @param [Integer] family
+        #   The address family for the CIDR range. This is mainly for
+        #   backwards compatibility with `IPAddr#initialize`.
+        #
         # @raise [InvalidIP]
         #   The given address is not a valid IP address.
         #
