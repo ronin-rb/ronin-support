@@ -44,7 +44,8 @@ module Ronin
           # @param [String, nil] query
           #   The optional query string for the request.
           #
-          # @param [Hash{String,Symbol => Object}, nil] query_params
+          # @param [Hash{Symbol => Object},
+          #         Hash{String => Object}, nil] query_params
           #   Additional query params for the request.
           #
           # @return [String]
