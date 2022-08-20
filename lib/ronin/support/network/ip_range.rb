@@ -206,7 +206,8 @@ module Ronin
         # @yieldparam [String] ip
         #   An IP address.
         #
-        # @return [self]
+        # @return [Enumerator]
+        #   If no block is given an Enumerator will be returned.
         #
         # @example Enumerating over a CIDR range:
         #   ip_range = IPRange.new('10.0.0.1/24')
