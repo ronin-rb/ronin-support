@@ -36,14 +36,36 @@ module Ronin
 
           # The {CTypes} module or object to lookup type names in.
           #
-          # @return [#[]]
+          # @return [Native, LittleEndian, BigEndian, Network,
+          #          Arch::ARM, Arch::ARM::BigEndian,
+          #          Arch::ARM64, Arch::ARM64::BigEndian,
+          #          Arch::MIPS, Arch::MIPS::LittleEndian,
+          #          Arch::MIPS64, Arch::MIPS64::LittleEndian,
+          #          Arch::PPC64, Arch::PPC, Arch::X86_64, Arch::X86,
+          #          OS::FreeBSD,
+          #          OS::NetBSD,
+          #          OS::OpenBSD,
+          #          OS::Linux,
+          #          OS::MacOS,
+          #          OS::Windows]
           attr_reader :types
 
           #
           # Initializes the type resolver.
           #
-          # @param [#[]] types
-          #   The types module or object that provides a `[]` method for
+          # @param [Native, LittleEndian, BigEndian, Network,
+          #          Arch::ARM, Arch::ARM::BigEndian,
+          #          Arch::ARM64, Arch::ARM64::BigEndian,
+          #          Arch::MIPS, Arch::MIPS::LittleEndian,
+          #          Arch::MIPS64, Arch::MIPS64::LittleEndian,
+          #          Arch::PPC64, Arch::PPC, Arch::X86_64, Arch::X86,
+          #          OS::FreeBSD,
+          #          OS::NetBSD,
+          #          OS::OpenBSD,
+          #          OS::Linux,
+          #          OS::MacOS,
+          #          OS::Windows] types
+          #   The types module or object that provides a `#[]` method for
           #   looking up type names.
           #
           def initialize(types)

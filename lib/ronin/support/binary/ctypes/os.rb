@@ -32,7 +32,18 @@ module Ronin
 
           # The base types that the OS inherits.
           #
-          # @return [Module#[]]
+          # @return [Native, LittleEndian, BigEndian, Network,
+          #          Arch::ARM, Arch::ARM::BigEndian,
+          #          Arch::ARM64, Arch::ARM64::BigEndian,
+          #          Arch::MIPS, Arch::MIPS::LittleEndian,
+          #          Arch::MIPS64, Arch::MIPS64::LittleEndian,
+          #          Arch::PPC64, Arch::PPC, Arch::X86_64, Arch::X86,
+          #          OS::FreeBSD,
+          #          OS::NetBSD,
+          #          OS::OpenBSD,
+          #          OS::Linux,
+          #          OS::MacOS,
+          #          OS::Windows]
           attr_reader :types
 
           # The defined typedefs for the OS.
@@ -43,7 +54,18 @@ module Ronin
           #
           # Initializes the OS with the given base types.
           #
-          # @param [Module#[]] types
+          # @param [Native, LittleEndian, BigEndian, Network,
+          #          Arch::ARM, Arch::ARM::BigEndian,
+          #          Arch::ARM64, Arch::ARM64::BigEndian,
+          #          Arch::MIPS, Arch::MIPS::LittleEndian,
+          #          Arch::MIPS64, Arch::MIPS64::LittleEndian,
+          #          Arch::PPC64, Arch::PPC, Arch::X86_64, Arch::X86,
+          #          OS::FreeBSD,
+          #          OS::NetBSD,
+          #          OS::OpenBSD,
+          #          OS::Linux,
+          #          OS::MacOS,
+          #          OS::Windows] types
           #   The base types that the OS builds upon.
           #
           def initialize(types)

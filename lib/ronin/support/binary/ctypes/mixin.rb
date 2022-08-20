@@ -54,7 +54,18 @@ module Ronin
 
           # The type system module or object to lookup type names in.
           #
-          # @return [#[]]
+          # @return [Native, LittleEndian, BigEndian, Network,
+          #          Arch::ARM, Arch::ARM::BigEndian,
+          #          Arch::ARM64, Arch::ARM64::BigEndian,
+          #          Arch::MIPS, Arch::MIPS::LittleEndian,
+          #          Arch::MIPS64, Arch::MIPS64::LittleEndian,
+          #          Arch::PPC64, Arch::PPC, Arch::X86_64, Arch::X86,
+          #          OS::FreeBSD,
+          #          OS::NetBSD,
+          #          OS::OpenBSD,
+          #          OS::Linux,
+          #          OS::MacOS,
+          #          OS::Windows]
           #
           # @api semipublic
           attr_reader :type_system
@@ -71,7 +82,18 @@ module Ronin
           #
           # Initializes the type system.
           #
-          # @param [#[], nil] type_system
+          # @param [Native, LittleEndian, BigEndian, Network,
+          #         Arch::ARM, Arch::ARM::BigEndian,
+          #         Arch::ARM64, Arch::ARM64::BigEndian,
+          #         Arch::MIPS, Arch::MIPS::LittleEndian,
+          #         Arch::MIPS64, Arch::MIPS64::LittleEndian,
+          #         Arch::PPC64, Arch::PPC, Arch::X86_64, Arch::X86,
+          #         OS::FreeBSD,
+          #         OS::NetBSD,
+          #         OS::OpenBSD,
+          #         OS::Linux,
+          #         OS::MacOS,
+          #         OS::Windows, nil] type_system
           #   Optional type system to use instead.
           #
           # @param [:little, :big, :net, nil] endian
