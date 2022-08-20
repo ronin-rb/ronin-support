@@ -93,6 +93,9 @@ module Ronin
         #
         # Encodes the byte as a JavaScript character.
         #
+        # @param [Integer] byte
+        #   The byte to encode.
+        #
         # @return [String]
         #   The encoded JavaScript character.
         #
@@ -121,6 +124,9 @@ module Ronin
         #
         # Escapes a String for JavaScript.
         #
+        # @param [String] data
+        #   The data to JavaScript escape.
+        #
         # @return [String]
         #   The JavaScript escaped String.
         #
@@ -140,6 +146,9 @@ module Ronin
 
         #
         # Unescapes a JavaScript escaped String.
+        #
+        # @param [String] data
+        #   The escaped JavaScript data.
         #
         # @return [String]
         #   The unescaped JavaScript String.
@@ -169,6 +178,9 @@ module Ronin
         #
         # JavaScript escapes every character of the String.
         #
+        # @param [String] data
+        #   The data to JavaScript escape.
+        #
         # @return [String]
         #   The JavaScript escaped String.
         #
@@ -187,6 +199,14 @@ module Ronin
         end
 
         #
+        # Alias for {unescape}.
+        #
+        # @param [String] data
+        #   The escaped JavaScript data.
+        #
+        # @return [String]
+        #   The unescaped JavaScript String.
+        #
         # @see unescape
         #
         def self.decode(data)
@@ -195,6 +215,9 @@ module Ronin
 
         #
         # Converts the String into a JavaScript string.
+        #
+        # @param [String] data
+        #   The data to escape and quote.
         #
         # @return [String]
         #   The unquoted and unescaped String.
@@ -209,6 +232,9 @@ module Ronin
 
         #
         # Removes the quotes an unescapes a JavaScript string.
+        #
+        # @param [String]
+        #   The JavaScript string to unquote.
         #
         # @return [String]
         #   The un-quoted String if the String begins and ends with quotes, or
