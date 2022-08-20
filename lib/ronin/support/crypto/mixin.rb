@@ -563,6 +563,9 @@ module Ronin
         #
         # Encrypts the given data using the given RSA key.
         #
+        # @param [String] data
+        #   The data to encrypt.
+        #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {Crypto.rsa_encrypt}.
         #
@@ -595,6 +598,9 @@ module Ronin
 
         #
         # Decrypts the given data using the given RSA key.
+        #
+        # @param [String] data
+        #   The data to decrypt.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {Crypto.rsa_decrypt}.
