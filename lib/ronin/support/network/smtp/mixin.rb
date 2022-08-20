@@ -176,6 +176,12 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
+          # @param [String] user
+          #   The user to authenticate as.
+          #
+          # @param [String] password
+          #   The password to authenticate with.
+          #
           # @param [Boolean, Hash] ssl
           #   Additional SSL options.
           #
