@@ -85,7 +85,7 @@ module Ronin
         end
 
         #
-        # Alias for {new}.
+        # Alias for {#initialize new}.
         #
         # @param [String] string
         #   The IP range to parse.
@@ -93,7 +93,7 @@ module Ronin
         # @return [IPRange]
         #   The parsed IP range.
         #
-        # @see new
+        # @see #initialize
         #
         def self.parse(string)
           new(string)
