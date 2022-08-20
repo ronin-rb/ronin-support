@@ -106,6 +106,12 @@ module Ronin
             p.num_bits
           end
 
+          #
+          # Saves the DH key to the given file.
+          #
+          # @param [String] path
+          #   The path to the output file.
+          #
           def save(path)
             super(path)
           end
