@@ -190,6 +190,9 @@ module Ronin
           # Enumerates over every possible homoglyphic substitution of the
           # given String.
           #
+          # @param [String] string
+          #   The original to perform substitutions on.
+          #
           # @yield [homoglyph]
           #   If a block is given, it will be passed each homoglyphic
           #   substitution of the given String.
