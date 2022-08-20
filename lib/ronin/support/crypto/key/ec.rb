@@ -51,6 +51,9 @@ module Ronin
           #
           # Initializes the EC key.
           #
+          # @param [Array] args
+          #   Additional arguments.
+          #
           # @note
           #   Will print a warning message when running on JRuby about
           #   jruby-openssl's EC key bugs:
