@@ -743,6 +743,9 @@ module Ronin
           #
           # Sends an arbitrary HTTP request and returns the response body.
           #
+          # @param [Symbol, String] method
+          #   The HTTP method to use for the request.
+          #
           # @param [URI::HTTP, String] uri
           #   Optional URL to create the HTTP request for.
           #
@@ -751,9 +754,6 @@ module Ronin
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
-          #
-          # @option kwargs [Symbol, String] :method
-          #   The HTTP method to use for the request.
           #
           # @option kwargs [String, nil] :query
           #   The query-string to append to the request path.
