@@ -125,6 +125,9 @@ module Ronin
           #   Specifies whether to enable SSL and/or the SSL context
           #   configuration.
           #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {HTTP.connect_uri}.
+          #
           # @yield [http]
           #   If a block is given, it will be passed the newly created HTTP
           #   session object. Once the block returns, the HTTP session will be
