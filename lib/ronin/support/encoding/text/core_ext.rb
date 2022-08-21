@@ -18,6 +18,5 @@
 #
 
 require 'ronin/support/encoding/text/core_ext/string'
-require 'ronin/support/encoding/text/core_ext/array'
 
 require 'chars/extensions'
