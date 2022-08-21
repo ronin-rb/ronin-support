@@ -18,7 +18,6 @@
 #
 
 require 'ronin/support/encoding/core_ext'
-require 'ronin/support/encoding/text'
 require 'ronin/support/encoding/base64'
 require 'ronin/support/encoding/hex'
 require 'ronin/support/encoding/c'

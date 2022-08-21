@@ -18,7 +18,6 @@
 #
 
 require 'ronin/support/encoding/http/core_ext/integer'
-require 'ronin/support/encoding/text/core_ext/string'
 
 require 'cgi'
 

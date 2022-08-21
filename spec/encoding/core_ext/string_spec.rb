@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/support/encoding/text/core_ext/string'
+require 'ronin/support/encoding/core_ext/string'
 
 describe String do
   subject { "hello" }
