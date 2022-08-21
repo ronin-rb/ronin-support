@@ -17,5 +17,33 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/text/core_ext/string'
-require 'ronin/support/text/core_ext/regexp'
+class String
+
+  #
+  # Creates a new String by randomizing the case of each character in the
+  # String.
+  #
+  # @param [Float] probability
+  #   The probability that a character will have it's case changed.
+  #
+  # @example
+  #   "get out your checkbook".random_case
+  #   # => "gEt Out YOur CHEckbook"
+  #
+  # @api public
+  #
+  def random_case(probability: 0.5)
+    new_string = String.new(encoding: encoding)
+
+    each_char.each_with_index do |char|
+      new_string << if rand <= probability
+                      char.swapcase 
+                    else
+                      char
+                    end
+    end
+
+    return new_string
+  end
+
+end
