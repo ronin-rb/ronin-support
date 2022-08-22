@@ -114,7 +114,13 @@ module Ronin
         #   # => "hello"
         #
         def self.decode(data)
-          data.scan(/../).map { |hex| hex.to_i(16).chr }.join
+          decoded = String.new
+
+          data.scan(/../) do |hex|
+            decoded << hex.to_i(16).chr
+          end
+
+          return decoded
         end
 
         #
