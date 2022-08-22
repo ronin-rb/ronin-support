@@ -79,3 +79,5 @@ module Ronin
     end
   end
 end
+
+require 'ronin/support/encoding/base16/core_ext'
