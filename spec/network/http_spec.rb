@@ -225,6 +225,14 @@ describe Network::HTTP do
       expect(subject.port).to eq(port)
     end
 
+    context "when port is 443" do
+      let(:port) { 443 }
+
+      it "must default to enabling SSL" do
+        expect(subject.ssl?).to be(true)
+      end
+    end
+
     context "when initialized with the headers: keyword argument" do
       let(:headers) do
         {'X-Foo' => 'foo', 'X-Bar' => 'bar'}

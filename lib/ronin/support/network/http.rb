@@ -443,7 +443,7 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.connect(host,port, ssl: nil, **kwargs)
+        def self.connect(host,port, ssl: port == 443, **kwargs)
           http = new(host,port, ssl: ssl, **kwargs)
 
           if block_given?
