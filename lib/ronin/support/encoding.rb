@@ -17,7 +17,6 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/encoding/core_ext'
 require 'ronin/support/encoding/base16'
 require 'ronin/support/encoding/base32'
 require 'ronin/support/encoding/base64'
