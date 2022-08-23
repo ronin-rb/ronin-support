@@ -457,7 +457,7 @@ module Ronin
         #
         # Creates a HTTP connection using the URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   The URI to connect to.
         #
         # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -478,11 +478,11 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.connect_uri(uri, ssl: nil, **kwargs,&block)
-          uri   = URI(uri)
-          host  = uri.host
-          port  = uri.port
-          ssl ||= uri.scheme == 'https'
+        def self.connect_uri(url, ssl: nil, **kwargs,&block)
+          url   = URI(url)
+          host  = url.host
+          port  = url.port
+          ssl ||= url.scheme == 'https'
 
           return connect(host,port, ssl: ssl, **kwargs,&block)
         end
@@ -1732,7 +1732,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -1830,15 +1830,15 @@ module Ronin
         # @see .connect_uri
         # @see #request
         #
-        def self.request(method,uri, proxy:      self.proxy,
+        def self.request(method,url, proxy:      self.proxy,
                                      ssl:        nil,
                                      headers:    {},
                                      user_agent: nil,
                                      **kwargs,
                                      &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -1854,7 +1854,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -1941,14 +1941,14 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.response_status(method=:head,uri, proxy:      self.proxy,
+        def self.response_status(method=:head,url, proxy:      self.proxy,
                                                    ssl:        nil,
                                                    headers:    {},
                                                    user_agent: nil,
                                                    **kwargs)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -1964,7 +1964,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2051,14 +2051,14 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.ok?(method=:head,uri, proxy:      self.proxy,
+        def self.ok?(method=:head,url, proxy:      self.proxy,
                                        ssl:        nil,
                                        headers:    {},
                                        user_agent: nil,
                                        **kwargs)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -2074,7 +2074,7 @@ module Ronin
         #         :trace, :unlock] method
         #   The HTTP method to use for the request.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2164,14 +2164,14 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.response_headers(method=:head,uri, proxy:      self.proxy,
+        def self.response_headers(method=:head,url, proxy:      self.proxy,
                                                     ssl:        nil,
                                                     headers:    {},
                                                     user_agent: nil,
                                                     **kwargs)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -2182,7 +2182,7 @@ module Ronin
         #
         # Sends an HTTP request and returns the `Server` header.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2277,14 +2277,14 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.server_header(uri, proxy:      self.proxy,
+        def self.server_header(url, proxy:      self.proxy,
                                     ssl:        nil,
                                     headers:    {},
                                     user_agent: nil,
                                     **kwargs)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -2295,7 +2295,7 @@ module Ronin
         #
         # Sends an HTTP request and returns the `X-Powered-By` header.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2390,14 +2390,14 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.powered_by_header(uri, proxy:      self.proxy,
+        def self.powered_by_header(url, proxy:      self.proxy,
                                         ssl:        nil,
                                         headers:    {},
                                         user_agent: nil,
                                         **kwargs)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -2408,7 +2408,7 @@ module Ronin
         #
         # Sends an arbitrary HTTP request and returns the response body.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2503,14 +2503,14 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.response_body(method=:get,uri, proxy:      self.proxy,
+        def self.response_body(method=:get,url, proxy:      self.proxy,
                                                 ssl:        nil,
                                                 headers:    {},
                                                 user_agent: nil,
                                                 **kwargs)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -2521,7 +2521,7 @@ module Ronin
         #
         # Performs a `COPY` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2617,15 +2617,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.copy(uri, proxy:      self.proxy,
+        def self.copy(url, proxy:      self.proxy,
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
                            **kwargs,
                            &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -2636,7 +2636,7 @@ module Ronin
         #
         # Performs a `DELETE` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2732,15 +2732,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.delete(uri, proxy:      self.proxy,
+        def self.delete(url, proxy:      self.proxy,
                              ssl:        nil,
                              headers:    {},
                              user_agent: nil,
                              **kwargs,
                              &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -2751,7 +2751,7 @@ module Ronin
         #
         # Performs a `GET` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2841,15 +2841,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.get(uri, proxy:      self.proxy,
+        def self.get(url, proxy:      self.proxy,
                           ssl:        nil,
                           headers:    {},
                           user_agent: nil,
                           **kwargs,
                           &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -2861,7 +2861,7 @@ module Ronin
         # Performs a `GET` request for the given URI and returns the response
         # headers.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -2951,14 +2951,14 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.get_headers(uri, proxy:      self.proxy,
+        def self.get_headers(url, proxy:      self.proxy,
                                   ssl:        nil,
                                   headers:    {},
                                   user_agent: nil,
                                   **kwargs)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -2969,7 +2969,7 @@ module Ronin
         #
         # Sends an HTTP request and returns the parsed `Set-Cookie` header(s).
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3064,14 +3064,14 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.get_cookies(uri, proxy:      self.proxy,
+        def self.get_cookies(url, proxy:      self.proxy,
                                   ssl:        nil,
                                   headers:    {},
                                   user_agent: nil,
                                   **kwargs)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -3083,7 +3083,7 @@ module Ronin
         # Performs a `GET` request for the given URI and returns the response
         # body.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3173,14 +3173,14 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.get_body(uri, proxy:      self.proxy,
+        def self.get_body(url, proxy:      self.proxy,
                                ssl:        nil,
                                headers:    {},
                                user_agent: nil,
                                **kwargs)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -3191,7 +3191,7 @@ module Ronin
         #
         # Performs a `HEAD` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3287,15 +3287,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.head(uri, proxy:      self.proxy,
+        def self.head(url, proxy:      self.proxy,
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
                            **kwargs,
                            &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -3306,7 +3306,7 @@ module Ronin
         #
         # Performs a `LOCK` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3402,15 +3402,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.lock(uri, proxy:      self.proxy,
+        def self.lock(url, proxy:      self.proxy,
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
                            **kwargs,
                            &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -3421,7 +3421,7 @@ module Ronin
         #
         # Performs a `MKCOL` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3517,15 +3517,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.mkcol(uri, proxy:      self.proxy,
+        def self.mkcol(url, proxy:      self.proxy,
                             ssl:        nil,
                             headers:    {},
                             user_agent: nil,
                             **kwargs,
                             &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -3536,7 +3536,7 @@ module Ronin
         #
         # Performs a `MOVE` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3626,15 +3626,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.move(uri, proxy:      self.proxy,
+        def self.move(url, proxy:      self.proxy,
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
                            **kwargs,
                            &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -3645,7 +3645,7 @@ module Ronin
         #
         # Performs a `OPTIONS` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3741,15 +3741,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.options(uri, proxy:      self.proxy,
+        def self.options(url, proxy:      self.proxy,
                               ssl:        nil,
                               headers:    {},
                               user_agent: nil,
                               **kwargs,
                               &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -3761,7 +3761,7 @@ module Ronin
         # Performs a `OPTIONS` HTTP request for the given URI and parses the
         # `Allow` response header.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3851,14 +3851,14 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.allowed_methods(uri, proxy:      self.proxy,
+        def self.allowed_methods(url, proxy:      self.proxy,
                                       ssl:        nil,
                                       headers:    {},
                                       user_agent: nil,
                                       **kwargs)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -3870,7 +3870,7 @@ module Ronin
         #
         # Performs a `PATCH` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -3966,15 +3966,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.patch(uri, proxy:      self.proxy,
+        def self.patch(url, proxy:      self.proxy,
                             ssl:        nil,
                             headers:    {},
                             user_agent: nil,
                             **kwargs,
                             &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -3985,7 +3985,7 @@ module Ronin
         #
         # Performs a `POST` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4081,15 +4081,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.post(uri, proxy:      self.proxy,
+        def self.post(url, proxy:      self.proxy,
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
                            **kwargs,
                            &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -4101,7 +4101,7 @@ module Ronin
         # Performs a `POST` request on the given URI and returns the response
         # headers.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4191,14 +4191,14 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.post_headers(uri, proxy:      self.proxy,
+        def self.post_headers(url, proxy:      self.proxy,
                                    ssl:        nil,
                                    headers:    {},
                                    user_agent: nil,
                                    **kwargs)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -4210,7 +4210,7 @@ module Ronin
         # Performs a `POST` request for the given URI and returns the response
         # body.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4300,14 +4300,14 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.post_body(uri, proxy:      self.proxy,
+        def self.post_body(url, proxy:      self.proxy,
                                 ssl:        nil,
                                 headers:    {},
                                 user_agent: nil,
                                 **kwargs)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -4318,7 +4318,7 @@ module Ronin
         #
         # Performs a `PROPFIND` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4414,15 +4414,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.propfind(uri, proxy:      self.proxy,
+        def self.propfind(url, proxy:      self.proxy,
                                ssl:        nil,
                                headers:    {},
                                user_agent: nil,
                                **kwargs,
                                &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -4435,7 +4435,7 @@ module Ronin
         #
         # Performs a `PROPPATCH` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4531,15 +4531,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.proppatch(uri, proxy:      self.proxy,
+        def self.proppatch(url, proxy:      self.proxy,
                                 ssl:        nil,
                                 headers:    {},
                                 user_agent: nil,
                                 **kwargs,
                                 &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -4552,7 +4552,7 @@ module Ronin
         #
         # Performs a `PUT` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4648,15 +4648,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.put(uri, proxy:      self.proxy,
+        def self.put(url, proxy:      self.proxy,
                           ssl:        nil,
                           headers:    {},
                           user_agent: nil,
                           **kwargs,
                           &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -4667,7 +4667,7 @@ module Ronin
         #
         # Performs a `TRACE` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4763,15 +4763,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.trace(uri, proxy:      self.proxy,
+        def self.trace(url, proxy:      self.proxy,
                             ssl:        nil,
                             headers:    {},
                             user_agent: nil,
                             **kwargs,
                             &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)
@@ -4782,7 +4782,7 @@ module Ronin
         #
         # Performs a `UNLOCK` request for the given URI.
         #
-        # @param [URI::HTTP, String] uri
+        # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
         # @param [String, URI::HTTP, nil] proxy
@@ -4878,15 +4878,15 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.unlock(uri, proxy:      self.proxy,
+        def self.unlock(url, proxy:      self.proxy,
                              ssl:        nil,
                              headers:    {},
                              user_agent: nil,
                              **kwargs,
                              &block)
-          uri  = URI(uri)
-          path = uri.request_uri
-          http = connect_uri(uri, proxy:      proxy,
+          url  = URI(url)
+          path = url.request_uri
+          http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent)

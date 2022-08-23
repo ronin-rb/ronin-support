@@ -118,7 +118,7 @@ module Ronin
           #
           # Creates a HTTP connection using the URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   The URI to connect to.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -142,8 +142,8 @@ module Ronin
           #
           # @since 1.0.0
           #
-          def http_connect_uri(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.connect_uri(uri, ssl: ssl, **kwargs,&block)
+          def http_connect_uri(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.connect_uri(url, ssl: ssl, **kwargs,&block)
           end
 
           #
@@ -152,7 +152,7 @@ module Ronin
           # @param [Symbol, String] method
           #   The HTTP method to use for the request.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -251,8 +251,8 @@ module Ronin
           #
           # @api public
           #
-          def http_request(method,uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.request(method,uri, ssl: ssl, **kwargs,&block)
+          def http_request(method,url, ssl: nil, **kwargs,&block)
+            Network::HTTP.request(method,url, ssl: ssl, **kwargs,&block)
           end
 
           #
@@ -261,7 +261,7 @@ module Ronin
           # @param [Symbol, String] method
           #   The HTTP method to use for the request.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
@@ -347,8 +347,8 @@ module Ronin
           #
           # @since 1.0.0
           #
-          def http_response_status(method=:head,uri, ssl: nil, **kwargs)
-            Network::HTTP.response_status(method,uri, ssl: ssl, **kwargs)
+          def http_response_status(method=:head,url, ssl: nil, **kwargs)
+            Network::HTTP.response_status(method,url, ssl: ssl, **kwargs)
           end
 
           #
@@ -357,7 +357,7 @@ module Ronin
           # @param [Symbol, String] method
           #   The HTTP method to use for the request.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
@@ -441,8 +441,8 @@ module Ronin
           #
           # @see Network::HTTP.ok?
           #
-          def http_ok?(method=:head,uri, ssl: nil, **kwargs)
-            Network::HTTP.ok?(method,uri, ssl: ssl, **kwargs)
+          def http_ok?(method=:head,url, ssl: nil, **kwargs)
+            Network::HTTP.ok?(method,url, ssl: ssl, **kwargs)
           end
 
           #
@@ -451,7 +451,7 @@ module Ronin
           # @param [Symbol, String] method
           #   The HTTP method to use for the request.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
@@ -539,14 +539,14 @@ module Ronin
           #
           # @see Network::HTTP.response_headers
           #
-          def http_response_headers(method=:head,uri, ssl: nil, **kwargs)
-            Network::HTTP.response_headers(method,uri, ssl: ssl, **kwargs)
+          def http_response_headers(method=:head,url, ssl: nil, **kwargs)
+            Network::HTTP.response_headers(method,url, ssl: ssl, **kwargs)
           end
 
           #
           # Sends an HTTP request and returns the `Server` header.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -638,14 +638,14 @@ module Ronin
           #
           # @since 1.0.0
           #
-          def http_server_header(uri, ssl: nil, **kwargs)
-            Network::HTTP.server_header(uri, ssl: ssl, **kwargs)
+          def http_server_header(url, ssl: nil, **kwargs)
+            Network::HTTP.server_header(url, ssl: ssl, **kwargs)
           end
 
           #
           # Sends an HTTP request and returns the `X-Powered-By` header.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -736,8 +736,8 @@ module Ronin
           #
           # @see Network::HTTP.powered_by_header
           #
-          def http_powered_by_header(uri, ssl: nil, **kwargs)
-            Network::HTTP.powered_by_header(uri, ssl: ssl, **kwargs)
+          def http_powered_by_header(url, ssl: nil, **kwargs)
+            Network::HTTP.powered_by_header(url, ssl: ssl, **kwargs)
           end
 
           #
@@ -746,7 +746,7 @@ module Ronin
           # @param [Symbol, String] method
           #   The HTTP method to use for the request.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -835,14 +835,14 @@ module Ronin
           #
           # @since 1.0.0
           #
-          def http_response_body(method=:get,uri, ssl: nil, **kwargs)
-            Network::HTTP.response_body(method,uri, ssl: ssl, **kwargs)
+          def http_response_body(method=:get,url, ssl: nil, **kwargs)
+            Network::HTTP.response_body(method,url, ssl: ssl, **kwargs)
           end
 
           #
           # Performs a `COPY` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -935,14 +935,14 @@ module Ronin
           #
           # @see Network::HTTP.copy
           #
-          def http_copy(uri, ssl: nil, **kwargs)
-            Network::HTTP.copy(uri, ssl: ssl, **kwargs)
+          def http_copy(url, ssl: nil, **kwargs)
+            Network::HTTP.copy(url, ssl: ssl, **kwargs)
           end
 
           #
           # Performs a `DELETE` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1035,14 +1035,14 @@ module Ronin
           #
           # @see Network::HTTP.delete
           #
-          def http_delete(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.delete(uri, ssl: ssl, **kwargs,&block)
+          def http_delete(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.delete(url, ssl: ssl, **kwargs,&block)
           end
 
           #
           # Performs a `GET` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1135,15 +1135,15 @@ module Ronin
           #
           # @see Network::HTTP.get
           #
-          def http_get(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.get(uri, ssl: ssl, **kwargs,&block)
+          def http_get(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.get(url, ssl: ssl, **kwargs,&block)
           end
 
           #
           # Performs a `GET` request for the given URI and returns the response
           # headers.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1232,15 +1232,15 @@ module Ronin
           #
           # @since 0.2.0
           #
-          def http_get_headers(uri, ssl: nil, **kwargs)
-            Network::HTTP.get_headers(uri, ssl: ssl, **kwargs)
+          def http_get_headers(url, ssl: nil, **kwargs)
+            Network::HTTP.get_headers(url, ssl: ssl, **kwargs)
           end
 
           #
           # Sends an HTTP request and returns the parsed `Set-Cookie`
           # header(s).
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1327,15 +1327,15 @@ module Ronin
           #
           # @see Network::HTTP.get_cookies
           #
-          def http_get_cookies(uri, ssl: nil, **kwargs)
-            Network::HTTP.get_cookies(uri, ssl: ssl, **kwargs)
+          def http_get_cookies(url, ssl: nil, **kwargs)
+            Network::HTTP.get_cookies(url, ssl: ssl, **kwargs)
           end
 
           #
           # Performs a `GET` request for the given URI and returns the response
           # body.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1422,14 +1422,14 @@ module Ronin
           #
           # @see Network::HTTP.get_body
           #
-          def http_get_body(uri, ssl: nil, **kwargs)
-            Network::HTTP.get_body(uri, ssl: ssl, **kwargs)
+          def http_get_body(url, ssl: nil, **kwargs)
+            Network::HTTP.get_body(url, ssl: ssl, **kwargs)
           end
 
           #
           # Performs a `HEAD` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1522,14 +1522,14 @@ module Ronin
           #
           # @see Network::HTTP.head
           #
-          def http_head(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.head(uri, ssl: ssl, **kwargs,&block)
+          def http_head(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.head(url, ssl: ssl, **kwargs,&block)
           end
 
           #
           # Performs a `LOCK` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1622,14 +1622,14 @@ module Ronin
           #
           # @see Network::HTTP.lock
           #
-          def http_lock(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.lock(uri, ssl: ssl, **kwargs,&block)
+          def http_lock(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.lock(url, ssl: ssl, **kwargs,&block)
           end
 
           #
           # Performs a `MKCOL` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1722,14 +1722,14 @@ module Ronin
           #
           # @see Network::HTTP.mkcol
           #
-          def http_mkcol(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.mkcol(uri, ssl: ssl, **kwargs,&block)
+          def http_mkcol(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.mkcol(url, ssl: ssl, **kwargs,&block)
           end
 
           #
           # Performs a `MOVE` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1822,14 +1822,14 @@ module Ronin
           #
           # @see Network::HTTP.move
           #
-          def http_move(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.move(uri, ssl: ssl, **kwargs,&block)
+          def http_move(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.move(url, ssl: ssl, **kwargs,&block)
           end
 
           #
           # Performs a `OPTIONS` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -1922,15 +1922,15 @@ module Ronin
           #
           # @see Network::HTTP.options
           #
-          def http_options(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.options(uri, ssl: ssl, **kwargs,&block)
+          def http_options(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.options(url, ssl: ssl, **kwargs,&block)
           end
 
           #
           # Performs a `OPTIONS` HTTP request for the given URI and parses the
           # `Allow` response header.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2023,14 +2023,14 @@ module Ronin
           #
           # @see Network::HTTP.allowed_methods
           #
-          def http_allowed_methods(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.allowed_methods(uri, ssl: ssl, **kwargs,&block)
+          def http_allowed_methods(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.allowed_methods(url, ssl: ssl, **kwargs,&block)
           end
 
           #
           # Performs a `PATCH` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2125,14 +2125,14 @@ module Ronin
           #
           # @since 1.0.0
           #
-          def http_patch(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.patch(uri, ssl: ssl, **kwargs,&block)
+          def http_patch(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.patch(url, ssl: ssl, **kwargs,&block)
           end
 
           #
           # Performs a `POST` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2225,15 +2225,15 @@ module Ronin
           #
           # @see Network::HTTP.post
           #
-          def http_post(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.post(uri, ssl: ssl, **kwargs,&block)
+          def http_post(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.post(url, ssl: ssl, **kwargs,&block)
           end
 
           #
           # Performs a `POST` request on the given URI and returns the response
           # headers.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2322,15 +2322,15 @@ module Ronin
           #
           # @since 0.2.0
           #
-          def http_post_headers(uri, ssl: nil, **kwargs)
-            Network::HTTP.post_headers(uri, ssl: ssl, **kwargs)
+          def http_post_headers(url, ssl: nil, **kwargs)
+            Network::HTTP.post_headers(url, ssl: ssl, **kwargs)
           end
 
           #
           # Performs a `POST` request for the given URI and returns the response
           # body.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2417,14 +2417,14 @@ module Ronin
           #
           # @see Network::HTTP.post_body
           #
-          def http_post_body(uri, ssl: nil, **kwargs)
-            Network::HTTP.post_body(uri, ssl: ssl, **kwargs)
+          def http_post_body(url, ssl: nil, **kwargs)
+            Network::HTTP.post_body(url, ssl: ssl, **kwargs)
           end
 
           #
           # Performs a `PROPFIND` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2517,8 +2517,8 @@ module Ronin
           #
           # @see Network::HTTP.propfind
           #
-          def http_propfind(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.propfind(uri, ssl: ssl, **kwargs,&block)
+          def http_propfind(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.propfind(url, ssl: ssl, **kwargs,&block)
           end
 
           alias http_prop_find http_propfind
@@ -2526,7 +2526,7 @@ module Ronin
           #
           # Performs a `PROPPATCH` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2619,8 +2619,8 @@ module Ronin
           #
           # @see Network::HTTP.proppatch
           #
-          def http_proppatch(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.proppatch(uri, ssl: ssl, **kwargs,&block)
+          def http_proppatch(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.proppatch(url, ssl: ssl, **kwargs,&block)
           end
 
           alias http_prop_patch http_proppatch
@@ -2628,7 +2628,7 @@ module Ronin
           #
           # Performs a `PUT` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2723,14 +2723,14 @@ module Ronin
           #
           # @since 0.4.0
           #
-          def http_put(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.put(uri, ssl: ssl, **kwargs,&block)
+          def http_put(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.put(url, ssl: ssl, **kwargs,&block)
           end
 
           #
           # Performs a `TRACE` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2825,14 +2825,14 @@ module Ronin
           #
           # @api public
           #
-          def http_trace(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.trace(uri, ssl: ssl, **kwargs,&block)
+          def http_trace(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.trace(url, ssl: ssl, **kwargs,&block)
           end
 
           #
           # Performs a `UNLOCK` request for the given URI.
           #
-          # @param [URI::HTTP, String] uri
+          # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
@@ -2926,8 +2926,8 @@ module Ronin
           #
           # @see Network::HTTP.unlock
           #
-          def http_unlock(uri, ssl: nil, **kwargs,&block)
-            Network::HTTP.unlock(uri, ssl: ssl, **kwargs,&block)
+          def http_unlock(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.unlock(url, ssl: ssl, **kwargs,&block)
           end
         end
       end
