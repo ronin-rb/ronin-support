@@ -49,7 +49,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String,Array}, nil] :headers
           #   Additional headers to add to each request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @option ssl [String, nil] :ca_bundle
@@ -190,7 +190,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @option ssl [String, nil] :ca_bundle
@@ -295,7 +295,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -396,7 +396,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -496,7 +496,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -598,7 +598,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -700,7 +700,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -801,7 +801,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -899,7 +899,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -1002,7 +1002,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -1104,7 +1104,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -1208,7 +1208,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -1308,7 +1308,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -1406,7 +1406,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -1502,7 +1502,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -1604,7 +1604,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -1707,7 +1707,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -1809,7 +1809,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -1886,7 +1886,7 @@ module Ronin
           #
           # @param [Hash{Symbol => Object}] kwargs
           #   Aditional keyword arguments and headers for
-          #   {Network::HTTP.option}.
+          #   {Network::HTTP.options}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -1912,7 +1912,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -2016,7 +2016,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -2119,7 +2119,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -2223,7 +2223,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -2327,7 +2327,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -2427,7 +2427,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -2524,7 +2524,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -2629,7 +2629,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -2733,7 +2733,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -2838,7 +2838,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
@@ -2941,7 +2941,7 @@ module Ronin
           # @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #   Additional HTTP headers to use for the request.
           #
-          # @option kwargs [String, nil] :user_agent (HTTP.user_agent)
+          # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
           #   The default `User-Agent` string to add to each request.
           #
           # @param [Boolean, Hash{Symbol => Object}, nil] ssl
