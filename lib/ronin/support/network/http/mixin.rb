@@ -111,6 +111,8 @@ module Ronin
           #
           # @since 1.0.0
           #
+          # @api public
+          #
           def http_connect(host,port, ssl: nil, **kwargs,&block)
             Network::HTTP.connect(host,port, ssl: ssl, **kwargs,&block)
           end
@@ -141,6 +143,8 @@ module Ronin
           #   returned.
           #
           # @since 1.0.0
+          #
+          # @api public
           #
           def http_connect_uri(url, ssl: nil, **kwargs,&block)
             Network::HTTP.connect_uri(url, ssl: ssl, **kwargs,&block)
@@ -350,6 +354,8 @@ module Ronin
           #
           # @since 1.0.0
           #
+          # @api public
+          #
           def http_response_status(method=:head,url, ssl: nil, **kwargs)
             Network::HTTP.response_status(method,url, ssl: ssl, **kwargs)
           end
@@ -446,6 +452,8 @@ module Ronin
           #   Indicates that the response status was 200.
           #
           # @see Network::HTTP.ok?
+          #
+          # @api public
           #
           def http_ok?(method=:head,url, ssl: nil, **kwargs)
             Network::HTTP.ok?(method,url, ssl: ssl, **kwargs)
@@ -547,6 +555,8 @@ module Ronin
           #
           # @since 1.0.0
           #
+          # @api public
+          #
           def http_response_headers(method=:head,url, ssl: nil, **kwargs)
             Network::HTTP.response_headers(method,url, ssl: ssl, **kwargs)
           end
@@ -646,6 +656,8 @@ module Ronin
           # @see Network::HTTP.server_header
           #
           # @since 1.0.0
+          #
+          # @api public
           #
           def http_server_header(url, ssl: nil, **kwargs)
             Network::HTTP.server_header(url, ssl: ssl, **kwargs)
@@ -747,6 +759,8 @@ module Ronin
           #
           # @since 1.0.0
           #
+          # @api public
+          #
           def http_powered_by_header(url, ssl: nil, **kwargs)
             Network::HTTP.powered_by_header(url, ssl: ssl, **kwargs)
           end
@@ -845,6 +859,8 @@ module Ronin
           # @see Network::HTTP.response_body
           #
           # @since 1.0.0
+          #
+          # @api public
           #
           def http_response_body(method=:get,url, ssl: nil, **kwargs)
             Network::HTTP.response_body(method,url, ssl: ssl, **kwargs)
@@ -945,6 +961,8 @@ module Ronin
           #   The new HTTP Request object.
           #
           # @see Network::HTTP.copy
+          #
+          # @api public
           #
           def http_copy(url, ssl: nil, **kwargs)
             Network::HTTP.copy(url, ssl: ssl, **kwargs)
@@ -1047,6 +1065,8 @@ module Ronin
           #
           # @see Network::HTTP.delete
           #
+          # @api public
+          #
           def http_delete(url, ssl: nil, **kwargs,&block)
             Network::HTTP.delete(url, ssl: ssl, **kwargs,&block)
           end
@@ -1147,6 +1167,8 @@ module Ronin
           #
           # @see Network::HTTP.get
           #
+          # @api public
+          #
           def http_get(url, ssl: nil, **kwargs,&block)
             Network::HTTP.get(url, ssl: ssl, **kwargs,&block)
           end
@@ -1245,6 +1267,8 @@ module Ronin
           #
           # @since 0.2.0
           #
+          # @api public
+          #
           def http_get_headers(url, ssl: nil, **kwargs)
             Network::HTTP.get_headers(url, ssl: ssl, **kwargs)
           end
@@ -1341,6 +1365,8 @@ module Ronin
           #
           # @see Network::HTTP.get_cookies
           #
+          # @api public
+          #
           def http_get_cookies(url, ssl: nil, **kwargs)
             Network::HTTP.get_cookies(url, ssl: ssl, **kwargs)
           end
@@ -1436,6 +1462,8 @@ module Ronin
           #   The response body.
           #
           # @see Network::HTTP.get_body
+          #
+          # @api public
           #
           def http_get_body(url, ssl: nil, **kwargs)
             Network::HTTP.get_body(url, ssl: ssl, **kwargs)
@@ -1537,6 +1565,8 @@ module Ronin
           #
           # @see Network::HTTP.head
           #
+          # @api public
+          #
           def http_head(url, ssl: nil, **kwargs,&block)
             Network::HTTP.head(url, ssl: ssl, **kwargs,&block)
           end
@@ -1636,6 +1666,8 @@ module Ronin
           #   The new HTTP Request object.
           #
           # @see Network::HTTP.lock
+          #
+          # @api public
           #
           def http_lock(url, ssl: nil, **kwargs,&block)
             Network::HTTP.lock(url, ssl: ssl, **kwargs,&block)
@@ -1738,6 +1770,8 @@ module Ronin
           #
           # @see Network::HTTP.mkcol
           #
+          # @api public
+          #
           def http_mkcol(url, ssl: nil, **kwargs,&block)
             Network::HTTP.mkcol(url, ssl: ssl, **kwargs,&block)
           end
@@ -1837,6 +1871,8 @@ module Ronin
           #   The new HTTP Request object.
           #
           # @see Network::HTTP.move
+          #
+          # @api public
           #
           def http_move(url, ssl: nil, **kwargs,&block)
             Network::HTTP.move(url, ssl: ssl, **kwargs,&block)
@@ -1939,6 +1975,8 @@ module Ronin
           #
           # @see Network::HTTP.options
           #
+          # @api public
+          #
           def http_options(url, ssl: nil, **kwargs,&block)
             Network::HTTP.options(url, ssl: ssl, **kwargs,&block)
           end
@@ -2040,6 +2078,8 @@ module Ronin
           #   The allowed HTTP request methods for the given URL.
           #
           # @see Network::HTTP.allowed_methods
+          #
+          # @api public
           #
           def http_allowed_methods(url, ssl: nil, **kwargs,&block)
             Network::HTTP.allowed_methods(url, ssl: ssl, **kwargs,&block)
@@ -2144,6 +2184,8 @@ module Ronin
           #
           # @since 1.0.0
           #
+          # @api public
+          #
           def http_patch(url, ssl: nil, **kwargs,&block)
             Network::HTTP.patch(url, ssl: ssl, **kwargs,&block)
           end
@@ -2244,6 +2286,8 @@ module Ronin
           #
           # @see Network::HTTP.post
           #
+          # @api public
+          #
           def http_post(url, ssl: nil, **kwargs,&block)
             Network::HTTP.post(url, ssl: ssl, **kwargs,&block)
           end
@@ -2342,6 +2386,8 @@ module Ronin
           #
           # @since 0.2.0
           #
+          # @api public
+          #
           def http_post_headers(url, ssl: nil, **kwargs)
             Network::HTTP.post_headers(url, ssl: ssl, **kwargs)
           end
@@ -2437,6 +2483,8 @@ module Ronin
           #   The response body.
           #
           # @see Network::HTTP.post_body
+          #
+          # @api public
           #
           def http_post_body(url, ssl: nil, **kwargs)
             Network::HTTP.post_body(url, ssl: ssl, **kwargs)
@@ -2538,6 +2586,8 @@ module Ronin
           #   The new HTTP Request object.
           #
           # @see Network::HTTP.propfind
+          #
+          # @api public
           #
           def http_propfind(url, ssl: nil, **kwargs,&block)
             Network::HTTP.propfind(url, ssl: ssl, **kwargs,&block)
@@ -2642,6 +2692,8 @@ module Ronin
           #
           # @see Network::HTTP.proppatch
           #
+          # @api public
+          #
           def http_proppatch(url, ssl: nil, **kwargs,&block)
             Network::HTTP.proppatch(url, ssl: ssl, **kwargs,&block)
           end
@@ -2745,6 +2797,8 @@ module Ronin
           # @see Network::HTTP.put
           #
           # @since 0.4.0
+          #
+          # @api public
           #
           def http_put(url, ssl: nil, **kwargs,&block)
             Network::HTTP.put(url, ssl: ssl, **kwargs,&block)
@@ -2949,6 +3003,8 @@ module Ronin
           #   The new HTTP Request object.
           #
           # @see Network::HTTP.unlock
+          #
+          # @api public
           #
           def http_unlock(url, ssl: nil, **kwargs,&block)
             Network::HTTP.unlock(url, ssl: ssl, **kwargs,&block)
