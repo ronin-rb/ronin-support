@@ -543,8 +543,9 @@ module Ronin
           # @return [Hash{String => String}]
           #   The response headers.
           #
-          #
           # @see Network::HTTP.response_headers
+          #
+          # @since 1.0.0
           #
           def http_response_headers(method=:head,url, ssl: nil, **kwargs)
             Network::HTTP.response_headers(method,url, ssl: ssl, **kwargs)
@@ -742,8 +743,9 @@ module Ronin
           # @return [String, nil]
           #   The `X-Powered-By` header.
           #
-          #
           # @see Network::HTTP.powered_by_header
+          #
+          # @since 1.0.0
           #
           def http_powered_by_header(url, ssl: nil, **kwargs)
             Network::HTTP.powered_by_header(url, ssl: ssl, **kwargs)
