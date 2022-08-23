@@ -1870,6 +1870,9 @@ module Ronin
         # @param [String, Symbol, :random, nil] user_agent
         #   The default `User-Agent` string to add to each request.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional arguments for {#response_status}.
+        #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
         #
@@ -1979,6 +1982,9 @@ module Ronin
         #
         # @param [String, Symbol, :random, nil] user_agent
         #   The default `User-Agent` string to add to each request.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional arguments for {#ok?}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -2091,7 +2097,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#response_headers}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -2199,7 +2205,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#server_header}.
         #
         # @option kwargs [:copy, :delete, :get, :head, :lock, :mkcol, :move,
         #                 :options, :patch, :post, :propfind, :proppatch, :put,
@@ -2312,7 +2318,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#powered_by_header}.
         #
         # @option kwargs [:copy, :delete, :get, :head, :lock, :mkcol, :move,
         #                 :options, :patch, :post, :propfind, :proppatch, :put,
@@ -2425,7 +2431,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#response_body}.
         #
         # @option kwargs [:copy, :delete, :get, :head, :lock, :mkcol, :move,
         #                 :options, :patch, :post, :propfind, :proppatch, :put,
@@ -2538,7 +2544,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#copy}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -2653,7 +2659,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#delete}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -2762,7 +2768,7 @@ module Ronin
         #   configuration.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#get}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -2878,7 +2884,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#get_headers}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -2986,7 +2992,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#get_cookies}.
         #
         # @option kwargs [:copy, :delete, :get, :head, :lock, :mkcol, :move,
         #                 :options, :patch, :post, :propfind, :proppatch, :put,
@@ -3100,7 +3106,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#get_body}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -3208,7 +3214,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#head}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -3323,7 +3329,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#lock}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -3438,7 +3444,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#mkcol}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -3547,7 +3553,7 @@ module Ronin
         #   configuration.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#move}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -3662,7 +3668,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#options}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -3778,7 +3784,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#allowed_methods}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -3887,7 +3893,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#patch}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -4002,7 +4008,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#post}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -4118,7 +4124,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#post_headers}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -4227,7 +4233,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#post_body}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -4335,7 +4341,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#propfind}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -4452,7 +4458,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#proppatch}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -4569,7 +4575,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#put}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -4684,7 +4690,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#trace}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.
@@ -4799,7 +4805,7 @@ module Ronin
         #   The default `User-Agent` string to add to each request.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
+        #   Aditional keyword arguments and headers for {#unlock}.
         #
         # @option kwargs [String, nil] :query
         #   The query-string to append to the request path.

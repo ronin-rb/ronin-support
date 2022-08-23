@@ -160,7 +160,7 @@ module Ronin
           #   configuration.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional arguments for {Network::HTTP.request}.
+          #   Additional keyword arguments for {Network::HTTP.request}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -264,6 +264,9 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {Network::HTTP.response_status}.
+          #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
           #
@@ -359,6 +362,9 @@ module Ronin
           #
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {Network::HTTP.ok?}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -458,7 +464,8 @@ module Ronin
           #   Optional proxy to use for the request.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.request}.
           #
           # @option kwargs [String, nil] :query
           #   The query-string to append to the request path.
@@ -550,7 +557,8 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.server_header}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -649,7 +657,8 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.powered_by_header}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -750,7 +759,7 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.response_body}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -846,7 +855,7 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.copy}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -946,7 +955,8 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.delete}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -1046,7 +1056,7 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.get}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -1147,7 +1157,8 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.get_headers}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -1244,7 +1255,8 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.get_cookies}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -1339,7 +1351,8 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.get_body}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -1433,7 +1446,7 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.head}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -1533,7 +1546,7 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.lock}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -1633,7 +1646,8 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.mkcol}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -1733,7 +1747,7 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.move}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -1833,7 +1847,8 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.option}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -1934,7 +1949,8 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.allowed_methods}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -2034,7 +2050,8 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.patch}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -2136,7 +2153,7 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.post}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -2237,7 +2254,8 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.post_headers}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -2327,14 +2345,15 @@ module Ronin
           end
 
           #
-          # Performs a `POST` request for the given URI and returns the response
-          # body.
+          # Performs a `POST` request for the given URI and returns the
+          # response body.
           #
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.post_body}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -2428,7 +2447,8 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.propfind}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -2530,7 +2550,8 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.proppatch}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -2632,7 +2653,7 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for {Network::HTTP.put}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -2734,7 +2755,8 @@ module Ronin
           #   Optional URL to create the HTTP request for.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Aditional keyword arguments and headers for {Network::HTTP.request}.
+          #   Aditional keyword arguments and headers for
+          #   {Network::HTTP.trace}.
           #
           # @option kwargs [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
@@ -2837,7 +2859,7 @@ module Ronin
           #
           # @param [Hash{Symbol => Object}] kwargs
           #   Aditional keyword arguments and headers for
-          #   {Network::HTTP.request}.
+          #   {Network::HTTP.unlock}.
           #
           # @option [String, URI::HTTP, nil] :proxy
           #   Optional proxy to use for the request.
