@@ -168,6 +168,64 @@ module Ronin
         attr_reader :headers
 
         #
+        # @!macro [new] initialize_kwargs
+        #   @param [String, URI::HTTP, nil] proxy
+        #     Optional proxy to use for the request.
+        #
+        #   @param [Hash{Symbol,String => String,Array}, nil] headers
+        #     Additional headers to add to each request.
+        #
+        #   @param [String, Symbol, :random, nil] user_agent
+        #     The default `User-Agent` string to add to each request.
+        #
+        #   @param [Boolean, Hash{Symbol => Object}, nil] ssl
+        #     Specifies whether to enable SSL and/or the SSL context
+        #     configuration.
+        #
+        #   @option ssl [String, nil] :ca_bundle
+        #     The path to the CA bundle directory or file.
+        #
+        #   @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+        #     The certificate to use for the SSL/TLS connection.
+        #
+        #   @option ssl [OpenSSL::X509::Store, nil] :cert_store
+        #     The certificate store to use for the SSL/TLS connection.
+        #
+        #   @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
+        #     The accepted ciphers to use for the SSL/TLS connection.
+        #
+        #   @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :extra_chain_cert
+        #     The extra certificate to add to the SSL/TLS certificate chain.
+        #
+        #   @option ssl [Crypto::Key::RSA, Crypto::Key::DSA, OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
+        #     The RSA or DSA key to use for the SSL/TLS connection.
+        #
+        #   @option ssl [Integer, nil] :timeout
+        #     The connection timeout limit.
+        #
+        #   @option ssl [1, 1.1, 1.2, Symbol, nil] :version
+        #     The desired SSL/TLS version.
+        #
+        #   @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
+        #     The minimum SSL/TLS version.
+        #
+        #   @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
+        #     The maximum SSL/TLS version.
+        #
+        #   @option ssl [Proc, nil] :verify_callback
+        #     The callback to use when verifying the server's certificate.
+        #
+        #   @option ssl [Integer, nil] :verify_depth
+        #     The verification depth limit.
+        #
+        #   @option ssl [:none, :peer, :fail_if_no_peer_cert, true, false, Integer, nil] :verify
+        #     The verification mode.
+        #
+        #   @option ssl [Boolean, nil] :verify_hostname
+        #     Indicates whether to verify the server's hostname.
+        #
+
+        #
         # Initializes an HTTP connection.
         #
         # @param [String] host
@@ -176,63 +234,7 @@ module Ronin
         # @param [Integer] port
         #   The port to connect tto.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   The optional proxy to send requests through.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
         #
         # @since 1.0.0
         #
@@ -368,6 +370,10 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
+        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
+        #   Specifies whether to enable SSL and/or the SSL context
+        #   configuration.
+        #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {#initialize}.
         #
@@ -379,10 +385,6 @@ module Ronin
         #
         # @option kwargs [String, Symbol, :random, nil] :user_agent (HTTP.user_agent)
         #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
         #
         # @option ssl [String, nil] :ca_bundle
         #   The path to the CA bundle directory or file.
@@ -463,6 +465,9 @@ module Ronin
         # @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #   Specifies whether to enable SSL and/or the SSL context
         #   configuration.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {connect}.
         #
         # @yield [http]
         #   If a block is given, it will be passed the newly created HTTP
@@ -659,6 +664,33 @@ module Ronin
         end
 
         #
+        # @!macro request_kwargs
+        #   @param [Hash{Symbol => Object}] kwargs
+        #     Aditional keyword arguments and headers for {#request}.
+        #
+        #   @option kwargs [String, nil] :user
+        #     The user to authenticate as.
+        #
+        #   @option kwargs [String, nil] :password
+        #     The password to authenticate with.
+        #
+        #   @option kwargs [String, nil] :query
+        #     The query-string to append to the request path.
+        #
+        #   @option kwargs [Hash, nil] :query_params
+        #     The query-params to append to the request path.
+        #
+        #   @option kwargs [String, nil] :body
+        #     The body of the request.
+        #
+        #   @option kwargs [Hash, String, nil] :form_data
+        #     The form data that may be sent in the body of the request.
+        #
+        #   @option kwargs [Hash{Symbol,String => String}, nil] :headers
+        #     Additional HTTP header names and values to add to the request.
+        #
+
+        #
         # Sends an arbitrary HTTP request and returns the response status.
         #
         # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
@@ -669,8 +701,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => String}] kwargs
-        #   Additional keyword arguments for {#request}.
+        # @!macro request_kwargs
         #
         # @return [Integer]
         #   The response status code.
@@ -693,8 +724,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => String}] kwargs
-        #   Additional keyword arguments for {#request}.
+        # @!macro request_kwargs
         #
         # @return [Boolean]
         #   Indicates that the response status was 200.
@@ -716,8 +746,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => String}] kwargs
-        #   Additional keyword arguments for {#request}.
+        # @!macro request_kwargs
         #
         # @return [Hash{String => String}]
         #   The response headers.
@@ -745,8 +774,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => String}] kwargs
-        #   Additional keyword arguments for {#request}.
+        # @!macro request_kwargs
         #
         # @return [String, nil]
         #   The `Server` header.
@@ -769,8 +797,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => String}] kwargs
-        #   Additional keyword arguments for {#request}.
+        # @!macro request_kwargs
         #
         # @return [String, nil]
         #   The `X-Powered-By` header.
@@ -793,8 +820,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => String}] kwargs
-        #   Additional keyword arguments for {#request}.
+        # @!macro request_kwargs
         #
         # @return [String]
         #   The response body.
@@ -811,29 +837,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -856,29 +860,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -901,29 +883,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -946,29 +906,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @return [Hash{String => String}]
         #   The response headers.
@@ -985,8 +923,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => String}] kwargs
-        #   Additional keyword arguments for {#request}.
+        # @!macro request_kwargs
         #
         # @return [Array<SetCookie>]
         #   The parsed `Set-Cookie` headers.
@@ -1011,29 +948,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @return [String]
         #   The response body.
@@ -1050,29 +965,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -1095,29 +988,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -1140,29 +1011,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -1185,29 +1034,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -1230,29 +1057,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -1276,29 +1081,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @return [Array<Symbol>]
         #   The allowed HTTP request methods for the given path.
@@ -1324,29 +1107,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -1369,29 +1130,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -1414,29 +1153,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @return [Hash{String => String}]
         #   The response headers.
@@ -1453,29 +1170,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @return [String]
         #   The response body.
@@ -1492,29 +1187,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -1539,29 +1212,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -1586,29 +1237,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -1631,29 +1260,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -1676,29 +1283,7 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#request}.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [Hash{Symbol,String => String}, nil] :headers
-        #   Additional HTTP header names and values to add to the request.
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -1735,84 +1320,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Additional arguments for {#request}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -1857,84 +1366,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Additional arguments for {#response_status}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @return [Integer]
         #   The status code of the response.
@@ -1970,84 +1403,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Additional arguments for {#ok?}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @return [Boolean]
         #   Indicates that the response status was 200.
@@ -2083,84 +1440,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#response_headers}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @return [Hash{String => String}]
         #   The response headers.
@@ -2191,89 +1472,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#server_header}.
-        #
-        # @option kwargs [:copy, :delete, :get, :head, :lock, :mkcol, :move,
-        #                 :options, :patch, :post, :propfind, :proppatch, :put,
-        #                 :trace, :unlock] :method
-        #   The HTTP method to use for the request.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @return [String, nil]
         #   The `Server` header.
@@ -2304,89 +1504,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#powered_by_header}.
-        #
-        # @option kwargs [:copy, :delete, :get, :head, :lock, :mkcol, :move,
-        #                 :options, :patch, :post, :propfind, :proppatch, :put,
-        #                 :trace, :unlock] :method
-        #   The HTTP method to use for the request.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @return [String, nil]
         #   The `X-Powered-By` header.
@@ -2414,92 +1533,16 @@ module Ronin
         #
         # Sends an arbitrary HTTP request and returns the response body.
         #
+        # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
+        #         :options, :patch, :post, :propfind, :proppatch, :put,
+        #         :trace, :unlock] method
+        #   The HTTP method to use for the request.
+        #
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#response_body}.
-        #
-        # @option kwargs [:copy, :delete, :get, :head, :lock, :mkcol, :move,
-        #                 :options, :patch, :post, :propfind, :proppatch, :put,
-        #                 :trace, :unlock] :method
-        #   The HTTP method to use for the request.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @return [String]
         #   The response body.
@@ -2530,84 +1573,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#copy}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -2645,84 +1612,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#delete}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -2760,78 +1651,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#get}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -2870,84 +1691,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#get_headers}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @return [Hash{String => String}]
         #   The response headers.
@@ -2978,89 +1723,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#get_cookies}.
-        #
-        # @option kwargs [:copy, :delete, :get, :head, :lock, :mkcol, :move,
-        #                 :options, :patch, :post, :propfind, :proppatch, :put,
-        #                 :trace, :unlock] :method
-        #   The HTTP method to use for the request.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @return [Array<SetCookie>, nil]
         #   The parsed `SetCookie` header(s).
@@ -3092,84 +1756,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#get_body}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @return [String]
         #   The response body.
@@ -3200,84 +1788,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#head}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -3315,84 +1827,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#lock}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -3430,84 +1866,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#mkcol}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -3545,78 +1905,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#move}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -3654,84 +1944,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#options}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -3770,84 +1984,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#allowed_methods}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @return [Array<Symbol>]
         #   The allowed HTTP request methods for the given URL.
@@ -3879,84 +2017,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#patch}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -3994,84 +2056,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#post}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -4110,84 +2096,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#post_headers}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @return [Hash{String => String}]
         #   The response headers.
@@ -4219,84 +2129,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#post_body}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @return [String]
         #   The response body.
@@ -4327,84 +2161,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#propfind}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -4444,84 +2202,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#proppatch}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -4561,84 +2243,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#put}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -4676,84 +2282,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#trace}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
@@ -4791,84 +2321,8 @@ module Ronin
         # @param [URI::HTTP, String] url
         #   Optional URL to create the HTTP request for.
         #
-        # @param [String, URI::HTTP, nil] proxy
-        #   Optional proxy to use for the request.
-        #
-        # @param [Boolean, Hash{Symbol => Object}, nil] ssl
-        #   Specifies whether to enable SSL and/or the SSL context
-        #   configuration.
-        #
-        # @param [Hash{Symbol,String => String,Array}, nil] headers
-        #   Additional headers to add to each request.
-        #
-        # @param [String, Symbol, :random, nil] user_agent
-        #   The default `User-Agent` string to add to each request.
-        #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Aditional keyword arguments and headers for {#unlock}.
-        #
-        # @option kwargs [String, nil] :query
-        #   The query-string to append to the request path.
-        #
-        # @option kwargs [Hash, nil] :query_params
-        #   The query-params to append to the request path.
-        #
-        # @option kwargs [String, nil] :body
-        #   The body of the request.
-        #
-        # @option kwargs [Hash, String, nil] :form_data
-        #   The form data that may be sent in the body of the request.
-        #
-        # @option kwargs [String, nil] :user
-        #   The user to authenticate as.
-        #
-        # @option kwargs [String, nil] :password
-        #   The password to authenticate with.
-        #
-        # @option ssl [String, nil] :ca_bundle
-        #   The path to the CA bundle directory or file.
-        #
-        # @option ssl [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The certificate to use for the SSL/TLS connection.
-        #
-        # @option ssl [OpenSSL::X509::Store, nil] :cert_store
-        #   The certificate store to use for the SSL/TLS connection.
-        #
-        # @option ssl [Array<(name, version, bits, alg_bits)>, nil] :ciphers
-        #   The accepted ciphers to use for the SSL/TLS connection.
-        #
-        # @option ssl [Crypto::Cert,
-        #         OpenSSL::X509::Certificate, nil] :extra_chain_cert
-        #   The extra certificate to add to the SSL/TLS certificate chain.
-        #
-        # @option ssl [Crypto::Key::RSA, Crypto::Key::DSA,
-        #         OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, nil] :key
-        #   The RSA or DSA key to use for the SSL/TLS connection.
-        #
-        # @option ssl [Integer, nil] :timeout
-        #   The connection timeout limit.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :version
-        #   The desired SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :min_version
-        #   The minimum SSL/TLS version.
-        #
-        # @option ssl [1, 1.1, 1.2, Symbol, nil] :max_version
-        #   The maximum SSL/TLS version.
-        #
-        # @option ssl [Proc, nil] :verify_callback
-        #   The callback to use when verifying the server's certificate.
-        #
-        # @option ssl [Integer, nil] :verify_depth
-        #   The verification depth limit.
-        #
-        # @option ssl [:none, :peer, :fail_if_no_peer_cert,
-        #         true, false, Integer, nil] :verify
-        #   The verification mode.
-        #
-        # @option ssl [Boolean, nil] :verify_hostname
-        #   Indicates whether to verify the server's hostname.
+        # @!macro initialize_kwargs
+        # @!macro request_kwargs
         #
         # @yield [response]
         #   If a block is given it will be passed the received HTTP response.
