@@ -1319,7 +1319,7 @@ module Ronin
         end
 
         #
-        # Sends a `PATH` HTTP request.
+        # Sends a `PATCH` HTTP request.
         #
         # @param [String] path
         #   The path to to make the request for.
