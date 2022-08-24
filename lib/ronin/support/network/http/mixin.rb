@@ -180,8 +180,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -213,8 +213,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @return [Integer]
           #   The status code of the response.
@@ -238,8 +238,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @return [Boolean]
           #   Indicates that the response status was 200.
@@ -261,8 +261,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @return [Hash{String => String}]
           #   The response headers.
@@ -305,8 +305,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @return [String, nil]
           #   The `X-Powered-By` header.
@@ -330,8 +330,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @return [String]
           #   The response body.
@@ -352,8 +352,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -378,8 +378,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -404,8 +404,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -431,8 +431,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @return [Hash{String => String}]
           #   The response headers.
@@ -454,8 +454,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @return [Array<SetCookie>, nil]
           #   The parsed `SetCookie` header(s).
@@ -475,8 +475,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @return [String]
           #   The response body.
@@ -495,8 +495,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -521,8 +521,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -547,8 +547,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -573,8 +573,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -599,8 +599,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -626,8 +626,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -652,8 +652,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -680,8 +680,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -707,8 +707,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @return [Hash{String => String}]
           #   The response headers.
@@ -730,8 +730,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @return [String]
           #   The response body.
@@ -750,8 +750,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -778,8 +778,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -806,8 +806,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -834,8 +834,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
@@ -860,8 +860,8 @@ module Ronin
           # @param [URI::HTTP, String] url
           #   Optional URL to create the HTTP request for.
           #
-          # @!macro connect_kwargs
           # @!macro request_kwargs
+          # @!macro connect_kwargs
           #
           # @yield [response]
           #   If a block is given it will be passed the received HTTP response.
