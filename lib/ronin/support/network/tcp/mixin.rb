@@ -36,9 +36,6 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [Integer] timeout (5)
-          #   The maximum time to attempt connecting.
-          #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#tcp_connect}.
           #
@@ -47,6 +44,9 @@ module Ronin
           #
           # @option kwargs [Integer, nil] bind_port
           #   The local port to bind to.
+          #
+          # @option kwargs [Integer] :timeout (5)
+          #   The maximum time to attempt connecting.
           #
           # @return [Boolean, nil]
           #   Specifies whether the remote TCP port is open.
@@ -66,8 +66,8 @@ module Ronin
           #
           # @since 0.5.0
           #
-          def tcp_open?(host,port, timeout: 5, **kwargs)
-            TCP.open?(host,port, timeout: timeout, **kwargs)
+          def tcp_open?(host,port,**kwargs)
+            TCP.open?(host,port,**kwargs)
           end
 
           #
