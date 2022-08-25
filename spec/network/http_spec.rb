@@ -88,42 +88,78 @@ describe Network::HTTP do
     end
   end
 
-  shared_examples_for "user_agents=" do
-    let(:user_agent) { 'Mozilla/5.0 Foo Bar' }
-
+  shared_examples_for "user_agent=" do
     context "when given a String" do
-      before { subject.user_agent = user_agent }
+      let(:user_agent) { "Mozilla/5.0 Foo Bar" }
 
-      it "must set the user agent" do
-        expect(subject.user_agent).to be(user_agent)
+      it "must set the User-Agent to the given String" do
+        subject.user_agent = user_agent
+
+        expect(subject.user_agent).to eq(user_agent)
       end
     end
 
-    described_class::USER_AGENTS.each do |name,string|
+    described_class::UserAgents::ALIASES.each do |name,string|
       context "when given #{name.inspect}" do
-        before { subject.user_agent = name }
+        it "must set the User-Agent to #{string.inspect}" do
+          subject.user_agent = name
 
-        it "must set the user agent to #{string.inspect}" do
           expect(subject.user_agent).to eq(string)
         end
       end
     end
 
     describe "when given :random" do
-      it "must set the user agent to a random value from #{described_class}::USER_AGENTS" do
+      let(:user_agents) { described_class::UserAgents::ALIASES.values }
+
+      it "must set the User-Agent to a random value from #{described_class}::UserAgents" do
         subject.user_agent = :random
 
-        expect(described_class::USER_AGENTS.values).to include(subject.user_agent)
+        expect(user_agents).to include(subject.user_agent)
+      end
+    end
+
+    [:chrome, :firefox, :safari].each do |prefix|
+      describe "when given #{prefix.inspect}" do
+        let(:prefix) { prefix }
+
+        let(:user_agents) do
+          described_class::UserAgents::ALIASES.select { |k,v|
+            k =~ /^#{prefix}_/
+          }.values
+        end
+
+        it "must set the User-Agent to a random :#{prefix}_* User-Agent String from #{described_class}::UserAgents::ALIASES" do
+          subject.user_agent = prefix
+
+          expect(user_agents).to include(subject.user_agent)
+        end
+      end
+    end
+
+    [:linux, :macos, :windows, :iphone, :ipad, :android].each do |suffix|
+      describe "when given #{suffix.inspect}" do
+        let(:suffix) { suffix }
+
+        let(:user_agents) do
+          described_class::UserAgents::ALIASES.select { |k,v|
+            k =~ /_#{suffix}$/
+          }.values
+        end
+
+        it "must set the User-Agent to a random :*_#{suffix} User-Agent String from #{described_class}::UserAgents::ALIASES" do
+          subject.user_agent = suffix
+
+          expect(user_agents).to include(subject.user_agent)
+        end
       end
     end
 
     context "when given nil" do
-      before do
-        subject.user_agent = user_agent
-        subject.user_agent = nil
-      end
-
       it "must set .user_agent to nil" do
+        subject.user_agent = "Mozilla/5.0 Foo Bar"
+        subject.user_agent = nil
+
         expect(subject.user_agent).to be(nil)
       end
     end
@@ -132,7 +168,7 @@ describe Network::HTTP do
   describe ".user_agent=" do
     subject { described_class }
 
-    include_context "user_agents="
+    include_context "user_agent="
 
     after { subject.user_agent = nil }
   end
@@ -177,16 +213,16 @@ describe Network::HTTP do
       context "when given a String" do
         subject { described_class.new(host,port, user_agent: user_agent) }
 
-        it "must set the user agent" do
+        it "must set the User-Agent to the given String" do
           expect(subject.user_agent).to eq(user_agent)
         end
       end
 
-      described_class::USER_AGENTS.each do |name,string|
+      described_class::UserAgents::ALIASES.each do |name,string|
         context "when given #{name.inspect}" do
           subject { described_class.new(host,port, user_agent: name) }
 
-          it "must set the user agent to #{string.inspect}" do
+          it "must set the User-Agent to #{string.inspect}" do
             expect(subject.user_agent).to eq(string)
           end
         end
@@ -195,8 +231,42 @@ describe Network::HTTP do
       describe "when given :random" do
         subject { described_class.new(host,port, user_agent: :random) }
 
-        it "must set the user agent to a random value from #{described_class}::USER_AGENTS" do
-          expect(described_class::USER_AGENTS.values).to include(subject.user_agent)
+        let(:user_agents) { described_class::UserAgents::ALIASES.values }
+
+        it "must set the User-Agent to a random value from #{described_class}::UserAgents" do
+          expect(user_agents).to include(subject.user_agent)
+        end
+      end
+
+      [:chrome, :firefox, :safari].each do |prefix|
+        describe "when given #{prefix.inspect}" do
+          let(:prefix) { prefix }
+
+          let(:user_agents) do
+            described_class::UserAgents::ALIASES.select { |k,v| k =~ /^#{prefix}_/ }.values
+          end
+
+          subject { described_class.new(host,port, user_agent: prefix) }
+
+          it "must set the User-Agent to a random :#{prefix}_* User-Agent String from #{described_class}::UserAgents" do
+            expect(user_agents).to include(subject.user_agent)
+          end
+        end
+      end
+
+      [:linux, :macos, :windows, :iphone, :ipad, :android].each do |suffix|
+        describe "when given #{suffix.inspect}" do
+          let(:suffix) { suffix }
+
+          let(:user_agents) do
+            described_class::UserAgents::ALIASES.select { |k,v| k =~ /_#{suffix}$/ }.values
+          end
+
+          subject { described_class.new(host,port, user_agent: suffix) }
+
+          it "must set the User-Agent to a random :*_#{suffix} User-Agent String from #{described_class}::UserAgents" do
+            expect(user_agents).to include(subject.user_agent)
+          end
         end
       end
     end
@@ -354,7 +424,7 @@ describe Network::HTTP do
   end
 
   describe "#user_agent=" do
-    include_context "user_agents="
+    include_context "user_agent="
   end
 
   describe "#request" do
