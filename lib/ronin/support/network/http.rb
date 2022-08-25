@@ -553,6 +553,10 @@ module Ronin
         # @param [Hash{Symbol,String => String}, nil] headers
         #   Additional HTTP header names and values to add to the request.
         #
+        # @param [String, Hash{String => String}, nil] cookie
+        #   Additional `Cookie` header. If a `Hash` is given, it will be
+        #   converted to a `String` using {Cookie}.
+        #
         # @param [Hash{Symbol => String}] additional_headers
         #   Additional headers to add to the request.
         #
@@ -610,9 +614,11 @@ module Ronin
                                  form_data: nil,
                                  # header keyword arguments
                                  headers:    nil,
+                                 cookie:     nil,
                                  **additional_headers,
                                  &block)
           request = Request.build(method,path, headers:      @headers,
+                                               cookie:       cookie,
                                                user:         user,
                                                password:     password,
                                                query:        query,
@@ -662,6 +668,10 @@ module Ronin
         #
         #   @option kwargs [Hash{Symbol,String => String}, nil] :headers
         #     Additional HTTP header names and values to add to the request.
+        #
+        #   @option kwargs [String, Hash{String => String}, nil] :cookie
+        #     Additional `Cookie` header. If a `Hash` is given, it will be
+        #     converted to a `String` using {Cookie}.
         #
 
         #

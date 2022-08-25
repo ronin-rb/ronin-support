@@ -170,6 +170,10 @@ module Ronin
           #   @option kwargs [Hash{Symbol,String => String}, nil] :headers
           #     Additional HTTP headers to use for the request.
           #
+          #   @option kwargs [String, Hash{String => String}, nil] :cookie
+          #     Additional `Cookie` header. If a `Hash` is given, it will be
+          #     converted to a `String` using {Cookie}.
+          #
 
           #
           # Performs and arbitrary HTTP request.

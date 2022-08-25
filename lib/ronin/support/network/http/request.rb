@@ -17,6 +17,8 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/network/http/cookie'
+
 require 'net/http'
 require 'uri/query_params'
 
@@ -115,6 +117,10 @@ module Ronin
           # @param [Hash{Symbol => String}, Hash{String => String}, nil] headers
           #   Additional HTTP header names and values to add to the request.
           #
+          # @param [String, Hash{String => String}] cookie
+          #   Additional `Cookie` header. If a `Hash` is given, it will be
+          #   converted to a `String` using {Cookie}.
+          #
           # @return [Net::HTTP::Copy,
           #          Net::HTTP::Delete,
           #          Net::HTTP::Get,
@@ -132,7 +138,9 @@ module Ronin
           #          Net::HTTP::Unlock]
           #   The built HTTP request object.
           #
-          def self.build(method,path, headers: nil,
+          def self.build(method,path, # Header keyword arguments
+                                      headers: nil,
+                                      cookie:  nil,
                                       # Basic-Auth keyword arguments
                                       user:     nil,
                                       password: nil,
@@ -156,6 +164,13 @@ module Ronin
               password = password.to_s if password
 
               request.basic_auth(user,password)
+            end
+
+            if cookie
+              request['Cookie'] = case cookie
+                                  when Hash then HTTP::Cookie.new(cookie).to_s
+                                  else           cookie.to_s
+                                  end
             end
 
             if form_data

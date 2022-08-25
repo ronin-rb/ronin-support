@@ -330,6 +330,33 @@ describe Ronin::Support::Network::HTTP::Request do
       end
     end
 
+    context "when the cookie: keyword argument is given" do
+      context "and the value is a String" do
+        let(:cookie) { "foo=bar; baz=qux" }
+
+        it "must send the `Cookie:` header with the given String" do
+          req = subject.build(:get,path, cookie: cookie)
+
+          expect(req['Cookie']).to eq(cookie)
+        end
+      end
+
+      context "and the value is a Hash" do
+        let(:cookie_hash) do
+          {'foo' => 'bar', 'baz' => 'qux'}
+        end
+        let(:cookie) do
+          Ronin::Support::Network::HTTP::Cookie.new(cookie_hash).to_s
+        end
+
+        it "must format and send the `Cookie:` header using the given Hash" do
+          req = subject.build(:get,path, cookie: cookie_hash)
+
+          expect(req['Cookie']).to eq(cookie)
+        end
+      end
+    end
+
     context "when given the query_params: keyword argument" do
       let(:query_params) do
         {id: 1, bar: 2}
