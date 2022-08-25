@@ -17,8 +17,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'socket'
-require 'timeout'
+require 'ronin/support/network/tcp'
 
 module Ronin
   module Support
@@ -63,21 +62,12 @@ module Ronin
           #
           # @api public
           #
+          # @see TCP.open?
+          #
           # @since 0.5.0
           #
           def tcp_open?(host,port, timeout: 5, **kwargs)
-            begin
-              Timeout.timeout(timeout) do
-                socket = tcp_connect(host,port,**kwargs)
-                socket.close
-              end
-
-              return true
-            rescue Timeout::Error
-              return nil
-            rescue SocketError, SystemCallError
-              return false
-            end
+            TCP.open?(host,port, timeout: timeout, **kwargs)
           end
 
           #
@@ -89,10 +79,13 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String, nil] bind_host
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {TCP.connect}.
+          #
+          # @option kwargs [String, nil] :bind_host
           #   The local host to bind to.
           #
-          # @param [Integer, nil] bind_port
+          # @option kwargs [Integer, nil] :bind_port
           #   The local port to bind to.
           #
           # @yield [socket]
@@ -117,26 +110,13 @@ module Ronin
           #     puts socket.readlines
           #   end
           #
+          # @see TCP.connect
           # @see https://rubydoc.info/stdlib/socket/TCPSocket
           #
           # @api public
           #
-          def tcp_connect(host,port, bind_host: nil, bind_port: nil)
-            host = host.to_s
-            port = port.to_i
-
-            socket = if bind_host || bind_port
-                       TCPSocket.new(host,port,bind_host.to_s,bind_port.to_i)
-                     else
-                       TCPSocket.new(host,port)
-                     end
-
-            if block_given?
-              yield socket
-              socket.close
-            else
-              return socket
-            end
+          def tcp_connect(host,port,**kwargs,&block)
+            TCP.connect(host,port,**kwargs,&block)
           end
 
           #
@@ -172,12 +152,8 @@ module Ronin
           #
           # @api public
           #
-          def tcp_connect_and_send(data,host,port,**kwargs)
-            socket = tcp_connect(host,port,**kwargs)
-            socket.write(data)
-
-            yield socket if block_given?
-            return socket
+          def tcp_connect_and_send(data,host,port,**kwargs,&block)
+            TCP.connect_and_send(data,host,port,**kwargs,&block)
           end
 
           #
@@ -212,17 +188,12 @@ module Ronin
           #   tcp_banner('pop.gmail.com',25)
           #   # => "220 mx.google.com ESMTP c20sm3096959rvf.1"
           #
+          # @see TCP.banner
+          #
           # @api public
           #
-          def tcp_banner(host,port,**kwargs)
-            banner = nil
-
-            tcp_connect(host,port,**kwargs) do |socket|
-              banner = socket.readline.strip
-            end
-
-            yield banner if block_given?
-            return banner
+          def tcp_banner(host,port,**kwargs,&block)
+            TCP.banner(host,port,**kwargs,&block)
           end
 
           #
@@ -257,24 +228,25 @@ module Ronin
           #
           # @api public
           #
+          # @see TCP.send
+          #
           def tcp_send(data,host,port,**kwargs)
-            tcp_connect(host,port,**kwargs) do |socket|
-              socket.write(data)
-            end
-
-            return true
+            TCP.send(data,host,port,**kwargs)
           end
 
           #
           # Creates a new TCPServer listening on a given host and port.
           #
-          # @param [Integer, nil] port
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {TCP.server}.
+          #
+          # @option kwargs [Integer, nil] :port (0)
           #   The local port to listen on.
           #
-          # @param [String, nil] host
+          # @option kwargs [String, nil] :host
           #   The host to bind to.
           #
-          # @param [Integer] backlog
+          # @option kwargs [Integer] :backlog (5)
           #   The maximum backlog of pending connections.
           #
           # @yield [server]
@@ -293,25 +265,19 @@ module Ronin
           #
           # @api public
           #
-          def tcp_server(port: 0, host: nil, backlog: 5)
-            server = if host
-                       TCPServer.new(host.to_s,port.to_i)
-                     else
-                       TCPServer.new(port.to_i)
-                     end
-            server.listen(backlog)
-
-            yield server if block_given?
-            return server
+          # @see TCP.server
+          #
+          def tcp_server(**kwargs,&block)
+            TCP.server(**kwargs,&block)
           end
 
           #
           # Creates a new temporary TCPServer listening on a host and port.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#tcp_server}.
+          #   Additional keyword arguments for {TCP.server_session}.
           #
-          # @option kwargs [Integer, nil] :port
+          # @option kwargs [Integer, nil] :port (0)
           #   The local port to bind to.
           #
           # @option kwargs [String, nil] :host
@@ -342,10 +308,10 @@ module Ronin
           #
           # @api public
           #
+          # @see TCP.server_session
+          #
           def tcp_server_session(**kwargs,&block)
-            server = tcp_server(**kwargs,&block)
-            server.close()
-            return nil
+            TCP.server_session(**kwargs,&block)
           end
 
           #
@@ -353,9 +319,9 @@ module Ronin
           # accepting clients in a loop.
           #
           # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#tcp_server}.
+          #   Additional keyword arguments for {TCP.server_loop}.
           #
-          # @option kwargs [Integer, nil] :port
+          # @option kwargs [Integer, nil] :port (0)
           #   The local port to bind to.
           #
           # @option kwargs [String, nil] :host
@@ -380,30 +346,25 @@ module Ronin
           #
           # @api public
           #
+          # @see TCP.server_loop
+          #
           # @since 0.5.0
           #
-          def tcp_server_loop(**kwargs)
-            tcp_server_session(**kwargs) do |server|
-              loop do
-                client = server.accept
-
-                yield client if block_given?
-                client.close
-              end
-            end
+          def tcp_server_loop(**kwargs,&block)
+            TCP.server_loop(**kwargs,&block)
           end
 
           #
           # Creates a new TCPServer listening on a given host and port,
           # accepts only one client and then stops listening.
           #
-          # @param [Integer] backlog
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {TCP.accept}.
+          #
+          # @option kwargs [Integer] :backlog (1)
           #   The maximum backlog of pending connections.
           #
-          # @param [Hash{Symbol => Object}] kwargs
-          #   Additional keyword arguments for {#tcp_server}.
-          #
-          # @option kwargs [Integer, nil] :port
+          # @option kwargs [Integer, nil] :port (0)
           #   The local port to bind to.
           #
           # @option kwargs [String, nil] :host
@@ -426,15 +387,12 @@ module Ronin
           #
           # @api public
           #
+          # @see TCP.accept
+          #
           # @since 0.5.0
           #
-          def tcp_accept(backlog: 1, **kwargs)
-            tcp_server_session(backlog: backlog, **kwargs) do |server|
-              client = server.accept
-
-              yield client if block_given?
-              client.close
-            end
+          def tcp_accept(**kwargs,&block)
+            TCP.accept(**kwargs,&block)
           end
         end
       end
