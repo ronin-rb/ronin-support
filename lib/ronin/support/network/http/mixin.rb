@@ -28,7 +28,7 @@ module Ronin
         #
         module Mixin
           #
-          # @!macro [new] connect_kwargs
+          # @!macro connect_kwargs
           #   @param [Boolean, Hash{Symbol => Object}, nil] ssl
           #     Specifies whether to enable SSL and/or the SSL context
           #     configuration.
@@ -148,7 +148,7 @@ module Ronin
           end
 
           #
-          # @!macro [new] request_kwargs
+          # @!macro request_kwargs
           #   @option kwargs [String, nil] :query
           #     The query-string to append to the request path.
           #
