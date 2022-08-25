@@ -42,7 +42,7 @@ module Ronin
         #   The maximum time to attempt connecting.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {#connect}.
+        #   Additional keyword arguments for {connect}.
         #
         # @option kwargs [String, nil] :bind_host
         #   The local host to bind to.
@@ -160,7 +160,7 @@ module Ronin
         #   The port to connect to.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {#connect}.
+        #   Additional keyword arguments for {connect}.
         #
         # @option kwargs [String, nil] :bind_host
         #   The local host to bind to.
@@ -201,7 +201,7 @@ module Ronin
         #   The port to connect to.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {#connect}.
+        #   Additional keyword arguments for {connect}.
         #
         # @option kwargs [String, nil] :bind_host
         #   The local host to bind to.
@@ -240,7 +240,7 @@ module Ronin
         #   The port to connect to.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {#connect}.
+        #   Additional keyword arguments for {connect}.
         #
         # @option kwargs [String, nil] :bind_host
         #   The local host to bind to.
@@ -302,7 +302,7 @@ module Ronin
         # port.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Additional arguments for {#server}.
+        #   Additional arguments for {server}.
         #
         # @option kwargs [Integer, nil] :port
         #   The local port to bind to.
@@ -337,7 +337,7 @@ module Ronin
         # accepting messages from clients in a loop.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Additional arguments for {#server}.
+        #   Additional arguments for {server}.
         #
         # @option kwargs [Integer, nil] :port
         #   The local port to bind to.
@@ -387,7 +387,7 @@ module Ronin
         # accepts only one message from a client.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Additional arguments for {#server}.
+        #   Additional arguments for {server}.
         #
         # @option kwargs [Integer, nil] :port
         #   The local port to bind to.

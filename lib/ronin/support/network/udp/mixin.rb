@@ -232,10 +232,13 @@ module Ronin
           #
           # Creates a new UDPServer listening on a given host and port.
           #
-          # @param [Integer, nil] port
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {UDP.server}.
+          #
+          # @option kwargs [Integer, nil] :port (0)
           #   The local port to listen on.
           #
-          # @param [String, nil] host
+          # @option kwargs [String, nil] :host
           #   The host to bind to.
           #
           # @return [UDPServer]
