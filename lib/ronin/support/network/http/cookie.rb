@@ -51,6 +51,16 @@ module Ronin
           end
 
           #
+          # Initializes a copy of a cookie.
+          #
+          # @param [Cookie] other
+          #   The original cookie that is being copied.
+          #
+          def initialize_copy(other)
+            @params = other.params.dup
+          end
+
+          #
           # Escapes the string so that it can be embedded in a `Cookie` or
           # `Set-Cookie` header.
           #
@@ -127,6 +137,29 @@ module Ronin
           end
 
           #
+          # Sets a param in the cookie.
+          #
+          # @param [String] name
+          #   The param name to set.
+          #
+          # @param [#to_s] value
+          #   The param value to set.
+          #
+          # @return [#to_s]
+          #   The set param value.
+          #
+          def []=(name,value)
+            name = name.to_s
+
+            case value
+            when nil then @params.delete(name)
+            else          @params[name] = value.to_s
+            end
+
+            return value
+          end
+
+          #
           # Enumerates over the params in the cookie.
           #
           # @yield [name,value]
@@ -144,6 +177,44 @@ module Ronin
           #
           def each(&block)
             @params.each(&block)
+          end
+
+          #
+          # Merges other cookie params into the cookie.
+          #
+          # @param [Hash] params
+          #   The other cookie params to merge into the cookie.
+          #
+          # @return [self]
+          #
+          def merge!(params)
+            params.each do |name,value|
+              self[name] = value
+            end
+
+            return self
+          end
+
+          #
+          # Merges the cookie with other cookie params.
+          #
+          # @param [Hash] params
+          #   The other cookie parmas to merge.
+          #
+          # @return [Cookie]
+          #   The new combined cookie.
+          #
+          def merge(params)
+            clone.merge!(params)
+          end
+
+          #
+          # Determines if the cookie is empty.
+          #
+          # @return [Boolean]
+          #
+          def empty?
+            @params.empty?
           end
 
           #

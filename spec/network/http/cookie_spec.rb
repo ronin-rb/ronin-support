@@ -19,6 +19,17 @@ describe Ronin::Support::Network::HTTP::Cookie do
     end
   end
 
+  describe "#initialize_copy" do
+    let(:other) { described_class.new(params) }
+
+    subject { other.clone }
+
+    it "must copy the #params of the other cookie" do
+      expect(subject.params).to_not be(params)
+      expect(subject.params).to eq(params)
+    end
+  end
+
   describe ".escape" do
     subject { described_class }
 
@@ -163,6 +174,61 @@ describe Ronin::Support::Network::HTTP::Cookie do
     end
   end
 
+  describe "#[]=" do
+    context "when the cookie already contains a param with the given name" do
+      let(:name)      { name2 }
+      let(:new_value) { "new value" }
+
+      before { subject[name] = new_value }
+
+      it "must overwrite the param value with the new value" do
+        expect(subject[name]).to eq(new_value)
+      end
+
+      it "must return the new param value" do
+        expect(subject[name] = new_value).to be(new_value)
+      end
+
+      context "when the name is a Symbol" do
+        let(:name) { super().to_sym }
+
+        it "must convert the name to a String before setting the param" do
+          expect(subject[name.to_s]).to eq(new_value)
+        end
+      end
+
+      context "when the value is not a String" do
+        let(:new_value) { super().to_sym }
+
+        it "must convert the value to a String before setting the param" do
+          expect(subject[name]).to eq(new_value.to_s)
+        end
+      end
+    end
+
+    context "when the value is nil" do
+      let(:name) { name2 }
+
+      before { subject[name] = nil }
+
+      it "must delete the param with the given name" do
+        expect(subject[name]).to be(nil)
+      end
+
+      it "must return nil" do
+        expect(subject[name] = nil).to be(nil)
+      end
+
+      context "when the name is a Symbol" do
+        let(:name) { super().to_sym }
+
+        it "must convert the name to a String before deleting the param" do
+          expect(subject[name.to_s]).to be(nil)
+        end
+      end
+    end
+  end
+
   describe "#each" do
     context "when a block is given" do
       it "must yield each param name and value pair in the cookie" do
@@ -177,6 +243,97 @@ describe Ronin::Support::Network::HTTP::Cookie do
         expect(subject.each.to_a).to eq(
           [[name1,value1], [name2,value2]]
         )
+      end
+    end
+  end
+
+  describe "#merge!" do
+    let(:new_name1)  { 'A' }
+    let(:new_value1) { '1' }
+    let(:new_name2)  { 'B' }
+    let(:new_value2) { '2' }
+    let(:new_params) do
+      {new_name1 => new_value1, new_name2 => new_value2}
+    end
+
+    before { subject.merge!(new_params) }
+
+    it "must insert the new params into the cookie" do
+      expect(subject[new_name1]).to eq(new_value1)
+      expect(subject[new_name2]).to eq(new_value2)
+    end
+
+    it "must return self" do
+      expect(subject.merge!(new_params)).to be(subject)
+    end
+
+    context "when some of the params overlap with the existing params" do
+      let(:new_name1) { name2 }
+
+      it "must overwrite the existing params with the same name" do
+        expect(subject[new_name1]).to eq(new_value1)
+        expect(subject[name2]).to     eq(new_value1)
+      end
+    end
+  end
+
+  describe "#merge" do
+    let(:new_name1)  { 'A' }
+    let(:new_value1) { '1' }
+    let(:new_name2)  { 'B' }
+    let(:new_value2) { '2' }
+    let(:new_params) do
+      {new_name1 => new_value1, new_name2 => new_value2}
+    end
+
+    let(:original) { described_class.new(params) }
+
+    subject { original.merge(new_params) }
+
+    it "must insert the new params into the cookie" do
+      expect(subject[new_name1]).to eq(new_value1)
+      expect(subject[new_name2]).to eq(new_value2)
+    end
+
+    it "must return a new #{described_class}" do
+      expect(subject).to be_kind_of(described_class)
+      expect(subject).to_not be(original)
+    end
+
+    it "must not modify the original params Hash" do
+      expect(original.params[new_name1]).to be(nil)
+      expect(original.params[new_name2]).to be(nil)
+    end
+
+    context "when some of the params overlap with the existing params" do
+      let(:new_name1) { name2 }
+
+      it "must overwrite the existing params with the same name" do
+        expect(subject[new_name1]).to eq(new_value1)
+        expect(subject[name2]).to     eq(new_value1)
+      end
+
+      it "must not overwrite the original params Hash" do
+        expect(original.params[new_name1]).to eq(value2)
+        expect(original.params[name2]).to eq(value2)
+      end
+    end
+  end
+
+  describe "#empty?" do
+    context "when #params is empty" do
+      let(:params) do
+        {}
+      end
+
+      it "must return true" do
+        expect(subject.empty?).to be(true)
+      end
+    end
+
+    context "when #params is not empty" do
+      it "must return false" do
+        expect(subject.empty?).to be(false)
       end
     end
   end
