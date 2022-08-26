@@ -117,7 +117,7 @@ module Ronin
           # @param [Hash{Symbol => String}, Hash{String => String}, nil] headers
           #   Additional HTTP header names and values to add to the request.
           #
-          # @param [String, Hash{String => String}] cookie
+          # @param [String, Hash{String => String}, Cookie, nil] cookie
           #   Additional `Cookie` header. If a `Hash` is given, it will be
           #   converted to a `String` using {Cookie}. If the cookie value is
           #   empty, the `Cookie` header will not be set.

@@ -377,6 +377,30 @@ describe Ronin::Support::Network::HTTP::Request do
           end
         end
       end
+
+      context "and the value is a Ronin::Support::Network::HTTP::Cookie" do
+        let(:cookie) do
+          Ronin::Support::Network::HTTP::Cookie.new(
+            'foo' => 'bar', 'baz' => 'qux'
+          )
+        end
+
+        it "must format and send the `Cookie:` header using the given cookie" do
+          req = subject.build(:get,path, cookie: cookie)
+
+          expect(req['Cookie']).to eq(cookie.to_s)
+        end
+
+        context "but the cookie is empty" do
+          let(:cookie) { Ronin::Support::Network::HTTP::Cookie.new({}) }
+
+          it "must not set the `Cookie:` header" do
+            req = subject.build(:get,path, cookie: cookie)
+
+            expect(req['Cookie']).to be(nil)
+          end
+        end
+      end
     end
 
     context "when given the query_params: keyword argument" do
