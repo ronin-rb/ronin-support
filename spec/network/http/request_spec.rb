@@ -339,6 +339,16 @@ describe Ronin::Support::Network::HTTP::Request do
 
           expect(req['Cookie']).to eq(cookie)
         end
+
+        context "but the String is empty" do
+          let(:cookie) { '' }
+
+          it "must not set the `Cookie:` header" do
+            req = subject.build(:get,path, cookie: cookie)
+
+            expect(req['Cookie']).to be(nil)
+          end
+        end
       end
 
       context "and the value is a Hash" do
@@ -353,6 +363,18 @@ describe Ronin::Support::Network::HTTP::Request do
           req = subject.build(:get,path, cookie: cookie_hash)
 
           expect(req['Cookie']).to eq(cookie)
+        end
+
+        context "but the Hash is empty" do
+          let(:cookie_hash) do
+            {}
+          end
+
+          it "must not set the `Cookie:` header" do
+            req = subject.build(:get,path, cookie: cookie)
+
+            expect(req['Cookie']).to be(nil)
+          end
         end
       end
     end

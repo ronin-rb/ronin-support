@@ -119,7 +119,8 @@ module Ronin
           #
           # @param [String, Hash{String => String}] cookie
           #   Additional `Cookie` header. If a `Hash` is given, it will be
-          #   converted to a `String` using {Cookie}.
+          #   converted to a `String` using {Cookie}. If the cookie value is
+          #   empty, the `Cookie` header will not be set.
           #
           # @return [Net::HTTP::Copy,
           #          Net::HTTP::Delete,
@@ -166,7 +167,7 @@ module Ronin
               request.basic_auth(user,password)
             end
 
-            if cookie
+            if cookie && !cookie.empty?
               request['Cookie'] = case cookie
                                   when Hash then HTTP::Cookie.new(cookie).to_s
                                   else           cookie.to_s

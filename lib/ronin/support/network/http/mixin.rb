@@ -172,7 +172,8 @@ module Ronin
           #
           #   @option kwargs [String, Hash{String => String}, nil] :cookie
           #     Additional `Cookie` header. If a `Hash` is given, it will be
-          #     converted to a `String` using {Cookie}.
+          #     converted to a `String` using {Cookie}. If the cookie value is
+          #     empty, the `Cookie` header will not be set.
           #
 
           #
