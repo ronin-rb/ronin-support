@@ -334,7 +334,7 @@ describe Ronin::Support::Network::HTTP::Request do
       context "and the value is a String" do
         let(:cookie) { "foo=bar; baz=qux" }
 
-        it "must send the `Cookie:` header with the given String" do
+        it "must set the `Cookie:` header with the given String" do
           req = subject.build(:get,path, cookie: cookie)
 
           expect(req['Cookie']).to eq(cookie)
