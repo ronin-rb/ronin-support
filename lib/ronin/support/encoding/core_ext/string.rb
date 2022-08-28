@@ -18,7 +18,6 @@
 #
 
 require 'chars/char_set'
-require 'strscan'
 
 class String
 
@@ -104,83 +103,6 @@ class String
     end
 
     return formatted
-  end
-
-  alias escape dump
-
-  # Common escaped characters.
-  UNESCAPE_CHARS = Hash.new do |hash,char|
-    if char[0] == '\\' then char[1]
-    else                    char
-    end
-  end
-  UNESCAPE_CHARS['\0'] = "\0"
-  UNESCAPE_CHARS['\a'] = "\a"
-  UNESCAPE_CHARS['\b'] = "\b"
-  UNESCAPE_CHARS['\t'] = "\t"
-  UNESCAPE_CHARS['\n'] = "\n"
-  UNESCAPE_CHARS['\v'] = "\v"
-  UNESCAPE_CHARS['\f'] = "\f"
-  UNESCAPE_CHARS['\r'] = "\r"
-
-  #
-  # Unescapes the escaped String.
-  #
-  # @return [String]
-  #   The unescaped version of the hex escaped String.
-  #
-  # @example
-  #   "\\x68\\x65\\x6c\\x6c\\x6f".unescape
-  #   # => "hello"
-  #
-  # @api public
-  #
-  # @since 0.5.0
-  #
-  def unescape
-    buffer  = String.new(encoding: Encoding::ASCII)
-    scanner = StringScanner.new(self)
-
-    until scanner.eos?
-      if (unicode_escape = scanner.scan(/\\(?:[0-7]{1,3}|[0-7])/))
-        buffer << unicode_escape[1,3].to_i(8).chr
-      elsif (hex_escape = scanner.scan(/\\u[0-9a-fA-F]{4,8}/))
-        buffer << hex_escape[2..-1].to_i(16).chr(Encoding::UTF_8)
-      elsif (hex_escape = scanner.scan(/\\x[0-9a-fA-F]{1,2}/))
-        buffer << hex_escape[2..-1].to_i(16).chr
-      elsif (escape = scanner.scan(/\\./))
-        buffer << UNESCAPE_CHARS[escape]
-      else
-        buffer << scanner.getch
-      end
-    end
-
-    return buffer.force_encoding(__ENCODING__)
-  end
-
-  #
-  # Removes the quotes an unescapes a quoted string.
-  #
-  # @return [String]
-  #
-  # @example
-  #   "\"hello\\nworld\"".unquote
-  #   # => "hello\nworld"
-  #   "'hello\\'world'".unquote
-  #   # => "hello'world"
-  #
-  # @since 1.0.0
-  #
-  # @api public
-  #
-  def unquote
-    if (self[0] == '"' && self[-1] == '"')
-      self[1..-2].unescape
-    elsif (self[0] == "'" && self[-1] == "'")
-      self[1..-2].gsub("\\'","'")
-    else
-      self
-    end
   end
 
 end

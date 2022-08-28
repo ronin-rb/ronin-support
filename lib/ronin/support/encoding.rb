@@ -29,6 +29,7 @@ require 'ronin/support/encoding/xml'
 require 'ronin/support/encoding/html'
 require 'ronin/support/encoding/js'
 require 'ronin/support/encoding/quoted_printable'
+require 'ronin/support/encoding/ruby'
 require 'ronin/support/encoding/uri'
 
 module Ronin
