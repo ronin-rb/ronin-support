@@ -82,7 +82,7 @@ module Ronin
         #   Encoding::JS.escape_byte(0x22)
         #   # => "\\\""
         #   Encoding::JS.escape_byte(0x7f)
-        #   # => "\x7F"
+        #   # => "\\x7F"
         #
         def self.escape_byte(byte)
           if byte > 0xff then encode_byte(byte)
@@ -101,7 +101,7 @@ module Ronin
         #
         # @example
         #   Encoding::JS.encode_byte(0x41)
-        #   # => "%41"
+        #   # => "\\x41"
         #
         def self.encode_byte(byte)
           if byte > 0xff then "\\u%.4X" % byte

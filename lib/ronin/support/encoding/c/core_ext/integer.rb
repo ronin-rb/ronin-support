@@ -36,7 +36,7 @@ class Integer
   #   0x22.c_escape
   #   # => "\\\""
   #   0x7f.c_escape
-  #   # => "\x7F"
+  #   # => "\\x7F"
   #
   # @example Escaping unicode characters:
   #   0xffff.c_escape
@@ -62,7 +62,7 @@ class Integer
   #
   # @example
   #   0x41.c_encode
-  #   # => "\x41"
+  #   # => "\\x41"
   #
   # @see Ronin::Support::Encoding::C.encode_byte
   #

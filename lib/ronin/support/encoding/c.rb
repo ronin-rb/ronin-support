@@ -39,7 +39,7 @@ module Ronin
         #
         # @example
         #   Encoding::C.encode_byte(0x41)
-        #   # => "\x41"
+        #   # => "\\x41"
         #
         def self.encode_byte(byte)
           if byte >= 0x00 && byte <= 0xff
@@ -86,7 +86,7 @@ module Ronin
         #   Encoding::C.escape_byte(0x22)
         #   # => "\\\""
         #   Encoding::C.escape_byte(0x7f)
-        #   # => "\x7F"
+        #   # => "\\x7F"
         #
         # @example Escaping unicode characters:
         #   Encoding::C.escape_byte(0xffff)

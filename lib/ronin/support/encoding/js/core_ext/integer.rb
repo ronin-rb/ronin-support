@@ -33,7 +33,7 @@ class Integer
   #   0x22.js_escape
   #   # => "\\\""
   #   0x7f.js_escape
-  #   # => "\x7F"
+  #   # => "\\x7F"
   #
   # @see Ronin::Support::Encoding::JS.escape_byte
   #
@@ -53,7 +53,7 @@ class Integer
   #
   # @example
   #   0x41.js_encode
-  #   # => "%41"
+  #   # => "\\x41"
   #
   # @see Ronin::Support::Encoding::JS.encode_byte
   #
