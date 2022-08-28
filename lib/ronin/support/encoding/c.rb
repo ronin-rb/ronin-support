@@ -40,6 +40,10 @@ module Ronin
         # @example
         #   Encoding::C.encode_byte(0x41)
         #   # => "\\x41"
+        #   Encoding::C.encode_byte(0x100)
+        #   # => "\\u1000"
+        #   Encoding::C.encode_byte(0x10000)
+        #   # => "\\U000100000"
         #
         def self.encode_byte(byte)
           if byte >= 0x00 && byte <= 0xff
@@ -47,7 +51,7 @@ module Ronin
           elsif byte >= 0x100 && byte <= 0xffff
             "\\u%.4x" % byte
           elsif byte >= 0x10000
-            "\\u%.8x" % byte
+            "\\U%.8x" % byte
           else
             raise(RangeError,"#{byte.inspect} out of char range")
           end
@@ -91,6 +95,8 @@ module Ronin
         # @example Escaping unicode characters:
         #   Encoding::C.escape_byte(0xffff)
         #   # => "\\uFFFF"
+        #   Encoding::C.escape_byte(0x10000)
+        #   # => "\\U000100000"
         #
         def self.escape_byte(byte)
           if byte >= 0x00 && byte <= 0xff

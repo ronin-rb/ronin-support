@@ -41,6 +41,8 @@ class Integer
   # @example Escaping unicode characters:
   #   0xffff.c_escape
   #   # => "\\uFFFF"
+  #   0x10000.c_escape
+  #   # => "\\U000100000"
   #
   # @see Ronin::Support::Encoding::C.escape_byte
   #
@@ -63,6 +65,10 @@ class Integer
   # @example
   #   0x41.c_encode
   #   # => "\\x41"
+  #   0x100.c_encode
+  #   # => "\\u1000"
+  #   0x10000.c_encode
+  #   # => "\\U000100000"
   #
   # @see Ronin::Support::Encoding::C.encode_byte
   #

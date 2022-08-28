@@ -45,8 +45,8 @@ describe Integer do
     context "when called on an Integer greater than 0xffff" do
       subject { 0x10000}
 
-      it "must return the lowercase '\\uXXXXXXXX' hex escaped String" do
-        expect(subject.c_escape).to eq('\u00010000')
+      it "must return the lowercase '\\UXXXXXXXX' hex escaped String" do
+        expect(subject.c_escape).to eq('\U00010000')
       end
     end
 
@@ -87,8 +87,8 @@ describe Integer do
     context "when called on an Integer greater than 0xffff" do
       subject { 0x10000}
 
-      it "must return the lowercase '\\uXXXXXXXX' hex escaped String" do
-        expect(subject.c_encode).to eq('\u00010000')
+      it "must return the lowercase '\\UXXXXXXXX' hex escaped String" do
+        expect(subject.c_encode).to eq('\U00010000')
       end
     end
 

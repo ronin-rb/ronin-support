@@ -42,8 +42,8 @@ describe Ronin::Support::Encoding::C do
     context "when called on an Integer greater than 0xffff" do
       let(:byte) { 0x10000}
 
-      it "must return the lowercase '\\uXXXXXXXX' hex escaped String" do
-        expect(subject.escape_byte(byte)).to eq('\u00010000')
+      it "must return the lowercase '\\UXXXXXXXX' hex escaped String" do
+        expect(subject.escape_byte(byte)).to eq('\U00010000')
       end
     end
 
@@ -85,8 +85,8 @@ describe Ronin::Support::Encoding::C do
     context "when called on an Integer greater than 0xffff" do
       let(:byte) { 0x10000}
 
-      it "must return the lowercase '\\uXXXXXXXX' hex escaped String" do
-        expect(subject.encode_byte(byte)).to eq('\u00010000')
+      it "must return the lowercase '\\UXXXXXXXX' hex escaped String" do
+        expect(subject.encode_byte(byte)).to eq('\U00010000')
       end
     end
 
