@@ -107,13 +107,13 @@ module Ronin
         end
 
         #
-        # Encodes the given data for C.
+        # Encodes each character of the given data as C escaped characters.
         #
         # @param [String] data
         #   The given data to encode.
         #
         # @return [String]
-        #   The C escaped String.
+        #   The C encoded String.
         #
         # @example
         #   Encoding::C.encode("hello")
