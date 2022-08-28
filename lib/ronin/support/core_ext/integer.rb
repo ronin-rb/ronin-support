@@ -21,4 +21,18 @@ class Integer
 
   alias char chr
 
+  #
+  # Converts the Integer to hexadecimal.
+  #
+  # @return [String]
+  #   The integer in hexadecimal format.
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def to_hex
+    to_s(16)
+  end
+
 end
