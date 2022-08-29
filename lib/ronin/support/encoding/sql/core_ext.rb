@@ -15,18 +15,4 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/encoding/base16/core_ext'
-require 'ronin/support/encoding/base32/core_ext'
-require 'ronin/support/encoding/base64/core_ext'
-require 'ronin/support/encoding/hex/core_ext'
-require 'ronin/support/encoding/c/core_ext'
-require 'ronin/support/encoding/shell/core_ext'
-require 'ronin/support/encoding/powershell/core_ext'
-require 'ronin/support/encoding/html/core_ext'
-require 'ronin/support/encoding/http/core_ext'
-require 'ronin/support/encoding/js/core_ext'
-require 'ronin/support/encoding/sql/core_ext'
-require 'ronin/support/encoding/xml/core_ext'
-require 'ronin/support/encoding/quoted_printable/core_ext'
-require 'ronin/support/encoding/ruby/core_ext'
-require 'ronin/support/encoding/uri/core_ext'
+require 'ronin/support/encoding/sql/core_ext/string'
