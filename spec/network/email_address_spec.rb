@@ -674,7 +674,9 @@ describe Ronin::Support::Network::EmailAddress do
     end
 
     it "must return a new random obfuscated email address each time" do
-      expect(subject.obfuscate).to_not eq(subject.obfuscate)
+      obfuscated_emails = Array.new(3) { subject.obfuscate }
+
+      expect(obfuscated_emails.uniq.length).to be > 1
     end
   end
 
