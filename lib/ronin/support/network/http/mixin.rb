@@ -153,12 +153,6 @@ module Ronin
           #   @option kwargs [Hash, nil] :query_params
           #     The query-params to append to the request path.
           #
-          #   @option kwargs [String, nil] :body
-          #     The body of the request.
-          #
-          #   @option kwargs [Hash, String, nil] :form_data
-          #     The form data that may be sent in the body of the request.
-          #
           #   @option kwargs [String, nil] :user
           #     The user to authenticate as.
           #
@@ -172,6 +166,12 @@ module Ronin
           #     Additional `Cookie` header. If a `Hash` is given, it will be
           #     converted to a `String` using {Cookie}. If the cookie value is
           #     empty, the `Cookie` header will not be set.
+          #
+          #   @option kwargs [String, nil] :body
+          #     The body of the request.
+          #
+          #   @option kwargs [Hash, String, nil] :form_data
+          #     The form data that may be sent in the body of the request.
           #
 
           #

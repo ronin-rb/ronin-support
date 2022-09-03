@@ -530,23 +530,17 @@ module Ronin
         # @param [String] path
         #   The path to to make the request for.
         #
-        # @param [String, nil] user
-        #   The user to authenticate as.
-        #
-        # @param [String, nil] password
-        #   The password to authenticate with.
-        #
         # @param [String, nil] query
         #   The query-string to append to the request path.
         #
         # @param [Hash, nil] query_params
         #   The query-params to append to the request path.
         #
-        # @param [String, nil] body
-        #   The body of the request.
+        # @param [String, nil] user
+        #   The user to authenticate as.
         #
-        # @param [Hash, String, nil] form_data
-        #   The form data that may be sent in the body of the request.
+        # @param [String, nil] password
+        #   The password to authenticate with.
         #
         # @param [Hash{Symbol,String => String}, nil] headers
         #   Additional HTTP header names and values to add to the request.
@@ -554,6 +548,12 @@ module Ronin
         # @param [String, Hash{String => String}, nil] cookie
         #   Additional `Cookie` header. If a `Hash` is given, it will be
         #   converted to a `String` using {Cookie}.
+        #
+        # @param [String, nil] body
+        #   The body of the request.
+        #
+        # @param [Hash, String, nil] form_data
+        #   The form data that may be sent in the body of the request.
         #
         # @param [Hash{Symbol => String}] additional_headers
         #   Additional headers to add to the request.
@@ -601,18 +601,18 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def request(method,path, # Basic-Auth keyword arguments
-                                 user:     nil,
-                                 password: nil,
-                                 # query string keyword arguments
+        def request(method,path, # query string keyword arguments
                                  query:        nil,
                                  query_params: nil,
-                                 # request body keyword arguments
-                                 body:      nil,
-                                 form_data: nil,
                                  # header keyword arguments
                                  headers:    nil,
                                  cookie:     nil,
+                                 # Basic-Auth keyword arguments
+                                 user:     nil,
+                                 password: nil,
+                                 # request body keyword arguments
+                                 body:      nil,
+                                 form_data: nil,
                                  **additional_headers,
                                  &block)
           request = Request.build(method,path, headers:      @headers,
@@ -646,23 +646,17 @@ module Ronin
         #   @param [Hash{Symbol => Object}] kwargs
         #     Aditional keyword arguments and headers for {#request}.
         #
-        #   @option kwargs [String, nil] :user
-        #     The user to authenticate as.
-        #
-        #   @option kwargs [String, nil] :password
-        #     The password to authenticate with.
-        #
         #   @option kwargs [String, nil] :query
         #     The query-string to append to the request path.
         #
         #   @option kwargs [Hash, nil] :query_params
         #     The query-params to append to the request path.
         #
-        #   @option kwargs [String, nil] :body
-        #     The body of the request.
+        #   @option kwargs [String, nil] :user
+        #     The user to authenticate as.
         #
-        #   @option kwargs [Hash, String, nil] :form_data
-        #     The form data that may be sent in the body of the request.
+        #   @option kwargs [String, nil] :password
+        #     The password to authenticate with.
         #
         #   @option kwargs [Hash{Symbol,String => String}, nil] :headers
         #     Additional HTTP header names and values to add to the request.
@@ -671,6 +665,12 @@ module Ronin
         #     Additional `Cookie` header. If a `Hash` is given, it will be
         #     converted to a `String` using {Cookie}. If the cookie value is
         #     empty, the `Cookie` header will not be set.
+        #
+        #   @option kwargs [String, nil] :body
+        #     The body of the request.
+        #
+        #   @option kwargs [Hash, String, nil] :form_data
+        #     The form data that may be sent in the body of the request.
         #
 
         #

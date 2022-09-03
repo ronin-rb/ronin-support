@@ -100,12 +100,6 @@ module Ronin
           # @param [Hash, nil] query_params
           #   The query-params to append to the request path.
           #
-          # @param [String, nil] body
-          #   The body of the request.
-          #
-          # @param [Hash, String, nil] form_data
-          #   The form data that may be sent in the body of the request.
-          #
           # @param [String, nil] user
           #   The user to authenticate as.
           #
@@ -119,6 +113,12 @@ module Ronin
           #   Additional `Cookie` header. If a `Hash` is given, it will be
           #   converted to a `String` using {Cookie}. If the cookie value is
           #   empty, the `Cookie` header will not be set.
+          #
+          # @param [String, nil] body
+          #   The body of the request.
+          #
+          # @param [Hash, String, nil] form_data
+          #   The form data that may be sent in the body of the request.
           #
           # @return [Net::HTTP::Copy,
           #          Net::HTTP::Delete,
@@ -137,15 +137,15 @@ module Ronin
           #          Net::HTTP::Unlock]
           #   The built HTTP request object.
           #
-          def self.build(method,path, # Header keyword arguments
-                                      headers: nil,
-                                      cookie:  nil,
+          def self.build(method,path, # query string keyword arguments
+                                      query:        nil,
+                                      query_params: nil,
                                       # Basic-Auth keyword arguments
                                       user:     nil,
                                       password: nil,
-                                      # query string keyword arguments
-                                      query:        nil,
-                                      query_params: nil,
+                                      # Header keyword arguments
+                                      headers: nil,
+                                      cookie:  nil,
                                       # request body keyword arguments
                                       body:      nil,
                                       form_data: nil)
