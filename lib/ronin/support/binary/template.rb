@@ -244,7 +244,13 @@ module Ronin
             offset = 0
 
             @types.each do |type|
-              array  << type.unpack(data.byteslice(offset,type.size))
+              slice = if type.size == Float::INFINITY
+                        data.byteslice(offset..)
+                      else
+                        data.byteslice(offset,type.size)
+                      end
+
+              array  << type.unpack(slice)
               offset += type.size
             end
 
