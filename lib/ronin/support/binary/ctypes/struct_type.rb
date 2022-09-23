@@ -293,7 +293,7 @@ module Ronin
 
               @members.each do |name,member|
                 slice = if member.size == Float::INFINITY
-                          data.byteslice(member.offset,data.size)
+                          data.byteslice(member.offset..)
                         else
                           data.byteslice(member.offset,member.size)
                         end
