@@ -139,7 +139,11 @@ module Ronin
         #   A given type is not known.
         #
         # @example
-        #   Template.new(:uint32, [:char, 100])
+        #   template = Template.new([:uint32, [:char, 100]])
+        #   template.pack(0x123456, ['A', 'B', 'C'])
+        #   # => "CBA\x00XYZ\x00\x00\x00\x00\x00\x00\x00"
+        #   template.unpack("CBA\x00XYZ\x00\x00\x00\x00\x00\x00\x00")
+        #   # => [4276803, #<Ronin::Support::Binary::Array: "XYZ\x00\x00\x00\x00\x00\x00\x00">]
         #
         def initialize(fields, **kwargs)
           initialize_type_system(**kwargs)
@@ -163,6 +167,13 @@ module Ronin
         end
 
         #
+        # @example
+        #   template = Template.new[:uint32, [:char, 10]]
+        #   template.pack(0x123456, ['A', 'B', 'C'])
+        #   # => "CBA\x00XYZ\x00\x00\x00\x00\x00\x00\x00"
+        #   template.unpack("CBA\x00XYZ\x00\x00\x00\x00\x00\x00\x00")
+        #   # => [4276803, #<Ronin::Support::Binary::Array: "XYZ\x00\x00\x00\x00\x00\x00\x00">]
+        #
         # @see #initialize
         #
         # @since 1.0.0
@@ -179,6 +190,11 @@ module Ronin
         #
         # @return [String]
         #   The packed data.
+        #
+        # @example
+        #   template = Template.new[:uint32, [:char, 10]]
+        #   template.pack(0x123456, ['A', 'B', 'C'])
+        #   # => "CBA\x00XYZ\x00\x00\x00\x00\x00\x00\x00"
         #
         def pack(*arguments)
           if @pack_string
@@ -211,6 +227,11 @@ module Ronin
         # @return [::Array]
         #   The unpacked data.
         #
+        # @example
+        #   template = Template.new[:uint32, [:char, 10]]
+        #   template.unpack("CBA\x00XYZ\x00\x00\x00\x00\x00\x00\x00")
+        #   # => [4276803, #<Ronin::Support::Binary::Array: "XYZ\x00\x00\x00\x00\x00\x00\x00">]
+        #
         def unpack(string)
           if @pack_string
             values = string.unpack(@pack_string)
@@ -236,6 +257,11 @@ module Ronin
         #
         # @return [String]
         #   The template String.
+        #
+        # @example
+        #   template = Template.new[:uint32, [:char, 10]]
+        #   template.to_s
+        #   # => "La10"
         #
         # @see https://rubydoc.info/stdlib/core/Array:pack
         #
