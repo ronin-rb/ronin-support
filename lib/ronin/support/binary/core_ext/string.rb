@@ -16,7 +16,7 @@
 #
 
 require 'ronin/support/binary/core_ext/integer'
-require 'ronin/support/binary/format'
+require 'ronin/support/binary/template'
 
 class String
 
@@ -27,11 +27,11 @@ class String
   #
   # @param [String, Array<Symbol, (Symbol, Integer)>] arguments
   #   The `String#unpack` format string or a list of
-  #   {Ronin::Support::Binary::Format} types.
+  #   {Ronin::Support::Binary::Template} types.
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for
-  #   {Ronin::Support::Binary::Format#initialize}.
+  #   {Ronin::Support::Binary::Template#initialize}.
   #
   # @option kwargs [:little, :big, :net, nil] :endian
   #   The desired endianness of the packed data.
@@ -45,10 +45,10 @@ class String
   #   The values unpacked from the String.
   #
   # @raise [ArgumentError]
-  #   One of the arguments was not a known {Ronin::Support::Binary::Format}
+  #   One of the arguments was not a known {Ronin::Support::Binary::Template}
   #   type.
   #
-  # @example using {Ronin::Support::Binary::Format} types:
+  # @example using {Ronin::Support::Binary::Template} types:
   #   "A\0\0\0hello\0".unpack(:uint32_le, :string)
   #   # => [10, "hello"]
   #
@@ -57,7 +57,7 @@ class String
   #   # => 65
   #
   # @see https://rubydoc.info/stdlib/core/String:unpack
-  # @see Ronin::Support::Binary::Format
+  # @see Ronin::Support::Binary::Template
   #
   # @since 0.5.0
   #
@@ -67,7 +67,7 @@ class String
     if (arguments.length == 1 && arguments.first.kind_of?(String))
       unpack_original(arguments.first)
     else
-      format = Ronin::Support::Binary::Format.new(arguments,**kwargs)
+      format = Ronin::Support::Binary::Template.new(arguments,**kwargs)
       unpack_original(format.pack_string)
     end
   end

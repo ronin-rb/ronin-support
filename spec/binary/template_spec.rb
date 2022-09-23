@@ -1,9 +1,9 @@
 # encoding: US-ASCII
 
 require 'spec_helper'
-require 'ronin/support/binary/format'
+require 'ronin/support/binary/template'
 
-describe Ronin::Support::Binary::Format do
+describe Ronin::Support::Binary::Template do
   let(:type_name) { :uint32 }
   let(:type)      { Ronin::Support::Binary::CTypes::TYPES[type_name] }
   let(:fields)    { [type_name] }

@@ -20,7 +20,7 @@ describe String do
     end
 
     context "otherwise" do
-      it "must unpack Strings using Ronin::Support::Binary::Format" do
+      it "must unpack Strings using Ronin::Support::Binary::Template" do
         expect(subject.unpack(:uint32_le, :string)).to eq(data)
       end
     end

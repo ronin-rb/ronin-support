@@ -20,7 +20,7 @@ describe Float do
     end
 
     context "when given a Binary::Template Float type" do
-      it "must unpack Strings using Ronin::Support::Binary::Format" do
+      it "must unpack Strings using Ronin::Support::Binary::Template" do
         expect(subject.pack(:double_le)).to eq(packed)
       end
     end

@@ -23,7 +23,7 @@ class Float
   # Packs the Float into a String.
   #
   # @param [String, Symbol] argument
-  #   The `Array#pack` format string or {Ronin::Support::Binary::Format} type.
+  #   The `Array#pack` format string or {Ronin::Support::Binary::Template} type.
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for
@@ -54,12 +54,12 @@ class Float
   #   0.42.pack('F')
   #   # => =\n\xD7>"
   #
-  # @example using {Ronin::Support::Binary::Format} types:
+  # @example using {Ronin::Support::Binary::Template} types:
   #   0x42.pack(:float_be)
   #   # => ">\xD7\n="
   #
   # @see https://rubydoc.info/stdlib/core/Array:pack
-  # @see Ronin::Support::Binary::Format
+  # @see Ronin::Support::Binary::Template
   #
   # @since 0.5.0
   #

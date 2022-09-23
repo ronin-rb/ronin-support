@@ -90,9 +90,7 @@ module Ronin
       #
       # @api pbulic
       #
-      # @since 1.0.0
-      #
-      class Format
+      class Template
 
         include CTypes::Mixin
 
@@ -106,11 +104,15 @@ module Ronin
         # @return [::Array<CTypes::Type,
         #                  CTypes::ArrayType,
         #                  CTypes::UnboundArrayType>]
+        #
+        # @since 1.0.0
         attr_reader :types
 
         # The `Array#pack` string for the binary format.
         #
         # @return [String]
+        #
+        # @since 1.0.0
         attr_reader :pack_string
 
         #
@@ -137,7 +139,7 @@ module Ronin
         #   A given type is not known.
         #
         # @example
-        #   Format.new(:uint32, [:char, 100])
+        #   Template.new(:uint32, [:char, 100])
         #
         def initialize(fields, **kwargs)
           initialize_type_system(**kwargs)
@@ -162,6 +164,8 @@ module Ronin
 
         #
         # @see #initialize
+        #
+        # @since 1.0.0
         #
         def self.[](*fields,**kwargs)
           new(fields,**kwargs)

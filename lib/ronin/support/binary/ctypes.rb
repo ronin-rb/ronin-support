@@ -35,7 +35,7 @@ module Ronin
     module Binary
       #
       # Provides a complete virtual C type system, implemented purely in Ruby.
-      # The type objects are then used by {Binary::Format}, {Binary::Buffer},
+      # The type objects are then used by {Binary::Template}, {Binary::Buffer},
       # {Binary::Stream}, {Binary::Array}, {Binary::Struct}, and {Binary::Union}
       # to encode and decoded any C binary data.
       #

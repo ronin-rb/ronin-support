@@ -158,7 +158,7 @@ class Integer
   # Packs the Integer into a String.
   #
   # @param [String, Symbol] argument
-  #   The `Array#pack` String or {Ronin::Support::Binary::Format} type.
+  #   The `Array#pack` String or {Ronin::Support::Binary::Template} type.
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for
@@ -206,7 +206,7 @@ class Integer
   #   # => "A\x00\x00\x00\x00\x00\x00\x00"
   #
   # @see http://rubydoc.info/stdlib/core/Array:pack
-  # @see Ronin::Support::Binary::Format
+  # @see Ronin::Support::Binary::Template
   #
   # @api public
   #
