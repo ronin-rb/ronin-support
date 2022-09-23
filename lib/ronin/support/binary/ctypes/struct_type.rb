@@ -243,7 +243,7 @@ module Ronin
           end
 
           #
-          # Packs the hash of values into the struct's binary format.
+          # Packs the hash of values into the struct's binary layout.
           #
           # @param [Hash{Symbol => Integer, Float, String}] hash
           #   The hash of values to pack.
@@ -271,7 +271,7 @@ module Ronin
 
           #
           # Unpacks binary data into a Hash of values using the struct's binary
-          # format.
+          # layout.
           #
           # @param [String] data
           #   The binary data to unpack.
