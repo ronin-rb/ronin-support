@@ -221,7 +221,7 @@ module Ronin
         #
         # Unpacks the string.
         #
-        # @param [String] string
+        # @param [String] data
         #   The raw String to unpack.
         #
         # @return [::Array]
@@ -232,9 +232,9 @@ module Ronin
         #   template.unpack("CBA\x00XYZ\x00\x00\x00\x00\x00\x00\x00")
         #   # => [4276803, #<Ronin::Support::Binary::Array: "XYZ\x00\x00\x00\x00\x00\x00\x00">]
         #
-        def unpack(string)
+        def unpack(data)
           if @pack_string
-            values = string.unpack(@pack_string)
+            values = data.unpack(@pack_string)
 
             @types.map do |type|
               type.dequeue_value(values)
