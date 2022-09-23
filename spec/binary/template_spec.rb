@@ -358,7 +358,7 @@ describe Ronin::Support::Binary::Template do
         end
       end
 
-      context "and the last field is infinite Range field" do
+      context "and the last field is an infinite Range field" do
         let(:type_name2) { :uint16 }
         let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
@@ -449,7 +449,7 @@ describe Ronin::Support::Binary::Template do
         end
       end
 
-      context "and the last field is infinite Range field" do
+      context "and the last field is an infinite Range field" do
         let(:type_name2) { :uint16 }
         let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
