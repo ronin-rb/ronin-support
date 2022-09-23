@@ -298,7 +298,7 @@ module Ronin
                           data.byteslice(member.offset,member.size)
                         end
 
-                hash[name] = type.unpack(slice)
+                hash[name] = member.type.unpack(slice)
               end
 
               return hash
