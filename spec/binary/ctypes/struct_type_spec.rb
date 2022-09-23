@@ -424,6 +424,53 @@ describe Ronin::Support::Binary::CTypes::StructType do
       end
     end
 
+
+    context "when one of the #members is another UnionType" do
+      let(:members) do
+        {
+          a: Ronin::Support::Binary::CTypes::CHAR,
+          b: Ronin::Support::Binary::CTypes::INT8,
+          c: Ronin::Support::Binary::CTypes::UnionType.build(
+               {
+                 x: Ronin::Support::Binary::CTypes::INT16,
+                 y: Ronin::Support::Binary::CTypes::UINT16
+               }
+             )
+        }
+      end
+
+      let(:hash) do
+        {
+          a: 'A',
+          b: -1,
+          c: {
+            x: 0,
+            y: 0xffff
+          }
+        }
+      end
+      let(:data) { subject.pack(hash) }
+
+      let(:unpacked_hash) do
+        {
+          a: 'A',
+          b: -1,
+          c: {
+            x: -1,
+            y: 0xffff
+          }
+        }
+      end
+
+      it "must pack each value in the Hash with it's according member type" do
+        expect(subject.pack(hash)).to eq(
+          subject.members[:a].type.pack(hash[:a]) + 
+          subject.members[:b].type.pack(hash[:b]) + 
+          subject.members[:c].type.pack(hash[:c])
+        )
+      end
+    end
+
     context "when the hash contains an unknown member name" do
       let(:unknown_member1) { :foo }
       let(:unknown_member2) { :bar }
@@ -550,6 +597,48 @@ describe Ronin::Support::Binary::CTypes::StructType do
 
       it "must unpack multiple values and return a Hash of Hashes of values" do
         expect(subject.unpack(data)).to eq(hash)
+      end
+    end
+
+    context "when one of the #members is another UnionType" do
+      let(:members) do
+        {
+          a: Ronin::Support::Binary::CTypes::CHAR,
+          b: Ronin::Support::Binary::CTypes::INT8,
+          c: Ronin::Support::Binary::CTypes::UnionType.build(
+               {
+                 x: Ronin::Support::Binary::CTypes::INT16,
+                 y: Ronin::Support::Binary::CTypes::UINT16
+               }
+             )
+        }
+      end
+
+      let(:hash) do
+        {
+          a: 'A',
+          b: -1,
+          c: {
+            x: 0,
+            y: 0xffff
+          }
+        }
+      end
+      let(:data) { subject.pack(hash) }
+
+      let(:unpacked_hash) do
+        {
+          a: 'A',
+          b: -1,
+          c: {
+            x: -1,
+            y: 0xffff
+          }
+        }
+      end
+
+      it "must unpack multiple values and return a Hash of Hashes of values" do
+        expect(subject.unpack(data)).to eq(unpacked_hash)
       end
     end
   end
