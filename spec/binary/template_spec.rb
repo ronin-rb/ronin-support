@@ -378,6 +378,31 @@ describe Ronin::Support::Binary::Template do
           )
         end
       end
+
+      context "and the last field is an infinite Range of an Array field" do
+        let(:type_name2) { :uint16 }
+        let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
+
+        let(:array_length) { 2 }
+        let(:array_type) do
+          Ronin::Support::Binary::CTypes::ArrayType.new(type2,array_length)
+        end
+        let(:unbounded_array_type) do
+          Ronin::Support::Binary::CTypes::UnboundedArrayType.new(array_type)
+        end
+
+        let(:fields) { [type_name1, [type_name2, array_length]..] }
+
+        let(:value1) { 42 }
+        let(:value2) { [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]] }
+        let(:values) { [value1, value2] }
+
+        it "must pack the last value using the last field's type's #pack method" do
+          expect(subject.pack(*values)).to eq(
+            "#{type1.pack(value1)}#{unbounded_array_type.pack(value2)}"
+          )
+        end
+      end
     end
   end
 
@@ -472,6 +497,39 @@ describe Ronin::Support::Binary::Template do
           expect(values.length).to eq(2)
           expect(values[0]).to eq(value1)
           expect(values[1]).to eq(value2)
+        end
+      end
+
+      context "and the last field is an infinite Range of an Array field" do
+        let(:type_name2) { :uint16 }
+        let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
+
+        let(:array_length) { 2 }
+        let(:array_type) do
+          Ronin::Support::Binary::CTypes::ArrayType.new(type2,array_length)
+        end
+        let(:unbounded_array_type) do
+          Ronin::Support::Binary::CTypes::UnboundedArrayType.new(array_type)
+        end
+
+        let(:fields) { [type_name1, [type_name2, array_length]..] }
+
+        let(:value1) { 42 }
+        let(:value2) { [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]] }
+        let(:values) { [value1, value2] }
+
+        let(:data) do
+          "#{type1.pack(value1)}#{unbounded_array_type.pack(value2)}"
+        end
+
+        it "must unpack the remainder of the values using the last field's type's #unpack method" do
+          values = subject.unpack(data)
+
+          expect(values.length).to eq(2)
+          expect(values[0]).to eq(value1)
+          expect(values[1].length).to eq(value2.length)
+          expect(values[1]).to all(be_kind_of(Ronin::Support::Binary::Array))
+          expect(values[1].map(&:to_a)).to eq(value2)
         end
       end
     end
