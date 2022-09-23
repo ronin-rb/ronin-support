@@ -262,7 +262,13 @@ module Ronin
                   raise(ArgumentError,"unknown struct member (#{name.inspect}), must be: #{@members.keys.map(&:inspect).join(', ')}")
                 end
 
-                buffer[member.offset,member.size] = type.pack(value)
+                data = member.type.pack(value)
+
+                if member.size == Float::INFINITY
+                  buffer[member.offset..] = data
+                else
+                  buffer[member.offset,member.size] = data
+                end
               end
 
               return buffer
