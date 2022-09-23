@@ -33,7 +33,7 @@ module Ronin
         def erb(path)
           erb = ERB.new(File.read(path), trim_mode: '-')
 
-          return  erb.result(binding)
+          return erb.result(binding)
         end
       end
     end
