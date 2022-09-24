@@ -97,6 +97,7 @@ class String
     each_byte.each_with_index do |byte,index|
       byte.each_bit_flip(bits) do |flipped_byte|
         new_string = dup
+        new_string.force_encoding(Encoding::ASCII_8BIT)
         new_string.setbyte(index,flipped_byte)
         yield new_string
       end

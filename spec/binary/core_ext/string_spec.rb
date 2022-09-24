@@ -52,6 +52,20 @@ describe String do
       )
     end
 
+    context "when the String has UTF-8 encoding" do
+      subject { "AB" }
+
+      it "must yield ASCII 8bit encoded Strings" do
+        yielded_strings = []
+
+        subject.each_bit_flip do |string|
+          yielded_strings << string
+        end
+
+        expect(yielded_strings.map(&:encoding)).to all(be(Encoding::ASCII_8BIT))
+      end
+    end
+
     context "but no block is given" do
       it "must return an Enumerator for #each_bit_flip" do
         expect(subject.each_bit_flip.to_a).to eq(
