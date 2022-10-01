@@ -78,7 +78,7 @@ module Ronin
                    when String    then URI.parse(new_proxy)
                    when nil       then nil
                    else
-                     raise(ArgumentError,"proxy must be either a URI::HTTP, String, or nil")
+                     raise(ArgumentError,"invalid proxy value (#{new_proxy.inspect}), must be either a URI::HTTP, String, or nil")
                    end
         end
 

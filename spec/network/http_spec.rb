@@ -77,6 +77,16 @@ describe Network::HTTP do
       end
     end
 
+    context "when given another object" do
+      let(:new_proxy) { Object.new }
+
+      it do
+        expect {
+          subject.proxy = new_proxy
+        }.to raise_error(ArgumentError,"invalid proxy value (#{new_proxy.inspect}), must be either a URI::HTTP, String, or nil")
+      end
+    end
+
     after { subject.proxy = nil }
   end
 
