@@ -120,6 +120,10 @@ module Ronin
         # @return [OpenSSL::SSL::SSLContext]
         #   The newly created SSL Context.
         #
+        # @raise [ArgumentError]
+        #   `cert_file:` or `cert:` keyword arguments also require a `key_file:`
+        #   or `key:` keyword argument.
+        #
         # @api semipublic
         #
         # @since 1.0.0
