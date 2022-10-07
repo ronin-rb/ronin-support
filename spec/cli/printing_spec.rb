@@ -36,6 +36,47 @@ describe CLI::Printing do
   let(:reset_color) { "\e[39m" }
   let(:reset)       { "\e[0m"  }
 
+  describe "#debug?" do
+    it "must default to false" do
+      expect(subject.debug?).to be(false)
+    end
+
+    context "when #{described_class}.debug? is true" do
+      before { described_class.debug = true }
+
+      it "must return true" do
+        expect(subject.debug?).to be(true)
+      end
+
+      after { described_class.debug = false }
+    end
+  end
+
+  describe "#debug=" do
+    context "when called with true" do
+      before { subject.debug = true }
+
+      it "#debug? must return true" do
+        expect(subject.debug?).to be(true)
+      end
+
+      it "must not change #{described_class}.debug?" do
+        expect(described_class.debug?).to be(false)
+      end
+    end
+
+    context "when called with false" do
+      before do
+        subject.debug = true
+        subject.debug = false
+      end
+
+      it "#debug? must return false" do
+        expect(subject.debug?).to be(false)
+      end
+    end
+  end
+
   describe "#print_info" do
     context "when $stdout is a TTY" do
       before do

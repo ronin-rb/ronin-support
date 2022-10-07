@@ -55,6 +55,22 @@ module Ronin
           @@debug = debug_mode
         end
 
+        # Enables or disables debug mode.
+        #
+        # @api semipublic
+        attr_writer :debug
+
+        #
+        # Determines if debug mode has been enabled.
+        #
+        # @return [Boolean]
+        #
+        # @api public
+        #
+        def debug?
+          @debug || Printing.debug?
+        end
+
         #
         # Prints an info message.
         #
@@ -96,7 +112,7 @@ module Ronin
         # @api public
         #
         def print_debug(message)
-          if Printing.debug?
+          if debug?
             $stdout.puts "#{ANSI.bold(ANSI.yellow('[?]'))} #{message}#{ANSI.reset}"
             return true
           else
