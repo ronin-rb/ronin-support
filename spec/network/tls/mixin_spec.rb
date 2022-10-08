@@ -225,7 +225,7 @@ describe Ronin::Support::Network::TLS::Mixin do
         expect(response).to be =~ expected_response
 
         socket.close
-       end
+      end
 
       it "must yield the OpenSSL::SSL::SSLSocket" do
         response = nil
