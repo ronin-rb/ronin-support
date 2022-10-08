@@ -237,6 +237,15 @@ describe Ronin::Support::Network::SSL::Mixin do
       end
     end
 
+    describe "#ssl_cert" do
+      it "must connect and return the peer Ronin::Support::Crypto::Cert object" do
+        cert = subject.ssl_cert(host,port)
+
+        expect(cert).to be_kind_of(Ronin::Support::Crypto::Cert)
+        expect(cert.subject.common_name).to eq(host)
+      end
+    end
+
     describe "#ssl_banner" do
       let(:expected_banner) { /^220 (smtp\.gmail\.com|mx\.google\.com) ESMTP/ }
 
