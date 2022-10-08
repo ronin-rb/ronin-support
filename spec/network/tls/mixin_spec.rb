@@ -241,6 +241,15 @@ describe Ronin::Support::Network::TLS::Mixin do
       end
     end
 
+    describe "#tls_cert" do
+      it "must connect and return the peer Ronin::Support::Crypto::Cert object" do
+        cert = subject.tls_cert(host,port)
+
+        expect(cert).to be_kind_of(Ronin::Support::Crypto::Cert)
+        expect(cert.subject.common_name).to eq(host)
+      end
+    end
+
     describe "#tls_banner" do
       let(:expected_banner) { /^220 (smtp\.gmail\.com|mx\.google\.com) ESMTP/ }
 

@@ -314,6 +314,61 @@ module Ronin
           end
 
           #
+          # Connects to the host and port and returns the server's certificate.
+          #
+          # @param [String] host
+          #   The host to connect to.
+          #
+          # @param [Integer] port
+          #   The port to connect to.
+          #
+          # @param [1, 1.1, 1.2, String, Symbol, nil] version
+          #   The TLS version to use.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments for {#tls_connect}.
+          #
+          # @option kwargs [String] :bind_host
+          #   The local host to bind to.
+          #
+          # @option kwargs [Integer] :bind_port
+          #   The local port to bind to.
+          #
+          # @option kwargs [Symbol, Boolean] :verify
+          #   Specifies whether to verify the SSL certificate.
+          #   May be one of the following:
+          #
+          #   * `:none`
+          #   * `:peer`
+          #   * `:fail_if_no_peer_cert`
+          #   * `:client_once`
+          #
+          # @yield [tls_socket]
+          #   The given block will be passed the newly created SSL Socket.
+          #
+          # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
+          #   The RSA key to use for the SSL context.
+          #
+          # @option kwargs [String] :key_file
+          #   The path to the SSL `.key` file.
+          #
+          # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+          #   The X509 certificate to use for the SSL context.
+          #
+          # @option kwargs [String] :cert_file
+          #   The path to the SSL `.crt` file.
+          #
+          # @option kwargs [String] :ca_bundle
+          #   Path to the CA certificate file or directory.
+          #
+          # @return [OpenSSL::X509::Certificate]
+          #   The server's certificate.
+          #
+          def tls_cert(host,port, version: 1.2, **kwargs)
+            ssl_cert(host,port, version: version, **kwargs)
+          end
+
+          #
           # Reads the banner from the service running on the given host and
           # port.
           #
