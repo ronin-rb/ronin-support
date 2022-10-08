@@ -707,4 +707,42 @@ describe Ronin::Support::Crypto::Cert do
       end
     end
   end
+
+  describe "Cert()" do
+    let(:string) { File.read(cert_path) }
+    let(:cert) { OpenSSL::X509::Certificate.new(string) }
+
+    context "when given a String" do
+      subject { Ronin::Support::Crypto::Cert(string) }
+
+      it "must return a #{described_class} object" do
+        expect(subject).to be_kind_of(described_class)
+      end
+
+      it "must return the parsed certificate from the string" do
+        cert = OpenSSL::X509::Certificate.new(string)
+
+        expect(subject.to_pem).to eq(cert.to_pem)
+      end
+    end
+
+    context "when given an OpenSSL::X509::Certificate object" do
+      subject { Ronin::Support::Crypto::Cert(string) }
+
+      it "must return a #{described_class} object created from the OpenSSL::X509::Certificate object" do
+        expect(subject).to be_kind_of(described_class)
+        expect(subject.to_pem).to eq(cert.to_pem)
+      end
+    end
+
+    context "when given another kind of Object" do
+      let(:object) { Object.new }
+
+      it do
+        expect {
+          Ronin::Support::Crypto::Cert(object)
+        }.to raise_error(ArgumentError,"value must be either a String or a OpenSSL::X509::Certificate object: #{object.inspect}")
+      end
+    end
+  end
 end

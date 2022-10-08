@@ -484,6 +484,32 @@ module Ronin
         end
 
       end
+
+      #
+      # Coerces a value into a {Cert} object.
+      #
+      # @param [String, OpenSSL::X509::Certificate] cert
+      #   The certificate String or `OpenSSL::X509::Certificate` value.
+      #
+      # @return [Cert]
+      #   The coerced certificate.
+      #
+      # @raise [ArgumentError]
+      #   The certificate value was not a String or a `OpenSSL::X509::Certificate` object.
+      #
+      # @api semipublic
+      #
+      def self.Cert(cert)
+        case cert
+        when String then Cert.parse(cert)
+        when OpenSSL::X509::Certificate
+          new_cert = Cert.allocate
+          new_cert.send(:initialize_copy,cert)
+          new_cert
+        else
+          raise(ArgumentError,"value must be either a String or a OpenSSL::X509::Certificate object: #{cert.inspect}")
+        end
+      end
     end
   end
 end
