@@ -34,7 +34,7 @@ describe Ronin::Support::Network::ASN::List do
     subject { described_class::PATH }
 
     it do
-      expect(subject).to eq(File.join(Gem.user_home,'.local','share','ronin','ronin-support','ip2asn-combined.tsv.gz'))
+      expect(subject).to eq(File.join(Gem.user_home,'.cache','ronin','ronin-support','ip2asn-combined.tsv.gz'))
     end
   end
 
