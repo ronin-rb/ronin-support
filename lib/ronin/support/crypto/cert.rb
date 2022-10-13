@@ -313,8 +313,8 @@ module Ronin
         #       country:             'US'
         #     },
         #     extensions: {
-        #       'subjectAltName'  => 'DNS: *.test.com',
-        #       'basicConstraints => ['CA:FALSE', true]
+        #       'subjectAltName'   => 'DNS: *.test.com',
+        #       'basicConstraints' => ['CA:FALSE', true]
         #     }
         #   )
         #
