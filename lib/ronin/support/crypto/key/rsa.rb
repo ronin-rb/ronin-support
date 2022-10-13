@@ -51,7 +51,7 @@ module Ronin
             # HACK: openssl-3.0.0 will return an OpenSSL::PKey::RSA instance,
             # even though we subclassed OpenSSL::PKey::RSA.
             new_key = allocate
-            new_key.send(:initialize_copy,p(super(key_size,*arguments,&block)))
+            new_key.send(:initialize_copy,super(key_size,*arguments,&block))
             new_key
           end
 
