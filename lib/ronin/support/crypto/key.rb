@@ -19,3 +19,38 @@ require 'ronin/support/crypto/key/dh'
 require 'ronin/support/crypto/key/dsa'
 require 'ronin/support/crypto/key/ec'
 require 'ronin/support/crypto/key/rsa'
+
+module Ronin
+  module Support
+    module Crypto
+      module Key
+        #
+        # Loads the key from the file.
+        #
+        # @param [String] path
+        #   The path to the key file.
+        #
+        # @return [DSA, EC, RSA]
+        #   The loaded key.
+        #
+        # @raise [ArgumentError]
+        #   The key type could not be determined from the key file.
+        #   
+        def self.load_file(path)
+          key       = File.read(path)
+          key_class = if key.start_with?('-----BEGIN RSA PRIVATE KEY-----')
+                        RSA
+                      elsif key.start_with?('-----BEGIN DSA PRIVATE KEY-----')
+                        DSA
+                      elsif key.start_with?('-----BEGIN EC PRIVATE KEY-----')
+                        EC
+                      else
+                        raise(ArgumentError,"cannot determine the key type for file #{path.inspect}")
+                      end
+
+          key_class.parse(key)
+        end
+      end
+    end
+  end
+end
