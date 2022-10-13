@@ -146,7 +146,7 @@ module Ronin
                                 raise(ArgumentError,"encoding: keyword argument (#{encoding.inspect}) must be either :pem or :der")
                               end
 
-            exported = if  password
+            exported = if password
                          cipher = OpenSSL::Cipher.new(cipher)
                          encoding_method.call(cipher,password)
                        else
