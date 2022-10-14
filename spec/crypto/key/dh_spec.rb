@@ -15,7 +15,7 @@ describe Ronin::Support::Crypto::Key::DH do
     it "must call super() with a key size of 1024" do
       expect(subject.superclass).to receive(:generate).with(1024).and_return(openssl_key)
 
-      expect(subject.generate).to be_kind_of(subject)
+      expect(subject.generate).to be_kind_of(described_class)
     end
 
     context "when given a key size" do
@@ -24,7 +24,7 @@ describe Ronin::Support::Crypto::Key::DH do
       it "must call super() with the given key size" do
         expect(subject.superclass).to receive(:generate).with(key_size).and_return(openssl_key)
 
-        expect(subject.generate(key_size)).to be_kind_of(subject)
+        expect(subject.generate(key_size)).to be_kind_of(described_class)
       end
 
       context "and when the generator: keyword is given" do
@@ -33,7 +33,7 @@ describe Ronin::Support::Crypto::Key::DH do
         it "must call super() with the given key size and generator" do
           expect(subject.superclass).to receive(:generate).with(key_size,generator).and_return(openssl_key)
 
-          expect(subject.generate(key_size, generator: generator)).to be_kind_of(subject)
+          expect(subject.generate(key_size, generator: generator)).to be_kind_of(described_class)
         end
       end
     end
