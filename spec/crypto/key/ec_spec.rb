@@ -16,6 +16,26 @@ describe Ronin::Support::Crypto::Key::EC do
     end
   end
 
+  describe ".generate" do
+    subject { described_class }
+
+    it "must return a new #{described_class} instance" do
+      expect(subject.superclass).to receive(:generate).with('prime256v1').and_return(described_class.new)
+
+      expect(subject.generate).to be_kind_of(described_class)
+    end
+
+    context "when given a specific curve" do
+      let(:curve) { 'secp224r1' }
+
+      it "must generate a new #{described_class} using that curve" do
+        expect(subject.superclass).to receive(:generate).with(curve).and_return(described_class.new)
+
+        expect(subject.generate(curve)).to be_kind_of(described_class)
+      end
+    end
+  end
+
   describe ".parse" do
     subject { described_class }
 

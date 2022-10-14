@@ -47,6 +47,29 @@ module Ronin
           include Methods
 
           #
+          # The supported elliptical curves.
+          #
+          # @return [Array<String>]
+          #   The supported curve names.
+          #
+          def self.supported_curves
+            builtin_curves.map { |(name,desc)| name }
+          end
+
+          #
+          # Generates a new random EC key.
+          #
+          # @param [String] curve
+          #   The curve to use. See {supported_curves}.
+          #
+          # @return [EC]
+          #   The newly generated key.
+          #
+          def self.generate(curve='prime256v1')
+            super(curve)
+          end
+
+          #
           # Initializes the EC key.
           #
           # @param [Array] args
@@ -66,16 +89,6 @@ module Ronin
             end
 
             super(*args)
-          end
-
-          #
-          # The supported elliptical curves.
-          #
-          # @return [Array<String>]
-          #   The supported curve names.
-          #
-          def self.supported_curves
-            builtin_curves.map { |(name,desc)| name }
           end
 
         end
