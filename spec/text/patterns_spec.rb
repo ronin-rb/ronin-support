@@ -764,6 +764,10 @@ describe Ronin::Support::Text::Patterns do
     it "must match ldap://ds.example.com:389" do
       expect("ldap://ds.example.com:389").to fully_match(subject)
     end
+
+    it "must not match http://" do
+      expect("http://").to_not match(subject)
+    end
   end
 
   describe "USER_NAME" do

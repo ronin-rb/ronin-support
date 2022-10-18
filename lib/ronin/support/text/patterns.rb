@@ -204,7 +204,7 @@ module Ronin
               (?::\d*)?                                      (?# 3: port)
               |#{reg_name}                                   (?# 4: registry)
             )
-          )?
+          )
           (?:#{abs_path})?                                   (?# 6: abs_path)
           (?:\?#{query})?                                    (?# 7: query)
           (?:\##{fragment})?                                 (?# 8: fragment)
