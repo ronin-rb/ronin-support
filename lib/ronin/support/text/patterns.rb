@@ -191,6 +191,25 @@ module Ronin
         query            = "#{char}*"
         fragment         = "#{char}*"
 
+        # Regular expression to match URIs in text
+        #
+        # @since 1.0.0
+        URI = %r{
+          #{scheme}:                                         (?# 1: scheme)
+          (?:
+            //
+            (?:
+              (?:#{user_info}@)?                             (?# 1: userinfo)
+              (?:#{HOST_NAME}|#{IPV4_ADDR}|\[#{IPV6_ADDR}\]) (?# 2: host)
+              (?::\d*)?                                      (?# 3: port)
+              |#{reg_name}                                   (?# 4: registry)
+            )
+          )?
+          (?:#{abs_path})?                                   (?# 6: abs_path)
+          (?:\?#{query})?                                    (?# 7: query)
+          (?:\##{fragment})?                                 (?# 8: fragment)
+        }x
+
         # Regular expression to match URLs in text
         #
         # @since 1.0.0
