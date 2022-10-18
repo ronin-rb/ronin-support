@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'ronin/support/network/public_suffix/list'
 
 require 'fileutils'
+require 'tempfile'
 require 'tmpdir'
 
 describe Ronin::Support::Network::PublicSuffix::List do
@@ -162,6 +163,29 @@ describe Ronin::Support::Network::PublicSuffix::List do
         it "must download the URL to the PATH" do
           expect(File.file?(described_class::PATH)).to be(true)
           expect(File.stat(described_class::PATH).size).to be > 0
+        end
+      end
+
+      context "when the path: keyword argument is given" do
+        let(:tempfile) { Tempfile.new(['list', '.dat']) }
+        let(:path)     { tempfile.path }
+
+        before { subject.download(path: path) }
+
+        it "must download the ASN list to the specified path" do
+          expect(File.file?(path)).to be(true)
+          expect(File.stat(path).size).to be > 0
+        end
+
+        context "but the parent directory does not yet exist" do
+          let(:tempdir) { Dir.mktmpdir('ronin-support') }
+          let(:path)    { File.join(tempdir,'new_dir','list.dat') }
+
+          it "must create the parent directory" do
+            expect(File.directory?(File.dirname(path))).to be(true)
+            expect(File.file?(path)).to be(true)
+            expect(File.stat(path).size).to be > 0
+          end
         end
       end
     end

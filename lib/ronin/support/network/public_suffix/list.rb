@@ -121,6 +121,8 @@ module Ronin
               request  = Net::HTTP::Get.new(uri.path)
 
               http.request(request) do |response|
+                FileUtils.mkdir_p(File.dirname(path))
+
                 File.open("#{path}.part",'wb') do |file|
                   response.read_body do |chunk|
                     file.write(chunk)
