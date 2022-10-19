@@ -16,6 +16,7 @@
 #
 
 require 'ronin/support/text/patterns'
+require 'ronin/support/text/entropy'
 require 'ronin/support/text/homoglyph'
 require 'ronin/support/text/typo'
 require 'ronin/support/text/mixin'
