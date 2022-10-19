@@ -61,3 +61,5 @@ module Ronin
     end
   end
 end
+
+require 'ronin/support/text/entropy/core_ext'
