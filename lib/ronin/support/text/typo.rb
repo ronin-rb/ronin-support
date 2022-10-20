@@ -255,3 +255,5 @@ module Ronin
     end
   end
 end
+
+require 'ronin/support/text/typo/core_ext'
