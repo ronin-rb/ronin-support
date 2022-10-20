@@ -17,3 +17,6 @@
 
 require 'ronin/support/text/core_ext/string'
 require 'ronin/support/text/core_ext/regexp'
+require 'ronin/support/text/entropy/core_ext'
+require 'ronin/support/text/homoglyp/core_ext'
+require 'ronin/support/text/typo/core_ext'
