@@ -128,9 +128,6 @@ module Ronin
         # @return [Enumerator]
         #   If no block is given, an Enumerator object will be returned.
         #
-        # @raise [ArgumentError]
-        #   Could not find any matching characters to replace in the given text.
-        #
         # @see Table#each_substitution
         #
         def self.each_substitution(word, char_set: nil, &block)
