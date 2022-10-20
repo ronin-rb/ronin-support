@@ -22,7 +22,10 @@ class String
   #
   # Calculates the entropy for the given string.
   #
-  # @param [Integer] base
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [Integer] :base (2)
   #   The base to calculate the entropy for.
   #
   # @return [Float]
@@ -32,8 +35,8 @@ class String
   #
   # @api public
   #
-  def entropy(base: 2)
-    Ronin::Support::Text::Entropy.calculate(self, base: base)
+  def entropy(**kwargs)
+    Ronin::Support::Text::Entropy.calculate(self,**kwargs)
   end
 
 end
