@@ -131,4 +131,37 @@ describe String do
       end
     end
   end
+
+  describe "#homoglyphs" do
+    it "must return an Array for #each_homoglyph" do
+      expect(subject.homoglyphs).to eq(homoglyphs)
+    end
+
+    context "when there is no homoglyphic substitution possible" do
+      subject { '   ' }
+
+      it "must return an Array for #each_homoglyph" do
+        expect(subject.homoglyphs).to eq([])
+      end
+    end
+
+    context "when given the char_set: keyword argument" do
+      let(:char_set)   { :greek }
+      let(:homoglyphs) do
+        Ronin::Support::Text::Homoglyph::GREEK.each_substitution(subject).to_a
+      end
+
+      it "must return an Array for #each_homoglyph" do
+        expect(subject.homoglyphs(char_set: char_set)).to eq(homoglyphs)
+      end
+
+      context "when there is no homoglyphic substitution possible" do
+        subject { '   ' }
+
+        it "must return an Array for #each_homoglyph" do
+          expect(subject.homoglyphs(char_set: char_set)).to eq([])
+        end
+      end
+    end
+  end
 end
