@@ -137,3 +137,5 @@ module Ronin
     end
   end
 end
+
+require 'ronin/support/text/homoglyph/core_ext'
