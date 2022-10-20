@@ -31,6 +31,8 @@ class String
   # @return [Float]
   #   The entropy for the string.
   #
+  # @see Ronin::Support::Text::Entropy.calculate
+  #
   # @since 1.0.0
   #
   # @api public
