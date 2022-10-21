@@ -126,8 +126,8 @@ module Ronin
         def self.encode(data)
           encoded = String.new
 
-          data.each_char do |char|
-            encoded << encode_byte(char.ord)
+          data.each_codepoint do |codepoint|
+            encoded << encode_byte(codepoint)
           end
 
           return encoded
@@ -244,8 +244,8 @@ module Ronin
           def self.encode(data)
             encoded = String.new
 
-            data.each_char do |char|
-              encoded << encode_byte(char.ord)
+            data.each_codepoint do |codepoint|
+              encoded << encode_byte(codepoint)
             end
 
             return encoded
