@@ -12,12 +12,30 @@ describe Ronin::Support::Encoding::JS do
       end
     end
 
-    context "when given a byte that maps to a printable ASCII character" do
+    context "when called on an Integer between 0x20 and 0x7e" do
       let(:normal_byte) { 0x41 }
       let(:normal_char) { 'A' }
 
       it "must ignore normal characters" do
         expect(subject.escape_byte(normal_byte)).to eq(normal_char)
+      end
+    end
+
+    context "when called on an Integer that does not map to an ASCII char" do
+      let(:byte)         { 0xFF   }
+      let(:escaped_byte) { '\xFF' }
+
+      it "must escape special JavaScript characters" do
+        expect(subject.escape_byte(byte)).to eq(escaped_byte)
+      end
+    end
+
+    context "when called on an Integer between 0x100 and 0xffff" do
+      let(:byte)         { 0xFFFF   }
+      let(:escaped_byte) { '\uFFFF' }
+
+      it "must return the lowercase '\\uXXXX' escaped JavaScript character" do
+        expect(subject.escape_byte(byte)).to eq(escaped_byte)
       end
     end
   end

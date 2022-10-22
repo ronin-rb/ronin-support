@@ -83,8 +83,16 @@ module Ronin
         #   # => "\\x7F"
         #
         def self.escape_byte(byte)
-          if byte > 0xff then encode_byte(byte)
-          else                ESCAPE_BYTES.fetch(byte,byte.chr)
+          if byte >= 0x00 && byte <= 0xff
+            ESCAPE_BYTES.fetch(byte) do
+              if byte >= 0x20 && byte <= 0x7e
+                byte.chr
+              else
+                encode_byte(byte)
+              end
+            end
+          else
+            encode_byte(byte)
           end
         end
 

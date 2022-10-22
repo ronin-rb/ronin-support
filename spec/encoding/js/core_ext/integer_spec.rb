@@ -27,6 +27,26 @@ describe Integer do
         expect(subject.js_escape).to eq(normal_char)
       end
     end
+
+    context "when called on an Integer that does not map to an ASCII char" do
+      subject { 0xFF }
+
+      let(:escaped_byte) { '\xFF' }
+
+      it "must escape special JavaScript characters" do
+        expect(subject.js_escape).to eq(escaped_byte)
+      end
+    end
+
+    context "when called on an Integer between 0x100 and 0xffff" do
+      subject { 0xFFFF }
+
+      let(:escaped_byte) { '\uFFFF' }
+
+      it "must return the lowercase '\\uXXXX' escaped JavaScript character" do
+        expect(subject.js_escape).to eq(escaped_byte)
+      end
+    end
   end
 
   describe "#js_encode" do
