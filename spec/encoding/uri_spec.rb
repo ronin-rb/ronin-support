@@ -60,7 +60,7 @@ describe Ronin::Support::Encoding::URI do
     end
   end
 
-  describe "escape" do
+  describe ".escape" do
     let(:data)        { "mod % 3" }
     let(:uri_escaped) { "mod%20%25%203" }
 
@@ -105,7 +105,7 @@ describe Ronin::Support::Encoding::URI do
       end
     end
 
-    describe "#uri_form_escape" do
+    describe ".escape_byte" do
       context "when the Integer is 0x20" do
         let(:byte) { 0x20 }
 

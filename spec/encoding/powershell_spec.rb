@@ -195,7 +195,7 @@ describe Ronin::Support::Encoding::PowerShell do
     end
   end
 
-  describe "#powershell_encode" do
+  describe ".encode" do
     let(:data)               { "ABC" }
     let(:powershell_encoded) { "$([char]0x41)$([char]0x42)$([char]0x43)" }
 
@@ -204,7 +204,7 @@ describe Ronin::Support::Encoding::PowerShell do
     end
   end
 
-  describe "#quote" do
+  describe ".quote" do
     let(:data)              { "hello\nworld" }
     let(:powershell_string) { "\"hello`nworld\"" }
 
@@ -213,7 +213,7 @@ describe Ronin::Support::Encoding::PowerShell do
     end
   end
 
-  describe "#unquote" do
+  describe ".unquote" do
     context "when the String is double-quoted" do
       let(:data)      { "\"hello`nworld\"" }
       let(:unescaped) { "hello\nworld" }

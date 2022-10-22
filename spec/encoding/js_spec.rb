@@ -77,7 +77,7 @@ describe Ronin::Support::Encoding::JS do
 
   let(:data) { "one & two" }
 
-  describe "#js_unescape" do
+  describe ".unescape" do
     let(:js_unicode) do
       "%u006F%u006E%u0065%u0020%u0026%u0020%u0074%u0077%u006F"
     end
@@ -118,7 +118,7 @@ describe Ronin::Support::Encoding::JS do
     end
   end
 
-  describe "#js_unquote" do
+  describe ".unquote" do
     context "when the String is double-quoted" do
       let(:data)      { "\"hello\\nworld\"" }
       let(:unescaped) { "hello\nworld"      }
