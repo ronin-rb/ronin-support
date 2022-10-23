@@ -128,24 +128,18 @@ module Ronin
         def self.encode_byte(byte, format: :decimal, zero_pad: false, **kwargs)
           case format
           when :decimal
-            if zero_pad
-              "&#%.7d;" % byte
-            else
-              "&#%d;" % byte
+            if zero_pad then "&#%.7d;" % byte
+            else             "&#%d;" % byte
             end
           when :hex
             case kwargs[:case]
             when :upper
-              if zero_pad
-                "&#X%.7X;" % byte
-              else
-                "&#X%.2X;" % byte
+              if zero_pad then "&#X%.7X;" % byte
+              else             "&#X%.2X;" % byte
               end
             when :lower, nil
-              if zero_pad
-                "&#x%.7x;" % byte
-              else
-                "&#x%.2x;" % byte
+              if zero_pad then "&#x%.7x;" % byte
+              else             "&#x%.2x;" % byte
               end
             when
               raise(ArgumentError,"case (#{kwargs[:case].inspect}) keyword argument must be either :lower, :upper, or nil")
