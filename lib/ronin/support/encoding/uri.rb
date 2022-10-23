@@ -55,9 +55,9 @@ module Ronin
           if (byte >= 0) && (byte <= 0xff)
             case kwargs[:case]
             when :lower
-              "%%%2x" % byte
+              "%%%.2x" % byte
             when :upper, nil
-              "%%%2X" % byte
+              "%%%.2X" % byte
             else
               raise(ArgumentError,"#{kwargs[:case].inspect} must be either :lower, :upper, or nil")
             end

@@ -10,6 +10,15 @@ describe Ronin::Support::Encoding::URI do
       expect(subject.encode_byte(byte)).to eq(uri_encoded)
     end
 
+    context "when given a byte less than 0x10" do
+      let(:byte)        { 0x01  }
+      let(:uri_encoded) { '%01' }
+
+      it "must zero-pad the escaped character" do
+        expect(subject.encode_byte(byte)).to eq(uri_encoded)
+      end
+    end
+
     context "when given `case: :lower`" do
       let(:byte)        { 0xFF  }
       let(:uri_encoded) { '%ff' }
@@ -53,7 +62,7 @@ describe Ronin::Support::Encoding::URI do
     [*(0..32), 34, 35, 37, 60, 62, 92, 94, 96, *(123..125), *(127..255)].each do |byte|
       context "when given the byte 0x#{byte.to_s(16)}" do
         let(:byte)        { byte           }
-        let(:uri_escaped) { "%%%2X" % byte }
+        let(:uri_escaped) { "%%%.2X" % byte }
 
         it "must URI escape the Integer" do
           expect(subject.escape_byte(byte)).to eq(uri_escaped)
@@ -267,7 +276,7 @@ describe Ronin::Support::Encoding::URI do
       [*(0..31), 34, 35, 37, 60, 62, 92, 94, 96, *(123..125), *(127..255)].each do |byte|
         context "when given the byte 0x#{byte.to_s(16)}" do
           let(:byte)        { byte           }
-          let(:uri_escaped) { "%%%2X" % byte }
+          let(:uri_escaped) { "%%%.2X" % byte }
 
           it "must URI escape the Integer" do
             expect(subject.escape_byte(byte)).to eq(uri_escaped)

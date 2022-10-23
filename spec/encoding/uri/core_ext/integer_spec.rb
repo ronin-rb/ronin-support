@@ -18,6 +18,16 @@ describe Integer do
       expect(subject.uri_encode).to eq(uri_encoded)
     end
 
+    context "when the byte is less than 0x10" do
+      subject { 0x01 }
+
+      let(:uri_encoded) { '%01' }
+
+      it "must zero-pad the escaped character" do
+        expect(subject.uri_encode).to eq(uri_encoded)
+      end
+    end
+
     context "when given `case: :lower`" do
       subject { 0xFF }
 
@@ -64,7 +74,7 @@ describe Integer do
       context "when given the byte 0x#{byte.to_s(16)}" do
         subject { byte }
 
-        let(:uri_escaped) { "%%%2X" % byte }
+        let(:uri_escaped) { "%%%.2X" % byte }
 
         it "must URI escape the Integer" do
           expect(subject.uri_escape).to eq(uri_escaped)
@@ -186,7 +196,7 @@ describe Integer do
       context "when given the byte 0x#{byte.to_s(16)}" do
         subject { byte }
 
-        let(:uri_escaped) { "%%%2X" % byte }
+        let(:uri_escaped) { "%%%.2X" % byte }
 
         it "must URI escape the Integer" do
           expect(subject.uri_form_escape).to eq(uri_escaped)
