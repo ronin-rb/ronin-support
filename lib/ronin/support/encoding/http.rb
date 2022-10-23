@@ -41,7 +41,7 @@ module Ronin
         #   # => "%41"
         #
         def self.encode_byte(byte)
-          "%%%X" % byte
+          "%%%.2X" % byte
         end
 
         #

@@ -18,6 +18,16 @@ describe Integer do
     it "must format the byte" do
       expect(subject.http_encode).to eq(http_formatted)
     end
+
+    context "when the Integer is below 0x10" do
+      subject { 0x01 }
+
+      let(:encoded_byte) { '%01' }
+
+      it "must zero-pad the escaped character to ensure two digits" do
+        expect(subject.http_encode).to eq(encoded_byte)
+      end
+    end
   end
 
   describe "#http_escape" do

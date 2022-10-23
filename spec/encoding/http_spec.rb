@@ -9,6 +9,15 @@ describe Ronin::Support::Encoding::HTTP do
     it "must HTTP encode the byte as '%XX'" do
       expect(subject.encode_byte(byte)).to eq(encoded_byte)
     end
+
+    context "when given a byte below 0x10" do
+      let(:byte)         { 0x01  }
+      let(:encoded_byte) { '%01' }
+
+      it "must zero-pad the escaped character to ensure two digits" do
+        expect(subject.encode_byte(byte)).to eq(encoded_byte)
+      end
+    end
   end
 
   describe ".escape_byte" do
