@@ -288,7 +288,7 @@ describe Ronin::Support::Encoding::XML do
       let(:xml_escaped) { "one &AMP; two" }
 
       it "must use uppercase XML escaped characters" do
-      expect(subject.escape(data, case: :upper)).to eq(xml_escaped)
+        expect(subject.escape(data, case: :upper)).to eq(xml_escaped)
       end
     end
   end
