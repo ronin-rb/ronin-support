@@ -62,9 +62,9 @@ module Ronin
         #   The byte value is negative.
         #
         # @example
-        #   Encoding::URI.escape(0x41)
+        #   Encoding::URI.escape_byte(0x41)
         #   # => "A"
-        #   Encoding::URI.escape(0x3d)
+        #   Encoding::URI.escape_byte(0x3d)
         #   # => "%3D"
         #
         def self.escape_byte(byte)
@@ -199,9 +199,9 @@ module Ronin
           #   The byte value is negative.
           #
           # @example
-          #   Encoding::URI::Form.escape(0x41)
+          #   Encoding::URI::Form.escape_byte(0x41)
           #   # => "A"
-          #   Encoding::URI::Form.escape(0x20)
+          #   Encoding::URI::Form.escape_byte(0x20)
           #   # => "+"
           #
           def self.escape_byte(byte)
@@ -246,9 +246,9 @@ module Ronin
           #   The URI Form unescaped String.
           #
           # @example
-          #   "hello+world".uri_form_unescape
+          #   Encoding::URI::Form.unescape("hello+world")
           #   # => "hello world"
-          #   "hello%00world".uri_form_unescape
+          #   Encoding::URI::Form.unescape("hello%00world")
           #   # => "hello\u0000world"
           #
           def self.unescape(data)
@@ -272,7 +272,7 @@ module Ronin
           #
           # @example
           #   Encoding::URI::Form.encode("hello world")
-          #   # => 
+          #   # => "%68%65%6C%6C%6F+%77%6F%72%6C%64"
           #
           def self.encode(data)
             encoded = String.new
