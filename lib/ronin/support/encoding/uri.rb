@@ -35,7 +35,7 @@ module Ronin
         #   The URI encoded byte.
         #
         # @raise [RangeError]
-        #   The byte value is negative.
+        #   The byte value is negative or greater than 255.
         #
         # @example
         #   Encoding::URI.encode_byte(0x41)
@@ -59,7 +59,7 @@ module Ronin
         #   The URI escaped byte.
         #
         # @raise [RangeError]
-        #   The byte value is negative.
+        #   The byte value is negative or greater than 255.
         #
         # @example
         #   Encoding::URI.escape_byte(0x41)
@@ -178,7 +178,7 @@ module Ronin
           #   The URI Form encoded byte.
           #
           # @raise [RangeError]
-          #   The byte value is negative.
+          #   The byte value is negative or greater than 255.
           #
           def self.encode_byte(byte)
             if byte == 0x20 then '+'
@@ -196,7 +196,7 @@ module Ronin
           #   The URI Form escaped byte.
           #
           # @raise [RangeError]
-          #   The byte value is negative.
+          #   The byte value is negative or greater than 255.
           #
           # @example
           #   Encoding::URI::Form.escape_byte(0x41)
