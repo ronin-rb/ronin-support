@@ -16,8 +16,6 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'cgi'
-
 module Ronin
   module Support
     class Encoding < ::Encoding
@@ -33,15 +31,39 @@ module Ronin
         # @param [Integer] byte
         #   The byte toe HTTP encode.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase hexadecimal.
+        #   Defaults to uppercase hexadecimal.
+        #
         # @return [String]
         #   The encoded HTTP byte.
+        #
+        # @raise [ArgumentError]
+        #   The `case:` keyword argument was not `:lower`, `:upper`, or `nil`.
+        #
+        # @raise [RangeError]
+        #   The byte value is negative or greater than 255.
         #
         # @example
         #   Encoding::HTTP.encode_byte(0x41)
         #   # => "%41"
         #
-        def self.encode_byte(byte)
-          "%%%.2X" % byte
+        def self.encode_byte(byte,**kwargs)
+          if (byte >= 0) && (byte <= 0xff)
+            case kwargs[:case]
+            when :lower
+              "%%%.2x" % byte
+            when :upper, nil
+              "%%%.2X" % byte
+            else
+              raise(ArgumentError,"#{kwargs[:case].inspect} must be either :lower, :upper, or nil")
+            end
+          else
+            raise(RangeError,"#{byte.inspect} out of char range")
+          end
         end
 
         #
@@ -50,8 +72,21 @@ module Ronin
         # @param [Integer] byte
         #   The byte toe HTTP escape.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase hexadecimal.
+        #   Defaults to uppercase hexadecimal.
+        #
         # @return [String]
         #   The HTTP escaped form of the Integer.
+        #
+        # @raise [ArgumentError]
+        #   The `case:` keyword argument was not `:lower`, `:upper`, or `nil`.
+        #
+        # @raise [RangeError]
+        #   The byte value is negative or greater than 255.
         #
         # @example
         #   Encoding::HTTP.escape_byte(0x41)
@@ -59,8 +94,18 @@ module Ronin
         #   Encoding::HTTP.escape_byte(62)
         #   # => "%3E"
         #
-        def self.escape_byte(byte)
-          CGI.escape(byte.chr)
+        def self.escape_byte(byte,**kwargs)
+          if (byte >= 0) && (byte <= 0xff)
+            if (byte == 45) || (byte == 46) || ((byte >= 48) && (byte <= 57)) || ((byte >= 65) && (byte <= 90)) || (byte == 95) || ((byte >= 97) && (byte <= 122)) || (byte == 126)
+              byte.chr
+            elsif byte == 0x20
+              '+'
+            else
+              encode_byte(byte,**kwargs)
+            end
+          else
+            raise(RangeError,"#{byte.inspect} out of char range")
+          end
         end
 
         #
@@ -69,15 +114,31 @@ module Ronin
         # @param [String] data
         #   The data to HTTP escape.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase hexadecimal.
+        #   Defaults to uppercase hexadecimal.
+        #
         # @return [String]
         #   The HTTP escaped form of the String.
+        #
+        # @raise [ArgumentError]
+        #   The `case:` keyword argument was not `:lower`, `:upper`, or `nil`.
         #
         # @example
         #   Encoding::HTTP.escape("x > y")
         #   # => "x+%3E+y"
         #
-        def self.escape(data)
-          CGI.escape(data)
+        def self.escape(data,**kwargs)
+          escaped = String.new
+
+          data.each_byte do |byte|
+            escaped << escape_byte(byte,**kwargs)
+          end
+
+          return escaped
         end
 
         #
@@ -94,7 +155,13 @@ module Ronin
         #   # => "sweet & sour"
         #
         def self.unescape(data)
-          CGI.unescape(data)
+          data.gsub(/(?:\+|%[A-Fa-f0-9]{2})/) do |escaped_char|
+            if escaped_char == '+'
+              ' '
+            else
+              escaped_char[1..].to_i(16).chr
+            end
+          end
         end
 
         #
@@ -103,18 +170,28 @@ module Ronin
         # @param [String] data
         #   The data to HTTP encode.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase hexadecimal.
+        #   Defaults to uppercase hexadecimal.
+        #
         # @return [String]
         #   The HTTP hexadecimal encoded form of the String.
+        #
+        # @raise [ArgumentError]
+        #   The `case:` keyword argument was not `:lower`, `:upper`, or `nil`.
         #
         # @example
         #   "hello".http_encode
         #   # => "%68%65%6c%6c%6f"
         #
-        def self.encode(data)
+        def self.encode(data,**kwargs)
           encoded = String.new
 
           data.each_byte do |byte|
-            encoded << encode_byte(byte)
+            encoded << encode_byte(byte,**kwargs)
           end
 
           return encoded

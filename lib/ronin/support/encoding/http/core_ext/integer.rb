@@ -22,8 +22,21 @@ class Integer
   #
   # Encodes the byte as an escaped HTTP decimal character.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase hexadecimal.
+  #   Defaults to uppercase hexadecimal.
+  #
   # @return [String]
   #   The encoded HTTP byte.
+  #
+  # @raise [ArgumentError]
+  #   The `case:` keyword argument was not `:lower`, `:upper`, or `nil`.
+  #
+  # @raise [RangeError]
+  #   The byte value is negative or greater than 255.
   #
   # @example
   #   0x41.http_encode
@@ -33,15 +46,28 @@ class Integer
   #
   # @api public
   #
-  def http_encode
-    Ronin::Support::Encoding::HTTP.encode_byte(self)
+  def http_encode(**kwargs)
+    Ronin::Support::Encoding::HTTP.encode_byte(self,**kwargs)
   end
 
   #
   # HTTP escapes the Integer.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase hexadecimal.
+  #   Defaults to uppercase hexadecimal.
+  #
   # @return [String]
   #   The HTTP escaped form of the Integer.
+  #
+  # @raise [ArgumentError]
+  #   The `case:` keyword argument was not `:lower`, `:upper`, or `nil`.
+  #
+  # @raise [RangeError]
+  #   The byte value is negative or greater than 255.
   #
   # @example
   #   62.http_escape
@@ -53,8 +79,8 @@ class Integer
   #
   # @since 0.6.0
   #
-  def http_escape
-    Ronin::Support::Encoding::HTTP.escape_byte(self)
+  def http_escape(**kwargs)
+    Ronin::Support::Encoding::HTTP.escape_byte(self,**kwargs)
   end
 
 end

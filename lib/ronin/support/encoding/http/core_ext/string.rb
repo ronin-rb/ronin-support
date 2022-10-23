@@ -17,15 +17,23 @@
 
 require 'ronin/support/encoding/http/core_ext/integer'
 
-require 'cgi'
-
 class String
 
   #
   # HTTP escapes the String.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase hexadecimal.
+  #   Defaults to uppercase hexadecimal.
+  #
   # @return [String]
   #   The HTTP escaped form of the String.
+  #
+  # @raise [ArgumentError]
+  #   The `case:` keyword argument was not `:lower`, `:upper`, or `nil`.
   #
   # @example
   #   "x > y".http_escape
@@ -37,8 +45,8 @@ class String
   #
   # @since 0.6.0
   #
-  def http_escape
-    Ronin::Support::Encoding::HTTP.escape(self)
+  def http_escape(**kwargs)
+    Ronin::Support::Encoding::HTTP.escape(self,**kwargs)
   end
 
   #
@@ -64,8 +72,18 @@ class String
   #
   # HTTP encodes each byte of the String.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase hexadecimal.
+  #   Defaults to uppercase hexadecimal.
+  #
   # @return [String]
   #   The HTTP hexadecimal encoded form of the String.
+  #
+  # @raise [ArgumentError]
+  #   The `case:` keyword argument was not `:lower`, `:upper`, or `nil`.
   #
   # @example
   #   "hello".http_encode
@@ -77,8 +95,8 @@ class String
   #
   # @since 1.0.0
   #
-  def http_encode
-    Ronin::Support::Encoding::HTTP.encode(self)
+  def http_encode(**kwargs)
+    Ronin::Support::Encoding::HTTP.encode(self,**kwargs)
   end
 
   #

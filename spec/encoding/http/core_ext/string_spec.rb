@@ -28,6 +28,36 @@ describe String do
     it "must escape special characters as '%XX'" do
       expect(subject.http_escape).to eq(http_escaped)
     end
+
+    context "when given `case: :lower`" do
+      subject { "\xff" }
+
+      let(:http_encoded) { '%ff'  }
+
+      it "must return a lowercase hexadecimal escaped String" do
+        expect(subject.http_escape(case: :lower)).to eq(http_encoded)
+      end
+    end
+
+    context "when given `case: :upper`" do
+      subject { "\xff" }
+
+      let(:http_encoded) { '%FF'  }
+
+      it "must return a uppercase hexadecimal escaped String" do
+        expect(subject.http_escape(case: :upper)).to eq(http_encoded)
+      end
+    end
+
+    context "when the String contains invalid byte sequences" do
+      subject { "mod % 3\xfe\xff" }
+
+      let(:http_escaped) { "mod+%25+3%FE%FF" }
+
+      it "must HTTP escape each byte in the String" do
+        expect(subject.http_escape).to eq(http_escaped)
+      end
+    end
   end
 
   describe "#http_unescape" do
@@ -47,6 +77,36 @@ describe String do
 
     it "must format each byte of the String" do
       expect(subject.http_encode).to eq(http_encoded)
+    end
+
+    context "when given `case: :lower`" do
+      subject { "\xff" }
+
+      let(:http_encoded) { '%ff'  }
+
+      it "must return a lowercase hexadecimal escaped String" do
+        expect(subject.http_encode(case: :lower)).to eq(http_encoded)
+      end
+    end
+
+    context "when given `case: :upper`" do
+      subject { "\xff" }
+
+      let(:http_encoded) { '%FF'  }
+
+      it "must return a uppercase hexadecimal escaped String" do
+        expect(subject.http_encode(case: :upper)).to eq(http_encoded)
+      end
+    end
+
+    context "when the String contains invalid byte sequences" do
+      subject { "mod % 3\xfe\xff" }
+
+      let(:http_encoded) { "%6D%6F%64%20%25%20%33%FE%FF" }
+
+      it "must HTTP escape each byte in the String" do
+        expect(subject.http_encode).to eq(http_encoded)
+      end
     end
   end
 
