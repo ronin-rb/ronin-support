@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'ronin/support/encoding/xml'
 
 describe Ronin::Support::Encoding::XML do
-
   describe ".escape_byte" do
     context "when the byte is a printable ASCII character" do
       let(:byte)         { 0x41 }
