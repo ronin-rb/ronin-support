@@ -96,10 +96,10 @@ module Ronin
         #
         def self.escape_byte(byte,**kwargs)
           if (byte >= 0) && (byte <= 0xff)
-            if ((byte >= 0) && (byte <= 32)) || (byte == 34) || (byte == 35) || (byte == 37) || (byte == 60) || (byte == 62) || (byte == 92) || (byte == 94) || (byte == 96) || ((byte >= 123) && (byte <= 125)) || (byte >= 127)
-              encode_byte(byte,**kwargs)
-            else
+            if (byte == 42) || (byte == 45) || (byte == 46) || ((byte >= 48) && (byte <= 57)) || ((byte >= 65) && (byte <= 90)) || (byte == 95) || ((byte >= 97) && (byte <= 122))
               byte.chr
+            else
+              encode_byte(byte,**kwargs)
             end
           else
             raise(RangeError,"#{byte.inspect} out of char range")
