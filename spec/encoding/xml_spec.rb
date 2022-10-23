@@ -266,7 +266,7 @@ describe Ronin::Support::Encoding::XML do
     let(:xml_escaped) { "one &amp; two" }
 
     it "must XML unescape the String" do
-      expect(subject.unescape(data)).to eq(data)
+      expect(subject.unescape(xml_escaped)).to eq(data)
     end
   end
 
