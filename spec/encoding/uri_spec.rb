@@ -53,7 +53,7 @@ describe Ronin::Support::Encoding::URI do
         let(:byte)   { 0x20      }
         let(:unsafe) { %w[A B C] }
 
-        it "must not encode itself if not listed as unsafe" do
+        it "must not encode the byte if not listed as unsafe" do
           expect(subject.escape_byte(byte, unsafe: unsafe)).to eq(byte.chr)
         end
       end
@@ -64,7 +64,7 @@ describe Ronin::Support::Encoding::URI do
     let(:data)        { "mod % 3" }
     let(:uri_escaped) { "mod%20%25%203" }
 
-    it "must URI encode itself" do
+    it "must URI encode the String" do
       expect(subject.escape(data)).to eq(uri_escaped)
     end
 
@@ -90,7 +90,7 @@ describe Ronin::Support::Encoding::URI do
     let(:data)          { "x%20%2B%20y" }
     let(:uri_unescaped) { "x + y"       }
 
-    it "must URI unescape itself" do
+    it "must URI unescape the String" do
       expect(subject.unescape(data)).to eq(uri_unescaped)
     end
   end
@@ -118,7 +118,7 @@ describe Ronin::Support::Encoding::URI do
       let(:byte)             { 0x41  }
       let(:uri_form_encoded) { '%41' }
 
-      it "must URI encode the Integer" do
+      it "must URI form encode the Integer" do
         expect(subject.encode_byte(byte)).to eq(uri_form_encoded)
       end
     end
@@ -136,7 +136,7 @@ describe Ronin::Support::Encoding::URI do
         let(:byte)             { 0x23 } # '#'
         let(:uri_form_escaped) { '%23' }
 
-        it "must URI escape the Integer" do
+        it "must URI form escape the Integer" do
           expect(subject.escape_byte(byte)).to eq(uri_form_escaped)
         end
       end
@@ -144,7 +144,7 @@ describe Ronin::Support::Encoding::URI do
       context "when called on a printable ASCII character" do
         let(:byte) { 0x41 }
 
-        it "must return that character" do
+        it "must return the character" do
           expect(subject.escape_byte(byte)).to eq(byte.chr)
         end
       end
@@ -153,7 +153,7 @@ describe Ronin::Support::Encoding::URI do
         let(:byte)             { 0xFF }
         let(:uri_form_escaped) { '%FF' }
 
-        it "must URI encode the Integer" do
+        it "must URI form encode the Integer" do
           expect(subject.escape_byte(byte)).to eq(uri_form_escaped)
         end
       end
@@ -163,7 +163,7 @@ describe Ronin::Support::Encoding::URI do
       let(:data)             { "mod % 3"   }
       let(:uri_form_escaped) { "mod+%25+3" }
 
-      it "must URI encode itself" do
+      it "must URI form escape the String" do
         expect(subject.escape(data)).to eq(uri_form_escaped)
       end
 
@@ -181,7 +181,7 @@ describe Ronin::Support::Encoding::URI do
       let(:data)               { "x+%2B+y" }
       let(:uri_form_unescaped) { "x + y"   }
 
-      it "must URI unescape itself" do
+      it "must URI form unescape the String" do
         expect(subject.unescape(data)).to eq(uri_form_unescaped)
       end
     end
@@ -190,7 +190,7 @@ describe Ronin::Support::Encoding::URI do
       let(:data)             { "hello world" }
       let(:uri_form_encoded) { "%68%65%6C%6C%6F+%77%6F%72%6C%64" }
 
-      it "must URI encode every character in the String" do
+      it "must URI form encode every character in the String" do
         expect(subject.encode(data)).to eq(uri_form_encoded)
       end
 

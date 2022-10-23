@@ -19,7 +19,7 @@ describe String do
   describe "#xml_escape" do
     let(:xml_escaped) { "one &amp; two" }
 
-    it "must HTML escape itself" do
+    it "must XML escape itself" do
       expect(subject.xml_escape).to eq(xml_escaped)
     end
 
@@ -37,7 +37,7 @@ describe String do
   describe "#xml_unescape" do
     let(:xml_escaped) { "one &amp; two" }
 
-    it "must HTML unescape itself" do
+    it "must XML unescape itself" do
       expect(xml_escaped.xml_unescape).to eq(subject)
     end
   end
@@ -47,7 +47,7 @@ describe String do
       "&#111;&#110;&#101;&#32;&#38;&#32;&#116;&#119;&#111;"
     end
 
-    it "must HTML format all chars" do
+    it "must XML format all chars" do
       expect(subject.xml_encode).to eq(encoded_xml)
     end
 

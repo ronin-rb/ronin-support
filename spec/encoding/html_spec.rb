@@ -81,7 +81,7 @@ describe Ronin::Support::Encoding::HTML do
   describe ".escape" do
     let(:xml_escaped) { "one &amp; two" }
 
-    it "must HTML escape itself" do
+    it "must HTML escape the String" do
       expect(subject.escape(data)).to eq(xml_escaped)
     end
   end
@@ -89,7 +89,7 @@ describe Ronin::Support::Encoding::HTML do
   describe ".unescape" do
     let(:xml_escaped) { "one &amp; two" }
 
-    it "must HTML unescape itself" do
+    it "must HTML unescape String" do
       expect(subject.unescape(data)).to eq(data)
     end
   end
