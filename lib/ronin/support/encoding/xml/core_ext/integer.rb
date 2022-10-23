@@ -22,6 +22,13 @@ class Integer
   #
   # Escapes the Integer as an XML String.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase XML special
+  #   characters. Defaults to lowercase hexadecimal.
+  #
   # @return [String]
   #   The escaped XML String.
   #
@@ -35,12 +42,26 @@ class Integer
   #
   # @api public
   #
-  def xml_escape
-    Ronin::Support::Encoding::XML.escape_byte(self)
+  def xml_escape(**kwargs)
+    Ronin::Support::Encoding::XML.escape_byte(self,**kwargs)
   end
 
   #
   # Encodes the Integer as a XML String.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:decimal, :hex] :format (:decimal)
+  #   The numeric format for the escaped characters.
+  #
+  # @option kwargs [Boolean] :zero_pad
+  #   Controls whether the escaped characters will be left-padded with
+  #   up to seven `0` characters.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase XML special
+  #   characters. Defaults to lowercase hexadecimal.
   #
   # @return [String]
   #   The XML String.
@@ -55,8 +76,8 @@ class Integer
   #
   # @api public
   #
-  def xml_encode
-    Ronin::Support::Encoding::XML.encode_byte(self)
+  def xml_encode(**kwargs)
+    Ronin::Support::Encoding::XML.encode_byte(self,**kwargs)
   end
 
 end

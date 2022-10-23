@@ -22,6 +22,13 @@ class String
   #
   # XML escapes the String.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase XML special
+  #   characters. Defaults to lowercase hexadecimal.
+  #
   # @return [String]
   #   The XML escaped String.
   #
@@ -36,8 +43,8 @@ class String
   #
   # @api public
   #
-  def xml_escape
-    Ronin::Support::Encoding::XML.escape(self)
+  def xml_escape(**kwargs)
+    Ronin::Support::Encoding::XML.escape(self,**kwargs)
   end
 
   #
@@ -64,6 +71,20 @@ class String
   #
   # Encodes each character in the String as an XML character.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:decimal, :hex] :format (:decimal)
+  #   The numeric format for the escaped characters.
+  #
+  # @option kwargs [Boolean] :zero_pad
+  #   Controls whether the escaped characters will be left-padded with
+  #   up to seven `0` characters.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase XML special
+  #   characters. Defaults to lowercase hexadecimal.
+  #
   # @return [String]
   #   The XML encoded String.
   #
@@ -77,8 +98,8 @@ class String
   #
   # @api public
   #
-  def xml_encode
-    Ronin::Support::Encoding::XML.encode(self)
+  def xml_encode(**kwargs)
+    Ronin::Support::Encoding::XML.encode(self,**kwargs)
   end
 
   alias xml_decode xml_unescape

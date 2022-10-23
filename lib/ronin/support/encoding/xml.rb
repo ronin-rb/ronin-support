@@ -16,22 +16,45 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'cgi'
-
 module Ronin
   module Support
     class Encoding < ::Encoding
       #
-      # Contains methods for encoding/decoding escaping/unescaping HTML data.
+      # Contains methods for encoding/decoding escaping/unescaping XML data.
       #
       # @api public
       #
       module XML
+        # Special bytes and their escaped XML characters.
+        ESCAPE_BYTES = {
+          39 => '&#39;',
+          38 => '&amp;',
+          34 => '&quot;',
+          60 => '&lt;',
+          62 => '&gt;'
+        }
+
+        # Special bytes and their escaped XML characters, but in uppercase.
+        ESCAPE_BYTES_UPPERCASE = {
+          39 => '&#39;',
+          38 => '&AMP;',
+          34 => '&QUOT;',
+          60 => '&LT;',
+          62 => '&GT;'
+        }
+
         #
         # Escapes the byte as a XML decimal character.
         #
         # @param [Integer] byte
         #   The byte to XML escape.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase XML special
+        #   characters. Defaults to lowercase hexadecimal.
         #
         # @return [String]
         #   The XML decimal character.
@@ -42,8 +65,25 @@ module Ronin
         #   Encoding::XML.escape_byte(0x26)
         #   # => "&amp;"
         #
-        def self.escape_byte(byte)
-          CGI.escapeHTML(byte.chr)
+        # @example Uppercase:
+        #   Encoding::XML.escape_byte(0x26, case: :upper)
+        #   # => "&AMP;"
+        #
+        def self.escape_byte(byte,**kwargs)
+          table = case kwargs[:case]
+                  when :upper      then ESCAPE_BYTES_UPPERCASE
+                  when :lower, nil then ESCAPE_BYTES
+                  else
+                    raise(ArgumentError,"case (#{kwargs[:case].inspect}) must be either :upper, :lower, or nil")
+                  end
+
+          table.fetch(byte) do
+            if (byte >= 0 && byte <= 0xff)
+              byte.chr(Encoding::ASCII_8BIT)
+            else
+              byte.chr(Encoding::UTF_8)
+            end
+          end
         end
 
         #
@@ -52,6 +92,20 @@ module Ronin
         # @param [Integer] byte
         #   The byte to XML encode.
         #
+        # @param [:decimal, :hex] format
+        #   The numeric format for the escaped characters.
+        #
+        # @param [Boolean] zero_pad
+        #   Controls whether the escaped characters will be left-padded with
+        #   up to seven `0` characters.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase XML special
+        #   characters. Defaults to lowercase hexadecimal.
+        #
         # @return [String]
         #   The XML decimal character.
         #
@@ -59,8 +113,46 @@ module Ronin
         #   Encoding::XML.encode_byte(0x41)
         #   # => "&#65;"
         #
-        def self.encode_byte(byte)
-          "&#%d;" % byte
+        # @example Zero-padding:
+        #   Encoding::XML.encode_byte(0x41, zero_pad: true)
+        #   # => "&#0000065;"
+        #
+        # @example Hexadecimal escaped characters:
+        #   Encoding::XML.encode_byte(0x41, format: :hex)
+        #   # => "&#x41;"
+        #
+        # @example Uppercase hexadecimal escaped characters:
+        #   Encoding::XML.encode_byte(0xFF, format: :hex, case: :upper)
+        #   # => "&#XFF;"
+        #
+        def self.encode_byte(byte, format: :decimal, zero_pad: false, **kwargs)
+          case format
+          when :decimal
+            if zero_pad
+              "&#%.7d;" % byte
+            else
+              "&#%d;" % byte
+            end
+          when :hex
+            case kwargs[:case]
+            when :upper
+              if zero_pad
+                "&#X%.7X;" % byte
+              else
+                "&#X%.2X;" % byte
+              end
+            when :lower, nil
+              if zero_pad
+                "&#x%.7x;" % byte
+              else
+                "&#x%.2x;" % byte
+              end
+            when
+              raise(ArgumentError,"case (#{kwargs[:case].inspect}) must be :lower, :upper, or nil")
+            end
+          else
+            raise(ArgumentError,"format (#{format.inspect}) must be :decimal or :hex")
+          end
         end
 
         #
@@ -69,6 +161,20 @@ module Ronin
         # @param [String] data
         #   The data to XML encode.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:decimal, :hex] :format (:decimal)
+        #   The numeric format for the escaped characters.
+        #
+        # @option kwargs [Boolean] :zero_pad (false)
+        #   Controls whether the escaped characters will be left-padded with
+        #   up to seven `0` characters.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase XML special
+        #   characters. Defaults to lowercase hexadecimal.
+        #
         # @return [String]
         #   The XML encoded String.
         #
@@ -76,16 +182,16 @@ module Ronin
         #   Encoding::XML.encode("abc")
         #   # => "&#97;&#98;&#99;"
         #
-        def self.encode(data)
+        def self.encode(data,**kwargs)
           encoded = String.new
 
           if data.valid_encoding?
             data.each_codepoint do |codepoint|
-              encoded << encode_byte(codepoint)
+              encoded << encode_byte(codepoint,**kwargs)
             end
           else
             data.each_byte do |byte|
-              encoded << encode_byte(byte)
+              encoded << encode_byte(byte,**kwargs)
             end
           end
 
@@ -113,6 +219,13 @@ module Ronin
         # @param [String] data
         #   The data to XML escape.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase XML special
+        #   characters. Defaults to lowercase hexadecimal.
+        #
         # @return [String]
         #   The XML escaped String.
         #
@@ -120,11 +233,30 @@ module Ronin
         #   Encoding::XML.escape("one & two")
         #   # => "one &amp; two"
         #
-        # @see http://rubydoc.info/stdlib/cgi/CGI.escapeHTML
-        #
-        def self.escape(data)
-          CGI.escapeHTML(data)
+        def self.escape(data,**kwargs)
+          escaped = String.new
+
+          if data.valid_encoding?
+            data.each_codepoint do |codepoint|
+              escaped << escape_byte(codepoint,**kwargs)
+            end
+          else
+            data.each_byte do |byte|
+              escaped << escape_byte(byte,**kwargs)
+            end
+          end
+
+          return escaped
         end
+
+        # XML escaped characters and their unescaped forms.
+        ESCAPED_CHARS = {
+          '&apos;' => "'",
+          '&amp;'  => '&',
+          '&quot;' => '"',
+          '&lt;'   => '<',
+          '&gt;'   => '>'
+        }
 
         #
         # Unescapes the XML encoded data.
@@ -142,7 +274,22 @@ module Ronin
         # @see http://rubydoc.info/stdlib/cgi/CGI.unescapeHash
         #
         def self.unescape(data)
-          CGI.unescapeHTML(data)
+          unescaped = String.new
+          scanner   = StringScanner.new(data)
+
+          until scanner.eos?
+            unescaped << if (named_char = scanner.scan(/&(?:apos|amp|quot|lt|gt);/i))
+                           ESCAPED_CHARS.fetch(named_char.downcase)
+                         elsif (decimal_char = scanner.scan(/&#\d+;/))
+                           decimal_char[2,-2].to_i.chr(Encoding::UTF_8)
+                         elsif (hex_char = scanner.scan(/&#x[a-f0-9]+;/i))
+                           hex_char[3,-2].to_i(16).chr(Encoding::UTF_8)
+                         else
+                           scanner.getch
+                         end
+          end
+
+          return unescaped
         end
       end
     end
