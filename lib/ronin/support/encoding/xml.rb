@@ -59,6 +59,9 @@ module Ronin
         # @return [String]
         #   The XML decimal character.
         #
+        # @raise [ArgumentError]
+        #   The `case:` keyword argument is invalid.
+        #
         # @example
         #   Encoding::XML.escape_byte(0x41)
         #   # => "A"
@@ -108,6 +111,9 @@ module Ronin
         #
         # @return [String]
         #   The XML decimal character.
+        #
+        # @raise [ArgumentError]
+        #   The `format:` or `case:` keyword argument is invalid.
         #
         # @example
         #   Encoding::XML.encode_byte(0x41)
@@ -172,6 +178,9 @@ module Ronin
         # @return [String]
         #   The XML encoded String.
         #
+        # @raise [ArgumentError]
+        #   The `format:` or `case:` keyword argument is invalid.
+        #
         # @example
         #   Encoding::XML.encode("abc")
         #   # => "&#97;&#98;&#99;"
@@ -222,6 +231,9 @@ module Ronin
         #
         # @return [String]
         #   The XML escaped String.
+        #
+        # @raise [ArgumentError]
+        #   The `case:` keyword argument is invalid.
         #
         # @example
         #   Encoding::XML.escape("one & two")
