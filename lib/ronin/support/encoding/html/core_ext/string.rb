@@ -22,8 +22,18 @@ class String
   #
   # HTML escapes the String.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase XML special
+  #   characters. Defaults to lowercase hexadecimal.
+  #
   # @return [String]
   #   The HTML escaped String.
+  #
+  # @raise [ArgumentError]
+  #   The `case:` keyword argument is invalid.
   #
   # @example
   #   "one & two".html_escape
@@ -36,8 +46,8 @@ class String
   #
   # @api public
   #
-  def html_escape
-    Ronin::Support::Encoding::HTML.escape(self)
+  def html_escape(**kwargs)
+    Ronin::Support::Encoding::HTML.escape(self,**kwargs)
   end
 
   #
@@ -64,8 +74,25 @@ class String
   #
   # Encodes the chars in the String for HTML.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:decimal, :hex] :format (:decimal)
+  #   The numeric format for the escaped characters.
+  #
+  # @option kwargs [Boolean] :zero_pad
+  #   Controls whether the escaped characters will be left-padded with
+  #   up to seven `0` characters.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase XML special
+  #   characters. Defaults to lowercase hexadecimal.
+  #
   # @return [String]
   #   The encoded HTML String.
+  #
+  # @raise [ArgumentError]
+  #   The `format:` or `case:` keyword argument is invalid.
   #
   # @example
   #   "abc".html_encode
@@ -77,8 +104,8 @@ class String
   #
   # @api public
   #
-  def html_encode
-    Ronin::Support::Encoding::HTML.encode(self)
+  def html_encode(**kwargs)
+    Ronin::Support::Encoding::HTML.encode(self,**kwargs)
   end
 
   alias html_decode html_unescape

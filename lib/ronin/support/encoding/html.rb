@@ -32,8 +32,18 @@ module Ronin
         # @param [Integer] byte
         #   The byte to HTML escape.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase XML special
+        #   characters. Defaults to lowercase hexadecimal.
+        #
         # @return [String]
         #   The HTML decimal character.
+        #
+        # @raise [ArgumentError]
+        #   The `case:` keyword argument is invalid.
         #
         # @example
         #   Encoding::HTML.escape_byte(0x41)
@@ -41,8 +51,8 @@ module Ronin
         #   Encoding::HTML.escape_byte(0x26)
         #   # => "&amp;"
         #
-        def self.escape_byte(byte)
-          XML.escape_byte(byte)
+        def self.escape_byte(byte,**kwargs)
+          XML.escape_byte(byte,**kwargs)
         end
 
         #
@@ -51,15 +61,32 @@ module Ronin
         # @param [Integer] byte
         #   The byte to HTML encode.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:decimal, :hex] :format (:decimal)
+        #   The numeric format for the escaped characters.
+        #
+        # @option kwargs [Boolean] :zero_pad
+        #   Controls whether the escaped characters will be left-padded with
+        #   up to seven `0` characters.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase XML special
+        #   characters. Defaults to lowercase hexadecimal.
+        #
         # @return [String]
         #   The HTML decimal character.
+        #
+        # @raise [ArgumentError]
+        #   The `format:` or `case:` keyword argument is invalid.
         #
         # @example
         #   Encoding::HTML.encode_byte(0x41)
         #   # => "&#65;"
         #
-        def self.encode_byte(byte)
-          XML.encode_byte(byte)
+        def self.encode_byte(byte,**kwargs)
+          XML.encode_byte(byte,**kwargs)
         end
 
         #
@@ -68,15 +95,32 @@ module Ronin
         # @param [String] data
         #   The data to HTML encode.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:decimal, :hex] :format (:decimal)
+        #   The numeric format for the escaped characters.
+        #
+        # @option kwargs [Boolean] :zero_pad
+        #   Controls whether the escaped characters will be left-padded with
+        #   up to seven `0` characters.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase XML special
+        #   characters. Defaults to lowercase hexadecimal.
+        #
         # @return [String]
         #   The HTML encoded String.
+        #
+        # @raise [ArgumentError]
+        #   The `format:` or `case:` keyword argument is invalid.
         #
         # @example
         #   Encoding::HTML.encode("abc")
         #   # => "&#97;&#98;&#99;"
         #
-        def self.encode(data)
-          XML.encode(data)
+        def self.encode(data,**kwargs)
+          XML.encode(data,**kwargs)
         end
 
         #
@@ -98,8 +142,18 @@ module Ronin
         # @param [String] data
         #   The data to HTML escape.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase XML special
+        #   characters. Defaults to lowercase hexadecimal.
+        #
         # @return [String]
         #   The HTML escaped String.
+        #
+        # @raise [ArgumentError]
+        #   The `case:` keyword argument is invalid.
         #
         # @example
         #   Encoding::HTML.escape("one & two")
@@ -107,8 +161,8 @@ module Ronin
         #
         # @see http://rubydoc.info/stdlib/cgi/CGI.escapeHTML
         #
-        def self.escape(data)
-          XML.escape(data)
+        def self.escape(data,**kwargs)
+          XML.escape(data,**kwargs)
         end
 
         #
