@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #
 # Copyright (c) 2006-2022 Hal Brodigan (postmodern.mod3 at gmail.com)
 #
@@ -69,7 +70,7 @@ module Ronin
         private
 
         # Base32 alphabet
-        TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'.freeze
+        TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
 
         #
         # Represents a chunk of data.

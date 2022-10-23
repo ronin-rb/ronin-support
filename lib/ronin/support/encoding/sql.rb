@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #
 # Copyright (c) 2006-2022 Hal Brodigan (postmodern.mod3 at gmail.com)
 #
@@ -84,7 +85,7 @@ module Ronin
         def self.encode(data)
           return '' if data.empty?
 
-          hex_string = '0x'
+          hex_string = String.new('0x')
 
           data.each_byte do |b|
             hex_string << ('%.2x' % b)
