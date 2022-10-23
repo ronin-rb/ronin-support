@@ -70,6 +70,18 @@ describe Integer do
   end
 
   describe "#uri_escape" do
+    [33, 36, 38, *(39..59), 61, *(63..91), 93, 95, *(97..122), 126].each do |byte|
+      context "when given the byte 0x#{byte.to_s(16)}" do
+        subject { byte }
+
+        let(:char) { byte.chr }
+
+        it "must return the ASCII character for the byte" do
+          expect(subject.uri_escape).to eq(char)
+        end
+      end
+    end
+
     [*(0..32), 34, 35, 37, 60, 62, 92, 94, 96, *(123..125), *(127..255)].each do |byte|
       context "when given the byte 0x#{byte.to_s(16)}" do
         subject { byte }
@@ -79,24 +91,6 @@ describe Integer do
         it "must URI escape the Integer" do
           expect(subject.uri_escape).to eq(uri_escaped)
         end
-      end
-    end
-
-    context "when called on a printable ASCII character" do
-      subject { 0x41 }
-
-      it "must return that character" do
-        expect(subject.uri_escape).to eq(subject.chr)
-      end
-    end
-
-    context "when called on an Integer that does not map to an ASCII char" do
-      subject { 0xFF }
-
-      let(:uri_escaped) { '%FF' }
-
-      it "must URI encode the Integer" do
-        expect(subject.uri_escape).to eq(uri_escaped)
       end
     end
 
@@ -192,14 +186,14 @@ describe Integer do
   end
 
   describe "#uri_form_escape" do
-    [*(0..31), 34, 35, 37, 60, 62, 92, 94, 96, *(123..125), *(127..255)].each do |byte|
+    [42, 45, 46, *(48..57), *(65..90), 95, *(97..122)].each do |byte|
       context "when given the byte 0x#{byte.to_s(16)}" do
         subject { byte }
 
-        let(:uri_escaped) { "%%%.2X" % byte }
+        let(:char) { byte.chr }
 
-        it "must URI escape the Integer" do
-          expect(subject.uri_form_escape).to eq(uri_escaped)
+        it "must return the ASCII character for the byte" do
+          expect(subject.uri_form_escape).to eq(char)
         end
       end
     end
@@ -212,21 +206,15 @@ describe Integer do
       end
     end
 
-    context "when the Integer maps to a special character" do
-      subject { 0x23 } # '#'
+    [*(0..31), *(33..41), 43, 44, 47, *(58..64), *(91..94), 96, *(123..255)].each do |byte|
+      context "when given the byte 0x#{byte.to_s(16)}" do
+        subject { byte }
 
-      let(:uri_form_escaped) { '%23' }
+        let(:uri_escaped) { "%%%.2X" % byte }
 
-      it "must URI escape the Integer" do
-        expect(subject.uri_form_escape).to eq(uri_form_escaped)
-      end
-    end
-
-    context "when called on a printable ASCII character" do
-      subject { 0x41 }
-
-      it "must return that character" do
-        expect(subject.uri_form_escape).to eq(subject.chr)
+        it "must URI escape the Integer" do
+          expect(subject.uri_form_escape).to eq(uri_escaped)
+        end
       end
     end
 

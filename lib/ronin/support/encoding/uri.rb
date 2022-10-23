@@ -96,7 +96,7 @@ module Ronin
         #
         def self.escape_byte(byte,**kwargs)
           if (byte >= 0) && (byte <= 0xff)
-            if (byte == 42) || (byte == 45) || (byte == 46) || ((byte >= 48) && (byte <= 57)) || ((byte >= 65) && (byte <= 90)) || (byte == 95) || ((byte >= 97) && (byte <= 122))
+            if (byte == 33) || (byte == 36) || (byte == 38) || ((byte >= 39) && (byte <= 59)) || (byte == 61) || ((byte >= 63) && (byte <= 91)) || (byte == 93) || (byte == 95) || ((byte >= 97) && (byte <= 122)) || (byte == 126)
               byte.chr
             else
               encode_byte(byte,**kwargs)
@@ -263,8 +263,10 @@ module Ronin
           #   # => "+"
           #
           def self.escape_byte(byte,**kwargs)
-            if byte == 0x20 then '+'
-            else            URI.escape_byte(byte,**kwargs)
+            if (byte == 42) || (byte == 45) || (byte == 46) || ((byte >= 48) && (byte <= 57)) || ((byte >= 65) && (byte <= 90)) || (byte == 95) || ((byte >= 97) && (byte <= 122))
+              byte.chr
+            else
+              encode_byte(byte,**kwargs)
             end
           end
 
