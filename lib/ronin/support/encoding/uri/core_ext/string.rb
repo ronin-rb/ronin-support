@@ -22,9 +22,6 @@ class String
   #
   # URI escapes the String.
   #
-  # @param [Array<String>] unsafe
-  #   The unsafe characters to encode.
-  #
   # @return [String]
   #   The URI escaped form of the String.
   #
@@ -36,8 +33,8 @@ class String
   #
   # @api public
   #
-  def uri_escape(unsafe: nil)
-    Ronin::Support::Encoding::URI.escape(self, unsafe: unsafe)
+  def uri_escape
+    Ronin::Support::Encoding::URI.escape(self)
   end
 
   #

@@ -18,14 +18,6 @@ describe String do
       expect(subject.uri_escape).to eq(uri_escaped)
     end
 
-    context "when given the unsafe: keyword argument" do
-      let(:uri_unsafe_encoded) { "mod %25 3" }
-
-      it "must encode the characters listed as unsafe" do
-        expect(subject.uri_escape(unsafe: ['%'])).to eq(uri_unsafe_encoded)
-      end
-    end
-
     context "when the String contains invalid byte sequences" do
       subject { "hello\xfe\xff" }
 

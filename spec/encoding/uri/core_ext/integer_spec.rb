@@ -17,16 +17,38 @@ describe Integer do
     it "must URI encode the Integer" do
       expect(subject.uri_encode).to eq(uri_encoded)
     end
+
+    context "when given an Integer greater that 0xff" do
+      subject { 0x100 }
+
+      it do
+        expect {
+          subject.uri_encode
+        }.to raise_error(RangeError,"#{subject.inspect} out of char range")
+      end
+    end
+
+    context "when given a negative Integer" do
+      subject { -1 }
+
+      it do
+        expect {
+          subject.uri_encode
+        }.to raise_error(RangeError,"#{subject.inspect} out of char range")
+      end
+    end
   end
 
   describe "#uri_escape" do
-    context "when the Integer maps to a special character" do
-      subject { 0x20 }
+    [*(0..32), 34, 35, 37, 60, 62, 92, 94, 96, *(123..125), *(127..255)].each do |byte|
+      context "when given the byte 0x#{byte.to_s(16)}" do
+        subject { byte }
 
-      let(:uri_escaped) { '%20' }
+        let(:uri_escaped) { "%%%2X" % byte }
 
-      it "must URI escape the Integer" do
-        expect(subject.uri_escape).to eq(uri_escaped)
+        it "must URI escape the Integer" do
+          expect(subject.uri_escape).to eq(uri_escaped)
+        end
       end
     end
 
@@ -48,26 +70,23 @@ describe Integer do
       end
     end
 
-    context "when given the unsafe: keyword argument" do
-      context "and the Integer is in the list of unsafe characters" do
-        subject { 0x20 }
+    context "when given an Integer greater that 0xff" do
+      subject { 0x100 }
 
-        let(:unsafe)      { [' ', "\n", "\r"] }
-        let(:uri_encoded) { '%20' }
-
-        it "must URI encode the Integer" do
-          expect(subject.uri_escape(unsafe: unsafe)).to eq(uri_encoded)
-        end
+      it do
+        expect {
+          subject.uri_escape
+        }.to raise_error(RangeError,"#{subject.inspect} out of char range")
       end
+    end
 
-      context "when the Integer is not in the list of unsafe characters" do
-        subject { 0x20 }
+    context "when given a negative Integer" do
+      subject { -1 }
 
-        let(:unsafe) { %w[A B C] }
-
-        it "must not encode itself if not listed as unsafe" do
-          expect(subject.uri_escape(unsafe: unsafe)).to eq(subject.chr)
-        end
+      it do
+        expect {
+          subject.uri_escape
+        }.to raise_error(RangeError,"#{subject.inspect} out of char range")
       end
     end
   end
@@ -80,9 +99,41 @@ describe Integer do
     it "must URI encode the Integer" do
       expect(subject.uri_form_encode).to eq(uri_form_encoded)
     end
+
+    context "when given an Integer greater that 0xff" do
+      subject { 0x100 }
+
+      it do
+        expect {
+          subject.uri_encode
+        }.to raise_error(RangeError,"#{subject.inspect} out of char range")
+      end
+    end
+
+    context "when given a negative Integer" do
+      subject { -1 }
+
+      it do
+        expect {
+          subject.uri_encode
+        }.to raise_error(RangeError,"#{subject.inspect} out of char range")
+      end
+    end
   end
 
   describe "#uri_form_escape" do
+    [*(0..31), 34, 35, 37, 60, 62, 92, 94, 96, *(123..125), *(127..255)].each do |byte|
+      context "when given the byte 0x#{byte.to_s(16)}" do
+        subject { byte }
+
+        let(:uri_escaped) { "%%%2X" % byte }
+
+        it "must URI escape the Integer" do
+          expect(subject.uri_form_escape).to eq(uri_escaped)
+        end
+      end
+    end
+
     context "when the Integer is 0x20" do
       subject { 0x20 }
 
@@ -116,6 +167,26 @@ describe Integer do
 
       it "must URI encode the Integer" do
         expect(subject.uri_form_escape).to eq(uri_form_escaped)
+      end
+    end
+
+    context "when given an Integer greater that 0xff" do
+      subject { 0x100 }
+
+      it do
+        expect {
+          subject.uri_escape
+        }.to raise_error(RangeError,"#{subject.inspect} out of char range")
+      end
+    end
+
+    context "when given a negative Integer" do
+      subject { -1 }
+
+      it do
+        expect {
+          subject.uri_escape
+        }.to raise_error(RangeError,"#{subject.inspect} out of char range")
       end
     end
   end

@@ -9,15 +9,37 @@ describe Ronin::Support::Encoding::URI do
     it "must URI encode the Integer" do
       expect(subject.encode_byte(byte)).to eq(uri_encoded)
     end
+
+    context "when given an Integer greater that 0xff" do
+      let(:byte) { 0x100 }
+
+      it do
+        expect {
+          subject.encode_byte(byte)
+        }.to raise_error(RangeError,"#{byte.inspect} out of char range")
+      end
+    end
+
+    context "when given a negative Integer" do
+      let(:byte) { -1 }
+
+      it do
+        expect {
+          subject.encode_byte(byte)
+        }.to raise_error(RangeError,"#{byte.inspect} out of char range")
+      end
+    end
   end
 
   describe ".escape_byte" do
-    context "when the Integer maps to a special character" do
-      let(:byte)        { 0x20  }
-      let(:uri_escaped) { '%20' }
+    [*(0..32), 34, 35, 37, 60, 62, 92, 94, 96, *(123..125), *(127..255)].each do |byte|
+      context "when given the byte 0x#{byte.to_s(16)}" do
+        let(:byte)        { byte           }
+        let(:uri_escaped) { "%%%2X" % byte }
 
-      it "must URI escape the Integer" do
-        expect(subject.escape_byte(byte)).to eq(uri_escaped)
+        it "must URI escape the Integer" do
+          expect(subject.escape_byte(byte)).to eq(uri_escaped)
+        end
       end
     end
 
@@ -38,24 +60,23 @@ describe Ronin::Support::Encoding::URI do
       end
     end
 
-    context "when given the unsafe: keyword argument" do
-      context "and the Integer is in the list of unsafe characters" do
-        let(:byte)        { 0x20 }
-        let(:unsafe)      { [' ', "\n", "\r"] }
-        let(:uri_encoded) { '%20' }
+    context "when given an Integer greater that 0xff" do
+      let(:byte) { 0x100 }
 
-        it "must URI encode the Integer" do
-          expect(subject.escape_byte(byte, unsafe: unsafe)).to eq(uri_encoded)
-        end
+      it do
+        expect {
+          subject.escape_byte(byte)
+        }.to raise_error(RangeError,"#{byte.inspect} out of char range")
       end
+    end
 
-      context "when the Integer is not in the list of unsafe characters" do
-        let(:byte)   { 0x20      }
-        let(:unsafe) { %w[A B C] }
+    context "when given a negative Integer" do
+      let(:byte) { -1 }
 
-        it "must not encode the byte if not listed as unsafe" do
-          expect(subject.escape_byte(byte, unsafe: unsafe)).to eq(byte.chr)
-        end
+      it do
+        expect {
+          subject.escape_byte(byte)
+        }.to raise_error(RangeError,"#{byte.inspect} out of char range")
       end
     end
   end
@@ -66,14 +87,6 @@ describe Ronin::Support::Encoding::URI do
 
     it "must URI encode the String" do
       expect(subject.escape(data)).to eq(uri_escaped)
-    end
-
-    context "when given the unsafe: keyword argument" do
-      let(:uri_unsafe_encoded) { "mod %25 3" }
-
-      it "must encode the characters listed as unsafe" do
-        expect(subject.escape(data, unsafe: ['%'])).to eq(uri_unsafe_encoded)
-      end
     end
 
     context "when the String contains invalid byte sequences" do
@@ -121,6 +134,26 @@ describe Ronin::Support::Encoding::URI do
       it "must URI form encode the Integer" do
         expect(subject.encode_byte(byte)).to eq(uri_form_encoded)
       end
+
+      context "when given an Integer greater that 0xff" do
+        let(:byte) { 0x100 }
+
+        it do
+          expect {
+            subject.encode_byte(byte)
+          }.to raise_error(RangeError,"#{byte.inspect} out of char range")
+        end
+      end
+
+      context "when given a negative Integer" do
+        let(:byte) { -1 }
+
+        it do
+          expect {
+            subject.encode_byte(byte)
+          }.to raise_error(RangeError,"#{byte.inspect} out of char range")
+        end
+      end
     end
 
     describe ".escape_byte" do
@@ -132,12 +165,14 @@ describe Ronin::Support::Encoding::URI do
         end
       end
 
-      context "when the Integer maps to a special character" do
-        let(:byte)             { 0x23 } # '#'
-        let(:uri_form_escaped) { '%23' }
+      [*(0..31), 34, 35, 37, 60, 62, 92, 94, 96, *(123..125), *(127..255)].each do |byte|
+        context "when given the byte 0x#{byte.to_s(16)}" do
+          let(:byte)        { byte           }
+          let(:uri_escaped) { "%%%2X" % byte }
 
-        it "must URI form escape the Integer" do
-          expect(subject.escape_byte(byte)).to eq(uri_form_escaped)
+          it "must URI escape the Integer" do
+            expect(subject.escape_byte(byte)).to eq(uri_escaped)
+          end
         end
       end
 
@@ -155,6 +190,26 @@ describe Ronin::Support::Encoding::URI do
 
         it "must URI form encode the Integer" do
           expect(subject.escape_byte(byte)).to eq(uri_form_escaped)
+        end
+      end
+
+      context "when given an Integer greater that 0xff" do
+        let(:byte) { 0x100 }
+
+        it do
+          expect {
+            subject.escape_byte(byte)
+          }.to raise_error(RangeError,"#{byte.inspect} out of char range")
+        end
+      end
+
+      context "when given a negative Integer" do
+        let(:byte) { -1 }
+
+        it do
+          expect {
+            subject.escape_byte(byte)
+          }.to raise_error(RangeError,"#{byte.inspect} out of char range")
         end
       end
     end

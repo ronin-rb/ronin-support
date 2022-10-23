@@ -40,9 +40,6 @@ class Integer
   #
   # URI escapes the byte.
   #
-  # @param [Array<String>, nil] unsafe
-  #   Optiona set of unsafe characters to escape.
-  #
   # @return [String]
   #   The URI escaped byte.
   #
@@ -56,8 +53,8 @@ class Integer
   #
   # @api public
   #
-  def uri_escape(unsafe: nil)
-    Ronin::Support::Encoding::URI.escape_byte(self, unsafe: unsafe)
+  def uri_escape
+    Ronin::Support::Encoding::URI.escape_byte(self)
   end
 
   #

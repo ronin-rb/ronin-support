@@ -16,8 +16,6 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'uri/common'
-
 module Ronin
   module Support
     class Encoding < ::Encoding
@@ -36,12 +34,19 @@ module Ronin
         # @return [String]
         #   The URI encoded byte.
         #
+        # @raise [RangeError]
+        #   The byte value is negative.
+        #
         # @example
         #   Encoding::URI.encode_byte(0x41)
         #   # => "%41"
         #
         def self.encode_byte(byte)
-          "%%%2X" % byte
+          if (byte >= 0) && (byte <= 0xff)
+            "%%%2X" % byte
+          else
+            raise(RangeError,"#{byte.inspect} out of char range")
+          end
         end
 
         #
@@ -50,11 +55,11 @@ module Ronin
         # @param [Integer] byte
         #   The byte to URI escape.
         #
-        # @param [Array<String>, nil] unsafe
-        #   Optiona set of unsafe characters to escape.
-        #
         # @return [String]
         #   The URI escaped byte.
+        #
+        # @raise [RangeError]
+        #   The byte value is negative.
         #
         # @example
         #   Encoding::URI.escape(0x41)
@@ -62,11 +67,15 @@ module Ronin
         #   Encoding::URI.escape(0x3d)
         #   # => "%3D"
         #
-        def self.escape_byte(byte, unsafe: nil)
-          char = byte.chr
-
-          if unsafe then ::URI::DEFAULT_PARSER.escape(char,unsafe.join)
-          else           ::URI::DEFAULT_PARSER.escape(char)
+        def self.escape_byte(byte)
+          if (byte >= 0) && (byte <= 0xff)
+            if ((byte >= 0) && (byte <= 32)) || (byte == 34) || (byte == 35) || (byte == 37) || (byte == 60) || (byte == 62) || (byte == 92) || (byte == 94) || (byte == 96) || ((byte >= 123) && (byte <= 125)) || (byte >= 127)
+              "%%%2X" % byte
+            else
+              byte.chr
+            end
+          else
+            raise(RangeError,"#{byte.inspect} out of char range")
           end
         end
 
@@ -75,9 +84,6 @@ module Ronin
         #
         # @param [String] data
         #   The data to URI escape.
-        #
-        # @param [Array<String>] unsafe
-        #   The unsafe characters to encode.
         #
         # @return [String]
         #   The URI escaped form of the String.
@@ -88,20 +94,14 @@ module Ronin
         #
         # @api public
         #
-        def self.escape(data, unsafe: nil)
-          if data.valid_encoding?
-            if unsafe then ::URI::DEFAULT_PARSER.escape(data,unsafe.join)
-            else           ::URI::DEFAULT_PARSER.escape(data)
-            end
-          else
-            escaped = String.new
+        def self.escape(data)
+          escaped = String.new
 
-            data.each_byte do |byte|
-              escaped << escape_byte(byte, unsafe: unsafe)
-            end
-
-            return escaped
+          data.each_byte do |byte|
+            escaped << escape_byte(byte)
           end
+
+          return escaped
         end
 
         #
@@ -118,7 +118,9 @@ module Ronin
         #   # => "sweet & sour"
         #
         def self.unescape(data)
-          ::URI::DEFAULT_PARSER.unescape(data)
+          data.gsub(/%[A-Fa-f0-9]{2}/) do |escaped_char|
+            escaped_char[1..].to_i(16).chr
+          end
         end
 
         #
@@ -137,14 +139,8 @@ module Ronin
         def self.encode(data)
           encoded = String.new
 
-          if data.valid_encoding?
-            data.each_codepoint do |codepoint|
-              encoded << encode_byte(codepoint)
-            end
-          else
-            data.each_byte do |byte|
-              encoded << encode_byte(byte)
-            end
+          data.each_byte do |byte|
+            encoded << encode_byte(byte)
           end
 
           return encoded
@@ -181,6 +177,9 @@ module Ronin
           # @return [String]
           #   The URI Form encoded byte.
           #
+          # @raise [RangeError]
+          #   The byte value is negative.
+          #
           def self.encode_byte(byte)
             if byte == 0x20 then '+'
             else                 URI.encode_byte(byte)
@@ -196,6 +195,9 @@ module Ronin
           # @return [String]
           #   The URI Form escaped byte.
           #
+          # @raise [RangeError]
+          #   The byte value is negative.
+          #
           # @example
           #   Encoding::URI::Form.escape(0x41)
           #   # => "A"
@@ -203,7 +205,9 @@ module Ronin
           #   # => "+"
           #
           def self.escape_byte(byte)
-            ::URI.encode_www_form_component(byte.chr)
+            if byte == 0x20 then '+'
+            else            URI.escape_byte(byte)
+            end
           end
 
           #
@@ -223,17 +227,13 @@ module Ronin
           #
           # @see https://www.w3.org/TR/2013/CR-html5-20130806/forms.html#url-encoded-form-data
           def self.escape(data)
-            if data.valid_encoding?
-              ::URI.encode_www_form_component(data)
-            else
-              escaped = String.new
+            escaped = String.new
 
-              data.each_byte do |byte|
-                escaped << escape_byte(byte)
-              end
-
-              return escaped
+            data.each_byte do |byte|
+              escaped << escape_byte(byte)
             end
+
+            return escaped
           end
 
           #
@@ -252,7 +252,13 @@ module Ronin
           #   # => "hello\u0000world"
           #
           def self.unescape(data)
-            ::URI.decode_www_form_component(data)
+            data.gsub(/(?:\+|%[A-Fa-f0-9]{2})/) do |escaped_char|
+              if escaped_char == '+'
+                ' '
+              else
+                escaped_char[1..].to_i(16).chr
+              end
+            end
           end
 
           #
@@ -271,14 +277,8 @@ module Ronin
           def self.encode(data)
             encoded = String.new
 
-            if data.valid_encoding?
-              data.each_codepoint do |codepoint|
-                encoded << encode_byte(codepoint)
-              end
-            else
-              data.each_byte do |byte|
-                encoded << encode_byte(byte)
-              end
+            data.each_byte do |byte|
+              encoded << encode_byte(byte)
             end
 
             return encoded
