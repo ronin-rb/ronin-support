@@ -70,7 +70,7 @@ module Ronin
         def self.escape_byte(byte)
           if (byte >= 0) && (byte <= 0xff)
             if ((byte >= 0) && (byte <= 32)) || (byte == 34) || (byte == 35) || (byte == 37) || (byte == 60) || (byte == 62) || (byte == 92) || (byte == 94) || (byte == 96) || ((byte >= 123) && (byte <= 125)) || (byte >= 127)
-              "%%%2X" % byte
+              encode_byte(byte)
             else
               byte.chr
             end
