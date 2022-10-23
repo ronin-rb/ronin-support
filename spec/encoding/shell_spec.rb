@@ -3,7 +3,7 @@ require 'ronin/support/encoding/shell'
 
 describe Ronin::Support::Encoding::Shell do
   describe ".encode_byte" do
-    context "when called on an Integer between 0x00 and 0xff" do
+    context "when given an Integer between 0x00 and 0xff" do
       let(:byte) { 0x41 }
 
       it "must encode the Integer as a shell hex character" do
@@ -11,7 +11,7 @@ describe Ronin::Support::Encoding::Shell do
       end
     end
 
-    context "when called on an Integer is greater than 0xff" do
+    context "when given an Integer is greater than 0xff" do
       let(:byte) { 0xFFFF }
 
       it "must return the lowercase \\uXXXX hex escaped String" do
@@ -19,7 +19,7 @@ describe Ronin::Support::Encoding::Shell do
       end
     end
 
-    context "when called on a negative Integer" do
+    context "when given an negative Integer" do
       let(:byte) { -1 }
 
       it do
