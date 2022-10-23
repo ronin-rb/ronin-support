@@ -106,6 +106,15 @@ describe Ronin::Support::Encoding::URI do
     it "must URI unescape the String" do
       expect(subject.unescape(data)).to eq(uri_unescaped)
     end
+
+    context "when the %xx escaped character is lowercase hexadecimal" do
+      let(:data)          { "x%20%2b%20y" }
+      let(:uri_unescaped) { "x + y"       }
+
+      it "must URI unescape the String" do
+        expect(subject.unescape(data)).to eq(uri_unescaped)
+      end
+    end
   end
 
   describe ".encode" do
@@ -238,6 +247,15 @@ describe Ronin::Support::Encoding::URI do
 
       it "must URI form unescape the String" do
         expect(subject.unescape(data)).to eq(uri_form_unescaped)
+      end
+
+      context "when the %xx escaped character is lowercase hexadecimal" do
+        let(:data)               { "x+%2b+y" }
+        let(:uri_form_unescaped) { "x + y"   }
+
+        it "must URI form unescape the String" do
+          expect(subject.unescape(data)).to eq(uri_form_unescaped)
+        end
       end
     end
 

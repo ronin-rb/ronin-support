@@ -37,6 +37,15 @@ describe String do
     it "must URI unescape itself" do
       expect(subject.uri_unescape).to eq(uri_unescaped)
     end
+
+    context "when the %xx escaped character is lowercase hexadecimal" do
+      let(:data)          { "x%20%2b%20y" }
+      let(:uri_unescaped) { "x + y"       }
+
+      it "must URI unescape the String" do
+        expect(subject.uri_unescape).to eq(uri_unescaped)
+      end
+    end
   end
 
   describe "#uri_encode" do
@@ -86,6 +95,16 @@ describe String do
 
     it "must URI unescape itself" do
       expect(subject.uri_form_unescape).to eq(uri_form_unescaped)
+    end
+
+    context "when the %xx escaped character is lowercase hexadecimal" do
+      subject { "x+%2b+y" }
+
+      let(:uri_form_unescaped) { "x + y"   }
+
+      it "must URI form unescape the String" do
+        expect(subject.uri_form_unescape).to eq(uri_form_unescaped)
+      end
     end
   end
 
