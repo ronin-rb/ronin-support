@@ -22,6 +22,13 @@ class String
   #
   # URI escapes the String.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase hexadecimal.
+  #   Defaults to uppercase hexadecimal.
+  #
   # @return [String]
   #   The URI escaped form of the String.
   #
@@ -33,8 +40,8 @@ class String
   #
   # @api public
   #
-  def uri_escape
-    Ronin::Support::Encoding::URI.escape(self)
+  def uri_escape(**kwargs)
+    Ronin::Support::Encoding::URI.escape(self,**kwargs)
   end
 
   #
@@ -58,6 +65,13 @@ class String
   #
   # URI encodes the String.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase hexadecimal.
+  #   Defaults to uppercase hexadecimal.
+  #
   # @return [String]
   #   The URI encoded form of the String.
   #
@@ -69,14 +83,21 @@ class String
   #
   # @api public
   #
-  def uri_encode
-    Ronin::Support::Encoding::URI.encode(self)
+  def uri_encode(**kwargs)
+    Ronin::Support::Encoding::URI.encode(self,**kwargs)
   end
 
   alias uri_decode uri_unescape
 
   #
   # URI Form escapes the String.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase hexadecimal.
+  #   Defaults to uppercase hexadecimal.
   #
   # @return [String]
   #   The URI Form escaped String.
@@ -94,8 +115,8 @@ class String
   #
   # @since 1.0.0
   #
-  def uri_form_escape
-    Ronin::Support::Encoding::URI::Form.escape(self)
+  def uri_form_escape(**kwargs)
+    Ronin::Support::Encoding::URI::Form.escape(self,**kwargs)
   end
 
   alias www_form_escape uri_form_escape
@@ -125,6 +146,13 @@ class String
   #
   # URI Form encodes every character in the String.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase hexadecimal.
+  #   Defaults to uppercase hexadecimal.
+  #
   # @return [String]
   #   The URI Form encoded String.
   #
@@ -138,8 +166,8 @@ class String
   #
   # @since 1.0.0
   #
-  def uri_form_encode
-    Ronin::Support::Encoding::URI::Form.encode(self)
+  def uri_form_encode(**kwargs)
+    Ronin::Support::Encoding::URI::Form.encode(self,**kwargs)
   end
 
   alias www_form_encode uri_form_encode

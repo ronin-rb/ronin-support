@@ -31,8 +31,18 @@ module Ronin
         # @param [Integer] byte
         #   The byte to URI encode.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase hexadecimal.
+        #   Defaults to uppercase hexadecimal.
+        #
         # @return [String]
         #   The URI encoded byte.
+        #
+        # @raise [ArgumentError]
+        #   The `case:` keyword argument was not `:lower`, `:upper`, or `nil`.
         #
         # @raise [RangeError]
         #   The byte value is negative or greater than 255.
@@ -41,9 +51,16 @@ module Ronin
         #   Encoding::URI.encode_byte(0x41)
         #   # => "%41"
         #
-        def self.encode_byte(byte)
+        def self.encode_byte(byte,**kwargs)
           if (byte >= 0) && (byte <= 0xff)
-            "%%%2X" % byte
+            case kwargs[:case]
+            when :lower
+              "%%%2x" % byte
+            when :upper, nil
+              "%%%2X" % byte
+            else
+              raise(ArgumentError,"#{kwargs[:case].inspect} must be either :lower, :upper, or nil")
+            end
           else
             raise(RangeError,"#{byte.inspect} out of char range")
           end
@@ -55,8 +72,18 @@ module Ronin
         # @param [Integer] byte
         #   The byte to URI escape.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase hexadecimal.
+        #   Defaults to uppercase hexadecimal.
+        #
         # @return [String]
         #   The URI escaped byte.
+        #
+        # @raise [ArgumentError]
+        #   The `case:` keyword argument was not `:lower`, `:upper`, or `nil`.
         #
         # @raise [RangeError]
         #   The byte value is negative or greater than 255.
@@ -67,10 +94,10 @@ module Ronin
         #   Encoding::URI.escape_byte(0x3d)
         #   # => "%3D"
         #
-        def self.escape_byte(byte)
+        def self.escape_byte(byte,**kwargs)
           if (byte >= 0) && (byte <= 0xff)
             if ((byte >= 0) && (byte <= 32)) || (byte == 34) || (byte == 35) || (byte == 37) || (byte == 60) || (byte == 62) || (byte == 92) || (byte == 94) || (byte == 96) || ((byte >= 123) && (byte <= 125)) || (byte >= 127)
-              encode_byte(byte)
+              encode_byte(byte,**kwargs)
             else
               byte.chr
             end
@@ -85,8 +112,18 @@ module Ronin
         # @param [String] data
         #   The data to URI escape.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase hexadecimal.
+        #   Defaults to uppercase hexadecimal.
+        #
         # @return [String]
         #   The URI escaped form of the String.
+        #
+        # @raise [ArgumentError]
+        #   The `case:` keyword argument was not `:lower`, `:upper`, or `nil`.
         #
         # @example
         #   Encoding::URI.escape("x > y")
@@ -94,11 +131,11 @@ module Ronin
         #
         # @api public
         #
-        def self.escape(data)
+        def self.escape(data,**kwargs)
           escaped = String.new
 
           data.each_byte do |byte|
-            escaped << escape_byte(byte)
+            escaped << escape_byte(byte,**kwargs)
           end
 
           return escaped
@@ -129,6 +166,13 @@ module Ronin
         # @param [String] data
         #   The data to URI encode.
         #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:lower, :upper, nil] :case
+        #   Controls whether to output lowercase or uppercase hexadecimal.
+        #   Defaults to uppercase hexadecimal.
+        #
         # @return [String]
         #   The URI encoded form of the String.
         #
@@ -136,11 +180,11 @@ module Ronin
         #   Encoding::URI.encode("plain text")
         #   # => "%70%6C%61%69%6E%20%74%65%78%74"
         #
-        def self.encode(data)
+        def self.encode(data,**kwargs)
           encoded = String.new
 
           data.each_byte do |byte|
-            encoded << encode_byte(byte)
+            encoded << encode_byte(byte,**kwargs)
           end
 
           return encoded
@@ -174,15 +218,22 @@ module Ronin
           # @param [Integer] byte
           #   The byte to URI Form encode.
           #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments.
+          #
+          # @option kwargs [:lower, :upper, nil] :case
+          #   Controls whether to output lowercase or uppercase hexadecimal.
+          #   Defaults to uppercase hexadecimal.
+          #
           # @return [String]
           #   The URI Form encoded byte.
           #
           # @raise [RangeError]
           #   The byte value is negative or greater than 255.
           #
-          def self.encode_byte(byte)
+          def self.encode_byte(byte,**kwargs)
             if byte == 0x20 then '+'
-            else                 URI.encode_byte(byte)
+            else                 URI.encode_byte(byte,**kwargs)
             end
           end
 
@@ -191,6 +242,13 @@ module Ronin
           #
           # @param [Integer] byte
           #   The byte to URI Form escape.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments.
+          #
+          # @option kwargs [:lower, :upper, nil] :case
+          #   Controls whether to output lowercase or uppercase hexadecimal.
+          #   Defaults to uppercase hexadecimal.
           #
           # @return [String]
           #   The URI Form escaped byte.
@@ -204,9 +262,9 @@ module Ronin
           #   Encoding::URI::Form.escape_byte(0x20)
           #   # => "+"
           #
-          def self.escape_byte(byte)
+          def self.escape_byte(byte,**kwargs)
             if byte == 0x20 then '+'
-            else            URI.escape_byte(byte)
+            else            URI.escape_byte(byte,**kwargs)
             end
           end
 
@@ -215,6 +273,13 @@ module Ronin
           #
           # @param [String] data
           #   The data to URI Form escape.
+          #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments.
+          #
+          # @option kwargs [:lower, :upper, nil] :case
+          #   Controls whether to output lowercase or uppercase hexadecimal.
+          #   Defaults to uppercase hexadecimal.
           #
           # @return [String]
           #   The URI Form escaped String.
@@ -226,11 +291,11 @@ module Ronin
           #   # => "hello%00world"
           #
           # @see https://www.w3.org/TR/2013/CR-html5-20130806/forms.html#url-encoded-form-data
-          def self.escape(data)
+          def self.escape(data,**kwargs)
             escaped = String.new
 
             data.each_byte do |byte|
-              escaped << escape_byte(byte)
+              escaped << escape_byte(byte,**kwargs)
             end
 
             return escaped
@@ -267,6 +332,13 @@ module Ronin
           # @param [String] data
           #   The given data to URI Form encode.
           #
+          # @param [Hash{Symbol => Object}] kwargs
+          #   Additional keyword arguments.
+          #
+          # @option kwargs [:lower, :upper, nil] :case
+          #   Controls whether to output lowercase or uppercase hexadecimal.
+          #   Defaults to uppercase hexadecimal.
+          #
           # @return [String]
           #   The URI Form encoded String.
           #
@@ -274,11 +346,11 @@ module Ronin
           #   Encoding::URI::Form.encode("hello world")
           #   # => "%68%65%6C%6C%6F+%77%6F%72%6C%64"
           #
-          def self.encode(data)
+          def self.encode(data,**kwargs)
             encoded = String.new
 
             data.each_byte do |byte|
-              encoded << encode_byte(byte)
+              encoded << encode_byte(byte,**kwargs)
             end
 
             return encoded

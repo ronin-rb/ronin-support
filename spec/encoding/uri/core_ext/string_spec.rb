@@ -18,6 +18,26 @@ describe String do
       expect(subject.uri_escape).to eq(uri_escaped)
     end
 
+    context "when given `case: :lower`" do
+      subject { "\xff" }
+
+      let(:uri_escaped) { '%ff'  }
+
+      it "must return a lowercase hexadecimal escaped String" do
+        expect(subject.uri_escape(case: :lower)).to eq(uri_escaped)
+      end
+    end
+
+    context "when given `case: :upper`" do
+      subject { "\xff" }
+
+      let(:uri_escaped) { '%FF'  }
+
+      it "must return a uppercase hexadecimal escaped String" do
+        expect(subject.uri_escape(case: :upper)).to eq(uri_escaped)
+      end
+    end
+
     context "when the String contains invalid byte sequences" do
       subject { "hello\xfe\xff" }
 
@@ -57,6 +77,26 @@ describe String do
       expect(subject.uri_encode).to eq(uri_encoded)
     end
 
+    context "when given `case: :lower`" do
+      subject { "\xff" }
+
+      let(:uri_encoded) { '%ff'  }
+
+      it "must return a lowercase hexadecimal escaped String" do
+        expect(subject.uri_encode(case: :lower)).to eq(uri_encoded)
+      end
+    end
+
+    context "when given `case: :upper`" do
+      subject { "\xff" }
+
+      let(:uri_encoded) { '%FF'  }
+
+      it "must return a uppercase hexadecimal escaped String" do
+        expect(subject.uri_encode(case: :upper)).to eq(uri_encoded)
+      end
+    end
+
     context "when the String contains invalid byte sequences" do
       subject { "hello world\xfe\xff" }
 
@@ -75,6 +115,26 @@ describe String do
 
     it "must URI encode itself" do
       expect(subject.uri_form_escape).to eq(uri_form_escaped)
+    end
+
+    context "when given `case: :lower`" do
+      subject { "\xff" }
+
+      let(:uri_form_escaped) { '%ff'  }
+
+      it "must return a lowercase hexadecimal escaped String" do
+        expect(subject.uri_form_escape(case: :lower)).to eq(uri_form_escaped)
+      end
+    end
+
+    context "when given `case: :upper`" do
+      subject { "\xff" }
+
+      let(:uri_form_escaped) { '%FF'  }
+
+      it "must return a uppercase hexadecimal escaped String" do
+        expect(subject.uri_form_escape(case: :upper)).to eq(uri_form_escaped)
+      end
     end
 
     context "when the String contains invalid byte sequences" do
@@ -115,6 +175,26 @@ describe String do
 
     it "must URI encode every character in the String" do
       expect(subject.uri_form_encode).to eq(uri_form_encoded)
+    end
+
+    context "when given `case: :lower`" do
+      subject { "\xff" }
+
+      let(:uri_form_encoded) { '%ff'  }
+
+      it "must return a lowercase hexadecimal escaped String" do
+        expect(subject.uri_form_encode(case: :lower)).to eq(uri_form_encoded)
+      end
+    end
+
+    context "when given `case: :upper`" do
+      subject { "\xff" }
+
+      let(:uri_form_encoded) { '%FF'  }
+
+      it "must return a uppercase hexadecimal escaped String" do
+        expect(subject.uri_form_encode(case: :upper)).to eq(uri_form_encoded)
+      end
     end
 
     context "when the String contains invalid byte sequences" do

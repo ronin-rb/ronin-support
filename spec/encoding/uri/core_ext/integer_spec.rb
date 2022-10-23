@@ -18,6 +18,26 @@ describe Integer do
       expect(subject.uri_encode).to eq(uri_encoded)
     end
 
+    context "when given `case: :lower`" do
+      subject { 0xFF }
+
+      let(:uri_encoded) { '%ff' }
+
+      it "must return a lowercase hexadecimal escaped character" do
+        expect(subject.uri_encode(case: :lower)).to eq(uri_encoded)
+      end
+    end
+
+    context "when given `case: :upper`" do
+      subject { 0xFF }
+
+      let(:uri_encoded) { '%FF' }
+
+      it "must return a uppercase hexadecimal escaped character" do
+        expect(subject.uri_encode(case: :upper)).to eq(uri_encoded)
+      end
+    end
+
     context "when given an Integer greater that 0xff" do
       subject { 0x100 }
 
@@ -70,6 +90,26 @@ describe Integer do
       end
     end
 
+    context "when given `case: :lower`" do
+      subject { 0xFF }
+
+      let(:uri_escaped) { '%ff' }
+
+      it "must return a lowercase hexadecimal escaped character" do
+        expect(subject.uri_escape(case: :lower)).to eq(uri_escaped)
+      end
+    end
+
+    context "when given `case: :upper`" do
+      subject { 0xFF }
+
+      let(:uri_escaped) { '%FF' }
+
+      it "must return a uppercase hexadecimal escaped character" do
+        expect(subject.uri_escape(case: :upper)).to eq(uri_escaped)
+      end
+    end
+
     context "when given an Integer greater that 0xff" do
       subject { 0x100 }
 
@@ -98,6 +138,26 @@ describe Integer do
 
     it "must URI encode the Integer" do
       expect(subject.uri_form_encode).to eq(uri_form_encoded)
+    end
+
+    context "when given `case: :lower`" do
+      subject { 0xFF }
+
+      let(:uri_form_encoded) { '%ff' }
+
+      it "must return a lowercase hexadecimal escaped character" do
+        expect(subject.uri_form_encode(case: :lower)).to eq(uri_form_encoded)
+      end
+    end
+
+    context "when given `case: :upper`" do
+      subject { 0xFF }
+
+      let(:uri_form_encoded) { '%FF' }
+
+      it "must return a uppercase hexadecimal escaped character" do
+        expect(subject.uri_form_encode(case: :upper)).to eq(uri_form_encoded)
+      end
     end
 
     context "when given an Integer greater that 0xff" do
@@ -157,6 +217,26 @@ describe Integer do
 
       it "must return that character" do
         expect(subject.uri_form_escape).to eq(subject.chr)
+      end
+    end
+
+    context "when given `case: :lower`" do
+      subject { 0xFF }
+
+      let(:uri_form_escaped) { '%ff' }
+
+      it "must return a lowercase hexadecimal escaped character" do
+        expect(subject.uri_form_escape(case: :lower)).to eq(uri_form_escaped)
+      end
+    end
+
+    context "when given `case: :upper`" do
+      subject { 0xFF }
+
+      let(:uri_form_escaped) { '%FF' }
+
+      it "must return a uppercase hexadecimal escaped character" do
+        expect(subject.uri_form_escape(case: :upper)).to eq(uri_form_escaped)
       end
     end
 

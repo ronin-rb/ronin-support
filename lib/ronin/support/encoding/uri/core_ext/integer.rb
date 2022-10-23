@@ -22,6 +22,13 @@ class Integer
   #
   # URI encodes the byte.
   #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase hexadecimal.
+  #   Defaults to uppercase hexadecimal.
+  #
   # @return [String]
   #   The URI encoded byte.
   #
@@ -33,12 +40,19 @@ class Integer
   #
   # @api public
   #
-  def uri_encode
-    Ronin::Support::Encoding::URI.encode_byte(self)
+  def uri_encode(**kwargs)
+    Ronin::Support::Encoding::URI.encode_byte(self,**kwargs)
   end
 
   #
   # URI escapes the byte.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase hexadecimal.
+  #   Defaults to uppercase hexadecimal.
   #
   # @return [String]
   #   The URI escaped byte.
@@ -53,12 +67,19 @@ class Integer
   #
   # @api public
   #
-  def uri_escape
-    Ronin::Support::Encoding::URI.escape_byte(self)
+  def uri_escape(**kwargs)
+    Ronin::Support::Encoding::URI.escape_byte(self,**kwargs)
   end
 
   #
   # URI Form escapes the Integer.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase hexadecimal.
+  #   Defaults to uppercase hexadecimal.
   #
   # @return [String]
   #   The URI Form escaped Integer.
@@ -75,12 +96,19 @@ class Integer
   #
   # @since 1.0.0
   #
-  def uri_form_escape
-    Ronin::Support::Encoding::URI::Form.escape_byte(self)
+  def uri_form_escape(**kwargs)
+    Ronin::Support::Encoding::URI::Form.escape_byte(self,**kwargs)
   end
 
   #
   # URI Form encodes the Integer.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [:lower, :upper, nil] :case
+  #   Controls whether to output lowercase or uppercase hexadecimal.
+  #   Defaults to uppercase hexadecimal.
   #
   # @return [String]
   #   The URI Form encoded Integer.
@@ -97,8 +125,8 @@ class Integer
   #
   # @since 1.0.0
   #
-  def uri_form_encode
-    Ronin::Support::Encoding::URI::Form.encode_byte(self)
+  def uri_form_encode(**kwargs)
+    Ronin::Support::Encoding::URI::Form.encode_byte(self,**kwargs)
   end
 
 end
