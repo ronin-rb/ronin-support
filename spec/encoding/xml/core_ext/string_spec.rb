@@ -50,6 +50,46 @@ describe String do
     it "must XML unescape itself" do
       expect(xml_escaped.xml_unescape).to eq(subject)
     end
+
+    context "when the String contains XML decimal escape characters" do
+      let(:xml_escaped) do
+        "&#111;&#110;&#101;&#32;&#38;&#32;&#116;&#119;&#111;"
+      end
+
+      it "must XML unescape the String" do
+        expect(xml_escaped.xml_unescape).to eq(subject)
+      end
+
+      context "and the characters are zero-padded" do
+        let(:xml_escaped) do
+          "&#0000111;&#0000110;&#0000101;&#0000032;&#0000038;&#0000032;&#0000116;&#0000119;&#0000111;"
+        end
+
+        it "must XML unescape the String" do
+          expect(xml_escaped.xml_unescape).to eq(subject)
+        end
+      end
+    end
+
+    context "when the String contains XML hex escape characters" do
+      let(:xml_escaped) do
+        "&#x6f;&#x6e;&#x65;&#x20;&#x26;&#x20;&#x74;&#x77;&#x6f;"
+      end
+
+      it "must XML unescape the String" do
+        expect(xml_escaped.xml_unescape).to eq(subject)
+      end
+
+      context "and the characters are zero-padded" do
+        let(:xml_escaped) do
+          "&#x000006f;&#x000006e;&#x0000065;&#x0000020;&#x0000026;&#x0000020;&#x0000074;&#x0000077;&#x000006f;"
+        end
+
+        it "must XML unescape the String" do
+          expect(xml_escaped.xml_unescape).to eq(subject)
+        end
+      end
+    end
   end
 
   describe "#xml_encode" do
