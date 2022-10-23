@@ -106,6 +106,16 @@ describe Ronin::Support::Encoding::XML do
         expect(subject.escape_byte(byte)).to eq(escaped_byte)
       end
     end
+
+    context "when given the `case:` keyword argument with another value" do
+      let(:byte) { 0xff }
+
+      it do
+        expect {
+          subject.escape_byte(byte, case: :foo)
+        }.to raise_error(ArgumentError,"case (:foo) keyword argument must be either :lower, :upper, or nil")
+      end
+    end
   end
 
   describe ".encode_byte" do
@@ -214,12 +224,33 @@ describe Ronin::Support::Encoding::XML do
         end
       end
 
+      context "when given the `case:` keyword argument with another value" do
+        let(:byte) { 0xff }
+
+        it do
+          expect {
+            subject.encode_byte(byte, format: :hex, case: :foo)
+          }.to raise_error(ArgumentError,"case (:foo) keyword argument must be either :lower, :upper, or nil")
+        end
+      end
+
       context "and when `zero_pad: true` is given" do
         let(:encoded_byte) { "&#x00000ff;" }
 
         it "must encode the byte as '&#x00000xx' XML escaped characters" do
           expect(subject.encode_byte(byte, format: :hex, zero_pad: true)).to eq(encoded_byte)
         end
+      end
+    end
+
+    context "when also given `format:` with another value" do
+      let(:byte)   { 0xff }
+      let(:format) { :foo }
+
+      it do
+        expect {
+          subject.encode_byte(byte, format: format)
+        }.to raise_error(ArgumentError,"format (#{format.inspect}) must be :decimal or :hex")
       end
     end
 
@@ -375,6 +406,54 @@ describe Ronin::Support::Encoding::XML do
 
       it "must encode the String with '&#00000DD' XML escaped characters" do
         expect(subject.encode(data, zero_pad: true)).to eq(encoded_xml)
+      end
+    end
+  end
+
+  describe ".decode" do
+    let(:xml_escaped) { "one &amp; two" }
+
+    it "must XML unescape the String" do
+      expect(subject.decode(xml_escaped)).to eq(data)
+    end
+
+    context "when the String contains XML decimal escape characters" do
+      let(:xml_escaped) do
+        "&#111;&#110;&#101;&#32;&#38;&#32;&#116;&#119;&#111;"
+      end
+
+      it "must XML unescape the String" do
+        expect(subject.decode(xml_escaped)).to eq(data)
+      end
+
+      context "and the characters are zero-padded" do
+        let(:xml_escaped) do
+          "&#0000111;&#0000110;&#0000101;&#0000032;&#0000038;&#0000032;&#0000116;&#0000119;&#0000111;"
+        end
+
+        it "must XML unescape the String" do
+          expect(subject.decode(xml_escaped)).to eq(data)
+        end
+      end
+    end
+
+    context "when the String contains XML hex escape characters" do
+      let(:xml_escaped) do
+        "&#x6f;&#x6e;&#x65;&#x20;&#x26;&#x20;&#x74;&#x77;&#x6f;"
+      end
+
+      it "must XML unescape the String" do
+        expect(subject.decode(xml_escaped)).to eq(data)
+      end
+
+      context "and the characters are zero-padded" do
+        let(:xml_escaped) do
+          "&#x000006f;&#x000006e;&#x0000065;&#x0000020;&#x0000026;&#x0000020;&#x0000074;&#x0000077;&#x000006f;"
+        end
+
+        it "must XML unescape the String" do
+          expect(subject.decode(xml_escaped)).to eq(data)
+        end
       end
     end
   end

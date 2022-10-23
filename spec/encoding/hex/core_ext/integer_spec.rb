@@ -25,27 +25,53 @@ describe Integer do
   end
 
   describe "#hex_escape" do
-    context "when called on an Integer between 0x20 and 0x7e" do
-      subject { 41 }
+    context "when given the byte 0x22" do
+      subject { 0x22 }
 
-      it "must return the ASCII character for the byte" do
-        expect(subject.hex_escape).to eq(subject.chr)
+      it "must return '\\\"'" do
+        expect(subject.hex_escape).to eq("\\\"")
       end
     end
 
-    context "when called on an Integer that does not map to an ASCII char" do
-      subject { 0xFF }
+    context "when given the byte 0x5d" do
+      subject { 0x5d }
 
-      it "must return the lowercase '\\xXX' hex escaped String" do
-        expect(subject.hex_escape).to eq("\\xff")
+      it "must return '\\\\'" do
+        expect(subject.hex_escape).to eq("\\\\")
+      end
+    end
+
+    [*(0x20..0x21), *(0x23..0x5c), *(0x5e..0x7e)].each do |byte|
+      context "when given the byte 0x#{byte.to_s(16)}" do
+        subject { byte }
+
+        let(:char) { byte.chr }
+
+        it "must return the ASCII character for the byte" do
+          expect(subject.hex_escape).to eq(char)
+        end
+      end
+    end
+
+    [*(0x00..0x1f), *(0x7f..0xff)].each do |byte|
+      context "when given the byte 0x#{byte.to_s(16)}" do
+        subject { byte }
+
+        let(:escaped_char) { "\\x%.2x" % byte }
+
+        it "must return the lowercase '\\xXX' hex escaped String" do
+          expect(subject.hex_escape).to eq(escaped_char)
+        end
       end
     end
 
     context "when called on an Integer is greater than 0xff" do
-      subject { 0xFFFF }
+      subject { 0x100 }
+
+      let(:escaped_char) { "\\x100" }
 
       it "must return the lowercase '\\xXXXX' hex escaped String" do
-        expect(subject.hex_escape).to eq("\\xffff")
+        expect(subject.hex_escape).to eq(escaped_char)
       end
     end
 

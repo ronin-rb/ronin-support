@@ -108,6 +108,24 @@ describe String do
     end
   end
 
+  describe "#uri_decode" do
+    subject { "%68%65%6C%6C%6F%20%77%6F%72%6C%64" }
+
+    let(:data) { "hello world" }
+
+    it "must URI form encode every character in the String" do
+      expect(subject.uri_decode).to eq(data)
+    end
+
+    context "when the %xx escaped character is lowercase hexadecimal" do
+      subject { "%68%65%6c%6c%6f%20%77%6f%72%6c%64" }
+
+      it "must URI form unescape the String" do
+        expect(subject.uri_decode).to eq(data)
+      end
+    end
+  end
+
   describe "#uri_form_escape" do
     subject { "mod % 3" }
 
@@ -204,6 +222,24 @@ describe String do
 
       it "must URI form encode each byte in the String" do
         expect(subject.uri_form_encode).to eq(uri_form_encoded)
+      end
+    end
+
+    describe "#uri_form_decode" do
+      subject { "%68%65%6C%6C%6F+%77%6F%72%6C%64" }
+
+      let(:uri_form_decoded) { "hello world" }
+
+      it "must URI form encode every character in the String" do
+        expect(subject.uri_form_decode).to eq(uri_form_decoded)
+      end
+
+      context "when the %xx escaped character is lowercase hexadecimal" do
+        subject { "%68%65%6c%6c%6f+%77%6f%72%6c%64" }
+
+        it "must URI form unescape the String" do
+          expect(subject.uri_form_decode).to eq(uri_form_decoded)
+        end
       end
     end
   end

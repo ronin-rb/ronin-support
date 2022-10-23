@@ -59,7 +59,7 @@ module Ronin
             when :upper, nil
               "%%%.2X" % byte
             else
-              raise(ArgumentError,"#{kwargs[:case].inspect} must be either :lower, :upper, or nil")
+              raise(ArgumentError,"case (#{kwargs[:case].inspect}) keyword argument must be either :lower, :upper, or nil")
             end
           else
             raise(RangeError,"#{byte.inspect} out of char range")

@@ -28,6 +28,56 @@ describe Integer do
         expect(subject.http_encode).to eq(encoded_byte)
       end
     end
+
+    context "when given `case: :lower`" do
+      subject { 0xFF }
+
+      let(:http_encoded) { '%ff' }
+
+      it "must return a lowercase hexadecimal escaped character" do
+        expect(subject.http_encode(case: :lower)).to eq(http_encoded)
+      end
+    end
+
+    context "when given `case: :upper`" do
+      subject { 0xFF }
+
+      let(:http_encoded) { '%FF' }
+
+      it "must return a uppercase hexadecimal escaped character" do
+        expect(subject.http_encode(case: :upper)).to eq(http_encoded)
+      end
+    end
+
+    context "when given the `case:` keyword argument with another value" do
+      subject { 0xFF }
+
+      it do
+        expect {
+          subject.http_encode(case: :foo)
+        }.to raise_error(ArgumentError,"case (:foo) keyword argument must be either :lower, :upper, or nil")
+      end
+    end
+
+    context "when given an Integer greater that 0xff" do
+      subject { 0x100 }
+
+      it do
+        expect {
+          subject.http_encode
+        }.to raise_error(RangeError,"#{subject.inspect} out of char range")
+      end
+    end
+
+    context "when given a negative Integer" do
+      subject { -1 }
+
+      it do
+        expect {
+          subject.http_encode
+        }.to raise_error(RangeError,"#{subject.inspect} out of char range")
+      end
+    end
   end
 
   describe "#http_escape" do
@@ -60,6 +110,56 @@ describe Integer do
         it "must URI escape the Integer" do
           expect(subject.http_escape).to eq(http_escaped)
         end
+      end
+    end
+
+    context "when given `case: :lower`" do
+      subject { 0xFF }
+
+      let(:http_escaped) { '%ff' }
+
+      it "must return a lowercase hexadecimal escaped character" do
+        expect(subject.http_escape(case: :lower)).to eq(http_escaped)
+      end
+    end
+
+    context "when given `case: :upper`" do
+      subject { 0xFF }
+
+      let(:http_escaped) { '%FF' }
+
+      it "must return a uppercase hexadecimal escaped character" do
+        expect(subject.http_escape(case: :upper)).to eq(http_escaped)
+      end
+    end
+
+    context "when given the `case:` keyword argument with another value" do
+      subject { 0xFF }
+
+      it do
+        expect {
+          subject.http_escape(case: :foo)
+        }.to raise_error(ArgumentError,"case (:foo) keyword argument must be either :lower, :upper, or nil")
+      end
+    end
+
+    context "when given an Integer greater that 0xff" do
+      subject { 0x100 }
+
+      it do
+        expect {
+          subject.http_escape
+        }.to raise_error(RangeError,"#{subject.inspect} out of char range")
+      end
+    end
+
+    context "when given a negative Integer" do
+      subject { -1 }
+
+      it do
+        expect {
+          subject.http_escape
+        }.to raise_error(RangeError,"#{subject.inspect} out of char range")
       end
     end
   end

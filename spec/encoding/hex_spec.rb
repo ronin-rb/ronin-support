@@ -11,27 +11,50 @@ describe Ronin::Support::Encoding::Hex do
   end
 
   describe ".escape_byte" do
-    context "when called on the byte between 0x20 and 0x7e" do
-      let(:byte) { 41 }
+    context "when given the byte 0x22" do
+      let(:byte) { 0x22 }
 
-      it "must return the ASCII character for the byte" do
-        expect(subject.escape_byte(byte)).to eq(byte.chr)
+      it "must return '\\\"'" do
+        expect(subject.escape_byte(byte)).to eq("\\\"")
       end
     end
 
-    context "when called on the byte that does not map to an ASCII char" do
-      let(:byte) { 0xFF }
+    context "when given the byte 0x5d" do
+      let(:byte) { 0x5d }
 
-      it "must return the lowercase '\\xXX' hex escaped String" do
-        expect(subject.escape_byte(byte)).to eq("\\xff")
+      it "must return '\\\\'" do
+        expect(subject.escape_byte(byte)).to eq("\\\\")
       end
     end
 
-    context "when called on the byte is greater than 0xff" do
-      let(:byte) { 0xFFFF }
+    [*(0x20..0x21), *(0x23..0x5c), *(0x5e..0x7e)].each do |byte|
+      context "when given the byte 0x#{byte.to_s(16)}" do
+        let(:byte) { byte     }
+        let(:char) { byte.chr }
+
+        it "must return the ASCII character for the byte" do
+          expect(subject.escape_byte(byte)).to eq(char)
+        end
+      end
+    end
+
+    [*(0x00..0x1f), *(0x7f..0xff)].each do |byte|
+      context "when given the byte 0x#{byte.to_s(16)}" do
+        let(:byte)         { byte }
+        let(:escaped_char) { "\\x%.2x" % byte }
+
+        it "must return the lowercase '\\xXX' hex escaped String" do
+          expect(subject.escape_byte(byte)).to eq(escaped_char)
+        end
+      end
+    end
+
+    context "when called on the byte is greater than 0x100" do
+      let(:byte)         { 0x100    }
+      let(:escaped_char) { "\\x100" }
 
       it "must return the lowercase '\\xXXXX' hex escaped String" do
-        expect(subject.escape_byte(byte)).to eq("\\xffff")
+        expect(subject.escape_byte(byte)).to eq(escaped_char)
       end
     end
 

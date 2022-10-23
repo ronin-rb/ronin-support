@@ -68,6 +68,16 @@ describe String do
     it "must unescape '%XX' characters" do
       expect(subject.http_unescape).to eq(http_unescaped)
     end
+
+    context "when the URI escaped characters contain lowercase hexadecimal" do
+      subject { "%6d%6f%64%20%25%20%33" }
+
+      let(:http_unescaped) { "mod % 3" }
+
+      it "must unescape the lowercase hexadecimal escaped characters" do
+        expect(subject.http_unescape).to eq(http_unescaped)
+      end
+    end
   end
 
   describe "#http_encode" do
@@ -117,6 +127,16 @@ describe String do
 
     it "must decode each byte of the String" do
       expect(subject.http_decode).to eq(http_decoded)
+    end
+
+    context "when the URI escaped characters contain lowercase hexadecimal" do
+      subject { "%6d%6f%64%20%25%20%33" }
+
+      let(:http_decoded) { "mod % 3" }
+
+      it "must unescape the lowercase hexadecimal escaped characters" do
+        expect(subject.http_decode).to eq(http_decoded)
+      end
     end
   end
 end

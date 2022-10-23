@@ -120,6 +120,16 @@ describe Integer do
         expect(subject.xml_escape).to eq(escaped_byte)
       end
     end
+
+    context "when given the `case:` keyword argument with another value" do
+      subject { 0xff }
+
+      it do
+        expect {
+          subject.xml_escape(case: :foo)
+        }.to raise_error(ArgumentError,"case (:foo) keyword argument must be either :lower, :upper, or nil")
+      end
+    end
   end
 
   describe "#xml_encode" do
@@ -228,12 +238,34 @@ describe Integer do
         end
       end
 
+      context "when given the `case:` keyword argument with another value" do
+        subject { 0xff }
+
+        it do
+          expect {
+            subject.xml_encode(format: :hex, case: :foo)
+          }.to raise_error(ArgumentError,"case (:foo) keyword argument must be either :lower, :upper, or nil")
+        end
+      end
+
       context "and when `zero_pad: true` is given" do
         let(:encoded_byte) { "&#x00000ff;" }
 
         it "must encode the Integer as '&#X00000xx' XML escaped characters" do
           expect(subject.xml_encode(format: :hex, zero_pad: true)).to eq(encoded_byte)
         end
+      end
+    end
+
+    context "when also given `format:` with another value" do
+      subject { 0xff }
+
+      let(:format) { :foo }
+
+      it do
+        expect {
+          subject.xml_encode(format: format)
+        }.to raise_error(ArgumentError,"format (#{format.inspect}) must be :decimal or :hex")
       end
     end
 

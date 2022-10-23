@@ -18,6 +18,54 @@ describe Ronin::Support::Encoding::HTTP do
         expect(subject.encode_byte(byte)).to eq(encoded_byte)
       end
     end
+
+    context "when given `case: :lower`" do
+      let(:byte)         { 0xFF  }
+      let(:http_encoded) { '%ff' }
+
+      it "must return a lowercase hexadecimal escaped character" do
+        expect(subject.encode_byte(byte, case: :lower)).to eq(http_encoded)
+      end
+    end
+
+    context "when given `case: :upper`" do
+      let(:byte)         { 0xFF  }
+      let(:http_encoded) { '%FF' }
+
+      it "must return a uppercase hexadecimal escaped character" do
+        expect(subject.encode_byte(byte, case: :upper)).to eq(http_encoded)
+      end
+    end
+
+    context "when given the `case:` keyword argument with another value" do
+      let(:byte) { 0xFF  }
+
+      it do
+        expect {
+          subject.encode_byte(byte, case: :foo)
+        }.to raise_error(ArgumentError,"case (:foo) keyword argument must be either :lower, :upper, or nil")
+      end
+    end
+
+    context "when given an Integer greater that 0xff" do
+      let(:byte) { 0x100 }
+
+      it do
+        expect {
+          subject.encode_byte(byte)
+        }.to raise_error(RangeError,"#{byte.inspect} out of char range")
+      end
+    end
+
+    context "when given a negative Integer" do
+      let(:byte) { -1 }
+
+      it do
+        expect {
+          subject.encode_byte(byte)
+        }.to raise_error(RangeError,"#{byte.inspect} out of char range")
+      end
+    end
   end
 
   describe ".escape_byte" do
@@ -48,6 +96,54 @@ describe Ronin::Support::Encoding::HTTP do
         it "must URI escape the Integer" do
           expect(subject.escape_byte(byte)).to eq(http_escaped)
         end
+      end
+    end
+
+    context "when given `case: :lower`" do
+      let(:byte)         { 0xFF  }
+      let(:http_escaped) { '%ff' }
+
+      it "must return a lowercase hexadecimal escaped character" do
+        expect(subject.escape_byte(byte, case: :lower)).to eq(http_escaped)
+      end
+    end
+
+    context "when given `case: :upper`" do
+      let(:byte)         { 0xFF  }
+      let(:http_escaped) { '%FF' }
+
+      it "must return a uppercase hexadecimal escaped character" do
+        expect(subject.escape_byte(byte, case: :upper)).to eq(http_escaped)
+      end
+    end
+
+    context "when given the `case:` keyword argument with another value" do
+      let(:byte) { 0xFF }
+
+      it do
+        expect {
+          subject.escape_byte(byte, case: :foo)
+        }.to raise_error(ArgumentError,"case (:foo) keyword argument must be either :lower, :upper, or nil")
+      end
+    end
+
+    context "when given an Integer greater that 0xff" do
+      let(:byte) { 0x100 }
+
+      it do
+        expect {
+          subject.escape_byte(byte)
+        }.to raise_error(RangeError,"#{byte.inspect} out of char range")
+      end
+    end
+
+    context "when given a negative Integer" do
+      let(:byte) { -1 }
+
+      it do
+        expect {
+          subject.escape_byte(byte)
+        }.to raise_error(RangeError,"#{byte.inspect} out of char range")
       end
     end
   end
@@ -95,6 +191,15 @@ describe Ronin::Support::Encoding::HTTP do
     it "must unescape '+' and '%XX' characters" do
       expect(subject.unescape(data)).to eq(http_unescaped)
     end
+
+    context "when the URI escaped characters contain lowercase hexadecimal" do
+      let(:data)           { "%6d%6f%64%20%25%20%33" }
+      let(:http_unescaped) { "mod % 3" }
+
+      it "must unescape the lowercase hexadecimal escaped characters" do
+        expect(subject.unescape(data)).to eq(http_unescaped)
+      end
+    end
   end
 
   describe ".encode" do
@@ -139,6 +244,15 @@ describe Ronin::Support::Encoding::HTTP do
 
     it "must encode each byte of the String" do
       expect(subject.decode(http_encoded)).to eq(data)
+    end
+
+    context "when the URI escaped characters contain lowercase hexadecimal" do
+      let(:data)         { "%6d%6f%64%20%25%20%33" }
+      let(:http_decoded) { "mod % 3" }
+
+      it "must unescape the lowercase hexadecimal escaped characters" do
+        expect(subject.decode(data)).to eq(http_decoded)
+      end
     end
   end
 end

@@ -37,6 +37,16 @@ describe Ronin::Support::Encoding::URI do
       end
     end
 
+    context "when given the `case:` keyword argument with another value" do
+      let(:byte) { 0xFF }
+
+      it do
+        expect {
+          subject.encode_byte(byte, case: :foo)
+        }.to raise_error(ArgumentError,"case (:foo) keyword argument must be either :lower, :upper, or nil")
+      end
+    end
+
     context "when given an Integer greater that 0xff" do
       let(:byte) { 0x100 }
 
@@ -113,6 +123,16 @@ describe Ronin::Support::Encoding::URI do
 
       it "must return a uppercase hexadecimal escaped character" do
         expect(subject.escape_byte(byte, case: :upper)).to eq(uri_escaped)
+      end
+    end
+
+    context "when given the `case:` keyword argument with another value" do
+      let(:byte) { 0xFF  }
+
+      it do
+        expect {
+          subject.escape_byte(byte, case: :foo)
+        }.to raise_error(ArgumentError,"case (:foo) keyword argument must be either :lower, :upper, or nil")
       end
     end
 
@@ -227,6 +247,23 @@ describe Ronin::Support::Encoding::URI do
     end
   end
 
+  describe ".decode" do
+    let(:uri_encoded) { "%68%65%6C%6C%6F%20%77%6F%72%6C%64" }
+    let(:data) { "hello world" }
+
+    it "must URI form encode every character in the String" do
+      expect(subject.decode(uri_encoded)).to eq(data)
+    end
+
+    context "when the %xx escaped character is lowercase hexadecimal" do
+      let(:uri_encoded) { "%68%65%6c%6c%6f%20%77%6f%72%6c%64" }
+
+      it "must URI form unescape the String" do
+        expect(subject.decode(uri_encoded)).to eq(data)
+      end
+    end
+  end
+
   describe described_class::Form do
     describe ".encode_byte" do
       let(:byte)             { 0x41  }
@@ -251,6 +288,16 @@ describe Ronin::Support::Encoding::URI do
 
         it "must return a uppercase hexadecimal escaped character" do
           expect(subject.encode_byte(byte, case: :upper)).to eq(uri_form_encoded)
+        end
+      end
+
+      context "when given the `case:` keyword argument with another value" do
+        let(:byte) { 0xFF  }
+
+        it do
+          expect {
+            subject.encode_byte(byte, case: :foo)
+          }.to raise_error(ArgumentError,"case (:foo) keyword argument must be either :lower, :upper, or nil")
         end
       end
 
@@ -321,6 +368,16 @@ describe Ronin::Support::Encoding::URI do
 
         it "must return a uppercase hexadecimal escaped character" do
           expect(subject.escape_byte(byte, case: :upper)).to eq(uri_form_escaped)
+        end
+      end
+
+      context "when given the `case:` keyword argument with another value" do
+        let(:byte) { 0xFF  }
+
+        it do
+          expect {
+            subject.escape_byte(byte, case: :foo)
+          }.to raise_error(ArgumentError,"case (:foo) keyword argument must be either :lower, :upper, or nil")
         end
       end
 
@@ -431,6 +488,23 @@ describe Ronin::Support::Encoding::URI do
 
         it "must return a uppercase hexadecimal escaped String" do
           expect(subject.encode(data, case: :upper)).to eq(uri_form_encoded)
+        end
+      end
+    end
+
+    describe ".decode" do
+      let(:uri_form_encoded) { "%68%65%6C%6C%6F+%77%6F%72%6C%64" }
+      let(:data) { "hello world" }
+
+      it "must URI form encode every character in the String" do
+        expect(subject.decode(uri_form_encoded)).to eq(data)
+      end
+
+      context "when the %xx escaped character is lowercase hexadecimal" do
+        let(:uri_form_encoded) { "%68%65%6c%6c%6f+%77%6f%72%6c%64" }
+
+        it "must URI form unescape the String" do
+          expect(subject.decode(uri_form_encoded)).to eq(data)
         end
       end
     end

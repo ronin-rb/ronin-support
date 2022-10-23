@@ -74,7 +74,7 @@ module Ronin
                   when :upper      then ESCAPE_BYTES_UPPERCASE
                   when :lower, nil then ESCAPE_BYTES
                   else
-                    raise(ArgumentError,"case (#{kwargs[:case].inspect}) must be either :upper, :lower, or nil")
+                    raise(ArgumentError,"case (#{kwargs[:case].inspect}) keyword argument must be either :lower, :upper, or nil")
                   end
 
           table.fetch(byte) do
@@ -148,7 +148,7 @@ module Ronin
                 "&#x%.2x;" % byte
               end
             when
-              raise(ArgumentError,"case (#{kwargs[:case].inspect}) must be :lower, :upper, or nil")
+              raise(ArgumentError,"case (#{kwargs[:case].inspect}) keyword argument must be either :lower, :upper, or nil")
             end
           else
             raise(ArgumentError,"format (#{format.inspect}) must be :decimal or :hex")
