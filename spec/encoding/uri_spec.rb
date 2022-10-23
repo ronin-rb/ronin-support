@@ -86,7 +86,7 @@ describe Ronin::Support::Encoding::URI do
     end
   end
 
-  describe "#uri_encode" do
+  describe ".encode" do
     let(:data)        { "hello world" }
     let(:uri_encoded) { "%68%65%6C%6C%6F%20%77%6F%72%6C%64" }
 
