@@ -84,6 +84,15 @@ describe Ronin::Support::Encoding::XML do
     it "must HTML escape itself" do
       expect(subject.escape(data)).to eq(xml_escaped)
     end
+
+    context "when the String contains invalid byte sequences" do
+      let(:data)        { "one & two\xfe\xff"     }
+      let(:xml_escaped) { "one &amp; two\xfe\xff" }
+
+      it "must XML escape each byte in the String" do
+        expect(subject.escape(data)).to eq(xml_escaped)
+      end
+    end
   end
 
   describe ".unescape" do
@@ -101,6 +110,15 @@ describe Ronin::Support::Encoding::XML do
 
     it "must HTML format all chars" do
       expect(subject.encode(data)).to eq(encoded_xml)
+    end
+
+    context "when the String contains invalid byte sequences" do
+      let(:data)        { "hello\xfe\xff" }
+      let(:encoded_xml) { "&#104;&#101;&#108;&#108;&#111;&#254;&#255;" }
+
+      it "must XML encode each byte in the String" do
+        expect(subject.encode(data)).to eq(encoded_xml)
+      end
     end
   end
 end

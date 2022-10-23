@@ -52,6 +52,14 @@ describe Ronin::Support::Encoding::Hex do
     it "must hex encode a String" do
       expect(subject.encode(data)).to eq("68656c6c6f4e")
     end
+
+    context "when the String contains invalid byte sequences" do
+      let(:data) { "hello\xfe\xff" }
+
+      it "must hex encode each byte in the String" do
+        expect(subject.encode(data)).to eq("68656c6c6ffeff")
+      end
+    end
   end
 
   describe ".decode" do
@@ -63,10 +71,18 @@ describe Ronin::Support::Encoding::Hex do
   end
 
   describe ".escape" do
-    let(:data) { "hello\xff".force_encoding(Encoding::ASCII_8BIT) }
+    let(:data) { "hello\x00" }
 
     it "must hex escape a String" do
-      expect(subject.escape(data)).to eq("hello\\xff")
+      expect(subject.escape(data)).to eq("hello\\x00")
+    end
+
+    context "when the String contains invalid byte sequences" do
+      let(:data) { "hello\xfe\xff" }
+
+      it "must hex escape each byte in the String" do
+        expect(subject.escape(data)).to eq("hello\\xfe\\xff")
+      end
     end
   end
 

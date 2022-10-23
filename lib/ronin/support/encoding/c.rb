@@ -126,8 +126,14 @@ module Ronin
         def self.encode(data)
           encoded = String.new
 
-          data.each_codepoint do |codepoint|
-            encoded << encode_byte(codepoint)
+          if data.valid_encoding?
+            data.each_codepoint do |codepoint|
+              encoded << encode_byte(codepoint)
+            end
+          else
+            data.each_byte do |byte|
+              encoded << encode_byte(byte)
+            end
           end
 
           return encoded
@@ -160,8 +166,14 @@ module Ronin
         def self.escape(data)
           escaped = String.new
 
-          data.each_codepoint do |codepoint|
-            escaped << escape_byte(codepoint)
+          if data.valid_encoding?
+            data.each_codepoint do |codepoint|
+              escaped << escape_byte(codepoint)
+            end
+          else
+            data.each_byte do |byte|
+              escaped << escape_byte(byte)
+            end
           end
 
           return escaped

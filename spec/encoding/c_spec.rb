@@ -120,10 +120,8 @@ describe Ronin::Support::Encoding::C do
     end
 
     context "when the given String contains non-printable characters" do
-      let(:data) do
-        "hello\xffworld".force_encoding(Encoding::ASCII_8BIT)
-      end
-      let(:escaped_string) { "hello\\xffworld" }
+      let(:data)           { "hello\x01world"  }
+      let(:escaped_string) { "hello\\x01world" }
 
       it "must escape non-printable characters with an extra back-slash" do
         expect(subject.escape(data)).to eq(escaped_string)
@@ -135,6 +133,15 @@ describe Ronin::Support::Encoding::C do
       let(:escaped_string) { "hello\\u1001world" }
 
       it "must escape the unicode characters with a \\u" do
+        expect(subject.escape(data)).to eq(escaped_string)
+      end
+    end
+
+    context "when the String contains invalid byte sequences" do
+      let(:data)           { "hello\xfe\xff"   }
+      let(:escaped_string) { "hello\\xfe\\xff" }
+
+      it "must C escape each byte in the String" do
         expect(subject.escape(data)).to eq(escaped_string)
       end
     end
@@ -214,6 +221,15 @@ describe Ronin::Support::Encoding::C do
 
     it "must C encode each character in the string" do
       expect(subject.encode(data)).to eq(encoded)
+    end
+
+    context "when the String contains invalid byte sequences" do
+      let(:data)    { "ABC\xfe\xff" }
+      let(:encoded) { '\x41\x42\x43\xfe\xff' }
+
+      it "must C escape each byte in the String" do
+        expect(subject.encode(data)).to eq(encoded)
+      end
     end
   end
 

@@ -73,6 +73,15 @@ describe Ronin::Support::Encoding::JS do
     it "must ignore normal characters" do
       expect(subject.escape(normal_chars)).to eq(normal_chars)
     end
+
+    context "when the String contains invalid byte sequences" do
+      let(:invalid_string) { "hello\xfe\xff" }
+      let(:escaped_string) { "hello\\xFE\\xFF" }
+
+      it "must JavaScript escape each byte in the String" do
+        expect(subject.escape(invalid_string)).to eq(escaped_string)
+      end
+    end
   end
 
   let(:data) { "one & two" }
@@ -106,6 +115,15 @@ describe Ronin::Support::Encoding::JS do
 
     it "must JavaScript escape all characters" do
       expect(subject.encode(data)).to eq(js_encoded)
+    end
+
+    context "when the String contains invalid byte sequences" do
+      let(:invalid_string) { "hello\xfe\xff" }
+      let(:encoded_string) { '\x68\x65\x6C\x6C\x6F\xFE\xFF' }
+
+      it "must JavaScript encode each byte in the String" do
+        expect(subject.encode(invalid_string)).to eq(encoded_string)
+      end
     end
   end
 

@@ -25,6 +25,16 @@ describe String do
         expect(subject.uri_escape(unsafe: ['%'])).to eq(uri_unsafe_encoded)
       end
     end
+
+    context "when the String contains invalid byte sequences" do
+      subject { "hello\xfe\xff" }
+
+      let(:uri_escaped) { "hello%FE%FF" }
+
+      it "must URI escape each byte in the String" do
+        expect(subject.uri_escape).to eq(uri_escaped)
+      end
+    end
   end
 
   describe "#uri_unescape" do
@@ -45,6 +55,16 @@ describe String do
     it "must URI encode every character in the String" do
       expect(subject.uri_encode).to eq(uri_encoded)
     end
+
+    context "when the String contains invalid byte sequences" do
+      subject { "hello world\xfe\xff" }
+
+      let(:uri_encoded) { "%68%65%6C%6C%6F%20%77%6F%72%6C%64%FE%FF" }
+
+      it "must URI encode each byte in the String" do
+        expect(subject.uri_encode).to eq(uri_encoded)
+      end
+    end
   end
 
   describe "#uri_form_escape" do
@@ -54,6 +74,16 @@ describe String do
 
     it "must URI encode itself" do
       expect(subject.uri_form_escape).to eq(uri_form_escaped)
+    end
+
+    context "when the String contains invalid byte sequences" do
+      subject { "hello world\xfe\xff" }
+
+      let(:uri_form_escaped) { "hello+world%FE%FF"   }
+
+      it "must URI form escape each byte in the String" do
+        expect(subject.uri_form_escape).to eq(uri_form_escaped)
+      end
     end
   end
 
@@ -74,6 +104,16 @@ describe String do
 
     it "must URI encode every character in the String" do
       expect(subject.uri_form_encode).to eq(uri_form_encoded)
+    end
+
+    context "when the String contains invalid byte sequences" do
+      subject { "hello world\xfe\xff" }
+
+      let(:uri_form_encoded) { "%68%65%6C%6C%6F+%77%6F%72%6C%64%FE%FF" }
+
+      it "must URI form encode each byte in the String" do
+        expect(subject.uri_form_encode).to eq(uri_form_encoded)
+      end
     end
   end
 end

@@ -23,6 +23,15 @@ describe String do
     it "must ignore normal characters" do
       expect(normal_chars.js_escape).to eq(normal_chars)
     end
+
+    context "when the String contains invalid byte sequences" do
+      let(:invalid_string) { "hello\xfe\xff" }
+      let(:escaped_string) { "hello\\xFE\\xFF" }
+
+      it "must JavaScript escape each byte in the String" do
+        expect(invalid_string.js_escape).to eq(escaped_string)
+      end
+    end
   end
 
   describe "#js_unescape" do
@@ -54,6 +63,15 @@ describe String do
 
     it "must JavaScript escape all characters" do
       expect(subject.js_encode).to eq(js_encoded)
+    end
+
+    context "when the String contains invalid byte sequences" do
+      let(:invalid_string) { "hello\xfe\xff" }
+      let(:encoded_string) { '\x68\x65\x6C\x6C\x6F\xFE\xFF' }
+
+      it "must JavaScript encode each byte in the String" do
+        expect(invalid_string.js_encode).to eq(encoded_string)
+      end
     end
   end
 

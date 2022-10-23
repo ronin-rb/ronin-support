@@ -150,6 +150,15 @@ describe Ronin::Support::Encoding::Ruby do
         expect(subject.escape(data)).to eq(escaped_string)
       end
     end
+
+    context "when the String contains invalid byte sequences" do
+      let(:data)           { "hello\xfe\xff"   }
+      let(:escaped_string) { "hello\\xFE\\xFF" }
+
+      it "must escape each byte in the String" do
+        expect(subject.escape(data)).to eq(escaped_string)
+      end
+    end
   end
 
   describe ".unescape" do
@@ -226,6 +235,15 @@ describe Ronin::Support::Encoding::Ruby do
 
     it "must Ruby encode each character in the string" do
       expect(subject.encode(data)).to eq(encoded)
+    end
+
+    context "when the String contains invalid byte sequences" do
+      let(:data)    { "ABC\xfe\xff"         }
+      let(:encoded) { '\x41\x42\x43\xFE\xFF'}
+
+      it "must encode each byte in the String" do
+        expect(subject.encode(data)).to eq(encoded)
+      end
     end
   end
 

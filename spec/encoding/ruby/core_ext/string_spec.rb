@@ -49,6 +49,16 @@ describe String do
         expect(subject.ruby_escape).to eq(escaped_ruby_string)
       end
     end
+
+    context "when the String contains invalid byte sequences" do
+      subject { "hello\xfe\xff" }
+
+      let(:escaped_string) { "hello\\xFE\\xFF" }
+
+      it "must escape each byte in the String" do
+        expect(subject.ruby_escape).to eq(escaped_string)
+      end
+    end
   end
 
   describe "#ruby_unescape" do
@@ -128,6 +138,16 @@ describe String do
 
     it "must Ruby encode each character in the string" do
       expect(subject.ruby_encode).to eq(ruby_encoded)
+    end
+
+    context "when the String contains invalid byte sequences" do
+      subject { "ABC\xfe\xff" }
+
+      let(:encoded) { '\x41\x42\x43\xFE\xFF'}
+
+      it "must encode each byte in the String" do
+        expect(subject.ruby_encode).to eq(encoded)
+      end
     end
   end
 

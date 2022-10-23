@@ -88,8 +88,18 @@ module Ronin
         # @api public
         #
         def self.escape(data, unsafe: nil)
-          if unsafe then ::URI::DEFAULT_PARSER.escape(data,unsafe.join)
-          else           ::URI::DEFAULT_PARSER.escape(data)
+          if data.valid_encoding?
+            if unsafe then ::URI::DEFAULT_PARSER.escape(data,unsafe.join)
+            else           ::URI::DEFAULT_PARSER.escape(data)
+            end
+          else
+            escaped = String.new
+
+            data.each_byte do |byte|
+              escaped << escape_byte(byte, unsafe: unsafe)
+            end
+
+            return escaped
           end
         end
 
@@ -126,8 +136,14 @@ module Ronin
         def self.encode(data)
           encoded = String.new
 
-          data.each_codepoint do |codepoint|
-            encoded << encode_byte(codepoint)
+          if data.valid_encoding?
+            data.each_codepoint do |codepoint|
+              encoded << encode_byte(codepoint)
+            end
+          else
+            data.each_byte do |byte|
+              encoded << encode_byte(byte)
+            end
           end
 
           return encoded
@@ -206,7 +222,17 @@ module Ronin
           #
           # @see https://www.w3.org/TR/2013/CR-html5-20130806/forms.html#url-encoded-form-data
           def self.escape(data)
-            ::URI.encode_www_form_component(data)
+            if data.valid_encoding?
+              ::URI.encode_www_form_component(data)
+            else
+              escaped = String.new
+
+              data.each_byte do |byte|
+                escaped << escape_byte(byte)
+              end
+
+              return escaped
+            end
           end
 
           #
@@ -244,8 +270,14 @@ module Ronin
           def self.encode(data)
             encoded = String.new
 
-            data.each_codepoint do |codepoint|
-              encoded << encode_byte(codepoint)
+            if data.valid_encoding?
+              data.each_codepoint do |codepoint|
+                encoded << encode_byte(codepoint)
+              end
+            else
+              data.each_byte do |byte|
+                encoded << encode_byte(byte)
+              end
             end
 
             return encoded

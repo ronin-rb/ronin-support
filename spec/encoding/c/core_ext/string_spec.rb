@@ -49,6 +49,16 @@ describe String do
         expect(subject.c_escape).to eq(escaped_c_string)
       end
     end
+
+    context "when the String contains invalid byte sequences" do
+      subject { "hello\xfe\xff" }
+
+      let(:escaped_string) { "hello\\xfe\\xff" }
+
+      it "must C escape each byte in the String" do
+        expect(subject.c_escape).to eq(escaped_string)
+      end
+    end
   end
 
   describe "#c_unescape" do
@@ -128,6 +138,16 @@ describe String do
 
     it "must C encode each character in the string" do
       expect(subject.c_encode).to eq(c_encoded)
+    end
+
+    context "when the String contains invalid byte sequences" do
+      subject { "ABC\xfe\xff" }
+
+      let(:c_encoded) { '\x41\x42\x43\xfe\xff' }
+
+      it "must C encode each byte in the String" do
+        expect(subject.c_encode).to eq(c_encoded)
+      end
     end
   end
 

@@ -69,6 +69,16 @@ describe String do
         expect(subject.shell_escape).to eq(escaped_shell_string)
       end
     end
+
+    context "when the String contains invalid byte sequences" do
+      subject { "hello\xfe\xff" }
+
+      let(:escaped_shell_string) { "hello\\xfe\\xff" }
+
+      it "must escape each byte in the String" do
+        expect(subject.shell_escape).to eq(escaped_shell_string)
+      end
+    end
   end
 
   describe "#shell_unescape" do
@@ -118,6 +128,16 @@ describe String do
 
     it "must shell encode each character in the string" do
       expect(subject.shell_encode).to eq(shell_encoded)
+    end
+
+    context "when the String contains invalid byte sequences" do
+      subject { "ABC\xfe\xff" }
+
+      let(:shell_encoded) { "\\x41\\x42\\x43\\xfe\\xff" }
+
+      it "must encode each byte in the String" do
+        expect(subject.shell_encode).to eq(shell_encoded)
+      end
     end
   end
 

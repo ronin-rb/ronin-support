@@ -137,8 +137,14 @@ module Ronin
         def self.escape(data)
           escaped = String.new
 
-          data.each_codepoint do |codepoint|
-            escaped << escape_byte(codepoint)
+          if data.valid_encoding?
+            data.each_codepoint do |codepoint|
+              escaped << escape_byte(codepoint)
+            end
+          else
+            data.each_byte do |byte|
+              escaped << escape_byte(byte)
+            end
           end
 
           return escaped

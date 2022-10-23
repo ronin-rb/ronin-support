@@ -113,10 +113,8 @@ describe Ronin::Support::Encoding::Shell do
     end
 
     context "when the String contains non-printable characters" do
-      let(:data) do
-        "hello\xffworld".force_encoding(Encoding::ASCII_8BIT)
-      end
-      let(:escaped_shell_string) { "hello\\xffworld" }
+      let(:data)                 { "hello\x01world"  }
+      let(:escaped_shell_string) { "hello\\x01world" }
 
       it "must escape the non-printable characters into \\xXX strings" do
         expect(subject.escape(data)).to eq(escaped_shell_string)
@@ -128,6 +126,15 @@ describe Ronin::Support::Encoding::Shell do
       let(:escaped_shell_string) { "hello\\u1001world" }
 
       it "must escape the unicode characters into \\uXX... strings" do
+        expect(subject.escape(data)).to eq(escaped_shell_string)
+      end
+    end
+
+    context "when the String contains invalid byte sequences" do
+      let(:data)                 { "hello\xfe\xff"   }
+      let(:escaped_shell_string) { "hello\\xfe\\xff" }
+
+      it "must escape each byte in the String" do
         expect(subject.escape(data)).to eq(escaped_shell_string)
       end
     end
@@ -178,6 +185,15 @@ describe Ronin::Support::Encoding::Shell do
 
     it "must shell encode each character in the string" do
       expect(subject.encode(data)).to eq(shell_encoded)
+    end
+
+    context "when the String contains invalid byte sequences" do
+      let(:data)          { "ABC\xfe\xff"               }
+      let(:shell_encoded) { "\\x41\\x42\\x43\\xfe\\xff" }
+
+      it "must encode each byte in the String" do
+        expect(subject.encode(data)).to eq(shell_encoded)
+      end
     end
   end
 

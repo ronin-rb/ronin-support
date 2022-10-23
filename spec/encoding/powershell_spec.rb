@@ -126,9 +126,9 @@ describe Ronin::Support::Encoding::PowerShell do
     end
 
     context "when the String contains non-printable characters" do
-      let(:data) { "hello\xffworld".force_encoding(Encoding::ASCII_8BIT) }
+      let(:data) { "hello\x01world" }
 
-      let(:escaped_powershell_string) { "hello$([char]0xff)world" }
+      let(:escaped_powershell_string) { "hello$([char]0x01)world" }
 
       it "must convert the non-printable characters into '$([char]0xXX)' interpolated strings" do
         expect(subject.escape(data)).to eq(escaped_powershell_string)
@@ -141,6 +141,16 @@ describe Ronin::Support::Encoding::PowerShell do
       let(:escaped_powershell_string) { "hello$([char]0x1001)world" }
 
       it "must convert the unicode characters into '$([char]0XX...)' interpolated strings" do
+        expect(subject.escape(data)).to eq(escaped_powershell_string)
+      end
+    end
+
+    context "when the String contains invalid byte sequences" do
+      let(:data) { "hello\xfe\xff" }
+
+      let(:escaped_powershell_string) { "hello$([char]0xfe)$([char]0xff)" }
+
+      it "must escape each byte in the String" do
         expect(subject.escape(data)).to eq(escaped_powershell_string)
       end
     end
@@ -201,6 +211,17 @@ describe Ronin::Support::Encoding::PowerShell do
 
     it "must PowerShell encode each character in the string" do
       expect(subject.encode(data)).to eq(powershell_encoded)
+    end
+
+    context "when the String contains invalid byte sequences" do
+      let(:data) { "ABC\xfe\xff" }
+      let(:powershell_encoded) do
+        "$([char]0x41)$([char]0x42)$([char]0x43)$([char]0xfe)$([char]0xff)"
+      end
+
+      it "must encode each byte in the String" do
+        expect(subject.encode(data)).to eq(powershell_encoded)
+      end
     end
   end
 

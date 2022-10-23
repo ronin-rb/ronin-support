@@ -93,8 +93,14 @@ module Ronin
         def self.encode(data)
           encoded = String.new
 
-          data.each_codepoint do |codepoint|
-            encoded << encode_byte(codepoint)
+          if data.valid_encoding?
+            data.each_codepoint do |codepoint|
+              encoded << encode_byte(codepoint)
+            end
+          else
+            data.each_byte do |byte|
+              encoded << encode_byte(byte)
+            end
           end
 
           return encoded

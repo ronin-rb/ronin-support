@@ -78,6 +78,16 @@ describe String do
         expect(subject.powershell_escape).to eq(escaped_powershell_string)
       end
     end
+
+    context "when the String contains invalid byte sequences" do
+      subject { "hello\xfe\xff" }
+
+      let(:escaped_powershell_string) { "hello$([char]0xfe)$([char]0xff)" }
+
+      it "must escape each byte in the String" do
+        expect(subject.powershell_escape).to eq(escaped_powershell_string)
+      end
+    end
   end
 
   describe "#powershell_unescape" do
@@ -137,6 +147,18 @@ describe String do
 
     it "must PowerShell encode each character in the string" do
       expect(subject.powershell_encode).to eq(powershell_encoded)
+    end
+
+    context "when the String contains invalid byte sequences" do
+      subject { "ABC\xfe\xff" }
+
+      let(:powershell_encoded) do
+        "$([char]0x41)$([char]0x42)$([char]0x43)$([char]0xfe)$([char]0xff)"
+      end
+
+      it "must encode each byte in the String" do
+        expect(subject.powershell_encode).to eq(powershell_encoded)
+      end
     end
   end
 
