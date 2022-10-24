@@ -64,6 +64,178 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "MD5" do
+    subject { described_class::MD5 }
+
+    let(:md5) { "5d41402abc4b2a76b9719d911017c592" }
+
+    it "must match hex strings with 32 characters" do
+      string = md5
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match MD5 checksums starting with other non-alpha-numeric characters" do
+      string = "Foo: #{md5}"
+
+      expect(string[subject]).to eq(md5)
+    end
+
+    it "must match MD5 checksums starting with other alpha characters" do
+      string = "XXX#{md5}"
+
+      expect(string[subject]).to eq(md5)
+    end
+
+    it "must match MD5 checksums ending with other non-alpha-numeric characters" do
+      string = "#{md5} Foo"
+
+      expect(string[subject]).to eq(md5)
+    end
+
+    it "must match MD5 checksums ending with other alpha characters" do
+      string = "#{md5}XXX"
+
+      expect(string[subject]).to eq(md5)
+    end
+
+    it "must not match a hex string longer than 32 characters" do
+      string = "000#{md5}000"
+
+      expect(string).to_not match(subject)
+    end
+  end
+
+  describe "SHA1" do
+    subject { described_class::SHA1 }
+
+    let(:sha1) { "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d" }
+
+    it "must match hex strings with 40 characters" do
+      string = sha1
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match SHA1 checksums starting with other non-alpha-numeric characters" do
+      string = "Foo: #{sha1}"
+
+      expect(string[subject]).to eq(sha1)
+    end
+
+    it "must match SHA1 checksums starting with other alpha characters" do
+      string = "XXX#{sha1}"
+
+      expect(string[subject]).to eq(sha1)
+    end
+
+    it "must match SHA1 checksums ending with other non-alpha-numeric characters" do
+      string = "#{sha1} Foo"
+
+      expect(string[subject]).to eq(sha1)
+    end
+
+    it "must match SHA1 checksums ending with other alpha characters" do
+      string = "#{sha1}XXX"
+
+      expect(string[subject]).to eq(sha1)
+    end
+
+    it "must not match a hex string longer than 40 characters" do
+      string = "000#{sha1}000"
+
+      expect(string).to_not match(subject)
+    end
+  end
+
+  describe "SHA256" do
+    subject { described_class::SHA256 }
+
+    let(:sha256) do
+      "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+    end
+
+    it "must match hex strings with 64 characters" do
+      string = sha256
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match SHA256 checksums starting with other non-alpha-numeric characters" do
+      string = "Foo: #{sha256}"
+
+      expect(string[subject]).to eq(sha256)
+    end
+
+    it "must match SHA256 checksums starting with other alpha characters" do
+      string = "XXX#{sha256}"
+
+      expect(string[subject]).to eq(sha256)
+    end
+
+    it "must match SHA256 checksums ending with other non-alpha-numeric characters" do
+      string = "#{sha256} Foo"
+
+      expect(string[subject]).to eq(sha256)
+    end
+
+    it "must match SHA256 checksums ending with other alpha characters" do
+      string = "#{sha256}XXX"
+
+      expect(string[subject]).to eq(sha256)
+    end
+
+    it "must not match a hex string longer than 64 characters" do
+      string = "000#{sha256}000"
+
+      expect(string).to_not match(subject)
+    end
+  end
+
+  describe "SHA512" do
+    subject { described_class::SHA512 }
+
+    let(:sha512) do
+      "9b71d224bd62f3785d96d46ad3ea3d73319bfbc2890caadae2dff72519673ca72323c3d99ba5c11d7c7acc6e14b8c5da0c4663475c2e5c3adef46f73bcdec043"
+    end
+
+    it "must match hex strings with 128 characters" do
+      string = sha512
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match SHA512 checksums starting with other non-alpha-numeric characters" do
+      string = "Foo: #{sha512}"
+
+      expect(string[subject]).to eq(sha512)
+    end
+
+    it "must match SHA512 checksums starting with other alpha characters" do
+      string = "XXX#{sha512}"
+
+      expect(string[subject]).to eq(sha512)
+    end
+
+    it "must match SHA512 checksums ending with other non-alpha-numeric characters" do
+      string = "#{sha512} Foo"
+
+      expect(string[subject]).to eq(sha512)
+    end
+
+    it "must match SHA512 checksums ending with other alpha characters" do
+      string = "#{sha512}XXX"
+
+      expect(string[subject]).to eq(sha512)
+    end
+
+    it "must not match a hex string longer than 128 characters" do
+      string = "000#{sha512}000"
+
+      expect(string).to_not match(subject)
+    end
+  end
+
   describe "HASH" do
     subject { described_class::HASH }
 
@@ -85,10 +257,22 @@ describe Ronin::Support::Text::Patterns do
       expect(string).to fully_match(subject)
     end
 
+    it "must not match hex strings between 32 and 40 characters" do
+      string = "005d41402abc4b2a76b9719d911017c59200"
+
+      expect(string).to_not match(subject)
+    end
+
     it "must match hex strings with 40 characters" do
       string = "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d"
 
       expect(string).to fully_match(subject)
+    end
+
+    it "must not match hex strings between 40 and 64 characters" do
+      string = "002cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b982400"
+
+      expect(string).to_not match(subject)
     end
 
     it "must match hex strings with 64 characters" do
@@ -97,10 +281,22 @@ describe Ronin::Support::Text::Patterns do
       expect(string).to fully_match(subject)
     end
 
+    it "must not match hex strings between 64 and 128 characters" do
+      string = "0002cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824000"
+
+      expect(string).to_not match(subject)
+    end
+
     it "must match hex strings with 128 characters" do
       string = "9b71d224bd62f3785d96d46ad3ea3d73319bfbc2890caadae2dff72519673ca72323c3d99ba5c11d7c7acc6e14b8c5da0c4663475c2e5c3adef46f73bcdec043"
 
       expect(string).to fully_match(subject)
+    end
+
+    it "must not match hex strings longer than 128 characters" do
+      string = "000009b71d224bd62f3785d96d46ad3ea3d73319bfbc2890caadae2dff72519673ca72323c3d99ba5c11d7c7acc6e14b8c5da0c4663475c2e5c3adef46f73bcdec0430000000"
+
+      expect(string).to_not match(subject)
     end
   end
 

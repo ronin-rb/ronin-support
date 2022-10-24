@@ -53,22 +53,22 @@ module Ronin
         # Regular expression for finding all MD5 hashes in text.
         #
         # @since 1.0.0
-        MD5 = /[0-9a-fA-F]{32}/
+        MD5 = /(?<=[^0-9a-fA-F]|^)[0-9a-fA-F]{32}(?=[^0-9a-fA-F]|$)/
 
         # Regular expression for finding all SHA1 hashes in text.
         #
         # @since 1.0.0
-        SHA1 = /[0-9a-fA-F]{40}/
+        SHA1 = /(?<=[^0-9a-fA-F]|^)[0-9a-fA-F]{40}(?=[^0-9a-fA-F]|$)/
 
         # Regular expression for finding all SHA256 hashes in text.
         #
         # @since 1.0.0
-        SHA256 = /[0-9a-fA-F]{64}/
+        SHA256 = /(?<=[^0-9a-fA-F]|^)[0-9a-fA-F]{64}(?=[^0-9a-fA-F]|$)/
 
         # Regular expression for finding all SHA512 hashes in text.
         #
         # @since 1.0.0
-        SHA512 = /[0-9a-fA-F]{128}/
+        SHA512 = /(?<=[^0-9a-fA-F]|^)[0-9a-fA-F]{128}(?=[^0-9a-fA-F]|$)/
 
         # Regular expression for finding all hashes in text.
         #
