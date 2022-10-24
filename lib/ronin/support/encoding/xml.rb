@@ -68,7 +68,7 @@ module Ronin
         #   Encoding::XML.escape_byte(0x26)
         #   # => "&amp;"
         #
-        # @example Uppercase:
+        # @example Uppercase encoding:
         #   Encoding::XML.escape_byte(0x26, case: :upper)
         #   # => "&AMP;"
         #
@@ -128,7 +128,7 @@ module Ronin
         #   # => "&#x41;"
         #
         # @example Uppercase hexadecimal escaped characters:
-        #   Encoding::XML.encode_byte(0xFF, format: :hex, case: :upper)
+        #   Encoding::XML.encode_byte(0xff, format: :hex, case: :upper)
         #   # => "&#XFF;"
         #
         def self.encode_byte(byte, format: :decimal, zero_pad: false, **kwargs)
@@ -185,6 +185,18 @@ module Ronin
         #   Encoding::XML.encode("abc")
         #   # => "&#97;&#98;&#99;"
         #
+        # @example Zero-padding:
+        #   Encoding::XML.encode("abc", zero_pad: true)
+        #   # => "&#0000097;&#0000098;&#0000099;"
+        #
+        # @example Hexadecimal encoded characters:
+        #   Encoding::XML.encode("abc", format: :hex)
+        #   # => "&#x61;&#x62;&#x63;"
+        #
+        # @example Uppercase hexadecimal encoded characters:
+        #   Encoding::XML.encode("abc\xff", format: :hex, case: :upper)
+        #   # => "&#X61;&#X62;&#X63;&#XFF;"
+        #
         def self.encode(data,**kwargs)
           encoded = String.new
 
@@ -238,6 +250,10 @@ module Ronin
         # @example
         #   Encoding::XML.escape("one & two")
         #   # => "one &amp; two"
+        #
+        # @example Uppercase escaped characters:
+        #   Encoding::XML.encode("one & two", case: :upper)
+        #   # => "one &AMP; two"
         #
         def self.escape(data,**kwargs)
           escaped = String.new

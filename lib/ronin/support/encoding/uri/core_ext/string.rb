@@ -36,6 +36,10 @@ class String
   #   "x > y".uri_escape
   #   # => "x%20%3E%20y"
   #
+  # @example Lowercase encoding:
+  #   "x > y".uri_escape(case: :lower)
+  #   # => "x%20%3e%20y"
+  #
   # @see Ronin::Support::Encoding::URI.escape
   #
   # @api public
@@ -79,6 +83,10 @@ class String
   #   "plain text".uri_encode
   #   # => "%70%6C%61%69%6E%20%74%65%78%74"
   #
+  # @example Lowercase encoding:
+  #   "plain text".uri_encode(case: :lower)
+  #   # => "%70%6c%61%69%6e%20%74%65%78%74"
+  #
   # @see Ronin::Support::Encoding::URI.encode
   #
   # @api public
@@ -107,6 +115,10 @@ class String
   #   # => "hello+world"
   #   "hello\0world".uri_form_escape
   #   # => "hello%00world"
+  #
+  # @example Lowercase encoding:
+  #   "hello\xffworld".uri_form_escape(case: :lower)
+  #   # => "hello%ffworld"
   #
   # @see https://www.w3.org/TR/2013/CR-html5-20130806/forms.html#url-encoded-form-data
   # @see Ronin::Support::Encoding::URI::Form.escape
@@ -158,7 +170,11 @@ class String
   #
   # @example
   #   "hello world".uri_form_encode
-  #   # => 
+  #   # => "%68%65%6C%6C%6F+%77%6F%72%6C%64"
+  #
+  # @example Lowercase encoding:
+  #   "hello world".uri_form_encode(case: :lower)
+  #   # => "%68%65%6c%6c%6f+%77%6f%72%6c%64"
   #
   # @see Ronin::Support::Encoding::URI::Form.unescape
   #

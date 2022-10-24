@@ -51,6 +51,10 @@ module Ronin
         #   Encoding::HTML.escape_byte(0x26)
         #   # => "&amp;"
         #
+        # @example Uppercase encoding:
+        #   Encoding::HTML.escape_byte(0x26, case: :upper)
+        #   # => "&AMP;"
+        #
         def self.escape_byte(byte,**kwargs)
           XML.escape_byte(byte,**kwargs)
         end
@@ -85,6 +89,18 @@ module Ronin
         #   Encoding::HTML.encode_byte(0x41)
         #   # => "&#65;"
         #
+        # @example Zero-padding:
+        #   Encoding::HTML.encode_byte(0x41, zero_pad: true)
+        #   # => "&#0000065;"
+        #
+        # @example Hexadecimal escaped characters:
+        #   Encoding::HTML.encode_byte(0x41, format: :hex)
+        #   # => "&#x41;"
+        #
+        # @example Uppercase hexadecimal escaped characters:
+        #   Encoding::HTML.encode_byte(0xff, format: :hex, case: :upper)
+        #   # => "&#XFF;"
+        #
         def self.encode_byte(byte,**kwargs)
           XML.encode_byte(byte,**kwargs)
         end
@@ -118,6 +134,18 @@ module Ronin
         # @example
         #   Encoding::HTML.encode("abc")
         #   # => "&#97;&#98;&#99;"
+        #
+        # @example Zero-padding:
+        #   Encoding::HTML.encode("abc", zero_pad: true)
+        #   # => "&#0000097;&#0000098;&#0000099;"
+        #
+        # @example Hexadecimal encoded characters:
+        #   Encoding::HTML.encode("abc", format: :hex)
+        #   # => "&#x61;&#x62;&#x63;"
+        #
+        # @example Uppercase hexadecimal encoded characters:
+        #   Encoding::HTML.encode("abc\xff", format: :hex, case: :upper)
+        #   # => "&#X61;&#X62;&#X63;&#XFF;"
         #
         def self.encode(data,**kwargs)
           XML.encode(data,**kwargs)
@@ -158,6 +186,10 @@ module Ronin
         # @example
         #   Encoding::HTML.escape("one & two")
         #   # => "one &amp; two"
+        #
+        # @example Uppercase escaped characters:
+        #   Encoding::HTML.encode("one & two", case: :upper)
+        #   # => "one &AMP; two"
         #
         # @see http://rubydoc.info/stdlib/cgi/CGI.escapeHTML
         #

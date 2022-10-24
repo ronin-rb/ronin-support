@@ -42,6 +42,10 @@ class Integer
   #   0x41.http_encode
   #   # => "%41"
   #
+  # @example Lowercase encoding:
+  #   0xff.http_encode(case: :lower)
+  #   # => "%ff"
+  #
   # @see Ronin::Support::Encoding::HTTP.encode_byte
   #
   # @api public
@@ -72,6 +76,10 @@ class Integer
   # @example
   #   62.http_escape
   #   # => "%3E"
+  #
+  # @example Lowercase encoding:
+  #   0xff.http_escape(case: :lower)
+  #   # => "%ff"
   #
   # @see Ronin::Support::Encoding::HTTP.escape_byte
   #

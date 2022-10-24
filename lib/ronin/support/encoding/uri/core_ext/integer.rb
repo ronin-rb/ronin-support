@@ -36,6 +36,10 @@ class Integer
   #   0x41.uri_encode
   #   # => "%41"
   #
+  # @example Lowercase encoding:
+  #   0xff.uri_encode(case: :lower)
+  #   # => "%ff"
+  #
   # @see Ronin::Support::Encoding::URI.encode_byte
   #
   # @api public
@@ -63,6 +67,10 @@ class Integer
   #   0x3d.uri_escape
   #   # => "%3D"
   #
+  # @example Lowercase encoding:
+  #   0xff.uri_escape(case: :lower)
+  #   # => "%ff"
+  #
   # @see Ronin::Support::Encoding::URI.escape_byte
   #
   # @api public
@@ -89,6 +97,10 @@ class Integer
   #   # => "A"
   #   0x20.uri_form_escape
   #   # => "+"
+  #
+  # @example Lowercase encoding:
+  #   0xff.uri_form_escape(case: :lower)
+  #   # => "%ff"
   #
   # @see Ronin::Support::Encoding::URI::Form.escape_byte
   #
@@ -118,6 +130,10 @@ class Integer
   #   # => "%41"
   #   0x20.uri_form_encode
   #   # => "+"
+  #
+  # @example Lowercase encoding:
+  #   0xff.uri_form_encode(case: :lower)
+  #   # => "%ff"
   #
   # @see Ronin::Support::Encoding::URI::Form.encode_byte
   #

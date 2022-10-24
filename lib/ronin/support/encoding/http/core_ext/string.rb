@@ -39,6 +39,10 @@ class String
   #   "x > y".http_escape
   #   # => "x+%3E+y"
   #
+  # @example Lowercase encoding:
+  #   "x > y".html_escape(case: :lower)
+  #   # => "x+%3e+y"
+  #
   # @see Ronin::Support::Encoding::HTTP.escape
   #
   # @api public
@@ -87,6 +91,10 @@ class String
   #
   # @example
   #   "hello".http_encode
+  #   # => "%68%65%6c%6c%6f"
+  #
+  # @example Lowercase encoding:
+  #   "hello".http_encode(case: :lower)
   #   # => "%68%65%6c%6c%6f"
   #
   # @see Ronin::Support::Encoding::HTTP.encode

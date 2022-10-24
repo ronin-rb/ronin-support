@@ -51,6 +51,10 @@ module Ronin
         #   Encoding::HTTP.encode_byte(0x41)
         #   # => "%41"
         #
+        # @example Lowercase encoding:
+        #   Encoding::HTTP.encode_byte(0xff, case: :lower)
+        #   # => "%ff"
+        #
         def self.encode_byte(byte,**kwargs)
           if (byte >= 0) && (byte <= 0xff)
             case kwargs[:case]
@@ -94,6 +98,10 @@ module Ronin
         #   Encoding::HTTP.escape_byte(62)
         #   # => "%3E"
         #
+        # @example Lowercase encoding:
+        #   Encoding::HTTP.escape_byte(0xff, case: :lower)
+        #   # => "%ff"
+        #
         def self.escape_byte(byte,**kwargs)
           if (byte >= 0) && (byte <= 0xff)
             if (byte == 45) || (byte == 46) || ((byte >= 48) && (byte <= 57)) || ((byte >= 65) && (byte <= 90)) || (byte == 95) || ((byte >= 97) && (byte <= 122)) || (byte == 126)
@@ -130,6 +138,10 @@ module Ronin
         # @example
         #   Encoding::HTTP.escape("x > y")
         #   # => "x+%3E+y"
+        #
+        # @example Lowercase encoding:
+        #   Encoding::HTTP.escape("x > y", case: :lower)
+        #   # => "x+%3e+y"
         #
         def self.escape(data,**kwargs)
           escaped = String.new
@@ -184,7 +196,11 @@ module Ronin
         #   The `case:` keyword argument was not `:lower`, `:upper`, or `nil`.
         #
         # @example
-        #   "hello".http_encode
+        #   Encoding::HTTP.encode("hello")
+        #   # => "%68%65%6c%6c%6f"
+        #
+        # @example Lowercase encoding:
+        #   Encoding::HTTP.encode("hello")
         #   # => "%68%65%6c%6c%6f"
         #
         def self.encode(data,**kwargs)

@@ -39,6 +39,10 @@ class Integer
   #   0x26.html_escape
   #   # => "&amp;"
   #
+  # @example Uppercase encoding:
+  #   0x26.html_escape(case: :upper)
+  #   # => "&AMP;"
+  #
   # @since 0.2.0
   #
   # @see Ronin::Support::Encoding::HTML.escape_byte
@@ -75,6 +79,18 @@ class Integer
   # @example
   #   0x41.html_enocde
   #   # => "&#65;"
+  #
+  # @example Zero-padding:
+  #   0x41.html_encode(zero_pad: true)
+  #   # => "&#0000065;"
+  #
+  # @example Hexadecimal escaped characters:
+  #   0x41.html_encode(format: :hex)
+  #   # => "&#x41;"
+  #
+  # @example Uppercase hexadecimal escaped characters:
+  #   0xff.html_encode(format: :hex, case: :upper)
+  #   # => "&#XFF;"
   #
   # @since 0.2.0
   #

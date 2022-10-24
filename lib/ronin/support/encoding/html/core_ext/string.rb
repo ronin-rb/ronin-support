@@ -39,6 +39,10 @@ class String
   #   "one & two".html_escape
   #   # => "one &amp; two"
   #
+  # @example Uppercase escaped characters:
+  #   "one & two".html_escape(case: :upper)
+  #   # => "one &AMP; two"
+  #
   # @see https://rubydoc.info/stdlib/cgi/1.9.2/CGI.escapeHTML
   # @see Ronin::Support::Encoding::HTML.escape
   #
@@ -97,6 +101,18 @@ class String
   # @example
   #   "abc".html_encode
   #   # => "&#97;&#98;&#99;"
+  #
+  # @example Zero-padding:
+  #   "abc".html_encode(zero_pad: true)
+  #   # => "&#0000097;&#0000098;&#0000099;"
+  #
+  # @example Hexadecimal encoded characters:
+  #   "abc".html_encode(format: :hex)
+  #   # => "&#x61;&#x62;&#x63;"
+  #
+  # @example Uppercase hexadecimal encoded characters:
+  #   "abc\xff".html_encode(format: :hex, case: :upper)
+  #   # => "&#X61;&#X62;&#X63;&#XFF;"
   #
   # @see Ronin::Support::Encoding::HTML.encode
   #

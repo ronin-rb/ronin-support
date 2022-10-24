@@ -51,6 +51,10 @@ module Ronin
         #   Encoding::URI.encode_byte(0x41)
         #   # => "%41"
         #
+        # @example Lowercase encoding:
+        #   Encoding::URI.encode_byte(0xff, case: :lower)
+        #   # => "%ff"
+        #
         def self.encode_byte(byte,**kwargs)
           if (byte >= 0) && (byte <= 0xff)
             case kwargs[:case]
@@ -94,6 +98,10 @@ module Ronin
         #   Encoding::URI.escape_byte(0x3d)
         #   # => "%3D"
         #
+        # @example Lowercase encoding:
+        #   Encoding::URI.escape_byte(0xff, case: :lower)
+        #   # => "%ff"
+        #
         def self.escape_byte(byte,**kwargs)
           if (byte >= 0) && (byte <= 0xff)
             if (byte == 33) || (byte == 36) || (byte == 38) || ((byte >= 39) && (byte <= 59)) || (byte == 61) || ((byte >= 63) && (byte <= 91)) || (byte == 93) || (byte == 95) || ((byte >= 97) && (byte <= 122)) || (byte == 126)
@@ -128,6 +136,10 @@ module Ronin
         # @example
         #   Encoding::URI.escape("x > y")
         #   # => "x%20%3E%20y"
+        #
+        # @example Lowercase encoding:
+        #   Encoding::URI.escape("x > y", case: :lower)
+        #   # => "x%20%3e%20y"
         #
         # @api public
         #
@@ -180,6 +192,10 @@ module Ronin
         #   Encoding::URI.encode("plain text")
         #   # => "%70%6C%61%69%6E%20%74%65%78%74"
         #
+        # @example Lowercase encoding:
+        #   Encoding::URI.escape("plain text", case: :lower)
+        #   # => "%70%6c%61%69%6e%20%74%65%78%74"
+        #
         def self.encode(data,**kwargs)
           encoded = String.new
 
@@ -231,6 +247,16 @@ module Ronin
           # @raise [RangeError]
           #   The byte value is negative or greater than 255.
           #
+          # @example
+          #   Encoding::URI::Form.encode_byte(0x41)
+          #   # => "%41"
+          #   Encoding::URI::Form.encode_byte(0x20)
+          #   # => "+"
+          #
+          # @example Lowercase encoding:
+          #   Encoding::URI::Form.encode_byte(0xff, case: :lower)
+          #   # => "%ff"
+          #
           def self.encode_byte(byte,**kwargs)
             if byte == 0x20 then '+'
             else                 URI.encode_byte(byte,**kwargs)
@@ -262,6 +288,10 @@ module Ronin
           #   Encoding::URI::Form.escape_byte(0x20)
           #   # => "+"
           #
+          # @example Lowercase encoding:
+          #   Encoding::URI::Form.escape_byte(0xff, case: :lower)
+          #   # => "%ff"
+          #
           def self.escape_byte(byte,**kwargs)
             if (byte == 42) || (byte == 45) || (byte == 46) || ((byte >= 48) && (byte <= 57)) || ((byte >= 65) && (byte <= 90)) || (byte == 95) || ((byte >= 97) && (byte <= 122))
               byte.chr
@@ -291,6 +321,10 @@ module Ronin
           #   # => "hello+world"
           #   Encoding::URI::Form.escape("hello\0world")
           #   # => "hello%00world"
+          #
+          # @example Lowercase encoding:
+          #   Encoding::URI::Form.escape("hello\xffworld", case: :lower)
+          #   # => "hello%ffworld"
           #
           # @see https://www.w3.org/TR/2013/CR-html5-20130806/forms.html#url-encoded-form-data
           def self.escape(data,**kwargs)
@@ -347,6 +381,10 @@ module Ronin
           # @example
           #   Encoding::URI::Form.encode("hello world")
           #   # => "%68%65%6C%6C%6F+%77%6F%72%6C%64"
+          #
+          # @example Lowercase encoding:
+          #   Encoding::URI::Form.encode("hello world", case: :lower)
+          #   # => "%68%65%6c%6c%6f+%77%6f%72%6c%64"
           #
           def self.encode(data,**kwargs)
             encoded = String.new

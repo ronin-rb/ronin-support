@@ -36,6 +36,10 @@ class Integer
   #   0x26.xml_escape
   #   # => "&amp;"
   #
+  # @example Uppercase encoding:
+  #   0x26.xml_escape(case: :upper)
+  #   # => "&AMP;"
+  #
   # @see Ronin::Support::Encoding::XML.escape_byte
   #
   # @since 0.2.0
@@ -69,6 +73,18 @@ class Integer
   # @example
   #   0x41.xml_encode
   #   # => "&#65;"
+  #
+  # @example Zero-padding:
+  #   0x41.xml_encode(zero_pad: true)
+  #   # => "&#0000065;"
+  #
+  # @example Hexadecimal escaped characters:
+  #   0x41.xml_encode(format: :hex)
+  #   # => "&#x41;"
+  #
+  # @example Uppercase hexadecimal escaped characters:
+  #   0xff.xml_encode(format: :hex, case: :upper)
+  #   # => "&#XFF;"
   #
   # @see Ronin::Support::Encoding::XML.encode_byte
   #
