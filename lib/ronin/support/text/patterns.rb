@@ -75,10 +75,6 @@ module Ronin
         # @since 1.0.0
         HASH = /#{SHA512}|#{SHA256}|#{SHA1}|#{MD5}/
 
-        #
-        # @group Credential Patterns
-        #
-
         # Regular expression for finding all public keys in text.
         #
         # @since 1.0.0
@@ -88,6 +84,10 @@ module Ronin
         #
         # @since 1.0.0
         SSH_PUBLIC_KEY = /(?:ssh-(?:rsa|dss|ed25519(?:@openssh.com)?)|ecdsa-sha2-nistp(?:256|384|521)(?:@openssh.com)?) AAAA[A-Za-z0-9+\/]+[=]{0,3} [^@\s]+@[^@\s]+/
+
+        #
+        # @group Credential Patterns
+        #
 
         # Regular expression for finding all SSH private keys in text.
         #
