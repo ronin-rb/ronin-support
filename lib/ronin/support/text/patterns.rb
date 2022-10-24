@@ -75,6 +75,10 @@ module Ronin
         # @since 1.0.0
         HASH = /#{SHA512}|#{SHA256}|#{SHA1}|#{MD5}/
 
+        #
+        # @group Credential Patterns
+        #
+
         # Regular expression for finding all public keys in text.
         #
         # @since 1.0.0
