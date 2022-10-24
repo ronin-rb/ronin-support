@@ -114,6 +114,16 @@ module Ronin
         # @since 1.0.0
         PRIVATE_KEY = /#{RSA_PRIVATE_KEY}|#{DSA_PRIVATE_KEY}|#{EC_PRIVATE_KEY}/
 
+        # Regular expression for finding all AWS access key IDs
+        #
+        # @since 1.0.0
+        AWS_ACCESS_KEY_ID = /(?<=[^A-Z0-9]|^)[A-Z0-9]{20}(?=[^A-Z0-9]|$)/
+
+        # Regular expression for finding all AWS secret access key 
+        #
+        # @since 1.0.0
+        AWS_SECRET_ACCESS_KEY = /(?<=[^A-Za-z0-9\/+=]|^)[A-Za-z0-9\/+=]{40}(?=[^A-Za-z0-9\/+=]|$)/
+
         #
         # @group Networking Patterns
         #

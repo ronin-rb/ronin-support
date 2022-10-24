@@ -429,6 +429,66 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "AWS_ACCESS_KEY_ID" do
+    subject { described_class::AWS_ACCESS_KEY_ID }
+
+    let(:aws_access_key_id) { "AKIAIOSFODNN7EXAMPLE" }
+
+    it "must match an uppercase alpha-numeric string with 20 characters" do
+      string = aws_access_key_id
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match an AWS access key ID starting with other non-alpha-numeric characters" do
+      string = "Foo: #{aws_access_key_id}"
+
+      expect(string[subject]).to eq(aws_access_key_id)
+    end
+
+    it "must match AWS access key ID checksums ending with other non-alpha-numeric characters" do
+      string = "#{aws_access_key_id} Foo"
+
+      expect(string[subject]).to eq(aws_access_key_id)
+    end
+
+    it "must not match an uppercase alpha-numeric string longer than 20 characters" do
+      string = "ABC123#{aws_access_key_id}ABC123"
+
+      expect(string).to_not match(subject)
+    end
+  end
+
+  describe "AWS_SECRET_ACCESS_KEY" do
+    subject { described_class::AWS_SECRET_ACCESS_KEY }
+
+    let(:aws_secret_access_key) { "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" }
+
+    it "must match an uppercase alpha-numeric string with 20 characters" do
+      string = aws_secret_access_key
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match an AWS secret access key starting with other non-alpha-numeric characters" do
+      string = "Foo: #{aws_secret_access_key}"
+
+      expect(string[subject]).to eq(aws_secret_access_key)
+    end
+
+    it "must match AWS secret access key checksums ending with other non-alpha-numeric characters" do
+      string = "#{aws_secret_access_key} Foo"
+
+      expect(string[subject]).to eq(aws_secret_access_key)
+    end
+
+    it "must not match an uppercase alpha-numeric string longer than 20 characters" do
+      string = "ABC123#{aws_secret_access_key}ABC123"
+
+      expect(string).to_not match(subject)
+    end
+  end
+
   describe "PUBLIC_KEY" do
     subject { described_class::PUBLIC_KEY }
 
