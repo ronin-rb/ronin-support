@@ -22,6 +22,10 @@ module Ronin
       #
       # Contains methods for encoding/decoding escaping/unescaping HTTP data.
       #
+      # ## Features
+      #
+      # * Supports uppercase (ex: `%FF`) and lowercase (ex: `%ff`) URI encoding.
+      #
       # @api public
       #
       module HTTP

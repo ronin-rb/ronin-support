@@ -22,6 +22,11 @@ module Ronin
       #
       # Contains methods for encoding/decoding escaping/unescaping URI data.
       #
+      # ## Features
+      #
+      # * Supports uppercase (ex: `%FF`) and lowercase (ex: `%ff`) URI encoding.
+      # * Supports {URI::Form URI form} encoding.
+      #
       # @api public
       #
       module URI

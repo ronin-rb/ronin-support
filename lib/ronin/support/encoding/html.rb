@@ -23,6 +23,13 @@ module Ronin
       #
       # Contains methods for encoding/decoding escaping/unescaping HTML data.
       #
+      # ## Features
+      #
+      # * Supports lowercase (ex: `&amp;`) and uppercase (ex: `&AMP;`) encoding.
+      # * Supports decimal (ex: `&#65;`) and hexadecimal (ex: `&#x41;`)
+      #   character encoding.
+      # * Supports zero-padding (ex: `&#0000065;`).
+      #
       # @api public
       #
       module HTML
