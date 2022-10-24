@@ -489,6 +489,218 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "API_KEY" do
+    subject { described_class::API_KEY }
+
+    let(:md5) { "5d41402abc4b2a76b9719d911017c592" }
+
+    it "must match MD5 checksums" do
+      string = md5
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match MD5 checksums starting with other non-alpha-numeric characters" do
+      string = "Foo: #{md5}"
+
+      expect(string[subject]).to eq(md5)
+    end
+
+    it "must match MD5 checksums starting with other alpha characters" do
+      string = "XXX#{md5}"
+
+      expect(string[subject]).to eq(md5)
+    end
+
+    it "must match MD5 checksums ending with other non-alpha-numeric characters" do
+      string = "#{md5} Foo"
+
+      expect(string[subject]).to eq(md5)
+    end
+
+    it "must match MD5 checksums ending with other alpha characters" do
+      string = "#{md5}XXX"
+
+      expect(string[subject]).to eq(md5)
+    end
+
+    it "must not match a hex string longer than 32 characters" do
+      string = "000#{md5}000"
+
+      expect(string).to_not match(subject)
+    end
+
+    let(:sha1) { "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d" }
+
+    it "must match SHA1 checksums" do
+      string = sha1
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match SHA1 checksums starting with other non-alpha-numeric characters" do
+      string = "Foo: #{sha1}"
+
+      expect(string[subject]).to eq(sha1)
+    end
+
+    it "must match SHA1 checksums starting with other alpha characters" do
+      string = "XXX#{sha1}"
+
+      expect(string[subject]).to eq(sha1)
+    end
+
+    it "must match SHA1 checksums ending with other non-alpha-numeric characters" do
+      string = "#{sha1} Foo"
+
+      expect(string[subject]).to eq(sha1)
+    end
+
+    it "must match SHA1 checksums ending with other alpha characters" do
+      string = "#{sha1}XXX"
+
+      expect(string[subject]).to eq(sha1)
+    end
+
+    it "must not match a hex string longer than 40 characters" do
+      string = "000#{sha1}000"
+
+      expect(string).to_not match(subject)
+    end
+
+    let(:sha256) do
+      "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+    end
+
+    it "must match SHA256 checksums" do
+      string = sha256
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match SHA256 checksums starting with other non-alpha-numeric characters" do
+      string = "Foo: #{sha256}"
+
+      expect(string[subject]).to eq(sha256)
+    end
+
+    it "must match SHA256 checksums starting with other alpha characters" do
+      string = "XXX#{sha256}"
+
+      expect(string[subject]).to eq(sha256)
+    end
+
+    it "must match SHA256 checksums ending with other non-alpha-numeric characters" do
+      string = "#{sha256} Foo"
+
+      expect(string[subject]).to eq(sha256)
+    end
+
+    it "must match SHA256 checksums ending with other alpha characters" do
+      string = "#{sha256}XXX"
+
+      expect(string[subject]).to eq(sha256)
+    end
+
+    it "must not match a hex string longer than 64 characters" do
+      string = "000#{sha256}000"
+
+      expect(string).to_not match(subject)
+    end
+
+    let(:sha512) do
+      "9b71d224bd62f3785d96d46ad3ea3d73319bfbc2890caadae2dff72519673ca72323c3d99ba5c11d7c7acc6e14b8c5da0c4663475c2e5c3adef46f73bcdec043"
+    end
+
+    it "must match SHA512 checksums" do
+      string = sha512
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match SHA512 checksums starting with other non-alpha-numeric characters" do
+      string = "Foo: #{sha512}"
+
+      expect(string[subject]).to eq(sha512)
+    end
+
+    it "must match SHA512 checksums starting with other alpha characters" do
+      string = "XXX#{sha512}"
+
+      expect(string[subject]).to eq(sha512)
+    end
+
+    it "must match SHA512 checksums ending with other non-alpha-numeric characters" do
+      string = "#{sha512} Foo"
+
+      expect(string[subject]).to eq(sha512)
+    end
+
+    it "must match SHA512 checksums ending with other alpha characters" do
+      string = "#{sha512}XXX"
+
+      expect(string[subject]).to eq(sha512)
+    end
+
+    it "must not match a hex string longer than 128 characters" do
+      string = "000#{sha512}000"
+
+      expect(string).to_not match(subject)
+    end
+
+    let(:aws_access_key_id) { "AKIAIOSFODNN7EXAMPLE" }
+
+    it "must match AWS access key IDs" do
+      string = aws_access_key_id
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match an AWS access key ID starting with other non-alpha-numeric characters" do
+      string = "Foo: #{aws_access_key_id}"
+
+      expect(string[subject]).to eq(aws_access_key_id)
+    end
+
+    it "must match AWS access key ID checksums ending with other non-alpha-numeric characters" do
+      string = "#{aws_access_key_id} Foo"
+
+      expect(string[subject]).to eq(aws_access_key_id)
+    end
+
+    it "must not match an uppercase alpha-numeric string longer than 20 characters" do
+      string = "ABC123#{aws_access_key_id}ABC123"
+
+      expect(string).to_not match(subject)
+    end
+
+    let(:aws_secret_access_key) { "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" }
+
+    it "must match AWS secret access keys" do
+      string = aws_secret_access_key
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match an AWS secret access key starting with other non-alpha-numeric characters" do
+      string = "Foo: #{aws_secret_access_key}"
+
+      expect(string[subject]).to eq(aws_secret_access_key)
+    end
+
+    it "must match AWS secret access key checksums ending with other non-alpha-numeric characters" do
+      string = "#{aws_secret_access_key} Foo"
+
+      expect(string[subject]).to eq(aws_secret_access_key)
+    end
+
+    it "must not match an uppercase alpha-numeric string longer than 20 characters" do
+      string = "ABC123#{aws_secret_access_key}ABC123"
+
+      expect(string).to_not match(subject)
+    end
+  end
+
   describe "PUBLIC_KEY" do
     subject { described_class::PUBLIC_KEY }
 
