@@ -413,7 +413,7 @@ module Ronin
         #         :bsd, :freebsd, :openbsd, :netbsd] os
         #   The Operating System name to lookup.
         #
-        # @return [Types,
+        # @return [CTypes,
         #          CTypes::LittleEndian,
         #          CTypes::BigEndian,
         #          CTypes::Network,

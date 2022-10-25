@@ -118,7 +118,7 @@ module Ronin
         #
         # Creates a new Binary template.
         #
-        # @param [::Array<type, (type, length)>] fields
+        # @param [::Array<Symbol, (Symbol, Integer)>] fields
         #   The C-types which the packer will use.
         #
         # @param [Hash{Symbol => Object}] kwargs

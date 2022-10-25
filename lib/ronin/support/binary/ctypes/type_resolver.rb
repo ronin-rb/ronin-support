@@ -74,7 +74,7 @@ module Ronin
           # Resolves C type short-hand syntax into a {CTypes::Type} object.
           #
           # @param [Symbol,
-          #         (type, Integer),
+          #         (Symbol, Integer),
           #         Range(type),
           #         Binary::Struct.class] type_signature
           #   The C type value. The value can be one of the following:
