@@ -94,12 +94,12 @@ module Ronin
 
         include CTypes::Mixin
 
-        # The fields of the binary format.
+        # The fields of the binary template.
         #
         # @return [::Array<Symbol, (Symbol, Integer), Range(Symbol)>]
         attr_reader :fields
 
-        # The field types of the binary format.
+        # The field types of the binary template.
         #
         # @return [::Array<CTypes::Type,
         #                  CTypes::ArrayType,
@@ -108,7 +108,7 @@ module Ronin
         # @since 1.0.0
         attr_reader :types
 
-        # The `Array#pack` string for the binary format.
+        # The `Array#pack` string for the binary template.
         #
         # @return [String]
         #
@@ -116,7 +116,7 @@ module Ronin
         attr_reader :pack_string
 
         #
-        # Creates a new Binary format.
+        # Creates a new Binary template.
         #
         # @param [::Array<type, (type, length)>] fields
         #   The C-types which the packer will use.
@@ -125,7 +125,7 @@ module Ronin
         #   Additional keyword arguments.
         #
         # @option kwargs [:little, :big, :net, nil] :endian
-        #   The desired endianness of the values within the format.
+        #   The desired endianness of the values within the template.
         #
         # @option kwargs [:x86, :x86_64,
         #                 :ppc, :ppc64,
@@ -133,7 +133,7 @@ module Ronin
         #                 :mips64, :mips64_le, :mips64_be,
         #                 :arm, :arm_le, :arm_be,
         #                 :arm64, :arm64_le, :arm64_be] :arch
-        #   The desired architecture for the values within the format.
+        #   The desired architecture for the values within the template.
         #
         # @raise [ArgumentError]
         #   A given type is not known.
