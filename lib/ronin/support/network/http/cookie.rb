@@ -44,7 +44,7 @@ module Ronin
           # @param [Hash{String => String}] params
           #   The params for the cookie.
           #
-          def initialize(params)
+          def initialize(params={})
             @params = params
           end
 

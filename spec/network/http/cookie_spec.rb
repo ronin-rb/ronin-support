@@ -17,6 +17,14 @@ describe Ronin::Support::Network::HTTP::Cookie do
     it "must set #params" do
       expect(subject.params).to be(params)
     end
+
+    context "when given no arguments" do
+      subject { described_class.new }
+
+      it "must default #params to an empty Hash" do
+        expect(subject.params).to eq({})
+      end
+    end
   end
 
   describe "#initialize_copy" do
