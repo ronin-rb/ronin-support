@@ -101,14 +101,14 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  let(:fixtures_dir) { File.join(__dir__,'public_suffix','fixtures') }
+  let(:list_file)    { File.join(fixtures_dir,'public_suffix_list.dat') }
+
+  let(:public_suffix_list) do
+    Ronin::Support::Network::PublicSuffix::List.load_file(list_file)
+  end
+
   describe "#change_suffix" do
-    let(:fixtures_dir) { File.join(__dir__,'public_suffix','fixtures') }
-    let(:list_file)    { File.join(fixtures_dir,'public_suffix_list.dat') }
-
-    let(:public_suffix_list) do
-      Ronin::Support::Network::PublicSuffix::List.load_file(list_file)
-    end
-
     before do
       allow(Ronin::Support::Network::PublicSuffix).to receive(:list).and_return(public_suffix_list)
     end
@@ -139,6 +139,36 @@ describe Ronin::Support::Network::Host do
         expect {
           subject.change_suffix(new_suffix)
         }.to raise_error(Ronin::Support::Network::InvalidHostname,"hostname does not have a valid suffix: #{hostname.inspect}")
+      end
+    end
+  end
+
+  describe "#each_suffix" do
+    let(:prefix)   { 'www.example'   }
+    let(:hostname) { "#{prefix}.com" }
+
+    before do
+      allow(Ronin::Support::Network::PublicSuffix).to receive(:list).and_return(public_suffix_list)
+    end
+
+    context "when given a block" do
+      it "must yield new #{described_class} objects with different suffixes" do
+        yielded_hosts = []
+
+        subject.each_suffix do |host|
+          yielded_hosts << host
+        end
+
+        expect(yielded_hosts).to_not be_empty
+        expect(yielded_hosts).to all(be_kind_of(described_class))
+        expect(yielded_hosts.map(&:name)).to eq(
+          public_suffix_list.map { |suffix| "#{prefix}#{suffix}" }
+        )
+      end
+    end
+
+    context "when no block is given" do
+      it "must return an Enumerator for the method" do
       end
     end
   end
