@@ -394,8 +394,8 @@ module Ronin
         # @param [String, nil] name
         #   The optional record name to query.
         #
-        # @param [Class<Resolv::DNS::Resource>] type_class
-        #   The record type class.
+        # @param [:a, :aaaa, :any, :cname, :hinfo, :loc, :minfo, :mx, :ns, :ptr, :soa, :srv, :txt, :wks] record_type
+        #   The record type to query for.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments.
@@ -416,12 +416,12 @@ module Ronin
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource
         # @see DNS::Resolver#get_record
         #
-        def get_record(name=nil,type_class,**kwargs)
+        def get_record(name=nil,record_type,**kwargs)
           name = if name then "#{name}.#{@name}"
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_record(name,type_class)
+          DNS.resolver(**kwargs).get_record(name,record_type)
         end
 
         #
@@ -430,8 +430,8 @@ module Ronin
         # @param [String, nil] name
         #   The optional record name to query.
         #
-        # @param [Class<Resolv::DNS::Resource>] type_class
-        #   The record type class.
+        # @param [:a, :aaaa, :any, :cname, :hinfo, :loc, :minfo, :mx, :ns, :ptr, :soa, :srv, :txt, :wks] record_type
+        #   The record type to query for.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments.
@@ -448,12 +448,12 @@ module Ronin
         # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource
         # @see DNS::Resolver#get_records
         #
-        def get_records(name=nil,type_class,**kwargs)
+        def get_records(name=nil,record_type,**kwargs)
           name = if name then "#{name}.#{@name}"
                  else         @name
                  end
 
-          DNS.resolver(**kwargs).get_records(name,type_class)
+          DNS.resolver(**kwargs).get_records(name,record_type)
         end
 
         #
