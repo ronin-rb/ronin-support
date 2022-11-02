@@ -124,6 +124,14 @@ describe Ronin::Support::Network::Host do
       expect(subject.change_suffix(new_suffix).name).to eq('www.example.net')
     end
 
+    context "when given a new suffix that does not start with a '.'" do
+      let(:new_suffix) { 'net' }
+
+      it "must add the missing '.' character" do
+      expect(subject.change_suffix(new_suffix).name).to eq('www.example.net')
+      end
+    end
+
     context "when the hostname has a multi-component suffix" do
       let(:hostname) { 'www.example.co.uk' }
 
@@ -166,7 +174,7 @@ describe Ronin::Support::Network::Host do
         expect(yielded_hosts).to_not be_empty
         expect(yielded_hosts).to all(be_kind_of(described_class))
         expect(yielded_hosts.map(&:name)).to eq(
-          public_suffixes.map { |suffix| "#{prefix}#{suffix}" }
+          public_suffixes.map { |suffix| "#{prefix}.#{suffix}" }
         )
       end
     end
@@ -179,7 +187,7 @@ describe Ronin::Support::Network::Host do
         expect(returned_hosts).to_not be_empty
         expect(returned_hosts).to all(be_kind_of(described_class))
         expect(returned_hosts.map(&:name)).to eq(
-          public_suffixes.map { |suffix| "#{prefix}#{suffix}" }
+          public_suffixes.map { |suffix| "#{prefix}.#{suffix}" }
         )
       end
     end

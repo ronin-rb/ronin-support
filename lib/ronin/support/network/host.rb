@@ -219,7 +219,11 @@ module Ronin
         def change_suffix(new_suffix)
           name, suffix = PublicSuffix.list.split(@name)
 
-          return self.class.new("#{name}#{new_suffix}")
+          if new_suffix.start_with?('.')
+            return self.class.new("#{name}#{new_suffix}")
+          else
+            return self.class.new("#{name}.#{new_suffix}")
+          end
         end
 
         alias change_tld change_suffix
