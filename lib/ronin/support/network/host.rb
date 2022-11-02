@@ -241,7 +241,9 @@ module Ronin
           return enum_for(__method__) unless block_given?
 
           PublicSuffix.list.each do |suffix|
-            yield change_suffix(suffix)
+            unless suffix.include?('*')
+              yield change_suffix(suffix)
+            end
           end
 
           return nil

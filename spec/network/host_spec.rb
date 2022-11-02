@@ -151,6 +151,10 @@ describe Ronin::Support::Network::Host do
       allow(Ronin::Support::Network::PublicSuffix).to receive(:list).and_return(public_suffix_list)
     end
 
+    let(:public_suffixes) do
+      public_suffix_list.reject { |suffix| suffix.include?('*') }
+    end
+
     context "when given a block" do
       it "must yield new #{described_class} objects with different suffixes" do
         yielded_hosts = []
@@ -162,7 +166,7 @@ describe Ronin::Support::Network::Host do
         expect(yielded_hosts).to_not be_empty
         expect(yielded_hosts).to all(be_kind_of(described_class))
         expect(yielded_hosts.map(&:name)).to eq(
-          public_suffix_list.map { |suffix| "#{prefix}#{suffix}" }
+          public_suffixes.map { |suffix| "#{prefix}#{suffix}" }
         )
       end
     end
