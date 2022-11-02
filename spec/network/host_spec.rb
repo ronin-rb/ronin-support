@@ -173,6 +173,14 @@ describe Ronin::Support::Network::Host do
 
     context "when no block is given" do
       it "must return an Enumerator for the method" do
+        expect(subject.each_suffix).to be_kind_of(Enumerator)
+
+        returned_hosts = subject.each_suffix.to_a
+        expect(returned_hosts).to_not be_empty
+        expect(returned_hosts).to all(be_kind_of(described_class))
+        expect(returned_hosts.map(&:name)).to eq(
+          public_suffixes.map { |suffix| "#{prefix}#{suffix}" }
+        )
       end
     end
   end
