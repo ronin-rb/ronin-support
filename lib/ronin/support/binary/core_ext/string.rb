@@ -17,6 +17,7 @@
 
 require 'ronin/support/binary/core_ext/integer'
 require 'ronin/support/binary/template'
+require 'ronin/support/binary/bit_flip'
 
 class String
 
@@ -89,19 +90,8 @@ class String
   #
   # @api public
   #
-  def each_bit_flip
-    return enum_for(__method__) unless block_given?
-
-    bits = (0...8)
-
-    each_byte.each_with_index do |byte,index|
-      byte.each_bit_flip(bits) do |flipped_byte|
-        new_string = dup
-        new_string.force_encoding(Encoding::ASCII_8BIT)
-        new_string.setbyte(index,flipped_byte)
-        yield new_string
-      end
-    end
+  def each_bit_flip(&block)
+    Ronin::Support::Binary::BitFlip::String.each_bit_flip(self,&block)
   end
 
   #
@@ -116,7 +106,7 @@ class String
   # @api public
   #
   def bit_flips
-    each_bit_flip.to_a
+    Ronin::Support::Binary::BitFlip::String.bit_flips(self)
   end
 
   alias flip_bits bit_flips

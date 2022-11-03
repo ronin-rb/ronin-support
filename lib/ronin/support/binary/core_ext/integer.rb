@@ -16,6 +16,7 @@
 #
 
 require 'ronin/support/binary/ctypes'
+require 'ronin/support/binary/bit_flip'
 
 class Integer
 
@@ -45,21 +46,8 @@ class Integer
   #
   # @api public
   #
-  def each_bit_flip(bits)
-    return enum_for(__method__,bits) unless block_given?
-
-    bits = case bits
-           when Range   then bits
-           when Integer then (0...bits)
-           else
-             raise(ArgumentError,"bits must be an Integer or a Range: #{bits.inspect}")
-           end
-
-    bits.each do |bit_index|
-      mask = 1 << bit_index
-
-      yield self ^ mask
-    end
+  def each_bit_flip(bits,&block)
+    Ronin::Support::Binary::BitFlip::Integer.each_bit_flip(self,bits,&block)
   end
 
   #
@@ -83,7 +71,7 @@ class Integer
   # @api public
   #
   def bit_flips(bits)
-    each_bit_flip(bits).to_a
+    Ronin::Support::Binary::BitFlip::Integer.bit_flips(self,bits)
   end
 
   alias flip_bits bit_flips
