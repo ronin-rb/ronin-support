@@ -247,6 +247,10 @@ describe Ronin::Support::Network::Host do
         expect(subject.addresses).to include(address)
       end
 
+      it "must memoize the value" do
+        expect(subject.addresses).to be(subject.addresses)
+      end
+
       context "when the host nmae has no IP addresses" do
         let(:hostname) { bad_hostname }
 
