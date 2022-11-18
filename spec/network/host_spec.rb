@@ -1119,7 +1119,7 @@ describe Ronin::Support::Network::Host do
       end
 
       it "must return the Array of nameserver host names" do
-        expect(p(subject.get_nameservers)).to match_array(nameserver_names)
+        expect(subject.get_nameservers).to match_array(nameserver_names)
       end
 
       context "when the host name does not have any NS records" do
@@ -1143,7 +1143,7 @@ describe Ronin::Support::Network::Host do
       end
 
       it "must return the Array of nameserver host names" do
-        expect(p(subject.nameservers)).to match_array(nameserver_names)
+        expect(subject.nameservers).to match_array(nameserver_names)
       end
 
       it "must memoize the value" do
