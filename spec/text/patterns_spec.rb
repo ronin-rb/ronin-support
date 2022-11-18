@@ -22,6 +22,20 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "DECIMAL_OCTET" do
+    subject { described_class::DECIMAL_OCTET }
+
+    it "must match 0 - 255" do
+      numbers = (0..255).map(&:to_s)
+
+      expect(numbers).to all(match(subject))
+    end
+
+    it "must not match numbers greater than 255" do
+      expect('256').to_not match(subject)
+    end
+  end
+
   describe "HEX_NUMBER" do
     subject { described_class::HEX_NUMBER }
 
@@ -881,20 +895,6 @@ describe Ronin::Support::Text::Patterns do
       name = "O'Brian"
 
       expect(name).to fully_match(subject)
-    end
-  end
-
-  describe "DECIMAL_OCTET" do
-    subject { described_class::DECIMAL_OCTET }
-
-    it "must match 0 - 255" do
-      numbers = (0..255).map(&:to_s)
-
-      expect(numbers).to all(match(subject))
-    end
-
-    it "must not match numbers greater than 255" do
-      expect('256').to_not match(subject)
     end
   end
 
@@ -2083,23 +2083,6 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
-  describe "FUNCTION_NAME" do
-    subject { described_class::FUNCTION_NAME }
-
-    it "must match identifiers that are followed by an opening parenthesis" do
-      name   = "foo"
-      string = "#{name}("
-
-      expect(subject.match(string)[0]).to eq(name)
-    end
-
-    it "must not match an identifier name without parenthesis following it" do
-      string = "foo"
-
-      expect(string).to_not match(subject)
-    end
-  end
-
   describe "VARIABLE_NAME" do
     subject { described_class::VARIABLE_NAME }
 
@@ -2140,6 +2123,23 @@ describe Ronin::Support::Text::Patterns do
     end
 
     it "must not match identifiers not followed by a '=' character" do
+      string = "foo"
+
+      expect(string).to_not match(subject)
+    end
+  end
+
+  describe "FUNCTION_NAME" do
+    subject { described_class::FUNCTION_NAME }
+
+    it "must match identifiers that are followed by an opening parenthesis" do
+      name   = "foo"
+      string = "#{name}("
+
+      expect(subject.match(string)[0]).to eq(name)
+    end
+
+    it "must not match an identifier name without parenthesis following it" do
       string = "foo"
 
       expect(string).to_not match(subject)
