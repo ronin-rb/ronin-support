@@ -257,6 +257,24 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#has_addresses?" do
+    context "integration", :network do
+      context "when the host name has associated addresses" do
+        it "must return true" do
+          expect(subject.has_addresses?).to be(true)
+        end
+      end
+
+      context "when the host nmae has no IP addresses" do
+        let(:hostname) { bad_hostname }
+
+        it "must return an empty Array" do
+          expect(subject.has_addresses?).to be(false)
+        end
+      end
+    end
+  end
+
   describe "#get_ip" do
     context "integration", :network do
       it "must return an IP for the host" do

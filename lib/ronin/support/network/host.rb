@@ -323,6 +323,23 @@ module Ronin
         end
 
         #
+        # Determines if the hostname has any addresses.
+        #
+        # @return [Boolean]
+        #
+        # @example
+        #   host = Host.new('www.example.com')
+        #   host.has_addresses?
+        #   # => trun
+        #   host = Host.new('www.does-not-exist.com')
+        #   host.has_addresses?
+        #   # => false
+        #
+        def has_addresses?
+          !addresses.empty?
+        end
+
+        #
         # Looks up the IPs of the host.
         #
         # @param [Hash{Symbol => Object}] kwargs
