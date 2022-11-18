@@ -1117,6 +1117,15 @@ module Ronin
         end
 
         #
+        # Determines if the hostname has any associated nameservers?
+        #
+        # @return [Boolean]
+        #
+        def has_nameservers?
+          !nameservers.empty?
+        end
+
+        #
         # Queries the first `SOA` DNS record belonging to the host name.
         #
         # @param [String, nil] name
