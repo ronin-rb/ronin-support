@@ -1080,6 +1080,26 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#has_mailservers?" do
+    context "integration", :network do
+      context "when the hostname has mailservers" do
+        let(:hostname) { 'example.com' }
+
+        it "must return true" do
+          expect(subject.has_mailservers?).to be(true)
+        end
+      end
+
+      context "when the host name does not have any NS records" do
+        let(:hostname) { 'www.example.com' }
+
+        it "must return false" do
+          expect(subject.has_mailservers?).to be(false)
+        end
+      end
+    end
+  end
+
   describe "#get_ns_records" do
     context "integration", :network do
       let(:hostname) { 'example.com' }

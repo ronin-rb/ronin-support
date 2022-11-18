@@ -1053,6 +1053,15 @@ module Ronin
         end
 
         #
+        # Determines if the hostname has any associated mailservers?
+        #
+        # @return [Boolean]
+        #
+        def has_mailservers?
+          !mailservers.empty?
+        end
+
+        #
         # Queries all `NS` DNS records belonging to the host name.
         #
         # @param [String, nil] name
