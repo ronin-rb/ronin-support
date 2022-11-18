@@ -306,6 +306,23 @@ module Ronin
         end
 
         #
+        # The addreses of the hostname.
+        #
+        # @return [Array<String>]
+        #   The addresses associated with the hostname.
+        #
+        # @example
+        #   host = Host.new('www.example.com')
+        #   host.addresses
+        #   # => ["104.21.2.18", "172.67.128.149"]
+        #
+        # @note This method returns memoized data.
+        #
+        def addresses
+          @addresses ||= get_addresses
+        end
+
+        #
         # Looks up the IPs of the host.
         #
         # @param [Hash{Symbol => Object}] kwargs

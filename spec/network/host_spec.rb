@@ -241,6 +241,22 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#addresses" do
+    context "integration", :network do
+      it "must return all addresses for a hostname" do
+        expect(subject.addresses).to include(address)
+      end
+
+      context "when the host nmae has no IP addresses" do
+        let(:hostname) { bad_hostname }
+
+        it "must return an empty Array" do
+          expect(subject.addresses).to eq([])
+        end
+      end
+    end
+  end
+
   describe "#get_ip" do
     context "integration", :network do
       it "must return an IP for the host" do
