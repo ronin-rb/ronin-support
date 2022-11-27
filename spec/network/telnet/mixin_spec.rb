@@ -2,7 +2,8 @@ require 'spec_helper'
 require 'ronin/support/network/telnet/mixin'
 
 describe Network::Telnet::Mixin do
-  let(:host) { 'towel.blinkenlights.nl' }
+  # NOTE: http://www.jumpjet.info/Offbeat-Internet/Public/TelNet/url.htm
+  let(:host) { 'gcomm.com' }
 
   subject do
     obj = Object.new
