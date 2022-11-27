@@ -16,6 +16,7 @@
 #
 
 require 'ronin/support/network/smtp/email'
+require 'ronin/support/network/dns/idn'
 require 'ronin/support/network/ssl/mixin'
 
 begin
@@ -143,7 +144,7 @@ module Ronin
                                                ssl:  nil,
                                                helo: 'localhost',
                                                auth: :login)
-            host = host.to_s
+            host = DNS::IDN.to_ascii(host)
             user = user.to_s
             password = password.to_s
 

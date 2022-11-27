@@ -30,6 +30,19 @@ describe Ronin::Support::Network::SMTP::Mixin do
         smtp.finish
       end
 
+      context "when the hostname is a unicode hostname" do
+        let(:host)  { "www.詹姆斯.com" }
+
+        pending "need to find a SMTP server with a unicode domain" do
+          it "must connect to the punycode version of the unicode hostname" do
+            smtp = subject.smtp_connect(host,user,password)
+
+            smtp.should be_started
+            smtp.finish
+          end
+        end
+      end
+
       context "when given a block" do
         it "must yield a new Net::SMTP object" do
           pending "need valid SMTP credentials"
