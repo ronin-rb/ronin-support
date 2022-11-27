@@ -16,6 +16,7 @@
 #
 
 require 'ronin/support/network/dns'
+require 'ronin/support/network/dns/idn'
 
 require 'resolv'
 
@@ -84,8 +85,12 @@ module Ronin
           #   has no IP addresses.
           #
           def get_address(host)
-            @resolver.getaddress(host).to_s
-          rescue Resolv::ResolvError
+            host = IDN.to_ascii(host)
+
+            begin
+              @resolver.getaddress(host).to_s
+            rescue Resolv::ResolvError
+            end
           end
 
           #
@@ -98,9 +103,11 @@ module Ronin
           #   The IP addresses for the host name.
           #
           def get_addresses(host)
+            host = IDN.to_ascii(host)
+
             addresses = @resolver.getaddresses(host)
             addresses.map!(&:to_s)
-            addresses
+            return addresses
           end
 
           #
@@ -173,6 +180,8 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource
           #
           def get_record(name,record_type)
+            name = IDN.to_ascii(name)
+
             record_class = RECORD_TYPES.fetch(record_type) do
               raise(ArgumentError,"record type (#{record_type.inspect}) must be #{RECORD_TYPES.keys.map(&:inspect).join(', ')}")
             end
@@ -201,6 +210,8 @@ module Ronin
           # @see https://rubydoc.info/stdlib/resolv/Resolv/DNS/Resource
           #
           def get_records(name,record_type)
+            name = IDN.to_ascii(name)
+
             record_class = RECORD_TYPES.fetch(record_type) do
               raise(ArgumentError,"record type (#{record_type.inspect}) must be #{RECORD_TYPES.keys.map(&:inspect).join(', ')}")
             end

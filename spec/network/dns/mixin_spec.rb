@@ -121,6 +121,19 @@ describe Ronin::Support::Network::DNS::Mixin do
         expect(subject.dns_get_address(hostname)).to eq(address)
       end
 
+      context "when given a unicode domain name" do
+        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
+
+        it "must lookup the addresses for the punycode version of the domain" do
+          unicode_address    = subject.dns_get_address(unicode_hostname)
+          punycode_addresses = subject.dns_get_addresses(punycode_hostname)
+
+          expect(unicode_address).to_not be_nil
+          expect(punycode_addresses).to include(unicode_address)
+        end
+      end
+
       context "when given a non-String hostname" do
         it "must query the non-String hostname" do
           expect(subject.dns_get_address(hostname.to_sym)).to eq(address)
@@ -151,6 +164,19 @@ describe Ronin::Support::Network::DNS::Mixin do
     context "integration", :network do
       it "must lookup all addresses for a hostname" do
         expect(subject.dns_get_addresses(hostname)).to include(address)
+      end
+
+      context "when given a unicode domain name" do
+        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
+
+        it "must lookup the addresses for the punycode version of the domain" do
+          unicode_addresses  = subject.dns_get_addresses(unicode_hostname)
+          punycode_addresses = subject.dns_get_addresses(punycode_hostname)
+
+          expect(unicode_addresses).to_not be_empty
+          expect(unicode_addresses).to match_array(punycode_addresses)
+        end
       end
 
       context "when given a non-String hostname" do
@@ -259,6 +285,20 @@ describe Ronin::Support::Network::DNS::Mixin do
         )
       end
 
+      context "when given a unicode domain name" do
+        let(:record_type)       { :a }
+        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
+
+        it "must lookup the addresses for the punycode version of the domain" do
+          unicode_record   = subject.dns_get_record(unicode_hostname,record_type)
+          punycode_records = subject.dns_get_records(punycode_hostname,record_type)
+
+          expect(unicode_record).to_not be_nil
+          expect(punycode_records.map(&:address)).to include(unicode_record.address)
+        end
+      end
+
       context "when the host name does not exist" do
         it "must return nil" do
           expect(subject.dns_get_record(bad_hostname,record_type)).to be(nil)
@@ -290,6 +330,22 @@ describe Ronin::Support::Network::DNS::Mixin do
         expect(records.map(&:strings).flatten).to match_array(
           [example_spf_record, example_txt_record]
         )
+      end
+
+      context "when given a unicode domain name" do
+        let(:record_type)       { :a }
+        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
+
+        it "must lookup the addresses for the punycode version of the domain" do
+          unicode_records  = subject.dns_get_records(unicode_hostname,record_type)
+          punycode_records = subject.dns_get_records(punycode_hostname,record_type)
+
+          expect(unicode_records).to_not be_empty
+          expect(unicode_records.map(&:address)).to match_array(
+            punycode_records.map(&:address)
+          )
+        end
       end
 
       context "when the host name does not exist" do
