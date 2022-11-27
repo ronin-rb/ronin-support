@@ -15,7 +15,6 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/dns'
 require 'ronin/support/network/dns/idn'
 
 require 'resolv'
