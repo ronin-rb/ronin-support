@@ -15,7 +15,7 @@ describe Ronin::Support::Network::SMTP::Mixin do
       it "must return a Net::SMTP object" do
         pending "need valid SMTP credentials"
 
-        smtp = subject.smtp_connect(host,user,password)
+        smtp = subject.smtp_connect(host)
 
         smtp.should be_kind_of(Net::SMTP)
         smtp.finish
@@ -24,7 +24,7 @@ describe Ronin::Support::Network::SMTP::Mixin do
       it "must connect to an SMTP service" do
         pending "need valid SMTP credentials"
 
-        smtp = subject.smtp_connect(host,user,password)
+        smtp = subject.smtp_connect(host)
 
         smtp.should be_started
         smtp.finish
@@ -35,7 +35,7 @@ describe Ronin::Support::Network::SMTP::Mixin do
 
         pending "need to find a SMTP server with a unicode domain" do
           it "must connect to the punycode version of the unicode hostname" do
-            smtp = subject.smtp_connect(host,user,password)
+            smtp = subject.smtp_connect(host)
 
             smtp.should be_started
             smtp.finish
@@ -49,7 +49,7 @@ describe Ronin::Support::Network::SMTP::Mixin do
 
           yielded_smtp = nil
 
-          subject.smtp_connect(host,user,passowrd) do |smtp|
+          subject.smtp_connect(host) do |smtp|
             yielded_smtp = smtp
           end
 
@@ -62,7 +62,7 @@ describe Ronin::Support::Network::SMTP::Mixin do
           smtp        = nil
           was_started = nil
 
-          subject.smtp_connect(host,user,password) do |yielded_smtp|
+          subject.smtp_connect(host) do |yielded_smtp|
             smtp        = yielded_smtp
             was_started = smtp.started?
           end

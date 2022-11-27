@@ -87,9 +87,11 @@ module Ronin
           #
           # @api public
           #
-          def imap_connect(host,user,password, port: DEFAULT_PORT,
-                                               ssl:  nil,
-                                               auth: :login)
+          def imap_connect(host, user: ,
+                                 password: ,
+                                 port: DEFAULT_PORT,
+                                 ssl:  nil,
+                                 auth: :login)
             host = DNS::IDN.to_ascii(host)
 
             auth_type = AUTH_TYPES.fetch(auth) do

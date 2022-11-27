@@ -16,7 +16,7 @@ describe Ronin::Support::Network::IMAP::Mixin do
       it "must return a Net::IMAP object" do
         pending "need valid IMAP credentials"
 
-        imap = subject.imap_connect(host,user,password, port: port, ssl: true)
+        imap = subject.imap_connect(host, port: port, ssl: true)
 
         imap.should be_kind_of(Net::IMAP)
 
@@ -29,7 +29,7 @@ describe Ronin::Support::Network::IMAP::Mixin do
 
         pending "need to find a IMAP server with a unicode domain" do
           it "must connect to the punycode version of the unicode domain" do
-            imap = subject.imap_connect(host,user,password, port: port, ssl: true)
+            imap = subject.imap_connect(host, port: port, ssl: true)
 
             imap.should be_kind_of(Net::IMAP)
 
@@ -43,7 +43,7 @@ describe Ronin::Support::Network::IMAP::Mixin do
         it "must connect to an IMAP service" do
           pending "need valid IMAP credentials"
 
-          imap = subject.imap_connect(host,user,password, port: port, ssl: true)
+          imap = subject.imap_connect(host, port: port, ssl: true)
 
           imap.close
           imap.disconnect
@@ -57,7 +57,7 @@ describe Ronin::Support::Network::IMAP::Mixin do
 
             yielded_imap = nil
 
-            subject.imap_connect(host,user,password, port: port, ssl: true) do |imap|
+            subject.imap_connect(host, port: port, ssl: true) do |imap|
               yielded_imap = imap
             end
 
@@ -72,7 +72,7 @@ describe Ronin::Support::Network::IMAP::Mixin do
             imap          = nil
             was_connected = nil
 
-            subject.imap_connect(host,user,password, port: port, ssl: true) do |yielded_imap|
+            subject.imap_connect(host, port: port, ssl: true) do |yielded_imap|
               imap          = yielded_imap
               was_connected = !imap.disconnected?
             end

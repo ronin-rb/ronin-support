@@ -140,10 +140,11 @@ module Ronin
           #
           # @api public
           #
-          def smtp_connect(host,user,password, port: DEFAULT_PORT,
-                                               ssl:  nil,
-                                               helo: 'localhost',
-                                               auth: :login)
+          def smtp_connect(host, user: ,
+                                 password: , port: DEFAULT_PORT,
+                                 ssl:  nil,
+                                 helo: 'localhost',
+                                 auth: :login)
             host = DNS::IDN.to_ascii(host)
             user = user.to_s
             password = password.to_s
@@ -250,20 +251,22 @@ module Ronin
           #
           # @api public
           #
-          def smtp_send_message(host,user,password, # smtp options
-                                                    port: DEFAULT_PORT,
-                                                    ssl:  nil,
-                                                    helo: 'localhost',
-                                                    auth: :login,
-                                                    # email options
-                                                    from:       nil,
-                                                    to:         nil,
-                                                    subject:    nil,
-                                                    date:       Time.now,
-                                                    message_id: nil,
-                                                    headers:    nil,
-                                                    body:       nil,
-                                                    &block)
+          def smtp_send_message(host, user: ,
+                                      password: ,
+                                      # smtp options
+                                      port: DEFAULT_PORT,
+                                      ssl:  nil,
+                                      helo: 'localhost',
+                                      auth: :login,
+                                      # email options
+                                      from:       nil,
+                                      to:         nil,
+                                      subject:    nil,
+                                      date:       Time.now,
+                                      message_id: nil,
+                                      headers:    nil,
+                                      body:       nil,
+                                      &block)
             email = smtp_message(
               to:         to,
               subject:    subject,
