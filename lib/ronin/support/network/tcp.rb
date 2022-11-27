@@ -16,6 +16,7 @@
 #
 
 require 'ronin/support/network/tcp/proxy'
+require 'ronin/support/network/dns/idn'
 
 require 'socket'
 require 'timeout'
@@ -121,7 +122,7 @@ module Ronin
         # @api public
         #
         def self.connect(host,port, bind_host: nil, bind_port: nil)
-          host = host.to_s
+          host = DNS::IDN.to_ascii(host)
           port = port.to_i
 
           socket = if bind_host || bind_port
