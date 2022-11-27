@@ -16,6 +16,7 @@
 #
 
 require 'ronin/support/network/telnet'
+require 'ronin/support/network/dns/idn'
 
 module Ronin
   module Support
@@ -115,8 +116,10 @@ module Ronin
                              # log options
                              output_log: nil,
                              dump_log:   nil)
+            host = DNS::IDN.to_ascii(host)
+
             telnet_options = {
-              'Host'       => host.to_s,
+              'Host'       => host,
               'Port'       => port,
               'Binmode'    => binmode,
               'Waittime'   => wait_time,

@@ -25,6 +25,21 @@ describe Network::Telnet::Mixin do
         telnet.close
       end
 
+      context "when the hostname is a unicode hostname" do
+        let(:host)  { "www.詹姆斯.com" }
+
+        pending "need to find a Telnet server with a unicode domain" do
+          it "must connect to the punycode version of the unicode domain" do
+            telnet = subject.telnet_connect(host)
+
+            expect(telnet).to be_kind_of(Net::Telnet)
+            expect(telnet.sock).to_not be_closed
+
+            telnet.close
+          end
+        end
+      end
+
       context "when given a block" do
         it "must yield a new Net::Telnet object" do
           yielded_telnet = nil
