@@ -16,6 +16,7 @@
 #
 
 require 'ronin/support/network/udp/proxy'
+require 'ronin/support/network/dns/idn'
 
 require 'socket'
 require 'timeout'
@@ -125,7 +126,7 @@ module Ronin
         # @api public
         #
         def self.connect(host,port, bind_host: nil, bind_port: nil)
-          host = host.to_s
+          host = DNS::IDN.to_ascii(host)
           port = port.to_i
 
           socket = UDPSocket.new

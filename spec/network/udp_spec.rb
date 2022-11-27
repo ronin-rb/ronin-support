@@ -58,6 +58,24 @@ describe Ronin::Support::Network::UDP do
         socket.close
       end
 
+      context "when given a unicode hostname" do
+        let(:host)  { "www.詹姆斯.com" }
+        let(:ips) do
+          %w[
+            104.21.6.29
+            172.67.154.155
+            2606:4700:3036::ac43:9a9b
+            2606:4700:3037::6815:61d
+          ]
+        end
+
+        it "must convert the unicode hostname to the punycode version" do
+          socket = subject.connect(host,port)
+
+          expect(ips).to include(socket.remote_address.ip_address)
+        end
+      end
+
       context "when given a local port" do
         let(:bind_port) { 1024 + rand(65535 - 1024) }
 
