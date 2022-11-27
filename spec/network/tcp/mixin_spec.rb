@@ -70,7 +70,7 @@ describe Ronin::Support::Network::TCP::Mixin do
         socket.close
       end
 
-      context "when the hostname is a unicode hostname" do
+      context "when given a unicode hostname" do
         let(:host)  { "www.詹姆斯.com" }
         let(:ips) do
           %w[
