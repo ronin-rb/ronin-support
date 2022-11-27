@@ -15,31 +15,48 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/encoding/base16'
-require 'ronin/support/encoding/base32'
-require 'ronin/support/encoding/base64'
-require 'ronin/support/encoding/hex'
-require 'ronin/support/encoding/c'
-require 'ronin/support/encoding/shell'
-require 'ronin/support/encoding/powershell'
-require 'ronin/support/encoding/http'
-require 'ronin/support/encoding/xml'
-require 'ronin/support/encoding/html'
-require 'ronin/support/encoding/js'
-require 'ronin/support/encoding/sql'
-require 'ronin/support/encoding/quoted_printable'
-require 'ronin/support/encoding/ruby'
-require 'ronin/support/encoding/uri'
 require 'ronin/support/encoding/punycode'
 
-module Ronin
-  module Support
-    #
-    # Contains additional encoding/decoding modules.
-    #
-    # @since 1.0.0
-    #
-    class Encoding < ::Encoding
-    end
+class String
+
+  #
+  # Encodes a unicode String into [punycode].
+  #
+  # [punycode]: https://en.wikipedia.org/wiki/Punycode
+  #
+  # @return [String]
+  #   The punycode String.
+  #
+  # @example
+  #   "詹姆斯".punycode_encode
+  #   # => "xn--8ws00zhy3a"
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def punycode_encode
+    Ronin::Support::Encoding::Punycode.encode(self)
   end
+
+  #
+  # Decodes a [punycode] String back into unicode.
+  #
+  # [punycode]: https://en.wikipedia.org/wiki/Punycode
+  #
+  # @return [String]
+  #   The decoded unicode String.
+  #
+  # @example
+  #   "xn--8ws00zhy3a".punycode_decode
+  #   # => "詹姆斯"
+  #
+  # @api public
+  #
+  # @since 1.0.0
+  #
+  def punycode_decode
+    Ronin::Support::Encoding::Punycode.decode(self)
+  end
+
 end
