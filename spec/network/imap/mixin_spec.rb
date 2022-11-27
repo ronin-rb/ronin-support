@@ -24,6 +24,21 @@ describe Ronin::Support::Network::IMAP::Mixin do
         imap.disconnect
       end
 
+      context "when the hostname is a unicode hostname" do
+        let(:host)  { "www.詹姆斯.com" }
+
+        pending "need to find a IMAP server with a unicode domain" do
+          it "must connect to the punycode version of the unicode domain" do
+            imap = subject.imap_connect(host,user,password, port: port, ssl: true)
+
+            imap.should be_kind_of(Net::IMAP)
+
+            imap.close
+            imap.disconnect
+          end
+        end
+      end
+
       pending "need valid IMAP credentials" do
         it "must connect to an IMAP service" do
           pending "need valid IMAP credentials"

@@ -15,6 +15,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/network/dns/idn'
 require 'ronin/support/network/ssl'
 
 begin
@@ -89,7 +90,8 @@ module Ronin
           def imap_connect(host,user,password, port: DEFAULT_PORT,
                                                ssl:  nil,
                                                auth: :login)
-            host      = host.to_s
+            host = DNS::IDN.to_ascii(host)
+
             auth_type = AUTH_TYPES.fetch(auth) do
               raise(ArgumentError,"auth: must be either :login or :cram_md5")
             end
