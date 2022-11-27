@@ -44,8 +44,8 @@ module Ronin
           # The `https://publicsuffix.org/list/public_suffix_list.dat` URL.
           URL = "https://publicsuffix.org/list/#{FILE_NAME}"
 
-          # The path to `~/.local/share/ronin/ronin-support/public_suffix_list.dat` list file.
-          PATH = File.join(Home::LOCAL_SHARE_DIR,'ronin','ronin-support',FILE_NAME)
+          # The path to `~/.cache/ronin/ronin-support/public_suffix_list.dat` list file.
+          PATH = File.join(Home::CACHE_DIR,'ronin','ronin-support',FILE_NAME)
 
           # The path to the list file.
           #

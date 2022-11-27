@@ -23,7 +23,7 @@ module Ronin
       module PublicSuffix
         #
         # Downloads/updates then loads the cached file
-        # (`~/.local/share/ronin/ronin-support/public_suffix_list.dat`).
+        # (`~/.cache/ronin/ronin-support/public_suffix_list.dat`).
         #
         # @return [List]
         #   The loaded list file.

@@ -30,7 +30,7 @@ describe Ronin::Support::Network::PublicSuffix::List do
     subject { described_class::PATH }
 
     it do
-      expect(subject).to eq(File.join(Gem.user_home,'.local','share','ronin','ronin-support','public_suffix_list.dat'))
+      expect(subject).to eq(File.join(Gem.user_home,'.cache','ronin','ronin-support','public_suffix_list.dat'))
     end
   end
 
