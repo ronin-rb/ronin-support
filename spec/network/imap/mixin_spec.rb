@@ -18,7 +18,7 @@ describe Ronin::Support::Network::IMAP::Mixin do
 
         imap = subject.imap_connect(host, port: port, ssl: true)
 
-        imap.should be_kind_of(Net::IMAP)
+        expect(imap).to be_kind_of(Net::IMAP)
 
         imap.close
         imap.disconnect
@@ -31,7 +31,7 @@ describe Ronin::Support::Network::IMAP::Mixin do
           it "must connect to the punycode version of the unicode domain" do
             imap = subject.imap_connect(host, port: port, ssl: true)
 
-            imap.should be_kind_of(Net::IMAP)
+            expect(imap).to be_kind_of(Net::IMAP)
 
             imap.close
             imap.disconnect
@@ -61,7 +61,7 @@ describe Ronin::Support::Network::IMAP::Mixin do
               yielded_imap = imap
             end
 
-            yielded_imap.should be_kind_of(Net::IMAP)
+            expect(yielded_imap).to be_kind_of(Net::IMAP)
           end
         end
 
@@ -77,8 +77,8 @@ describe Ronin::Support::Network::IMAP::Mixin do
               was_connected = !imap.disconnected?
             end
 
-            was_connected.should == true
-            imap.should be_disconnected
+            expect(was_connected).to be(true)
+            expect(imap).to be_disconnected
           end
         end
       end

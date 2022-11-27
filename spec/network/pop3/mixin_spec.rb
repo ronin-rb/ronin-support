@@ -18,7 +18,7 @@ describe Ronin::Support::Network::POP3::Mixin do
 
         pop3 = subject.pop3_connect(host, port: port, ssl: true)
 
-        pop3.should be_kind_of(Net::POP3)
+        expect(pop3).to be_kind_of(Net::POP3)
         pop3.finish
       end
 
@@ -26,7 +26,7 @@ describe Ronin::Support::Network::POP3::Mixin do
         pending "need valid POP3 credentials"
         pop3 = subject.pop3_connect(host, port: port, ssl: true)
 
-        pop3.should be_started
+        expect(pop3).to be_started
         pop3.finish
       end
 
@@ -37,7 +37,7 @@ describe Ronin::Support::Network::POP3::Mixin do
           it "must connect to the punycode version of the unicode domain" do
             pop3 = subject.pop3_connect(host, port: port, ssl: true)
 
-            pop3.should be_kind_of(Net::IMAP)
+            expect(pop3).to be_kind_of(Net::IMAP)
 
             pop3.close
             pop3.disconnect
@@ -55,7 +55,7 @@ describe Ronin::Support::Network::POP3::Mixin do
             yielded_pop3 = pop3
           end
 
-          yielded_pop3.should be_kind_of(Net::POP3)
+          expect(yielded_pop3).to be_kind_of(Net::POP3)
         end
 
         it "must finish the POP3 session after yielding it" do
@@ -69,8 +69,8 @@ describe Ronin::Support::Network::POP3::Mixin do
             was_started = pop3.started?
           end
 
-          was_started.should == true
-          pop3.should_not be_started
+          expect(was_started).to be(true)
+          expect(pop3).to_not be_started
         end
       end
     end

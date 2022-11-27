@@ -17,7 +17,7 @@ describe Ronin::Support::Network::SMTP::Mixin do
 
         smtp = subject.smtp_connect(host)
 
-        smtp.should be_kind_of(Net::SMTP)
+        expect(smtp).to be_kind_of(Net::SMTP)
         smtp.finish
       end
 
@@ -26,7 +26,7 @@ describe Ronin::Support::Network::SMTP::Mixin do
 
         smtp = subject.smtp_connect(host)
 
-        smtp.should be_started
+        expect(smtp).to be_started
         smtp.finish
       end
 
@@ -37,7 +37,7 @@ describe Ronin::Support::Network::SMTP::Mixin do
           it "must connect to the punycode version of the unicode hostname" do
             smtp = subject.smtp_connect(host)
 
-            smtp.should be_started
+            expect(smtp).to be_started
             smtp.finish
           end
         end
@@ -53,7 +53,7 @@ describe Ronin::Support::Network::SMTP::Mixin do
             yielded_smtp = smtp
           end
 
-          yielded_smtp.should be_kind_of(Net::SMTP)
+          expect(yielded_smtp).to be_kind_of(Net::SMTP)
         end
 
         it "must finish the SMTP session after yielding it" do
@@ -67,8 +67,8 @@ describe Ronin::Support::Network::SMTP::Mixin do
             was_started = smtp.started?
           end
 
-          was_started.should == true
-          smtp.should_not be_started
+          expect(was_started).to be(true)
+          expect(smtp).to_not be_started
         end
       end
     end
