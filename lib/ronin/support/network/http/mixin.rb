@@ -34,7 +34,7 @@ module Ronin
           #   @param [Hash{Symbol => Object}] kwargs
           #     Additional keyword arguments.
           #
-          #   @option kwargs [String, URI::HTTP, nil] :proxy
+          #   @option kwargs [String, URI::HTTP, Addressable::URI, nil] :proxy
           #     The optional proxy to send requests through.
           #
           #   @option kwargs [Hash{Symbol,String => String,Array}, nil] :headers
@@ -120,7 +120,7 @@ module Ronin
           #
           # Creates a HTTP connection using the URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   The URI to connect to.
           #
           # @!macro connect_kwargs
@@ -180,7 +180,7 @@ module Ronin
           # @param [Symbol, String] method
           #   The HTTP method to use for the request.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -213,7 +213,7 @@ module Ronin
           # @param [Symbol, String] method
           #   The HTTP method to use for the request.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -238,7 +238,7 @@ module Ronin
           # @param [Symbol, String] method
           #   The HTTP method to use for the request.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -261,7 +261,7 @@ module Ronin
           # @param [Symbol, String] method
           #   The HTTP method to use for the request.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -283,7 +283,7 @@ module Ronin
           #
           # Sends an HTTP request and returns the `Server` header.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro connect_kwargs
@@ -305,7 +305,7 @@ module Ronin
           #
           # Sends an HTTP request and returns the `X-Powered-By` header.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -330,7 +330,7 @@ module Ronin
           # @param [Symbol, String] method
           #   The HTTP method to use for the request.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -352,7 +352,7 @@ module Ronin
           #
           # Performs a `COPY` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -378,7 +378,7 @@ module Ronin
           #
           # Performs a `DELETE` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -404,7 +404,7 @@ module Ronin
           #
           # Performs a `GET` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -431,7 +431,7 @@ module Ronin
           # Performs a `GET` request for the given URI and returns the response
           # headers.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -454,7 +454,7 @@ module Ronin
           # Sends an HTTP request and returns the parsed `Set-Cookie`
           # header(s).
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -475,7 +475,7 @@ module Ronin
           # Performs a `GET` request for the given URI and returns the response
           # body.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -495,7 +495,7 @@ module Ronin
           #
           # Performs a `HEAD` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -521,7 +521,7 @@ module Ronin
           #
           # Performs a `LOCK` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -547,7 +547,7 @@ module Ronin
           #
           # Performs a `MKCOL` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -573,7 +573,7 @@ module Ronin
           #
           # Performs a `MOVE` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -599,7 +599,7 @@ module Ronin
           #
           # Performs a `OPTIONS` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -626,7 +626,7 @@ module Ronin
           # Performs a `OPTIONS` HTTP request for the given URI and parses the
           # `Allow` response header.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -652,7 +652,7 @@ module Ronin
           #
           # Performs a `PATCH` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -680,7 +680,7 @@ module Ronin
           #
           # Performs a `POST` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -707,7 +707,7 @@ module Ronin
           # Performs a `POST` request on the given URI and returns the response
           # headers.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -730,7 +730,7 @@ module Ronin
           # Performs a `POST` request for the given URI and returns the
           # response body.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -750,7 +750,7 @@ module Ronin
           #
           # Performs a `PROPFIND` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -778,7 +778,7 @@ module Ronin
           #
           # Performs a `PROPPATCH` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -806,7 +806,7 @@ module Ronin
           #
           # Performs a `PUT` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -834,7 +834,7 @@ module Ronin
           #
           # Performs a `TRACE` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs
@@ -860,7 +860,7 @@ module Ronin
           #
           # Performs a `UNLOCK` request for the given URI.
           #
-          # @param [URI::HTTP, String] url
+          # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.
           #
           # @!macro request_kwargs

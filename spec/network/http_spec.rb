@@ -15,7 +15,9 @@ describe Network::HTTP do
       before { ENV['RONIN_HTTP_PROXY'] = 'http://example.com:8080' }
 
       it "must parse the RONIN_HTTP_PROXY environment variable" do
-        expect(subject.proxy).to eq(URI(ENV['RONIN_HTTP_PROXY']))
+        expect(subject.proxy).to eq(
+          Addressable::URI.parse(ENV['RONIN_HTTP_PROXY'])
+        )
       end
 
       after do
@@ -28,7 +30,9 @@ describe Network::HTTP do
       before { ENV['HTTP_PROXY'] = 'http://example.com:8080' }
 
       it "must parse the HTTP_PROXY environment variable" do
-        expect(subject.proxy).to eq(URI(ENV['HTTP_PROXY']))
+        expect(subject.proxy).to eq(
+          Addressable::URI.parse(ENV['HTTP_PROXY'])
+        )
       end
 
       after do
@@ -53,9 +57,23 @@ describe Network::HTTP do
       end
     end
 
+    context "when given a Addressable::URI object" do
+      let(:uri) do
+        Addressable::URI.parse('https://user:password@example.com/')
+      end
+
+      before do
+        subject.proxy = uri
+      end
+
+      it "must set .proxy to the URI::HTTP object" do
+        expect(subject.proxy).to be(uri)
+      end
+    end
+
     context "when given a String" do
       let(:string) { 'https://user:password@example.com/' }
-      let(:uri)    { URI(string) }
+      let(:uri)    { Addressable::URI.parse(string) }
 
       before do
         subject.proxy = string
@@ -83,7 +101,7 @@ describe Network::HTTP do
       it do
         expect {
           subject.proxy = new_proxy
-        }.to raise_error(ArgumentError,"invalid proxy value (#{new_proxy.inspect}), must be either a URI::HTTP, String, or nil")
+        }.to raise_error(ArgumentError,"invalid proxy value (#{new_proxy.inspect}), must be either a URI::HTTP, Addressable::URI, String, or nil")
       end
     end
 
@@ -339,12 +357,59 @@ describe Network::HTTP do
 
     subject { described_class.connect_uri(uri) }
 
-    it "must set #host to the URI's host" do
-      expect(subject.host).to eq(uri.host)
+    context "when given a URI::HTTP object" do
+      it "must set #host to the URI's host" do
+        expect(subject.host).to eq(uri.host)
+      end
+
+      it "must set #host to the URI's port" do
+        expect(subject.port).to eq(uri.port)
+      end
     end
 
-    it "must set #host to the URI's port" do
-      expect(subject.port).to eq(uri.port)
+    context "when given a Addressable::URI object" do
+      let(:uri) do
+        Addressable::URI.new(scheme: 'http', host: host, port: port)
+      end
+
+      it "must set #host to the URI's host" do
+        expect(subject.host).to eq(uri.host)
+      end
+
+      it "must set #host to the URI's port" do
+        expect(subject.port).to eq(uri.port)
+      end
+    end
+
+    context "when given a String" do
+      let(:uri) { "http://#{host}:#{port}/" }
+
+      it "must parse the UR: and set #host to the URI's host" do
+        expect(subject.host).to eq(host)
+      end
+
+      it "must parse the URL set #host to the URI's port" do
+        expect(subject.port).to eq(port)
+      end
+
+      context "and when the hostname is a unicode domain" do
+        let(:host)     { "www.詹姆斯.com" }
+        let(:punycode) { "www.xn--8ws00zhy3a.com" }
+
+        it "must convert the unicode hostname to punycode" do
+          expect(subject.host).to eq(punycode)
+        end
+      end
+    end
+
+    context "when given another kind of object" do
+      let(:url) { Object.new }
+
+      it do
+        expect {
+          described_class.connect_uri(url)
+        }.to raise_error(ArgumentError,"url must be a URI::HTTP, Addressable::URI, or a String: #{url.inspect}")
+      end
     end
 
     context "when the URI's scheme is http://" do
