@@ -224,13 +224,13 @@ module Ronin
           end
 
           #
-          # Splits a hostname into it's name and tld components.
+          # Splits a hostname into it's name and public suffix components.
           #
           # @param [String] host_name
           #   The host name to split.
           #
           # @return [(String, String)]
-          #   The host name's name and tld components.
+          #   The host name's name and public suffix components.
           #
           # @raise [InvalidHostname]
           #   The given hostname does not end with a valid suffix.
