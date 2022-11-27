@@ -30,6 +30,21 @@ describe Ronin::Support::Network::POP3::Mixin do
         pop3.finish
       end
 
+      context "when the hostname is a unicode hostname" do
+        let(:host) { "www.詹姆斯.com" }
+
+        pending "need to find a POP3 server with a unicode domain" do
+          it "must connect to the punycode version of the unicode domain" do
+            pop3 = subject.pop3_connect(host, port: port, ssl: true)
+
+            pop3.should be_kind_of(Net::IMAP)
+
+            pop3.close
+            pop3.disconnect
+          end
+        end
+      end
+
       context "when given a block" do
         it "must yield a new Net::POP3 object" do
           pending "need valid POP3 credentials"

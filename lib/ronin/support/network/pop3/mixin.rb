@@ -15,6 +15,8 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/network/dns/idn'
+
 begin
   require 'net/pop'
 rescue LoadError => error
@@ -75,7 +77,7 @@ module Ronin
                                  ssl:  nil,
                                  user: ,
                                  password: )
-            host = host.to_s
+            host = DNS::IDN.to_ascii(host)
 
             case ssl
             when Hash
