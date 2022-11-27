@@ -245,6 +245,28 @@ module Ronin
         alias change_tld change_suffix
 
         #
+        # Enumerates over every hostname with a different TLD.
+        #
+        # @yield [host]
+        #   The given block will be passed each hostname with a different TLD.
+        #
+        # @yieldparam [Host] host
+        #   The new host object with a different TLD.
+        #
+        # @return [Enumerator]
+        #   If no block is given, an enumerator will be returned.
+        #
+        def each_tld
+          return enum_for(__method__) unless block_given?
+
+          TLD.list.each do |tld|
+            yield change_suffix(tld)
+          end
+
+          return nil
+        end
+
+        #
         # Enumerates over every hostname with a different public suffix.
         #
         # @yield [host]
@@ -268,8 +290,6 @@ module Ronin
 
           return nil
         end
-
-        alias each_tld each_suffix
 
         #
         # Looks up the address of a hostname.

@@ -186,6 +186,44 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#each_tld" do
+    let(:prefix)   { 'www.example'   }
+    let(:hostname) { "#{prefix}.com" }
+
+    before do
+      allow(Ronin::Support::Network::TLD).to receive(:list).and_return(tld_list)
+    end
+
+    context "when given a block" do
+      it "must yield new #{described_class} objects with different TLDs" do
+        yielded_hosts = []
+
+        subject.each_tld do |host|
+          yielded_hosts << host
+        end
+
+        expect(yielded_hosts).to_not be_empty
+        expect(yielded_hosts).to all(be_kind_of(described_class))
+        expect(yielded_hosts.map(&:name)).to eq(
+          tld_list.map { |tld| "#{prefix}.#{tld}" }
+        )
+      end
+    end
+
+    context "when no block is given" do
+      it "must return an Enumerator for the method" do
+        expect(subject.each_tld).to be_kind_of(Enumerator)
+
+        returned_hosts = subject.each_tld.to_a
+        expect(returned_hosts).to_not be_empty
+        expect(returned_hosts).to all(be_kind_of(described_class))
+        expect(returned_hosts.map(&:name)).to eq(
+          tld_list.map { |tld| "#{prefix}.#{tld}" }
+        )
+      end
+    end
+  end
+
   describe "#each_suffix" do
     let(:prefix)   { 'www.example'   }
     let(:hostname) { "#{prefix}.com" }
