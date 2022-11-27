@@ -26,6 +26,19 @@ describe Ronin::Support::Network::FTP::Mixin do
         ftp.close
       end
 
+      context "when the hostname is a unicode hostname" do
+        let(:host)  { "www.詹姆斯.com" }
+
+        pending "need to find a FTP server with a unicode domain" do
+          it "must connect to the punycode version of the unicode domain" do
+            ftp = subject.ftp_connect(host)
+
+            expect(ftp).not_to be_closed
+            ftp.close
+          end
+        end
+      end
+
       describe ":passive" do
         it "must set passive mode by default" do
           ftp = subject.ftp_connect(host)

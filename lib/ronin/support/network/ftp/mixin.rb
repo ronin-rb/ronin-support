@@ -15,6 +15,8 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/network/dns/idn'
+
 begin
   require 'net/ftp'
 rescue LoadError => error
@@ -82,7 +84,7 @@ module Ronin
                                 password: nil,
                                 account:  nil,
                                 passive:  true)
-            host = host.to_s
+            host = DNS::IDN.to_ascii(host)
 
             ftp = Net::FTP.new
             ftp.connect(host,port)
