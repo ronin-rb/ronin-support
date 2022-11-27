@@ -343,6 +343,28 @@ describe Ronin::Support::Network::TLD::List do
     end
   end
 
+  describe "#split" do
+    context "when the domain ends with a single TLD" do
+      let(:prefix) { "example" }
+      let(:tld)    { "com"     }
+      let(:domain) { "#{prefix}.#{tld}" }
+
+      it "must return the domain prefix and the TLD" do
+        expect(subject.split(domain)).to eq([prefix, tld])
+      end
+    end
+
+    context "when the domain ends with multiple TLDs" do
+      let(:prefix) { "example.co"       }
+      let(:tld)    { 'uk'               }
+      let(:domain) { "#{prefix}.#{tld}" }
+
+      it "must return the domain prefix and the TLD" do
+        expect(subject.split(domain)).to eq([prefix, tld])
+      end
+    end
+  end
+
   describe "#to_regexp" do
     it "must return a Regexp" do
       expect(subject.to_regexp).to be_kind_of(Regexp)

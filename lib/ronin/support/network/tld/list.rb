@@ -210,6 +210,33 @@ module Ronin
           end
 
           #
+          # Splits a hostname into it's name and TLD components.
+          #
+          # @param [String] host_name
+          #   The host name to split.
+          #
+          # @return [(String, String)]
+          #   The host name's name and TLD components.
+          #
+          # @raise [InvalidHostname]
+          #   The given hostname does not end with a valid TLD.
+          #
+          def split(host_name)
+            unless (index = host_name.rindex('.'))
+              raise(InvalidHostname,"hostname does not have a TLD: #{host_name.inspect}")
+            end
+
+            name = host_name[0...index]
+            tld  = host_name[(index+1)..]
+
+            unless @list.include?(tld)
+              raise(InvalidHostname,"hostname does not have a valid TLD: #{host_name.inspect}")
+            end
+
+            return name, tld
+          end
+
+          #
           # Creates a regular expression that can match every domain suffix in
           # the list.
           #
