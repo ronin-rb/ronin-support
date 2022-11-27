@@ -40,7 +40,7 @@ describe Ronin::Support::Network::Host do
       let(:hostname) { 'example.com' }
 
       it "must return the suffix of the hostname" do
-        expect(subject.suffix).to eq('.com')
+        expect(subject.suffix).to eq('com')
       end
     end
 
@@ -48,7 +48,7 @@ describe Ronin::Support::Network::Host do
       let(:hostname) { 'www.example.co.uk' }
 
       it "must return the full suffix of the hostname" do
-        expect(subject.suffix).to eq('.co.uk')
+        expect(subject.suffix).to eq('co.uk')
       end
     end
   end

@@ -408,7 +408,7 @@ describe Ronin::Support::Network::PublicSuffix::List do
         let(:domain) { "#{prefix}.#{tld}" }
 
         it "must return the domain prefix and the TLD" do
-          expect(subject.split(domain)).to eq([prefix, ".#{tld}"])
+          expect(subject.split(domain)).to eq([prefix, tld])
         end
       end
 
@@ -418,7 +418,7 @@ describe Ronin::Support::Network::PublicSuffix::List do
         let(:domain) { "#{prefix}.#{suffix}" }
 
         it "must return the domain prefix and the suffix" do
-          expect(subject.split(domain)).to eq([prefix, ".#{suffix}"])
+          expect(subject.split(domain)).to eq([prefix, suffix])
         end
       end
 
@@ -429,7 +429,7 @@ describe Ronin::Support::Network::PublicSuffix::List do
         let(:domain) { "#{prefix}.#{label}.#{suffix}" }
 
         it "must consume an arbitrary label for the '*' wildcard label" do
-          expect(subject.split(domain)).to eq([prefix, ".#{label}.#{suffix}"])
+          expect(subject.split(domain)).to eq([prefix, "#{label}.#{suffix}"])
         end
       end
 
@@ -451,7 +451,7 @@ describe Ronin::Support::Network::PublicSuffix::List do
         let(:hostname) { "#{prefix}.#{tld}" }
 
         it "must return the hostname label and the TLD" do
-          expect(subject.split(hostname)).to eq([prefix, ".#{tld}"])
+          expect(subject.split(hostname)).to eq([prefix, tld])
         end
       end
 
@@ -461,7 +461,7 @@ describe Ronin::Support::Network::PublicSuffix::List do
         let(:hostname) { "#{prefix}.#{suffix}" }
 
         it "must return the hostname label and the suffix" do
-          expect(subject.split(hostname)).to eq([prefix, ".#{suffix}"])
+          expect(subject.split(hostname)).to eq([prefix, suffix])
         end
       end
 
@@ -472,7 +472,7 @@ describe Ronin::Support::Network::PublicSuffix::List do
         let(:hostname) { "#{prefix}.#{label}.#{suffix}" }
 
         it "must consume an arbitrary label for the '*' wildcard label" do
-          expect(subject.split(hostname)).to eq([prefix, ".#{label}.#{suffix}"])
+          expect(subject.split(hostname)).to eq([prefix, "#{label}.#{suffix}"])
         end
       end
 

@@ -237,32 +237,34 @@ module Ronin
           #
           def split(host_name)
             host_name = host_name.dup
-            suffix    = ""
+            suffixes  = []
 
             tree = @tree
 
             while tree
-              name = if (index = host_name.rindex('.')) then host_name[index..]
-                     else                                    host_name
-                     end
+              component = if (index = host_name.rindex('.'))
+                            host_name[(index+1)..]
+                          else
+                            host_name
+                          end
 
               tld, subtree = tree.find do |tld,subtree|
-                tld == '*' || name == ".#{tld}"
+                tld == '*' || component == tld
               end
 
               if tld
-                host_name.chomp!(name)
-                suffix.prepend(name)
+                host_name.slice!(index..)
+                suffixes.prepend(component)
               end
 
               tree = subtree
             end
 
-            if suffix.empty?
+            if suffixes.empty?
               raise(InvalidHostname,"hostname does not have a valid suffix: #{host_name.inspect}")
             end
 
-            return host_name, suffix
+            return host_name, suffixes.join('.')
           end
 
           #

@@ -164,7 +164,7 @@ module Ronin
         # @example
         #   host = Host.new('foo.bar.example.co.uk')
         #   host.suffix
-        #   # => ".co.uk"
+        #   # => "co.uk"
         #
         def suffix
           @suffix ||= PublicSuffix.list.split(@name).last
@@ -195,7 +195,7 @@ module Ronin
               domain = domain[(last_dot+1)..]
             end
 
-            Domain.new("#{domain}#{suffix}")
+            Domain.new("#{domain}.#{suffix}")
           end
         end
 
