@@ -363,6 +363,26 @@ describe Ronin::Support::Network::TLD::List do
         expect(subject.split(domain)).to eq([prefix, tld])
       end
     end
+
+    context "but the hostname name does not end in a valid TLD" do
+      let(:domain) { "www.example.X" }
+
+      it do
+        expect {
+          subject.split(domain)
+        }.to raise_error(Ronin::Support::Network::InvalidHostname,"hostname does not have a valid TLD: #{domain.inspect}")
+      end
+    end
+
+    context "but the hostname name does not end in a TLD" do
+      let(:domain) { "example" }
+
+      it do
+        expect {
+          subject.split(domain)
+        }.to raise_error(Ronin::Support::Network::InvalidHostname,"hostname does not have a TLD: #{domain.inspect}")
+      end
+    end
   end
 
   describe "#to_regexp" do
