@@ -162,6 +162,9 @@ module Ronin
         # @return [String]
         #   The last component of the hostname.
         #
+        # @raise [InvalidHostname]
+        #   The hostname does not end with a valid TLD.
+        #
         # @example
         #   host = Host.new('foo.bar.example.co.uk')
         #   host.tld
@@ -176,6 +179,9 @@ module Ronin
         #
         # @return [String]
         #   The suffix of the hostname (ex: `.co.uk`).
+        #
+        # @raise [InvalidHostname]
+        #   The hostname does not end with a valid suffix.
         #
         # @example
         #   host = Host.new('foo.bar.example.co.uk')
