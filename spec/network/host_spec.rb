@@ -24,15 +24,50 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  let(:fixtures_dir) { File.join(__dir__,'public_suffix','fixtures') }
-  let(:list_file)    { File.join(fixtures_dir,'public_suffix_list.dat') }
+  let(:tld_fixtures_dir) do
+    File.join(__dir__,'tld','fixtures')
+  end
+  let(:tld_list_file) do
+    File.join(fixtures_dir,'tlds-alpha-by-domain.txt')
+  end
+  let(:tld_list) do
+    Ronin::Support::Network::TLD::List.load_file(list_file)
+  end
 
+  before do
+    allow(Ronin::Support::Network::TLD).to receive(:list).and_return(tld_list)
+  end
+
+  let(:public_suffix_fixtures_dir) do
+    File.join(__dir__,'public_suffix','fixtures')
+  end
+  let(:public_suffix_list_file) do
+    File.join(fixtures_dir,'public_suffix_list.dat')
+  end
   let(:public_suffix_list) do
     Ronin::Support::Network::PublicSuffix::List.load_file(list_file)
   end
 
   before do
     allow(Ronin::Support::Network::PublicSuffix).to receive(:list).and_return(public_suffix_list)
+  end
+
+  describe "#tld" do
+    context "when the hostname only has two components" do
+      let(:hostname) { 'example.com' }
+
+      it "must return the TLD of the hostname" do
+        expect(subject.tld).to eq('com')
+      end
+    end
+
+    context "when the hostname has a multi-component suffix" do
+      let(:hostname) { 'www.example.co.uk' }
+
+      it "must return the last component of the hostname" do
+        expect(subject.tld).to eq('uk')
+      end
+    end
   end
 
   describe "#suffix" do

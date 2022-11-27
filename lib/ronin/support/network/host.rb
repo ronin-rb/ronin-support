@@ -17,6 +17,7 @@
 
 require 'ronin/support/network/dns'
 require 'ronin/support/network/ip'
+require 'ronin/support/network/tld'
 require 'ronin/support/network/public_suffix'
 
 module Ronin
@@ -153,6 +154,21 @@ module Ronin
         #
         def initialize(name)
           @name = name
+        end
+
+        #
+        # The Top-Level Domain of the hostnmae.
+        #
+        # @return [String]
+        #   The last component of the hostname.
+        #
+        # @example
+        #   host = Host.new('foo.bar.example.co.uk')
+        #   host.tld
+        #   # => "uk"
+        #
+        def tld
+          @tld ||= TLD.list.split(@name).last
         end
 
         #
