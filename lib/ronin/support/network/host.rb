@@ -193,7 +193,7 @@ module Ronin
         #   The domain object derived from the hostname, without any sub-domain
         #   components (ex: `www`).
         #
-        # @raise [PublicSuffix::InvalidHostname]
+        # @raise [InvalidHostname]
         #   The hostname does not end with a valid suffix.
         #
         # @example
