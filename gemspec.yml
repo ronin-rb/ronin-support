@@ -25,6 +25,7 @@ dependencies:
   chars: ~> 0.2
   hexdump: ~> 1.0
   combinatorics: ~> 0.4
+  addressable: ~> 2.0
   uri-query_params: ~> 0.8
 
 development_dependencies:

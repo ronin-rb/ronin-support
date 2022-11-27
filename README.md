@@ -66,6 +66,7 @@ please see [Everyday Ronin].
 * [chars] ~> 0.2
 * [hexdump] ~> 1.0
 * [combinatorics] ~> 0.4
+* [addressable] ~> 2.0
 * [uri-query_params] ~> 0.8
 
 ## Install
@@ -113,4 +114,5 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [chars]: https://github.com/postmodern/chars#readme
 [hexdump]: https://github.com/postmodern/hexdump#readme
 [combinatorics]: https://github.com/postmodern/combinatorics#readme
+[addressable]: https://github.com/sporkmonger/addressable#readme
 [uri-query_params]: https://github.com/postmodern/uri-query_params#readme
