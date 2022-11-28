@@ -519,7 +519,7 @@ describe Ronin::Support::Network::DNS do
 
   describe ".get_srv_records" do
     context "integration", :network do
-      let(:hostname) { '_xmpp-server._tcp.gmail.com' }
+      let(:hostname) { '_http._tcp.update.freebsd.org' }
 
       it "must return all Resolv::DNS::Resource::IN::SRV records" do
         srv_records = subject.get_srv_records(hostname)
