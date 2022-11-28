@@ -305,11 +305,12 @@ module Ronin
         def each_suffix(type: nil)
           return enum_for(__method__, type: type) unless block_given?
 
-          suffixes = PublicSuffix.list.non_wildcards
-          suffixes = suffixes.type(type) if type
-
-          suffixes.each do |suffix|
-            yield change_suffix(suffix)
+          PublicSuffix.list.each do |suffix|
+            unless suffix.wildcard?
+              if (type == nil) || (suffix.type == type)
+                yield change_suffix(suffix)
+              end
+            end
           end
 
           return nil
