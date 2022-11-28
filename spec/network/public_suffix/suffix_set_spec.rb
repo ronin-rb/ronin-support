@@ -65,6 +65,22 @@ describe Ronin::Support::Network::PublicSuffix::SuffixSet do
     end
   end
 
+  describe "#type" do
+    let(:type) { :icann }
+
+    subject { super().type(type) }
+
+    it "must return a #{described_class}" do
+      expect(subject).to be_kind_of(described_class)
+    end
+
+    it "must return the suffixes with the matching type" do
+      expect(subject.suffixes).to be_kind_of(Enumerator::Lazy)
+      expect(subject.suffixes.to_a).to_not be_empty
+      expect(subject.suffixes.to_a).to all(be_icann)
+    end
+  end
+
   describe "#icann" do
     subject { super().icann }
 

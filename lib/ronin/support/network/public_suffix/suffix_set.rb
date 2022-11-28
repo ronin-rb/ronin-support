@@ -72,6 +72,19 @@ module Ronin
           end
 
           #
+          # Selects all suffixes with the matching type.
+          #
+          # @param [:icann, :private] type
+          #   The type to filter by.
+          #
+          # @return [SuffixSet]
+          #   The new sub-set of suffixes.
+          #
+          def type(type)
+            SuffixSet.new(lazy.select { |suffix| suffix.type == type })
+          end
+
+          #
           # Selects all ICANN suffixes.
           #
           # @return [SuffixSet]
