@@ -157,6 +157,17 @@ module Ronin
         end
 
         #
+        # Determines if the hostname is an [IDN] hostname.
+        #
+        # [IDN]: https://en.wikipedia.org/wiki/Internationalized_domain_name
+        #
+        # @return [Boolean]
+        #
+        def idn?
+          @name !~ /\A[A-Za-z0-9._-]+\z/
+        end
+
+        #
         # Determines if the hostname is a [punycode] hostnmae.
         #
         # [punycode]: https://en.wikipedia.org/wiki/Punycode

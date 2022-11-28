@@ -24,6 +24,22 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#idn?" do
+    context "when the hostname contains unicode characters" do
+      let(:hostname)  { "www.詹姆斯.com" }
+
+      it "must return true" do
+        expect(subject.idn?).to be(true)
+      end
+    end
+
+    context "when the hostname only contains ASCII characters" do
+      it "must return false" do
+        expect(subject.idn?).to be(false)
+      end
+    end
+  end
+
   describe "#punycode?" do
     context "when the hostname is not a punycode hostname" do
       it "must return false" do
