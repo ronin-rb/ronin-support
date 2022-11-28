@@ -98,6 +98,43 @@ describe Ronin::Support::Network::PublicSuffix::Suffix do
     end
   end
 
+  describe "#==" do
+    context "when given another #{described_class} object" do
+      let(:name) { 'com'  }
+      let(:type) { :icann }
+
+      let(:other_name) { name }
+      let(:other_type) { type }
+      let(:other) do
+        described_class.new(other_name, type: other_type)
+      end
+
+      context "but the #name attributes are different" do
+        let(:other_name) { 'xyz' }
+
+        it "must return false" do
+          expect(subject == other).to be(false)
+        end
+      end
+
+      context "but the #type attributes are different" do
+        let(:type) { :private }
+
+        it "must return false" do
+          expect(subject == other).to be(false)
+        end
+      end
+    end
+
+    context "when given an Object" do
+      let(:other) { Object.new }
+
+      it "must return false" do
+        expect(subject == other).to eq(false)
+      end
+    end
+  end
+
   describe "#to_s" do
     it "must return the #name" do
       expect(subject.to_s).to eq(name)

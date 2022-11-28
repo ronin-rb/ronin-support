@@ -87,6 +87,20 @@ module Ronin
           end
 
           #
+          # Compares the suffix to another object.
+          #
+          # @param [Object] other
+          #   The other object to compare to.
+          #
+          # @return [Boolean]
+          #
+          def ==(other)
+            self.class == other.class &&
+              @name == other.name &&
+              @type == other.type
+          end
+
+          #
           # Converts the suffix to a String.
           #
           # @return [String]
