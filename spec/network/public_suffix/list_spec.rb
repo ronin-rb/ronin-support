@@ -267,6 +267,9 @@ describe Ronin::Support::Network::PublicSuffix::List do
         it "must return a #{described_class} object with the parsed records" do
           expect(subject).to be_kind_of(described_class)
           expect(subject.list).to_not be_empty
+          expect(subject.list).to all(be_kind_of(
+            Ronin::Support::Network::PublicSuffix::Suffix
+          ))
           expect(subject.tree).to_not be_empty
         end
       end
@@ -277,6 +280,9 @@ describe Ronin::Support::Network::PublicSuffix::List do
         it "must return a #{described_class} object with the parsed records" do
           expect(subject).to be_kind_of(described_class)
           expect(subject.list).to_not be_empty
+          expect(subject.list).to all(be_kind_of(
+            Ronin::Support::Network::PublicSuffix::Suffix
+          ))
           expect(subject.tree).to_not be_empty
         end
       end
@@ -312,8 +318,12 @@ describe Ronin::Support::Network::PublicSuffix::List do
   describe "#<<" do
     subject { described_class.new }
 
-    let(:suffix1) { 'arpa'     }
-    let(:suffix2) { 'ip6.arpa' }
+    let(:suffix1) do
+      Ronin::Support::Network::PublicSuffix::Suffix.new('arpa')
+    end
+    let(:suffix2) do
+      Ronin::Support::Network::PublicSuffix::Suffix.new('ip6.arpa')
+    end
 
     it "must append the suffix to the #list" do
       subject << suffix1
@@ -323,19 +333,23 @@ describe Ronin::Support::Network::PublicSuffix::List do
     end
 
     context "when the suffix does not contain a '.'" do
-      let(:tld) { "com" }
+      let(:tld) do
+        Ronin::Support::Network::PublicSuffix::Suffix.new("com")
+      end
 
       before { subject << tld }
 
       it "must add the TLD to #tree as a key" do
-        expect(subject.tree).to have_key(tld)
+        expect(subject.tree).to have_key(tld.name)
       end
     end
 
     context "when the suffix does contain a '.'" do
       let(:tld)     { "uk" }
       let(:sub_tld) { "co" }
-      let(:suffix)  { "#{sub_tld}.#{tld}" }
+      let(:suffix) do
+        Ronin::Support::Network::PublicSuffix::Suffix.new("#{sub_tld}.#{tld}")
+      end
 
       before { subject << suffix }
 
@@ -353,10 +367,14 @@ describe Ronin::Support::Network::PublicSuffix::List do
     end
 
     context "when the suffix does contain two '.' characters" do
-      let(:tld)         { "org" }
+      let(:tld)         { "org"    }
       let(:sub_tld)     { "dyndns" }
-      let(:sub_sub_tld) { "go" }
-      let(:suffix)      { "#{sub_sub_tld}.#{sub_tld}.#{tld}" }
+      let(:sub_sub_tld) { "go"     }
+      let(:suffix) do
+        Ronin::Support::Network::PublicSuffix::Suffix.new(
+          "#{sub_sub_tld}.#{sub_tld}.#{tld}", type: :private
+        )
+      end
 
       before { subject << suffix }
 
@@ -385,17 +403,19 @@ describe Ronin::Support::Network::PublicSuffix::List do
   subject { described_class.load_file(path) }
 
   describe "#each" do
+    let(:suffixes) { subject.list.map(&:name) }
+
     context "when given a block" do
-      it "must yield every entry in #list" do
+      it "must yield every suffix name in #list" do
         expect { |b|
           subject.each(&b)
-        }.to yield_successive_args(*subject.list)
+        }.to yield_successive_args(*suffixes)
       end
     end
 
     context "when given no block" do
       it "must return an Enumerator for #each" do
-        expect(subject.each.to_a).to eq(subject.list)
+        expect(subject.each.to_a).to eq(suffixes)
       end
     end
   end
@@ -494,7 +514,7 @@ describe Ronin::Support::Network::PublicSuffix::List do
     end
 
     let(:suffixes) do
-      subject.list.reject { |suffix| suffix.include?('*') }
+      subject.list.reject(&:wildcard?).map(&:to_s)
     end
 
     it "must match every suffix in the #list" do

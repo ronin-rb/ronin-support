@@ -15,6 +15,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/network/public_suffix/suffix'
 require 'ronin/support/network/exceptions'
 require 'ronin/support/home'
 
@@ -166,12 +167,17 @@ module Ronin
           #
           def self.load_file(path=PATH)
             list = new(path)
+            type = nil
 
             File.open(path) do |file|
               file.each_line(chomp: true) do |line|
-                next if (line.empty? || line.start_with?('//'))
-
-                list << line
+                if line == '// ===BEGIN ICANN DOMAINS==='
+                  type = :icann
+                elsif line == '// ===BEGIN PRIVATE DOMAINS==='
+                  type = :private
+                elsif !(line.empty? || line.start_with?('//'))
+                  list << Suffix.new(line, type: type)
+                end
               end
             end
 
@@ -181,7 +187,7 @@ module Ronin
           #
           # Adds a public suffix to the list.
           #
-          # @param [String] suffix
+          # @param [Suffix] suffix
           #   The suffix String to add.
           #
           # @return [self]
@@ -191,17 +197,17 @@ module Ronin
           def <<(suffix)
             @list << suffix
 
-            if suffix.include?('.')
+            if suffix.name.include?('.')
               tree = @tree
 
-              suffix.split('.').reverse_each.each_cons(2) do |parent,child|
+              suffix.name.split('.').reverse_each.each_cons(2) do |parent,child|
                 subtree = tree[parent] ||= {}
                 subtree[child] ||= nil
 
                 tree = subtree
               end
             else
-              @tree[suffix] ||= nil
+              @tree[suffix.name] ||= nil
             end
 
             return self
@@ -219,8 +225,12 @@ module Ronin
           # @return [Enumerator]
           #   If no block is given, an Enumerator object will be returned.
           #
-          def each(&block)
-            @list.each(&block)
+          def each
+            return enum_for(__method__) unless block_given?
+
+            @list.each do |suffix|
+              yield suffix.name
+            end
           end
 
           #
