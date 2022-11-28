@@ -51,6 +51,24 @@ module Ronin
           end
 
           #
+          # Indicates whether the suffix is an ICANN domain.
+          #
+          # @return [Boolean]
+          #
+          def icann?
+            @type == :icann
+          end
+
+          #
+          # Indicates whether the suffix is a private domain.
+          #
+          # @return [Boolean]
+          #
+          def private?
+            @type == :private
+          end
+
+          #
           # Determines if the suffix contians a `*` wildcard.
           #
           # @return [Boolean]

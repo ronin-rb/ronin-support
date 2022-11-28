@@ -26,6 +26,46 @@ describe Ronin::Support::Network::PublicSuffix::Suffix do
     end
   end
 
+  describe "#icann?" do
+    subject { described_class.new(name, type: type) }
+
+    context "when #type is :icann" do
+      let(:type) { :icann }
+
+      it "must return true" do
+        expect(subject.icann?).to be(true)
+      end
+    end
+
+    context "when #type is not :icann" do
+      let(:type) { :private }
+
+      it "must return false" do
+        expect(subject.icann?).to be(false)
+      end
+    end
+  end
+
+  describe "#private?" do
+    subject { described_class.new(name, type: type) }
+
+    context "when #type is :private" do
+      let(:type) { :private }
+
+      it "must return true" do
+        expect(subject.private?).to be(true)
+      end
+    end
+
+    context "when #type is not :private" do
+      let(:type) { :icann }
+
+      it "must return false" do
+        expect(subject.private?).to be(false)
+      end
+    end
+  end
+
   describe "#wildcard?" do
     context "when the suffix name does not contina a '*' character" do
       it "must return false" do
