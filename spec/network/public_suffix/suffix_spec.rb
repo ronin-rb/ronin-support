@@ -42,6 +42,22 @@ describe Ronin::Support::Network::PublicSuffix::Suffix do
     end
   end
 
+  describe "#non_wildcard?" do
+    context "when the suffix name does not contina a '*' character" do
+      it "must return true" do
+        expect(subject.non_wildcard?).to be(true)
+      end
+    end
+
+    context "when the suffix name does contina a '*' character" do
+      let(:name) { '*.static.cloud' }
+
+      it "must return false" do
+        expect(subject.non_wildcard?).to be(false)
+      end
+    end
+  end
+
   describe "#to_s" do
     it "must return the #name" do
       expect(subject.to_s).to eq(name)

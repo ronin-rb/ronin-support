@@ -60,6 +60,15 @@ module Ronin
           end
 
           #
+          # Determines if the suffix does not contain a `*` wildcard.
+          #
+          # @return [Boolean]
+          #
+          def non_wildcard?
+            !wildcard?
+          end
+
+          #
           # Converts the suffix to a String.
           #
           # @return [String]
