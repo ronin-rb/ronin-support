@@ -15,6 +15,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/network/public_suffix/suffix_set'
 require 'ronin/support/network/public_suffix/suffix'
 require 'ronin/support/network/exceptions'
 require 'ronin/support/home'
@@ -35,7 +36,7 @@ module Ronin
         #
         # @since 1.0.0
         #
-        class List
+        class List < SuffixSet
 
           include Enumerable
 
@@ -53,11 +54,6 @@ module Ronin
           # @return [String]
           attr_reader :path
 
-          # The list of all public suffixes.
-          #
-          # @return [Array<String>]
-          attr_reader :list
-
           # The tree of all public suffix TLDs.
           #
           # @return [Hash{String => Hash}]
@@ -72,9 +68,9 @@ module Ronin
           # @api private
           #
           def initialize(path=PATH)
-            @path = path
+            super()
 
-            @list = []
+            @path = path
             @tree = {}
           end
 
@@ -157,6 +153,40 @@ module Ronin
           end
 
           #
+          # Parses the contents of the list file.
+          #
+          # @param [String] path
+          #   An optional alternate path to the list file.
+          #
+          # @yield [suffix]
+          #   If a block is given, it will be passed each parsed suffix from the
+          #   list file.
+          #
+          # @yieldparam [Suffix] suffix
+          #   A parsed suffix in the list file.
+          #
+          # @return [Enumerator]
+          #   If no block is given, an Enumerator object will be returned.
+          #
+          def self.parse(path=PATH)
+            return enum_for(__method__,path) unless block_given?
+
+            type = nil
+
+            File.open(path) do |file|
+              file.each_line(chomp: true) do |line|
+                if line == '// ===BEGIN ICANN DOMAINS==='
+                  type = :icann
+                elsif line == '// ===BEGIN PRIVATE DOMAINS==='
+                  type = :private
+                elsif !(line.empty? || line.start_with?('//'))
+                  yield Suffix.new(line, type: type)
+                end
+              end
+            end
+          end
+
+          #
           # Loads the public suffix list from the given file.
           #
           # @param [String] path
@@ -167,18 +197,9 @@ module Ronin
           #
           def self.load_file(path=PATH)
             list = new(path)
-            type = nil
 
-            File.open(path) do |file|
-              file.each_line(chomp: true) do |line|
-                if line == '// ===BEGIN ICANN DOMAINS==='
-                  type = :icann
-                elsif line == '// ===BEGIN PRIVATE DOMAINS==='
-                  type = :private
-                elsif !(line.empty? || line.start_with?('//'))
-                  list << Suffix.new(line, type: type)
-                end
-              end
+            parse(path) do |suffix|
+              list << suffix
             end
 
             return list
@@ -195,7 +216,7 @@ module Ronin
           # @api private
           #
           def <<(suffix)
-            @list << suffix
+            super(suffix)
 
             if suffix.name.include?('.')
               tree = @tree
@@ -211,26 +232,6 @@ module Ronin
             end
 
             return self
-          end
-
-          #
-          # Enumerates over each suffix in the list.
-          #
-          # @yield [suffix]
-          #   If a block is given, it will be passed each suffix in the list.
-          #
-          # @yieldparam [String] suffix
-          #   A domain suffix in the list.
-          #
-          # @return [Enumerator]
-          #   If no block is given, an Enumerator object will be returned.
-          #
-          def each
-            return enum_for(__method__) unless block_given?
-
-            @list.each do |suffix|
-              yield suffix.name
-            end
           end
 
           #

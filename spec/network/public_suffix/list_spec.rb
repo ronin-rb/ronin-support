@@ -8,7 +8,10 @@ require 'tmpdir'
 describe Ronin::Support::Network::PublicSuffix::List do
   let(:fixtures_dir) { File.join(__dir__,'fixtures') }
   let(:list_file)    { File.join(fixtures_dir,'public_suffix_list.dat') }
-  let(:path)         { list_file }
+  let(:suffixes)     { described_class.parse(list_file).to_a }
+
+  let(:path) { list_file }
+  subject { described_class.new(path) }
 
   describe "FILE_NAME" do
     subject { described_class::FILE_NAME }
@@ -254,7 +257,7 @@ describe Ronin::Support::Network::PublicSuffix::List do
       end
     end
 
-    describe ".load_file" do
+    describe ".parse" do
       let(:path) { list_file }
 
       subject { described_class }
@@ -262,14 +265,57 @@ describe Ronin::Support::Network::PublicSuffix::List do
       context "when given no argument" do
         let(:path) { File.join(fixtures_dir,'public_suffix_list.dat') }
 
+        context "and when given a block" do
+          it "must yield each parsed Ronin::Support::Network::PublicSuffix::Suffix" do
+            expect { |b|
+              subject.parse(&b)
+            }.to yield_successive_args(*suffixes)
+          end
+        end
+
+        context "and when given no block" do
+          it "must return an Enumerator for .parse" do
+            expect(subject.parse.to_a).to eq(suffixes)
+          end
+        end
+      end
+
+      context "when given a path" do
+        context "and when given a block" do
+          it "must yield each parsed Ronin::Support::Network::PublicSuffix::Suffix" do
+            expect { |b|
+              subject.parse(path,&b)
+            }.to yield_successive_args(*suffixes)
+          end
+        end
+
+        context "and when given no block" do
+          it "must return an Enumerator for .parse" do
+            expect(subject.parse(path).to_a).to eq(suffixes)
+          end
+        end
+      end
+
+      describe "record" do
+        subject { super().parse.first }
+      end
+     end
+
+    describe ".load_file" do
+      let(:path) { list_file }
+
+      subject { described_class }
+
+      context "when given no argument" do
         subject { super().load_file }
 
         it "must return a #{described_class} object with the parsed records" do
           expect(subject).to be_kind_of(described_class)
-          expect(subject.list).to_not be_empty
-          expect(subject.list).to all(be_kind_of(
+          expect(subject.suffixes).to_not be_empty
+          expect(subject.suffixes).to all(be_kind_of(
             Ronin::Support::Network::PublicSuffix::Suffix
           ))
+
           expect(subject.tree).to_not be_empty
         end
       end
@@ -279,10 +325,11 @@ describe Ronin::Support::Network::PublicSuffix::List do
 
         it "must return a #{described_class} object with the parsed records" do
           expect(subject).to be_kind_of(described_class)
-          expect(subject.list).to_not be_empty
-          expect(subject.list).to all(be_kind_of(
+          expect(subject.suffixes).to_not be_empty
+          expect(subject.suffixes).to all(be_kind_of(
             Ronin::Support::Network::PublicSuffix::Suffix
           ))
+
           expect(subject.tree).to_not be_empty
         end
       end
@@ -306,8 +353,8 @@ describe Ronin::Support::Network::PublicSuffix::List do
       end
     end
 
-    it "must initializes #list to []" do
-      expect(subject.list).to eq([])
+    it "must initializes #suffixes to []" do
+      expect(subject.suffixes).to eq([])
     end
 
     it "must initializes #tree to {}" do
@@ -325,11 +372,11 @@ describe Ronin::Support::Network::PublicSuffix::List do
       Ronin::Support::Network::PublicSuffix::Suffix.new('ip6.arpa')
     end
 
-    it "must append the suffix to the #list" do
+    it "must append the suffix to the #suffixes" do
       subject << suffix1
       subject << suffix2
 
-      expect(subject.list).to eq([suffix1, suffix2])
+      expect(subject.suffixes).to eq([suffix1, suffix2])
     end
 
     context "when the suffix does not contain a '.'" do
@@ -401,24 +448,6 @@ describe Ronin::Support::Network::PublicSuffix::List do
   end
 
   subject { described_class.load_file(path) }
-
-  describe "#each" do
-    let(:suffixes) { subject.list.map(&:name) }
-
-    context "when given a block" do
-      it "must yield every suffix name in #list" do
-        expect { |b|
-          subject.each(&b)
-        }.to yield_successive_args(*suffixes)
-      end
-    end
-
-    context "when given no block" do
-      it "must return an Enumerator for #each" do
-        expect(subject.each.to_a).to eq(suffixes)
-      end
-    end
-  end
 
   describe "#split" do
     context "when given a domain name" do
@@ -514,7 +543,7 @@ describe Ronin::Support::Network::PublicSuffix::List do
     end
 
     let(:suffixes) do
-      subject.list.reject(&:wildcard?).map(&:to_s)
+      subject.reject(&:wildcard?).map(&:to_s)
     end
 
     it "must match every suffix in the #list" do

@@ -245,7 +245,7 @@ describe Ronin::Support::Network::Host do
     end
 
     let(:public_suffixes) do
-      public_suffix_list.reject { |suffix| suffix.include?('*') }
+      public_suffix_list.reject(&:wildcard?)
     end
 
     context "when given a block" do

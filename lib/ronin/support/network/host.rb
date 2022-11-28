@@ -253,6 +253,7 @@ module Ronin
         #
         def change_suffix(new_suffix)
           name, suffix = PublicSuffix.list.split(@name)
+          new_suffix   = new_suffix.to_s
 
           if new_suffix.start_with?('.')
             return self.class.new("#{name}#{new_suffix}")
@@ -302,7 +303,7 @@ module Ronin
           return enum_for(__method__) unless block_given?
 
           PublicSuffix.list.each do |suffix|
-            unless suffix.include?('*')
+            unless suffix.wildcard?
               yield change_suffix(suffix)
             end
           end
