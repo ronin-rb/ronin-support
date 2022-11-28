@@ -252,13 +252,13 @@ module Ronin
             tree = @tree
 
             while tree
-              component = components.pop
+              component = components.last
 
               tld, subtree = tree.find do |tld,subtree|
                 tld == '*' || component == tld
               end
 
-              suffixes.prepend(component) if tld
+              suffixes.prepend(components.pop) if tld
               tree = subtree
             end
 
