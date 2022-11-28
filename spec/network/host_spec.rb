@@ -24,9 +24,12 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  let(:unicode_hostname)  { "www.詹姆斯.com" }
+  let(:punycode_hostname) { 'www.xn--8ws00zhy3a.com' }
+
   describe "#idn?" do
     context "when the hostname contains unicode characters" do
-      let(:hostname)  { "www.詹姆斯.com" }
+      let(:hostname)  { unicode_hostname }
 
       it "must return true" do
         expect(subject.idn?).to be(true)
@@ -48,10 +51,36 @@ describe Ronin::Support::Network::Host do
     end
 
     context "when the hostname is a punycode hostname" do
-      let(:hostname) { 'www.xn--8ws00zhy3a.com' }
+      let(:hostname) { punycode_hostname }
 
       it "must return true" do
         expect(subject.punycode?).to be(true)
+      end
+    end
+  end
+
+  describe "#punycode" do
+    context "when the hostname contains unicode characters" do
+      let(:hostname) { unicode_hostname }
+
+      it "must return a new #{described_class}" do
+        expect(subject.punycode).to be_kind_of(described_class)
+        expect(subject.punycode).to_not be(subject)
+      end
+
+      it "must convert the unicode hostname to punycode" do
+        expect(subject.punycode.name).to eq(punycode_hostname)
+      end
+    end
+
+    context "when the hostname does not contain unicode" do
+      it "must return a new #{described_class}" do
+        expect(subject.punycode).to be_kind_of(described_class)
+        expect(subject.punycode).to_not be(subject)
+      end
+
+      it "must not change the hostname" do
+        expect(subject.punycode.name).to eq(subject.name)
       end
     end
   end

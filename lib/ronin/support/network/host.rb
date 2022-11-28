@@ -16,6 +16,7 @@
 #
 
 require 'ronin/support/network/dns'
+require 'ronin/support/network/dns/idn'
 require 'ronin/support/network/ip'
 require 'ronin/support/network/tld'
 require 'ronin/support/network/public_suffix'
@@ -178,6 +179,18 @@ module Ronin
         #
         def punycode?
           @name.include?('xn--')
+        end
+
+        #
+        # Converts the hostname to it's [punycode] version.
+        #
+        # [punycode]: https://en.wikipedia.org/wiki/Punycode
+        #
+        # @return [Host]
+        #   The new host containing the punycode version of the hostname.
+        #
+        def punycode
+          self.class.new(DNS::IDN.to_ascii(@name))
         end
 
         #
