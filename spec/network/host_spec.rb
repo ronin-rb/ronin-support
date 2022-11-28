@@ -136,6 +136,18 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#subdomain" do
+    let(:subname) { 'foo' }
+
+    it "must return a new #{described_class}" do
+      expect(subject.subdomain(subname)).to be_kind_of(described_class)
+    end
+
+    it "must add the sub-name under the hostname" do
+      expect(subject.subdomain(subname).name).to eq("#{subname}.#{hostname}")
+    end
+  end
+
   let(:fixtures_dir) { File.join(__dir__,'public_suffix','fixtures') }
   let(:list_file)    { File.join(fixtures_dir,'public_suffix_list.dat') }
 

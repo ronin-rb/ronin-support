@@ -222,6 +222,19 @@ module Ronin
         end
 
         #
+        # Creates a sub-domain under the hostname.
+        #
+        # @param [String] subname
+        #   The sub-name to add under the hostname.
+        #
+        # @return [Host]
+        #   The new sub-domain.
+        #
+        def subdomain(subname)
+          Host.new("#{subname}.#{@name}")
+        end
+
+        #
         # Changes the suffix of the hostname.
         #
         # @param [String] new_suffix
