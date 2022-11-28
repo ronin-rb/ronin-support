@@ -236,27 +236,19 @@ module Ronin
           #   The given hostname does not end with a valid suffix.
           #
           def split(host_name)
-            host_name = host_name.dup
-            suffixes  = []
+            components = host_name.split('.')
+            suffixes   = []
 
             tree = @tree
 
             while tree
-              component = if (index = host_name.rindex('.'))
-                            host_name[(index+1)..]
-                          else
-                            host_name
-                          end
+              component = components.pop
 
               tld, subtree = tree.find do |tld,subtree|
                 tld == '*' || component == tld
               end
 
-              if tld
-                host_name.slice!(index..)
-                suffixes.prepend(component)
-              end
-
+              suffixes.prepend(component) if tld
               tree = subtree
             end
 
@@ -264,7 +256,7 @@ module Ronin
               raise(InvalidHostname,"hostname does not have a valid suffix: #{host_name.inspect}")
             end
 
-            return host_name, suffixes.join('.')
+            return components.join('.'), suffixes.join('.')
           end
 
           #
