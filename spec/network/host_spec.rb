@@ -24,6 +24,22 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#punycode?" do
+    context "when the hostname is not a punycode hostname" do
+      it "must return false" do
+        expect(subject.punycode?).to be(false)
+      end
+    end
+
+    context "when the hostname is a punycode hostname" do
+      let(:hostname) { 'www.xn--8ws00zhy3a.com' }
+
+      it "must return true" do
+        expect(subject.punycode?).to be(true)
+      end
+    end
+  end
+
   let(:tld_fixtures_dir) do
     File.join(__dir__,'tld','fixtures')
   end

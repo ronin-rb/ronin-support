@@ -157,6 +157,17 @@ module Ronin
         end
 
         #
+        # Determines if the hostname is a [punycode] hostnmae.
+        #
+        # [punycode]: https://en.wikipedia.org/wiki/Punycode
+        #
+        # @return [Boolean]
+        #
+        def punycode?
+          @name.include?('xn--')
+        end
+
+        #
         # The Top-Level Domain of the hostnmae.
         #
         # @return [String]
