@@ -167,6 +167,8 @@ module Ronin
           @name !~ /\A[A-Za-z0-9._-]+\z/
         end
 
+        alias unicode? idn?
+
         #
         # Determines if the hostname is a [punycode] hostnmae.
         #
