@@ -289,6 +289,9 @@ module Ronin
         #
         # Enumerates over every hostname with a different public suffix.
         #
+        # @param [:icann, :private, nil] type
+        #   The optional specific type of suffixes to enumerate.
+        #
         # @yield [host]
         #   The given block will be passed each hostname with a different
         #   public suffix.
@@ -299,13 +302,14 @@ module Ronin
         # @return [Enumerator]
         #   If no block is given, an enumerator will be returned.
         #
-        def each_suffix
-          return enum_for(__method__) unless block_given?
+        def each_suffix(type: nil)
+          return enum_for(__method__, type: type) unless block_given?
 
-          PublicSuffix.list.each do |suffix|
-            unless suffix.wildcard?
-              yield change_suffix(suffix)
-            end
+          suffixes = PublicSuffix.list.non_wildcards
+          suffixes = suffixes.type(type) if type
+
+          suffixes.each do |suffix|
+            yield change_suffix(suffix)
           end
 
           return nil

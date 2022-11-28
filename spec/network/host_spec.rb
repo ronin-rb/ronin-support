@@ -262,6 +262,42 @@ describe Ronin::Support::Network::Host do
           public_suffixes.map { |suffix| "#{prefix}.#{suffix}" }
         )
       end
+
+      context "when given `type: :icann` keyword argument" do
+        let(:public_suffixes) { super().select(&:icann?) }
+
+        it "must only yield new #{described_class} objects with ICANN suffixes" do
+          yielded_hosts = []
+
+          subject.each_suffix(type: :icann) do |host|
+            yielded_hosts << host
+          end
+
+          expect(yielded_hosts).to_not be_empty
+          expect(yielded_hosts).to all(be_kind_of(described_class))
+          expect(yielded_hosts.map(&:name)).to eq(
+            public_suffixes.map { |suffix| "#{prefix}.#{suffix}" }
+          )
+        end
+      end
+
+      context "when given `type: :private` keyword argument" do
+        let(:public_suffixes) { super().select(&:private?) }
+
+        it "must only yield new #{described_class} objects with private suffixes" do
+          yielded_hosts = []
+
+          subject.each_suffix(type: :private) do |host|
+            yielded_hosts << host
+          end
+
+          expect(yielded_hosts).to_not be_empty
+          expect(yielded_hosts).to all(be_kind_of(described_class))
+          expect(yielded_hosts.map(&:name)).to eq(
+            public_suffixes.map { |suffix| "#{prefix}.#{suffix}" }
+          )
+        end
+      end
     end
 
     context "when no block is given" do
@@ -274,6 +310,34 @@ describe Ronin::Support::Network::Host do
         expect(returned_hosts.map(&:name)).to eq(
           public_suffixes.map { |suffix| "#{prefix}.#{suffix}" }
         )
+      end
+
+      context "when given `type: :icann` keyword argument" do
+        let(:public_suffixes) { super().select(&:icann?) }
+
+        it "must return an Enumerator only for new #{described_class} objects with ICANN suffixes" do
+          returned_hosts = subject.each_suffix(type: :icann).to_a
+
+          expect(returned_hosts).to_not be_empty
+          expect(returned_hosts).to all(be_kind_of(described_class))
+          expect(returned_hosts.map(&:name)).to eq(
+            public_suffixes.map { |suffix| "#{prefix}.#{suffix}" }
+          )
+        end
+      end
+
+      context "when given `type: :private` keyword argument" do
+        let(:public_suffixes) { super().select(&:private?) }
+
+        it "must return an Enumerator only for new #{described_class} objects with private suffixes" do
+          returned_hosts = subject.each_suffix(type: :private).to_a
+
+          expect(returned_hosts).to_not be_empty
+          expect(returned_hosts).to all(be_kind_of(described_class))
+          expect(returned_hosts.map(&:name)).to eq(
+            public_suffixes.map { |suffix| "#{prefix}.#{suffix}" }
+          )
+        end
       end
     end
   end
