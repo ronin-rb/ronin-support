@@ -54,6 +54,8 @@ It's like [pwntools] combined with [activesupport].
   * Erb Templates
   * UI:
     * Printing
+* Has 95% documentation coverage.
+* Has 93% test coverage.
 
 ## Examples
 
