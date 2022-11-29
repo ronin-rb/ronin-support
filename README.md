@@ -21,39 +21,74 @@ It's like [pwntools] combined with [activesupport].
 
 ## Features
 
-* Provides convenience methods for:
-  * Formatting data:
-    * Binary
-      * Structs
-    * Text
-    * URIs
-    * HTTP
+* Provides user-friendly APIs for:
+  * Bit-flipping.
+  * Hexdump/unhexdump data.
+  * Packing/unpacking binary data:
+    * C types
+    * Buffers
+    * IO streams
+    * Stacks
+    * Strings
+    * Arrays
+    * Structs
+    * Unions
+  * Encoding data:
+    * Base16
+    * Base32
+    * Base64
+    * C strings
+    * Hex
     * HTML
+    * HTTP
     * JavaScript
+    * PowerShell
+    * Punycode
+    * Quoted-printable
+    * Ruby strings
+    * Shell
     * SQL
-  * Cryptography
+    * URI
+    * UUencoding
+    * XML
+  * Reading/writing compressed data:
+    * Zlib
+    * GZip
+  * Reading/writing archive files:
+    * Tar
+    * Zip
+  * Cryptography:
+    * RSA
+    * DSA
+    * DH
+    * EC
+    * HMAC
+    * Ciphers
+    * X509 certificates
   * Networking:
     * DNS
     * UNIX
     * TCP
     * UDP
-    * SSL
+    * SSL / TLS
     * FTP
     * SMTP / ESMTP
     * POP3
-    * Imap
+    * IMAP
     * Telnet
     * HTTP / HTTPS
-  * Enumerating IP ranges:
-    * IPv4 / IPv6 addresses.
-    * CIDR / globbed ranges.
-  * (Un-)Hexdumping data.
-  * Handling exceptions.
-* Provides Modules/Classes for:
-  * Paths
-  * Erb Templates
-  * UI:
-    * Printing
+    * Raw packets
+    * ASNs
+    * IP addresses
+    * IP ranges
+    * TLDs
+    * Public Suffix List
+    * Host names
+    * Domain names
+  * Working with text:
+    * Generating typos.
+    * Generating homoglyphs.
+    * Regexs for matching/extracting common types of data.
 * Has 95% documentation coverage.
 * Has 93% test coverage.
 
