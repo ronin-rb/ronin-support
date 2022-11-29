@@ -92,6 +92,16 @@ It's like [pwntools] combined with [activesupport].
 * Has 95% documentation coverage.
 * Has 93% test coverage.
 
+## Synopsis
+
+```shell
+$ irb -r ronin/support
+irb(main):001:0> "hello world".base64_encode
+=> "aGVsbG8gd29ybGQ=\n"
+irb(main):002:0> "aGVsbG8gd29ybGQ=\n".base64_decode
+=> "hello world"
+```
+
 ## Examples
 
 For examples of the convenience methods provided by ronin-support,
