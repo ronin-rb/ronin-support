@@ -104,7 +104,18 @@ irb(main):002:0> "aGVsbG8gd29ybGQ=\n".base64_decode
 
 ## Examples
 
-For examples of the convenience methods provided by ronin-support,
+```ruby
+require 'ronin/support'
+include Ronin::Support
+
+string = "hello world"
+puts string.base64_encode
+
+data = "aGVsbG8gd29ybGQ=\n"
+puts data.base64_decode
+```
+
+For more examples of the convenience methods provided by ronin-support,
 please see [Everyday Ronin].
 
 ## Requirements
