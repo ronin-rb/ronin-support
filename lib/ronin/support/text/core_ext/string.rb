@@ -15,13 +15,18 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/text/random'
+
 class String
 
   #
   # Creates a new String by randomizing the case of each character in the
   # String.
   #
-  # @param [Float] probability
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments.
+  #
+  # @option kwargs [Float] :probability
   #   The probability that a character will have it's case changed.
   #
   # @example
@@ -30,18 +35,8 @@ class String
   #
   # @api public
   #
-  def random_case(probability: 0.5)
-    new_string = String.new(encoding: encoding)
-
-    each_char.each_with_index do |char|
-      new_string << if rand <= probability
-                      char.swapcase 
-                    else
-                      char
-                    end
-    end
-
-    return new_string
+  def random_case(**kwargs)
+    Ronin::Support::Text::Random.swapcase(self,**kwargs)
   end
 
 end
