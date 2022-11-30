@@ -23,20 +23,23 @@ class String
   # Creates a new String by randomizing the case of each character in the
   # String.
   #
-  # @param [Hash{Symbol => Object}] kwargs
-  #   Additional keyword arguments.
-  #
-  # @option kwargs [Float] :probability
-  #   The probability that a character will have it's case changed.
+  # @return [String]
+  #   The new String with randomized case.
   #
   # @example
-  #   "get out your checkbook".random_case
-  #   # => "gEt Out YOur CHEckbook"
+  #   "a".random_case
+  #   # => "A"
+  #   "ab".random_case
+  #   # => "aB"
+  #   "foo".random_case
+  #   # => "FoO"
+  #   "The quick brown fox jumps over 13 lazy dogs.".random_case
+  #   # => "the quIcK broWn fox Jumps oveR 13 lazY Dogs."
   #
   # @api public
   #
-  def random_case(**kwargs)
-    Ronin::Support::Text::Random.swapcase(self,**kwargs)
+  def random_case
+    Ronin::Support::Text::Random.swapcase(self)
   end
 
 end
