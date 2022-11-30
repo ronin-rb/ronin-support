@@ -20,20 +20,22 @@ require 'erb'
 module Ronin
   module Support
     module Text
-      module Mixin
-        #
-        # Renders the ERB template file.
-        #
-        # @param [String] path
-        #   The path to the ERB template file.
-        #
-        # @return [String]
-        #   The rendered result.
-        #
-        def erb(path)
-          erb = ERB.new(File.read(path), trim_mode: '-')
+      module ERB
+        module Mixin
+          #
+          # Renders the ERB template file.
+          #
+          # @param [String] path
+          #   The path to the ERB template file.
+          #
+          # @return [String]
+          #   The rendered result.
+          #
+          def erb(path)
+            erb = ::ERB.new(File.read(path), trim_mode: '-')
 
-          return erb.result(binding)
+            return erb.result(binding)
+          end
         end
       end
     end

@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'ronin/support/text/mixin'
+require 'ronin/support/text/erb/mixin'
 
-describe Ronin::Support::Text::Mixin do
+describe Ronin::Support::Text::ERB::Mixin do
   class TestTextMixin
-    include Ronin::Support::Text::Mixin
+    include Ronin::Support::Text::ERB::Mixin
 
     attr_accessor :x, :y
   end
@@ -24,7 +24,7 @@ describe Ronin::Support::Text::Mixin do
       subject.y = y
     end
 
-    let(:fixtures_dir) { File.join(__dir__,'fixtures')          }
+    let(:fixtures_dir) { File.join(__dir__,'..','fixtures')     }
     let(:erb_file)     { File.join(fixtures_dir,'erb_file.erb') }
 
     it "must render an .erb file in it's object context" do
