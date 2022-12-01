@@ -20,6 +20,13 @@ require 'chars'
 module Ronin
   module Support
     module Text
+      #
+      # Methods for generating random text.
+      #
+      # @api public
+      #
+      # @since 1.0.0
+      #
       module Random
         #
         # Creates a new String by randomizing the case of each character in the
@@ -40,8 +47,6 @@ module Ronin
         #   # => "FoO"
         #   Text::Random.swapcase("The quick brown fox jumps over 13 lazy dogs.")
         #   # => "the quIcK broWn fox Jumps oveR 13 lazY Dogs."
-        #
-        # @api public
         #
         def self.swapcase(string)
           candidates = []
