@@ -15,6 +15,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/text/mixin'
 require 'ronin/support/compression/mixin'
 require 'ronin/support/crypto/mixin'
 require 'ronin/support/network/mixin'
@@ -30,6 +31,7 @@ module Ronin
     # @since 1.0.0
     #
     module Mixin
+      include Text::Mixin
       include Compression::Mixin
       include Crypto::Mixin
       include Network::Mixin
