@@ -36,6 +36,12 @@ module Ronin
           # @return [String]
           #   A random decimal-digit string.
           #
+          # @example
+          #   random_numeric
+          #   # => "7"
+          #   random_numeric(10)
+          #   # => "9972255528"
+          #
           # @see Text::Random.numeric
           #
           # @api public
@@ -55,6 +61,12 @@ module Ronin
           # @return [String]
           #   A random octal-digit string.
           #
+          # @example
+          #   random_octal
+          #   # => "7"
+          #   random_octal(10)
+          #   # => "3126172075"
+          #
           # @see Text::Random.octal
           #
           # @api public
@@ -71,6 +83,12 @@ module Ronin
           #
           # @return [String]
           #   The upper-case hexadecimal character set.
+          #
+          # @example
+          #   random_uppercase_hex
+          #   # => "E"
+          #   random_uppercase_hex(10)
+          #   # => "2477973C18"
           #
           # @see Text::Random.uppercase_hex
           #
@@ -91,6 +109,12 @@ module Ronin
           # @return [String]
           #   The lower-case hexadecimal character set.
           #
+          # @example
+          #   random_lowercase_hex
+          #   # => "e"
+          #   random_lowercase_hex(10)
+          #   # => "cfac752fcf"
+          #
           # @see Text::Random.lowercase_hex
           #
           # @api public
@@ -110,6 +134,12 @@ module Ronin
           # @return [String]
           #   A random hexadecimal string.
           #
+          # @example
+          #   random_hex
+          #   # => "d"
+          #   random_hex(10)
+          #   # => "fc8C3BB96f"
+          #
           # @see Text::Random.hex
           #
           # @api public
@@ -126,6 +156,12 @@ module Ronin
           #
           # @return [String]
           #   The upper-case alphabetic character set.
+          #
+          # @example
+          #   random_uppercase_alpha
+          #   # => "R"
+          #   random_uppercase_alpha(10)
+          #   # => "VMRVCQUMCM"
           #
           # @see Text::Random.uppercase_alpha
           #
@@ -146,6 +182,12 @@ module Ronin
           # @return [String]
           #   The lower-case alphabetic character set.
           #
+          # @example
+          #   random_lowercase_alpha
+          #   # => "r"
+          #   random_lowercase_alpha(10)
+          #   # => "bqbouadkvb"
+          #
           # @see Text::Random.lowercase_alpha
           #
           # @api public
@@ -165,6 +207,12 @@ module Ronin
           # @return [String]
           #   A random alphabetic string.
           #
+          # @example
+          #   random_alpha
+          #   # => "L"
+          #   random_alpha(10)
+          #   # => "trrwRUvpwo"
+          #
           # @see Text::Random.alpha
           #
           # @api public
@@ -181,6 +229,12 @@ module Ronin
           #
           # @return [String]
           #   A random alpha-numeric string.
+          #
+          # @example
+          #   random_alpha_numeric
+          #   # => "2"
+          #   random_alpha_numeric
+          #   # => "3zWNgkzUY5"
           #
           # @see Text::Random.alpha_numeric
           #
@@ -199,6 +253,12 @@ module Ronin
           # @return [String]
           #   A random punctuation string.
           #
+          # @example
+          #   random_punctuation
+          #   # => ")"
+          #   random_punctuation(10)
+          #   # => ":;[,;'`\"?)"
+          #
           # @see Text::Random.punctuation
           #
           # @api public
@@ -216,6 +276,12 @@ module Ronin
           # @return [String]
           #   A random symbolic string.
           #
+          # @example
+          #   random_symbols
+          #   # => "["
+          #   random_symbols
+          #   # => ".\\=_.`>;*)"
+          #
           # @see Text::Random.symbols
           #
           # @api public
@@ -232,6 +298,12 @@ module Ronin
           #
           # @return [String]
           #   A random whitespace string.
+          #
+          # @example
+          #   random_whitespace
+          #   # => "\n"
+          #   random_whitespace(10)
+          #   # => "\v\v\t \r\f\n\f\v\f"
           #
           # @see Text::Random.whitespace
           #
@@ -252,6 +324,12 @@ module Ronin
           # @return [String]
           #   A random visible string.
           #
+          # @example
+          #   random_visible
+          #   # => "L"
+          #   random_visible
+          #   # => "Z)zG+[$vN_"
+          #
           # @see Text::Random.visible
           #
           # @api public
@@ -268,6 +346,12 @@ module Ronin
           #
           # @return [String]
           #   A random printable string.
+          #
+          # @example
+          #   random_printable
+          #   # => "B"
+          #   random_printable(10)
+          #   # => "bCz&%ZV30v"
           #
           # @see Text::Random.printable
           #
@@ -286,6 +370,12 @@ module Ronin
           # @return [String]
           #   A random control-character string.
           #
+          # @example
+          #   random_control
+          #   # => "\u0010"
+          #   random_control(10)
+          #   # => "\r\u0013\u0018\u0013\u007F\u0001\u000E\u001C\u0012\u000F"
+          #
           # @see Text::Random.control
           #
           # @api public
@@ -303,6 +393,12 @@ module Ronin
           # @return [String]
           #   The signed ASCII character set.
           #
+          # @example
+          #   random_signed_ascii
+          #   # => "d"
+          #   random_signed_ascii(10)
+          #   # => "\u00006'\u00030%i\u001Dih"
+          #
           # @see Text::Random.signed_ascii
           #
           # @api public
@@ -319,6 +415,12 @@ module Ronin
           #
           # @return [String]
           #   A random ASCII string.
+          #
+          # @example
+          #   random_ascii
+          #   # => "f"
+          #   random_ascii(10)
+          #   # => "¹ý0\u0095É\u001Eðºã,"
           #
           # @see Text::Random.ascii
           #
