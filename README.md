@@ -121,7 +121,7 @@ please see [Everyday Ronin].
 ## Requirements
 
 * [Ruby] >= 1.9.1
-* [chars] ~> 0.2
+* [chars] ~> 0.3, >= 0.3.1
 * [hexdump] ~> 1.0
 * [combinatorics] ~> 0.4
 * [addressable] ~> 2.0
