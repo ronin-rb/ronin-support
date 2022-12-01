@@ -15,11 +15,16 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/text/patterns'
-require 'ronin/support/text/random'
-require 'ronin/support/text/entropy'
-require 'ronin/support/text/homoglyph'
-require 'ronin/support/text/typo'
-require 'ronin/support/text/erb'
-require 'ronin/support/text/mixin'
-require 'ronin/support/text/core_ext'
+require 'ronin/support/text/random/mixin'
+require 'ronin/support/text/erb/mixin'
+
+module Ronin
+  module Support
+    module Text
+      module Mixin
+        include Random::Mixin
+        include ERB::Mixin
+      end
+    end
+  end
+end
