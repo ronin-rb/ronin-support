@@ -130,7 +130,7 @@ module Ronin
         end
 
         #
-        # Alias for {uppercase_hexadecimal}.
+        # Alias for {uppercase_hex}.
         #
         # @param [Integer] n
         #   The desired length of the String.
@@ -138,7 +138,7 @@ module Ronin
         # @return [String]
         #   The upper-case hexadecimal character set.
         #
-        # @see uppercase_hexadecimal
+        # @see uppercase_hex
         #
         def self.upper_hex(n=1)
           uppercase_hex(n)
@@ -160,7 +160,7 @@ module Ronin
         end
 
         #
-        # Alias for {lowercase_hexadecimal}.
+        # Alias for {lowercase_hex}.
         #
         # @param [Integer] n
         #   The desired length of the String.
@@ -168,7 +168,7 @@ module Ronin
         # @return [String]
         #   The lower-case hexadecimal character set.
         #
-        # @see lowercase_hexadecimal
+        # @see lowercase_hex
         #
         def self.lower_hex(n=1)
           lowercase_hex(n)
