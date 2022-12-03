@@ -1069,7 +1069,7 @@ describe Ronin::Support::Network::Host do
 
   describe "#get_srv_records" do
     context "integration", :network do
-      let(:hostname) { '_xmpp-server._tcp.gmail.com' }
+      let(:hostname) { '_http._tcp.update.freebsd.org' }
 
       it "must return all Resolv::DNS::Resource::IN::SRV records" do
         srv_records = subject.get_srv_records
@@ -1087,8 +1087,8 @@ describe Ronin::Support::Network::Host do
       end
 
       context "when a record name is given" do
-        let(:hostname )    { 'gmail.com' }
-        let(:name)         { '_xmpp-server._tcp' }
+        let(:hostname )    { 'update.freebsd.org' }
+        let(:name)         { '_http._tcp' }
 
         it "must query the SRV records for the name under the host name" do
           srv_records = subject.get_srv_records(name)
