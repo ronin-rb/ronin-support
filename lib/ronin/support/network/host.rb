@@ -1409,6 +1409,28 @@ module Ronin
         end
 
         #
+        # Determines if the host name is registered.
+        #
+        # @return [Boolean]
+        #
+        # @note This method will query `8.8.8.8` which supports `ANY` queries.
+        #
+        def registered?
+          !get_any_records(nameserver: '8.8.8.8').empty?
+        end
+
+        #
+        # Determines if the host name is not registered.
+        #
+        # @return [Boolean]
+        #
+        # @see #registered?
+        #
+        def unregistered?
+          !registered?
+        end
+
+        #
         # Converts the host to a String.
         #
         # @return [String]

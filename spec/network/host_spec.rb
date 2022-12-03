@@ -1625,6 +1625,46 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#registered?" do
+    context "integration", :network do
+      context "when the host name has at least one record" do
+        let(:hostname) { 'github.com' }
+
+        it "must return true" do
+          expect(subject.registered?).to be(true)
+        end
+      end
+
+      context "when the host name does not have any records" do
+        let(:hostname) { 'github.comsec' }
+
+        it "must return false" do
+          expect(subject.registered?).to be(false)
+        end
+      end
+    end
+  end
+
+  describe "#unregistered?" do
+    context "integration", :network do
+      context "when the host name has at least one record" do
+        let(:hostname) { 'github.com' }
+
+        it "must return false" do
+          expect(subject.unregistered?).to be(false)
+        end
+      end
+
+      context "when the host name does not have any records" do
+        let(:hostname) { 'github.comsec' }
+
+        it "must return true" do
+          expect(subject.unregistered?).to be(true)
+        end
+      end
+    end
+  end
+
   describe "#to_s" do
     it "must return the host name String" do
       expect(subject.to_s).to eq(hostname)
