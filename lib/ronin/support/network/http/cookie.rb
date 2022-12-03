@@ -180,7 +180,7 @@ module Ronin
           #
           # Merges other cookie params into the cookie.
           #
-          # @param [Hash] params
+          # @param [Cookie, Hash] params
           #   The other cookie params to merge into the cookie.
           #
           # @return [self]
@@ -196,7 +196,7 @@ module Ronin
           #
           # Merges the cookie with other cookie params.
           #
-          # @param [Hash] params
+          # @param [Cookie, Hash] params
           #   The other cookie parmas to merge.
           #
           # @return [Cookie]
