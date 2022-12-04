@@ -512,6 +512,44 @@ describe Network::HTTP do
 
       expect(WebMock).to have_requested(method,uri)
     end
+
+    context "when #headers is not empty" do
+      let(:headers) do
+        {
+          'X-Foo' => 'foo',
+          'X-Bar' => 'bar'
+        }
+      end
+
+      subject do
+        described_class.new(host,port, headers: headers)
+      end
+
+      it "must add the headers to the request" do
+        stub_request(method,uri).with(headers: headers)
+
+        expect(subject.request(method,path)).to be_kind_of(Net::HTTPResponse)
+
+        expect(WebMock).to have_requested(method,uri).with(headers: headers)
+      end
+
+      context "and when additional headers are given" do
+        let(:additional_headers) do
+          {
+            'X-Bar' => 'override'
+          }
+        end
+        let(:merged_headers) { headers.merge(additional_headers) }
+
+        it "must merge the additional headers with #headers" do
+          stub_request(method,uri).with(headers: merged_headers)
+
+          expect(subject.request(method,path, headers: additional_headers)).to be_kind_of(Net::HTTPResponse)
+
+          expect(WebMock).to have_requested(method,uri).with(headers: merged_headers)
+        end
+      end
+    end
   end
 
   describe "#response_status" do
