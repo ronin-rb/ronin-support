@@ -145,6 +145,16 @@ module Ronin
         # @return [Hash{String => String,Array}]
         attr_reader :headers
 
+        # The HTTP Baic-Auth user to add to every request.
+        # 
+        # @return [String, nil]
+        attr_reader :user
+
+        # The HTTP Baic-Auth password to add to every request.
+        # 
+        # @return [String, nil]
+        attr_reader :password
+
         #
         # @!macro [new] initialize_kwargs
         #   @param [String, URI::HTTP, Addressable::URI, nil] proxy
@@ -155,6 +165,12 @@ module Ronin
         #
         #   @param [String, :random, :chrome, :chrome_linux, :chrome_macos, :chrome_windows, :chrome_iphone, :chrome_ipad, :chrome_android, :firefox, :firefox_linux, :firefox_macos, :firefox_windows, :firefox_iphone, :firefox_ipad, :firefox_android, :safari, :safari_macos, :safari_iphone, :safari_ipad, :edge, :linux, :macos, :windows, :iphone, :ipad, :android, nil] user_agent
         #     The default `User-Agent` value to add to each request.
+        #
+        #   @param [String, nil] user
+        #     The HTTP Basic-Auth user to add to each request.
+        #
+        #   @param [String, nil] password
+        #     The HTTP Basic-Auth password to add to each request.
         #
         #   @param [Boolean, Hash{Symbol => Object}, nil] ssl
         #     Specifies whether to enable SSL and/or the SSL context
@@ -220,12 +236,18 @@ module Ronin
                                   ssl:        port == 443,
                                   # header options
                                   headers:    {},
-                                  user_agent: self.class.user_agent)
+                                  user_agent: self.class.user_agent,
+                                  # Basic-Auth options
+                                  user:       nil,
+                                  password:   nil)
           @host  = DNS::IDN.to_ascii(host)
           @port  = port.to_i
 
           @headers        = headers
           self.user_agent = user_agent if user_agent
+
+          @user     = user
+          @password = password
 
           if proxy
             @proxy = URI(proxy)
@@ -356,6 +378,12 @@ module Ronin
         #
         #   @option kwargs [String, :random, :chrome, :chrome_linux, :chrome_macos, :chrome_windows, :chrome_iphone, :chrome_ipad, :chrome_android, :firefox, :firefox_linux, :firefox_macos, :firefox_windows, :firefox_iphone, :firefox_ipad, :firefox_android, :safari, :safari_macos, :safari_iphone, :safari_ipad, :edge, :linux, :macos, :windows, :iphone, :ipad, :android, nil] :user_agent (HTTP.user_agent)
         #     The default `User-Agent` string to add to each request.
+        #
+        #   @option kwargs [String, nil] :user
+        #     The HTTP Basic-Auth user to add to each request.
+        #
+        #   @option kwargs [String, nil] :password
+        #     The HTTP Basic-Auth password to add to each request.
         #
         #   @option ssl [String, nil] :ca_bundle
         #     The path to the CA bundle directory or file.
@@ -623,8 +651,8 @@ module Ronin
                                  headers:    nil,
                                  cookie:     nil,
                                  # Basic-Auth keyword arguments
-                                 user:     nil,
-                                 password: nil,
+                                 user:     @user,
+                                 password: @password,
                                  # request body keyword arguments
                                  body:      nil,
                                  form_data: nil,
@@ -1341,6 +1369,8 @@ module Ronin
                                      ssl:        nil,
                                      headers:    {},
                                      user_agent: nil,
+                                     user:       nil,
+                                     password:   nil,
                                      **kwargs,
                                      &block)
           url  = URI(url)
@@ -1348,7 +1378,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.request(method,path,**kwargs,&block)
         end
@@ -1379,13 +1411,17 @@ module Ronin
                                                    ssl:        nil,
                                                    headers:    {},
                                                    user_agent: nil,
+                                                   user:       nil,
+                                                   password:   nil,
                                                    **kwargs)
           url  = URI(url)
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.response_status(method,path,**kwargs)
         end
@@ -1416,13 +1452,17 @@ module Ronin
                                        ssl:        nil,
                                        headers:    {},
                                        user_agent: nil,
+                                       user:       nil,
+                                       password:   nil,
                                        **kwargs)
           url  = URI(url)
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.ok?(method,path,**kwargs)
         end
@@ -1453,13 +1493,17 @@ module Ronin
                                                     ssl:        nil,
                                                     headers:    {},
                                                     user_agent: nil,
-                                                    **kwargs)
+                                                    user:       nil,
+                                                    password:   nil,
+                                                   **kwargs)
           url  = URI(url)
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.response_headers(method,path,**kwargs)
         end
@@ -1485,13 +1529,17 @@ module Ronin
                                     ssl:        nil,
                                     headers:    {},
                                     user_agent: nil,
+                                    user:       nil,
+                                    password:   nil,
                                     **kwargs)
           url  = URI(url)
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.server_header(path: path, **kwargs)
         end
@@ -1517,13 +1565,17 @@ module Ronin
                                         ssl:        nil,
                                         headers:    {},
                                         user_agent: nil,
+                                        user:       nil,
+                                        password:   nil,
                                         **kwargs)
           url  = URI(url)
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.powered_by_header(path: path, **kwargs)
         end
@@ -1554,13 +1606,17 @@ module Ronin
                                                 ssl:        nil,
                                                 headers:    {},
                                                 user_agent: nil,
+                                                user:       nil,
+                                                password:   nil,
                                                 **kwargs)
           url  = URI(url)
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.response_body(method,path,**kwargs)
         end
@@ -1592,6 +1648,8 @@ module Ronin
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
+                           user:       nil,
+                           password:   nil,
                            **kwargs,
                            &block)
           url  = URI(url)
@@ -1599,7 +1657,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.copy(path,**kwargs,&block)
         end
@@ -1631,6 +1691,8 @@ module Ronin
                              ssl:        nil,
                              headers:    {},
                              user_agent: nil,
+                             user:       nil,
+                             password:   nil,
                              **kwargs,
                              &block)
           url  = URI(url)
@@ -1638,7 +1700,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.delete(path,**kwargs,&block)
         end
@@ -1670,6 +1734,8 @@ module Ronin
                           ssl:        nil,
                           headers:    {},
                           user_agent: nil,
+                          user:       nil,
+                          password:   nil,
                           **kwargs,
                           &block)
           url  = URI(url)
@@ -1677,7 +1743,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.get(path,**kwargs,&block)
         end
@@ -1704,13 +1772,17 @@ module Ronin
                                   ssl:        nil,
                                   headers:    {},
                                   user_agent: nil,
+                                  user:       nil,
+                                  password:   nil,
                                   **kwargs)
           url  = URI(url)
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.get_headers(path,**kwargs)
         end
@@ -1736,13 +1808,17 @@ module Ronin
                                   ssl:        nil,
                                   headers:    {},
                                   user_agent: nil,
+                                  user:       nil,
+                                  password:   nil,
                                   **kwargs)
           url  = URI(url)
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.get_cookies(path, **kwargs)
         end
@@ -1769,13 +1845,17 @@ module Ronin
                                ssl:        nil,
                                headers:    {},
                                user_agent: nil,
+                               user:       nil,
+                               password:   nil,
                                **kwargs)
           url  = URI(url)
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.get_body(path,**kwargs)
         end
@@ -1807,6 +1887,8 @@ module Ronin
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
+                           user:       nil,
+                           password:   nil,
                            **kwargs,
                            &block)
           url  = URI(url)
@@ -1814,7 +1896,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.head(path,**kwargs,&block)
         end
@@ -1846,6 +1930,8 @@ module Ronin
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
+                           user:       nil,
+                           password:   nil,
                            **kwargs,
                            &block)
           url  = URI(url)
@@ -1853,7 +1939,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.lock(path,**kwargs,&block)
         end
@@ -1885,6 +1973,8 @@ module Ronin
                             ssl:        nil,
                             headers:    {},
                             user_agent: nil,
+                            user:       nil,
+                            password:   nil,
                             **kwargs,
                             &block)
           url  = URI(url)
@@ -1892,7 +1982,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.mkcol(path,**kwargs,&block)
         end
@@ -1924,14 +2016,18 @@ module Ronin
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
-                           **kwargs,
+                           user:       nil,
+                           password:   nil,
+                          **kwargs,
                            &block)
           url  = URI(url)
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.move(path,**kwargs,&block)
         end
@@ -1963,6 +2059,8 @@ module Ronin
                               ssl:        nil,
                               headers:    {},
                               user_agent: nil,
+                              user:       nil,
+                              password:   nil,
                               **kwargs,
                               &block)
           url  = URI(url)
@@ -1970,7 +2068,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.options(path,**kwargs,&block)
         end
@@ -1997,13 +2097,17 @@ module Ronin
                                       ssl:        nil,
                                       headers:    {},
                                       user_agent: nil,
+                                      user:       nil,
+                                      password:   nil,
                                       **kwargs)
           url  = URI(url)
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.allowed_methods(path,**kwargs)
         end
@@ -2036,6 +2140,8 @@ module Ronin
                             ssl:        nil,
                             headers:    {},
                             user_agent: nil,
+                            user:       nil,
+                            password:   nil,
                             **kwargs,
                             &block)
           url  = URI(url)
@@ -2043,7 +2149,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.patch(path,**kwargs,&block)
         end
@@ -2075,6 +2183,8 @@ module Ronin
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
+                           user:       nil,
+                           password:   nil,
                            **kwargs,
                            &block)
           url  = URI(url)
@@ -2082,7 +2192,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.post(path,**kwargs,&block)
         end
@@ -2109,13 +2221,17 @@ module Ronin
                                    ssl:        nil,
                                    headers:    {},
                                    user_agent: nil,
+                                   user:       nil,
+                                   password:   nil,
                                    **kwargs)
           url  = URI(url)
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.post_headers(path,**kwargs)
         end
@@ -2142,13 +2258,17 @@ module Ronin
                                 ssl:        nil,
                                 headers:    {},
                                 user_agent: nil,
+                                user:       nil,
+                                password:   nil,
                                 **kwargs)
           url  = URI(url)
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.post_body(path,**kwargs)
         end
@@ -2180,6 +2300,8 @@ module Ronin
                                ssl:        nil,
                                headers:    {},
                                user_agent: nil,
+                               user:       nil,
+                               password:   nil,
                                **kwargs,
                                &block)
           url  = URI(url)
@@ -2187,7 +2309,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.propfind(path,**kwargs,&block)
         end
@@ -2221,6 +2345,8 @@ module Ronin
                                 ssl:        nil,
                                 headers:    {},
                                 user_agent: nil,
+                                user:       nil,
+                                password:   nil,
                                 **kwargs,
                                 &block)
           url  = URI(url)
@@ -2228,7 +2354,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.proppatch(path,**kwargs,&block)
         end
@@ -2262,6 +2390,8 @@ module Ronin
                           ssl:        nil,
                           headers:    {},
                           user_agent: nil,
+                          user:       nil,
+                          password:   nil,
                           **kwargs,
                           &block)
           url  = URI(url)
@@ -2269,7 +2399,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.put(path,**kwargs,&block)
         end
@@ -2301,6 +2433,8 @@ module Ronin
                             ssl:        nil,
                             headers:    {},
                             user_agent: nil,
+                            user:       nil,
+                            password:   nil,
                             **kwargs,
                             &block)
           url  = URI(url)
@@ -2308,7 +2442,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.trace(path,**kwargs,&block)
         end
@@ -2340,6 +2476,8 @@ module Ronin
                              ssl:        nil,
                              headers:    {},
                              user_agent: nil,
+                             user:       nil,
+                             password:   nil,
                              **kwargs,
                              &block)
           url  = URI(url)
@@ -2347,7 +2485,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  user_agent: user_agent)
+                                  user_agent: user_agent,
+                                  user:       user,
+                                  password:   password)
 
           http.unlock(path,**kwargs,&block)
         end

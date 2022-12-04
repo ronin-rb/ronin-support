@@ -299,6 +299,26 @@ describe Network::HTTP do
       end
     end
 
+    context "when initialized with the user: keyword argument" do
+      let(:user) { 'bob' }
+
+      subject { described_class.new(host,port, user: user) }
+
+      it "must set #user" do
+        expect(subject.user).to eq(user)
+      end
+    end
+
+    context "when initialized with the password: keyword argument" do
+      let(:password) { 'secret' }
+
+      subject { described_class.new(host,port, password: password) }
+
+      it "must set #password" do
+        expect(subject.password).to eq(password)
+      end
+    end
+
     context "when given a block" do
       it "must yield the new #{described_class} object" do
         expect { |b|
@@ -547,6 +567,48 @@ describe Network::HTTP do
           expect(subject.request(method,path, headers: additional_headers)).to be_kind_of(Net::HTTPResponse)
 
           expect(WebMock).to have_requested(method,uri).with(headers: merged_headers)
+        end
+      end
+    end
+
+    context "when #user is set" do
+      let(:user) { 'joe' }
+      let(:headers) do
+        {
+          'Authorization' => "Basic am9lOg=="
+        }
+      end
+
+      subject do
+        described_class.new(host,port, user: user)
+      end
+
+      it "must set the Authorization header with the #user name" do
+        stub_request(method,uri).with(headers: headers)
+
+        expect(subject.request(method,path)).to be_kind_of(Net::HTTPResponse)
+
+        expect(WebMock).to have_requested(method,uri).with(headers: headers)
+      end
+
+      context "and when #password is also set" do
+        let(:password) { 'secret' }
+        let(:headers) do
+          {
+            'Authorization' => "Basic am9lOnNlY3JldA=="
+          }
+        end
+
+        subject do
+          described_class.new(host,port, user: user, password: password)
+        end
+
+        it "must set the Authorization header with #user and #password" do
+          stub_request(method,uri).with(headers: headers)
+
+          expect(subject.request(method,path)).to be_kind_of(Net::HTTPResponse)
+
+          expect(WebMock).to have_requested(method,uri).with(headers: headers)
         end
       end
     end
