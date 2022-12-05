@@ -1537,7 +1537,7 @@ module Ronin
                                                     cookie:     nil,
                                                     user:       nil,
                                                     password:   nil,
-                                                   **kwargs)
+                                                    **kwargs)
           url  = URI(url)
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
@@ -2086,7 +2086,7 @@ module Ronin
                            cookie:     nil,
                            user:       nil,
                            password:   nil,
-                          **kwargs,
+                           **kwargs,
                            &block)
           url  = URI(url)
           path = url.request_uri
