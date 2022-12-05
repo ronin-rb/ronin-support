@@ -299,6 +299,57 @@ describe Network::HTTP do
       end
     end
 
+    context "when initialized with the cookie: keyword argument" do
+      let(:name1)  { 'foo' }
+      let(:value1) { '1'   }
+      let(:name2)  { 'bar' }
+      let(:value2) { '2'   }
+
+      subject { described_class.new(host,port, cookie: cookie) }
+
+      context "when given Ronin::Support::Network::HTTP::Cookie" do
+        let(:cookie) do
+          Ronin::Support::Network::HTTP::Cookie.new(
+            name1 => value1, name2 => value2
+          )
+        end
+
+        it "must set the #cookie" do
+          expect(subject.cookie).to be(cookie)
+        end
+      end
+
+      context "when given Hash" do
+        let(:cookie) do
+          {name1 => value1, name2 => value2}
+        end
+
+        it "must set #cookie to a new Ronin::Support::Network::HTTP::Cookie" do
+          expect(subject.cookie).to be_kind_of(Ronin::Support::Network::HTTP::Cookie)
+          expect(subject.cookie.params).to eq(cookie)
+        end
+      end
+
+      context "when given String" do
+        let(:cookie) { "#{name1}=#{value1}; #{name2}=#{value2}" }
+
+        it "must set parse the cookie String and #cookie to a Ronin::Support::Network::HTTP::Cookie object" do
+          expect(subject.cookie).to be_kind_of(Ronin::Support::Network::HTTP::Cookie)
+          expect(subject.cookie.params).to eq(
+            {name1 => value1, name2 => value2}
+          )
+        end
+      end
+
+      context "when given nil" do
+        let(:cookie) { nil }
+
+        it "must set #cookie to nil" do
+          expect(subject.cookie).to be(nil)
+        end
+      end
+    end
+
     context "when initialized with the user: keyword argument" do
       let(:user) { 'bob' }
 
@@ -522,6 +573,70 @@ describe Network::HTTP do
     include_context "user_agent="
   end
 
+  describe "#cookie=" do
+    let(:name1)  { 'foo' }
+    let(:value1) { '1'   }
+    let(:name2)  { 'bar' }
+    let(:value2) { '2'   }
+
+    context "when given Ronin::Support::Network::HTTP::Cookie" do
+      let(:cookie) do
+        Ronin::Support::Network::HTTP::Cookie.new(
+          name1 => value1, name2 => value2
+        )
+      end
+
+      before { subject.cookie = cookie }
+
+      it "must set the #cookie" do
+        expect(subject.cookie).to be(cookie)
+      end
+    end
+
+    context "when given Hash" do
+      let(:cookie) do
+        {name1 => value1, name2 => value2}
+      end
+
+      before { subject.cookie = cookie }
+
+      it "must set #cookie to a new Ronin::Support::Network::HTTP::Cookie" do
+        expect(subject.cookie).to be_kind_of(Ronin::Support::Network::HTTP::Cookie)
+        expect(subject.cookie.params).to eq(cookie)
+      end
+    end
+
+    context "when given String" do
+      let(:cookie) { "#{name1}=#{value1}; #{name2}=#{value2}" }
+
+      before { subject.cookie = cookie }
+
+      it "must set parse the cookie String and #cookie to a Ronin::Support::Network::HTTP::Cookie object" do
+        expect(subject.cookie).to be_kind_of(Ronin::Support::Network::HTTP::Cookie)
+        expect(subject.cookie.params).to eq(
+          {name1 => value1, name2 => value2}
+        )
+      end
+    end
+
+    context "when given nil" do
+      let(:cookie) do
+        Ronin::Support::Network::HTTP::Cookie.new(
+          name1 => value1, name2 => value2
+        )
+      end
+
+      before do
+        subject.cookie = cookie
+        subject.cookie = nil
+      end
+
+      it "must set #cookie to nil" do
+        expect(subject.cookie).to be(nil)
+      end
+    end
+  end
+
   describe "#request" do
     let(:method) { :get }
 
@@ -567,6 +682,42 @@ describe Network::HTTP do
           expect(subject.request(method,path, headers: additional_headers)).to be_kind_of(Net::HTTPResponse)
 
           expect(WebMock).to have_requested(method,uri).with(headers: merged_headers)
+        end
+      end
+    end
+
+    context "when #cookie is set" do
+      let(:name1)  { 'foo' }
+      let(:value1) { '1'   }
+      let(:name2)  { 'bar' }
+      let(:value2) { '2'   }
+      let(:cookie) do
+        Ronin::Support::Network::HTTP::Cookie.new(
+          name1 => value1, name2 => value2
+        )
+      end
+
+      subject { described_class.new(host,port, cookie: cookie) }
+
+      it "must add a Cookie header to the request" do
+        stub_request(method,uri).with(headers: {'Cookie' => cookie.to_s})
+
+        expect(subject.request(method,path)).to be_kind_of(Net::HTTPResponse)
+
+        expect(WebMock).to have_requested(method,uri).with(headers: {'Cookie' => cookie.to_s})
+      end
+
+      context "when the cookie: keyword argument is given" do
+        let(:custom_cookie) do
+          Ronin::Support::Network::HTTP::Cookie.new('baz' => 'xyz')
+        end
+
+        it "must override the default #cookie value" do
+          stub_request(method,uri).with(headers: {'Cookie' => custom_cookie.to_s})
+
+          expect(subject.request(method,path, cookie: custom_cookie)).to be_kind_of(Net::HTTPResponse)
+
+          expect(WebMock).to have_requested(method,uri).with(headers: {'Cookie' => custom_cookie.to_s})
         end
       end
     end

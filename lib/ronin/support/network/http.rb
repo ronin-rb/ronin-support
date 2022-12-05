@@ -155,6 +155,11 @@ module Ronin
         # @return [String, nil]
         attr_reader :password
 
+        # The default cookie params to add to every request.
+        #
+        # @return [Cookie, nil]
+        attr_reader :cookie
+
         #
         # @!macro [new] initialize_kwargs
         #   @param [String, URI::HTTP, Addressable::URI, nil] proxy
@@ -165,6 +170,9 @@ module Ronin
         #
         #   @param [String, :random, :chrome, :chrome_linux, :chrome_macos, :chrome_windows, :chrome_iphone, :chrome_ipad, :chrome_android, :firefox, :firefox_linux, :firefox_macos, :firefox_windows, :firefox_iphone, :firefox_ipad, :firefox_android, :safari, :safari_macos, :safari_iphone, :safari_ipad, :edge, :linux, :macos, :windows, :iphone, :ipad, :android, nil] user_agent
         #     The default `User-Agent` value to add to each request.
+        #
+        #   @param [Cookie, Hash, String, nil] cookie
+        #     The default cookie params to add to each request.
         #
         #   @param [String, nil] user
         #     The HTTP Basic-Auth user to add to each request.
@@ -237,6 +245,7 @@ module Ronin
                                   # header options
                                   headers:    {},
                                   user_agent: self.class.user_agent,
+                                  cookie:     nil,
                                   # Basic-Auth options
                                   user:       nil,
                                   password:   nil)
@@ -245,6 +254,7 @@ module Ronin
 
           @headers        = headers
           self.user_agent = user_agent if user_agent
+          self.cookie     = cookie     if cookie
 
           @user     = user
           @password = password
@@ -563,6 +573,31 @@ module Ronin
         end
 
         #
+        # Sets the default cookie value.
+        #
+        # @param [Cookie, Hash, String, nil] new_cookie
+        #   The new cookie value to set.
+        #
+        # @return [Cookie, nil]
+        #   The new default cookie value.
+        #
+        # @raise [ArgumentError]
+        #   The new cookie value must be a {Cookie}, Hash, String, or nil.
+        #
+        # @since 1.0.0
+        #
+        def cookie=(new_cookie)
+          @cookie = case new_cookie
+                    when Cookie then new_cookie
+                    when Hash   then Cookie.new(new_cookie)
+                    when String then Cookie.parse(new_cookie)
+                    when nil    then nil
+                    else
+                      raise(ArgumentError,"cookie value must be a #{Cookie}, Hash, String, or nil: #{new_cookie.inspect}")
+                    end
+        end
+
+        #
         # Sends an arbitrary HTTP request.
         #
         # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
@@ -649,7 +684,7 @@ module Ronin
                                  query_params: nil,
                                  # header keyword arguments
                                  headers:    nil,
-                                 cookie:     nil,
+                                 cookie:     @cookie,
                                  # Basic-Auth keyword arguments
                                  user:     @user,
                                  password: @password,
@@ -1369,6 +1404,7 @@ module Ronin
                                      ssl:        nil,
                                      headers:    {},
                                      user_agent: nil,
+                                     cookie:     nil,
                                      user:       nil,
                                      password:   nil,
                                      **kwargs,
@@ -1379,6 +1415,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1411,6 +1448,7 @@ module Ronin
                                                    ssl:        nil,
                                                    headers:    {},
                                                    user_agent: nil,
+                                                   cookie:     nil,
                                                    user:       nil,
                                                    password:   nil,
                                                    **kwargs)
@@ -1420,6 +1458,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1452,6 +1491,7 @@ module Ronin
                                        ssl:        nil,
                                        headers:    {},
                                        user_agent: nil,
+                                       cookie:     nil,
                                        user:       nil,
                                        password:   nil,
                                        **kwargs)
@@ -1461,6 +1501,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1493,6 +1534,7 @@ module Ronin
                                                     ssl:        nil,
                                                     headers:    {},
                                                     user_agent: nil,
+                                                    cookie:     nil,
                                                     user:       nil,
                                                     password:   nil,
                                                    **kwargs)
@@ -1502,6 +1544,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1529,6 +1572,7 @@ module Ronin
                                     ssl:        nil,
                                     headers:    {},
                                     user_agent: nil,
+                                    cookie:     nil,
                                     user:       nil,
                                     password:   nil,
                                     **kwargs)
@@ -1538,6 +1582,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1565,6 +1610,7 @@ module Ronin
                                         ssl:        nil,
                                         headers:    {},
                                         user_agent: nil,
+                                        cookie:     nil,
                                         user:       nil,
                                         password:   nil,
                                         **kwargs)
@@ -1574,6 +1620,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1606,6 +1653,7 @@ module Ronin
                                                 ssl:        nil,
                                                 headers:    {},
                                                 user_agent: nil,
+                                                cookie:     nil,
                                                 user:       nil,
                                                 password:   nil,
                                                 **kwargs)
@@ -1615,6 +1663,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1648,6 +1697,7 @@ module Ronin
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
+                           cookie:     nil,
                            user:       nil,
                            password:   nil,
                            **kwargs,
@@ -1658,6 +1708,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1691,6 +1742,7 @@ module Ronin
                              ssl:        nil,
                              headers:    {},
                              user_agent: nil,
+                             cookie:     nil,
                              user:       nil,
                              password:   nil,
                              **kwargs,
@@ -1701,6 +1753,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1734,6 +1787,7 @@ module Ronin
                           ssl:        nil,
                           headers:    {},
                           user_agent: nil,
+                          cookie:     nil,
                           user:       nil,
                           password:   nil,
                           **kwargs,
@@ -1744,6 +1798,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1772,6 +1827,7 @@ module Ronin
                                   ssl:        nil,
                                   headers:    {},
                                   user_agent: nil,
+                                  cookie:     nil,
                                   user:       nil,
                                   password:   nil,
                                   **kwargs)
@@ -1781,6 +1837,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1808,6 +1865,7 @@ module Ronin
                                   ssl:        nil,
                                   headers:    {},
                                   user_agent: nil,
+                                  cookie:     nil,
                                   user:       nil,
                                   password:   nil,
                                   **kwargs)
@@ -1817,6 +1875,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1845,6 +1904,7 @@ module Ronin
                                ssl:        nil,
                                headers:    {},
                                user_agent: nil,
+                               cookie:     nil,
                                user:       nil,
                                password:   nil,
                                **kwargs)
@@ -1854,6 +1914,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1887,6 +1948,7 @@ module Ronin
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
+                           cookie:     nil,
                            user:       nil,
                            password:   nil,
                            **kwargs,
@@ -1897,6 +1959,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1930,6 +1993,7 @@ module Ronin
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
+                           cookie:     nil,
                            user:       nil,
                            password:   nil,
                            **kwargs,
@@ -1940,6 +2004,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -1973,6 +2038,7 @@ module Ronin
                             ssl:        nil,
                             headers:    {},
                             user_agent: nil,
+                            cookie:     nil,
                             user:       nil,
                             password:   nil,
                             **kwargs,
@@ -1983,6 +2049,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -2016,6 +2083,7 @@ module Ronin
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
+                           cookie:     nil,
                            user:       nil,
                            password:   nil,
                           **kwargs,
@@ -2026,6 +2094,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -2059,6 +2128,7 @@ module Ronin
                               ssl:        nil,
                               headers:    {},
                               user_agent: nil,
+                              cookie:     nil,
                               user:       nil,
                               password:   nil,
                               **kwargs,
@@ -2069,6 +2139,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -2097,6 +2168,7 @@ module Ronin
                                       ssl:        nil,
                                       headers:    {},
                                       user_agent: nil,
+                                      cookie:     nil,
                                       user:       nil,
                                       password:   nil,
                                       **kwargs)
@@ -2106,6 +2178,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -2140,6 +2213,7 @@ module Ronin
                             ssl:        nil,
                             headers:    {},
                             user_agent: nil,
+                            cookie:     nil,
                             user:       nil,
                             password:   nil,
                             **kwargs,
@@ -2150,6 +2224,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -2183,6 +2258,7 @@ module Ronin
                            ssl:        nil,
                            headers:    {},
                            user_agent: nil,
+                           cookie:     nil,
                            user:       nil,
                            password:   nil,
                            **kwargs,
@@ -2192,7 +2268,9 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
+                                  cookie:     nil,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -2221,6 +2299,7 @@ module Ronin
                                    ssl:        nil,
                                    headers:    {},
                                    user_agent: nil,
+                                   cookie:     nil,
                                    user:       nil,
                                    password:   nil,
                                    **kwargs)
@@ -2230,6 +2309,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -2258,6 +2338,7 @@ module Ronin
                                 ssl:        nil,
                                 headers:    {},
                                 user_agent: nil,
+                                cookie:     nil,
                                 user:       nil,
                                 password:   nil,
                                 **kwargs)
@@ -2267,6 +2348,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -2300,6 +2382,7 @@ module Ronin
                                ssl:        nil,
                                headers:    {},
                                user_agent: nil,
+                               cookie:     nil,
                                user:       nil,
                                password:   nil,
                                **kwargs,
@@ -2310,6 +2393,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -2345,6 +2429,7 @@ module Ronin
                                 ssl:        nil,
                                 headers:    {},
                                 user_agent: nil,
+                                cookie:     nil,
                                 user:       nil,
                                 password:   nil,
                                 **kwargs,
@@ -2355,6 +2440,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -2390,6 +2476,7 @@ module Ronin
                           ssl:        nil,
                           headers:    {},
                           user_agent: nil,
+                          cookie:     nil,
                           user:       nil,
                           password:   nil,
                           **kwargs,
@@ -2400,6 +2487,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -2433,6 +2521,7 @@ module Ronin
                             ssl:        nil,
                             headers:    {},
                             user_agent: nil,
+                            cookie:     nil,
                             user:       nil,
                             password:   nil,
                             **kwargs,
@@ -2443,6 +2532,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
@@ -2476,6 +2566,7 @@ module Ronin
                              ssl:        nil,
                              headers:    {},
                              user_agent: nil,
+                             cookie:     nil,
                              user:       nil,
                              password:   nil,
                              **kwargs,
@@ -2486,6 +2577,7 @@ module Ronin
                                   ssl:        ssl,
                                   headers:    headers,
                                   user_agent: user_agent,
+                                  cookie:     cookie,
                                   user:       user,
                                   password:   password)
 
