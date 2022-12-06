@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #
 # Copyright (c) 2006-2022 Hal Brodigan (postmodern.mod3 at gmail.com)
 #
@@ -114,7 +115,7 @@ module Ronin
       #   # => #<Ronin::Support::Path:../../../../../../../etc/passwd>
       #
       def join(*names)
-        joined_path = if root? then ''
+        joined_path = if root? then String.new
                       else          self.to_s
                       end
 

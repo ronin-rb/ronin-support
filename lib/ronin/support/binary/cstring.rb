@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #
 # Copyright (c) 2006-2022 Hal Brodigan (postmodern.mod3 at gmail.com)
 #
@@ -30,7 +31,7 @@ module Ronin
       class CString < Memory
 
         # Null byte
-        NULL = "\0".force_encoding(Encoding::ASCII_8BIT)
+        NULL = "\0".encode(Encoding::ASCII_8BIT).freeze
 
         #
         # Initializes the C string.

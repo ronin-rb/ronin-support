@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #
 # Copyright (c) 2006-2022 Hal Brodigan (postmodern.mod3 at gmail.com)
 #
@@ -97,7 +98,7 @@ module Ronin
           # @return [String]
           #
           def self.subject_alt_name
-            string = "DNS: localhost"
+            string = String.new("DNS: localhost")
 
             # append the additional local IP addresses
             IP.local_addresses.each do |address|

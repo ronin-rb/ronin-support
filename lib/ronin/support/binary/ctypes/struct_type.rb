@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #
 # Copyright (c) 2006-2022 Hal Brodigan (postmodern.mod3 at gmail.com)
 #
@@ -175,7 +176,7 @@ module Ronin
           def self.build(fields, alignment: nil, padding: true)
             members       = {}
             max_alignment = 0
-            pack_string   = ''
+            pack_string   = String.new(encoding: Encoding::ASCII_8BIT)
 
             offset = 0
 
