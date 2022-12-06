@@ -2269,7 +2269,6 @@ module Ronin
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
-                                  cookie:     nil,
                                   user_agent: user_agent,
                                   cookie:     cookie,
                                   user:       user,
