@@ -593,6 +593,28 @@ describe Ronin::Support::Network::DNS do
     end
   end
 
+  describe ".get_ip_addresses" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv4_address) { '93.184.216.34' }
+      let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
+
+      it "must return the IPv4 and IPv6 addresses" do
+        expect(subject.get_ip_addresses(hostname)).to eq(
+          [ipv4_address, ipv6_address]
+        )
+      end
+
+      context "when the host name does not have any A or AAAA records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_ip_addresses(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
   describe ".get_srv_records" do
     context "integration", :network do
       let(:hostname) { '_http._tcp.update.freebsd.org' }

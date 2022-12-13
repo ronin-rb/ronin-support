@@ -414,6 +414,33 @@ module Ronin
           alias get_ipv6_addresses get_aaaa_addresses
 
           #
+          # Queries the first IPv4 or IPv6 address belonging to the host name.
+          #
+          # @param [String] name
+          #   The host name to query.
+          #
+          # @return [String, nil]
+          #   The first IPv4 or IPv6 address or `nil` if the host name has no
+          #   IPv4 or IPv6 addresses.
+          #
+          def get_ip_address(name)
+            get_ipv4_address(name) || get_ipv6_address(name)
+          end
+
+          #
+          # Queries all IPv4 and IPv6 addresses belonging to the host name.
+          #
+          # @param [String] name
+          #   The host name to query.
+          #
+          # @return [Array<String>]
+          #   All IPv4 and IPv6 addresses belonging to the host name.
+          #
+          def get_ip_addresses(name)
+            get_ipv4_addresses(name).concat(get_ipv6_addresses(name))
+          end
+
+          #
           # Queries all `SRV` DNS records belonging to the host name.
           #
           # @param [String] name
