@@ -313,6 +313,8 @@ module Ronin
             end
           end
 
+          alias get_ipv4_address get_a_address
+
           #
           # Queries all `A` records belonging to the host name.
           #
@@ -342,6 +344,8 @@ module Ronin
             records.map! { |a| a.address.to_s }
             records
           end
+
+          alias get_ipv4_addresses get_a_addresses
 
           #
           # Queries the first `AAAA` DNS records belonging to the host name.
@@ -375,6 +379,8 @@ module Ronin
             end
           end
 
+          alias get_ipv6_address get_aaaa_address
+
           #
           # Queries all `AAAA` DNS records belonging to the host name.
           #
@@ -404,6 +410,8 @@ module Ronin
             records.map! { |aaaa| aaaa.address.to_s }
             records
           end
+
+          alias get_ipv6_addresses get_aaaa_addresses
 
           #
           # Queries all `SRV` DNS records belonging to the host name.

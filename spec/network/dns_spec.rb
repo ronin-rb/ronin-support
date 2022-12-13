@@ -394,6 +394,25 @@ describe Ronin::Support::Network::DNS do
     end
   end
 
+  describe ".get_ipv4_address" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv4_address) { '93.184.216.34' }
+
+      it "must return the first IPv4 address" do
+        expect(subject.get_ipv4_address(hostname)).to eq(ipv4_address)
+      end
+
+      context "when the host name does not have any A records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return nil" do
+          expect(subject.get_ipv4_address(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
   describe ".get_a_records" do
     context "integration", :network do
       let(:hostname)     { 'example.com'   }
@@ -430,6 +449,25 @@ describe Ronin::Support::Network::DNS do
 
         it "must return an empty Array" do
           expect(subject.get_a_addresses(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_ipv4_addresses" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv4_address) { '93.184.216.34' }
+
+      it "must return all IPv4 addresses" do
+        expect(subject.get_ipv4_addresses(hostname)).to eq([ipv4_address])
+      end
+
+      context "when the host name does not have any A records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_ipv4_addresses(hostname)).to eq([])
         end
       end
     end
@@ -476,6 +514,25 @@ describe Ronin::Support::Network::DNS do
     end
   end
 
+  describe ".get_ipv6_address" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
+
+      it "must return the first IPv6 address" do
+        expect(subject.get_ipv6_address(hostname)).to eq(ipv6_address)
+      end
+
+      context "when the host name does not have any AAAA records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return nil" do
+          expect(subject.get_ipv6_address(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
   describe ".get_aaaa_records" do
     context "integration", :network do
       let(:hostname)     { 'example.com'   }
@@ -512,6 +569,25 @@ describe Ronin::Support::Network::DNS do
 
         it "must return an empty Array" do
           expect(subject.get_aaaa_addresses(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_ipv6_addresses" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
+
+      it "must return the IPv6 addresses" do
+        expect(subject.get_ipv6_addresses(hostname)).to eq([ipv6_address])
+      end
+
+      context "when the host name does not have any AAAA records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_ipv6_addresses(hostname)).to eq([])
         end
       end
     end

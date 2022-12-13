@@ -428,6 +428,28 @@ module Ronin
         end
 
         #
+        # Queries the first IPv4 address belonging to the host name.
+        #
+        # @param [String] name
+        #   The host name to query.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option [Array<String>, String, nil] :nameservers
+        #   Optional DNS nameserver(s) to query.
+        #
+        # @option [String, nil] :nameserver
+        #   Optional DNS nameserver to query.
+        #
+        # @return [String, nil]
+        #   The first IPv4 address belonging to the host name.
+        #
+        def self.get_ipv4_address(name,**kwargs)
+          resolver(**kwargs).get_ipv4_address(name.to_s)
+        end
+
+        #
         # Queries all `A` records belonging to the host name.
         #
         # @param [String] name
@@ -471,6 +493,28 @@ module Ronin
         #
         def self.get_a_addresses(name,**kwargs)
           resolver(**kwargs).get_a_addresses(name.to_s)
+        end
+
+        #
+        # Queries all IPv4 addresses belonging to the host name.
+        #
+        # @param [String] name
+        #   The host name to query.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option [Array<String>, String, nil] :nameservers
+        #   Optional DNS nameserver(s) to query.
+        #
+        # @option [String, nil] :nameserver
+        #   Optional DNS nameserver to query.
+        #
+        # @return [Array<String>]
+        #   All of the IPv4 addresses belonging to the host name.
+        #
+        def self.get_ipv4_addresses(name,**kwargs)
+          resolver(**kwargs).get_ipv4_addresses(name.to_s)
         end
 
         #
@@ -522,6 +566,29 @@ module Ronin
         end
 
         #
+        # Queries the first IPv6 address belonging to the host name.
+        #
+        # @param [String] name
+        #   The host name to query.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option [Array<String>, String, nil] :nameservers
+        #   Optional DNS nameserver(s) to query.
+        #
+        # @option [String, nil] :nameserver
+        #   Optional DNS nameserver to query.
+        #
+        # @return [String, nil]
+        #   The first IPv6 address or `nil` if the host name has no IPv6
+        #   addresses.
+        #
+        def self.get_ipv6_address(name,**kwargs)
+          resolver(**kwargs).get_ipv6_address(name.to_s)
+        end
+
+        #
         # Queries all `AAAA` DNS records belonging to the host name.
         #
         # @param [String] name
@@ -565,6 +632,28 @@ module Ronin
         #
         def self.get_aaaa_addresses(name,**kwargs)
           resolver(**kwargs).get_aaaa_addresses(name.to_s)
+        end
+
+        #
+        # Queries all IPv6 addresses belonging to the host name.
+        #
+        # @param [String] name
+        #   The host name to query.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option [Array<String>, String, nil] :nameservers
+        #   Optional DNS nameserver(s) to query.
+        #
+        # @option [String, nil] :nameserver
+        #   Optional DNS nameserver to query.
+        #
+        # @return [Array<String>]
+        #   All IPv6 addresses belonging to the host name.
+        #
+        def self.get_ipv6_addresses(name,**kwargs)
+          resolver(**kwargs).get_ipv6_addresses(name.to_s)
         end
 
         #
