@@ -549,20 +549,17 @@ describe Network::HTTP do
   end
 
   describe "#user_agent" do
-    context "when #headers contains the 'User-Agent' header" do
+    context "when #user_agent was previously set" do
       let(:user_agent) { 'Mozilla/5.0 Foo Bar' }
-      let(:headers) do
-        {'User-Agent' => user_agent}
-      end
 
-      subject { described_class.new(host,port, headers: headers) }
+      subject { described_class.new(host,port, user_agent: user_agent) }
 
-      it "must return the 'User-Agent' header value" do
+      it "must return the #user_agent value" do
         expect(subject.user_agent).to eq(user_agent)
       end
     end
 
-    context "when #headers does not contain a 'User-Agent' header" do
+    context "when #user_agent was not set" do
       it "must return nil" do
         expect(subject.user_agent).to be(nil)
       end

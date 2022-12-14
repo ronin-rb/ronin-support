@@ -531,13 +531,11 @@ module Ronin
         #
         # The `User-Agent` header value.
         #
-        # @return [String]
+        # @return [String, nil]
         #
         # @since 1.0.0
         #
-        def user_agent
-          @headers['User-Agent']
-        end
+        attr_reader :user_agent
 
         #
         # Sets the `User-Agent` header value.
@@ -560,17 +558,10 @@ module Ronin
         # @since 1.0.0
         #
         def user_agent=(new_user_agent)
-          if new_user_agent
-            @headers['User-Agent'] = case new_user_agent
-                                     when Symbol
-                                       UserAgents[new_user_agent]
-                                     else
-                                       new_user_agent
-                                     end
-          else
-            @headers.delete('User-Agent')
-            return nil
-          end
+          @user_agent = case new_user_agent
+                        when Symbol then UserAgents[new_user_agent]
+                        else             new_user_agent
+                        end
         end
 
         #
@@ -685,6 +676,7 @@ module Ronin
                                  query_params: nil,
                                  # header keyword arguments
                                  headers:    nil,
+                                 user_agent: @user_agent,
                                  cookie:     @cookie,
                                  # Basic-Auth keyword arguments
                                  user:     @user,
@@ -695,6 +687,7 @@ module Ronin
                                  **additional_headers,
                                  &block)
           request = Request.build(method,path, headers:      @headers,
+                                               user_agent:   user_agent,
                                                cookie:       cookie,
                                                user:         user,
                                                password:     password,

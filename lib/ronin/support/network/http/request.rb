@@ -16,6 +16,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/network/http/user_agents'
 require 'ronin/support/network/http/cookie'
 
 require 'net/http'
@@ -110,6 +111,15 @@ module Ronin
           # @param [Hash{Symbol => String}, Hash{String => String}, nil] headers
           #   Additional HTTP header names and values to add to the request.
           #
+          # @param [String, :random, :chrome, :chrome_linux, :chrome_macos,
+          #         :chrome_windows, :chrome_iphone, :chrome_ipad,
+          #         :chrome_android, :firefox, :firefox_linux, :firefox_macos,
+          #         :firefox_windows, :firefox_iphone, :firefox_ipad,
+          #         :firefox_android, :safari, :safari_macos, :safari_iphone,
+          #         :safari_ipad, :edge, :linux, :macos, :windows, :iphone,
+          #         :ipad, :android, nil user_agent
+          #     The `User-Agent` header value for the request.
+          #
           # @param [String, Hash{String => String}, Cookie, nil] cookie
           #   Additional `Cookie` header. If a `Hash` is given, it will be
           #   converted to a `String` using {Cookie}. If the cookie value is
@@ -145,8 +155,9 @@ module Ronin
                                       user:     nil,
                                       password: nil,
                                       # Header keyword arguments
-                                      headers: nil,
-                                      cookie:  nil,
+                                      headers:    nil,
+                                      user_agent: nil,
+                                      cookie:     nil,
                                       # request body keyword arguments
                                       body:      nil,
                                       form_data: nil)
@@ -164,6 +175,13 @@ module Ronin
               password = password.to_s if password
 
               request.basic_auth(user,password)
+            end
+
+            if user_agent
+              request['User-Agent'] = case user_agent
+                                      when Symbol then UserAgents[user_agent]
+                                      else             user_agent
+                                      end
             end
 
             if cookie && !cookie.empty?

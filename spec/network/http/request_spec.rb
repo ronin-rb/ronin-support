@@ -330,6 +330,84 @@ describe Ronin::Support::Network::HTTP::Request do
       end
     end
 
+    context "when the user_agent: keyword argument is given" do
+      context "and the value is a String" do
+        let(:user_agent) { "Mozilla/5.0 Foo Bar" }
+
+        it "must set the 'User-Agent' header value to the given String" do
+          req = subject.build(:get,path, user_agent: user_agent)
+
+          expect(req['User-Agent']).to eq(user_agent)
+        end
+      end
+
+      Ronin::Support::Network::HTTP::UserAgents::ALIASES.each do |name,string|
+        context "when given #{name.inspect}" do
+          it "must set the 'User-Agent' header to #{string.inspect}" do
+            req = subject.build(:get,path, user_agent: name)
+
+            expect(req['User-Agent']).to eq(string)
+          end
+        end
+      end
+
+      describe "when given :random" do
+        let(:user_agents) do
+          Ronin::Support::Network::HTTP::UserAgents::ALIASES.values
+        end
+
+        it "must set the 'User-Agent' header to a random value from Ronin::Support::Network::HTTP::UserAgents" do
+          req = subject.build(:get,path, user_agent: :random)
+
+          expect(user_agents).to include(req['User-Agent'])
+        end
+      end
+
+      [:chrome, :firefox, :safari].each do |prefix|
+        describe "when given #{prefix.inspect}" do
+          let(:prefix) { prefix }
+
+          let(:user_agents) do
+            Ronin::Support::Network::HTTP::UserAgents::ALIASES.select { |k,v|
+              k =~ /^#{prefix}_/
+            }.values
+          end
+
+          it "must set the 'User-Agent' header to a random :#{prefix}_* User-Agent String from Ronin::Support::Network::HTTP::UserAgents::ALIASES" do
+            req = subject.build(:get,path, user_agent: prefix)
+
+            expect(user_agents).to include(req['User-Agent'])
+          end
+        end
+      end
+
+      [:linux, :macos, :windows, :iphone, :ipad, :android].each do |suffix|
+        describe "when given #{suffix.inspect}" do
+          let(:suffix) { suffix }
+
+          let(:user_agents) do
+            Ronin::Support::Network::HTTP::UserAgents::ALIASES.select { |k,v|
+              k =~ /_#{suffix}$/
+            }.values
+          end
+
+          it "must set the 'User-Agent' header to a random :*_#{suffix} User-Agent String from Ronin::Support::Network::HTTP::UserAgents::ALIASES" do
+            req = subject.build(:get,path, user_agent: suffix)
+
+            expect(user_agents).to include(req['User-Agent'])
+          end
+        end
+      end
+
+      context "when given nil" do
+        it "must not set the 'User-Agent' header" do
+          req = subject.build(:get,path, user_agent: nil)
+
+          expect(req['User-Agent']).to eq("Ruby")
+        end
+      end
+    end
+
     context "when the cookie: keyword argument is given" do
       context "and the value is a String" do
         let(:cookie) { "foo=bar; baz=qux" }
