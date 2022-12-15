@@ -17,6 +17,7 @@
 #
 
 require 'ronin/support/network/ip'
+require 'ronin/support/network/ip_range'
 require 'ronin/support/network/host'
 require 'ronin/support/network/domain'
 require 'ronin/support/network/email_address'
