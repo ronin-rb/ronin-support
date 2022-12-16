@@ -3,38 +3,38 @@ require 'ronin/support/network/smtp/email'
 
 require 'date'
 
-describe Network::SMTP::Email do
+describe Ronin::Support::Network::SMTP::Email do
   describe "#initialize" do
     it "must default 'date' to Time.now" do
-      email = Network::SMTP::Email.new
-
-      expect(email.date).not_to be_nil
-    end
-
-    it "must accept a String body" do
-      body = 'hello'
-      email = Network::SMTP::Email.new(body: body)
-
-      expect(email.body).to eq([body])
-    end
-
-    it "must accept an Array body" do
-      body = ['hello', 'world']
-      email = Network::SMTP::Email.new(body: body)
-
-      expect(email.body).to eq(body)
+      expect(subject.date).to be_kind_of(Time)
     end
 
     it "must default 'body' to an empty Array" do
-      email = Network::SMTP::Email.new
+      expect(subject.body).to eq([])
+    end
 
-      expect(email.body).to be_empty
+    context "when given the body: keyword argument" do
+      subject { described_class.new(body: body) }
+
+      context "and it's a String" do
+        let(:body) { 'hello' }
+
+        it "must set #body" do
+          expect(subject.body).to eq([body])
+        end
+      end
+      
+      context "and it's an Array" do
+        let(:body) { ['hello', 'world'] }
+
+        it "must set #body" do
+          expect(subject.body).to eq(body)
+        end
+      end
     end
   end
 
   describe "#to_s" do
-    subject { Network::SMTP::Email.new }
-
     it "must add the 'from'" do
       subject.from = 'joe@example.com'
 
