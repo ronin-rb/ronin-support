@@ -16,10 +16,22 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/text/patterns/language'
-require 'ronin/support/text/patterns/numeric'
-require 'ronin/support/text/patterns/credentials'
-require 'ronin/support/text/patterns/crypto'
-require 'ronin/support/text/patterns/network'
-require 'ronin/support/text/patterns/pii'
-require 'ronin/support/text/patterns/source_code'
+module Ronin
+  module Support
+    module Text
+      #
+      # @since 0.3.0
+      #
+      module Patterns
+        #
+        # @group Language
+        #
+
+        # Regular expression for finding words.
+        #
+        # @since 0.5.0
+        WORD = /[A-Za-z][A-Za-z'\-\.]*[A-Za-z]/
+      end
+    end
+  end
+end
