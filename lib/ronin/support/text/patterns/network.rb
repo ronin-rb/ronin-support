@@ -16,6 +16,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/text/patterns/numeric'
 require 'ronin/support/text/patterns/network/public_suffix'
 
 module Ronin
@@ -34,10 +35,12 @@ module Ronin
         # @since 1.0.0
         MAC_ADDR = /[0-9a-fA-F]{2}(?::[0-9a-fA-F]{2}){5}/
 
+        decimal_octet = /(?<=[^\d]|^)(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])(?=[^\d]|$)/
+
         # A regular expression for matching IPv4 Addresses.
         #
         # @since 1.0.0
-        IPV4_ADDR = /#{DECIMAL_OCTET}(?:\.#{DECIMAL_OCTET}){3}(?:\/\d{1,2})?/
+        IPV4_ADDR = /#{decimal_octet}(?:\.#{decimal_octet}){3}(?:\/\d{1,2})?/
 
         # A regular expression for matching IPv6 Addresses.
         #
