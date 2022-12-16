@@ -3120,6 +3120,130 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "COMMENT" do
+    subject { described_class::COMMENT }
+
+    it "must match a single-line // comment" do
+      string = "// comment"
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match a single-line // comment that does end with a new-line" do
+      string = "// comment\n"
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match multiple // comments in a row" do
+      string = <<~TEXT.chomp
+        // comment 1
+        // comment 2
+        // comment 3
+      TEXT
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match multiple // comments in a row, that ends with a new-line" do
+      string = <<~TEXT
+        // comment 1
+        // comment 2
+        // comment 3
+      TEXT
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match a single-line // comment within a string" do
+      string = <<~CODE
+      foo
+      // comment
+      bar
+      CODE
+
+      expect(string).to match(subject)
+    end
+
+    it "must match a single-line # comment" do
+      string = "# comment"
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match a single-line # comment that ends with a new-line" do
+      string = "# comment\n"
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match multiple # comments in a row" do
+      string = <<~TEXT.chomp
+        # comment 1
+        # comment 2
+        # comment 3
+      TEXT
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match multiple # comments in a row, that ends with a new-line" do
+      string = <<~TEXT
+        # comment 1
+        # comment 2
+        # comment 3
+      TEXT
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match a single-line # comment within a string" do
+      string = <<~CODE
+      foo
+      # comment
+      bar
+      CODE
+
+      expect(string).to match(subject)
+    end
+
+    it "must match a single-line /* ... */ comment" do
+      string = "/* comment here */"
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match a single-line /* ... */ comment that ends with a new-line" do
+      string = "/* comment here */\n"
+
+      expect(string).to match(subject)
+    end
+
+    it "must match a multi-line /* ... */ comment" do
+      string = <<~TEXT.chomp
+      /*
+       * foo
+       * bar
+       * baz
+       */
+      TEXT
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match a multi-line /* ... */ comment that ends with a new-line" do
+      string = <<~TEXT
+      /*
+       * foo
+       * bar
+       * baz
+       */
+      TEXT
+
+      expect(string).to match(subject)
+    end
+  end
+
   describe "FILE_EXT" do
     subject { described_class::FILE_EXT }
 

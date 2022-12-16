@@ -386,6 +386,11 @@ module Ronin
         # @since 1.0.0
         BASE64 = /(?:[A-Za-z0-9+\/]{4}\n?)+(?:[A-Za-z0-9+\/]{2}==\n?|[A-Za-z0-9+\/]{3}=\n?)?|[A-Za-z0-9+\/]{2}==\n?|[A-Za-z0-9+\/]{3}=\n?/
 
+        # Regular expression to match any single-line or multi-line comments.
+        #
+        # @since 1.0.0
+        COMMENT = %r{(?://(?:[^\r\n]*)(?:\r?\n|\z))+|(?:#(?:[^\r\n]*)(?:\r?\n|\z))+|(?:/\*[\s\S]*?\*/)}
+
         #
         # @group File System Patterns
         #
