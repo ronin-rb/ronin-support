@@ -23,6 +23,10 @@ module Ronin
       # @since 0.3.0
       #
       module Patterns
+        #
+        # @group Language
+        #
+
         # Regular expression for finding words
         #
         # @since 0.5.0
