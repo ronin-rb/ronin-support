@@ -1,17 +1,8 @@
 require 'spec_helper'
+require 'matchers/fully_match'
 require 'ronin/support/text/patterns'
 
 describe Ronin::Support::Text::Patterns do
-  RSpec::Matchers.define :fully_match do |expected|
-    match do |actual|
-      expect(actual.match(expected)[0]).to eq(actual)
-    end
-
-    description do
-      "to fully match #{expected.inspect}"
-    end
-  end
-
   describe "WORD" do
     subject { described_class::WORD }
 
