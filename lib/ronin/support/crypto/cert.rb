@@ -281,6 +281,8 @@ module Ronin
         #       'subjectAltName' => 'DNS: localhost, IP: 127.0.0.1'
         #     }
         #   )
+        #   key.save('cert.key')
+        #   cert.save('cert.pem')
         #
         # @example Generate a CA certificate:
         #   ca_key  = Ronin::Support::Crypto::Key::RSA.random
@@ -298,6 +300,8 @@ module Ronin
         #       'basicConstraints' => ['CA:TRUE', true]
         #     }
         #   )
+        #   key.save('ca.key')
+        #   cert.save('ca.pem')
         #
         # @example Generate a sub-certificate from a CA certificate:
         #   key  = Ronin::Support::Crypto::Key::RSA.random
@@ -318,6 +322,8 @@ module Ronin
         #       'basicConstraints' => ['CA:FALSE', true]
         #     }
         #   )
+        #   key.save('cert.key')
+        #   cert.save('cert.pem')
         #
         def self.generate(version:    2,
                           serial:     0,
