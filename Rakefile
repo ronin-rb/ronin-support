@@ -48,12 +48,19 @@ namespace :public_suffix do
   end
 
   desc 'Builds a regex for every public suffix'
-  task :regex => :download do
+  task :build_regex => :download do
     require 'ronin/support/network/public_suffix/list'
     list = Ronin::Support::Network::PublicSuffix::List.load_file(
       'public_suffix_list.dat'
     )
     
-    puts list.to_regexp.inspect
+    regex = list.to_regexp
+
+    template = 'data/text/patterns/network/public_suffix.rb.erb'
+    output   = 'lib/ronin/support/text/patterns/network/public_suffix.rb'
+
+    require 'erb'
+    erb = ERB.new(File.read(template))
+    File.write(output,erb.result(binding))
   end
 end
