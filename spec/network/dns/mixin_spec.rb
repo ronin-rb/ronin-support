@@ -18,7 +18,7 @@ describe Ronin::Support::Network::DNS::Mixin do
         )
       end
 
-      it "must set the resolver's #nameservers to Network::DNS.nameservers" do
+      it "must set the resolver's #nameservers to Ronin::Support::Network::DNS.nameservers" do
         expect(subject.dns_resolver.nameservers).to eq(
           Ronin::Support::Network::DNS.nameservers
         )

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ronin/support/network/tcp/proxy'
 
-describe Network::TCP::Proxy do
+describe Ronin::Support::Network::TCP::Proxy do
   context "integration", :network do
     let(:port)   { 1337                    }
     let(:host)   { 'localhost'             }

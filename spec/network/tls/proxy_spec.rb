@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'ronin/support/network/tls/proxy'
 require 'ronin/support/network/tls/mixin'
 
-describe Network::TLS::Proxy do
+describe Ronin::Support::Network::TLS::Proxy do
   let(:port)   { 1337                  }
   let(:server) { ['www.iana.org', 443] }
 
@@ -27,7 +27,7 @@ describe Network::TLS::Proxy do
   end
 end
 
-describe Network::TLS::Proxy, network: true do
+describe Ronin::Support::Network::TLS::Proxy, network: true do
   include Ronin::Support::Network::TLS::Mixin
 
   let(:port)   { 1337                  }

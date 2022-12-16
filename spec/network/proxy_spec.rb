@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ronin/support/network/proxy'
 
-describe Network::Proxy do
+describe Ronin::Support::Network::Proxy do
   let(:port)  { 1337              }
   let(:host)  { '127.0.0.1'       }
   let(:server_host) { 'www.example.com' }

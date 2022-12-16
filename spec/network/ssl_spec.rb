@@ -50,10 +50,10 @@ describe Ronin::Support::Network::SSL do
 
   let(:fixtures_dir) { File.join(__dir__,'fixtures') }
 
-  let(:key_file)  { File.join(fixtures_dir,'ssl.key')    }
-  let(:key)       { Crypto::Key::RSA.load_file(key_file) }
-  let(:cert_file) { File.join(fixtures_dir,'ssl.crt')    }
-  let(:cert)      { Crypto::Cert.load_file(cert_file)    }
+  let(:key_file)  { File.join(fixtures_dir,'ssl.key') }
+  let(:key)       { Ronin::Support::Crypto::Key::RSA.load_file(key_file) }
+  let(:cert_file) { File.join(fixtures_dir,'ssl.crt') }
+  let(:cert)      { Ronin::Support::Crypto::Cert.load_file(cert_file) }
 
   describe ".key" do
     it "must return LocalKey.fetch" do

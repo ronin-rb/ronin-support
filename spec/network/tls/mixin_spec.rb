@@ -12,11 +12,11 @@ describe Ronin::Support::Network::TLS::Mixin do
     let(:server_host) { 'localhost' }
     let(:server_ip)   { Resolv.getaddress(server_host) }
 
-    let(:fixtures_dir) { File.join(__dir__,'..','fixtures')   }
-    let(:key_file)     { File.join(fixtures_dir,'ssl.key')    }
-    let(:key)          { Crypto::Key::RSA.load_file(key_file) }
-    let(:cert_file)    { File.join(fixtures_dir,'ssl.crt')    }
-    let(:cert)         { Crypto::Cert.load_file(cert_file)    }
+    let(:fixtures_dir) { File.join(__dir__,'..','fixtures') }
+    let(:key_file)     { File.join(fixtures_dir,'ssl.key') }
+    let(:key)          { Ronin::Support::Crypto::Key::RSA.load_file(key_file) }
+    let(:cert_file)    { File.join(fixtures_dir,'ssl.crt') }
+    let(:cert)         { Ronin::Support::Crypto::Cert.load_file(cert_file) }
 
     subject do
       obj = Object.new

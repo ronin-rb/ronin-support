@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ronin/support/cli/ansi'
 
-describe CLI::ANSI do
+describe Ronin::Support::CLI::ANSI do
   describe "RESET" do
     it { expect(subject::RESET).to eq("\e[0m") }
   end

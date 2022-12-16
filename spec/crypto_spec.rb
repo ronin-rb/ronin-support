@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ronin/support/crypto'
 
-describe Crypto do
+describe Ronin::Support::Crypto do
   let(:fixtures_dir) { File.join(__dir__,'crypto','fixtures') }
 
   let(:clear_text) { 'the quick brown fox' }

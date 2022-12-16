@@ -3,7 +3,7 @@ require 'ronin/support/network/http'
 
 require 'webmock/rspec'
 
-describe Network::HTTP do
+describe Ronin::Support::Network::HTTP do
   describe ".proxy" do
     subject { described_class }
 

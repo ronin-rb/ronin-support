@@ -3,7 +3,7 @@ require 'ronin/support/cli/printing'
 
 require 'stringio'
 
-describe CLI::Printing do
+describe Ronin::Support::CLI::Printing do
   describe ".debug?" do
     subject { described_class }
 

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ronin/support/path'
 
-describe Path do
+describe Ronin::Support::Path do
   subject { described_class }
 
   let(:n) { 7 }
@@ -24,7 +24,7 @@ describe Path do
     end
   end
 
-  describe "up" do
+  describe ".up" do
     it "must be able to traverse up 0 directories" do
       expect(subject.up(0)).to eq(File::SEPARATOR)
     end
@@ -48,7 +48,7 @@ describe Path do
     it "must create a range of directory-escaping paths" do
       range = 7..10
 
-      expect(subject.up(range)).to eq(range.map { |i| Path.up(i) })
+      expect(subject.up(range)).to eq(range.map { |i| subject.up(i) })
     end
 
     it "must allow using custom path separators" do
@@ -57,7 +57,7 @@ describe Path do
   end
 
   describe "#join" do
-    subject { Path.new('base') }
+    subject { described_class.new('base') }
 
     it "must join with sub-paths" do
       sub_path = File.join('one','two')
@@ -74,7 +74,7 @@ describe Path do
     end
 
     it "must not collapse directory traversals" do
-      traversal = Path.up(n)
+      traversal = described_class.up(n)
       expected = [subject, traversal].join(File::SEPARATOR)
 
       expect(subject.join(traversal).to_s).to eq(expected)
@@ -93,7 +93,9 @@ describe Path do
     end
 
     it "must join with the root path" do
-      expect(Path.root.join('etc','passwd').to_s).to eq('/etc/passwd')
+      path = described_class.root.join('etc','passwd')
+
+      expect(path.to_s).to eq('/etc/passwd')
     end
 
     context "with a custom path seperator" do

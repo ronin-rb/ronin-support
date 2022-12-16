@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ronin/support/network/telnet/mixin'
 
-describe Network::Telnet::Mixin do
+describe Ronin::Support::Network::Telnet::Mixin do
   # NOTE: http://www.jumpjet.info/Offbeat-Internet/Public/TelNet/url.htm
   let(:host) { 'gcomm.com' }
 
