@@ -12,6 +12,50 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "WORD" do
+    subject { described_class::WORD }
+
+    it "must not match a single letter" do
+      expect('A').to_not match(subject)
+    end
+
+    it "must not match a punctuation character" do
+      expect('.').to_not match(subject)
+    end
+
+    it "must not match a single letter end with a punctuation character" do
+      expect('A.').to_not match(subject)
+    end
+
+    it "must match two lower-case letters" do
+      expect('ab').to match(subject)
+    end
+
+    it "must match two upper-case letters" do
+      expect('AB').to match(subject)
+    end
+
+    it "must match a lower-case letter and a upper-case letter" do
+      expect('aB').to match(subject)
+    end
+
+    it "must match a upper-case letter and a lower-case letter" do
+      expect('Ab').to match(subject)
+    end
+
+    it "must match more than two lower-case letters" do
+      expect('abcdefg').to match(subject)
+    end
+
+    it "must match more than two upper-case letters" do
+      expect('ABCDEFG').to match(subject)
+    end
+
+    it "must match more than two lower-case and upper-case letters" do
+      expect('AbCdEfG').to match(subject)
+    end
+  end
+
   describe "NUMBER" do
     subject { described_class::NUMBER }
 
