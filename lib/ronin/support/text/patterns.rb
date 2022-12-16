@@ -386,10 +386,69 @@ module Ronin
         # @since 1.0.0
         BASE64 = /(?:[A-Za-z0-9+\/]{4}\n?)+(?:[A-Za-z0-9+\/]{2}==\n?|[A-Za-z0-9+\/]{3}=\n?)?|[A-Za-z0-9+\/]{2}==\n?|[A-Za-z0-9+\/]{3}=\n?/
 
+        # Regular expression to match any single-line or multi-line C-style
+        # comments.
+        #
+        # @since 1.0.0
+        C_STYLE_COMMENT = %r{(?://(?:[^\r\n]*)(?:\r?\n|\z))+|(?:/\*[\s\S]*?\*/)}
+
+        # Regular expression to match any single-line or multi-line C comments.
+        #
+        # @since 1.0.0
+        C_COMMENT = C_STYLE_COMMENT
+
+        # Regular expression to match any single-line or multi-line C++
+        # comments.
+        #
+        # @since 1.0.0
+        CPP_COMMENT = C_STYLE_COMMENT
+
+        # Regular expression to match any single-line or multi-line Java
+        # comments.
+        #
+        # @since 1.0.0
+        JAVA_COMMENT = C_STYLE_COMMENT
+
+        # Regular expression to match any single-line or multi-line JavaScript
+        # comments.
+        #
+        # @since 1.0.0
+        JAVASCRIPT_COMMENT = C_STYLE_COMMENT
+
+        # Regular expression to match any single-line or multi-line shell-style
+        # comments.
+        #
+        # @since 1.0.0
+        SHELL_STYLE_COMMENT = /(?:#(?:[^\r\n]*)(?:\r?\n|\z))+/
+
+        # Regular expression to match any single-line or multi-line shell script
+        # comments.
+        #
+        # @since 1.0.0
+        SHELL_COMMENT = SHELL_STYLE_COMMENT
+
+        # Regular expression to match any single-line or multi-line Bash
+        # comments.
+        #
+        # @since 1.0.0
+        BASH_COMMENT = SHELL_STYLE_COMMENT
+
+        # Regular expression to match any single-line or multi-line Ruby
+        # comments.
+        #
+        # @since 1.0.0
+        RUBY_COMMENT = SHELL_STYLE_COMMENT
+
+        # Regular expression to match any single-line or multi-line Python
+        # comments.
+        #
+        # @since 1.0.0
+        PYTHON_COMMENT = SHELL_STYLE_COMMENT
+
         # Regular expression to match any single-line or multi-line comments.
         #
         # @since 1.0.0
-        COMMENT = %r{(?://(?:[^\r\n]*)(?:\r?\n|\z))+|(?:#(?:[^\r\n]*)(?:\r?\n|\z))+|(?:/\*[\s\S]*?\*/)}
+        COMMENT = /#{SHELL_COMMENT}|#{C_COMMENT}/
 
         #
         # @group File System Patterns

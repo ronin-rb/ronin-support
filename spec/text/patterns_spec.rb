@@ -3120,9 +3120,7 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
-  describe "COMMENT" do
-    subject { described_class::COMMENT }
-
+  shared_examples_for "C-style comments" do
     it "must match a single-line // comment" do
       string = "// comment"
 
@@ -3165,6 +3163,82 @@ describe Ronin::Support::Text::Patterns do
       expect(string).to match(subject)
     end
 
+    it "must match a single-line /* ... */ comment" do
+      string = "/* comment here */"
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match a single-line /* ... */ comment that ends with a new-line" do
+      string = "/* comment here */\n"
+
+      expect(string).to match(subject)
+    end
+
+    it "must match a multi-line /* ... */ comment" do
+      string = <<~TEXT.chomp
+      /*
+       * foo
+       * bar
+       * baz
+       */
+      TEXT
+
+      expect(string).to fully_match(subject)
+    end
+
+    it "must match a multi-line /* ... */ comment that ends with a new-line" do
+      string = <<~TEXT
+      /*
+       * foo
+       * bar
+       * baz
+       */
+      TEXT
+
+      expect(string).to match(subject)
+    end
+  end
+
+  describe "C_STYLE_COMMENT" do
+    subject { described_class::C_STYLE_COMMENT }
+
+    include_examples "C-style comments"
+  end
+
+  describe "C_COMMENT" do
+    subject { described_class::C_COMMENT }
+
+    it "must equal C_STYLE_COMMENT" do
+      expect(subject).to be(described_class::C_STYLE_COMMENT)
+    end
+  end
+
+  describe "CPP_COMMENT" do
+    subject { described_class::CPP_COMMENT }
+
+    it "must equal C_STYLE_COMMENT" do
+      expect(subject).to be(described_class::C_STYLE_COMMENT)
+    end
+  end
+
+  describe "JAVA_COMMENT" do
+    subject { described_class::JAVA_COMMENT }
+
+    it "must equal C_STYLE_COMMENT" do
+      expect(subject).to be(described_class::C_STYLE_COMMENT)
+    end
+  end
+
+  describe "JAVASCRIPT_COMMENT" do
+    subject { described_class::JAVASCRIPT_COMMENT }
+
+    it "must equal C_STYLE_COMMENT" do
+      expect(subject).to be(described_class::C_STYLE_COMMENT)
+    end
+  end
+
+  shared_examples_for "Shell-style comments" do
     it "must match a single-line # comment" do
       string = "# comment"
 
@@ -3206,42 +3280,51 @@ describe Ronin::Support::Text::Patterns do
 
       expect(string).to match(subject)
     end
+  end
 
-    it "must match a single-line /* ... */ comment" do
-      string = "/* comment here */"
+  describe "SHELL_STYLE_COMMENT" do
+    subject { described_class::SHELL_STYLE_COMMENT }
 
-      expect(string).to fully_match(subject)
+    include_examples "Shell-style comments"
+  end
+
+  describe "SHELL_COMMENT" do
+    subject { described_class::SHELL_COMMENT }
+
+    it "must equal SHELL_STYLE_COMMENT" do
+      expect(subject).to be(described_class::SHELL_STYLE_COMMENT)
     end
+  end
 
-    it "must match a single-line /* ... */ comment that ends with a new-line" do
-      string = "/* comment here */\n"
+  describe "BASH_COMMENT" do
+    subject { described_class::BASH_COMMENT }
 
-      expect(string).to match(subject)
+    it "must equal SHELL_STYLE_COMMENT" do
+      expect(subject).to be(described_class::SHELL_STYLE_COMMENT)
     end
+  end
 
-    it "must match a multi-line /* ... */ comment" do
-      string = <<~TEXT.chomp
-      /*
-       * foo
-       * bar
-       * baz
-       */
-      TEXT
+  describe "RUBY_COMMENT" do
+    subject { described_class::RUBY_COMMENT }
 
-      expect(string).to fully_match(subject)
+    it "must equal SHELL_STYLE_COMMENT" do
+      expect(subject).to be(described_class::SHELL_STYLE_COMMENT)
     end
+  end
 
-    it "must match a multi-line /* ... */ comment that ends with a new-line" do
-      string = <<~TEXT
-      /*
-       * foo
-       * bar
-       * baz
-       */
-      TEXT
+  describe "PYTHON_COMMENT" do
+    subject { described_class::PYTHON_COMMENT }
 
-      expect(string).to match(subject)
+    it "must equal SHELL_STYLE_COMMENT" do
+      expect(subject).to be(described_class::SHELL_STYLE_COMMENT)
     end
+  end
+
+  describe "COMMENT" do
+    subject { described_class::COMMENT }
+
+    include_examples "C-style comments"
+    include_examples "Shell-style comments"
   end
 
   describe "FILE_EXT" do
