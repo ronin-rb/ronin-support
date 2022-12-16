@@ -26,6 +26,63 @@ module Ronin
     module Crypto
       module Key
         #
+        # Parses an PEM encoded key.
+        #
+        # @param [String] key
+        #   The PEM or DER encoded key string.
+        #
+        # @param [String, nil] password
+        #   Optional password to decrypt the key.
+        #
+        # @return [OpenSSL::PKey]
+        #   The parsed key.
+        #
+        # @return [DSA, EC, RSA]
+        #   The parsed key.
+        #
+        # @raise [ArgumentError]
+        #   The key type could not be determined from the key file.
+        #   
+        # @api public
+        #
+        def self.parse(key, password: nil)
+          key_class = if key.start_with?('-----BEGIN RSA PRIVATE KEY-----')
+                        RSA
+                      elsif key.start_with?('-----BEGIN DSA PRIVATE KEY-----')
+                        DSA
+                      elsif key.start_with?('-----BEGIN EC PRIVATE KEY-----')
+                        EC
+                      else
+                        raise(ArgumentError,"cannot determine the key type for key: #{key.inspect}")
+                      end
+
+          key_class.parse(key, password: password)
+        end
+
+        #
+        # Alias for {#parse}.
+        #
+        # @param [String] key
+        #   The PEM or DER encoded key string.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {#parse}.
+        #
+        # @option kwargs [String, nil] :password
+        #   Optional password to decrypt the key.
+        #
+        # @return [DSA, EC, RSA]
+        #   The parsed key.
+        #
+        # @see parse
+        #
+        # @api public
+        #
+        def self.load(key,**kwargs)
+          parse(key,**kwargs)
+        end
+
+        #
         # Loads the key from the file.
         #
         # @param [String] path
@@ -37,19 +94,10 @@ module Ronin
         # @raise [ArgumentError]
         #   The key type could not be determined from the key file.
         #   
+        # @api public
+        #
         def self.load_file(path)
-          key       = File.read(path)
-          key_class = if key.start_with?('-----BEGIN RSA PRIVATE KEY-----')
-                        RSA
-                      elsif key.start_with?('-----BEGIN DSA PRIVATE KEY-----')
-                        DSA
-                      elsif key.start_with?('-----BEGIN EC PRIVATE KEY-----')
-                        EC
-                      else
-                        raise(ArgumentError,"cannot determine the key type for file #{path.inspect}")
-                      end
-
-          key_class.parse(key)
+          parse(File.read(path))
         end
       end
     end
