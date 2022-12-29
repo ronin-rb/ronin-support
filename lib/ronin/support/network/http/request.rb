@@ -117,7 +117,7 @@ module Ronin
           #         :firefox_windows, :firefox_iphone, :firefox_ipad,
           #         :firefox_android, :safari, :safari_macos, :safari_iphone,
           #         :safari_ipad, :edge, :linux, :macos, :windows, :iphone,
-          #         :ipad, :android, nil user_agent
+          #         :ipad, :android, nil] user_agent
           #     The `User-Agent` header value for the request.
           #
           # @param [String, Hash{String => String}, Cookie, nil] cookie
