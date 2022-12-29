@@ -248,7 +248,7 @@
 * Allow `:method` to be used with `Net.http_ok?`.
 * Fixed a bug in `Ronin::Network::HTTP.expand_url` where `:host` and `:port`
   options were being overridden.
-* Improved the performance of {Integer#bytes}.
+* Improved the performance of `Integer#bytes`.
 * Only redefine `String#dump` for Ruby 1.8.x.
   * Ruby >= 1.9.1 correctly hex-escapes special characters.
 * Fixed a bug in `String#format_chars`, where it was not using `each_char`
