@@ -253,8 +253,6 @@ module Ronin
         # @raise [ArgumentError]
         #   Either the the `key:` or `password:` keyword argument must be given.
         #
-        # @since 1.0.0
-        #
         # @see Crypto.aes_encrypt
         #
         def crypto_aes_encrypt(data,**kwargs)
@@ -298,8 +296,6 @@ module Ronin
         #
         # @raise [ArgumentError]
         #   Either the the `key:` or `password:` keyword argument must be given.
-        #
-        # @since 1.0.0
         #
         # @see Crypto.aes_decrypt
         #
@@ -381,8 +377,6 @@ module Ronin
         # @raise [ArgumentError]
         #   Either the the `key:` or `password:` keyword argument must be given.
         #
-        # @since 1.0.0
-        #
         # @see Crypto.aes128_encrypt
         #
         def crypto_aes128_encrypt(data,**kwargs)
@@ -423,8 +417,6 @@ module Ronin
         #
         # @raise [ArgumentError]
         #   Either the the `key:` or `password:` keyword argument must be given.
-        #
-        # @since 1.0.0
         #
         # @see Crypto.aes128_decrypt
         #
@@ -506,8 +498,6 @@ module Ronin
         # @raise [ArgumentError]
         #   Either the the `key:` or `password:` keyword argument must be given.
         #
-        # @since 1.0.0
-        #
         # @see Crypto.aes256_encrypt
         #
         def crypto_aes256_encrypt(data,**kwargs)
@@ -549,8 +539,6 @@ module Ronin
         # @raise [ArgumentError]
         #   Either the the `key:` or `password:` keyword argument must be given.
         #
-        # @since 1.0.0
-        #
         # @see Crypto.aes256_decrypt
         #
         def crypto_aes256_decrypt(data,**kwargs)
@@ -587,8 +575,6 @@ module Ronin
         # @raise [ArgumentError]
         #   Either the `key:` or `key_file:` keyword argument must be given.
         #
-        # @since 1.0.0
-        #
         def crypto_rsa_encrypt(data,**kwargs)
           Crypto.rsa_encrypt(data,**kwargs)
         end
@@ -622,8 +608,6 @@ module Ronin
         #
         # @raise [ArgumentError]
         #   Either the `key:` or `key_file:` keyword argument must be given.
-        #
-        # @since 1.0.0
         #
         def crypto_rsa_decrypt(data,**kwargs)
           Crypto.rsa_decrypt(data,**kwargs)

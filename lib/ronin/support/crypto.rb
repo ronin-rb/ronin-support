@@ -206,8 +206,6 @@ module Ronin
       #
       # @see Cipher#encrypt
       #
-      # @since 1.0.0
-      #
       def self.encrypt(data, cipher: ,**kwargs)
         self.cipher(cipher, direction: :encrypt, **kwargs).encrypt(data)
       end
@@ -246,8 +244,6 @@ module Ronin
       #   Either the the `key:` or `password:` keyword argument must be given.
       #
       # @see Cipher#decrypt
-      #
-      # @since 1.0.0
       #
       def self.decrypt(data, cipher: ,**kwargs)
         self.cipher(cipher, direction: :decrypt, **kwargs).decrypt(data)
@@ -329,8 +325,6 @@ module Ronin
       # @raise [ArgumentError]
       #   Either the the `key:` or `password:` keyword argument must be given.
       #
-      # @since 1.0.0
-      #
       def self.aes_encrypt(data,**kwargs)
         self.aes_cipher(direction: :encrypt, **kwargs).encrypt(data)
       end
@@ -370,8 +364,6 @@ module Ronin
       #
       # @raise [ArgumentError]
       #   Either the the `key:` or `password:` keyword argument must be given.
-      #
-      # @since 1.0.0
       #
       def self.aes_decrypt(data,**kwargs)
         self.aes_cipher(direction: :decrypt, **kwargs).decrypt(data)
@@ -447,8 +439,6 @@ module Ronin
       # @raise [ArgumentError]
       #   Either the the `key:` or `password:` keyword argument must be given.
       #
-      # @since 1.0.0
-      #
       def self.aes128_encrypt(data,**kwargs)
         self.aes128_cipher(direction: :encrypt, **kwargs).encrypt(data)
       end
@@ -485,8 +475,6 @@ module Ronin
       #
       # @raise [ArgumentError]
       #   Either the the `key:` or `password:` keyword argument must be given.
-      #
-      # @since 1.0.0
       #
       def self.aes128_decrypt(data,**kwargs)
         self.aes128_cipher(direction: :decrypt, **kwargs).decrypt(data)
@@ -562,8 +550,6 @@ module Ronin
       # @raise [ArgumentError]
       #   Either the the `key:` or `password:` keyword argument must be given.
       #
-      # @since 1.0.0
-      #
       def self.aes256_encrypt(data,**kwargs)
         self.aes256_cipher(direction: :encrypt, **kwargs).encrypt(data)
       end
@@ -601,8 +587,6 @@ module Ronin
       # @raise [ArgumentError]
       #   Either the the `key:` or `password:` keyword argument must be given.
       #
-      # @since 1.0.0
-      #
       def self.aes256_decrypt(data,**kwargs)
         self.aes256_cipher(direction: :decrypt, **kwargs).decrypt(data)
       end
@@ -623,8 +607,6 @@ module Ronin
       #
       # @raise [ArgumentError]
       #   Either the `key:` or `key_file:` keyword argument must be given.
-      #
-      # @since 1.0.0
       #
       def self.rsa_key(key=nil, path: nil, password: nil)
         if path
@@ -669,8 +651,6 @@ module Ronin
       # @raise [ArgumentError]
       #   Either the `key:` or `key_file:` keyword argument must be given.
       #
-      # @since 1.0.0
-      #
       def self.rsa_encrypt(data, key: nil, key_file: nil, key_password: nil, **kwargs)
         rsa = rsa_key(key, path: key_file, password: key_password)
 
@@ -705,8 +685,6 @@ module Ronin
       # @raise [ArgumentError]
       #   Either the `key:` or `key_file:` keyword argument must be given.
       #
-      # @since 1.0.0
-      #
       def self.rsa_decrypt(data, key: nil, key_file: nil, key_password: nil, **kwargs)
         rsa = rsa_key(key, path: key_file, password: key_password)
 
@@ -739,8 +717,6 @@ module Ronin
       # @example ROT13 "decryption":
       #   Crypto.rot("Gur dhvpx oebja sbk whzcf bire 46 ynml qbtf.", -13)
       #   # => "The quick brown fox jumps over 13 lazy dogs."
-      #
-      # @since 1.0.0
       #
       def self.rot(string,n=13, alphabets: [('A'..'Z').to_a, ('a'..'z').to_a, ('0'..'9').to_a])
         translation_table = {}
@@ -781,8 +757,6 @@ module Ronin
       # @example
       #   Crypto.xor("hello again", [0x55, 0x41, 0xe1])
       #   # => "=$\x8d9.\xc14&\x80</"
-      #
-      # @since 1.0.0
       #
       def self.xor(string,key)
         key = case key
