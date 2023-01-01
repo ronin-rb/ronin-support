@@ -1,3 +1,371 @@
+### 1.0.0 / 2023-XX-XX
+
+* Added {File.aes_encrypt}.
+* Added {File.aes_decrypt}.
+* Added {File.aes128_encrypt}.
+* Added {File.aes128_decrypt}.
+* Added {File.aes256_encrypt}.
+* Added {File.aes256_decrypt}.
+* Added {File.rsa_encrypt}.
+* Added {File.rsa_decrypt}.
+* Added {File.gzip}.
+* Added {File.gunzip}.
+* Added {File.tar}.
+* Added {File.untar}.
+* Added {File.zip}.
+* Added {File.unzip}.
+* Added {Integer#c_escape}.
+* Added {Integer#c_encode}.
+* Added {Integer#powershell_encode}.
+* Added {Integer#powershell_escape}.
+* Added {Integer#shell_encode}.
+* Added {Integer#shell_escape}.
+* Added {Integer#uri_form_escape}.
+* Added {Integer#uri_form_encode}.
+* Added {Integer#to_hex}.
+* Added {Integer#to_int8}.
+* Added {Integer#to_int16}.
+* Added {Integer#to_int32}.
+* Added {Integer#to_int64}.
+* Added {Integer#to_uint8}.
+* Added {Integer#to_uint16}.
+* Added {Integer#to_uint32}.
+* Added {Integer#to_uint64}.
+* Added {String#base16_encode}.
+* Added {String#base16_decode}.
+* Added {String#base32_encode}.
+* Added {String#base32_decode}.
+* Added {String#c_escape}.
+* Added {String#c_unescape}.
+* Added {String#c_encode}.
+* Added {String#c_string}.
+* Added {String#c_unquote}.
+* Added {String#hex_string}.
+* Added {String#hex_unquote}.
+* Added {String#http_encode}.
+* Added {String#js_encode}.
+* Added {String#js_string}.
+* Added {String#js_unquote}.
+* Added {String#powershell_escape}.
+* Added {String#powershell_unescape}.
+* Added {String#powershell_encode}.
+* Added {String#powershell_string}.
+* Added {String#powershell_unquote}.
+* Added {String#punycode_encode}.
+* Added {String#punycode_decode}.
+* Added {String#quoted_printable_escape}.
+* Added {String#quoted_printable_unescape}.
+* Added {String#ruby_escape}.
+* Added {String#ruby_unescape}.
+* Added {String#ruby_encode}.
+* Added {String#ruby_string}.
+* Added {String#ruby_unquote}.
+* Added {String#shell_escape}.
+* Added {String#shell_unescape}.
+* Added {String#shell_encode}.
+* Added {String#shell_string}.
+* Added {String#shell_unquote}.
+* Added {String#sql_unescape}.
+* Added {String#uri_form_escape}.
+* Added {String#uri_form_encode}.
+* Added {String#uu_encode}.
+* Added {String#uu_decode}.
+* Added {String#xml_encode}.
+* Added {String#aes_encrypt}.
+* Added {String#aes_decrypt}.
+* Added {String#aes128_encrypt}.
+* Added {String#aes128_decrypt}.
+* Added {String#aes256_encrypt}.
+* Added {String#aes256_decrypt}.
+* Added {String#rsa_encrypt}.
+* Added {String#rsa_decrypt}.
+* Added {String#gzip}.
+* Added {String#gunzip}.
+* Added {String#entropy}.
+* Added {String#homoglyph}.
+* Added {String#each_homoglyph}.
+* Added {String#homoglyphs}.
+* Added {String#typo}.
+* Added {String#each_typo}.
+* Added {String#typos}.
+* Added {Ronin::Support::Archive}.
+* Added {Ronin::Support::Archive::Tar}.
+* Added {Ronin::Support::Archive::Zip}.
+* Added {Ronin::Support::Archive::Mixin}.
+* Added {Ronin::Support::Binary::CTypes}.
+* Added {Ronin::Support::Binary::Array}.
+* Added {Ronin::Support::Binary::Memory}.
+* Added {Ronin::Support::Binary::Buffer}.
+* Added {Ronin::Support::Binary::CString}.
+* Added {Ronin::Support::Binary::Stack}.
+* Added {Ronin::Support::Binary::Stream}.
+* Added {Ronin::Support::Binary::Union}.
+* Added {Ronin::Support::Binary::Hexdump::Parser#unpack}.
+* Added {Ronin::Support::Binary::Hexdump::Parser#unhexdump}.
+* Added {Ronin::Support::CLI::ANSI}.
+* Added {Ronin::Support::CLI::Printing}.
+* Added {Ronin::Support::Compression}.
+* Added {Ronin::Support::Compression::Gzip}.
+* Added {Ronin::Support::Compression::Gzip::Reader}.
+* Added {Ronin::Support::Compression::Gzip::Writer}.
+* Added {Ronin::Support::Compression::Mixin}.
+* Added {Ronin::Support::Crypto}.
+* Added {Ronin::Support::Crypto::HMAC}.
+* Added {Ronin::Support::Crypto::Key}.
+* Added {Ronin::Support::Crypto::Key::DH}.
+* Added {Ronin::Support::Crypto::Key::DSA}.
+* Added {Ronin::Support::Crypto::Key::EC}.
+* Added {Ronin::Support::Crypto::Key::RSA}.
+* Added {Ronin::Support::Crypto::Mixin}.
+* Added {Ronin::Support::Encoding}.
+* Added {Ronin::Support::Encoding::Base16}.
+* Added {Ronin::Support::Encoding::Base32}.
+* Added {Ronin::Support::Encoding::Base64}.
+* Added {Ronin::Support::Encoding::C}.
+* Added {Ronin::Support::Encoding::Hex}.
+* Added {Ronin::Support::Encoding::HTML}.
+* Added {Ronin::Support::Encoding::HTTP}.
+* Added {Ronin::Support::Encoding::JS}.
+* Added {Ronin::Support::Encoding::PowerShell}.
+* Added {Ronin::Support::Encoding::Punycode}.
+* Added {Ronin::Support::Encoding::QuotedPrintable}.
+* Added {Ronin::Support::Encoding::Ruby}.
+* Added {Ronin::Support::Encoding::Shell}.
+* Added {Ronin::Support::Encoding::SQL}.
+* Added {Ronin::Support::Encoding::URI}.
+* Added {Ronin::Support::Encoding::UUEncoding}.
+* Added {Ronin::Support::Encoding::XML}.
+* Added {Ronin::Support::Home}.
+* Added {Ronin::Support::Mixin}.
+* Added {Ronin::Support::Network::ASN}.
+* Added {Ronin::Support::Network::ASN::List}.
+* Added {Ronin::Support::Network::DNS::IDN}.
+* Added {Ronin::Support::Network::DNS::Resolver}.
+* Added {Ronin::Support::Network::Domain}.
+* Added {Ronin::Support::Network::EmailAddress}.
+* Added {Ronin::Support::Network::Host}.
+* Refactored {Ronin::Support::Network::HTTP} into a class.
+* Added {Ronin::Support::Network::HTTP.connect}.
+* Added {Ronin::Support::Network::HTTP.connect_uri}.
+* Added {Ronin::Support::Network::HTTP#ssl?}.
+* Added {Ronin::Support::Network::HTTP#user_agent}.
+* Added {Ronin::Support::Network::HTTP#user_agent=}.
+* Added {Ronin::Support::Network::HTTP#cookie=}.
+* Added {Ronin::Support::Network::HTTP#request}.
+* Added {Ronin::Support::Network::HTTP#response_status}.
+* Added {Ronin::Support::Network::HTTP#ok?}.
+* Added {Ronin::Support::Network::HTTP#response_headers}.
+* Added {Ronin::Support::Network::HTTP#server_header}.
+* Added {Ronin::Support::Network::HTTP#powered_by_header}.
+* Added {Ronin::Support::Network::HTTP#response_body}.
+* Added {Ronin::Support::Network::HTTP#copy}.
+* Added {Ronin::Support::Network::HTTP#delete}.
+* Added {Ronin::Support::Network::HTTP#get}.
+* Added {Ronin::Support::Network::HTTP#get_headers}.
+* Added {Ronin::Support::Network::HTTP#get_cookies}.
+* Added {Ronin::Support::Network::HTTP#get_body}.
+* Added {Ronin::Support::Network::HTTP#head}.
+* Added {Ronin::Support::Network::HTTP#lock}.
+* Added {Ronin::Support::Network::HTTP#mkcol}.
+* Added {Ronin::Support::Network::HTTP#move}.
+* Added {Ronin::Support::Network::HTTP#options}.
+* Added {Ronin::Support::Network::HTTP#allowed_methods}.
+* Added {Ronin::Support::Network::HTTP#patch}.
+* Added {Ronin::Support::Network::HTTP#post}.
+* Added {Ronin::Support::Network::HTTP#post_headers}.
+* Added {Ronin::Support::Network::HTTP#post_body}.
+* Added {Ronin::Support::Network::HTTP#propfind}.
+* Added {Ronin::Support::Network::HTTP#proppatch}.
+* Added {Ronin::Support::Network::HTTP#put}.
+* Added {Ronin::Support::Network::HTTP#trace}.
+* Added {Ronin::Support::Network::HTTP#unlock}.
+* Added {Ronin::Support::Network::HTTP#close}.
+* Added {Ronin::Support::Network::HTTP.response_status}.
+* Added {Ronin::Support::Network::HTTP.ok?}.
+* Added {Ronin::Support::Network::HTTP.response_headers}.
+* Added {Ronin::Support::Network::HTTP.server_header}.
+* Added {Ronin::Support::Network::HTTP.powered_by_header}.
+* Added {Ronin::Support::Network::HTTP.response_body}.
+* Added {Ronin::Support::Network::HTTP.copy}.
+* Added {Ronin::Support::Network::HTTP.delete}.
+* Added {Ronin::Support::Network::HTTP.get}.
+* Added {Ronin::Support::Network::HTTP.get_headers}.
+* Added {Ronin::Support::Network::HTTP.get_cookies}.
+* Added {Ronin::Support::Network::HTTP.get_body}.
+* Added {Ronin::Support::Network::HTTP.head}.
+* Added {Ronin::Support::Network::HTTP.lock}.
+* Added {Ronin::Support::Network::HTTP.mkcol}.
+* Added {Ronin::Support::Network::HTTP.move}.
+* Added {Ronin::Support::Network::HTTP.options}.
+* Added {Ronin::Support::Network::HTTP.allowed_methods}.
+* Added {Ronin::Support::Network::HTTP.patch}.
+* Added {Ronin::Support::Network::HTTP.post}.
+* Added {Ronin::Support::Network::HTTP.post_headers}.
+* Added {Ronin::Support::Network::HTTP.post_body}.
+* Added {Ronin::Support::Network::HTTP.propfind}.
+* Added {Ronin::Support::Network::HTTP.proppatch}.
+* Added {Ronin::Support::Network::HTTP.put}.
+* Added {Ronin::Support::Network::HTTP.trace}.
+* Added {Ronin::Support::Network::HTTP.unlock}.
+* Added {Ronin::Support::Network::HTTP::Cookie}.
+* Added {Ronin::Support::Network::HTTP::Mixin}.
+* Added {Ronin::Support::Network::HTTP::Mixin#http_connect}.
+* Added {Ronin::Support::Network::HTTP::Mixin#http_connect_uri}.
+* Added {Ronin::Support::Network::HTTP::Mixin#http_response_status}.
+* Added {Ronin::Support::Network::HTTP::Mixin#http_response_headers}.
+* Added {Ronin::Support::Network::HTTP::Mixin#http_server_header}.
+* Added {Ronin::Support::Network::HTTP::Mixin#http_powered_by_header}.
+* Added {Ronin::Support::Network::HTTP::Mixin#http_response_body}.
+* Added {Ronin::Support::Network::HTTP::Mixin#http_patch}.
+* Added {Ronin::Support::Network::IP}.
+* Added {Ronin::Support::Network::IP::Mixin}.
+* Added {Ronin::Support::Network::IP::Mixin#public_address}.
+* Added {Ronin::Support::Network::IP::Mixin#public_ip}.
+* Added {Ronin::Support::Network::IP::Mixin#local_addresses}.
+* Added {Ronin::Support::Network::IP::Mixin#local_address}.
+* Added {Ronin::Support::Network::IP::Mixin#local_ips}.
+* Added {Ronin::Support::Network::IP::Mixin#local_ip}.
+* Added {Ronin::Support::Network::IPRange}.
+* Added {Ronin::Support::Network::IPRange::CIDR}.
+* Added {Ronin::Support::Network::IPRange::Glob}.
+* Added {Ronin::Support::Network::IPRange::Range}.
+* Added {Ronin::Support::Network::Mixin}.
+* Added {Ronin::Support::Network::PublicSuffix}.
+* Added {Ronin::Support::Network::PublicSuffix::List}.
+* Added {Ronin::Support::Network::SSL.context}.
+* Added {Ronin::Support::Network::SSL::Proxy#version}.
+* Added {Ronin::Support::Network::TCP}.
+* Added {Ronin::Support::Network::TLD}.
+* Added {Ronin::Support::Network::TLD::List}.
+* Added {Ronin::Support::Network::TLS}.
+* Added {Ronin::Support::Network::TLS::Proxy}.
+* Added {Ronin::Support::Network::UDP}.
+* Added {Ronin::Support::Text}.
+* Added {Ronin::Support::Text::Entropy}.
+* Added {Ronin::Support::Text::Homoglyph}.
+* Added {Ronin::Support::Text::Homoglyph::Table}.
+* Added {Ronin::Support::Text::Patterns::SSH_PRIVATE_KEY}.
+* Added {Ronin::Support::Text::Patterns::DSA_PRIVATE_KEY}.
+* Added {Ronin::Support::Text::Patterns::EC_PRIVATE_KEY}.
+* Added {Ronin::Support::Text::Patterns::RSA_PRIVATE_KEY}.
+* Added {Ronin::Support::Text::Patterns::PRIVATE_KEY}.
+* Added {Ronin::Support::Text::Patterns::AWS_ACCESS_KEY_ID}.
+* Added {Ronin::Support::Text::Patterns::AWS_SECRET_ACCESS_KEY}.
+* Added {Ronin::Support::Text::Patterns::API_KEY}.
+* Added {Ronin::Support::Text::Patterns::MD5}.
+* Added {Ronin::Support::Text::Patterns::SHA1}.
+* Added {Ronin::Support::Text::Patterns::SHA256}.
+* Added {Ronin::Support::Text::Patterns::SHA512}.
+* Added {Ronin::Support::Text::Patterns::HASH}.
+* Added {Ronin::Support::Text::Patterns::PUBLIC_KEY}.
+* Added {Ronin::Support::Text::Patterns::SSH_PUBLIC_KEY}.
+* Added {Ronin::Support::Text::Patterns::DIR_NAME}.
+* Added {Ronin::Support::Text::Patterns::MAC_ADDR}.
+* Added {Ronin::Support::Text::Patterns::IPV4_ADDR}.
+* Added {Ronin::Support::Text::Patterns::IPV6_ADDR}.
+* Added {Ronin::Support::Text::Patterns::IP_ADDR}.
+* Added {Ronin::Support::Text::Patterns::PUBLIC_SUFFIX}.
+* Added {Ronin::Support::Text::Patterns::DOMAIN}.
+* Added {Ronin::Support::Text::Patterns::URI}.
+* Added {Ronin::Support::Text::Patterns::URL}.
+* Added {Ronin::Support::Text::Patterns::NUMBER}.
+* Added {Ronin::Support::Text::Patterns::HEX_NUMBER}.
+* Added {Ronin::Support::Text::Patterns::VERSION_NUMBER}.
+* Added {Ronin::Support::Text::Patterns::EMAIL_ADDRESS}.
+* Added {Ronin::Support::Text::Patterns::OBFUSCATED_EMAIL_AT}.
+* Added {Ronin::Support::Text::Patterns::OBFUSCATED_EMAIL_DOT}.
+* Added {Ronin::Support::Text::Patterns::OBFUSCATED_EMAIL_ADDRESS}.
+* Added {Ronin::Support::Text::Patterns::SSN}.
+* Added {Ronin::Support::Text::Patterns::AMEX_CC}.
+* Added {Ronin::Support::Text::Patterns::DISCOVER_CC}.
+* Added {Ronin::Support::Text::Patterns::MASTERCARD_CC}.
+* Added {Ronin::Support::Text::Patterns::VISA_CC}.
+* Added {Ronin::Support::Text::Patterns::VISA_MASTERCARD_CC}.
+* Added {Ronin::Support::Text::Patterns::CC}.
+* Added {Ronin::Support::Text::Patterns::VARIABLE_NAME}.
+* Added {Ronin::Support::Text::Patterns::VARIABLE_ASSIGNMENT}.
+* Added {Ronin::Support::Text::Patterns::FUNCTION_NAME}.
+* Added {Ronin::Support::Text::Patterns::DOUBLE_QUOTED_STRING}.
+* Added {Ronin::Support::Text::Patterns::SINGLE_QUOTED_STRING}.
+* Added {Ronin::Support::Text::Patterns::STRING}.
+* Added {Ronin::Support::Text::Patterns::BASE64}.
+* Added {Ronin::Support::Text::Patterns::C_STYLE_COMMENT}.
+* Added {Ronin::Support::Text::Patterns::C_COMMENT}.
+* Added {Ronin::Support::Text::Patterns::CPP_COMMENT}.
+* Added {Ronin::Support::Text::Patterns::JAVA_COMMENT}.
+* Added {Ronin::Support::Text::Patterns::JAVASCRIPT_COMMENT}.
+* Added {Ronin::Support::Text::Patterns::SHELL_STYLE_COMMENT}.
+* Added {Ronin::Support::Text::Patterns::SHELL_COMMENT}.
+* Added {Ronin::Support::Text::Patterns::BASH_COMMENT}.
+* Added {Ronin::Support::Text::Patterns::RUBY_COMMENT}.
+* Added {Ronin::Support::Text::Patterns::PYTHON_COMMENT}.
+* Added {Ronin::Support::Text::Patterns::COMMENT}.
+* Added {Ronin::Support::Text::Random}.
+* Added {Ronin::Support::Text::Random::Mixin}.
+* Added {Ronin::Support::Text::Typo}.
+* Added {Ronin::Support::Text::Typo::Generator}.
+* Renamed `ronin/support/formatting` to `ronin/support/encoding`.
+* Moved all `Ronin::` constants into the {Ronin::Support} namespace.
+* Moved `ronin/support/formatting/digest` core-ext methods into
+  `ronin/support/crypto`.
+* Merged `ronin/support/network/network` into `ronin/support/network`.
+* Removed the `data_paths` gem dependency.
+* Removed the `parameters` gem dependency.
+* Removed the `yard-parameters` gem dependency.
+* Removed `ronin/support/inflector`.
+* Removed `Integer#bytes`.
+* Removed `Array#bytes` and `Array#chars` in favor of
+  {Ronin::Support::Binary::CString}.
+* Removed the `probability:` keyword argument from {String#random_case}.
+* Removed `udp_single_server` in favor of
+  {Ronin::Support::Network::UDP::Mixin#udp_recv udp_recv}.
+* Removed `tcp_single_server` in favor of
+  {Ronin::Support::Network::TCP::Mixin#tcp_accept tcp_accept}.
+* Removed `String#format_uri`.
+* Removed `String#format_uri_form`.
+* Removed `Integer#format_js`.
+* Removed `String#format_js`.
+* Removed `Integer#format_http`.
+* Removed `String#format_http.
+* Removed `Integer#format_xml`.
+* Removed `String#format_xml.
+* Removed `Integer#format_html`.
+* Removed `String#format_html.
+* Removed `Integer#format_c`.
+* Removed `String#format_c.
+* Removed `Ronin::Support::Network::IP.each` and
+  `Ronin::Support::Network::IP#each` in favor of
+  {Ronin::Support::Network::IPRange}.
+* Removed `Resolv.resolver` in favor of {Ronin::Support::Network::DNS.resolver}.
+* Removed `Ronin::Support::Network::Telnet.default_prompt`.
+* Removed `Ronin::Support::Network::Telnet.default_port`.
+* Removed `Ronin::Support::Network::SMTP.default_port`.
+* Removed `Ronin::Support::Network::POP3.default_port`.
+* Removed `Ronin::Support::Network::IMAP.default_port`.
+* Removed `Ronin::Support::Network::FTP.default_port`.
+* Removed `Ronin::Support::Network::HTTP::Proxy` value object.
+* Removed verbose, normal, quiet, and silent printing modes from
+  {Ronin::Support::CLI::Printing}.
+* Removed `Ronin::Support::CLI::Printing.format`.
+* Removed `Ronin::Support::CLI::Printing#print_exception`.
+* Removed `ronin/spec/cli/printing`.
+* Removed `Ronin::UI::Output` in favor of {Ronin::Support::CLI::Printing}.
+* Removed `Ronin::Wordlist` in favor of the [wordlist] gem.
+* Removed `Ronin::UI::REPL` in favor of `Ronin::Core::CLI::Shell` in the
+  [ronin-core] gem.
+* Removed `Ronin::UI::Shell` in favor of `Ronin::Core::CLI::Shell` in the
+  [ronin-core] gem.
+* Removed `Ronin::Network::Mixins` in favor of separate `Mixin` modules for each
+  {Ronin::Support::Network} module.
+* Removed `Net` core-exts.
+* Removed `Ronin::Support::Binary::Template.translate`.
+* Removed `ssl_server` and `ssl_server_session` in favor of
+  {Ronin::Support::Network::SSL::Mixin#ssl_server_socket ssl_server_socket}.
+* Removed `String#depack` in favor of overriding {String#unpack}.
+
+[wordlist]: https://github.com/postmodern/wordlist.rb#readme
+[ronin-core]: https://github.com/ronin-rb/ronin-core#readme
+
 ### 0.5.2 / 2021-02-28
 
 * Support Ruby 3.0:
