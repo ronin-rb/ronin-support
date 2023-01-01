@@ -171,7 +171,8 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [Everyday Ronin]: https://ronin-rb.dev/guides/everyday_ronin.html
 [Ruby]: https://www.ruby-lang.org/
 
-[pwntools]: 
+[pwntools]: https://github.com/Gallopsled/pwntools
+[activesupport]: https://github.com/rails/rails/tree/main/activesupport#readme
 
 [chars]: https://github.com/postmodern/chars#readme
 [hexdump]: https://github.com/postmodern/hexdump#readme
