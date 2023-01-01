@@ -1,7 +1,6 @@
+# frozen_string_literal: true
 #
-# Copyright (c) 2006-2021 Hal Brodigan (postmodern.mod3 at gmail.com)
-#
-# This file is part of ronin-support.
+# Copyright (c) 2006-2022 Hal Brodigan (postmodern.mod3 at gmail.com)
 #
 # ronin-support is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published
@@ -17,13 +16,19 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/extensions'
-require 'ronin/formatting'
-require 'ronin/fuzzing'
-require 'ronin/binary'
-require 'ronin/network'
-require 'ronin/path'
-require 'ronin/templates'
-require 'ronin/support/inflector'
-require 'ronin/support/support'
+require 'ronin/support/binary'
+require 'ronin/support/cli'
+require 'ronin/support/core_ext'
+require 'ronin/support/crypto'
+require 'ronin/support/encoding'
+require 'ronin/support/mixin'
+require 'ronin/support/network'
+require 'ronin/support/path'
+require 'ronin/support/text'
 require 'ronin/support/version'
+
+module Ronin
+  module Support
+    include Mixin
+  end
+end

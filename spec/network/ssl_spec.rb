@@ -1,69 +1,230 @@
 require 'spec_helper'
-require 'ronin/network/ssl'
+require 'ronin/support/network/ssl'
 
-describe Network::SSL do
-  describe 'VERIFY' do
-    subject { Network::SSL::VERIFY }
+require 'tempfile'
 
-    it "should map verify mode names to OpenSSL VERIFY_* constants" do
-      expect(subject[:peer]).to eq(OpenSSL::SSL::VERIFY_PEER)
+describe Ronin::Support::Network::SSL do
+  describe "VERSIONS" do
+    subject { described_class::VERSIONS }
+
+    it "must map 1 to :TLSv1" do
+      expect(subject[1]).to eq(:TLSv1)
     end
 
-    it "should default to VERIFY_NONE if no verify mode name is given" do
-      expect(subject[nil]).to eq(OpenSSL::SSL::VERIFY_NONE)
+    it "must map 1.1 to :TLSv1_!" do
+      expect(subject[1.1]).to eq(:TLSv1_1)
     end
 
-    it "should raise an exception for unknown verify modes" do
-      expect { subject[:foo_bar] }.to raise_error
+    it "must map 1.2 to :TLSv1_2" do
+      expect(subject[1.2]).to eq(:TLSv1_2)
     end
   end
 
-  describe "helpers", :network do
-    let(:host) { 'github.com' }
-    let(:port) { 443 }
+  describe 'VERIFY' do
+    subject { described_class::VERIFY }
 
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
+    it "must define :client_once" do
+      expect(subject[:client_once]).to eq(OpenSSL::SSL::VERIFY_CLIENT_ONCE)
     end
 
-    describe "#ssl_connect" do
-      it "should connect to an SSL protected port" do
-        expect {
-          subject.ssl_connect(host,port)
-        }.not_to raise_error
+    it "must define :fail_if_no_peer_cert" do
+      expect(subject[:fail_if_no_peer_cert]).to eq(OpenSSL::SSL::VERIFY_FAIL_IF_NO_PEER_CERT)
+    end
+
+    it "must define :none" do
+      expect(subject[:none]).to eq(OpenSSL::SSL::VERIFY_NONE)
+    end
+
+    it "must define :peer" do
+      expect(subject[:peer]).to eq(OpenSSL::SSL::VERIFY_PEER)
+    end
+
+    it "must map true to :peer" do
+      expect(subject[true]).to eq(subject[:peer])
+    end
+
+    it "must map false to :none" do
+      expect(subject[false]).to eq(subject[:none])
+    end
+  end
+
+  let(:fixtures_dir) { File.join(__dir__,'fixtures') }
+
+  let(:key_file)  { File.join(fixtures_dir,'ssl.key') }
+  let(:key)       { Ronin::Support::Crypto::Key::RSA.load_file(key_file) }
+  let(:cert_file) { File.join(fixtures_dir,'ssl.crt') }
+  let(:cert)      { Ronin::Support::Crypto::Cert.load_file(cert_file) }
+
+  describe ".key" do
+    it "must return LocalKey.fetch" do
+      expect(described_class::LocalKey).to receive(:fetch)
+
+      subject.key
+    end
+  end
+
+  describe ".key=" do
+    before { subject.key = key }
+
+    it "must set .key" do
+      expect(subject.key).to be(key)
+    end
+  end
+
+  describe ".cert" do
+    it "must return LocalCert.fetch" do
+      expect(described_class::LocalCert).to receive(:fetch)
+
+      subject.cert
+    end
+  end
+
+  describe ".cert=" do
+    before { subject.cert = cert }
+
+    it "must set .cert" do
+      expect(subject.cert).to be(cert)
+    end
+  end
+
+  describe ".context" do
+    subject { described_class.context }
+
+    it "must return an OpenSSL::SSL::SSLContext object" do
+      expect(subject).to be_kind_of(OpenSSL::SSL::SSLContext)
+    end
+
+    it "must set verify_mode to OpenSSL::SSL::VERIFY_NONE" do
+      expect(subject.verify_mode).to eq(OpenSSL::SSL::VERIFY_NONE)
+    end
+
+    it "must set cert to nil" do
+      expect(subject.cert).to be(nil)
+    end
+
+    it "must set key to nil" do
+      expect(subject.key).to be(nil)
+    end
+
+    context "when given the version: keyword argument" do
+      subject { described_class }
+
+      let(:context) { double(OpenSSL::SSL::SSLContext) }
+
+      context "and it's 1" do
+        it "must call OpenSSL::SSL::SSLContext#ssl_version with :TLSv1" do
+          expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+          expect(context).to receive(:ssl_version=).with(:TLSv1)
+          allow(context).to receive(:verify_mode=).with(0)
+
+          subject.context(version: 1)
+        end
       end
 
-      it "should return an OpenSSL::SSL::SSLSocket" do
-        socket = subject.ssl_connect(host,port)
+      context "and it's 1.1" do
+        it "must call OpenSSL::SSL::SSLContext#ssl_version with :TLSv1_1" do
+          expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+          expect(context).to receive(:ssl_version=).with(:TLSv1_1)
+          allow(context).to receive(:verify_mode=).with(0)
 
-        expect(socket).to be_kind_of(OpenSSL::SSL::SSLSocket)
+          subject.context(version: 1.1)
+        end
       end
 
-      context "when a block is given" do
-        it "should yield the OpenSSL::SSL::SSLSocket" do
-          socket = nil
+      context "and it's 1_2" do
+        it "must call OpenSSL::SSL::SSLContext#ssl_version with :TLSv1_2" do
+          expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+          expect(context).to receive(:ssl_version=).with(:TLSv1_2)
+          allow(context).to receive(:verify_mode=).with(0)
 
-          subject.ssl_connect(host,port) do |yielded_socket|
-            socket = yielded_socket
-          end
+          subject.context(version: 1.2)
+        end
+      end
 
-          expect(socket).to be_kind_of(OpenSSL::SSL::SSLSocket)
+      context "and it's a Symbol" do
+        let(:symbol) { :TLSv1 }
+
+        it "must call OpenSSL::SSL::SSLContext#ssl_version= with the Symbol" do
+          expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+          expect(context).to receive(:ssl_version=).with(symbol)
+          allow(context).to receive(:verify_mode=).with(0)
+
+          subject.context(version: symbol)
+        end
+      end
+
+      context "and it's a String" do
+        let(:string) { "SSLv23" }
+
+        it "must call OpenSSL::SSL::SSLContext#ssl_version= with the String" do
+          expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+          expect(context).to receive(:ssl_version=).with(string)
+          allow(context).to receive(:verify_mode=).with(0)
+
+          subject.context(version: string)
         end
       end
     end
 
-    describe "#ssl_session" do
-      it "should open then close a OpenSSL::SSL::SSLSocket" do
-        socket = nil
+    context "when given the verify: keyword argument" do
+      subject { described_class.context(verify: :peer) }
 
-        subject.ssl_session(host,port) do |yielded_socket|
-          socket = yielded_socket
+      it "must set verify_mode" do
+        expect(subject.verify_mode).to eq(OpenSSL::SSL::VERIFY_PEER)
+      end
+    end
+
+    context "when given the key: keyword argument" do
+      subject { described_class.context(key: key, cert: cert) }
+
+      it "must set key" do
+        expect(subject.key).to eq(key)
+      end
+    end
+
+    context "when given the key_file: keyword argument" do
+      subject { described_class.context(key_file: key_file, cert: cert) }
+
+      it "must set key" do
+        expect(subject.key.to_s).to eq(key.to_s)
+      end
+    end
+
+    context "when given the cert: keyword argument" do
+      subject { described_class.context(key: key, cert: cert) }
+
+      it "must set cert" do
+        expect(subject.cert).to eq(cert)
+      end
+    end
+
+    context "when given the cert_file: keyword argument" do
+      subject { described_class.context(key: key, cert_file: cert_file) }
+
+      it "must set cert" do
+        expect(subject.cert.to_s).to eq(cert.to_s)
+      end
+    end
+
+    context "when given the ca_bundle: keyword argument" do
+      context "when value is a file" do
+        let(:ca_bundle) { File.join(fixtures_dir,'ca_bundle.crt') }
+
+        subject { described_class.context(ca_bundle: ca_bundle) }
+
+        it "must set ca_file" do
+          expect(subject.ca_file).to eq(ca_bundle)
         end
+      end
 
-        expect(socket).to be_kind_of(OpenSSL::SSL::SSLSocket)
-        expect(socket).to be_closed
+      context "when value is a directory" do
+        let(:ca_bundle) { File.join(fixtures_dir,'ca_bundle') }
+
+        subject { described_class.context(ca_bundle: ca_bundle) }
+
+        it "must set ca_path" do
+          expect(subject.ca_path).to eq(ca_bundle)
+        end
       end
     end
   end

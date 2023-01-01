@@ -1,51 +1,28 @@
 require 'spec_helper'
-require 'ronin/mixin'
+require 'ronin/support/mixin'
 
-module Mixins
-  module Test1
-  end
-
-  module Test2
-  end
-end
-
-describe Mixin do
+describe Ronin::Support::Mixin do
   subject do
-    Module.new do
-      include Mixin
-
-      mixin Mixins::Test1, Mixins::Test2
-      mixin { @var = 1 }
-    end
+    Class.new { include Ronin::Support::Mixin }
   end
 
-  context "when included" do
-    let(:klass) do
-      Class.new.tap { |klass| klass.send :include, subject }
-    end
-
-    it "should include the mixed in modules" do
-      expect(klass).to include(Mixins::Test1)
-      expect(klass).to include(Mixins::Test2)
-    end
-
-    it "should evaluate the mixin block" do
-      expect(klass.instance_variable_get("@var")).to eq(1)
-    end
+  it "must include `Ronin::Support::Text::Mixin`" do
+    expect(subject).to include(Ronin::Support::Text::Mixin)
   end
 
-  context "when extended" do
-    let(:object) do
-      Object.new.tap { |obj| obj.extend(subject) }
-    end
+  it "must include `Ronin::Support::Compression::Mixin`" do
+    expect(subject).to include(Ronin::Support::Compression::Mixin)
+  end
 
-    it "should extend the mixed in modules" do
-      expect(object).to be_kind_of(Mixins::Test1)
-      expect(object).to be_kind_of(Mixins::Test2)
-    end
+  it "must include `Ronin::Support::Crypto::Mixin`" do
+    expect(subject).to include(Ronin::Support::Crypto::Mixin)
+  end
 
-    it "should evaluate the mixin block" do
-      expect(object.instance_variable_get("@var")).to eq(1)
-    end
+  it "must include `Ronin::Support::Network::Mixin`" do
+    expect(subject).to include(Ronin::Support::Network::Mixin)
+  end
+
+  it "must include `Ronin::Support::CLI::Printing`" do
+    expect(subject).to include(Ronin::Support::CLI::Printing)
   end
 end

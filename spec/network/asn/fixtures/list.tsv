@@ -1,0 +1,40 @@
+1.0.0.0	1.0.0.255	13335	US	CLOUDFLARENET
+1.0.1.0	1.0.3.255	0	None	Not routed
+1.0.4.0	1.0.5.255	38803	AU	WPL-AS-AP Wirefreebroadband Pty Ltd
+1.0.6.0	1.0.7.255	38803	AU	WPL-AS-AP Wirefreebroadband Pty Ltd
+1.0.8.0	1.0.63.255	0	None	Not routed
+1.0.64.0	1.0.127.255	18144	JP	AS-ENECOM Energia Communications,Inc.
+1.0.128.0	1.0.141.255	23969	TH	TOT-NET TOT Public Company Limited
+1.0.142.0	1.0.222.255	23969	TH	TOT-NET TOT Public Company Limited
+1.0.223.0	1.0.255.255	23969	TH	TOT-NET TOT Public Company Limited
+1.1.0.0	1.1.0.255	0	None	Not routed
+1.1.1.0	1.1.1.255	13335	US	CLOUDFLARENET
+1.1.2.0	1.1.63.255	0	None	Not routed
+1.1.64.0	1.1.126.255	2519	JP	VECTANT ARTERIA Networks Corporation
+1.1.127.0	1.1.127.255	0	None	Not routed
+1.1.128.0	1.1.140.255	23969	TH	TOT-NET TOT Public Company Limited
+1.1.141.0	1.1.249.255	23969	TH	TOT-NET TOT Public Company Limited
+1.1.250.0	1.1.255.255	23969	TH	TOT-NET TOT Public Company Limited
+1.2.0.0	1.2.1.255	0	None	Not routed
+1.2.2.0	1.2.2.255	149002	HK	HKOTC-AS-AP HONG KONG ORIENTAL SCIENCE AND TECHNOLOGY CO., LIMITED
+1.2.3.0	1.2.3.255	0	None	Not routed
+::	::1	0	None	Not routed
+64:ff9b::1:0:0	100::ffff:ffff:ffff:ffff	0	None	Not routed
+100:0:0:1::	2001:0:ffff:ffff:ffff:ffff:ffff:ffff	0	None	Not routed
+2001:1::	2001:4:111:ffff:ffff:ffff:ffff:ffff	0	None	Not routed
+2001:4:112::	2001:4:112:ffff:ffff:ffff:ffff:ffff	112	US	-Reserved AS-
+2001:4:113::	2001:1ff:ffff:ffff:ffff:ffff:ffff:ffff	0	None	Not routed
+2001:200::	2001:200:5ff:ffff:ffff:ffff:ffff:ffff	2500	JP	WIDE-BB WIDE Project
+2001:200:600::	2001:200:6ff:ffff:ffff:ffff:ffff:ffff	7667	JP	KDDLAB KDDI R&D Laboratories, INC.
+2001:200:700::	2001:200:8ff:ffff:ffff:ffff:ffff:ffff	2500	JP	WIDE-BB WIDE Project
+2001:200:900::	2001:200:9ff:ffff:ffff:ffff:ffff:ffff	7660	JP	APAN-JP Asia Pacific Advanced Network - Japan
+2001:200:a00::	2001:200:dff:ffff:ffff:ffff:ffff:ffff	2500	JP	WIDE-BB WIDE Project
+2001:200:e00::	2001:200:eff:ffff:ffff:ffff:ffff:ffff	4690	JP	WIDE-SFO WIDE Project
+2001:200:f00::	2001:200:bfff:ffff:ffff:ffff:ffff:ffff	2500	JP	WIDE-BB WIDE Project
+2001:200:c000::	2001:200:dfff:ffff:ffff:ffff:ffff:ffff	23634	JP	E-DNS-JP WIDE Project
+2001:200:e000::	2001:200:ffff:ffff:ffff:ffff:ffff:ffff	7660	JP	APAN-JP Asia Pacific Advanced Network - Japan
+2001:201::	2001:217:ffff:ffff:ffff:ffff:ffff:ffff	0	None	Not routed
+2001:218::	2001:218:2002:ffff:ffff:ffff:ffff:ffff	2914	US	NTT-LTD-2914
+2001:218:2003::	2001:218:21ff:ffff:ffff:ffff:ffff:ffff	2914	US	NTT-LTD-2914
+2001:218:2200::	2001:218:22ff:ffff:ffff:ffff:ffff:ffff	18259	JP	HIGE NTT Communications Corporation
+2001:218:2300::	2001:218:3003:ffff:ffff:ffff:ffff:ffff	2914	US	NTT-LTD-2914

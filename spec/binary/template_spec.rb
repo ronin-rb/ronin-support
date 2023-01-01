@@ -1,416 +1,549 @@
 # encoding: US-ASCII
 
 require 'spec_helper'
-require 'ronin/binary/template'
+require 'ronin/support/binary/template'
 
-describe Binary::Template do
-  describe "TYPES" do
-    subject { described_class::TYPES }
+describe Ronin::Support::Binary::Template do
+  let(:type_name) { :uint32 }
+  let(:type)      { Ronin::Support::Binary::CTypes::TYPES[type_name] }
+  let(:fields)    { [type_name] }
 
-    it("uint8      => C")  { expect(subject[:uint8]).to       eq('C' ) }
-    it("uint16     => S")  { expect(subject[:uint16]).to      eq('S' ) }
-    it("uint32     => L")  { expect(subject[:uint32]).to      eq('L' ) }
-    it("uint64     => Q")  { expect(subject[:uint64]).to      eq('Q' ) }
-    it("int8       => C")  { expect(subject[:int8]).to        eq('c' ) }
-    it("int16      => S")  { expect(subject[:int16]).to       eq('s' ) }
-    it("int32      => L")  { expect(subject[:int32]).to       eq('l' ) }
-    it("int64      => Q")  { expect(subject[:int64]).to       eq('q' ) }
-    if RUBY_VERSION < '1.9.'
-    it("uint16_le  => v")  { expect(subject[:uint16_le]).to   eq('v' ) }
-    it("uint32_le  => V")  { expect(subject[:uint32_le]).to   eq('V' ) }
-    it("uint16_be  => n")  { expect(subject[:uint16_be]).to   eq('n' ) }
-    it("uint32_be  => N")  { expect(subject[:uint32_be]).to   eq('N' ) }
-    end
-    it("uchar      => Z")  { expect(subject[:uchar]).to      eq('Z' ) }
-    it("ushort     => S!") { expect(subject[:ushort]).to     eq('S!') }
-    it("uint       => I!") { expect(subject[:uint]).to       eq('I!') }
-    it("ulong      => L!") { expect(subject[:ulong]).to      eq('L!') }
-    it("ulong_long => Q")  { expect(subject[:ulong_long]).to eq('Q' ) }
-    it("char       => Z")  { expect(subject[:char]).to       eq('Z' ) }
-    it("short      => s!") { expect(subject[:short]).to      eq('s!') }
-    it("int        => i!") { expect(subject[:int]).to        eq('i!') }
-    it("long       => l!") { expect(subject[:long]).to       eq('l!') }
-    it("long_long  => q")  { expect(subject[:long_long]).to  eq('q' ) }
-    it("utf8       => U")  { expect(subject[:utf8]).to       eq('U' ) }
-    it("float      => F")  { expect(subject[:float]).to       eq('F' ) }
-    it("double     => D")  { expect(subject[:double]).to      eq('D' ) }
-    it("float_le   => e")  { expect(subject[:float_le]).to    eq('e' ) }
-    it("double_le  => E")  { expect(subject[:double_le]).to   eq('E' ) }
-    it("float_be   => g")  { expect(subject[:float_be]).to    eq('g' ) }
-    it("double_ge  => G")  { expect(subject[:double_be]).to   eq('G' ) }
-    it("ubyte      => C")  { expect(subject[:ubyte]).to       eq('C' ) }
-    it("byte       => c")  { expect(subject[:byte]).to        eq('c' ) }
-    it("string     => Z*") { expect(subject[:string]).to     eq('Z*') }
-
-    if RUBY_VERSION > '1.9.'
-      context "Ruby 1.9" do
-        it("uint16_le     => S<") { expect(subject[:uint16_le]).to      eq('S<' ) }
-        it("uint32_le     => L<") { expect(subject[:uint32_le]).to      eq('L<' ) }
-        it("uint64_le     => Q<") { expect(subject[:uint64_le]).to      eq('Q<' ) }
-        it("int16_le      => S<") { expect(subject[:int16_le]).to       eq('s<' ) }
-        it("int32_le      => L<") { expect(subject[:int32_le]).to       eq('l<' ) }
-        it("int64_le      => Q<") { expect(subject[:int64_le]).to       eq('q<' ) }
-        it("uint16_be     => S>") { expect(subject[:uint16_be]).to      eq('S>' ) }
-        it("uint32_be     => L>") { expect(subject[:uint32_be]).to      eq('L>' ) }
-        it("uint64_be     => Q>") { expect(subject[:uint64_be]).to      eq('Q>' ) }
-        it("int16_be      => S>") { expect(subject[:int16_be]).to       eq('s>' ) }
-        it("int32_be      => L>") { expect(subject[:int32_be]).to       eq('l>' ) }
-        it("int64_be      => Q>") { expect(subject[:int64_be]).to       eq('q>' ) }
-        it("ushort_le     => S!<") { expect(subject[:ushort_le]).to     eq('S!<') }
-        it("uint_le       => I!<") { expect(subject[:uint_le]).to       eq('I!<') }
-        it("ulong_le      => L!<") { expect(subject[:ulong_le]).to      eq('L!<') }
-        it("ulong_long_le => L!<") { expect(subject[:ulong_long_le]).to eq('Q<' ) }
-        it("short_le      => S!<") { expect(subject[:short_le]).to      eq('s!<') }
-        it("int_le        => I!<") { expect(subject[:int_le]).to        eq('i!<') }
-        it("long_le       => L!<") { expect(subject[:long_le]).to       eq('l!<') }
-        it("long_long_le  => L!<") { expect(subject[:long_long_le]).to  eq('q<' ) }
-        it("ushort_be     => S!>") { expect(subject[:ushort_be]).to     eq('S!>') }
-        it("uint_be       => I!>") { expect(subject[:uint_be]).to       eq('I!>') }
-        it("ulong_be      => L!>") { expect(subject[:ulong_be]).to      eq('L!>') }
-        it("ulong_long_be => L!>") { expect(subject[:ulong_long_be]).to eq('Q>' ) }
-        it("short_be      => S!>") { expect(subject[:short_be]).to      eq('s!>') }
-        it("int_be        => I!>") { expect(subject[:int_be]).to        eq('i!>') }
-        it("long_be       => L!>") { expect(subject[:long_be]).to       eq('l!>') }
-        it("long_long_be  => L!>") { expect(subject[:long_long_be]).to  eq('q>' ) }
-      end
-    end
-  end
-
-  describe "translate" do
-    subject { described_class }
-
-    context "when given :endian" do
-      it "should translate endian-types" do
-        expect(subject.translate(:uint, :endian => :little)).to eq(:uint_le)
-      end
-
-      it "should not translate non-endian-types" do
-        expect(subject.translate(:string, :endian => :little)).to eq(:string)
-      end
-
-      it "should raise an ArgumentError for unknown endianness" do
-        expect {
-          subject.translate(:uint, :endian => :foo)
-        }.to raise_error(ArgumentError)
-      end
-    end
-  end
-
-  describe "compile" do
-    let(:type) { :uint }
-    let(:code) { subject::TYPES[type] }
-
-    subject { described_class }
-
-    it "should translate types to their pack codes" do
-      expect(subject.compile([type])).to eq(code)
-    end
-
-    it "should support specifying the length of a field" do
-      expect(subject.compile([[type, 10]])).to eq("#{code}10")
-    end
-
-    it "should raise ArgumentError for unknown types" do
-      expect {
-        subject.compile([:foo])
-      }.to raise_error(ArgumentError)
-    end
-  end
+  subject { described_class.new(fields) }
 
   describe "#initialize" do
-    subject { described_class.new [:uint32, :string] }
-
-    it "should store the types" do
-      expect(subject.fields).to eq([
-        :uint32,
-        :string
-      ])
+    it "must default #endian to nil" do
+      expect(subject.endian).to be(nil)
     end
 
-    it "should raise ArgumentError for unknown types" do
-      expect {
-        described_class.new [:foo]
-      }.to raise_error(ArgumentError)
+    it "must default #arch to nil" do
+      expect(subject.arch).to be(nil)
+    end
+
+    it "must default #type_system to Ronin::Support::Binary::CTypes" do
+      expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
+    end
+
+    context "when given a single type name" do
+      let(:type_name) { :uint32 }
+      let(:fields)    { [type_name] }
+      let(:type)      { Ronin::Support::Binary::CTypes::TYPES[type_name] }
+
+      it "must set #type_system to Ronin::Support::Binary::CTypes" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
+      end
+
+      it "must set #fields" do
+        expect(subject.fields).to eq(fields)
+      end
+
+      it "must populate #types with Ronin::Support::Binary::CTypes types" do
+        expect(subject.types.first).to eq(type)
+      end
+
+      it "must set #pack_string to the type's #pack_string" do
+        expect(subject.pack_string).to eq(type.pack_string)
+      end
+    end
+
+    context "when given multiple type names" do
+      let(:type_name1) { :uint32 }
+      let(:type1)      { Ronin::Support::Binary::CTypes::TYPES[type_name1] }
+
+      let(:type_name2) { :uint64 }
+      let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
+
+      let(:fields) { [type_name1, type_name2] }
+
+      it "must set #type_system to Ronin::Support::Binary::CTypes" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
+      end
+
+      it "must set #fields" do
+        expect(subject.fields).to eq(fields)
+      end
+
+      it "must populate #types with the Ronin::Support::Binary::CTypes types" do
+        expect(subject.types).to eq([type1, type2])
+      end
+
+      it "must concat the type's #pack_string to #pack_string" do
+        expect(subject.pack_string).to eq(
+          "#{type1.pack_string}#{type2.pack_string}"
+        )
+      end
+    end
+
+    context "when given an Array of the type name and length" do
+      let(:length) { 10 }
+      let(:fields) { [ [type_name, length] ] }
+      let(:array_type) do
+        Ronin::Support::Binary::CTypes::ArrayType.new(type,length)
+      end
+      let(:array_object_type) do
+        Ronin::Support::Binary::CTypes::ArrayObjectType.new(array_type)
+      end
+
+      it "must set #type_system to Ronin::Support::Binary::CTypes" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
+      end
+
+      it "must add an Ronin::Support::Binary::CTypes::ArrayObjectType to #types" do
+        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::CTypes::ArrayObjectType)
+        expect(subject.types.first.type).to eq(type)
+        expect(subject.types.first.length).to eq(length)
+      end
+
+      it "must set #pack_string to the ArrayObjectType's #pack_string" do
+        expect(subject.pack_string).to eq(array_object_type.pack_string)
+      end
+    end
+
+    context "when given an Array of an Array of the type name and length" do
+      let(:length1) { 2  }
+      let(:length2) { 10 }
+      let(:fields)  { [ [[type_name, length2], length1] ] }
+
+      let(:sub_array_type) do
+        Ronin::Support::Binary::CTypes::ArrayType.new(type,length2)
+      end
+      let(:array_type) do
+        Ronin::Support::Binary::CTypes::ArrayType.new(sub_array_type,length1)
+      end
+      let(:array_object_type) do
+        Ronin::Support::Binary::CTypes::ArrayObjectType.new(array_type)
+      end
+
+      it "must set #type_system to Ronin::Support::Binary::CTypes" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
+      end
+
+      it "must add a nested Ronin::Support::Binary::CTypes::ArrayObjectType to #types" do
+        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::CTypes::ArrayObjectType)
+        expect(subject.types.first.type).to be_kind_of(Ronin::Support::Binary::CTypes::ArrayObjectType)
+        expect(subject.types.first.type.type).to eq(type)
+        expect(subject.types.first.type.length).to eq(length2)
+        expect(subject.types.first.length).to eq(length1)
+      end
+
+      it "must set #pack_string to the ArrayObjectType's #pack_string" do
+        expect(subject.pack_string).to eq(array_object_type.pack_string)
+      end
+    end
+
+    context "when given an infinite range" do
+      let(:fields) { [type_name..] }
+      let(:unbounded_array_type) do
+        Ronin::Support::Binary::CTypes::UnboundedArrayType.new(type)
+      end
+
+      it "must set #type_system to Ronin::Support::Binary::CTypes" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
+      end
+
+      it "must add an Ronin::Support::Binary::CTypes::UnboundedArrayType to #types" do
+        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::CTypes::UnboundedArrayType)
+        expect(subject.types.first.type).to eq(type)
+      end
+
+      it "must set #pack_string to the UnboundedArrayType's #pack_string" do
+        expect(subject.pack_string).to eq(unbounded_array_type.pack_string)
+      end
+    end
+
+    context "when given an unknown type name" do
+      let(:type_name) { :foo }
+      let(:fields)    { [type_name] }
+
+      it do
+        expect {
+          described_class.new(fields)
+        }.to raise_error(ArgumentError,"unknown type: #{type_name.inspect}")
+      end
+    end
+
+    context "when the `endian: :little` is given" do
+      let(:type_name) { :uint32 }
+      let(:type)      { Ronin::Support::Binary::CTypes::LittleEndian[type_name] }
+      let(:fields)    { [type_name] }
+      let(:endian)    { :little     }
+
+      subject { described_class.new(fields, endian: endian) }
+
+      it "must set #endian" do
+        expect(subject.endian).to eq(endian)
+      end
+
+      it "must set #type_system to Ronin::Support::Binary::CTypes::LittleEndian" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes::LittleEndian)
+      end
+
+      it "must populate #types with Ronin::Support::Binary::CTypes::LittleEndian types" do
+        expect(subject.types.first).to eq(type)
+      end
+
+      it "must populate #pack_string with the LittleEndian type's #pack_string" do
+        expect(subject.pack_string).to eq(type.pack_string)
+      end
+    end
+
+    context "when the `endian: :big` is given" do
+      let(:type_name) { :uint32 }
+      let(:type)      { Ronin::Support::Binary::CTypes::BigEndian[type_name] }
+      let(:fields)    { [type_name] }
+      let(:endian)    { :big  }
+
+      subject { described_class.new(fields, endian: endian) }
+
+      it "must set #endian" do
+        expect(subject.endian).to eq(endian)
+      end
+
+      it "must set #type_system to Ronin::Support::Binary::CTypes::BigEndian" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes::BigEndian)
+      end
+
+      it "must populate #types with Ronin::Support::Binary::CTypes::BigEndian types" do
+        expect(subject.types.first).to eq(type)
+      end
+
+      it "must populate #pack_string with the BigEndian type's #pack_string" do
+        expect(subject.pack_string).to eq(type.pack_string)
+      end
+    end
+
+    context "when the `endian: :net` is given" do
+      let(:type_name) { :uint32 }
+      let(:type)      { Ronin::Support::Binary::CTypes::Network[type_name] }
+      let(:fields)    { [type_name] }
+      let(:endian)    { :big  }
+
+      subject { described_class.new(fields, endian: endian) }
+
+      it "must set #endian" do
+        expect(subject.endian).to eq(endian)
+      end
+
+      it "must set #type_system to Ronin::Support::Binary::CTypes::Network" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes::Network)
+      end
+
+      it "must populate #types with Ronin::Support::Binary::CTypes::Network types" do
+        expect(subject.types.first).to eq(type)
+      end
+
+      it "must populate #pack_string with the Network type's #pack_string" do
+        expect(subject.pack_string).to eq(type.pack_string)
+      end
+    end
+
+    describe "when an unknown endian: value is given" do
+      let(:endian) { :foo }
+
+      it do
+        expect {
+          described_class.new(fields, endian: endian)
+        }.to raise_error(ArgumentError,"unknown endian: #{endian.inspect}")
+      end
+    end
+
+    context "when the arch: keyword argument is given" do
+      let(:type_name) { :uint }
+      let(:type)      { Ronin::Support::Binary::CTypes::Arch::X86[type_name] }
+      let(:fields)    { [type_name] }
+      let(:arch)      { :x86 }
+
+      subject { described_class.new(fields, arch: arch) }
+
+      it "must set #arch" do
+        expect(subject.arch).to eq(arch)
+      end
+
+      it "must set #type_system to Ronin::Support::Binary::CTypes::Arch::X86" do
+        expect(subject.type_system).to be(Ronin::Support::Binary::CTypes::Arch::X86)
+      end
+
+      it "must populate #types with the Ronin::Support::Binary::CTypes::Arch:: module's types" do
+        expect(subject.types.first).to eq(type)
+      end
+
+      it "must populate #pack_string with the Arch:: module's type #pack_string" do
+        expect(subject.pack_string).to eq(type.pack_string)
+      end
+    end
+
+    describe "when an unknown arch: value is given" do
+      let(:arch) { :foo }
+
+      it do
+        expect {
+          described_class.new(fields, arch: arch)
+        }.to raise_error(ArgumentError,"unknown architecture: #{arch.inspect}")
+      end
     end
   end
 
-  ENDIANNESS = if [0x1234].pack('S') == "\x34\x12"
-                 :little
-               else
-                 :big
-               end
+  describe ".[]" do
+    let(:fields) { [:uint32, :uint64] }
 
-  let(:byte) { 0x41 }
-  let(:char) { 'A' }
+    subject { described_class[*fields] }
 
-  let(:bytes) { [104, 101, 108, 108, 111] }
-  let(:chars) { bytes.map(&:chr).join }
-  let(:string) { chars }
+    it "must pass multiple fields to #initialize" do
+      expect(subject.fields).to eq(fields)
+    end
 
-  let(:uint8)  { 0xff }
-  let(:uint16) { 0xffff }
-  let(:uint32) { 0xffffffff }
-  let(:uint64) { 0xffffffffffffffff }
+    context "when keyword arguments are given" do
+      let(:endian) { :little }
+      let(:arch)   { :x86    }
 
-  let(:int8)  { -1 }
-  let(:int16) { -1 }
-  let(:int32) { -1 }
-  let(:int32) { -1 }
-  let(:int64) { -1 }
+      subject { described_class[*fields, endian: endian, arch: arch] }
+
+      it "must pass any keyword arguments to #initialize" do
+        expect(subject.endian).to eq(endian)
+        expect(subject.arch).to eq(arch)
+      end
+    end
+  end
 
   describe "#pack" do
-    context ":byte" do
-      subject { described_class.new [:byte] }
+    context "when initialized with one field" do
+      let(:type_name) { :uint32 }
+      let(:fields)    { [type_name] }
+      let(:type)      { Ronin::Support::Binary::CTypes::TYPES[type_name] }
 
-      it "should pack a signed byte" do
-        expect(subject.pack(byte)).to eq(char)
+      let(:value) { 42 }
+
+      it "must pack a single value using the field's pack string" do
+        expect(subject.pack(value)).to eq(type.pack(value))
       end
     end
 
-    context "[:byte, n]" do
-      let(:n) { string.length }
-      subject { described_class.new [[:byte, n]] }
+    context "when initialized with multiple fields" do
+      let(:type_name1) { :uint32 }
+      let(:type1)      { Ronin::Support::Binary::CTypes::TYPES[type_name1] }
 
-      it "should pack multiple signed characters" do
-        expect(subject.pack(*bytes)).to eq(chars)
-      end
-    end
+      let(:type_name2) { :int64 }
+      let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
-    context ":char" do
-      subject { described_class.new [:char] }
+      let(:fields) { [type_name1, type_name2] }
 
-      it "should pack a signed character" do
-        expect(subject.pack(char)).to eq(char)
-      end
-    end
+      let(:value1) { 42 }
+      let(:value2) { -1 }
+      let(:values) { [value1, value2] }
 
-    context "[:char, n]" do
-      let(:n) { string.length }
-      subject { described_class.new [[:char, n]] }
-
-      it "should pack multiple signed characters" do
-        expect(subject.pack(*chars)).to eq(string)
+      it "must pack multiple values using the fields' pack strings" do
+        expect(subject.pack(*values)).to eq(
+          "#{type1.pack(value1)}#{type2.pack(value2)}"
+        )
       end
 
-      context "padding" do
-        let(:padding) { 10 }
-        subject { described_class.new [[:char, n + padding]] }
+      context "and one of the fields is an Array field" do
+        let(:type_name2) { :uint16 }
+        let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
-        it "should pad the string with '\\0' characters" do
-          expect(subject.pack(*chars)).to eq((string + ("\0" * padding)))
+        let(:array_length) { 10 }
+        let(:array_type) do
+          Ronin::Support::Binary::CTypes::ArrayType.new(type2,array_length)
+        end
+
+        let(:fields) { [type_name1, [type_name2, array_length]] }
+
+        let(:value1) { 42 }
+        let(:value2) { [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
+        let(:values) { [value1, value2] }
+
+        it "must flatten then pack multiple values using the fields' pack strings" do
+          expect(subject.pack(*values)).to eq(
+            "#{type1.pack(value1)}#{array_type.pack(value2)}"
+          )
         end
       end
-    end
 
-    context ":uint8" do
-      subject { described_class.new [:uint8] }
+      context "and the last field is an infinite Range field" do
+        let(:type_name2) { :uint16 }
+        let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
-      it "should pack an unsigned 8bit integer" do
-        expect(subject.pack(uint8)).to eq("\xff")
+        let(:unbounded_array_type) do
+          Ronin::Support::Binary::CTypes::UnboundedArrayType.new(type2)
+        end
+
+        let(:fields) { [type_name1, type_name2..] }
+
+        let(:value1) { 42 }
+        let(:value2) { [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
+        let(:values) { [value1, value2] }
+
+        it "must pack the remainder of the values using the last field's pack string" do
+          expect(subject.pack(*values)).to eq(
+            "#{type1.pack(value1)}#{unbounded_array_type.pack(value2)}"
+          )
+        end
       end
-    end
 
-    context ":uint16" do
-      subject { described_class.new [:uint16] }
+      context "and the last field is an infinite Range of an Array field" do
+        let(:type_name2) { :uint16 }
+        let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
-      it "should pack an unsigned 16bit integer" do
-        expect(subject.pack(uint16)).to eq("\xff\xff")
-      end
-    end
+        let(:array_length) { 2 }
+        let(:array_type) do
+          Ronin::Support::Binary::CTypes::ArrayType.new(type2,array_length)
+        end
+        let(:unbounded_array_type) do
+          Ronin::Support::Binary::CTypes::UnboundedArrayType.new(array_type)
+        end
 
-    context ":uint32" do
-      subject { described_class.new [:uint32] }
+        let(:fields) { [type_name1, [type_name2, array_length]..] }
 
-      it "should pack an unsigned 32bit integer" do
-        expect(subject.pack(uint32)).to eq("\xff\xff\xff\xff")
-      end
-    end
+        let(:value1) { 42 }
+        let(:value2) { [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]] }
+        let(:values) { [value1, value2] }
 
-    context ":uint64" do
-      subject { described_class.new [:uint64] }
-
-      it "should pack an unsigned 64bit integer" do
-        expect(subject.pack(uint64)).to eq("\xff\xff\xff\xff\xff\xff\xff\xff")
-      end
-    end
-
-    context ":int8" do
-      subject { described_class.new [:int8] }
-
-      it "should pack an signed 8bit integer" do
-        expect(subject.pack(int8)).to eq("\xff")
-      end
-    end
-
-    context ":int16" do
-      subject { described_class.new [:int16] }
-
-      it "should pack an unsigned 16bit integer" do
-        expect(subject.pack(int16)).to eq("\xff\xff")
-      end
-    end
-
-    context ":int32" do
-      subject { described_class.new [:int32] }
-
-      it "should pack an unsigned 32bit integer" do
-        expect(subject.pack(int32)).to eq("\xff\xff\xff\xff")
-      end
-    end
-
-    context ":int64" do
-      subject { described_class.new [:int64] }
-
-      it "should pack an unsigned 64bit integer" do
-        expect(subject.pack(int64)).to eq("\xff\xff\xff\xff\xff\xff\xff\xff")
-      end
-    end
-
-    context ":string" do
-      subject { described_class.new [:string] }
-
-      it "should pack a string" do
-        expect(subject.pack(string)).to eq("#{string}\0")
+        it "must pack the last value using the last field's type's #pack method" do
+          expect(subject.pack(*values)).to eq(
+            "#{type1.pack(value1)}#{unbounded_array_type.pack(value2)}"
+          )
+        end
       end
     end
   end
 
   describe "#unpack" do
-    context ":byte" do
-      subject { described_class.new [:byte] }
+    context "when initialized with one field" do
+      let(:type_name) { :uint32 }
+      let(:fields)    { [type_name] }
+      let(:type)      { Ronin::Support::Binary::CTypes::TYPES[type_name] }
 
-      it "should unpack a signed byte" do
-        expect(subject.unpack(char)).to eq([byte])
+      let(:value) { 42 }
+
+      let(:data) { type.pack(value) }
+
+      it "must unpack a value from the data using the field's pack string" do
+        expect(subject.unpack(data)).to eq([value])
       end
     end
 
-    context "[:byte, n]" do
-      let(:n) { string.length }
-      subject { described_class.new [[:byte, n]] }
+    context "when initialized with multiple fields" do
+      let(:type_name1) { :uint32 }
+      let(:type1)      { Ronin::Support::Binary::CTypes::TYPES[type_name1] }
 
-      it "should pack multiple signed characters" do
-        expect(subject.unpack(chars)).to eq(bytes)
-      end
-    end
+      let(:type_name2) { :int64 }
+      let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
-    context ":char" do
-      subject { described_class.new [:char] }
+      let(:fields) { [type_name1, type_name2] }
 
-      it "should unpack a signed character" do
-        expect(subject.unpack(char)).to eq([char])
-      end
-    end
+      let(:value1) { 42 }
+      let(:value2) { -1 }
 
-    context "[:char, n]" do
-      let(:n) { string.length }
-      subject { described_class.new [[:char, n]] }
+      let(:data) { "#{type1.pack(value1)}#{type2.pack(value2)}" }
 
-      it "should unpack multiple signed characters" do
-        expect(subject.unpack(string)).to eq([chars])
+      it "must unpack values from the data using the fields' pack strings" do
+        values = subject.unpack(data)
+
+        expect(values.length).to eq(2)
+        expect(values[0]).to eq(value1)
+        expect(values[1]).to eq(value2)
       end
 
-      context "padding" do
-        let(:padding) { 10 }
-        subject { described_class.new [[:char, n + padding]] }
+      context "and one of the fields is an Array field" do
+        let(:type_name2) { :uint16 }
+        let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
-        it "should strip '\\0' padding characters" do
-          expect(subject.unpack(string + ("\0" * padding))).to eq([chars])
+        let(:array_length) { 10 }
+        let(:array_type) do
+          Ronin::Support::Binary::CTypes::ArrayType.new(type2,array_length)
+        end
+        let(:array_object_type) do
+          Ronin::Support::Binary::CTypes::ArrayObjectType.new(array_type)
+        end
+
+        let(:fields) { [type_name1, [type_name2, array_length]] }
+
+        let(:value1) { 42 }
+        let(:value2) { [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
+
+        let(:data) { "#{type1.pack(value1)}#{array_type.pack(value2)}" }
+
+        it "must flatten then pack multiple values using the fields' pack strings" do
+          values = subject.unpack(data)
+
+          expect(values.length).to eq(2)
+          expect(values[0]).to eq(value1)
+          expect(values[1]).to be_kind_of(Ronin::Support::Binary::Array)
+          expect(values[1].string).to eq(
+            data[type1.size,array_object_type.size]
+          )
         end
       end
-    end
 
-    context ":uint8" do
-      subject { described_class.new [:uint8] }
+      context "and the last field is an infinite Range field" do
+        let(:type_name2) { :uint16 }
+        let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
-      it "should unpack an unsigned 8bit integer" do
-        expect(subject.unpack("\xff")).to eq([uint8])
+        let(:unbounded_array_type) do
+          Ronin::Support::Binary::CTypes::UnboundedArrayType.new(type2)
+        end
+
+        let(:fields) { [type_name1, type_name2..] }
+
+        let(:value1) { 42 }
+        let(:value2) { [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
+
+        let(:data) do
+          "#{type1.pack(value1)}#{unbounded_array_type.pack(value2)}"
+        end
+
+        it "must unpack the remainder of the values using the last field's pack string" do
+          values = subject.unpack(data)
+
+          expect(values.length).to eq(2)
+          expect(values[0]).to eq(value1)
+          expect(values[1]).to eq(value2)
+        end
       end
-    end
 
-    context ":uint16" do
-      subject { described_class.new [:uint16] }
+      context "and the last field is an infinite Range of an Array field" do
+        let(:type_name2) { :uint16 }
+        let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
-      it "should unpack an unsigned 16bit integer" do
-        expect(subject.unpack("\xff\xff")).to eq([uint16])
-      end
-    end
+        let(:array_length) { 2 }
+        let(:array_type) do
+          Ronin::Support::Binary::CTypes::ArrayType.new(type2,array_length)
+        end
+        let(:unbounded_array_type) do
+          Ronin::Support::Binary::CTypes::UnboundedArrayType.new(array_type)
+        end
 
-    context ":uint32" do
-      subject { described_class.new [:uint32] }
+        let(:fields) { [type_name1, [type_name2, array_length]..] }
 
-      it "should unpack an unsigned 32bit integer" do
-        expect(subject.unpack("\xff\xff\xff\xff")).to eq([uint32])
-      end
-    end
+        let(:value1) { 42 }
+        let(:value2) { [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]] }
+        let(:values) { [value1, value2] }
 
-    context ":uint64" do
-      subject { described_class.new [:uint64] }
+        let(:data) do
+          "#{type1.pack(value1)}#{unbounded_array_type.pack(value2)}"
+        end
 
-      it "should unpack an unsigned 64bit integer" do
-        expect(subject.unpack("\xff\xff\xff\xff\xff\xff\xff\xff")).to eq([uint64])
-      end
-    end
+        it "must unpack the remainder of the values using the last field's type's #unpack method" do
+          values = subject.unpack(data)
 
-    context ":int8" do
-      subject { described_class.new [:int8] }
-
-      it "should unpack an signed 8bit integer" do
-        expect(subject.unpack("\xff")).to eq([int8])
-      end
-    end
-
-    context ":int16" do
-      subject { described_class.new [:int16] }
-
-      it "should unpack an unsigned 16bit integer" do
-        expect(subject.unpack("\xff\xff")).to eq([int16])
-      end
-    end
-
-    context ":int32" do
-      subject { described_class.new [:int32] }
-
-      it "should unpack an unsigned 32bit integer" do
-        expect(subject.unpack("\xff\xff\xff\xff")).to eq([int32])
-      end
-    end
-
-    context ":int64" do
-      subject { described_class.new [:int64] }
-
-      it "should unpack an unsigned 64bit integer" do
-        expect(subject.unpack("\xff\xff\xff\xff\xff\xff\xff\xff")).to eq([int64])
-      end
-    end
-
-    context ":string" do
-      subject { described_class.new [:string] }
-
-      it "should unpack a string" do
-        expect(subject.unpack("#{string}\0")).to eq([string])
+          expect(values.length).to eq(2)
+          expect(values[0]).to eq(value1)
+          expect(values[1].length).to eq(value2.length)
+          expect(values[1]).to all(be_kind_of(Ronin::Support::Binary::Array))
+          expect(values[1].map(&:to_a)).to eq(value2)
+        end
       end
     end
   end
 
   describe "#to_s" do
-    subject { described_class.new [:uint32, :string] }
-
-    it "should return the pack format String" do
-      expect(subject.to_s).to eq("LZ*")
+    it "must return the #pack_string" do
+      expect(subject.to_s).to eq(subject.pack_string)
     end
   end
 
-  describe "#inspect" do
-    let(:template) { described_class.new [:uint32, :string] }
-
-    subject { template.inspect }
-
-    it "should inspect the class" do
-      expect(subject).to include(described_class.name)
-    end
-
-    it "should inspect the template" do
-      expect(subject).to include(template.fields.inspect)
+  describe "#to_str" do
+    it "must return the #pack_string" do
+      expect(subject.to_str).to eq(subject.pack_string)
     end
   end
 end

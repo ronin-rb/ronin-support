@@ -6,84 +6,138 @@
 * [Source](https://github.com/ronin-rb/ronin-support)
 * [Issues](https://github.com/ronin-rb/ronin-support/issues)
 * [Documentation](https://ronin-rb.dev/docs/ronin-support/frames)
-* [Slack](https://ronin-rb.slack.com) |
-  [Discord](https://discord.gg/6WAb3PsVX9) |
-  [Twitter](https://twitter.com/ronin_rb)
+* [Discord](https://discord.gg/6WAb3PsVX9) |
+  [Twitter](https://twitter.com/ronin_rb) |
+  [Mastodon](https://infosec.exchange/@ronin_rb)
 
 ## Description
 
-ronin-support is a support library for ronin-rb. ronin-support contains many of
-the convenience methods used by Ronin and additional libraries.
+ronin-support is a support library for [Ronin][ronin-rb]. ronin-support
+contains many of the convenience methods used by Ronin and additional libraries.
 
-It's like activesupport, but for hacking!
+It's like [pwntools] combined with [activesupport].
 
-[ronin-rb] is a Ruby platform for exploit development and security research.
-Ronin allows for the rapid development and distribution of code, exploits
-or payloads over many common Source-Code-Management (SCM) systems.
+[Ronin][ronin-rb] is a [Ruby] toolkit for security research and development.
 
 ## Features
 
-* Provides convenience methods for:
-  * Formatting data:
-    * Binary
-      * Structs
-    * Text
-    * URIs
-    * HTTP
+* Provides user-friendly APIs for:
+  * Bit-flipping.
+  * Hexdump/unhexdump data.
+  * Packing/unpacking binary data:
+    * C types
+    * Buffers
+    * IO streams
+    * Stacks
+    * Strings
+    * Arrays
+    * Structs
+    * Unions
+  * Encoding data:
+    * Base16
+    * Base32
+    * Base64
+    * C strings
+    * Hex
     * HTML
+    * HTTP
     * JavaScript
+    * PowerShell
+    * Punycode
+    * Quoted-printable
+    * Ruby strings
+    * Shell
     * SQL
-  * Fuzzing
-    * Generating
-    * Mutating
+    * URI
+    * UUencoding
+    * XML
+  * Reading/writing compressed data:
+    * Zlib
+    * GZip
+  * Reading/writing archive files:
+    * Tar
+    * Zip
+  * Cryptography:
+    * RSA
+    * DSA
+    * DH
+    * EC
+    * HMAC
+    * Ciphers
+    * X509 certificates
   * Networking:
     * DNS
     * UNIX
     * TCP
     * UDP
-    * SSL
+    * SSL / TLS
     * FTP
     * SMTP / ESMTP
     * POP3
-    * Imap
+    * IMAP
     * Telnet
     * HTTP / HTTPS
-  * Enumerating IP ranges:
-    * IPv4 / IPv6 addresses.
-    * CIDR / globbed ranges.
-  * (Un-)Hexdumping data.
-  * Handling exceptions.
-* Provides Modules/Classes for:
-  * Paths
-  * Fuzzing
-  * Wordlists
-  * Erb Templates
-  * UI:
-    * Terminal Output
-    * Custom Shells
+    * Raw packets
+    * ASNs
+    * IP addresses
+    * IP ranges
+    * TLDs
+    * Public Suffix List
+    * Host names
+    * Domain names
+  * Working with text:
+    * Generating typos.
+    * Generating homoglyphs.
+    * Regexs for matching/extracting common types of data.
+* Has 95% documentation coverage.
+* Has 93% test coverage.
+
+## Synopsis
+
+```shell
+$ irb -r ronin/support
+irb(main):001:0> "hello world".base64_encode
+=> "aGVsbG8gd29ybGQ=\n"
+irb(main):002:0> "aGVsbG8gd29ybGQ=\n".base64_decode
+=> "hello world"
+```
 
 ## Examples
 
-For examples of the convenience methods provided by ronin-support,
+```ruby
+require 'ronin/support'
+include Ronin::Support
+
+string = "hello world"
+puts string.base64_encode
+
+data = "aGVsbG8gd29ybGQ=\n"
+puts data.base64_decode
+```
+
+For more examples of the convenience methods provided by ronin-support,
 please see [Everyday Ronin].
 
 ## Requirements
 
-* [Ruby] >= 1.8.7
-* [chars] ~> 0.2
-* [hexdump] ~> 0.1
+* [Ruby] >= 1.9.1
+* [chars] ~> 0.3, >= 0.3.2
+* [hexdump] ~> 1.0
 * [combinatorics] ~> 0.4
-* [uri-query_params] ~> 0.6
-* [data_paths] ~> 0.3
-* [parameters] ~> 0.4
+* [addressable] ~> 2.0
+* [uri-query_params] ~> 0.8
 
 ## Install
 
-    $ gem install ronin-support
+```shell
+$ gem install ronin-support
+```
 
 ### Gemfile
 
-    gem 'ronin-support', '~> 0.5'
+```ruby
+gem 'ronin-support', '~> 0.5'
+```
 
 ## Development
 
@@ -98,9 +152,7 @@ please see [Everyday Ronin].
 
 ## License
 
-Copyright (c) 2006-2021 Hal Brodigan (postmodern.mod3 at gmail.com)
-
-This file is part of ronin-support.
+Copyright (c) 2006-2022 Hal Brodigan (postmodern.mod3 at gmail.com)
 
 ronin-support is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published
@@ -119,9 +171,10 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [Everyday Ronin]: https://ronin-rb.dev/guides/everyday_ronin.html
 [Ruby]: https://www.ruby-lang.org/
 
+[pwntools]: 
+
 [chars]: https://github.com/postmodern/chars#readme
 [hexdump]: https://github.com/postmodern/hexdump#readme
 [combinatorics]: https://github.com/postmodern/combinatorics#readme
+[addressable]: https://github.com/sporkmonger/addressable#readme
 [uri-query_params]: https://github.com/postmodern/uri-query_params#readme
-[data_paths]: https://github.com/postmodern/data_paths#readme
-[parameters]: https://github.com/postmodern/parameters#readme

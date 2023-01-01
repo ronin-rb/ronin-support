@@ -19,14 +19,7 @@ end
 require 'rake'
 
 require 'rubygems/tasks'
-Gem::Tasks.new(:sign => {:checksum => true, :pgp => true}) do |tasks|
-  tasks.console.command = 'ripl'
-  tasks.console.options = %w[
-    -rripl/multi_line
-    -rripl/auto_indent
-    -rripl/color_result
-  ]
-end
+Gem::Tasks.new(sign: {checksum: true, pgp: true})
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new
@@ -44,3 +37,30 @@ task :default => :spec
 require 'yard'
 YARD::Rake::YardocTask.new
 task :docs => :yard
+
+namespace :public_suffix do
+  desc 'Downloads the public_suffix_list.dat file'
+  task :download do
+    require 'ronin/support/network/public_suffix/list'
+    Ronin::Support::Network::PublicSuffix::List.download(
+      path: 'public_suffix_list.dat'
+    )
+  end
+
+  desc 'Builds a regex for every public suffix'
+  task :build_regex => :download do
+    require 'ronin/support/network/public_suffix/list'
+    list = Ronin::Support::Network::PublicSuffix::List.load_file(
+      'public_suffix_list.dat'
+    )
+    
+    regex = list.to_regexp
+
+    template = 'data/text/patterns/network/public_suffix.rb.erb'
+    output   = 'lib/ronin/support/text/patterns/network/public_suffix.rb'
+
+    require 'erb'
+    erb = ERB.new(File.read(template))
+    File.write(output,erb.result(binding))
+  end
+end

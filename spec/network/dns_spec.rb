@@ -1,201 +1,993 @@
 require 'spec_helper'
-require 'ronin/network/dns'
+require 'ronin/support/network/dns'
 
-require 'ipaddr'
-
-describe Network::DNS do
-  let(:server) { '4.2.2.1' }
-
-  describe "nameserver" do
-    it "should be nil by default" do
-      expect(subject.nameserver).to be_nil
+describe Ronin::Support::Network::DNS do
+  describe ".nameservers" do
+    it "must default to the system's resolv.conf nameserver(s)" do
+      expect(subject.nameservers).to eq(
+        described_class::Resolver.default_nameservers
+      )
     end
   end
 
-  describe "nameserver=" do
-    it "should accept Strings" do
-      subject.nameserver = server
+  describe ".nameservers=" do
+    let(:original_nameservers) { subject.nameservers }
 
-      expect(subject.nameserver).to eq(server)
+    let(:new_nameservers) { %w[42.42.42.42] }
+
+    it "must override the system's default nameservers" do
+      subject.nameservers = new_nameservers
+
+      expect(subject.nameservers).to eq(new_nameservers)
     end
 
-    it "should accept nil" do
-      subject.nameserver = server
-      subject.nameserver = nil
+    after { subject.nameservers = original_nameservers }
+  end
 
-      expect(subject.nameserver).to be_nil
+  describe ".nameserver=" do
+    let(:original_nameservers) { subject.nameservers }
+
+    let(:new_nameserver) { '42.42.42.42' }
+
+    it "must override the system's default nameservers to the new nameserver" do
+      subject.nameserver = new_nameserver
+
+      expect(subject.nameservers).to eq([new_nameserver])
     end
 
-    it "should convert non-nil values to Strings" do
-      subject.nameserver = IPAddr.new(server)
+    after { subject.nameservers = original_nameservers }
+  end
 
-      expect(subject.nameserver).to eq(server)
+  describe ".resolver" do
+    it "must return #{described_class::Resolver}" do
+      expect(subject.resolver).to be_kind_of(described_class::Resolver)
+    end
+
+    context "when no arguments are given" do
+      it "must default to using DNS.nameserver" do
+        resolver = subject.resolver
+
+        expect(resolver.nameservers).to eq(subject.nameservers)
+      end
+    end
+
+    context "when given the nameservers: keyword argument" do
+      let(:nameservers) { %w[42.42.42.42] }
+
+      it "must return a #{described_class::Resolver} object with the given nameservers" do
+        resolver = subject.resolver(nameservers: nameservers)
+
+        expect(resolver).to be_kind_of(described_class::Resolver)
+        expect(resolver.nameservers).to eq(nameservers)
+      end
+    end
+
+    context "when given the nameservers: keyword argument" do
+      let(:nameserver) { '42.42.42.42' }
+
+      it "must return a #{described_class::Resolver} object with the given nameserver" do
+        resolver = subject.resolver(nameserver: nameserver)
+
+        expect(resolver).to be_kind_of(described_class::Resolver)
+        expect(resolver.nameservers).to eq([nameserver])
+      end
     end
   end
 
-  describe "#dns_resolver" do
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
+  let(:nameservers)      { %w[8.8.8.8] }
+  let(:hostname)         { 'example.com' }
+  let(:bad_hostname)     { 'foo.bar' }
+  let(:address)          { '93.184.216.34' }
+  let(:bad_address)      { '0.0.0.0' }
+  let(:reverse_address)  { '142.251.33.110' }
+  let(:reverse_hostname) { 'sea30s10-in-f14.1e100.net' }
 
-    it "should return Resolv when passed no nameserver" do
-      expect(subject.dns_resolver(nil)).to eq(Resolv)
-    end
+  let(:example_spf_record) { "v=spf1 -all" }
+  let(:example_txt_record) { "wgyf8z8cgvm2qmxpnbnldrcltvk4xqfn" }
 
-    it "should return Resolv::DNS when passed a nameserver" do
-      expect(subject.dns_resolver(server)).to be_kind_of(Resolv::DNS)
+  describe ".get_address" do
+    context "integration", :network do
+      it "must lookup the address for a hostname" do
+        expect(subject.get_address(hostname)).to eq(address)
+      end
+
+      context "when given a unicode domain name" do
+        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
+
+        it "must lookup the addresses for the punycode version of the domain" do
+          unicode_address    = subject.get_address(unicode_hostname)
+          punycode_addresses = subject.get_addresses(punycode_hostname)
+
+          expect(unicode_address).to_not be_nil
+          expect(punycode_addresses).to include(unicode_address)
+        end
+      end
+
+      context "when the host nmae has no IP addresses" do
+        it "must return nil for unknown hostnames" do
+          expect(subject.get_address(bad_hostname)).to be(nil)
+        end
+      end
     end
   end
 
-  describe "helper methods", :network do
-    let(:hostname)         { 'example.com' }
-    let(:bad_hostname)     { 'foo.bar' }
-    let(:address)          { '93.184.216.34' }
-    let(:bad_address)      { '0.0.0.0' }
-    let(:reverse_address)  { '192.0.43.10' }
-    let(:reverse_ipaddr)   { IPAddr.new(reverse_address) }
-    let(:reverse_hostname) { '43-10.any.icann.org' }
-
-    subject do
-      obj = Object.new
-      obj.extend described_class
-      obj
-    end
-
-    describe "#dns_lookup" do
-      it "should lookup the address for a hostname" do
-        expect(subject.dns_lookup(hostname)).to eq(address)
+  describe ".lookup" do
+    context "integration", :network do
+      it "must lookup the address for a hostname" do
+        expect(subject.lookup(hostname)).to eq(address)
       end
 
-      it "should return nil for unknown hostnames" do
-        expect(subject.dns_lookup(bad_hostname)).to be_nil
-      end
-
-      it "should accept non-String hostnames" do
-        expect(subject.dns_lookup(hostname.to_sym)).to eq(address)
-      end
-
-      it "should accept an additional nameserver argument" do
-        expect(subject.dns_lookup(hostname,server)).to eq(address)
-      end
-
-      context "when given a block" do
-        it "should yield the resolved address" do
-          resolved_address = nil
-
-          subject.dns_lookup(hostname) do |address|
-            resolved_address = address
-          end
-
-          expect(resolved_address).to eq(address)
-        end
-
-        it "should not yield unresolved addresses" do
-          resolved_address = nil
-
-          subject.dns_lookup(bad_hostname) do |address|
-            resolved_address = address
-          end
-
-          expect(resolved_address).to be_nil
+      context "when the host nmae has no IP addresses" do
+        it "must return nil for unknown hostnames" do
+          expect(subject.lookup(bad_hostname)).to be(nil)
         end
       end
     end
+  end
 
-    describe "#dns_lookup_all" do
-      it "should lookup all addresses for a hostname" do
-        expect(subject.dns_lookup_all(hostname)).to include(address)
+  describe ".get_addresses"  do
+    context "integration", :network do
+      it "must lookup all addresses for a hostname" do
+        expect(subject.get_addresses(hostname)).to include(address)
       end
 
-      it "should return an empty Array for unknown hostnames" do
-        expect(subject.dns_lookup_all(bad_hostname)).to eq([])
-      end
+      context "when given a unicode domain name" do
+        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
 
-      it "should accept non-String hostnames" do
-        expect(subject.dns_lookup_all(hostname.to_sym)).to include(address)
-      end
+        it "must lookup the addresses for the punycode version of the domain" do
+          unicode_addresses  = subject.get_addresses(unicode_hostname)
+          punycode_addresses = subject.get_addresses(punycode_hostname)
 
-      it "should accept an additional nameserver argument" do
-        expect(subject.dns_lookup_all(hostname,server)).to include(address)
-      end
-
-      context "when given a block" do
-        it "should yield the resolved address" do
-          expect(subject.enum_for(:dns_lookup,hostname).to_a).to eq([address])
-        end
-
-        it "should not yield unresolved addresses" do
-          expect(subject.enum_for(:dns_lookup,bad_hostname).to_a).to eq([])
+          expect(unicode_addresses).to_not be_empty
+          expect(unicode_addresses).to match_array(punycode_addresses)
         end
       end
-    end
 
-    describe "#dns_reverse_lookup" do
-      it "should lookup the address for a hostname" do
-        expect(subject.dns_reverse_lookup(reverse_address)).to eq(reverse_hostname)
-      end
-
-      it "should return nil for unknown hostnames" do
-        expect(subject.dns_reverse_lookup(bad_address)).to be_nil
-      end
-
-      it "should accept non-String addresses" do
-        expect(subject.dns_reverse_lookup(reverse_ipaddr)).to eq(reverse_hostname)
-      end
-
-      it "should accept an additional nameserver argument" do
-        expect(subject.dns_reverse_lookup(reverse_address,server)).to eq(reverse_hostname)
-      end
-
-      context "when given a block" do
-        it "should yield the resolved hostname" do
-          resolved_hostname = nil
-
-          subject.dns_reverse_lookup(reverse_address) do |hostname|
-            resolved_hostname = hostname
-          end
-
-          expect(resolved_hostname).to eq(reverse_hostname)
-        end
-
-        it "should not yield unresolved hostnames" do
-          resolved_hostname = nil
-
-          subject.dns_reverse_lookup(bad_address) do |hostname|
-            resolved_hostname = hostname
-          end
-
-          expect(resolved_hostname).to be_nil
+      context "when the host nmae has no IP addresses" do
+        it "must return an empty Array" do
+          expect(subject.get_addresses(bad_hostname)).to eq([])
         end
       end
     end
+  end
 
-    describe "#dns_reverse_lookup_all" do
-      it "should lookup all addresses for a hostname" do
-        expect(subject.dns_reverse_lookup_all(reverse_address)).to include(reverse_hostname)
+  describe ".get_name"  do
+    context "integration", :network do
+      it "must lookup the address for a hostname" do
+        expect(subject.get_name(reverse_address)).to eq(reverse_hostname)
       end
 
-      it "should return an empty Array for unknown hostnames" do
-        expect(subject.dns_reverse_lookup_all(bad_address)).to eq([])
-      end
-
-      it "should accept non-String addresses" do
-        expect(subject.dns_reverse_lookup_all(reverse_ipaddr)).to include(reverse_hostname)
-      end
-
-      it "should accept an additional nameserver argument" do
-        expect(subject.dns_reverse_lookup_all(reverse_address,server)).to include(reverse_hostname)
-      end
-
-      context "when given a block" do
-        it "should yield the resolved hostnames" do
-          expect(subject.enum_for(:dns_reverse_lookup_all,reverse_address).to_a).to eq([reverse_hostname])
+      context "when the IP address has no host names associated with it" do
+        it "must return nil" do
+          expect(subject.get_name(bad_address)).to be(nil)
         end
+      end
+    end
+  end
 
-        it "should not yield unresolved hostnames" do
-          expect(subject.enum_for(:dns_reverse_lookup_all,bad_address).to_a).to eq([])
+  describe ".reverse_lookup"  do
+    context "integration", :network do
+      it "must lookup the address for a hostname" do
+        expect(subject.reverse_lookup(reverse_address)).to eq(reverse_hostname)
+      end
+
+      context "when the IP address has no host names associated with it" do
+        it "must return nil" do
+          expect(subject.reverse_lookup(bad_address)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_names"  do
+    context "integration", :network do
+      it "must lookup all addresses for a hostname" do
+        expect(subject.get_names(reverse_address)).to include(reverse_hostname)
+      end
+
+      context "when the IP address has no host names associated with it" do
+        it "must return an empty Array" do
+          expect(subject.get_names(bad_address)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_record" do
+    context "integration", :network do
+      let(:record_type)  { :txt }
+      let(:record_class) do
+        described_class::Resolver::RECORD_TYPES.fetch(record_type)
+      end
+
+      it "must return the first DNS record for the host name and record type" do
+        record = subject.get_record(hostname,record_type)
+
+        expect(record).to be_kind_of(record_class)
+        expect(record.strings.first).to eq(example_spf_record).or(
+          eq(example_txt_record)
+        )
+      end
+
+      context "when given a unicode domain name" do
+        let(:record_type)       { :a }
+        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
+
+        it "must lookup the addresses for the punycode version of the domain" do
+          unicode_record   = subject.get_record(unicode_hostname,record_type)
+          punycode_records = subject.get_records(punycode_hostname,record_type)
+
+          expect(unicode_record).to_not be_nil
+          expect(punycode_records.map(&:address)).to include(unicode_record.address)
+        end
+      end
+
+      context "when the host name does not exist" do
+        it "must return nil" do
+          expect(subject.get_record(bad_hostname,record_type)).to be(nil)
+        end
+      end
+
+      context "when the host name has no matching records" do
+        let(:record_type) { :cname }
+
+        it "must return nil" do
+          expect(subject.get_record(hostname,record_type)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_records" do
+    context "integration", :network do
+      let(:record_type)  { :txt }
+      let(:record_class) do
+        described_class::Resolver::RECORD_TYPES.fetch(record_type)
+      end
+
+      it "must return all DNS record of the given type for the host name" do
+        records = subject.get_records(hostname,record_type)
+
+        expect(records).to_not be_empty
+        expect(records).to all(be_kind_of(record_class))
+        expect(records.map(&:strings).flatten).to match_array(
+          [example_spf_record, example_txt_record]
+        )
+      end
+
+      context "when given a unicode domain name" do
+        let(:record_type)       { :a }
+        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
+
+        it "must lookup the addresses for the punycode version of the domain" do
+          unicode_records  = subject.get_records(unicode_hostname,record_type)
+          punycode_records = subject.get_records(punycode_hostname,record_type)
+
+          expect(unicode_records).to_not be_empty
+          expect(unicode_records.map(&:address)).to match_array(
+            punycode_records.map(&:address)
+          )
+        end
+      end
+
+      context "when the host name does not exist" do
+        it "must return an empty Array" do
+          expect(subject.get_records(bad_hostname,record_type)).to eq([])
+        end
+      end
+
+      context "when the host name has no matching records" do
+        let(:record_type) { :cname }
+
+        it "must return an empty Array" do
+          expect(subject.get_records(hostname,record_type)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_cname_record" do
+    context "integration", :network do
+      let(:domain)   { 'twitter.com'   }
+      let(:hostname) { "www.#{domain}" }
+
+      it "must return the Resolv::DNS::Resource::IN::CNAME record" do
+        cname_record = subject.get_cname_record(hostname)
+
+        expect(cname_record).to be_kind_of(Resolv::DNS::Resource::IN::CNAME)
+        expect(cname_record.name.to_s).to eq(domain)
+      end
+
+      context "when the host name does not have a CNAME record" do
+        let(:hostname) { domain }
+
+        it "must return nil" do
+          expect(subject.get_cname_record(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_cname" do
+    context "integration", :network do
+      let(:domain)   { 'twitter.com'   }
+      let(:hostname) { "www.#{domain}" }
+
+      it "must return the CNAME string" do
+        expect(subject.get_cname(hostname)).to eq(domain)
+      end
+
+      context "when the host name does not have a CNAME record" do
+        let(:hostname) { domain }
+
+        it "must return nil" do
+          expect(subject.get_cname_record(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_hinfo_record" do
+    context "integration", :network do
+      let(:hostname) { "hinfo-example.lookup.dog" }
+
+      it "must return the Resolv::DNS::Resource::IN::HINFO record" do
+        hinfo_record = subject.get_hinfo_record(hostname)
+
+        expect(hinfo_record).to be_kind_of(Resolv::DNS::Resource::IN::HINFO)
+        expect(hinfo_record.cpu).to eq("some-kinda-cpu")
+        expect(hinfo_record.os).to  eq("some-kinda-os")
+      end
+
+      context "when the host name does not have a HINFO record" do
+        let(:hostname) { 'example.com' }
+
+        it "must return nil" do
+          expect(subject.get_hinfo_record(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_a_record" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv4_address) { '93.184.216.34' }
+
+      it "must return the first Resolv::DNS::Resource::IN::A record" do
+        a_record = subject.get_a_record(hostname)
+
+        expect(a_record).to be_kind_of(Resolv::DNS::Resource::IN::A)
+        expect(a_record.address.to_s).to eq(ipv4_address)
+      end
+
+      context "when the host name does not have any A records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return nil" do
+          expect(subject.get_a_record(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_a_address" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv4_address) { '93.184.216.34' }
+
+      it "must return the first IPv4 address" do
+        expect(subject.get_a_address(hostname)).to eq(ipv4_address)
+      end
+
+      context "when the host name does not have any A records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return nil" do
+          expect(subject.get_a_address(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_ipv4_address" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv4_address) { '93.184.216.34' }
+
+      it "must return the first IPv4 address" do
+        expect(subject.get_ipv4_address(hostname)).to eq(ipv4_address)
+      end
+
+      context "when the host name does not have any A records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return nil" do
+          expect(subject.get_ipv4_address(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_a_records" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv4_address) { '93.184.216.34' }
+
+      it "must return all Resolv::DNS::Resource::IN::A records" do
+        a_records = subject.get_a_records(hostname)
+
+        expect(a_records).to_not be_empty
+        expect(a_records).to all(be_kind_of(Resolv::DNS::Resource::IN::A))
+      end
+
+      context "when the host name does not have any A records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_a_records(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_a_addresses" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv4_address) { '93.184.216.34' }
+
+      it "must return all IPv4 addresses" do
+        expect(subject.get_a_addresses(hostname)).to eq([ipv4_address])
+      end
+
+      context "when the host name does not have any A records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_a_addresses(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_ipv4_addresses" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv4_address) { '93.184.216.34' }
+
+      it "must return all IPv4 addresses" do
+        expect(subject.get_ipv4_addresses(hostname)).to eq([ipv4_address])
+      end
+
+      context "when the host name does not have any A records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_ipv4_addresses(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_aaaa_record" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
+
+      it "must return the first Resolv::DNS::Resource::IN::AAAA record" do
+        aaaa_record = subject.get_aaaa_record(hostname)
+
+        expect(aaaa_record).to be_kind_of(Resolv::DNS::Resource::IN::AAAA)
+        expect(aaaa_record.address.to_s).to eq(ipv6_address)
+      end
+
+      context "when the host name does not have any AAAA records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return nil" do
+          expect(subject.get_aaaa_record(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_aaaa_address" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
+
+      it "must return the first IPv6 address" do
+        expect(subject.get_aaaa_address(hostname)).to eq(ipv6_address)
+      end
+
+      context "when the host name does not have any AAAA records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return nil" do
+          expect(subject.get_aaaa_address(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_ipv6_address" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
+
+      it "must return the first IPv6 address" do
+        expect(subject.get_ipv6_address(hostname)).to eq(ipv6_address)
+      end
+
+      context "when the host name does not have any AAAA records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return nil" do
+          expect(subject.get_ipv6_address(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_aaaa_records" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
+
+      it "must return all Resolv::DNS::Resource::IN::AAAA records" do
+        aaaa_records = subject.get_aaaa_records(hostname)
+
+        expect(aaaa_records).to_not be_empty
+        expect(aaaa_records).to all(be_kind_of(Resolv::DNS::Resource::IN::AAAA))
+      end
+
+      context "when the host name does not have any AAAA records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_aaaa_records(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_aaaa_addresses" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
+
+      it "must return the IPv6 addresses" do
+        expect(subject.get_aaaa_addresses(hostname)).to eq([ipv6_address])
+      end
+
+      context "when the host name does not have any AAAA records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_aaaa_addresses(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_ipv6_addresses" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
+
+      it "must return the IPv6 addresses" do
+        expect(subject.get_ipv6_addresses(hostname)).to eq([ipv6_address])
+      end
+
+      context "when the host name does not have any AAAA records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_ipv6_addresses(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_ip_addresses" do
+    context "integration", :network do
+      let(:hostname)     { 'example.com'   }
+      let(:ipv4_address) { '93.184.216.34' }
+      let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
+
+      it "must return the IPv4 and IPv6 addresses" do
+        expect(subject.get_ip_addresses(hostname)).to eq(
+          [ipv4_address, ipv6_address]
+        )
+      end
+
+      context "when the host name does not have any A or AAAA records" do
+        let(:hostname) { '_spf.google.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_ip_addresses(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_srv_records" do
+    context "integration", :network do
+      let(:hostname) { '_http._tcp.update.freebsd.org' }
+
+      it "must return all Resolv::DNS::Resource::IN::SRV records" do
+        srv_records = subject.get_srv_records(hostname)
+
+        expect(srv_records).to_not be_empty
+        expect(srv_records).to all(be_kind_of(Resolv::DNS::Resource::IN::SRV))
+      end
+
+      context "when the host name does not have any SRV records" do
+        let(:hostname) { 'example.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_srv_records(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_wks_records" do
+    context "integration", :network do
+      it "must return all Resolv::DNS::Resource::IN::WKS records" do
+        pending "cannot find a host that still has a WKS record"
+
+        wks_records = subject.get_wks_records(hostname)
+
+        expect(wks_records).to_not be_empty
+        expect(wks_records).to all(be_kind_of(Resolv::DNS::Resource::IN::WKS))
+      end
+
+      context "when the host name does not have any WKS records" do
+        let(:hostname) { 'example.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_wks_records(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_loc_record" do
+    context "integration", :network do
+      it "must return the Resolv::DNS::Resource::IN::LOC record" do
+        pending "cannot find a host that still has a LOC record"
+
+        expect(subject.get_loc_record(hostname)).to be_kind_of(Resolv::DNS::Resource::IN::LOC)
+      end
+
+      context "when the host name does not have any LOC records" do
+        let(:hostname) { 'example.com' }
+
+        it "must return nil" do
+          expect(subject.get_loc_record(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_minfo_record" do
+    context "integration", :network do
+      it "must return the Resolv::DNS::Resource::IN::MINFO record" do
+        pending "cannot find a host that still has a MINFO record"
+
+        expect(subject.get_minfo_record(hostname)).to be_kind_of(Resolv::DNS::Resource::IN::MINFO)
+      end
+
+      context "when the host name does not have any MINFO records" do
+        let(:hostname) { 'example.com' }
+
+        it "must return nil" do
+          expect(subject.get_minfo_record(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_mx_records" do
+    context "integration", :network do
+      let(:hostname) { 'gmail.com' }
+      let(:mailservers) do
+        %w[
+          alt1.gmail-smtp-in.l.google.com
+          alt2.gmail-smtp-in.l.google.com
+          alt3.gmail-smtp-in.l.google.com
+          gmail-smtp-in.l.google.com
+          alt4.gmail-smtp-in.l.google.com
+        ]
+      end
+
+      it "must return all Resolv::DNS::Resource::IN::MX records" do
+        mx_records = subject.get_mx_records(hostname)
+
+        expect(mx_records).to_not be_empty
+        expect(mx_records).to all(be_kind_of(Resolv::DNS::Resource::IN::MX))
+        expect(mx_records.map(&:exchange).map(&:to_s)).to match_array(mailservers)
+      end
+
+      context "when the host name does not have any MX records" do
+        let(:hostname) { 'www.example.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_mx_records(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_mailservers" do
+    context "integration", :network do
+      let(:hostname) { 'gmail.com' }
+      let(:mailservers) do
+        %w[
+          alt1.gmail-smtp-in.l.google.com
+          alt2.gmail-smtp-in.l.google.com
+          alt3.gmail-smtp-in.l.google.com
+          gmail-smtp-in.l.google.com
+          alt4.gmail-smtp-in.l.google.com
+        ]
+      end
+
+      it "must return the Array of mailserver host names" do
+        expect(subject.get_mailservers(hostname)).to match_array(mailservers)
+      end
+
+      context "when the host name does not have any MX records" do
+        let(:hostname) { 'www.example.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_mailservers(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_ns_records" do
+    context "integration", :network do
+      let(:hostname) { 'example.com' }
+
+      it "must return all Resolv::DNS::Resource::IN::NS records" do
+        ns_records = subject.get_ns_records(hostname)
+
+        expect(ns_records).to_not be_empty
+        expect(ns_records).to all(be_kind_of(Resolv::DNS::Resource::IN::NS))
+      end
+
+      context "when the host name does not have any NS records" do
+        let(:hostname) { 'www.example.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_ns_records(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_nameservers" do
+    context "integration", :network do
+      let(:hostname) { 'example.com' }
+      let(:nameserver_names) do
+        %w[
+          b.iana-servers.net
+          a.iana-servers.net
+        ]
+      end
+
+      it "must return the Array of nameserver host names" do
+        expect(subject.get_nameservers(hostname)).to match_array(nameserver_names)
+      end
+
+      context "when the host name does not have any NS records" do
+        let(:hostname) { 'www.example.com' }
+
+        it "must return an empty Array" do
+          expect(subject.get_nameservers(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_ptr_record" do
+    context "integration", :network do
+      let(:ip)       { '142.251.33.110' }
+      let(:ptr_name) { 'sea30s10-in-f14.1e100.net' }
+
+      it "must return the first Resolv::DNS::Resource::IN::PTR record for the IP" do
+        pending "need to figure out why Resolv::DNS cannot query PTR records"
+
+        ptr_record = subject.get_ptr_record(ip)
+
+        expect(ptr_record).to be_kind_of(Resolv::DNS::Resource::IN::PTR)
+        expect(ptr_record.address.to_s).to eq(ptr_name)
+      end
+
+      context "when the host name does not have any PTR records" do
+        let(:ip) { '127.0.0.1' }
+
+        it "must return nil" do
+          expect(subject.get_ptr_record(ip)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_ptr_name" do
+    context "integration", :network do
+      let(:ip)       { '142.251.33.110' }
+      let(:ptr_name) { 'sea30s10-in-f14.1e100.net' }
+
+      it "must return the first PTR name for the IP" do
+        pending "need to figure out why Resolv::DNS cannot query PTR records"
+
+        expect(subject.get_ptr_name(ip)).to eq(ptr_name)
+      end
+
+      context "when the host name does not have any PTR records" do
+        let(:ip) { '127.0.0.1' }
+
+        it "must return nil" do
+          expect(subject.get_ptr_name(ip)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_ptr_records" do
+    context "integration", :network do
+      let(:ip)       { '142.251.33.110' }
+      let(:ptr_name) { 'sea30s10-in-f14.1e100.net' }
+
+      it "must return all Resolv::DNS::Resource::IN::PTR records for the IP" do
+        pending "need to figure out why Resolv::DNS cannot query PTR records"
+
+        ptr_records = subject.get_ptr_records(ip)
+
+        expect(ptr_records).to_not be_empty
+        expect(ptr_records).to all(be_kind_of(Resolv::DNS::Resource::IN::PTR))
+        expect(ptr_records.first.address.to_s).to eq(ptr_name)
+      end
+
+      context "when the host name does not have any PTR records" do
+        let(:ip) { '127.0.0.1' }
+
+        it "must return an empty Array" do
+          expect(subject.get_ptr_records(ip)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_ptr_names" do
+    context "integration", :network do
+      let(:ip)       { '142.251.33.110' }
+      let(:ptr_name) { 'sea30s10-in-f14.1e100.net' }
+
+      it "must return all PTR names for the IP" do
+        pending "need to figure out why Resolv::DNS cannot query PTR records"
+
+        expect(subject.get_ptr_names(ip)).to eq([ptr_name])
+      end
+
+      context "when the host name does not have any PTR records" do
+        let(:ip) { '127.0.0.1' }
+
+        it "must return an empty Array" do
+          expect(subject.get_ptr_names(ip)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_soa_record" do
+    context "integration", :network do
+      let(:hostname) { 'example.com' }
+
+      it "must return the Resolv::DNS::Resource::IN::SOA record" do
+        soa_record = subject.get_soa_record(hostname)
+
+        expect(soa_record).to be_kind_of(Resolv::DNS::Resource::IN::SOA)
+      end
+
+      context "when the host name does not have any SOA records" do
+        let(:hostname) { 'www.example.com' }
+
+        it "must return nil" do
+          expect(subject.get_soa_record(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_txt_record" do
+    context "integration", :network do
+      let(:hostname) { 'example.com' }
+
+      it "must return the first Resolv::DNS::Resource::IN::TXT record" do
+        txt_record = subject.get_txt_record(hostname)
+
+        expect(txt_record).to be_kind_of(Resolv::DNS::Resource::IN::TXT)
+        expect(txt_record.strings).to eq([example_spf_record]).or(
+          eq([example_txt_record])
+        )
+      end
+
+      context "when the host name does not have any TXT records" do
+        let(:hostname) { 'a.iana-servers.net' }
+
+        it "must return nil" do
+          expect(subject.get_txt_record(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_txt_string" do
+    context "integration", :network do
+      let(:hostname) { 'example.com' }
+
+      it "must return the first TXT string" do
+        expect(subject.get_txt_string(hostname)).to eq(example_spf_record).or(
+          eq(example_txt_record)
+        )
+      end
+
+      context "when the host name does not have any TXT records" do
+        let(:hostname) { 'a.iana-servers.net' }
+
+        it "must return nil" do
+          expect(subject.get_txt_string(hostname)).to be(nil)
+        end
+      end
+    end
+  end
+
+  describe ".get_txt_records" do
+    context "integration", :network do
+      let(:hostname) { 'example.com' }
+
+      it "must return all Resolv::DNS::Resource::IN::TXT records" do
+        txt_records = subject.get_txt_records(hostname)
+
+        expect(txt_records).to all(be_kind_of(Resolv::DNS::Resource::IN::TXT))
+        expect(txt_records.map(&:strings).flatten).to match_array(
+          [example_spf_record, example_txt_record]
+        )
+      end
+
+      context "when the host name does not have any TXT records" do
+        let(:hostname) { 'a.iana-servers.net' }
+
+        it "must return an empty Array" do
+          expect(subject.get_txt_records(hostname)).to eq([])
+        end
+      end
+    end
+  end
+
+  describe ".get_txt_strings" do
+    context "integration", :network do
+      let(:hostname) { 'example.com' }
+
+      it "must return all TXT string" do
+        expect(subject.get_txt_strings(hostname)).to match_array(
+          [example_spf_record, example_txt_record]
+        )
+      end
+
+      context "when the host name does not have any TXT records" do
+        let(:hostname) { 'a.iana-servers.net' }
+
+        it "must return an empty Array" do
+          expect(subject.get_txt_strings(hostname)).to eq([])
         end
       end
     end
