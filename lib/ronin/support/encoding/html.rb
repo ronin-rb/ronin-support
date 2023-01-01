@@ -33,6 +33,8 @@ module Ronin
       #
       # @api public
       #
+      # @since 1.0.0
+      #
       module HTML
         #
         # Escapes the byte as a HTML decimal character.
