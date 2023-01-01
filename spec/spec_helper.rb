@@ -1,6 +1,5 @@
 require 'rspec'
 require 'simplecov'
-require 'ronin/support/version'
 
 SimpleCov.start
 
