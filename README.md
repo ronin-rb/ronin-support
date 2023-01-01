@@ -91,6 +91,7 @@ It's like [pwntools] combined with [activesupport].
     * Generating typos.
     * Generating homoglyphs.
     * Regexs for matching/extracting common types of data.
+* Small memory footprint (~46Kb).
 * Has 95% documentation coverage.
 * Has 93% test coverage.
 
