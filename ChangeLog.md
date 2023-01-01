@@ -359,6 +359,7 @@
   {Ronin::Support::Network} module.
 * Removed `Net` core-exts.
 * Removed `Ronin::Support::Binary::Template.translate`.
+* Removed `Ronin::Templates` in favor of {Ronin::Support::Text::Erb}.
 * Removed `ssl_server` and `ssl_server_session` in favor of
   {Ronin::Support::Network::SSL::Mixin#ssl_server_socket ssl_server_socket}.
 * Removed `String#depack` in favor of overriding {String#unpack}.
