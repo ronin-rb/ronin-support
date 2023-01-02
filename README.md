@@ -175,7 +175,7 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [Ruby]: https://www.ruby-lang.org/
 
 [pwntools]: https://github.com/Gallopsled/pwntools
-[activesupport]: https://github.com/rails/rails/tree/main/activesupport#readme
+[activesupport]: https://guides.rubyonrails.org/active_support_core_extensions.html
 
 [chars]: https://github.com/postmodern/chars#readme
 [hexdump]: https://github.com/postmodern/hexdump#readme
