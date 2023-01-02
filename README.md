@@ -174,7 +174,7 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [Everyday Ronin]: https://ronin-rb.dev/guides/everyday_ronin.html
 [Ruby]: https://www.ruby-lang.org/
 
-[pwntools]: https://github.com/Gallopsled/pwntools
+[pwntools]: https://github.com/Gallopsled/pwntools#readme
 [activesupport]: https://guides.rubyonrails.org/active_support_core_extensions.html
 
 [chars]: https://github.com/postmodern/chars#readme
