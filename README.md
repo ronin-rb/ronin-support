@@ -119,7 +119,7 @@ puts data.base64_decode
 ```
 
 For more examples of the convenience methods provided by ronin-support,
-please see [Everyday Ronin].
+please see the [API documentation](https://ronin-rb.dev/docs/ronin-support).
 
 ## Requirements
 
@@ -171,7 +171,6 @@ You should have received a copy of the GNU Lesser General Public License
 along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 
 [ronin-rb]: https://ronin-rb.dev
-[Everyday Ronin]: https://ronin-rb.dev/guides/everyday_ronin.html
 [Ruby]: https://www.ruby-lang.org/
 
 [pwntools]: https://github.com/Gallopsled/pwntools#readme
