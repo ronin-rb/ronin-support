@@ -103,6 +103,10 @@ class String
   #   The given argument was not a String or a Symbol, or the given C type is
   #   unknown.
   #
+  # @since 1.0.0
+  #
+  # @api public
+  #
   def unpack1(argument,**kwargs)
     case argument
     when String
