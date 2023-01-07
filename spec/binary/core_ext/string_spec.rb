@@ -11,17 +11,17 @@ describe String do
   describe "#unpack" do
     subject { "\x34\x12\x00\x00hello\0" }
 
-    let(:data) { [0x1234, "hello"] }
+    let(:unpacked_values) { [0x1234, "hello"] }
 
     context "when given only a String" do
       it "must unpack Strings using String#unpack template Strings" do
-        expect(subject.unpack('VZ*')).to eq(data)
+        expect(subject.unpack('VZ*')).to eq(unpacked_values)
       end
     end
 
     context "otherwise" do
       it "must unpack Strings using Ronin::Support::Binary::Template" do
-        expect(subject.unpack(:uint32_le, :string)).to eq(data)
+        expect(subject.unpack(:uint32_le, :string)).to eq(unpacked_values)
       end
     end
   end
@@ -33,17 +33,17 @@ describe String do
   describe "#unpack1" do
     subject { "\x34\x12\x00\x00" }
 
-    let(:data) { 0x1234 }
+    let(:unpacked_value) { 0x1234 }
 
     context "when given only a String" do
       it "must unpack Strings using the original String#unpack1 method" do
-        expect(subject.unpack1('V')).to eq(data)
+        expect(subject.unpack1('V')).to eq(unpacked_value)
       end
     end
 
     context "when given a Symbol" do
       it "must unpack Strings using Ronin::Support::Binary::CTypes type" do
-        expect(subject.unpack1(:uint32_le)).to eq(data)
+        expect(subject.unpack1(:uint32_le)).to eq(unpacked_value)
       end
 
       context "but the Symbol is an unknown type" do
