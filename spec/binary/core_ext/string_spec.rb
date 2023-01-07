@@ -52,7 +52,7 @@ describe String do
         it do
           expect {
             subject.unpack1(type)
-          }.to raise_error(ArgumentError,"unknown C type: #{type.inspect}")
+          }.to raise_error(ArgumentError,"unknown type: #{type.inspect}")
         end
       end
     end

@@ -112,10 +112,8 @@ class String
     when String
       unpack1_original(argument)
     when Symbol
-      types = Ronin::Support::Binary::CTypes.platform(**kwargs)
-      type  = types::TYPES.fetch(argument) do
-        raise(ArgumentError,"unknown C type: #{argument.inspect}")
-      end
+      platform = Ronin::Support::Binary::CTypes.platform(**kwargs)
+      type     = platform[argument]
 
       unpack1_original(type.pack_string)
     else
