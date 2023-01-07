@@ -18,6 +18,7 @@
 
 require 'ronin/support/binary/core_ext/integer'
 require 'ronin/support/binary/template'
+require 'ronin/support/binary/ctypes'
 require 'ronin/support/binary/bit_flip'
 
 class String
@@ -71,6 +72,50 @@ class String
     else
       format = Ronin::Support::Binary::Template.new(arguments,**kwargs)
       unpack_original(format.pack_string)
+    end
+  end
+
+  alias unpack1_original unpack1
+
+  #
+  # Unpacks a single value from the String.
+  #
+  # @param [String, Symbol] argument
+  #   The `String#unpack` format String (ex: `L<`) or a
+  #   {Ronin::Support::Binary::CTypes} type name (ex: `:uint32_le`).
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for
+  #   {Ronin::Support::Binary::Template#initialize}.
+  #
+  # @option kwargs [:little, :big, :net, nil] :endian
+  #   The desired endianness of the packed data.
+  #
+  # @option kwargs [:x86, :x86_64, :ppc, :ppc64,
+  #                 :arm, :arm_be, :arm64, :arm64_be,
+  #                 :mips, :mips_le, :mips64, :mips64_le, nil] :arch
+  #   The desired architecture that the data was packed for.
+  #
+  # @return [Integer, Float, String]
+  #   The unpacked value.
+  #
+  # @raise [ArgumentError]
+  #   The given argument was not a String or a Symbol, or the given C type is
+  #   unknown.
+  #
+  def unpack1(argument,**kwargs)
+    case argument
+    when String
+      unpack1_original(argument)
+    when Symbol
+      types = Ronin::Support::Binary::CTypes.platform(**kwargs)
+      type  = types::TYPES.fetch(argument) do
+        raise(ArgumentError,"unknown C type: #{argument.inspect}")
+      end
+
+      unpack1_original(type.pack_string)
+    else
+      raise(ArgumentError,"argument must be either a String or a Symbol: #{argument.inspect}")
     end
   end
 
