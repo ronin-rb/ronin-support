@@ -141,7 +141,7 @@ module Ronin
         # Regular expression to match any single-line or multi-line comments.
         #
         # @since 1.0.0
-        COMMENT = /#{SHELL_COMMENT}|#{C_COMMENT}/
+        COMMENT = /#{SHELL_STYLE_COMMENT}|#{C_STYLE_COMMENT}/
       end
     end
   end
