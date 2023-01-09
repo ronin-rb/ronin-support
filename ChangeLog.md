@@ -363,6 +363,7 @@
 * Removed `ssl_server` and `ssl_server_session` in favor of
   {Ronin::Support::Network::SSL::Mixin#ssl_server_socket ssl_server_socket}.
 * Removed `String#depack` in favor of overriding {String#unpack}.
+* Also override {String#unpack1} to match the functionality of {String#unpack}.
 
 [wordlist]: https://github.com/postmodern/wordlist.rb#readme
 [ronin-core]: https://github.com/ronin-rb/ronin-core#readme
