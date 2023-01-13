@@ -19,6 +19,11 @@
 module Ronin
   module Support
     class Encoding < ::Encoding
+      #
+      # Contains methods for encoding/decoding escaping/unescaping SQL data.
+      #
+      # @api public
+      #
       module SQL
         # The quote styles and their quote characters.
         QUOTE_STYLES = {
