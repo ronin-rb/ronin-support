@@ -17,7 +17,7 @@ many Core Extensions to Ruby's built-in classes as well as it's own
 Classes/Modules. ronin-support can be used by other Ruby libraries, tools, or
 scripts.
 
-It's like [pwntools] combined with [activesupport].
+**tl;dr** It's like [pwntools] combined with [activesupport].
 
 [Ronin][ronin-rb] is a [Ruby] toolkit for security research and development.
 
