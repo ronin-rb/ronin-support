@@ -108,6 +108,18 @@ class File
   #   Unsupported `type:` value, or the `format:` was not `:hexdump` or
   #   `:od`.
   #
+  # @example Unhexdump a hexdump created by GNU `hexdump -C`:
+  #   File.unhexdump('hexdump.txt')
+  #   # => "hello\n"
+  #
+  # @example Unhexdump a hexdump created by GNU `hexdump`:
+  #   File.unhexdump('hexdump.txt', type: :uint16_le)
+  #   # => "hello\n"
+  #
+  # @example Unhexdump a hexdump created by `od`:
+  #   File.unhexdump('od.txt', type: :uint16_le, base: 8)
+  #   # => "hello\n"
+  #
   # @api public
   #
   def self.unhexdump(path,**kwargs)

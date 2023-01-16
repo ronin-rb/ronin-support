@@ -105,6 +105,18 @@ class String
   #   Unsupported `type:` value, or the `format:` was not `:hexdump` or
   #   `:od`.
   #
+  # @example Unhexdump a hexdump created by GNU `hexdump -C`:
+  #   hexdump.unhexdump
+  #   # => "hello\n"
+  #
+  # @example Unhexdump a hexdump created by GNU `hexdump`:
+  #   hexdump.unhexdump(type: :uint16_le)
+  #   # => "hello\n"
+  #
+  # @example Unhexdump a hexdump created by `od`:
+  #   od.unhexdump(type: :uint16_le, base: 8)
+  #   # => "hello\n"
+  #
   # @api public
   #
   def unhexdump(**kwargs)
