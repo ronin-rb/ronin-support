@@ -117,7 +117,7 @@ class File
   #   # => "hello\n"
   #
   # @example Unhexdump a hexdump created by `od`:
-  #   File.unhexdump('od.txt', type: :uint16_le, base: 8)
+  #   File.unhexdump('od.txt', format: :od)
   #   # => "hello\n"
   #
   # @api public

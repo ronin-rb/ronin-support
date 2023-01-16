@@ -114,7 +114,7 @@ class String
   #   # => "hello\n"
   #
   # @example Unhexdump a hexdump created by `od`:
-  #   od.unhexdump(type: :uint16_le, base: 8)
+  #   od.unhexdump(format: :od)
   #   # => "hello\n"
   #
   # @api public
