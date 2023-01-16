@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ronin/support/binary/hexdump/core_ext/string'
+require 'ronin/support/binary/unhexdump/core_ext/string'
 
 describe String do
   let(:fixtures_dir) { File.expand_path('../fixtures',__dir__)        }

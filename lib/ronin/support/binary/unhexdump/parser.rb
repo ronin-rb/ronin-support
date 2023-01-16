@@ -23,7 +23,7 @@ require 'chars'
 module Ronin
   module Support
     module Binary
-      module Hexdump
+      module Unhexdump
         #
         # @since 0.5.0
         #

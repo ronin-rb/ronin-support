@@ -100,8 +100,8 @@
 * Added {Ronin::Support::Binary::Stack}.
 * Added {Ronin::Support::Binary::Stream}.
 * Added {Ronin::Support::Binary::Union}.
-* Added {Ronin::Support::Binary::Hexdump::Parser#unpack}.
-* Added {Ronin::Support::Binary::Hexdump::Parser#unhexdump}.
+* Added {Ronin::Support::Binary::Unhexdump::Parser#unpack}.
+* Added {Ronin::Support::Binary::Unhexdump::Parser#unhexdump}.
 * Added {Ronin::Support::CLI::ANSI}.
 * Added {Ronin::Support::CLI::Printing}.
 * Added {Ronin::Support::Compression}.

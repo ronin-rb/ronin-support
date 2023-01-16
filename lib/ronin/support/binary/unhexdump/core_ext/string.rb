@@ -16,7 +16,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary/hexdump/parser'
+require 'ronin/support/binary/unhexdump/parser'
 
 class String
 
@@ -25,7 +25,7 @@ class String
   #
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for
-  #   {Ronin::Support::Binary::Hexdump::Parser#initialize}.
+  #   {Ronin::Support::Binary::Unhexdump::Parser#initialize}.
   #
   # @option kwargs [:od, :hexdump] :format (:hexdump)
   #   The expected format of the hexdump. Must be either `:od` or
@@ -120,7 +120,7 @@ class String
   # @api public
   #
   def unhexdump(**kwargs)
-    parser = Ronin::Support::Binary::Hexdump::Parser.new(**kwargs)
+    parser = Ronin::Support::Binary::Unhexdump::Parser.new(**kwargs)
     parser.unhexdump(self)
   end
 

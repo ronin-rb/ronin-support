@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/binary/hexdump/parser'
+require 'ronin/support/binary/unhexdump/parser'
 
-describe Ronin::Support::Binary::Hexdump::Parser do
+describe Ronin::Support::Binary::Unhexdump::Parser do
   let(:fixtures_dir) { File.join(__dir__,'fixtures') }
 
   def read_binary_file(name)
