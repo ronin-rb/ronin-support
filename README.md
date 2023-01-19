@@ -25,73 +25,73 @@ scripts.
 ## Features
 
 * Provides user-friendly APIs for:
-  * Bit-flipping.
-  * Hexdump/unhexdump data.
+  * [Bit-flipping][docs-binary-bit_flip]
+  * [Hexdump][hexdump] / [unhexdump][docs-unhexdump] data.
   * Packing/unpacking binary data:
-    * C types
-    * Buffers
-    * IO streams
-    * Stacks
-    * Strings
-    * Arrays
-    * Structs
-    * Unions
+    * [C types][docs-binary-ctypes]
+    * [Buffers][docs-binary-buffer]
+    * [IO streams][docs-binary-stream]
+    * [Stacks][docs-binary-stack]
+    * [Strings][docs-binary-cstring]
+    * [Arrays][docs-binary-array]
+    * [Structs][docs-binary-struct]
+    * [Unions][docs-binary-union]
   * Encoding data:
-    * Base16
-    * Base32
-    * Base64
-    * C strings
-    * Hex
-    * HTML
-    * HTTP
-    * JavaScript
-    * PowerShell
-    * Punycode
-    * Quoted-printable
-    * Ruby strings
-    * Shell
-    * SQL
-    * URI
-    * UUencoding
-    * XML
-  * Reading/writing compressed data:
-    * Zlib
-    * GZip
-  * Reading/writing archive files:
-    * Tar
-    * Zip
-  * Cryptography:
-    * RSA
-    * DSA
-    * DH
-    * EC
-    * HMAC
-    * Ciphers
-    * X509 certificates
+    * [Base16][docs-encoding-base16]
+    * [Base32][docs-encoding-base32]
+    * [Base64][docs-encoding-base64]
+    * [C strings][docs-encoding-c]
+    * [Hex][docs-encoding-hex]
+    * [HTML][docs-encoding-html]
+    * [HTTP][docs-encoding-http]
+    * [JavaScript][docs-encoding-js]
+    * [PowerShell][docs-encoding-powershell]
+    * [Punycode][docs-encoding-punycode]
+    * [Quoted-printable][docs-encoding-quoted-printable]
+    * [Ruby strings][docs-encoding-ruby]
+    * [Shell][docs-encoding-shell]
+    * [SQL][docs-encoding-sql]
+    * [URI][docs-encoding-uri]
+    * [UUencoding][docs-encoding-uuencoding]
+    * [XML][docs-encoding-xml]
+  * [Reading/writing compressed data][docs-compression]:
+    * [Zlib][docs-compression-zlib]
+    * [Gzip][docs-compression-gzip]
+  * [Reading/writing archive files][docs-archive]:
+    * [Tar][docs-archive-tar]
+    * [Zip][docs-archive-zip]
+  * [Cryptography][docs-crypto]:
+    * [RSA][docs-crypto-key-rsa]
+    * [DSA][docs-crypto-key-dsa]
+    * [DH][docs-crypto-key-dh]
+    * [EC][docs-crypto-key-ec]
+    * [HMAC][docs-crypto-hmac]
+    * [Ciphers][docs-crypto-cipher]
+    * [X509 certificates][docs-crypto-cert]
   * Networking:
-    * DNS
-    * UNIX
-    * TCP
-    * UDP
-    * SSL / TLS
-    * FTP
-    * SMTP / ESMTP
-    * POP3
-    * IMAP
-    * Telnet
-    * HTTP / HTTPS
-    * Raw packets
-    * ASNs
-    * IP addresses
-    * IP ranges
-    * TLDs
-    * Public Suffix List
-    * Host names
-    * Domain names
+    * [DNS][docs-network-dns]
+    * [UNIX][docs-network-unix-mixin]
+    * [TCP][docs-network-tcp-mixin]
+    * [UDP][docs-network-udp-mixin]
+    * [SSL][docs-network-ssl-mixin] / [TLS][docs-network-tls-mixin]
+    * [FTP][docs-network-ftp-mixin]
+    * [SMTP][docs-network-smtp-mixin] / [ESMTP][docs-network-esmtp-mixin]
+    * [POP3][docs-network-pop3-mixin]
+    * [IMAP][docs-network-imap-mixin]
+    * [Telnet][docs-network-telnet-mixin]
+    * [HTTP / HTTPS][docs-network-http]
+    * [Raw packets][docs-network-packet]
+    * [ASNs][docs-network-asn]
+    * [IP addresses][docs-network-ip]
+    * [IP ranges][docs-network-ip_range]
+    * [TLDs][docs-network-tld]
+    * [Public Suffix List][docs-network-public_suffix]
+    * [Host names][docs-network-host]
+    * [Domain names][docs-network-domain]
   * Working with text:
-    * Generating typos.
-    * Generating homoglyphs.
-    * Regexs for matching/extracting common types of data.
+    * [Generating typos][docs-text-typo].
+    * [Generating homoglyphs][docs-text-homoglyp].
+    * [Regexs for matching/extracting common types of data][docs-text-patterns].
 * Small memory footprint (~46Kb).
 * Has 95% documentation coverage.
 * Has 93% test coverage.
@@ -182,3 +182,70 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [combinatorics]: https://github.com/postmodern/combinatorics#readme
 [addressable]: https://github.com/sporkmonger/addressable#readme
 [uri-query_params]: https://github.com/postmodern/uri-query_params#readme
+
+[docs-binary-bit_flip]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Binary/BitFlip.html
+[docs-unhexdump]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Binary/Unhexdump.html
+[docs-binary-ctypes]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Binary/CTypes.html
+[docs-binary-buffer]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Binary/Buffer.html
+[docs-binary-stream]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Binary/Stream.html
+[docs-binary-stack]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Binary/Stack.html
+[docs-binary-cstring]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Binary/CString.html
+[docs-binary-array]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Binary/Array.html
+[docs-binary-struct]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Binary/Struct.html
+[docs-binary-union]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Binary/Union.html
+[docs-encoding-base16]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Base16.html
+[docs-encoding-base32]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Base32.html
+[docs-encoding-base64]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Base64.html
+[docs-encoding-c]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/C.html
+[docs-encoding-hex]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Hex.html
+[docs-encoding-html]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/HTML.html
+[docs-encoding-http]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/HTTP.html
+[docs-encoding-js]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/JS.html
+[docs-encoding-powershell]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/PowerShell.html
+[docs-encoding-punycode]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Punycode.html
+[docs-encoding-quoted-printable]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/QuotedPrintable.html
+[docs-encoding-ruby]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Ruby.html
+[docs-encoding-shell]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Shell.html
+[docs-encoding-sql]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/SQL.html
+[docs-encoding-uri]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/URI.html
+[docs-encoding-uuencoding]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/UUEncoding.html
+[docs-encoding-xml]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/XML.html
+[docs-compression]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Compression.html
+[docs-compression-zlib]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Compression/Zlib.html
+[docs-compression-gzip]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Compression/Gzip.html
+[docs-archive]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Archive.html
+[docs-archive-tar]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Archive/Tar.html
+[docs-archive-zip]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Archive/Zip.html
+[docs-crypto]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Crypto.html
+[docs-crypto-key-rsa]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Crypto/Key/RSA.html
+[docs-crypto-key-dsa]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Crypto/Key/DSA.html
+[docs-crypto-key-dh]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Crypto/Key/DH.html
+[docs-crypto-key-ec]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Crypto/Key/EC.html
+[docs-crypto-hmac]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Crypto/Key/EC.html
+[docs-crypto-cipher]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Crypto/Cipher.html
+[docs-crypto-cert]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Crypto/Cert.html
+[docs-network-dns]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/DNS.html
+[docs-network-unix-mixin]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/UNIX/Mixin.html
+[docs-network-tcp-mixin]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/TCP/Mixin.html
+[docs-network-udp-mixin]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/UDP/Mixin.html
+[docs-network-ssl-mixin]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/SSL/Mixin.html
+[docs-network-tls-mixin]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/TLS/Mixin.html
+[docs-network-ftp-mixin]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/FTP/Mixin.html
+[docs-network-smtp-mixin]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/SMTP/Mixin.html
+[docs-network-esmtp-mixin]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/ESMTP/Mixin.html
+[docs-network-pop3-mixin]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/POP3/Mixin.html
+[docs-network-imap-mixin]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/IMAP/Mixin.html
+[docs-network-telnet-mixin]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/Telnet/Mixin.html
+[docs-network-http]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/HTTP.html
+[docs-network-packet]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Binary/Packet.html
+[docs-network-asn]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/ASN.html
+[docs-network-ip]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/IP.html
+[docs-network-ip_range]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/IPRange.html
+[docs-network-tld]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/TLD.html
+[docs-network-public_suffix]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/PublicSuffix.html
+[docs-network-host]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/Host.html
+[docs-network-domain]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/Domain.html
+[docs-text-typo]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Text/Typo.html
+[docs-text-homoglyp]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Text/Homoglyph.html
+[docs-text-patterns]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Text/Patterns.html
+
