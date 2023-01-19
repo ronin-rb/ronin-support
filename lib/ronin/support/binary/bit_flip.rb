@@ -24,6 +24,11 @@ module Ronin
       #
       # @api semipublic
       #
+      # @see Integer#each_bit_flip
+      # @see Integer#bit_flips
+      # @see String#each_bit_flip
+      # @see String#bit_flips
+      #
       module BitFlip
         module Integer
           #
@@ -49,6 +54,8 @@ module Ronin
           #
           # @example bit-flip bits 8-16:
           #   Binary::BitFlip::Byte.each_bit_flip(0xffff,8...16) { |int| puts "%.16b" % int }
+          #
+          # @see Integer#each_bit_flip
           #
           def self.each_bit_flip(int,bits,&block)
             return enum_for(__method__,int,bits) unless block_given?
@@ -85,6 +92,8 @@ module Ronin
           # @example bit-flip bits 8-16:
           #   0xffff.bit_flips(8...16)
           #
+          # @see Integer#bit_flips
+          #
           def self.bit_flips(int,bits)
             each_bit_flip(int,bits).to_a
           end
@@ -108,6 +117,8 @@ module Ronin
           #
           # @example bit-flip all bytes in the String:
           #   Binary::BitFlip.each_bit_flip("foo") { |string| puts string }
+          #
+          # @see String#each_bit_flip
           #
           def self.each_bit_flip(string)
             return enum_for(__method__,string) unless block_given?
@@ -136,6 +147,8 @@ module Ronin
           #   Binary::BitFlip.bit_flips("foo")
           #
           # @api public
+          #
+          # @see String#bit_flips
           #
           def self.bit_flips(string)
             each_bit_flip(string).to_a
