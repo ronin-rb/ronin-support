@@ -22,12 +22,12 @@ module Ronin
       #
       # Methods for performing bit-flipping.
       #
-      # @api semipublic
+      # @see ::Integer#each_bit_flip
+      # @see ::Integer#bit_flips
+      # @see ::String#each_bit_flip
+      # @see ::String#bit_flips
       #
-      # @see Integer#each_bit_flip
-      # @see Integer#bit_flips
-      # @see String#each_bit_flip
-      # @see String#bit_flips
+      # @api semipublic
       #
       module BitFlip
         module Integer
