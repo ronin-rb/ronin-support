@@ -26,6 +26,15 @@ module Ronin
       #
       # * Supports uppercase (ex: `%FF`) and lowercase (ex: `%ff`) URI encoding.
       #
+      # ## Core-Ext Methods
+      #
+      # * {Integer#http_encode}
+      # * {Integer#http_escape}
+      # * {String#http_escape}
+      # * {String#http_unescape}
+      # * {String#http_encode}
+      # * {String#http_decode}
+      #
       # @api public
       #
       module HTTP

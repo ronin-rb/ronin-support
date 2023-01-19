@@ -24,6 +24,18 @@ module Ronin
       #
       # Contains methods for hex encoding/decoding and escaping/unescaping data.
       #
+      # ## Core-Ext Methods
+      #
+      # * {Integer#hex_encode}
+      # * {Integer#hex_escape}
+      # * {Integer#hex_int}
+      # * {String#hex_encode}
+      # * {String#hex_decode}
+      # * {String#hex_escape}
+      # * {String#hex_unescape}
+      # * {String#hex_string}
+      # * {String#hex_unquote}
+      #
       module Hex
         #
         # Hex encodes the given byte.

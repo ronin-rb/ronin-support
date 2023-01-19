@@ -24,6 +24,15 @@ module Ronin
       #
       # Contains methods for encoding/decoding escaping/unescaping Ruby strings.
       #
+      # ## Core-Ext Methods
+      #
+      # * {String#ruby_escape}
+      # * {String#ruby_unescape}
+      # * {String#ruby_encode}
+      # * {String#ruby_decode}
+      # * {String#ruby_string}
+      # * {String#ruby_unquote}
+      #
       # @api public
       #
       module Ruby

@@ -26,6 +26,11 @@ module Ronin
       #
       # [Base64]: https://en.wikipedia.org/wiki/Base64
       #
+      # ## Core-Ext Methods
+      #
+      # * {String#base64_encode}
+      # * {String#base64_decode}
+      #
       # @api public
       #
       module Base64

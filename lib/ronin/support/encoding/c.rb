@@ -24,6 +24,16 @@ module Ronin
       #
       # Contains methods for encoding/decoding escaping/unescaping C data.
       #
+      # ## Core-Ext Methods
+      #
+      # * {Integer#c_escape}
+      # * {Integer#c_encode}
+      # * {String#c_escape}
+      # * {String#c_unescape}
+      # * {String#c_encode}
+      # * {String#c_string}
+      # * {String#c_unquote}
+      #
       # @api public
       #
       module C

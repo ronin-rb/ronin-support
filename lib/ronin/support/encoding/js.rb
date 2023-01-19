@@ -25,6 +25,17 @@ module Ronin
       # Contains methods for encoding/decoding escaping/unescaping JavaScript
       # data.
       #
+      # ## Core-Ext Methods
+      #
+      # * {Integer#js_escape}
+      # * {Integer#js_encode}
+      # * {String#js_escape}
+      # * {String#js_unescape}
+      # * {String#js_encode}
+      # * {String#js_decode}
+      # * {String#js_string}
+      # * {String#js_unquote}
+      #
       # @api public
       #
       module JS

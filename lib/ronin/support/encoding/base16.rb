@@ -22,6 +22,11 @@ module Ronin
       #
       # Base16 encoding.
       #
+      # ## Core-Ext Methods
+      #
+      # * {String#base16_encode}
+      # * {String#base16_decode}
+      #
       # @see https://www.rfc-editor.org/rfc/rfc4648#page-10
       #
       # @api public

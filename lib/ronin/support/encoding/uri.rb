@@ -27,6 +27,21 @@ module Ronin
       # * Supports uppercase (ex: `%FF`) and lowercase (ex: `%ff`) URI encoding.
       # * Supports {URI::Form URI form} encoding.
       #
+      # ## Core-Ext Methods
+      #
+      # * {Integer#uri_encode}
+      # * {Integer#uri_escape}
+      # * {Integer#uri_form_encode}
+      # * {Integer#uri_form_escape}
+      # * {String#uri_escape}
+      # * {String#uri_unescape}
+      # * {String#uri_encode}
+      # * {String#uri_decode}
+      # * {String#uri_form_escape}
+      # * {String#uri_form_unescape}
+      # * {String#uri_form_encode}
+      # * {String#uri_form_decode}
+      #
       # @api public
       #
       module URI

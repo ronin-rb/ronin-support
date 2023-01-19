@@ -24,6 +24,11 @@ module Ronin
       #
       # Contains methods for encoding/decoding Quoted Printable data.
       #
+      # ## Core-Ext Methods
+      #
+      # * {String#quoted_printable_escape}
+      # * {String#quoted_printable_unescape}
+      #
       # @api public
       #
       module QuotedPrintable

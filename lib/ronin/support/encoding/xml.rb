@@ -29,6 +29,15 @@ module Ronin
       #   character encoding.
       # * Supports zero-padding (ex: `&#0000065;`).
       #
+      # ## Core-Ext Methods
+      #
+      # * {Integer#xml_escape}
+      # * {Integer#xml_encode}
+      # * {String#xml_escape}
+      # * {String#xml_unescape}
+      # * {String#xml_encode}
+      # * {String#xml_decode}
+      #
       # @api public
       #
       module XML

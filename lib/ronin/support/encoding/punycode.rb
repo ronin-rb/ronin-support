@@ -26,6 +26,11 @@ module Ronin
       #
       # [punycode]: https://en.wikipedia.org/wiki/Punycode
       #
+      # ## Core-Ext Methods
+      #
+      # * {String#punycode_encode}
+      # * {String#punycode_decode}
+      #
       # @api public
       #
       # @since 1.0.0

@@ -22,6 +22,13 @@ module Ronin
       #
       # Contains methods for encoding/decoding escaping/unescaping SQL data.
       #
+      # ## Core-Ext Methods
+      #
+      # * {String#sql_escape}
+      # * {String#sql_unescape}
+      # * {String#sql_encode}
+      # * {String#sql_decode}
+      #
       # @api public
       #
       module SQL

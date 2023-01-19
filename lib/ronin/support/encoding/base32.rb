@@ -24,6 +24,11 @@ module Ronin
       #
       # [Base32]: https://datatracker.ietf.org/doc/html/rfc3548#page-6
       #
+      # ## Core-Ext Methods
+      #
+      # * {String#base32_encode}
+      # * {String#base32_decode}
+      #
       # @api public
       #
       # @since 1.0.0

@@ -22,6 +22,11 @@ module Ronin
       #
       # Contains methods for encoding/decoding UUEncoded data.
       #
+      # ## Core-Ext Methods
+      #
+      # * {String#uu_encode}
+      # * {String#uu_decode}
+      #
       # @api public
       #
       module UUEncoding

@@ -24,6 +24,17 @@ module Ronin
       #
       # Contains methods for encoding/decoding escaping/unescaping Shell data.
       #
+      # ## Core-Ext Methods
+      #
+      # * {Integer#shell_encode}
+      # * {Integer#shell_escape}
+      # * {String#shell_escape}
+      # * {String#shell_unescape}
+      # * {String#shell_encode}
+      # * {String#shell_decode}
+      # * {String#shell_string}
+      # * {String#shell_unquote}
+      #
       # @api public
       #
       module Shell

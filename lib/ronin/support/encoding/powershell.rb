@@ -25,6 +25,17 @@ module Ronin
       # Contains methods for encoding/decoding escaping/unescaping PowerShell
       # data.
       #
+      # ## Core-Ext Methods
+      #
+      # * {Integer#powershell_encode}
+      # * {Integer#powershell_escape}
+      # * {String#powershell_escape}
+      # * {String#powershell_unescape}
+      # * {String#powershell_encode}
+      # * {String#powershell_decode}
+      # * {String#powershell_string}
+      # * {String#powershell_unquote}
+      #
       # @api public
       #
       module PowerShell
