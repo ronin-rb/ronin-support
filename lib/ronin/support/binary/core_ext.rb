@@ -20,4 +20,6 @@ require 'ronin/support/binary/core_ext/string'
 require 'ronin/support/binary/core_ext/array'
 require 'ronin/support/binary/core_ext/io'
 
+require 'ronin/support/binary/bit_flip/core_ext'
+require 'ronin/support/binary/unhexdump/core_ext'
 require 'hexdump/core_ext'
