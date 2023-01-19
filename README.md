@@ -92,7 +92,7 @@ scripts.
     * [Generating typos][docs-text-typo].
     * [Generating homoglyphs][docs-text-homoglyp].
     * [Regexs for matching/extracting common types of data][docs-text-patterns].
-* Adds methods to many of Ruby's [core classes][docs-core-exts].
+* Adds additional methods to many of [Ruby's core classes][docs-core-exts].
 * Small memory footprint (~46Kb).
 * Has 95% documentation coverage.
 * Has 93% test coverage.
