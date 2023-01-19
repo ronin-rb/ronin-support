@@ -22,7 +22,9 @@ module Ronin
   module Support
     class Encoding < ::Encoding
       #
-      # Base64 encoding/decoding.
+      # [Base64] encoding/decoding.
+      #
+      # [Base64]: https://en.wikipedia.org/wiki/Base64
       #
       # @api public
       #
