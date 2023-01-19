@@ -24,9 +24,11 @@ module Ronin
       #
       # Generates [homoglyph](http://homoglyphs.net/) typos.
       #
-      # @see String#each_homoglyph
-      # @see String#homoglyph
-      # @see String#homoglyphs
+      # ## Core-Ext Methods
+      #
+      # * {String#each_homoglyph}
+      # * {String#homoglyph}
+      # * {String#homoglyphs}
       #
       # @since 1.0.0
       #

@@ -24,9 +24,11 @@ module Ronin
       #
       # Generates typos in words.
       #
-      # @see String#each_typo
-      # @see String#typo
-      # @see String#typos
+      # ## Core-Ext Methods
+      #
+      # * {String#each_typo}
+      # * {String#typo}
+      # * {String#typos}
       #
       # @api public
       #

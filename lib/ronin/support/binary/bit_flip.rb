@@ -22,10 +22,12 @@ module Ronin
       #
       # Methods for performing bit-flipping.
       #
-      # @see ::Integer#each_bit_flip
-      # @see ::Integer#bit_flips
-      # @see ::String#each_bit_flip
-      # @see ::String#bit_flips
+      # ## Core-Ext Methods
+      #
+      # * {::Integer#each_bit_flip}
+      # * {::Integer#bit_flips}
+      # * {::String#each_bit_flip}
+      # * {::String#bit_flips}
       #
       # @api semipublic
       #
