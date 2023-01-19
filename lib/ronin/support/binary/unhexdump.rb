@@ -18,3 +18,20 @@
 
 require 'ronin/support/binary/unhexdump/parser'
 require 'ronin/support/binary/unhexdump/core_ext'
+
+module Ronin
+  module Support
+    module Binary
+      #
+      # Methods for parsing hexdumps back into raw data.
+      #
+      # ## Core-Ext Methods
+      #
+      # * {File.unhexdump}
+      # * {String#unhexdump}
+      #
+      module Unhexdump
+      end
+    end
+  end
+end
