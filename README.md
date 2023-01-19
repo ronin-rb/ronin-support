@@ -249,4 +249,4 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [docs-text-typo]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Text/Typo.html
 [docs-text-homoglyp]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Text/Homoglyph.html
 [docs-text-patterns]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Text/Patterns.html
-[docs-core_exts]: https://ronin-rb.dev/docs/ronin-support/top-level-namespace.html
+[docs-core-exts]: https://ronin-rb.dev/docs/ronin-support/top-level-namespace.html
