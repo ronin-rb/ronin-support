@@ -24,6 +24,10 @@ module Ronin
       #
       # Generates typos in words.
       #
+      # @see String#each_typo
+      # @see String#typo
+      # @see String#typos
+      #
       # @api public
       #
       # @since 1.0.0
@@ -214,6 +218,8 @@ module Ronin
         # @return [String]
         #   A random typo of the given word.
         #
+        # @see String#typo
+        #
         def self.substitute(word,**kwargs)
           generator(**kwargs).substitute(word)
         end
@@ -248,6 +254,9 @@ module Ronin
         #
         # @return [Enumerator]
         #   If no block is given, an Enumerator will be returned.
+        #
+        # @see String#each_typo
+        # @see String#typos
         #
         def self.each_substitution(word,**kwargs,&block)
           generator(**kwargs).each_substitution(word,&block)
