@@ -21,3 +21,58 @@ begin
 rescue ::LoadError
   warn "WARNING: Ruby was not compiled with zlib support"
 end
+
+module Ronin
+  module Support
+    module Compression
+      #
+      # Methods for zlib compression.
+      #
+      # @api public
+      #
+      # @since 1.0.0
+      #
+      module Zlib
+        include ::Zlib
+
+        #
+        # Zlib inflate a string.
+        #
+        # @param [String] string
+        #   The Zlib compressed input.
+        #
+        # @return [String]
+        #   The Zlib inflated form of the input.
+        #
+        # @example
+        #   Compression::Zlib.inflate("x\x9C\xCBH\xCD\xC9\xC9\a\x00\x06,\x02\x15")
+        #   # => "hello"
+        #
+        # @api public
+        #
+        def self.inflate(string)
+          ::Zlib::Inflate.inflate(string)
+        end
+
+        #
+        # Zlib deflate a string.
+        #
+        # @param [String] string
+        #   The uncompressed input.
+        #
+        # @return [String]
+        #   The Zlib deflated form of the input.
+        #
+        # @example
+        #   Compression::Zlib.deflate("hello")
+        #   # => "x\x9C\xCBH\xCD\xC9\xC9\a\x00\x06,\x02\x15"
+        #
+        # @api public
+        #
+        def self.deflate(string)
+          ::Zlib::Deflate.deflate(string)
+        end
+      end
+    end
+  end
+end

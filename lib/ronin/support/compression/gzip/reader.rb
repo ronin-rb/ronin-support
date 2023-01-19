@@ -33,7 +33,7 @@ module Ronin
         #
         # @since 1.0.0
         #
-        class Reader < Zlib::GzipReader
+        class Reader < ::Zlib::GzipReader
 
           #
           # Initializes the gzip writer.

@@ -44,7 +44,7 @@ module Ronin
       # @api public
       #
       def self.zlib_inflate(string)
-        Zlib::Inflate.inflate(string)
+        Zlib.inflate(string)
       end
 
       #
@@ -63,7 +63,7 @@ module Ronin
       # @api public
       #
       def self.zlib_deflate(string)
-        Zlib::Deflate.deflate(string)
+        Zlib.deflate(string)
       end
 
       #
