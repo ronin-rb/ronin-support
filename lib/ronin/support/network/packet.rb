@@ -21,6 +21,11 @@ require 'ronin/support/binary/packet'
 module Ronin
   module Support
     module Network
+      # Alias for {Binary::Packet}.
+      #
+      # @api public
+      #
+      # @since 1.0.0
       Packet = Binary::Packet
     end
   end
