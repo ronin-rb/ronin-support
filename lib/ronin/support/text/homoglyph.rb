@@ -24,6 +24,10 @@ module Ronin
       #
       # Generates [homoglyph](http://homoglyphs.net/) typos.
       #
+      # @see String#each_homoglyph
+      # @see String#homoglyph
+      # @see String#homoglyphs
+      #
       # @since 1.0.0
       #
       # @api public
@@ -104,6 +108,7 @@ module Ronin
         #   No homoglyph replaceable characters were found in the String.
         #
         # @see Table#substitute
+        # @see String#homoglyph
         #
         def self.substitute(word, char_set: nil)
           self.table(char_set).substitute(word)
@@ -130,6 +135,8 @@ module Ronin
         #   If no block is given, an Enumerator object will be returned.
         #
         # @see Table#each_substitution
+        # @see String#each_homoglyph
+        # @see String#homoglyphs
         #
         def self.each_substitution(word, char_set: nil, &block)
           self.table(char_set).each_substitution(word,&block)
