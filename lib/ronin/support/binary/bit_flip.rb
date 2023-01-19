@@ -158,3 +158,5 @@ module Ronin
     end
   end
 end
+
+require 'ronin/support/binary/bit_flip/core_ext'

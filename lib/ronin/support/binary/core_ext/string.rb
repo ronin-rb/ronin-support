@@ -19,7 +19,6 @@
 require 'ronin/support/binary/core_ext/integer'
 require 'ronin/support/binary/template'
 require 'ronin/support/binary/ctypes'
-require 'ronin/support/binary/bit_flip'
 
 class String
 
@@ -120,43 +119,5 @@ class String
       raise(ArgumentError,"argument must be either a String or a Symbol: #{argument.inspect}")
     end
   end
-
-  #
-  # Enumerates over every bit flip of every byte in the string.
-  #
-  # @yield [string]
-  #   If a block is given, it will be passed each bit-flipped string.
-  #
-  # @yieldparam [String] string
-  #   The String, but with one of it's bits flipped.
-  #
-  # @return [Enumerator]
-  #   If no block is given, an Enumerator object will be returned.
-  #
-  # @example bit-flip all bytes in the String:
-  #   "foo".each_bit_flip { |string| puts string }
-  #
-  # @api public
-  #
-  def each_bit_flip(&block)
-    Ronin::Support::Binary::BitFlip::String.each_bit_flip(self,&block)
-  end
-
-  #
-  # Returns every bit flip of every byte in the string.
-  #
-  # @return [Array<String>]
-  #   The bit-flipped strings.
-  #
-  # @example bit-flip all bytes in the String:
-  #   "foo".bit_flips
-  #
-  # @api public
-  #
-  def bit_flips
-    Ronin::Support::Binary::BitFlip::String.bit_flips(self)
-  end
-
-  alias flip_bits bit_flips
 
 end
