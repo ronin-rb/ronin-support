@@ -24,3 +24,13 @@ require 'ronin/support/binary/stack'
 require 'ronin/support/binary/struct'
 require 'ronin/support/binary/union'
 require 'ronin/support/binary/unhexdump'
+
+module Ronin
+  module Support
+    #
+    # Modules and classes for working with binary data.
+    #
+    module Binary
+    end
+  end
+end
