@@ -33,6 +33,46 @@ module Ronin
     #
     # {Crypto} provides a nicer more user-friendly API ontop of `OpenSSL`.
     #
+    # ## Core-Ext Methods
+    #
+    # * {File.md5}
+    # * {File.sha1}
+    # * {File.sha128}
+    # * {File.sha256}
+    # * {File.sha512}
+    # * {File.sha2}
+    # * {File.sha5}
+    # * {File.rmd160}
+    # * {File.hmac}
+    # * {File.encrypt}
+    # * {File.decrypt}
+    # * {File.aes_encrypt}
+    # * {File.aes_decrypt}
+    # * {File.aes128_encrypt}
+    # * {File.aes128_decrypt}
+    # * {File.aes256_encrypt}
+    # * {File.aes256_decrypt}
+    # * {File.rsa_encrypt}
+    # * {File.rsa_decrypt}
+    # * {String#md5}
+    # * {String#sha1}
+    # * {String#sha256}
+    # * {String#sha512}
+    # * {String#rmd160}
+    # * {String#hmac}
+    # * {String#encrypt}
+    # * {String#decrypt}
+    # * {String#aes_encrypt}
+    # * {String#aes_decrypt}
+    # * {String#aes128_encrypt}
+    # * {String#aes128_decrypt}
+    # * {String#aes256_encrypt}
+    # * {String#aes256_decrypt}
+    # * {String#rsa_encrypt}
+    # * {String#rsa_decrypt}
+    # * {String#rot}
+    # * {String#xor}
+    #
     # @api public
     #
     # @since 1.0.0
