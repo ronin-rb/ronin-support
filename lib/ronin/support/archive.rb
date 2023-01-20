@@ -23,6 +23,8 @@ require 'ronin/support/archive/core_ext'
 module Ronin
   module Support
     #
+    # Methods for reading or writing archive files.
+    #
     # @api public
     #
     # @since 1.0.0
