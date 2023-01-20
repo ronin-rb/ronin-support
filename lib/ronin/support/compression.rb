@@ -23,6 +23,8 @@ require 'ronin/support/compression/core_ext'
 module Ronin
   module Support
     #
+    # Methods for compressing and uncompressing data.
+    #
     # @api public
     #
     # @since 1.0.0
