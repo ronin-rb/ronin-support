@@ -25,6 +25,15 @@ module Ronin
     #
     # Methods for compressing and uncompressing data.
     #
+    # ## Core-Ext Methods
+    #
+    # * {File.gzip}
+    # * {File.gunzip}
+    # * {String#zlib_deflate}
+    # * {String#zlib_inflate}
+    # * {String#gzip}
+    # * {String#gunzip}
+    #
     # @api public
     #
     # @since 1.0.0
