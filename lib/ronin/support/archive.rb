@@ -25,6 +25,13 @@ module Ronin
     #
     # Methods for reading or writing archive files.
     #
+    # ## Core-Ext Methods
+    #
+    # * {File.tar}
+    # * {File.untar}
+    # * {File.zip}
+    # * {File.unzip}
+    #
     # @api public
     #
     # @since 1.0.0
