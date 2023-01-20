@@ -30,6 +30,22 @@ module Ronin
     #
     # Modules and classes for working with binary data.
     #
+    # ## Core-Ext Methods
+    #
+    # * {::Array#pack}
+    # * {::Float#pack}
+    # * {::Integer#pack}
+    # * {::Integer#to_uint8}
+    # * {::Integer#to_uint16}
+    # * {::Integer#to_uint32}
+    # * {::Integer#to_uint64}
+    # * {::Integer#to_int8}
+    # * {::Integer#to_int16}
+    # * {::Integer#to_int32}
+    # * {::Integer#to_int64}
+    # * {::String#unpack}
+    # * {::String#unpack1}
+    #
     module Binary
     end
   end
