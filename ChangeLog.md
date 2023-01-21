@@ -304,10 +304,10 @@
 * Added {Ronin::Support::Text::Random::Mixin}.
 * Added {Ronin::Support::Text::Typo}.
 * Added {Ronin::Support::Text::Typo::Generator}.
-* Renamed `ronin/support/formatting` to `ronin/support/encoding`.
 * Moved all `Ronin::` constants into the {Ronin::Support} namespace.
 * Moved `ronin/support/formatting/digest` core-ext methods into
   `ronin/support/crypto`.
+* Renamed `ronin/support/formatting` to `ronin/support/encoding`.
 * Merged `ronin/support/network/network` into `ronin/support/network`.
 * Removed the `data_paths` gem dependency.
 * Removed the `parameters` gem dependency.
