@@ -308,6 +308,8 @@
 * Moved `ronin/support/formatting/digest` core-ext methods into
   `ronin/support/crypto`.
 * Renamed `ronin/support/formatting` to `ronin/support/encoding`.
+* Renamed `Ronin::Support::Binary::Hexdump::Parser` to
+  {Ronin::Support::Binary::Unhexdump::Parser}.
 * Merged `ronin/support/network/network` into `ronin/support/network`.
 * Removed the `data_paths` gem dependency.
 * Removed the `parameters` gem dependency.
