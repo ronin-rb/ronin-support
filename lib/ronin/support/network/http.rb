@@ -33,6 +33,11 @@ module Ronin
       #
       # Provides helper methods for communicating with HTTP Servers.
       #
+      # ## Core-Ext Methods
+      #
+      # * {URI::HTTP#status}
+      # * {URI::HTTP#ok?}
+      #
       # @api public
       #
       class HTTP
