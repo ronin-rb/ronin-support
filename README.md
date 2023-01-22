@@ -125,7 +125,7 @@ please see the [API documentation](https://ronin-rb.dev/docs/ronin-support).
 
 ## Requirements
 
-* [Ruby] >= 1.9.1
+* [Ruby] >= 3.0.0
 * [chars] ~> 0.3, >= 0.3.2
 * [hexdump] ~> 1.0
 * [combinatorics] ~> 0.4
