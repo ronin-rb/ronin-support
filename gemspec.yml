@@ -2,7 +2,7 @@ name: ronin-support
 summary: A support library for ronin-rb.
 description: |
   ronin-support is a support library for ronin-rb. ronin-support provides
-  many Core Extensions to Ruby's built-in classes as well as it's own
+  many Core Extensions to Ruby's built-in classes as well as its own
   Classes/Modules. ronin-support can be used by other Ruby libraries, tools, or
   scripts.
   
