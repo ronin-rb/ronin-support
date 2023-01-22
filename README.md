@@ -20,7 +20,8 @@ scripts.
 
 **tl;dr** It's like [pwntools] combined with [activesupport].
 
-[Ronin][ronin-rb] is a [Ruby] toolkit for security research and development.
+ronin-support is part of the [ronin-rb] project, a [Ruby] toolkit for security
+research and development.
 
 ## Features
 

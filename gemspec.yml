@@ -8,7 +8,8 @@ description: |
   
   It's like pwntools combined with activesupport.
   
-  Ronin is a Ruby toolkit for security research and development.
+  ronin-support is part of the ronin-rb project, a Ruby toolkit for security
+  research and development.
 
 license: LGPL-3.0
 authors: Postmodern
