@@ -16,7 +16,7 @@
 ronin-support is a support library for [Ronin][ronin-rb]. ronin-support provides
 many Core Extensions to Ruby's built-in classes as well as it's own
 Classes/Modules. ronin-support can be used by other Ruby libraries, tools, or
-scripts.
+[scripts](#examples).
 
 **tl;dr** It's like [pwntools] combined with [activesupport].
 
