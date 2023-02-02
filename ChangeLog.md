@@ -1,4 +1,4 @@
-### 1.0.0 / 2023-XX-XX
+### 1.0.0 / 2023-02-01
 
 * Added {File.aes_encrypt}.
 * Added {File.aes_decrypt}.
