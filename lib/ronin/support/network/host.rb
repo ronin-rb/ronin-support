@@ -69,36 +69,36 @@ module Ronin
       #     # => [#<Resolv::DNS::Resource::IN::MX:0x00007f7e50035658 @exchange=#<Resolv::DNS::Name: aspmx.l.google.com.>, @preference=1, @ttl=3600>, ...]
       #     host.get_mailservers
       #     # => ["alt1.aspmx.l.google.com",
-      #           "alt4.aspmx.l.google.com",
-      #           "alt3.aspmx.l.google.com",
-      #           "alt2.aspmx.l.google.com",
-      #           "aspmx.l.google.com"]
+      #     #     "alt4.aspmx.l.google.com",
+      #     #     "alt3.aspmx.l.google.com",
+      #     #     "alt2.aspmx.l.google.com",
+      #     #     "aspmx.l.google.com"]
       #     host.mailservers
       #     # => ["alt1.aspmx.l.google.com",
-      #           "alt4.aspmx.l.google.com",
-      #           "alt3.aspmx.l.google.com",
-      #           "alt2.aspmx.l.google.com",
-      #           "aspmx.l.google.com"]
+      #     #     "alt4.aspmx.l.google.com",
+      #     #     "alt3.aspmx.l.google.com",
+      #     #     "alt2.aspmx.l.google.com",
+      #     #     "aspmx.l.google.com"]
       #     host.get_ns_records
       #     # => [#<Resolv::DNS::Resource::IN::NS:0x00007f7e4f972258 @name=#<Resolv::DNS::Name: dns1.p08.nsone.net.>, @ttl=900>, ...]
       #     host.get_nameservers
       #     # => ["dns3.p08.nsone.net",
-      #           "ns-1707.awsdns-21.co.uk",
-      #           "dns2.p08.nsone.net",
-      #           "ns-1283.awsdns-32.org",
-      #           "dns4.p08.nsone.net",
-      #           "ns-421.awsdns-52.com",
-      #           "dns1.p08.nsone.net",
-      #           "ns-520.awsdns-01.net"]
+      #     #     "ns-1707.awsdns-21.co.uk",
+      #     #     "dns2.p08.nsone.net",
+      #     #     "ns-1283.awsdns-32.org",
+      #     #     "dns4.p08.nsone.net",
+      #     #     "ns-421.awsdns-52.com",
+      #     #     "dns1.p08.nsone.net",
+      #     #     "ns-520.awsdns-01.net"]
       #     host.nameservers
       #     # => ["dns3.p08.nsone.net",
-      #           "ns-1707.awsdns-21.co.uk",
-      #           "dns2.p08.nsone.net",
-      #           "ns-1283.awsdns-32.org",
-      #           "dns4.p08.nsone.net",
-      #           "ns-421.awsdns-52.com",
-      #           "dns1.p08.nsone.net",
-      #           "ns-520.awsdns-01.net"]
+      #     #     "ns-1707.awsdns-21.co.uk",
+      #     #     "dns2.p08.nsone.net",
+      #     #     "ns-1283.awsdns-32.org",
+      #     #     "dns4.p08.nsone.net",
+      #     #     "ns-421.awsdns-52.com",
+      #     #     "dns1.p08.nsone.net",
+      #     #     "ns-520.awsdns-01.net"]
       #     host.get_soa_record
       #     # => #<Resolv::DNS::Resource::IN::SOA:0x00007f7e4f63d0b0 @mname=#<Resolv::DNS::Name: ns-1707.awsdns-21.co.uk.>, @rname=#<Resolv::DNS::Name: awsdns-hostmaster.amazon.com.>, @serial=1, @refresh=7200, @retry=900, @expire=1209600, @minimum=86400, @ttl=880>
       #     host.soa_record
@@ -111,28 +111,28 @@ module Ronin
       #     # => [#<Resolv::DNS::Resource::IN::TXT:0x00007f7e4f67c648 @strings=[\"apple-domain-verification=RyQhdzTl6Z6x8ZP4\"], @ttl=2852>, ...]
       #     host.get_txt_strings
       #     # => ["apple-domain-verification=RyQhdzTl6Z6x8ZP4",
-      #           "MS=ms58704441",
-      #           "atlassian-domain-verification=jjgw98AKv2aeoYFxiL/VFaoyPkn3undEssTRuMg6C/3Fp/iqhkV4HVV7WjYlVeF8",
-      #           "MS=6BF03E6AF5CB689E315FB6199603BABF2C88D805",
-      #           "v=spf1 ip4:192.30.252.0/22 include:_netblocks.google.com include:_netblocks2.google.com include:_netblocks3.google.com include:spf.protection.outlook.com include:mail.zendesk.com include:_spf.salesforce.com include:servers.mcsv.net ip4:166.78.69.169 ip4:1",
-      #           "66.78.69.170 ip4:166.78.71.131 ip4:167.89.101.2 ip4:167.89.101.192/28 ip4:192.254.112.60 ip4:192.254.112.98/31 ip4:192.254.113.10 ip4:192.254.113.101 ip4:192.254.114.176 ip4:62.253.227.114 ~all",
-      #           "docusign=087098e3-3d46-47b7-9b4e-8a23028154cd",
-      #           "google-site-verification=UTM-3akMgubp6tQtgEuAkYNYLyYAvpTnnSrDMWoDR3o",
-      #           "stripe-verification=f88ef17321660a01bab1660454192e014defa29ba7b8de9633c69d6b4912217f",
-      #           "adobe-idp-site-verification=b92c9e999aef825edc36e0a3d847d2dbad5b2fc0e05c79ddd7a16139b48ecf4b",
-      #           "MS=ms44452932"]
+      #     #     "MS=ms58704441",
+      #     #     "atlassian-domain-verification=jjgw98AKv2aeoYFxiL/VFaoyPkn3undEssTRuMg6C/3Fp/iqhkV4HVV7WjYlVeF8",
+      #     #     "MS=6BF03E6AF5CB689E315FB6199603BABF2C88D805",
+      #     #     "v=spf1 ip4:192.30.252.0/22 include:_netblocks.google.com include:_netblocks2.google.com include:_netblocks3.google.com include:spf.protection.outlook.com include:mail.zendesk.com include:_spf.salesforce.com include:servers.mcsv.net ip4:166.78.69.169 ip4:1",
+      #     #     "66.78.69.170 ip4:166.78.71.131 ip4:167.89.101.2 ip4:167.89.101.192/28 ip4:192.254.112.60 ip4:192.254.112.98/31 ip4:192.254.113.10 ip4:192.254.113.101 ip4:192.254.114.176 ip4:62.253.227.114 ~all",
+      #     #     "docusign=087098e3-3d46-47b7-9b4e-8a23028154cd",
+      #     #     "google-site-verification=UTM-3akMgubp6tQtgEuAkYNYLyYAvpTnnSrDMWoDR3o",
+      #     #     "stripe-verification=f88ef17321660a01bab1660454192e014defa29ba7b8de9633c69d6b4912217f",
+      #     #     "adobe-idp-site-verification=b92c9e999aef825edc36e0a3d847d2dbad5b2fc0e05c79ddd7a16139b48ecf4b",
+      #     #     "MS=ms44452932"]
       #     host.txt_strings
       #     # => ["apple-domain-verification=RyQhdzTl6Z6x8ZP4",
-      #           "MS=ms58704441",
-      #           "atlassian-domain-verification=jjgw98AKv2aeoYFxiL/VFaoyPkn3undEssTRuMg6C/3Fp/iqhkV4HVV7WjYlVeF8",
-      #           "MS=6BF03E6AF5CB689E315FB6199603BABF2C88D805",
-      #           "v=spf1 ip4:192.30.252.0/22 include:_netblocks.google.com include:_netblocks2.google.com include:_netblocks3.google.com include:spf.protection.outlook.com include:mail.zendesk.com include:_spf.salesforce.com include:servers.mcsv.net ip4:166.78.69.169 ip4:1",
-      #           "66.78.69.170 ip4:166.78.71.131 ip4:167.89.101.2 ip4:167.89.101.192/28 ip4:192.254.112.60 ip4:192.254.112.98/31 ip4:192.254.113.10 ip4:192.254.113.101 ip4:192.254.114.176 ip4:62.253.227.114 ~all",
-      #           "docusign=087098e3-3d46-47b7-9b4e-8a23028154cd",
-      #           "google-site-verification=UTM-3akMgubp6tQtgEuAkYNYLyYAvpTnnSrDMWoDR3o",
-      #           "stripe-verification=f88ef17321660a01bab1660454192e014defa29ba7b8de9633c69d6b4912217f",
-      #           "adobe-idp-site-verification=b92c9e999aef825edc36e0a3d847d2dbad5b2fc0e05c79ddd7a16139b48ecf4b",
-      #           "MS=ms44452932"]
+      #     #     "MS=ms58704441",
+      #     #     "atlassian-domain-verification=jjgw98AKv2aeoYFxiL/VFaoyPkn3undEssTRuMg6C/3Fp/iqhkV4HVV7WjYlVeF8",
+      #     #     "MS=6BF03E6AF5CB689E315FB6199603BABF2C88D805",
+      #     #     "v=spf1 ip4:192.30.252.0/22 include:_netblocks.google.com include:_netblocks2.google.com include:_netblocks3.google.com include:spf.protection.outlook.com include:mail.zendesk.com include:_spf.salesforce.com include:servers.mcsv.net ip4:166.78.69.169 ip4:1",
+      #     #     "66.78.69.170 ip4:166.78.71.131 ip4:167.89.101.2 ip4:167.89.101.192/28 ip4:192.254.112.60 ip4:192.254.112.98/31 ip4:192.254.113.10 ip4:192.254.113.101 ip4:192.254.114.176 ip4:62.253.227.114 ~all",
+      #     #     "docusign=087098e3-3d46-47b7-9b4e-8a23028154cd",
+      #     #     "google-site-verification=UTM-3akMgubp6tQtgEuAkYNYLyYAvpTnnSrDMWoDR3o",
+      #     #     "stripe-verification=f88ef17321660a01bab1660454192e014defa29ba7b8de9633c69d6b4912217f",
+      #     #     "adobe-idp-site-verification=b92c9e999aef825edc36e0a3d847d2dbad5b2fc0e05c79ddd7a16139b48ecf4b",
+      #     #     "MS=ms44452932"]
       #
       # @api public
       #
