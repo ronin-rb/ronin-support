@@ -27,6 +27,83 @@ module Ronin
       #
       # Handles Autonomous System Numbers (ASN).
       #
+      # ## Example
+      #
+      # Query the ASN record for a given IP address:
+      #
+      #     Network::ASN.query('4.2.2.1')
+      #     # =>
+      #     # #<Ronin::Support::Network::ASN::DNSRecord:0x00007f34424f4ac0
+      #     #  @country_code="US",
+      #     #  @name=nil,
+      #     #  @number=3356,
+      #     #  @range=#<Ronin::Support::Network::IPRange::CIDR: 4.0.0.0/9>>
+      #
+      # Query all ASN records for the given ISP name:
+      #
+      #     Network::ASN.list.name('LEVEL3').to_a
+      #     # => [#<Ronin::Support::Network::ASN::Record:0x00007f344164ed18
+      #     #      @country_code="US",
+      #     #      @name="LEVEL3",
+      #     #      @number=3356,
+      #     #      @range=#<Ronin::Support::Network::IPRange::Range: 4.0.0.0 - 4.23.87.255>>,
+      #     #     #<Ronin::Support::Network::ASN::Record:0x00007f344164d828
+      #     #      @country_code="US",
+      #     #      @name="LEVEL3",
+      #     #      @number=3356,
+      #     #      @range=#<Ronin::Support::Network::IPRange::Range: 4.23.90.0 - 4.23.91.255>>,
+      #     #     ...]
+      #
+      # Query all IPv6 ASN records for a given company:
+      #
+      #     Network::ASN.list.name('GOOGLE').ipv6
+      #     # =>
+      #     # [#<Ronin::Support::Network::ASN::Record:0x00007fc45b411500
+      #     #   @country_code="US",
+      #     #   @name="GOOGLE",
+      #     #   @number=15169,
+      #     #   @range=
+      #     #    #<Ronin::Support::Network::IPRange::Range: 2001:4860:: - 2001:4860:1024:ffff:ffff:ffff:ffff:ffff>>,
+      #     #  #<Ronin::Support::Network::ASN::Record:0x00007fc45b428d68
+      #     #   @country_code="US",
+      #     #   @name="GOOGLE",
+      #     #   @number=15169,
+      #     #   @range=
+      #     #    #<Ronin::Support::Network::IPRange::Range: 2001:4860:1026:: - 2001:4860:4804:ffff:ffff:ffff:ffff:ffff>>,
+      #     #  #<Ronin::Support::Network::ASN::Record:0x00007fc45b44be08
+      #     #   @country_code="US",
+      #     #   @name="GOOGLE",
+      #     #   @number=15169,
+      #     #   @range=
+      #     #    #<Ronin::Support::Network::IPRange::Range: 2001:4860:4806:: - 2001:4860:4864:ffff:ffff:ffff:ffff:ffff>>,
+      #     #  #<Ronin::Support::Network::ASN::Record:0x00007fc45b4562e0
+      #     #   @country_code="US",
+      #     #   @name="GOOGLE",
+      #     #   @number=15169,
+      #     #   @range=
+      #     #    #<Ronin::Support::Network::IPRange::Range: 2001:4860:4865:: - 2001:4860:ffff:ffff:ffff:ffff:ffff:ffff>>]
+      #
+      # Return all ASN numbers for a country:
+      #
+      #     Network::ASN.list.country('NZ').numbers
+      #     # => #<Set:
+      #     #     {45177,
+      #     #      55759,
+      #     #      55850,
+      #     #      9500,
+      #     #      ...}>
+      #
+      # Return all ASN names for a country:
+      #
+      #     Network::ASN.list.country_code('NZ').names
+      #     # Network::ASN.list.country('NZ').names
+      #     # => 
+      #     # #<Set:
+      #     #  {"DEVOLI-AS-AP Devoli",
+      #     #   "MFAT-NET-NZ 195 Lambton Quay",
+      #     #   "MERCURYNZ-AS-AP Mercury NZ Limited",
+      #     #   ...}>
+      #
       # @api public
       #
       # @since 1.0.0
@@ -44,6 +121,15 @@ module Ronin
         # @note
         #   Performs rDNS queries using `*.nmap.asn.cymru.com` for IPv4
         #   addresses and `*.nmap6.asn.cymru.com` for IPv6 addresses.
+        #
+        # @example
+        #   Network::ASN.query('4.2.2.1')
+        #   # => 
+        #   # #<Ronin::Support::Network::ASN::DNSRecord:0x00007f34424f4ac0    
+        #   #  @country_code="US",                                            
+        #   #  @name=nil,                                                     
+        #   #  @number=3356,                                                  
+        #   #  @range=#<Ronin::Support::Network::IPRange::CIDR: 4.0.0.0/9>>   
         #
         def self.query(ip)
           ip = IPAddr.new(ip) unless ip.kind_of?(IPAddr)
@@ -75,6 +161,80 @@ module Ronin
         #
         # @return [List]
         #   The loaded list file.
+        #
+        # @note
+        #   The first access of {list} will take a while, as the entire ASN
+        #   list will need to be downloaded and parsed.
+        #
+        # @example Query the ASN record for the given IP address:
+        #   Network::ASN.list.ip('4.2.2.1')
+        #   # =>
+        #   # #<Ronin::Support::Network::ASN::Record:0x00007fc46207f818
+        #   #  @country_code="US",
+        #   #  @name="LEVEL3",
+        #   #  @number=3356,
+        #   #  @range=#<Ronin::Support::Network::IPRange::Range: 4.0.0.0 - 4.23.87.255>>
+        #
+        # @example Query all ASN records for the given ISP name:
+        #   Network::ASN.list.name('LEVEL3').to_a
+        #   # => [#<Ronin::Support::Network::ASN::Record:0x00007f344164ed18
+        #   #      @country_code="US",
+        #   #      @name="LEVEL3",
+        #   #      @number=3356,
+        #   #      @range=#<Ronin::Support::Network::IPRange::Range: 4.0.0.0 - 4.23.87.255>>,
+        #   #     #<Ronin::Support::Network::ASN::Record:0x00007f344164d828
+        #   #      @country_code="US",
+        #   #      @name="LEVEL3",
+        #   #      @number=3356,
+        #   #      @range=#<Ronin::Support::Network::IPRange::Range: 4.23.90.0 - 4.23.91.255>>,
+        #   #     ...]
+        #
+        # @example Query all IPv6 ASN records for a given company:
+        #   Network::ASN.list.name('GOOGLE').ipv6
+        #   # =>
+        #   # [#<Ronin::Support::Network::ASN::Record:0x00007fc45b411500
+        #   #   @country_code="US",
+        #   #   @name="GOOGLE",
+        #   #   @number=15169,
+        #   #   @range=
+        #   #    #<Ronin::Support::Network::IPRange::Range: 2001:4860:: - 2001:4860:1024:ffff:ffff:ffff:ffff:ffff>>,
+        #   #  #<Ronin::Support::Network::ASN::Record:0x00007fc45b428d68
+        #   #   @country_code="US",
+        #   #   @name="GOOGLE",
+        #   #   @number=15169,
+        #   #   @range=
+        #   #    #<Ronin::Support::Network::IPRange::Range: 2001:4860:1026:: - 2001:4860:4804:ffff:ffff:ffff:ffff:ffff>>,
+        #   #  #<Ronin::Support::Network::ASN::Record:0x00007fc45b44be08
+        #   #   @country_code="US",
+        #   #   @name="GOOGLE",
+        #   #   @number=15169,
+        #   #   @range=
+        #   #    #<Ronin::Support::Network::IPRange::Range: 2001:4860:4806:: - 2001:4860:4864:ffff:ffff:ffff:ffff:ffff>>,
+        #   #  #<Ronin::Support::Network::ASN::Record:0x00007fc45b4562e0
+        #   #   @country_code="US",
+        #   #   @name="GOOGLE",
+        #   #   @number=15169,
+        #   #   @range=
+        #   #    #<Ronin::Support::Network::IPRange::Range: 2001:4860:4865:: - 2001:4860:ffff:ffff:ffff:ffff:ffff:ffff>>]
+        #
+        # @example Return all ASN numbers for a country:
+        #   Network::ASN.list.country('NZ').numbers
+        #   # => #<Set:
+        #   #     {45177,
+        #   #      55759,
+        #   #      55850,
+        #   #      9500,
+        #   #      ...}>
+        #
+        # @example Return all ASN names for a country:
+        #   Network::ASN.list.country_code('NZ').names
+        #   # Network::ASN.list.country('NZ').names
+        #   # => 
+        #   # #<Set:
+        #   #  {"DEVOLI-AS-AP Devoli",
+        #   #   "MFAT-NET-NZ 195 Lambton Quay",
+        #   #   "MERCURYNZ-AS-AP Mercury NZ Limited",
+        #   #   ...}>
         #
         def self.list
           @list ||= (
