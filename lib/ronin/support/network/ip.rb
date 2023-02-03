@@ -55,10 +55,10 @@ module Ronin
       #
       #     ip.asn
       #     # => #<Ronin::Support::Network::ASN::DNSRecord:0x00007f34142de598
-      #           @country_code="US",
-      #           @name=nil,
-      #           @number=15133,
-      #           @range=#<Ronin::Support::Network::IPRange::CIDR: 93.184.216.0/24>>
+      #     #     @country_code="US",
+      #     #     @name=nil,
+      #     #     @number=15133,
+      #     #     @range=#<Ronin::Support::Network::IPRange::CIDR: 93.184.216.0/24>>
       #
       # @api public
       #
