@@ -506,18 +506,24 @@ module Ronin
         # @since 1.0.0
         #
         def self.connect_uri(url, ssl: nil, **kwargs,&block)
-          uri = case url
-                when Addressable::URI, URI::HTTP
-                  url
-                when String
-                  Addressable::URI.parse(url)
-                else
-                  raise(ArgumentError,"url must be a URI::HTTP, Addressable::URI, or a String: #{url.inspect}")
-                end
+          case url
+          when URI::HTTP
+            host   = url.host
+            port   = url.port
+            ssl  ||= (url.scheme == 'https')
+          when String
+            uri = Addressable::URI.parse(url)
 
-          host  = uri.host
-          port  = uri.port
-          ssl ||= uri.scheme == 'https'
+            host   = uri.host
+            port   = uri.inferred_port
+            ssl  ||= (uri.scheme == 'https')
+          when Addressable::URI
+            host   = url.host
+            port   = url.inferred_port
+            ssl  ||= (url.scheme == 'https')
+          else
+            raise(ArgumentError,"url must be a URI::HTTP, Addressable::URI, or a String: #{url.inspect}")
+          end
 
           return connect(host,port, ssl: ssl, **kwargs,&block)
         end

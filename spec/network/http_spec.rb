@@ -436,6 +436,14 @@ describe Ronin::Support::Network::HTTP do
       it "must set #host to the URI's port" do
         expect(subject.port).to eq(uri.port)
       end
+
+      context "and when the URL's scheme is http://" do
+        let(:uri) { URI::HTTPS.build(host: host, port: port) }
+
+        it "must enable SSL" do
+          expect(subject.ssl?).to be(true)
+        end
+      end
     end
 
     context "when given a Addressable::URI object" do
@@ -450,6 +458,16 @@ describe Ronin::Support::Network::HTTP do
       it "must set #host to the URI's port" do
         expect(subject.port).to eq(uri.port)
       end
+
+      context "and when the URL's scheme is http://" do
+        let(:uri) do
+          Addressable::URI.new(scheme: 'https', host: host, port: port)
+        end
+
+        it "must enable SSL" do
+          expect(subject.ssl?).to be(true)
+        end
+      end
     end
 
     context "when given a String" do
@@ -461,6 +479,14 @@ describe Ronin::Support::Network::HTTP do
 
       it "must parse the URL set #host to the URI's port" do
         expect(subject.port).to eq(port)
+      end
+
+      context "and when the URL's scheme is http://" do
+        let(:uri) { "https://#{host}:#{port}/" }
+
+        it "must enable SSL" do
+          expect(subject.ssl?).to be(true)
+        end
       end
 
       context "and when the hostname is a unicode domain" do
@@ -486,14 +512,6 @@ describe Ronin::Support::Network::HTTP do
     context "when the URI's scheme is http://" do
       it "must not enable SSL" do
         expect(subject.ssl?).to be(false)
-      end
-    end
-
-    context "when the URI's scheme is https://" do
-      let(:uri) { URI::HTTPS.build(host: host, port: port) }
-
-      it "must enable SSL" do
-        expect(subject.ssl?).to be(true)
       end
     end
 
