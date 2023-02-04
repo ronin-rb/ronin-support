@@ -437,7 +437,7 @@ describe Ronin::Support::Network::HTTP do
         expect(subject.port).to eq(uri.port)
       end
 
-      context "and when the URL's scheme is http://" do
+      context "and when the URL's scheme is https://" do
         let(:uri) { URI::HTTPS.build(host: host, port: port) }
 
         it "must enable SSL" do
@@ -459,7 +459,7 @@ describe Ronin::Support::Network::HTTP do
         expect(subject.port).to eq(uri.port)
       end
 
-      context "and when the URL's scheme is http://" do
+      context "and when the URL's scheme is https://" do
         let(:uri) do
           Addressable::URI.new(scheme: 'https', host: host, port: port)
         end
@@ -481,7 +481,7 @@ describe Ronin::Support::Network::HTTP do
         expect(subject.port).to eq(port)
       end
 
-      context "and when the URL's scheme is http://" do
+      context "and when the URL's scheme is https://" do
         let(:uri) { "https://#{host}:#{port}/" }
 
         it "must enable SSL" do
