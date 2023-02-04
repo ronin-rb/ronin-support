@@ -455,7 +455,7 @@ describe Ronin::Support::Network::HTTP do
     context "when given a String" do
       let(:uri) { "http://#{host}:#{port}/" }
 
-      it "must parse the UR: and set #host to the URI's host" do
+      it "must parse the URL and set #host to the URI's host" do
         expect(subject.host).to eq(host)
       end
 
