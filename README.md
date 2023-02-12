@@ -39,6 +39,7 @@ research and development.
   * Encoding data:
     * [Base16][docs-encoding-base16]
     * [Base32][docs-encoding-base32]
+    * [Base62][docs-encoding-base62]
     * [Base64][docs-encoding-base64]
     * [C strings][docs-encoding-c]
     * [Hex][docs-encoding-hex]
@@ -196,6 +197,7 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [docs-binary-union]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Binary/Union.html
 [docs-encoding-base16]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Base16.html
 [docs-encoding-base32]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Base32.html
+[docs-encoding-base62]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Base62.html
 [docs-encoding-base64]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Base64.html
 [docs-encoding-c]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/C.html
 [docs-encoding-hex]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Hex.html
