@@ -1260,12 +1260,55 @@ describe Ronin::Support::Network::HTTP do
 
     let(:method) { :get }
 
-    it "must send a request with the given method and path to the host and return an Net::HTTPResponse object" do
-      stub_request(method,uri)
+    context "when given a URI::HTTP object" do
+      it "must send a request with the given method and path to the host and return an Net::HTTPResponse object" do
+        stub_request(method,uri)
 
-      expect(subject.request(method,uri)).to be_kind_of(Net::HTTPResponse)
+        expect(subject.request(method,uri)).to be_kind_of(Net::HTTPResponse)
 
-      expect(WebMock).to have_requested(method,uri)
+        expect(WebMock).to have_requested(method,uri)
+      end
+    end
+
+    context "when given an Addressable::URL object" do
+      let(:uri) do
+        Addressable::URI.new(
+          scheme: 'http',
+          host:   host,
+          port:   port,
+          path:   path
+        )
+      end
+
+      it "must send a request with the given method and path to the host and return an Net::HTTPResponse object" do
+        stub_request(method,uri)
+
+        expect(subject.request(method,uri)).to be_kind_of(Net::HTTPResponse)
+
+        expect(WebMock).to have_requested(method,uri)
+      end
+    end
+
+    context "when given a String" do
+      let(:uri) { "http://#{host}:#{port}#{path}" }
+
+      it "must parse the URL, then send a request with the given method and path to the host, and return an Net::HTTPResponse object" do
+        stub_request(method,uri)
+
+        expect(subject.request(method,uri)).to be_kind_of(Net::HTTPResponse)
+
+        expect(WebMock).to have_requested(method,uri)
+      end
+    end
+
+    context "when given another kind of Object" do
+      let(:url) { Object.new }
+
+      it do
+        expect {
+          subject.request(method,url)
+        }.to raise_error(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+      end
     end
   end
 
