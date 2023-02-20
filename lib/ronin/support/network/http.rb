@@ -2608,8 +2608,6 @@ module Ronin
           http.propfind(path,**kwargs,&block)
         end
 
-        alias prop_find propfind
-
         #
         # Performs a `PROPPATCH` request for the given URI.
         #
@@ -2662,8 +2660,6 @@ module Ronin
 
           http.proppatch(path,**kwargs,&block)
         end
-
-        alias prop_patch proppatch
 
         #
         # Performs a `PUT` request for the given URI.
