@@ -444,6 +444,58 @@ describe Ronin::Support::Network::HTTP do
           expect(subject.ssl?).to be(true)
         end
       end
+
+      context "and when the URL's contains a user component" do
+        let(:user)     { 'admin' }
+        let(:password) { 's3cr3t' }
+        let(:uri)  do
+          URI::HTTPS.build(
+            host:     host,
+            port:     port,
+            userinfo: user
+          )
+        end
+
+        it "must set the #user" do
+          expect(subject.user).to eq(user)
+        end
+
+        context "but a user: keyword argument overrides it" do
+          let(:override_user) { 'admin2' }
+
+          subject { described_class.connect_uri(uri, user: override_user) }
+
+          it "must override the user set in the URI" do
+            expect(subject.user).to eq(override_user)
+          end
+        end
+      end
+
+      context "and when the URL contains a password component" do
+        let(:user)     { 'admin' }
+        let(:password) { 's3cr3t' }
+        let(:uri)  do
+          URI::HTTPS.build(
+            host:     host,
+            port:     port,
+            userinfo: ":#{password}"
+          )
+        end
+
+        it "must set the #password" do
+          expect(subject.password).to eq(password)
+        end
+
+        context "but a password: keyword argument overrides it" do
+          let(:override_password) { 's3cr3t2' }
+
+          subject { described_class.connect_uri(uri, password: override_password) }
+
+          it "must override the password set in the URI" do
+            expect(subject.password).to eq(override_password)
+          end
+        end
+      end
     end
 
     context "when given a Addressable::URI object" do
@@ -466,6 +518,58 @@ describe Ronin::Support::Network::HTTP do
 
         it "must enable SSL" do
           expect(subject.ssl?).to be(true)
+        end
+      end
+
+      context "and when the URL contains a user component" do
+        let(:user)     { 'admin' }
+        let(:password) { 's3cr3t' }
+        let(:uri)  do
+          Addressable::URI.new(
+            host:     host,
+            port:     port,
+            user:     user
+          )
+        end
+
+        it "must set the #user" do
+          expect(subject.user).to eq(user)
+        end
+
+        context "but a user: keyword argument overrides it" do
+          let(:override_user) { 'admin2' }
+
+          subject { described_class.connect_uri(uri, user: override_user) }
+
+          it "must override the user set in the URI" do
+            expect(subject.user).to eq(override_user)
+          end
+        end
+      end
+
+      context "and when the URL's contains a password component" do
+        let(:user)     { 'admin' }
+        let(:password) { 's3cr3t' }
+        let(:uri)  do
+          Addressable::URI.new(
+            host:     host,
+            port:     port,
+            password: password
+          )
+        end
+
+        it "must set the #password" do
+          expect(subject.password).to eq(password)
+        end
+
+        context "but a password: keyword argument overrides it" do
+          let(:override_password) { 's3cr3t2' }
+
+          subject { described_class.connect_uri(uri, password: override_password) }
+
+          it "must override the password set in the URI" do
+            expect(subject.password).to eq(override_password)
+          end
         end
       end
     end
@@ -495,6 +599,46 @@ describe Ronin::Support::Network::HTTP do
 
         it "must convert the unicode hostname to punycode" do
           expect(subject.host).to eq(punycode)
+        end
+      end
+
+      context "and when the URL contains a user component" do
+        let(:user)     { 'admin' }
+        let(:password) { 's3cr3t' }
+        let(:uri)      { "https://#{user}@#{host}:#{port}/" }
+
+        it "must set the #user" do
+          expect(subject.user).to eq(user)
+        end
+
+        context "but a user: keyword argument overrides it" do
+          let(:override_user) { 'admin2' }
+
+          subject { described_class.connect_uri(uri, user: override_user) }
+
+          it "must override the user set in the URI" do
+            expect(subject.user).to eq(override_user)
+          end
+        end
+      end
+
+      context "and when the URL contains a password component" do
+        let(:user)     { 'admin' }
+        let(:password) { 's3cr3t' }
+        let(:uri)      { "https://#{user}:#{password}@#{host}:#{port}/" }
+
+        it "must set the #password" do
+          expect(subject.password).to eq(password)
+        end
+
+        context "but a password: keyword argument overrides it" do
+          let(:override_password) { 's3cr3t2' }
+
+          subject { described_class.connect_uri(uri, password: override_password) }
+
+          it "must override the password set in the URI" do
+            expect(subject.password).to eq(override_password)
+          end
         end
       end
     end

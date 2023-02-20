@@ -152,12 +152,12 @@ module Ronin
         attr_reader :headers
 
         # The HTTP Baic-Auth user to add to every request.
-        # 
+        #
         # @return [String, nil]
         attr_reader :user
 
         # The HTTP Baic-Auth password to add to every request.
-        # 
+        #
         # @return [String, nil]
         attr_reader :password
 
@@ -505,27 +505,39 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.connect_uri(url, ssl: nil, **kwargs,&block)
+        def self.connect_uri(url, ssl:      nil,
+                                  user:     nil,
+                                  password: nil,
+                                  **kwargs, &block)
           case url
           when URI::HTTP
-            host   = url.host
-            port   = url.port
-            ssl  ||= (url.scheme == 'https')
+            host       = url.host
+            port       = url.port
+            user     ||= url.user
+            password ||= url.password
+            ssl      ||= (url.scheme == 'https')
           when String
             uri = Addressable::URI.parse(url)
 
-            host   = uri.host
-            port   = uri.inferred_port
-            ssl  ||= (uri.scheme == 'https')
+            host       = uri.host
+            port       = uri.inferred_port
+            user     ||= uri.user
+            password ||= uri.password
+            ssl      ||= (uri.scheme == 'https')
           when Addressable::URI
-            host   = url.host
-            port   = url.inferred_port
-            ssl  ||= (url.scheme == 'https')
+            host       = url.host
+            port       = url.inferred_port
+            user     ||= url.user
+            password ||= url.password
+            ssl      ||= (url.scheme == 'https')
           else
             raise(ArgumentError,"url must be a URI::HTTP, Addressable::URI, or a String: #{url.inspect}")
           end
 
-          return connect(host,port, ssl: ssl, **kwargs,&block)
+          return connect(host,port, ssl:      ssl,
+                                    user:     user,
+                                    password: password,
+                                    **kwargs, &block)
         end
 
         #
