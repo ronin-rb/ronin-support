@@ -1477,7 +1477,15 @@ module Ronin
                                                    user:       nil,
                                                    password:   nil,
                                                    **kwargs)
-          url  = URI(url)
+          uri  = case url
+                 when Addressable::URI, URI::HTTP
+                   url
+                 when String
+                   Addressable::URI.parse(url)
+                 else
+                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                 end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -1520,7 +1528,15 @@ module Ronin
                                        user:       nil,
                                        password:   nil,
                                        **kwargs)
-          url  = URI(url)
+          uri  = case url
+                 when Addressable::URI, URI::HTTP
+                   url
+                 when String
+                   Addressable::URI.parse(url)
+                 else
+                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                 end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -1563,7 +1579,15 @@ module Ronin
                                                     user:       nil,
                                                     password:   nil,
                                                     **kwargs)
-          url  = URI(url)
+          uri  = case url
+                 when Addressable::URI, URI::HTTP
+                   url
+                 when String
+                   Addressable::URI.parse(url)
+                 else
+                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                 end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -1601,7 +1625,15 @@ module Ronin
                                     user:       nil,
                                     password:   nil,
                                     **kwargs)
-          url  = URI(url)
+          uri  = case url
+                 when Addressable::URI, URI::HTTP
+                   url
+                 when String
+                   Addressable::URI.parse(url)
+                 else
+                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                 end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -1639,7 +1671,15 @@ module Ronin
                                         user:       nil,
                                         password:   nil,
                                         **kwargs)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -1682,7 +1722,15 @@ module Ronin
                                                 user:       nil,
                                                 password:   nil,
                                                 **kwargs)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -1727,7 +1775,15 @@ module Ronin
                            password:   nil,
                            **kwargs,
                            &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -1772,7 +1828,15 @@ module Ronin
                              password:   nil,
                              **kwargs,
                              &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -1817,7 +1881,15 @@ module Ronin
                           password:   nil,
                           **kwargs,
                           &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -1856,7 +1928,15 @@ module Ronin
                                   user:       nil,
                                   password:   nil,
                                   **kwargs)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -1894,7 +1974,15 @@ module Ronin
                                   user:       nil,
                                   password:   nil,
                                   **kwargs)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -1933,7 +2021,15 @@ module Ronin
                                user:       nil,
                                password:   nil,
                                **kwargs)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -1978,7 +2074,15 @@ module Ronin
                            password:   nil,
                            **kwargs,
                            &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -2023,7 +2127,15 @@ module Ronin
                            password:   nil,
                            **kwargs,
                            &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -2068,7 +2180,15 @@ module Ronin
                             password:   nil,
                             **kwargs,
                             &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -2113,7 +2233,15 @@ module Ronin
                            password:   nil,
                            **kwargs,
                            &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -2158,7 +2286,15 @@ module Ronin
                               password:   nil,
                               **kwargs,
                               &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -2197,7 +2333,15 @@ module Ronin
                                       user:       nil,
                                       password:   nil,
                                       **kwargs)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -2243,7 +2387,15 @@ module Ronin
                             password:   nil,
                             **kwargs,
                             &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -2288,7 +2440,15 @@ module Ronin
                            password:   nil,
                            **kwargs,
                            &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -2327,7 +2487,15 @@ module Ronin
                                    user:       nil,
                                    password:   nil,
                                    **kwargs)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -2366,7 +2534,15 @@ module Ronin
                                 user:       nil,
                                 password:   nil,
                                 **kwargs)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -2411,7 +2587,15 @@ module Ronin
                                password:   nil,
                                **kwargs,
                                &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -2458,7 +2642,15 @@ module Ronin
                                 password:   nil,
                                 **kwargs,
                                 &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -2505,7 +2697,15 @@ module Ronin
                           password:   nil,
                           **kwargs,
                           &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -2550,7 +2750,15 @@ module Ronin
                             password:   nil,
                             **kwargs,
                             &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
@@ -2595,7 +2803,15 @@ module Ronin
                              password:   nil,
                              **kwargs,
                              &block)
-          url  = URI(url)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
           path = url.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
