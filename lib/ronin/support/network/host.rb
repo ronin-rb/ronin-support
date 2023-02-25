@@ -29,7 +29,7 @@ module Ronin
       # Represents a host or host name.
       #
       # ## Examples
-      # 
+      #
       #     host = Host.new('www.example.com')
       #
       # Resolve parent domain:
@@ -165,6 +165,11 @@ module Ronin
         #
         # @return [Boolean]
         #
+        # @example
+        #   host = Network::Host.new("www.詹姆斯.com')
+        #   host.idn?
+        #   # => true
+        #
         def idn?
           @name !~ /\A[A-Za-z0-9._-]+\z/
         end
@@ -178,6 +183,11 @@ module Ronin
         #
         # @return [Boolean]
         #
+        # @example
+        #   host = Network::Host.new("www.xn--8ws00zhy3a.com")
+        #   host.punycode?
+        #   # => true
+        #
         def punycode?
           @name.include?('xn--')
         end
@@ -189,6 +199,11 @@ module Ronin
         #
         # @return [Host]
         #   The new host containing the punycode version of the hostname.
+        #
+        # @example
+        #   host = Network::Host.new("www.詹姆斯.com")
+        #   host.punycode
+        #   # => #<Ronin::Support::Network::Host: www.xn--8ws00zhy3a.com>
         #
         def punycode
           self.class.new(DNS::IDN.to_ascii(@name))
@@ -267,6 +282,11 @@ module Ronin
         #
         # @return [Host]
         #   The new sub-domain.
+        #
+        # @example
+        #   host = Network::Host.new('example.com')
+        #   host.subdomain('www')
+        #   # => #<Ronin::Support::Network::Host: www.example.com>
         #
         def subdomain(subname)
           Host.new("#{subname}.#{@name}")
@@ -1415,6 +1435,14 @@ module Ronin
         # @return [Boolean]
         #
         # @note This method will query `8.8.8.8` which supports `ANY` queries.
+        #
+        # @example
+        #   host = Network::Host.new('www.example.com')
+        #   host.registered?
+        #   # => true
+        #   bad_host = Network::Host.new('foo.example.com')
+        #   bad_host.registered?
+        #   # => false
         #
         def registered?
           !get_any_records(nameserver: '8.8.8.8').empty?
