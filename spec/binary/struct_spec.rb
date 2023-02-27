@@ -571,6 +571,44 @@ describe Ronin::Support::Binary::Struct do
     end
   end
 
+  describe "#to_h" do
+    let(:foo) { 1  }
+    let(:bar) { -1 }
+    let(:baz) { 42 }
+
+    before do
+      subject.foo = foo
+      subject.bar = bar
+      subject.baz = baz
+    end
+
+    it "must return a Hash of the member names and values" do
+      expect(subject.to_h).to eq(
+        {
+          foo: foo,
+          bar: bar,
+          baz: baz
+        }
+      )
+    end
+  end
+
+  describe "#to_a" do
+    let(:foo) { 1  }
+    let(:bar) { -1 }
+    let(:baz) { 42 }
+
+    before do
+      subject.foo = foo
+      subject.bar = bar
+      subject.baz = baz
+    end
+
+    it "must return an Array of the member names and values" do
+      expect(subject.to_a).to eq([foo, bar, baz])
+    end
+  end
+
   describe "#to_s" do
     it "must return the underlying #string" do
       expect(subject.to_s).to eq(subject.string)
