@@ -33,6 +33,9 @@ module Ronin
   module Support
     module Binary
       module CTypes
+        #
+        # Represents the C types, but in big-endian byte-order.
+        #
         module BigEndian
           include CharTypes
 
