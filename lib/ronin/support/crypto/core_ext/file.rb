@@ -172,7 +172,7 @@ class File
   def self.hmac(path, key: , digest: :sha1)
     hmac = Ronin::Support::Crypto.hmac(key: key, digest: digest)
 
-    open(path,'rb') do |file|
+    File.open(path,'rb') do |file|
       until file.eof?
         hmac.update(file.read(16384))
       end
