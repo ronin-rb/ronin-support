@@ -20,6 +20,9 @@ module Ronin
   module Support
     module Network
       module ASN
+        #
+        # Represents an individual ASN record.
+        #
         class Record
 
           # The ASN number.
