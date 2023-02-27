@@ -33,6 +33,9 @@ module Ronin
   module Support
     module Binary
       module CTypes
+        #
+        # Represents the C types, but in little-endian byte-order.
+        #
         module LittleEndian
           include CharTypes
 
