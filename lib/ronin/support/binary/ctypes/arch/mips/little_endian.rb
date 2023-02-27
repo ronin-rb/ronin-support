@@ -24,6 +24,10 @@ module Ronin
       module CTypes
         module Arch
           module MIPS
+            #
+            # Represents the C types for the MIPS architecture, in little-endian
+            # mode.
+            #
             module LittleEndian
               include CTypes::LittleEndian
 
