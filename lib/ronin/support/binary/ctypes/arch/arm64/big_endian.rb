@@ -24,6 +24,10 @@ module Ronin
       module CTypes
         module Arch
           module ARM64
+            #
+            # Represents the C types for the ARM64 architecture, in big-endian
+            # mode.
+            #
             module BigEndian
               include CTypes::BigEndian
 
