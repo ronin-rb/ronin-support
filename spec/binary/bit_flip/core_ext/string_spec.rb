@@ -82,25 +82,26 @@ describe String do
     subject { "AB".encode(Encoding::ASCII_8BIT) }
 
     it "must return all bit-flip variations of the String" do
-      array    = subject.bit_flips
-      expected = [
-        "#{0b01000000.chr}B",
-        "#{0b01000011.chr}B",
-        "#{0b01000101.chr}B",
-        "#{0b01001001.chr}B",
-        "#{0b01010001.chr}B",
-        "#{0b01100001.chr}B",
-        "#{0b00000001.chr}B",
-        "#{0b11000001.chr}B",
-        "A#{0b01000011.chr}",
-        "A#{0b01000000.chr}",
-        "A#{0b01000110.chr}",
-        "A#{0b01001010.chr}",
-        "A#{0b01010010.chr}",
-        "A#{0b01100010.chr}",
-        "A#{0b00000010.chr}",
-        "A#{0b11000010.chr}"
-      ]
+      expect(subject.bit_flips).to eq(
+        [
+          "#{0b01000000.chr}B",
+          "#{0b01000011.chr}B",
+          "#{0b01000101.chr}B",
+          "#{0b01001001.chr}B",
+          "#{0b01010001.chr}B",
+          "#{0b01100001.chr}B",
+          "#{0b00000001.chr}B",
+          "#{0b11000001.chr}B",
+          "A#{0b01000011.chr}",
+          "A#{0b01000000.chr}",
+          "A#{0b01000110.chr}",
+          "A#{0b01001010.chr}",
+          "A#{0b01010010.chr}",
+          "A#{0b01100010.chr}",
+          "A#{0b00000010.chr}",
+          "A#{0b11000010.chr}"
+        ]
+      )
     end
   end
 end
