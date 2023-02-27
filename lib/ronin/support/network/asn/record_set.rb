@@ -22,6 +22,9 @@ module Ronin
   module Support
     module Network
       module ASN
+        #
+        # A sub-set of ASN records.
+        #
         class RecordSet
 
           include Enumerable
