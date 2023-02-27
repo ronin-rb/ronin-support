@@ -22,6 +22,9 @@ module Ronin
   module Support
     module Crypto
       class Cipher < OpenSSL::Cipher
+        #
+        # The AES128 cipher.
+        #
         class AES128 < AES
 
           #
