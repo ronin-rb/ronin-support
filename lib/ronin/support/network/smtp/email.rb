@@ -137,15 +137,6 @@ module Ronin
           # @api public
           #
           def to_s
-            address = lambda { |info|
-              case info
-              when Array
-                "#{info[0]} <#{info[1]}>"
-              else
-                info
-              end
-            }
-
             message = []
 
             if @from
