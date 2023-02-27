@@ -40,7 +40,10 @@ module Kernel
   #
   def try
     yield() if block_given?
-  rescue Exception
+  rescue SyntaxError => error
+    # re-raise syntax errors
+    raise(error)
+  rescue StandardError
     # ignore any exceptions
   end
 end

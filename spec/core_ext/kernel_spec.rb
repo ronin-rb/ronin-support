@@ -11,10 +11,6 @@ describe Kernel do
       expect(try { 2 + 2 }).to eq(4)
     end
 
-    it "must return nil if an exception is raised" do
-      expect(try { raise(Exception,"error!") }).to be_nil
-    end
-
     it "must rescue RuntimeError exceptions" do
       expect {
         try { raise(RuntimeError,"something happened",caller) }
@@ -25,6 +21,12 @@ describe Kernel do
       expect {
         try { raise(StandardError,"not allowed to do that",caller) }
       }.not_to raise_error
+    end
+
+    it "must not rescue SyntaxError exceptions" do
+      expect {
+        try { eval("\"syntax error") }
+      }.to raise_error(SyntaxError)
     end
   end
 end
