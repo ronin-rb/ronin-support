@@ -163,7 +163,7 @@ module Ronin
               if zero_pad then "&#x%.7x;" % byte
               else             "&#x%.2x;" % byte
               end
-            when
+            else
               raise(ArgumentError,"case (#{kwargs[:case].inspect}) keyword argument must be either :lower, :upper, or nil")
             end
           else
