@@ -40,6 +40,9 @@ module Ronin
             key_class.extend ClassMethods
           end
 
+          #
+          # Class-methods.
+          #
           module ClassMethods
             #
             # Generates a new random key.
@@ -151,7 +154,7 @@ module Ronin
                          cipher = OpenSSL::Cipher.new(cipher)
                          encoding_method.call(cipher,password)
                        else
-                         encoding_method.call()
+                         encoding_method.call
                        end
 
             File.write(path,exported)
