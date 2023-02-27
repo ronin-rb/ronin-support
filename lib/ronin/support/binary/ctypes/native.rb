@@ -32,6 +32,9 @@ module Ronin
   module Support
     module Binary
       module CTypes
+        #
+        # Represents the system's native C types.
+        #
         module Native
           include CharTypes
 
