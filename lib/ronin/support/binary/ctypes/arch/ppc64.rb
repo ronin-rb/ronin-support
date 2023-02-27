@@ -23,6 +23,9 @@ module Ronin
     module Binary
       module CTypes
         module Arch
+          #
+          # Represents the C types for the PPC64 architecture.
+          #
           module PPC64
             include BigEndian
 
