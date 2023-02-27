@@ -20,6 +20,9 @@ module Ronin
   module Support
     module Network
       module PublicSuffix
+        #
+        # A sub-set of public suffixes.
+        #
         class SuffixSet
 
           include Enumerable
