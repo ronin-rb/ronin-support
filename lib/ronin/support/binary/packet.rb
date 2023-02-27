@@ -21,6 +21,9 @@ require 'ronin/support/binary/struct'
 module Ronin
   module Support
     module Binary
+      #
+      # Represents a network packet in network byte-order.
+      #
       class Packet < Binary::Struct
 
         platform endian: :net
