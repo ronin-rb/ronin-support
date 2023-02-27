@@ -24,6 +24,9 @@ require 'ronin/support/crypto/key/rsa'
 module Ronin
   module Support
     module Crypto
+      #
+      # Top-level methods for working with public/private keys.
+      #
       module Key
         #
         # Parses an PEM encoded key.
@@ -42,7 +45,7 @@ module Ronin
         #
         # @raise [ArgumentError]
         #   The key type could not be determined from the key file.
-        #   
+        #
         # @api public
         #
         def self.parse(key, password: nil)
@@ -93,7 +96,7 @@ module Ronin
         #
         # @raise [ArgumentError]
         #   The key type could not be determined from the key file.
-        #   
+        #
         # @api public
         #
         def self.load_file(path)
