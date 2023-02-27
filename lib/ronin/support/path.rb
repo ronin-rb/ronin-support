@@ -54,8 +54,8 @@ module Ronin
       # @return [Path]
       #   The root path.
       #
-      def Path.root
-        Path.new('/')
+      def self.root
+        new('/')
       end
 
       #
