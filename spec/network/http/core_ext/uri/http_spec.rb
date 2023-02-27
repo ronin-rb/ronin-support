@@ -14,14 +14,18 @@ describe URI::HTTP do
 
   describe "#status" do
     context "integration", :network do
+      before(:all) { WebMock.allow_net_connect! }
+
       it "must request the HTTP stauts for the URI" do
         expect(subject.status).to eq(200)
       end
     end
   end
 
-  describe "#ok?", :network do
+  describe "#ok?" do
     context "integration", :network do
+      before(:all) { WebMock.allow_net_connect! }
+
       context "when the URI returns has a HTTP 200 response" do
         it "must return true" do
           expect(subject.ok?).to be(true)

@@ -4,6 +4,7 @@ require 'ronin/support/network/asn/list'
 require 'fileutils'
 require 'tempfile'
 require 'tmpdir'
+require 'webmock'
 
 describe Ronin::Support::Network::ASN::List do
   let(:fixtures_dir) { File.join(__dir__,'fixtures')         }
@@ -171,6 +172,8 @@ describe Ronin::Support::Network::ASN::List do
 
     describe ".download", :network do
       subject { described_class }
+
+      before(:all) { WebMock.allow_net_connect! }
 
       context "when given no keyword arguments" do
         before { subject.download }
