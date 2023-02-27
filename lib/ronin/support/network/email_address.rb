@@ -232,8 +232,6 @@ module Ronin
           return new(name: name, **parse_address(address))
         end
 
-        private
-
         #
         # Parses the address portion of an email address.
         #
@@ -325,8 +323,6 @@ module Ronin
 
           return {domain: domain, address: address}
         end
-
-        public
 
         # Email address de-obfuscation rules.
         DEOBFUSCATIONS = {
