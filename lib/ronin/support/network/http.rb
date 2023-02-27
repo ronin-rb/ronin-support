@@ -1486,7 +1486,7 @@ module Ronin
                    raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                  end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -1537,7 +1537,7 @@ module Ronin
                    raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                  end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -1588,7 +1588,7 @@ module Ronin
                    raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                  end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -1634,7 +1634,7 @@ module Ronin
                    raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                  end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -1680,7 +1680,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -1731,7 +1731,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -1784,7 +1784,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -1837,7 +1837,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -1890,7 +1890,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -1937,7 +1937,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -1983,7 +1983,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2030,7 +2030,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2083,7 +2083,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2136,7 +2136,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2189,7 +2189,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2242,7 +2242,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2295,7 +2295,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2342,7 +2342,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2396,7 +2396,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2449,7 +2449,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2496,7 +2496,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2543,7 +2543,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2596,7 +2596,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2649,7 +2649,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2702,7 +2702,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2755,7 +2755,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
@@ -2808,7 +2808,7 @@ module Ronin
                   raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
                 end
 
-          path = url.request_uri
+          path = uri.request_uri
           http = connect_uri(url, proxy:      proxy,
                                   ssl:        ssl,
                                   headers:    headers,
