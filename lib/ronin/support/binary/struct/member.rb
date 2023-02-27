@@ -22,6 +22,9 @@ module Ronin
   module Support
     module Binary
       class Struct < Memory
+        #
+        # Represents a member defined within a {Struct}.
+        #
         class Member
 
           # The name of the structure member.
