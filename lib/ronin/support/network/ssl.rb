@@ -24,6 +24,9 @@ require 'ronin/support/network/ssl/proxy'
 module Ronin
   module Support
     module Network
+      #
+      # Top-level SSL methods.
+      #
       module SSL
         # SSL/TLS versions
         VERSIONS = {
