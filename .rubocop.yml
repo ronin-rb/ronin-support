@@ -6,6 +6,104 @@ AllCops:
 inherit_gem:
   rubocop-ronin: rubocop.yml
 
+Style/CommentedKeyword: { Enabled: false }
+Style/ArgumentsForwarding: { Enabled: false }
+Style/WhileUntilModifier: { Enabled: false }
+
 #
 # ronin-support specific exceptions
 #
+
+# it makes sense to use octal numbers when testing the file's mode
+Style/NumericLiteralPrefix:
+  Exclude:
+    - 'lib/ronin/support/archive/tar/writer.rb'
+    - 'lib/ronin/support/network/ssl/local_key.rb'
+    - 'lib/ronin/support/network/ssl/local_cert.rb'
+    - 'spec/archive/tar/writer_spec.rb'
+    - 'spec/network/ssl/local_cert_spec.rb'
+    - 'spec/network/ssl/local_key_spec.rb'
+
+# in certain specs we need to use an empty block
+Lint/EmptyBlock:
+  Exclude:
+    - 'spec/archive/zip/reader_spec.rb'
+    - 'spec/network/proxy_spec.rb'
+
+Lint/RaiseException:
+  Exclude:
+    - 'spec/core_ext/kernel_spec.rb'
+
+# the arrays of Floats need to be organized into rows of columns
+Layout/ArrayAlignment:
+  Exclude:
+    - 'spec/binary/unhexdump/parser_spec.rb'
+
+# the arrays of Floats need to be organized into rows of columns
+Layout/ExtraSpacing:
+  Exclude:
+    - 'spec/binary/unhexdump/parser_spec.rb'
+
+# make an exception for required block keyword arguments.
+Layout/SpaceAroundBlockParameters:
+  Exclude:
+    - 'spec/binary/unhexdump/parser_spec.rb'
+
+# robucop mistakes :x86_64 for a "symbol number"
+Naming/VariableNumber:
+  AllowedIdentifiers:
+    - x86_64
+    # OpenSSL TLS version symbols
+    - TLSv1
+    - TLSv1_1
+    - TLSv1_2
+
+# rubocop does not support constants that contain multiple numbers
+Naming/ClassAndModuleCamelCase:
+  AllowedNames:
+    - X86_64
+
+# we need to test Ronin::Support::Binary::CString#+ does not modify itself
+Lint/Void:
+  Exclude:
+    - 'spec/binary/cstring_spec.rb'
+
+Style/Documentation:
+  Exclude:
+    # ignore top-level documentation for core-ext classes
+    - 'lib/ronin/support/**/core_ext/**/*.rb'
+    # BUG: Ronin::Support::Crypto is already documented in lib/ronin/support/crypto.rb
+    - 'lib/ronin/support/crypto/cert.rb'
+    # BUG: Ronin::Support::Binary is already documented in lib/ronin/support/binary.rb
+    - 'lib/ronin/support/binary/struct.rb'
+
+Naming/MethodParameterName:
+  AllowedNames:
+    - n
+    - id
+    - ip
+    - io
+    - iv
+    - os
+    - to
+
+# prefer to keep `self.user_agent` a method
+Style/TrivialAccessors:
+  Exclude:
+    - 'lib/ronin/support/network/http.rb'
+
+# we need to redefine the public-key component methods as public
+Lint/UselessMethodDefinition:
+  Exclude:
+    - 'lib/ronin/support/crypto/key/dh.rb'
+    - 'lib/ronin/support/crypto/key/dsa.rb'
+    - 'lib/ronin/support/crypto/key/rsa.rb'
+
+Naming/BinaryOperatorParameterName:
+  Exclude:
+    - 'lib/ronin/support/binary/memory.rb'
+
+# Kernel#try explicitly rescues all exceptions
+Lint/RescueException:
+  Exclude:
+    - 'lib/ronin/support/core_ext/kernel.rb'
