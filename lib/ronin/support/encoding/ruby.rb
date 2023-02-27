@@ -150,6 +150,7 @@ module Ronin
           else                    char
           end
         end
+
         UNESCAPE_CHARS['\0'] = "\0"
         UNESCAPE_CHARS['\a'] = "\a"
         UNESCAPE_CHARS['\b'] = "\b"
@@ -180,10 +181,10 @@ module Ronin
             unescaped << if (unicode_escape = scanner.scan(/\\(?:[0-7]{1,3}|[0-7])/))
                            unicode_escape[1,3].to_i(8).chr
                          elsif (hex_escape = scanner.scan(/\\u[0-9a-fA-F]{4,8}/))
-                           hex_escape[2..-1].to_i(16).chr(Encoding::UTF_8)
+                           hex_escape[2..].to_i(16).chr(Encoding::UTF_8)
                          elsif (hex_escape = scanner.scan(/\\x[0-9a-fA-F]{1,2}/))
-                           hex_escape[2..-1].to_i(16).chr
-                         elsif (escape = scanner.scan(/\\./))
+                           hex_escape[2..].to_i(16).chr
+                         elsif (escape     = scanner.scan(/\\./))
                            UNESCAPE_CHARS[escape]
                          else
                            scanner.getch
@@ -235,7 +236,6 @@ module Ronin
             data
           end
         end
-
       end
     end
   end

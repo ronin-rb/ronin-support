@@ -29,7 +29,7 @@ class Integer
   # @raise [RangeError]
   #   The integer value is negative.
   #
-  # @example 
+  # @example
   #   0x41.powershell_encode
   #   # => "[char]0x41"
   #   0x0a.powershell_encode
@@ -60,7 +60,7 @@ class Integer
   # @raise [RangeError]
   #   The integer value is negative.
   #
-  # @example 
+  # @example
   #   0x41.powershell_escape
   #   # => "A"
   #   0x08.powershell_escape

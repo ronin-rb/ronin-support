@@ -30,9 +30,9 @@ describe Ronin::Support::Archive::Tar do
 
       it "must new the String in a StringIO object" do
         tar   = subject.new(string)
-        entry = tar.find { |entry| entry.full_name == 'file.txt' }
+        file  = tar.find { |entry| entry.full_name == 'file.txt' }
 
-        expect(entry.read).to eq(txt_data)
+        expect(file.read).to eq(txt_data)
       end
 
       context "when given mode: 'w'" do
@@ -91,9 +91,9 @@ describe Ronin::Support::Archive::Tar do
 
       it "must new the String in a StringIO object" do
         tar   = subject.new(string_io)
-        entry = tar.find { |entry| entry.full_name == 'file.txt' }
+        file  = tar.find { |entry| entry.full_name == 'file.txt' }
 
-        expect(entry.read).to eq(txt_data)
+        expect(file.read).to eq(txt_data)
       end
 
       context "when given mode: 'w'" do

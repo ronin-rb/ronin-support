@@ -421,7 +421,7 @@ module Ronin
 
         # Email address obfuscation rules.
         OBFUSCATIONS = [
-          [/\@/, {'@' => ' @ '  }],
+          [/\@/, {'@' => ' @ '   }],
           [/\@/, {'@' => ' AT '  }],
           [/\@/, {'@' => ' at '  }],
           [/\@/, {'@' => '[AT]'  }],

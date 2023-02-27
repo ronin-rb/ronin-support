@@ -7,7 +7,7 @@ shared_examples_for "Ronin::Support::Crypto::Key::Methods examples" do
   let(:key_type) { described_class.name.split('::').last.downcase }
   let(:pem_file) { File.join(fixtures_dir,"#{key_type}.pem") }
   let(:der_file) { File.join(fixtures_dir,"#{key_type}.der") }
-  let(:pem)      { File.read(pem_file) } 
+  let(:pem)      { File.read(pem_file) }
   let(:der)      { File.binread(der_file) }
 
   let(:password) { "secret" }

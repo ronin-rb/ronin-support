@@ -62,7 +62,7 @@ describe String do
 
   describe "#http_unescape" do
     subject { "mod %25 3" }
-    
+
     let(:http_unescaped) { "mod % 3" }
 
     it "must unescape '%XX' characters" do

@@ -66,7 +66,7 @@ module Ronin
           #   The populated name.
           #
           def self.build(common_name: nil, organizational_unit: nil, organization: nil, locality: nil, state: nil, province: nil, country: nil)
-            name = new()
+            name = new
             name.add_entry("CN",common_name)         if common_name
             name.add_entry("OU",organizational_unit) if organizational_unit
             name.add_entry("O",organization)         if organization
@@ -83,9 +83,7 @@ module Ronin
           # @return [Hash{String => String}]
           #
           def entries
-            @entries ||= Hash[to_a.map { |(oid,value,type)|
-              [oid, value]
-            }]
+            @entries ||= to_a.to_h { |(oid,value,type)| [oid, value] }
           end
 
           alias to_h entries
@@ -328,7 +326,7 @@ module Ronin
         def self.generate(version:    2,
                           serial:     0,
                           not_before: Time.now,
-                          not_after:  not_before+ONE_YEAR,
+                          not_after:  not_before + ONE_YEAR,
                           subject:    nil,
                           extensions: nil,
                           # signing arguments
@@ -336,9 +334,10 @@ module Ronin
                           ca_cert: nil,
                           ca_key:  nil,
                           signing_hash: :sha256)
-          cert = new()
+          cert = new
+
           cert.version = version
-          cert.serial  = if ca_cert then ca_cert.serial+1
+          cert.serial  = if ca_cert then ca_cert.serial + 1
                          else            serial
                          end
 
@@ -351,11 +350,10 @@ module Ronin
                             end
 
           if extensions
-            extension_factory = OpenSSL::X509::ExtensionFactory.new()
+            extension_factory = OpenSSL::X509::ExtensionFactory.new
+
             extension_factory.subject_certificate = cert
-            extension_factory.issuer_certificate  = if ca_cert then ca_cert
-                                                    else            cert
-                                                    end
+            extension_factory.issuer_certificate  = ca_cert || cert
 
             extensions.each do |name,(value,critical)|
               ext = extension_factory.create_extension(name,value,critical)
@@ -363,9 +361,7 @@ module Ronin
             end
           end
 
-          signing_key = if ca_key then ca_key
-                        else           key
-                        end
+          signing_key    = ca_key || key
           signing_digest = OpenSSL::Digest.const_get(signing_hash.upcase).new
 
           cert.sign(signing_key,signing_digest)
@@ -421,7 +417,7 @@ module Ronin
         #   The Hash of extension OID names and extension objects.
         #
         def extensions_hash
-          Hash[extensions.map { |ext| [ext.oid, ext] }]
+          extensions.to_h { |ext| [ext.oid, ext] }
         end
 
         #

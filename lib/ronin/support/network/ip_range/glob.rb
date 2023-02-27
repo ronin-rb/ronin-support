@@ -265,6 +265,7 @@ module Ronin
           #
           def parse_range(range)
             start, stop = range.split('-',2)
+
             start = start.to_i(@base)
             stop  = stop.to_i(@base)
 

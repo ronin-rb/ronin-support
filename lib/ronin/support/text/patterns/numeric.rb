@@ -26,7 +26,7 @@ module Ronin
         #
         # @group Numeric Patterns
         #
-        
+
         # Regular expression for finding all numbers in text.
         #
         # @since 1.0.0

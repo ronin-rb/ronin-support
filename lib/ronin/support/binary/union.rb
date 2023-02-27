@@ -37,7 +37,7 @@ module Ronin
       #       member :c, :char
       #       member :i, :int16
       #       member :u, :uint32
-      #     
+      #
       #     end
       #
       # ### Initializing Fields
@@ -54,19 +54,19 @@ module Ronin
       #       member :c, :char
       #       member :i, :int16
       #       member :u, :uint32
-      #     
+      #
       #     end
-      #     
+      #
       #     class MyUnion2 < MyUnion
-      #     
+      #
       #       member :f, :float32
       #       member :d, :float64
-      #     
+      #
       #     end
-      #     
+      #
       #     union   = MyUnion.new
       #     union.i = -1
-      #     
+      #
       #     union2   = MyUnion.new
       #     union2.i = -1
       #     union2.d = 1.123
@@ -74,13 +74,13 @@ module Ronin
       # ### Packing Unions
       #
       #     class MyUnion < Ronin::Support::Binary::Union
-      #     
+      #
       #       member :c, :char
       #       member :i, :int16
       #       member :u, :uint32
-      #     
+      #
       #     end
-      #     
+      #
       #     union = MyUnion.new
       #     union.u = 0x11111111
       #     union.i = -1
@@ -90,13 +90,13 @@ module Ronin
       # ### Unpacking Unions
       #
       #     class MyUnion < Ronin::Support::Binary::Union
-      #     
+      #
       #       member :c, :char
       #       member :i, :int32
       #       member :u, :uint32
-      #     
+      #
       #     end
-      #     
+      #
       #     union = MyUnion.unpack("\xFF\xFF\x11\x11")
       #     union.c
       #     # => "\xFF"
@@ -108,12 +108,12 @@ module Ronin
       # ### Array Fields
       #
       #     class MyUnion < Ronin::Support::Binary::Union
-      #     
+      #
       #       member :c, :char
       #       member :i, :int16
       #       member :u, :uint32
       #       member :nums, [:uint8, 10]
-      #     
+      #
       #     end
       #
       #     union = MyUnion.new
@@ -124,14 +124,14 @@ module Ronin
       # ### Unbounded Array Fields
       #
       #     class MyUnion < Ronin::Support::Binary::Union
-      #     
+      #
       #       member :c, :char
       #       member :i, :int16
       #       member :u, :uint32
       #       member :payload, (:uint8..)
-      #     
+      #
       #     end
-      #     
+      #
       #     union = MyUnion.new
       #     union.payload = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08]
       #     union.pack
@@ -140,15 +140,15 @@ module Ronin
       # ### Default Endianness
       #
       #     class MyUnion < Ronin::Support::Binary::Union
-      #     
+      #
       #       endian :big
-      #     
+      #
       #       member :c, :char
       #       member :i, :int32
       #       member :u, :uint32
-      #     
+      #
       #     end
-      #     
+      #
       #     union = MyUnion.new(u: 0xaabbccdd)
       #     union.pack
       #     # => "\xAA\xBB\xCC\xDD"

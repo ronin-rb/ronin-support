@@ -134,78 +134,78 @@ describe Integer do
 
   describe "#xml_encode" do
     context "when the Integer is a printable ASCII character" do
-      subject { 0x41    }
+      subject { 0x41 }
       let(:encoded_xml) { "&#65;" }
 
       it "must XML encode the character as a XML special character" do
-        expect(subject.xml_encode()).to eq(encoded_xml)
+        expect(subject.xml_encode).to eq(encoded_xml)
       end
     end
 
     context "when the Integer is an unprintable ASCII character" do
-      subject { 0xff     }
+      subject { 0xff }
       let(:encoded_byte) { "&#255;" }
 
       it "must XML encode the character as a XML special character" do
-        expect(subject.xml_encode()).to eq(encoded_byte)
+        expect(subject.xml_encode).to eq(encoded_byte)
       end
     end
 
     context "when the Integer is 0x22" do
-      subject { 0x22    }
+      subject { 0x22 }
       let(:encoded_byte) { '&#34;' }
 
       it "must return '&#34;'" do
-        expect(subject.xml_encode()).to eq(encoded_byte)
+        expect(subject.xml_encode).to eq(encoded_byte)
       end
     end
 
     context "when the Integer is 0x26" do
-      subject { 0x26    }
+      subject { 0x26 }
       let(:encoded_byte) { '&#38;' }
 
       it "must return '&#38;'" do
-        expect(subject.xml_encode()).to eq(encoded_byte)
+        expect(subject.xml_encode).to eq(encoded_byte)
       end
     end
 
     context "when the Integer is 0x27" do
-      subject { 0x27    }
+      subject { 0x27 }
       let(:encoded_byte) { '&#39;' }
 
       it "must return '&#39;'" do
-        expect(subject.xml_encode()).to eq(encoded_byte)
+        expect(subject.xml_encode).to eq(encoded_byte)
       end
     end
 
     context "when the Integer is 0x3c" do
-      subject { 0x3c    }
+      subject { 0x3c }
       let(:encoded_byte) { '&#60;' }
 
       it "must return '&#60;'" do
-        expect(subject.xml_encode()).to eq(encoded_byte)
+        expect(subject.xml_encode).to eq(encoded_byte)
       end
     end
 
     context "when the Integer is 0x3e" do
-      subject { 0x3e    }
+      subject { 0x3e }
       let(:encoded_byte) { '&#62;' }
 
       it "must return '&#62;'" do
-        expect(subject.xml_encode()).to eq(encoded_byte)
+        expect(subject.xml_encode).to eq(encoded_byte)
       end
     end
 
     context "when given a byte greater than 0xff" do
-      subject { 0x100    }
+      subject { 0x100 }
       let(:encoded_byte) { "&#256;" }
 
       it "must return the UTF-8 character as an XML escaped character" do
-        expect(subject.xml_encode()).to eq(encoded_byte)
+        expect(subject.xml_encode).to eq(encoded_byte)
       end
 
       context "when also given `zero_pad: true`" do
-        subject { 0x100        }
+        subject { 0x100 }
         let(:encoded_byte) { "&#0000256;" }
 
         it "must zero-pad the XML escaped decimal character up to seven digits" do
@@ -215,7 +215,7 @@ describe Integer do
     end
 
     context "when also given `format: :hex`" do
-      subject { 0xff     }
+      subject { 0xff }
       let(:encoded_byte) { "&#xff;" }
 
       it "must encode the Integer as '&#xXX' XML escaped characters" do

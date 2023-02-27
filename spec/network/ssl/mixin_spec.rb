@@ -172,7 +172,9 @@ describe Ronin::Support::Network::SSL::Mixin do
       end
 
       it "must return false for closed ports" do
-        expect(subject.ssl_open?('localhost',rand(1024) + 1)).to be(false)
+        closed_port = rand(1..1024)
+
+        expect(subject.ssl_open?('localhost',closed_port)).to be(false)
       end
 
       it "must have a timeout for firewalled ports" do
@@ -214,8 +216,11 @@ describe Ronin::Support::Network::SSL::Mixin do
       end
 
       it "must connect and then send data" do
-        socket   = subject.ssl_connect_and_send(data,host,port)
-        banner   = socket.readline
+        socket = subject.ssl_connect_and_send(data,host,port)
+
+        # ignore the banner
+        socket.readline
+
         response = socket.readline
 
         expect(response).to be =~ expected_response
@@ -226,9 +231,11 @@ describe Ronin::Support::Network::SSL::Mixin do
       it "must yield the OpenSSL::SSL::SSLSocket" do
         response = nil
 
-        socket = subject.ssl_connect_and_send(data,host,port) do |socket|
-          banner   = socket.readline
-          response = socket.readline
+        socket = subject.ssl_connect_and_send(data,host,port) do |new_socket|
+          # ignore the banner
+          new_socket.readline
+
+          response = new_socket.readline
         end
 
         expect(response).to be =~ expected_response

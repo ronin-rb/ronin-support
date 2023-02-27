@@ -9,7 +9,7 @@ describe Integer do
 
   describe "#js_escape" do
     context "when given a byte that maps to a special character" do
-      subject {  0x0a }
+      subject { 0x0a }
 
       let(:escaped_special_byte) { '\n' }
 

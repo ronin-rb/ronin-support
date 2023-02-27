@@ -55,7 +55,7 @@ describe Ronin::Support::Binary::CTypes::OS::Windows do
     end
 
     # :long typedefs
-    [:off32_t, :_off_t, :__time32_t, ].each do |type|
+    [:off32_t, :_off_t, :__time32_t].each do |type|
       it "must override the #{type.inspect} type to be :int32 instead" do
         expect(subject[type]).to eq(types[:int32])
       end

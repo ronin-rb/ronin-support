@@ -89,7 +89,7 @@ module Ronin
             separator
           elsif n > 0
             path = new('..',separator)
-            path.join(*(['..'] * (n-1)))
+            path.join(*(['..'] * (n - 1)))
           else
             raise(ArgumentError,"negative argument")
           end

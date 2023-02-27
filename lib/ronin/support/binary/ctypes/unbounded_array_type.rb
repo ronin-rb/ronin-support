@@ -47,7 +47,7 @@ module Ronin
           #   Cannot initialize a nested {UnboundedArrayType}.
           #
           def initialize(type, alignment: nil)
-            if type.class == UnboundedArrayType
+            if type.kind_of?(UnboundedArrayType)
               raise(ArgumentError,"cannot initialize a nested #{UnboundedArrayType}")
             end
 

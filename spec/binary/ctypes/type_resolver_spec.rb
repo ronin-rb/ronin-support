@@ -98,7 +98,7 @@ describe Ronin::Support::Binary::CTypes::TypeResolver do
           type = subject.resolve(struct_class)
 
           expect(type.size).to eq(
-            subject.resolve(struct_class.members[:x].type_signature).size + 
+            subject.resolve(struct_class.members[:x].type_signature).size +
             subject.resolve(struct_class.members[:y].type_signature).size
           )
         end
@@ -181,7 +181,7 @@ describe Ronin::Support::Binary::CTypes::TypeResolver do
         end
 
         it "must resolve the Struct's member types using the resolver" do
-          type = subject.resolve([struct_class, length])
+          type        = subject.resolve([struct_class, length])
           struct_type = type.type
 
           expect(struct_type.struct_type.members[:x].type).to eq(subject.resolve(struct_class.members[:x].type_signature))
@@ -205,7 +205,7 @@ describe Ronin::Support::Binary::CTypes::TypeResolver do
         end
 
         it "must resolve the Union's member types using the resolver" do
-          type = subject.resolve([union_class, length])
+          type       = subject.resolve([union_class, length])
           union_type = type.type
 
           expect(union_type.union_type.members[:x].type).to eq(subject.resolve(union_class.members[:x].type_signature))
@@ -286,7 +286,7 @@ describe Ronin::Support::Binary::CTypes::TypeResolver do
           end
 
           it "must resolve the Struct's member types using the resolver" do
-            type = subject.resolve([struct_class, length]..)
+            type        = subject.resolve([struct_class, length]..)
             struct_type = type.type.type
 
             expect(struct_type.struct_type.members[:x].type).to eq(subject.resolve(struct_class.members[:x].type_signature))
@@ -313,7 +313,7 @@ describe Ronin::Support::Binary::CTypes::TypeResolver do
           end
 
           it "must resolve the Union's member types using the resolver" do
-            type = subject.resolve([union_class, length]..)
+            type       = subject.resolve([union_class, length]..)
             union_type = type.type.type
 
             expect(union_type.union_type.members[:x].type).to eq(subject.resolve(union_class.members[:x].type_signature))

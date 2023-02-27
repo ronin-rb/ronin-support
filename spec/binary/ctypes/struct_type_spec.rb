@@ -181,7 +181,7 @@ describe Ronin::Support::Binary::CTypes::StructType do
 
           it "must add 'x' characters before the member's #pack_string to align it" do
             expect(subject.pack_string).to eq(
-              members[:a].pack_string + 'xxx' + members[:b].pack_string
+              "#{members[:a].pack_string}xxx#{members[:b].pack_string}"
             )
           end
         end
@@ -300,7 +300,7 @@ describe Ronin::Support::Binary::CTypes::StructType do
       let(:hash) do
         {
           a: 'A',
-          c: 0x1122,
+          c: 0x1122
         }
       end
 
@@ -424,7 +424,6 @@ describe Ronin::Support::Binary::CTypes::StructType do
       end
     end
 
-
     context "when one of the #members is another UnionType" do
       let(:members) do
         {
@@ -464,8 +463,8 @@ describe Ronin::Support::Binary::CTypes::StructType do
 
       it "must pack each value in the Hash with it's according member type" do
         expect(subject.pack(hash)).to eq(
-          subject.members[:a].type.pack(hash[:a]) + 
-          subject.members[:b].type.pack(hash[:b]) + 
+          subject.members[:a].type.pack(hash[:a]) +
+          subject.members[:b].type.pack(hash[:b]) +
           subject.members[:c].type.pack(hash[:c])
         )
       end
@@ -664,7 +663,7 @@ describe Ronin::Support::Binary::CTypes::StructType do
       let(:hash) do
         {
           a: 'A',
-          c: 0x1122,
+          c: 0x1122
         }
       end
 

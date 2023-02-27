@@ -102,7 +102,7 @@ describe Ronin::Support::Encoding::JS do
     end
 
     it "must unescape backslash-escaped characters" do
-      expect(subject.unescape("\\b\\t\\n\\f\\r\\\"\\\'\\\\")).to eq("\b\t\n\f\r\"'\\")
+      expect(subject.unescape("\\b\\t\\n\\f\\r\\\"\\'\\\\")).to eq("\b\t\n\f\r\"'\\")
     end
 
     it "must ignore non-escaped characters" do

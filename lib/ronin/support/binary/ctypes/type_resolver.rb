@@ -155,9 +155,9 @@ module Ronin
           #
           def resolve_struct(type_signature)
             struct_class   = type_signature
-            struct_members = Hash[struct_class.members.map { |name,member|
-              [name, resolve(member.type_signature)]
-            }]
+            struct_members = struct_class.members.transform_values { |member|
+              resolve(member.type_signature)
+            }
 
             struct_type = StructType.build(
               struct_members, alignment: struct_class.alignment,
@@ -176,9 +176,9 @@ module Ronin
           #
           def resolve_union(type_signature)
             union_class   = type_signature
-            union_members = Hash[union_class.members.map { |name,member|
-              [name, resolve(member.type_signature)]
-            }]
+            union_members = union_class.members.transform_values { |member|
+              resolve(member.type_signature)
+            }
 
             union_type = UnionType.build(
               union_members, alignment: union_class.alignment
@@ -191,7 +191,7 @@ module Ronin
           # Resolves a type name.
           #
           # @param [Symbol] name
-          # 
+          #
           # @return [Type]
           #
           def resolve_symbol(name)
@@ -203,4 +203,3 @@ module Ronin
     end
   end
 end
-

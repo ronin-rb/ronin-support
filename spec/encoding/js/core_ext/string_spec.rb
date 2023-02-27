@@ -50,7 +50,7 @@ describe String do
     end
 
     it "must unescape backslash-escaped characters" do
-      expect("\\b\\t\\n\\f\\r\\\"\\\'\\\\".js_unescape).to eq("\b\t\n\f\r\"'\\")
+      expect("\\b\\t\\n\\f\\r\\\"\\'\\\\".js_unescape).to eq("\b\t\n\f\r\"'\\")
     end
 
     it "must ignore non-escaped characters" do

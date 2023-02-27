@@ -133,7 +133,7 @@ describe Ronin::Support::Binary::CTypes::EnumType do
 
     context "when the packed value does not map to an Integer in #reverse_mapping" do
       let(:integer) { 42 }
-      let(:data)    { int_type.pack(integer)  }
+      let(:data)    { int_type.pack(integer) }
 
       it "must return the unpacked integer anyways" do
         expect(subject.unpack(data)).to eq(integer)

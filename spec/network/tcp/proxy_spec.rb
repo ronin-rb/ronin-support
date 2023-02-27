@@ -57,7 +57,7 @@ describe Ronin::Support::Network::TCP::Proxy do
     describe "#on_client_data" do
       before do
         @proxy.on_client_data do |client,server,data|
-          if (match = data.match(/HTTP\/(\d\.\d)/))
+          if (match = data.match(%r{HTTP/(\d\.\d)}))
             client.write("HTTP #{match[1]} detected!\r\n")
           end
         end

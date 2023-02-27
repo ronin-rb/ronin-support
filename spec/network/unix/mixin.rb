@@ -87,8 +87,8 @@ describe Ronin::Support::Network::UNIX::Mixin do
       it "must yield the UNIXSocket" do
         response = nil
 
-        socket = subject.unix_connect_and_send(data,path) do |socket|
-          response = socket.readline
+        socket = subject.unix_connect_and_send(data,path) do |new_socket|
+          response = new_socket.readline
         end
 
         expect(response).to eq(data)

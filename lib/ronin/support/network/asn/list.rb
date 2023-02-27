@@ -145,6 +145,7 @@ module Ronin
               begin
                 download(url: url, path: path)
               rescue
+                # ignore any network failures
               end
             end
           end
@@ -176,8 +177,10 @@ module Ronin
               line.chomp!
 
               first, last, number, country_code, name = line.split("\t",5)
+
               range  = IPRange::Range.new(first,last)
               number = number.to_i
+
               country_code = nil if country_code == 'None'
               name         = nil if name         == 'Not routed'
 
@@ -219,7 +222,9 @@ module Ronin
             prefixes = if record.range.ipv6? then @ipv6_prefixes
                        else                       @ipv4_prefixes
                        end
-            (prefixes[record.range.prefix] ||= []) << record
+
+            records = (prefixes[record.range.prefix] ||= [])
+            records << record
             return self
           end
 

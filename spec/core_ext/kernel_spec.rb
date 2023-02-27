@@ -12,7 +12,7 @@ describe Kernel do
     end
 
     it "must return nil if an exception is raised" do
-      expect(try { 2 + 'a' }).to be_nil
+      expect(try { raise(Exception,"error!") }).to be_nil
     end
 
     it "must rescue RuntimeError exceptions" do

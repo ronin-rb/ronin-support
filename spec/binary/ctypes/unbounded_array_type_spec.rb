@@ -72,7 +72,7 @@ describe Ronin::Support::Binary::CTypes::UnboundedArrayType do
       expect(subject.alignment).to eq(type.alignment)
     end
 
-    context "when initialized with the alignment: keyword"  do
+    context "when initialized with the alignment: keyword" do
       let(:new_alignment) { 3 }
 
       subject { described_class.new(type, alignment: new_alignment) }
@@ -390,8 +390,8 @@ describe Ronin::Support::Binary::CTypes::UnboundedArrayType do
             b: Ronin::Support::Binary::CTypes::INT16,
             c: Ronin::Support::Binary::CTypes::StructType.build(
                  {
-                    x: Ronin::Support::Binary::CTypes::INT32,
-                    y: Ronin::Support::Binary::CTypes::UINT32
+                   x: Ronin::Support::Binary::CTypes::INT32,
+                   y: Ronin::Support::Binary::CTypes::UINT32
                  }
                )
           }

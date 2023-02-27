@@ -104,6 +104,7 @@ module Ronin
               end
             else
               smtp = smtp_connect(host,**kwargs)
+
               smtp.esmtp = true
               return smtp
             end

@@ -77,9 +77,10 @@ describe File do
     let(:digest_rmd160) { "1e76c9c004a440a285d130bc41a8d027b268afcd" }
 
     it "must return the RMD160 digest of itself" do
-      if RUBY_ENGINE == 'jruby'
+      case RUBY_ENGINE
+      when 'jruby'
         pending "JRuby's bouncy-castle-java does not yet support RMD160"
-      elsif RUBY_ENGINE == 'truffleruby'
+      when 'truffleruby'
         pending "TruffleRuby does not yet support RMD160"
       end
 
@@ -110,6 +111,7 @@ describe File do
 
   let(:cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-256-cbc')
+
     cipher.encrypt
     cipher.key = OpenSSL::Digest::SHA256.digest(password)
 
@@ -159,6 +161,7 @@ describe File do
 
   let(:aes_cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-256-cbc')
+
     cipher.encrypt
     cipher.key = OpenSSL::Digest::SHA256.digest(password)
 
@@ -212,6 +215,7 @@ describe File do
 
   let(:aes128_cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-128-cbc')
+
     cipher.encrypt
     cipher.key = OpenSSL::Digest::MD5.digest(password)
 
@@ -261,6 +265,7 @@ describe File do
 
   let(:aes256_cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-256-cbc')
+
     cipher.encrypt
     cipher.key = OpenSSL::Digest::SHA256.digest(password)
 
@@ -328,7 +333,7 @@ describe File do
     end
 
     context "when the key: value is a OpenSSL::PKey::RSA object" do
-      let(:key)     { OpenSSL::PKey::RSA.new(rsa_pem)         }
+      let(:key)     { OpenSSL::PKey::RSA.new(rsa_pem) }
       let(:new_key) { Ronin::Support::Crypto::Key::RSA.load(rsa_pem) }
 
       it "must convert the key into and use #{Ronin::Support::Crypto::Key::RSA} to encrypt the data" do
@@ -419,7 +424,7 @@ describe File do
     end
 
     context "when the key: value is a OpenSSL::PKey::RSA object" do
-      let(:key)     { OpenSSL::PKey::RSA.new(rsa_pem)         }
+      let(:key)     { OpenSSL::PKey::RSA.new(rsa_pem) }
       let(:new_key) { Ronin::Support::Crypto::Key::RSA.load(rsa_pem) }
 
       it "must convert the key into and use #{Ronin::Support::Crypto::Key::RSA} to encrypt the data" do

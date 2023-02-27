@@ -100,18 +100,18 @@ describe Ronin::Support::Binary::Memory do
       let(:count) { Float::INFINITY }
 
       it "must return the substring starting at the index to the end of the string" do
-        expect(subject[index,count]).to eq(string[index,subject.size-index])
+        expect(subject[index,count]).to eq(string[index,subject.size - index])
       end
 
       context "but when the underlying string has grown in length" do
         let(:new_string) { " AAAA" }
 
         it "must return the substring starting at the index to the end of the underlying string" do
-          expect(subject[index,count]).to eq(string[index,subject.size-index])
+          expect(subject[index,count]).to eq(string[index,subject.size - index])
 
           string << new_string
 
-          expect(subject[index,count]).to eq(string[index,string.bytesize-index])
+          expect(subject[index,count]).to eq(string[index,string.bytesize - index])
         end
       end
     end
@@ -171,7 +171,7 @@ describe Ronin::Support::Binary::Memory do
 
         it "must overwrite the bytes starting at the index and to the end of the string" do
           expect(subject.string[index,count]).to eq(chars)
-          expect(subject[index,count]).to eq(string[index,subject.size-index])
+          expect(subject[index,count]).to eq(string[index,subject.size - index])
 
           string << new_string
           subject[index,Float::INFINITY] = chars
@@ -221,7 +221,7 @@ describe Ronin::Support::Binary::Memory do
     let(:offset) { 3 }
 
     it "must return a new ByteSlice at the given offset and for the remainder of the memory" do
-      new_byte_slice = subject+offset
+      new_byte_slice = subject + offset
 
       expect(new_byte_slice).to be_kind_of(Ronin::Support::Binary::ByteSlice)
       expect(new_byte_slice.offset).to eq(offset)

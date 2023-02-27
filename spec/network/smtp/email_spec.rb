@@ -23,7 +23,7 @@ describe Ronin::Support::Network::SMTP::Email do
           expect(subject.body).to eq([body])
         end
       end
-      
+
       context "and it's an Array" do
         let(:body) { ['hello', 'world'] }
 

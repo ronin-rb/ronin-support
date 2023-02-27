@@ -151,6 +151,7 @@ module Ronin
 
           @fields = []
           @types  = []
+
           @pack_string = String.new
 
           fields.each do |field|

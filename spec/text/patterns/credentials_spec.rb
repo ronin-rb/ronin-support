@@ -16,10 +16,10 @@ describe Ronin::Support::Text::Patterns do
     end
 
     it "must not match empty '-----BEGIN DSA PRIVATE KEY-----' and '-----END DSA PRIVATE KEY-----' blocks" do
-      empty_pem = <<~EOS.chomp
+      empty_pem = <<~DSA_PRIVATE_KEY.chomp
         -----BEGIN DSA PRIVATE KEY-----
         -----END DSA PRIVATE KEY-----
-      EOS
+      DSA_PRIVATE_KEY
 
       expect(empty_pem).to_not match(subject)
     end
@@ -36,10 +36,10 @@ describe Ronin::Support::Text::Patterns do
     end
 
     it "must not match empty '-----BEGIN EC PRIVATE KEY-----' and '-----END EC PRIVATE KEY-----' blocks" do
-      empty_pem = <<~EOS.chomp
+      empty_pem = <<~EC_PRIVATE_KEY.chomp
         -----BEGIN EC PRIVATE KEY-----
         -----END EC PRIVATE KEY-----
-      EOS
+      EC_PRIVATE_KEY
 
       expect(empty_pem).to_not match(subject)
     end
@@ -56,10 +56,10 @@ describe Ronin::Support::Text::Patterns do
     end
 
     it "must not match empty '-----BEGIN RSA PRIVATE KEY-----' and '-----END RSA PRIVATE KEY-----' blocks" do
-      empty_pem = <<~EOS
+      empty_pem = <<~RSA_PRIVATE_KEY
         -----BEGIN RSA PRIVATE KEY-----
         -----END RSA PRIVATE KEY-----
-      EOS
+      RSA_PRIVATE_KEY
 
       expect(empty_pem).to_not match(subject)
     end
@@ -77,16 +77,15 @@ describe Ronin::Support::Text::Patterns do
     let(:rsa_key_file) { File.join(fixtures_dir,'rsa.pem') }
     let(:rsa_pem)      { File.read(rsa_key_file).chomp }
 
-
     it "must match everything in between '-----BEGIN DSA PRIVATE KEY-----' and '-----END DSA PRIVATE KEY-----'" do
       expect(dsa_pem).to fully_match(subject)
     end
 
     it "must not match empty '-----BEGIN DSA PRIVATE KEY-----' and '-----END DSA PRIVATE KEY-----' blocks" do
-      empty_pem = <<~EOS.chomp
+      empty_pem = <<~DSA_PRIVATE_KEY.chomp
         -----BEGIN DSA PRIVATE KEY-----
         -----END DSA PRIVATE KEY-----
-      EOS
+      DSA_PRIVATE_KEY
 
       expect(empty_pem).to_not match(subject)
     end
@@ -96,10 +95,10 @@ describe Ronin::Support::Text::Patterns do
     end
 
     it "must not match empty '-----BEGIN EC PRIVATE KEY-----' and '-----END EC PRIVATE KEY-----' blocks" do
-      empty_pem = <<~EOS.chomp
+      empty_pem = <<~EC_PRIVATE_KEY.chomp
         -----BEGIN EC PRIVATE KEY-----
         -----END EC PRIVATE KEY-----
-      EOS
+      EC_PRIVATE_KEY
 
       expect(empty_pem).to_not match(subject)
     end
@@ -109,10 +108,10 @@ describe Ronin::Support::Text::Patterns do
     end
 
     it "must not match empty '-----BEGIN RSA PRIVATE KEY-----' and '-----END RSA PRIVATE KEY-----' blocks" do
-      empty_pem = <<~EOS.chomp
+      empty_pem = <<~RSA_PRIVATE_KEY.chomp
         -----BEGIN RSA PRIVATE KEY-----
         -----END RSA PRIVATE KEY-----
-      EOS
+      RSA_PRIVATE_KEY
 
       expect(empty_pem).to_not match(subject)
     end
@@ -122,7 +121,7 @@ describe Ronin::Support::Text::Patterns do
     subject { described_class::SSH_PRIVATE_KEY }
 
     let(:pem) do
-      <<~EOS.chomp
+      <<~SSH_PRIVATE_KEY.chomp
         -----BEGIN OPENSSH PRIVATE KEY-----
         b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABD9PGSaAf
         Dq62GrgiZvZw2/AAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQC7brcxQofg
@@ -162,7 +161,7 @@ describe Ronin::Support::Text::Patterns do
         ghYR3dF7eoFzWSRT/dHJk6ilmVGL238hRLlyTbtfHk7UBymvjvAKWJAT/hIfD/w791iAd5
         L+swREJQgxmikV3PoMgaxuLhuak=
         -----END OPENSSH PRIVATE KEY-----
-      EOS
+      SSH_PRIVATE_KEY
     end
 
     it "must match the data between '-----BEGIN OPENSSH PRIVATE KEY-----' and '-----END OPENSSH PRIVATE KEY-----'" do
@@ -170,10 +169,10 @@ describe Ronin::Support::Text::Patterns do
     end
 
     it "must not match empty '-----BEGIN OPENSSH PRIVATE KEY-----' and '-----END OPENSSH PRIVATE KEY-----' blocks" do
-      empty_pem = <<~EOS.chomp
+      empty_pem = <<~SSH_PRIVATE_KEY.chomp
         -----BEGIN OPENSSH PRIVATE KEY-----
         -----END OPENSSH PRIVATE KEY-----
-      EOS
+      SSH_PRIVATE_KEY
 
       expect(empty_pem).to_not match(subject)
     end

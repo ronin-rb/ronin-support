@@ -82,7 +82,7 @@ module Ronin
             @signed    = signed
           end
 
-          # 
+          #
           # Whether the scalar type is signed.
           #
           # @return [Boolean]
@@ -91,7 +91,7 @@ module Ronin
             @signed
           end
 
-          # 
+          #
           # Whether the scalar type is unsigned.
           #
           # @return [Boolean]

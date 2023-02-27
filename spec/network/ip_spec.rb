@@ -126,7 +126,7 @@ describe Ronin::Support::Network::IP do
       addresses = subject.local_addresses
 
       expect(addresses).to all(satisfy { |address|
-        !(address =~ /%.+$/)
+        address !~ /%.+$/
       })
     end
   end
@@ -287,7 +287,7 @@ describe Ronin::Support::Network::IP do
     context "IPv6" do
       context "when the String contains a single IPv6 address" do
         let(:address) { 'fe80:0000:0000:0000:0204:61ff:fe9d:f156' }
-        let(:string ) { address     }
+        let(:string ) { address }
 
         it "must extract a single IPv4 address" do
           expect(subject.extract(string,:ipv6)).to eq([address])
@@ -572,7 +572,7 @@ describe Ronin::Support::Network::IP do
     end
   end
 
-  describe "#get_name"  do
+  describe "#get_name" do
     context "integration", :network do
       let(:address) { reverse_address }
 
@@ -606,7 +606,7 @@ describe Ronin::Support::Network::IP do
     end
   end
 
-  describe "#get_names"  do
+  describe "#get_names" do
     context "integration", :network do
       let(:address) { reverse_address }
 
@@ -640,7 +640,7 @@ describe Ronin::Support::Network::IP do
     end
   end
 
-  describe "#get_host"  do
+  describe "#get_host" do
     context "integration", :network do
       let(:address) { reverse_address }
 
@@ -683,7 +683,7 @@ describe Ronin::Support::Network::IP do
     end
   end
 
-  describe "#get_hosts"  do
+  describe "#get_hosts" do
     context "integration", :network do
       let(:address) { reverse_address }
 

@@ -69,15 +69,15 @@ module Ronin
 
           case string
           when ByteSlice
-            if (offset < 0) || (offset+length > string.bytesize)
+            if (offset < 0) || ((offset + length) > string.bytesize)
               raise(IndexError,"offset #{offset} or length #{length} is out of bounds: 0...#{string.bytesize}")
             end
 
             @string = string.string
-            @offset = string.offset+offset
+            @offset = string.offset + offset
             @length = length
           when String
-            if (offset < 0) || (offset+length > string.bytesize)
+            if (offset < 0) || ((offset + length) > string.bytesize)
               raise(IndexError,"offset #{offset} or length #{length} is out of bounds: 0...#{string.bytesize}")
             end
 
@@ -109,17 +109,17 @@ module Ronin
           when Range
             range = index_or_range
 
-            @string[@offset+range.begin,range.end-range.begin]
+            @string[@offset + range.begin,range.end - range.begin]
           when Integer
             index = index_or_range
 
             case length
             when Integer
-              @string[@offset+index,length]
+              @string[@offset + index,length]
             when nil
-              @string[@offset+index]
+              @string[@offset + index]
             when Float::INFINITY
-              @string[@offset+index,@length-index]
+              @string[@offset + index,@length - index]
             else
               raise(ArgumentError,"invalid length (#{length.inspect}) must be an Integer, nil, or Float::INFINITY")
             end
@@ -151,17 +151,17 @@ module Ronin
           when Range
             range = index_or_range
 
-            @string[@offset+range.begin,range.end-range.begin] = value
+            @string[@offset + range.begin,range.end - range.begin] = value
           when Integer
             index = index_or_range
 
             case length
             when Integer
-              @string[@offset+index,length] = value
+              @string[@offset + index,length] = value
             when nil
-              @string[@offset+index] = value
+              @string[@offset + index] = value
             when Float::INFINITY
-              @string[@offset+index,@length-index] = value
+              @string[@offset + index,@length - index] = value
             else
               raise(ArgumentError,"invalid length (#{length.inspect}) must be an Integer, nil, or Float::INFINITY")
             end
@@ -200,7 +200,7 @@ module Ronin
         #   found.
         #
         def index(substring,offset=0)
-          if (index = @string.index(substring,@offset+offset))
+          if (index = @string.index(substring,@offset + offset))
             if index < (@offset + @length)
               index - @offset
             end
@@ -211,13 +211,13 @@ module Ronin
         # Gets the byte at the given index within the byte slice.
         #
         # @param [Integer] index
-        # 
+        #
         # @return [Integer, nil]
         #   The byte at the given index, or nil if the index is out of bounds.
         #
         def getbyte(index)
           if index < @length
-            @string.getbyte(@offset+index)
+            @string.getbyte(@offset + index)
           end
         end
 
@@ -235,7 +235,7 @@ module Ronin
         #
         def setbyte(index,byte)
           if index < @length
-            @string.setbyte(@offset+index,byte)
+            @string.setbyte(@offset + index,byte)
           else
             raise(IndexError,"index #{index.inspect} is out of bounds")
           end
@@ -257,7 +257,7 @@ module Ronin
         def each_byte
           return enum_for(__method__) unless block_given?
 
-          (@offset...(@offset+@length)).each do |index|
+          (@offset...(@offset + @length)).each do |index|
             yield @string.getbyte(index)
           end
         end
@@ -288,7 +288,7 @@ module Ronin
         def each_char
           return enum_for(__method__) unless block_given?
 
-          (@offset...(@offset+@length)).each do |index|
+          (@offset...(@offset + @length)).each do |index|
             yield @string[index]
           end
         end

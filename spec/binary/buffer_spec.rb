@@ -151,7 +151,7 @@ describe Ronin::Support::Binary::Buffer do
       before { subject[range] = values }
 
       context "and given an Array of bytes" do
-        let(:values) { [0x41, 0x42, 0x43]    }
+        let(:values) { [0x41, 0x42, 0x43] }
         let(:slice)  { values.map(&:chr).join }
 
         it "must convert the byte into a character before writing" do
@@ -160,8 +160,8 @@ describe Ronin::Support::Binary::Buffer do
       end
 
       context "and given an Array of chars" do
-        let(:values)  { %w[A B C]  }
-        let(:slice)  { values.join }
+        let(:values) { %w[A B C]  }
+        let(:slice) { values.join }
 
         it "must combine the Array of chars into a String before writing" do
           expect(subject.string[range]).to eq(slice)
@@ -353,18 +353,18 @@ describe Ronin::Support::Binary::Buffer do
   describe "#get_array_of" do
     let(:type_name)  { :int32_le }
     let(:type)       { Ronin::Support::Binary::CTypes[type_name] }
-    let(:array_type) { type[array.length]  }
+    let(:array_type) { type[array.length] }
     let(:array)      { [-1, -2, -3] }
     let(:offset)     { 1 }
     let(:count)      { array.length }
 
-    let(:length)     { 1 + (type.size*count) }
+    let(:length)     { 1 + (type.size * count) }
 
     context "when the offset + array type size is within bounds" do
       before do
         subject.put(type_name, 1,               array[0])
-        subject.put(type_name, 1+type.size,     array[1])
-        subject.put(type_name, 1+(type.size*2), array[2])
+        subject.put(type_name, 1 + type.size, array[1])
+        subject.put(type_name, 1 + (type.size * 2), array[2])
       end
 
       it "must read an Array of types at the given offset of the given count" do
@@ -416,12 +416,12 @@ describe Ronin::Support::Binary::Buffer do
   describe "#put_array_of" do
     let(:type_name)  { :int32_le }
     let(:type)       { Ronin::Support::Binary::CTypes[type_name] }
-    let(:array_type) { type[array.length]  }
+    let(:array_type) { type[array.length] }
     let(:array)      { [-1, -2, -3] }
     let(:array_type) { type[array.length] }
     let(:offset)     { 1 }
     let(:count)      { array.length }
-    let(:length)     { 1 + (type.size*count) }
+    let(:length)     { 1 + (type.size * count) }
 
     let(:packed_array) { array_type.pack(array) }
 
@@ -520,10 +520,10 @@ describe Ronin::Support::Binary::Buffer do
 
     context "when the offset and length are within bounds" do
       before do
-        subject[offset]   = bytes[0]
-        subject[offset+1] = bytes[1]
-        subject[offset+2] = bytes[2]
-        subject[offset+3] = 0x00
+        subject[offset]     = bytes[0]
+        subject[offset + 1] = bytes[1]
+        subject[offset + 2] = bytes[2]
+        subject[offset + 3] = 0x00
       end
 
       it "must read the string at the given offset, until a null-byte is read" do
@@ -604,7 +604,7 @@ describe Ronin::Support::Binary::Buffer do
       end
 
       it "must append a null-byte after the last byte of the string" do
-        expect(subject.string[offset+string.bytesize]).to eq("\0")
+        expect(subject.string[offset + string.bytesize]).to eq("\0")
       end
     end
 
@@ -614,7 +614,7 @@ describe Ronin::Support::Binary::Buffer do
       it do
         expect {
           subject.put_string(offset,string)
-        }.to raise_error(IndexError,"offset #{offset} or C string size #{string.bytesize+1} is out of bounds: 0...#{subject.size - 1}")
+        }.to raise_error(IndexError,"offset #{offset} or C string size #{string.bytesize + 1} is out of bounds: 0...#{subject.size - 1}")
       end
     end
 
@@ -624,7 +624,7 @@ describe Ronin::Support::Binary::Buffer do
       it do
         expect {
           subject.put_string(offset,string)
-        }.to raise_error(IndexError,"offset #{offset} or C string size #{string.bytesize+1} is out of bounds: 0...#{subject.size - 1}")
+        }.to raise_error(IndexError,"offset #{offset} or C string size #{string.bytesize + 1} is out of bounds: 0...#{subject.size - 1}")
       end
     end
 
@@ -634,7 +634,7 @@ describe Ronin::Support::Binary::Buffer do
       it do
         expect {
           subject.put_string(offset,string)
-        }.to raise_error(IndexError,"offset #{offset} or C string size #{string.bytesize+1} is out of bounds: 0...#{subject.size - 1}")
+        }.to raise_error(IndexError,"offset #{offset} or C string size #{string.bytesize + 1} is out of bounds: 0...#{subject.size - 1}")
       end
     end
 
@@ -644,7 +644,7 @@ describe Ronin::Support::Binary::Buffer do
       it do
         expect {
           subject.put_string(offset,string)
-        }.to raise_error(IndexError,"offset #{offset} or C string size #{string.bytesize+1} is out of bounds: 0...#{subject.size - 1}")
+        }.to raise_error(IndexError,"offset #{offset} or C string size #{string.bytesize + 1} is out of bounds: 0...#{subject.size - 1}")
       end
     end
   end

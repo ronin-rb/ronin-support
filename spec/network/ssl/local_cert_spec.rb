@@ -13,9 +13,9 @@ describe Ronin::Support::Network::SSL::LocalCert do
   end
 
   let(:fixtures_dir) { File.join(__dir__,'..','fixtures') }
-  let(:key_path)     { File.join(fixtures_dir,'ssl.key')  }
+  let(:key_path)     { File.join(fixtures_dir,'ssl.key') }
   let(:key)          { Ronin::Support::Crypto::Key::RSA.load_file(key_path) }
-  let(:cert_path)    { File.join(fixtures_dir,'ssl.crt')  }
+  let(:cert_path)    { File.join(fixtures_dir,'ssl.crt') }
   let(:cert)         { Ronin::Support::Crypto::Key::RSA.load_file(cert_path) }
 
   context do
@@ -67,7 +67,7 @@ describe Ronin::Support::Network::SSL::LocalCert do
           it "must include 'localhost'" do
             expect(subject).to include('localhost')
           end
-          
+
           it "must include the local IP addresses" do
             local_ips = subject[1..].map do |address|
               Ronin::Support::Network::IP.new(address)

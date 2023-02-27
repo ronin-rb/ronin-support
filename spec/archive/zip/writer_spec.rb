@@ -74,7 +74,6 @@ describe Ronin::Support::Archive::Zip::Writer do
     let(:contents) { 'foo bar baz' }
 
     context "when the contents argument is given" do
-
       before { subject.add_file(name,contents) }
 
       it "must write the contents to the file in the #tempdir" do

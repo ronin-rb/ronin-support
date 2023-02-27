@@ -97,7 +97,7 @@ module Ronin
       #
       #     Network::ASN.list.country_code('NZ').names
       #     # Network::ASN.list.country('NZ').names
-      #     # => 
+      #     # =>
       #     # #<Set:
       #     #  {"DEVOLI-AS-AP Devoli",
       #     #   "MFAT-NET-NZ 195 Lambton Quay",
@@ -124,12 +124,12 @@ module Ronin
         #
         # @example
         #   Network::ASN.query('4.2.2.1')
-        #   # => 
-        #   # #<Ronin::Support::Network::ASN::DNSRecord:0x00007f34424f4ac0    
-        #   #  @country_code="US",                                            
-        #   #  @name=nil,                                                     
-        #   #  @number=3356,                                                  
-        #   #  @range=#<Ronin::Support::Network::IPRange::CIDR: 4.0.0.0/9>>   
+        #   # =>
+        #   # #<Ronin::Support::Network::ASN::DNSRecord:0x00007f34424f4ac0
+        #   #  @country_code="US",
+        #   #  @name=nil,
+        #   #  @number=3356,
+        #   #  @range=#<Ronin::Support::Network::IPRange::CIDR: 4.0.0.0/9>>
         #
         def self.query(ip)
           ip = IPAddr.new(ip) unless ip.kind_of?(IPAddr)
@@ -148,8 +148,9 @@ module Ronin
             return nil
           end
 
-          asn, cidr_range, country_code, *rest = string.split(' | ',5)
-          asn = asn.to_i
+          asn, cidr_range, country_code, *_rest = string.split(' | ',5)
+
+          asn        = asn.to_i
           cidr_range = IPRange::CIDR.new(cidr_range)
 
           return DNSRecord.new(asn,cidr_range,country_code)
@@ -229,7 +230,7 @@ module Ronin
         # @example Return all ASN names for a country:
         #   Network::ASN.list.country_code('NZ').names
         #   # Network::ASN.list.country('NZ').names
-        #   # => 
+        #   # =>
         #   # #<Set:
         #   #  {"DEVOLI-AS-AP Devoli",
         #   #   "MFAT-NET-NZ 195 Lambton Quay",
@@ -237,10 +238,10 @@ module Ronin
         #   #   ...}>
         #
         def self.list
-          @list ||= (
-            List.update
-            List.load_file
-          )
+          @list ||= begin
+                      List.update
+                      List.load_file
+                    end
         end
       end
     end

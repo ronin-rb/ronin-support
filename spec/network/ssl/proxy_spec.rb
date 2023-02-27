@@ -259,7 +259,7 @@ describe Ronin::Support::Network::SSL::Proxy do
     describe "#on_server_data" do
       before do
         @proxy.on_server_data do |client,server,data|
-          data.gsub!(/HTTP\/\d\.\d/,'HTTP 9000')
+          data.gsub!(%r{HTTP/\d\.\d},'HTTP 9000')
         end
 
         @socket = ssl_connect(host,port)

@@ -90,6 +90,7 @@ module Ronin
             begin
               @resolver.getaddress(host).to_s
             rescue Resolv::ResolvError
+              # ignore any Resolv failures
             end
           end
 
@@ -123,6 +124,7 @@ module Ronin
           def get_name(ip)
             @resolver.getname(ip).to_s
           rescue Resolv::ResolvError
+            # ignore any Resolv failures
           end
 
           #
@@ -189,6 +191,7 @@ module Ronin
             begin
               @resolver.getresource(name,record_class)
             rescue Resolv::ResolvError
+              # ignore any Resolv failures
             end
           end
 

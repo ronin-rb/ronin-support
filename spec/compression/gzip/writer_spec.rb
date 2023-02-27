@@ -36,7 +36,7 @@ describe Ronin::Support::Compression::Gzip::Writer do
       end
 
       context "when given mode: 'a'" do
-        let(:string)   { "foo" }
+        let(:string) { "foo" }
 
         subject { described_class.new(string, mode: 'a') }
         before do

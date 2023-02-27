@@ -3,7 +3,7 @@ require 'ronin/support/crypto/hmac'
 
 describe Ronin::Support::Crypto::HMAC do
   let(:key)    { "secret" }
-  let(:digest) { OpenSSL::Digest::SHA1.new }
+  let(:digest) { OpenSSL::Digest.new('SHA1') }
   let(:data)   { "hello world" }
 
   subject { described_class.new(key,digest) }

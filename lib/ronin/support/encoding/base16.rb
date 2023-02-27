@@ -51,7 +51,7 @@ module Ronin
           encoded = String.new
 
           data.each_byte do |byte|
-            encoded << "%.2x" % byte
+            encoded << ("%.2x" % byte)
           end
 
           return encoded

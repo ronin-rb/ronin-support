@@ -47,7 +47,7 @@ module Ronin
           #   The list of supported AES 256bit cipher names.
           #
           def self.supported
-            super().grep(/^aes[-]?256/)
+            super().grep(/^aes(?:-)?256/)
           end
 
         end

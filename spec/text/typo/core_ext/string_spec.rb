@@ -223,7 +223,7 @@ describe String do
         subject { 'foo-bar' }
 
         let(:typos) do
-          Ronin::Support::Text::Typo::swap_symbols.each_substitution(subject).to_a
+          Ronin::Support::Text::Typo.swap_symbols.each_substitution(subject).to_a
         end
 
         it "must only return a swapped symbol typo" do
@@ -292,7 +292,7 @@ describe String do
       subject { 'foo-bar' }
 
       let(:typos) do
-        Ronin::Support::Text::Typo::swap_symbols.each_substitution(subject).to_a
+        Ronin::Support::Text::Typo.swap_symbols.each_substitution(subject).to_a
       end
 
       it "must only return a swapped symbol typo" do

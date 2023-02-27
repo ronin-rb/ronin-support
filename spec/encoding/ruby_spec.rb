@@ -95,7 +95,7 @@ describe Ronin::Support::Encoding::Ruby do
     end
 
     context "when called on an Integer greater than 0xffff" do
-      let(:byte) { 0x10000}
+      let(:byte) { 0x10000 }
 
       it "must return the lowercase '\\u{XXXXX...}' hex escaped String" do
         expect(subject.encode_byte(byte)).to eq('\u{10000}')
@@ -238,8 +238,8 @@ describe Ronin::Support::Encoding::Ruby do
     end
 
     context "when the String contains invalid byte sequences" do
-      let(:data)    { "ABC\xfe\xff"         }
-      let(:encoded) { '\x41\x42\x43\xFE\xFF'}
+      let(:data)    { "ABC\xfe\xff" }
+      let(:encoded) { '\x41\x42\x43\xFE\xFF' }
 
       it "must encode each byte in the String" do
         expect(subject.encode(data)).to eq(encoded)

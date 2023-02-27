@@ -3,7 +3,7 @@ require 'ronin/support/network/tld'
 
 describe Ronin::Support::Network::TLD do
   describe ".list" do
-    let(:fixtures_dir) { File.join(__dir__,'tld','fixtures')    }
+    let(:fixtures_dir) { File.join(__dir__,'tld','fixtures') }
     let(:list_file)    { File.join(fixtures_dir,'tlds-alpha-by-domain.txt') }
 
     it "must call #{described_class}::List.update and #{described_class}::List.load_file" do

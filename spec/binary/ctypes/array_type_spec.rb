@@ -65,7 +65,7 @@ describe Ronin::Support::Binary::CTypes::ArrayType do
       expect(subject.alignment).to eq(type.alignment)
     end
 
-    context "when initialized with the alignment: keyword"  do
+    context "when initialized with the alignment: keyword" do
       let(:new_alignment) { 3 }
 
       subject { described_class.new(type,length, alignment: new_alignment) }
@@ -132,10 +132,8 @@ describe Ronin::Support::Binary::CTypes::ArrayType do
       let(:array) do
         partial_array + Array.new(5,type.uninitialized_value)
       end
-      
-      it "must pad the array with uninitialized values from #type" do
-        padding = subject.length - array.length
 
+      it "must pad the array with uninitialized values from #type" do
         expect(subject.pack(partial_array)).to eq(
           array.pack(subject.pack_string)
         )
@@ -145,11 +143,11 @@ describe Ronin::Support::Binary::CTypes::ArrayType do
     context "but the array contains nil elements" do
       let(:array_with_nils) { [1, nil, 3, nil, 5, nil, 7, nil, 9, nil] }
       let(:array) do
-        array_with_nils.map do |value| 
+        array_with_nils.map do |value|
           value || type.uninitialized_value
         end
       end
-      
+
       it "must replace the nil values with uninitialized values from #type" do
         expect(subject.pack(array_with_nils)).to eq(
           array.pack(subject.pack_string)
@@ -482,7 +480,7 @@ describe Ronin::Support::Binary::CTypes::ArrayType do
       let(:array) do
         partial_array + Array.new(5,type.uninitialized_value)
       end
-      
+
       it "must pad the array with uninitialized values from #type" do
         subject.enqueue_value(values,partial_array)
 
@@ -493,11 +491,11 @@ describe Ronin::Support::Binary::CTypes::ArrayType do
     context "but the array contains nil elements" do
       let(:array_with_nils) { [1, nil, 3, nil, 5, nil, 7, nil, 9, nil] }
       let(:array) do
-        array_with_nils.map do |value| 
+        array_with_nils.map do |value|
           value || type.uninitialized_value
         end
       end
-      
+
       it "must replace the nil values with uninitialized values from #type" do
         subject.enqueue_value(values,array_with_nils)
 

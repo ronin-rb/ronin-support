@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'bundler/setup'
 require 'ronin/support/network/ssl/proxy'
 
 Ronin::Support::Network::SSL::Proxy.start(port: 1337, server: ['example.com', 443]) do |proxy|
-  address = lambda { |socket|
+  address = ->(socket) {
     addrinfo = socket.peeraddr
 
     "#{addrinfo[3]}:#{addrinfo[1]}"

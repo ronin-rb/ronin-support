@@ -67,18 +67,16 @@ module Ronin
         # @since 0.5.0
         #
         def self.open?(host,port, timeout: 5, **kwargs)
-          begin
-            Timeout.timeout(timeout) do
-              socket = connect(host,port,**kwargs)
-              socket.close
-            end
-
-            return true
-          rescue Timeout::Error
-            return nil
-          rescue SocketError, SystemCallError
-            return false
+          Timeout.timeout(timeout) do
+            socket = connect(host,port,**kwargs)
+            socket.close
           end
+
+          return true
+        rescue Timeout::Error
+          return nil
+        rescue SocketError, SystemCallError
+          return false
         end
 
         #
@@ -345,7 +343,7 @@ module Ronin
         #
         def self.server_session(**kwargs,&block)
           server = server(**kwargs,&block)
-          server.close()
+          server.close
           return nil
         end
 

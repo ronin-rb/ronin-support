@@ -116,7 +116,7 @@ module Ronin
         #   The decoded String.
         #
         def self.decode(data)
-          if (data =~ /^[0-9a-fA-F]{2,}$/ && (data.length % 2 == 0))
+          if (data =~ /^[0-9a-fA-F]{2,}$/ && data.length.even?)
             raw = String.new
 
             data.scan(/../) do |hex_char|

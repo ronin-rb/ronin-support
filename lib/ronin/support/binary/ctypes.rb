@@ -61,7 +61,7 @@ module Ronin
       #   * Floating Point Types:
       #     * {CTypes::Float32Type float} (`-3.40282347E+38F` -
       #       `3.40282347E+38F`)
-      #     * {CTypes::Float64Type double} (`-1.79769313486231570E+308` - 
+      #     * {CTypes::Float64Type double} (`-1.79769313486231570E+308` -
       #       `1.79769313486231570E+308`)
       # * Aggregate Types:
       #   * {CTypes::ArrayType Array} (ex: `{1,2,3}`)
@@ -182,7 +182,7 @@ module Ronin
         UINT32_NET = Network::UINT32
         UINT64_NET = Network::UINT64
 
-        WORD_NET = Network::WORD
+        WORD_NET  = Network::WORD
         DWORD_NET = Network::DWORD
         QWORD_NET = Network::QWORD
 
@@ -390,7 +390,7 @@ module Ronin
           openbsd: OS::OpenBSD,
           netbsd:  OS::NetBSD,
 
-          linux:   OS:: Linux,
+          linux:   OS::Linux,
           macos:   OS::MacOS,
           windows: OS::Windows
         }

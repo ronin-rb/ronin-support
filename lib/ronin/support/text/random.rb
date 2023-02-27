@@ -52,7 +52,7 @@ module Ronin
         def self.swapcase(string)
           candidates = []
 
-          string.each_char.each_with_index do |char,index|
+          string.each_char.with_index do |char,index|
             if char =~ /\p{L}/
               candidates << index
             end
@@ -61,7 +61,7 @@ module Ronin
           new_string = string.dup
 
           # ensure that at least one character is swap-cased, but not all
-          num_swaps = rand(candidates.length-1)+1
+          num_swaps = rand(1..(candidates.length - 1)) || 1
 
           candidates.sample(num_swaps).each do |index|
             new_string[index] = new_string[index].swapcase

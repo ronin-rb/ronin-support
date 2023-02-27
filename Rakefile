@@ -1,4 +1,4 @@
-require 'rubygems'
+# frozen_string_literal: true
 
 begin
   require 'bundler'
@@ -53,7 +53,7 @@ namespace :public_suffix do
     list = Ronin::Support::Network::PublicSuffix::List.load_file(
       'public_suffix_list.dat'
     )
-    
+
     regex = list.to_regexp
 
     template = 'data/text/patterns/network/public_suffix.rb.erb'

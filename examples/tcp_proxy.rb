@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'bundler/setup'
 
@@ -6,16 +7,17 @@ require 'ronin/support/network/tcp/proxy'
 require 'hexdump'
 
 Ronin::Support::Network::TCP::Proxy.start(port: 1337, server: ['www.wired.com', 80]) do |proxy|
-  address = lambda { |socket|
+  address = ->(socket) {
     addrinfo = socket.peeraddr
 
     "#{addrinfo[3]}:#{addrinfo[1]}"
   }
-  hex = Hexdump::Dumper.new
+
+  hexdump = Hexdump::Dumper.new
 
   proxy.on_client_data do |client,server,data|
     puts "#{address[client]} -> #{proxy}"
-    hex.dump(data)
+    hexdump.dump(data)
   end
 
   proxy.on_client_connect do |client|
@@ -28,7 +30,7 @@ Ronin::Support::Network::TCP::Proxy.start(port: 1337, server: ['www.wired.com', 
 
   proxy.on_server_data do |client,server,data|
     puts "#{address[client]} <- #{proxy}"
-    hex.dump(data)
+    hexdump.dump(data)
   end
 
   proxy.on_server_connect do |client,server|

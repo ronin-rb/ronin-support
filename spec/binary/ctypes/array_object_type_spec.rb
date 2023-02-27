@@ -101,7 +101,7 @@ describe Ronin::Support::Binary::CTypes::ArrayObjectType do
       it do
         expect {
           subject.pack(array)
-        }.to raise_error(ArgumentError,"value must be either a #{Ronin::Support::Binary::Array} or an #{::Array}: #{array.inspect}")
+        }.to raise_error(ArgumentError,"value must be either a #{Ronin::Support::Binary::Array} or an #{Array}: #{array.inspect}")
       end
     end
   end

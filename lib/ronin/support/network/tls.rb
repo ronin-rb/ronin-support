@@ -16,7 +16,6 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 require 'ronin/support/network/tls/proxy'
 require 'ronin/support/network/ssl'
 
@@ -46,7 +45,6 @@ module Ronin
         def self.context(version: 1.2, **kwargs)
           SSL.context(version: version, **kwargs)
         end
-
       end
     end
   end

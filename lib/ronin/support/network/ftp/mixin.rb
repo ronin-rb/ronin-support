@@ -86,8 +86,8 @@ module Ronin
                                 account:  nil,
                                 passive:  true)
             host = DNS::IDN.to_ascii(host)
+            ftp  = Net::FTP.new
 
-            ftp = Net::FTP.new
             ftp.connect(host,port)
             ftp.login(user,password,account)
             ftp.passive = passive

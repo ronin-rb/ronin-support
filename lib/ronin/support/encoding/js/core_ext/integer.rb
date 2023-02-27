@@ -26,7 +26,7 @@ class Integer
   # @return [String]
   #   The escaped JavaScript character.
   #
-  # @example 
+  # @example
   #   0x41.js_escape
   #   # => "A"
   #   0x22.js_escape

@@ -68,7 +68,7 @@ module Ronin
         # @raise [RangeError]
         #   The integer value is negative.
         #
-        # @example 
+        # @example
         #   Encoding::PowerShell.encode_byte(0x41)
         #   # => "[char]0x41"
         #   Encoding::PowerShell.encode_byte(0x0a)
@@ -100,7 +100,7 @@ module Ronin
         # @raise [RangeError]
         #   The integer value is negative.
         #
-        # @example 
+        # @example
         #   Encoding::PowerShell.escape_byte(0x41)
         #   # => "A"
         #   Encoding::PowerShell.escape_byte(0x08)
@@ -197,9 +197,9 @@ module Ronin
           until scanner.eos?
             unescaped << if (backslash_char = scanner.scan(/`[0abetnvfr]/)) # `c
                            BACKSLASHED_CHARS[backslash_char[1,1]]
-                         elsif (hex_char = scanner.scan(/\$\(\[char\]0x[0-9a-fA-F]{1,2}\)/)) # [char]0xXX
+                         elsif (hex_char     = scanner.scan(/\$\(\[char\]0x[0-9a-fA-F]{1,2}\)/)) # [char]0xXX
                            hex_char[10..-2].to_i(16).chr
-                         elsif (hex_char = scanner.scan(/\$\(\[char\]0x[0-9a-fA-F]{3,}\)/)) # [char]0xXX
+                         elsif (hex_char     = scanner.scan(/\$\(\[char\]0x[0-9a-fA-F]{3,}\)/)) # [char]0xXX
                            hex_char[10..-2].to_i(16).chr(Encoding::UTF_8)
                          elsif (unicode_char = scanner.scan(/`u\{[0-9a-fA-F]+\}/)) # `u{XXXX}'
                            unicode_char[3..-2].to_i(16).chr(Encoding::UTF_8)
@@ -299,7 +299,6 @@ module Ronin
             data
           end
         end
-
       end
     end
   end

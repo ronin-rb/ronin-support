@@ -390,7 +390,7 @@ describe Ronin::Support::Encoding::XML do
 
       context "and when `zero_pad: true` is given" do
         let(:encoded_xml) do
-            "&#x000006f;&#x000006e;&#x0000065;&#x0000020;&#x0000026;&#x0000020;&#x0000074;&#x0000077;&#x000006f;"
+          "&#x000006f;&#x000006e;&#x0000065;&#x0000020;&#x0000026;&#x0000020;&#x0000074;&#x0000077;&#x000006f;"
         end
 
         it "must encode the String with '&#X00000xx' XML escaped characters" do

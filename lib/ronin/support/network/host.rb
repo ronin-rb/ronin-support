@@ -267,7 +267,7 @@ module Ronin
             domain, suffix = PublicSuffix.list.split(@name)
 
             if (last_dot = domain.rindex('.'))
-              domain = domain[(last_dot+1)..]
+              domain = domain[(last_dot + 1)..]
             end
 
             Domain.new("#{domain}.#{suffix}")
@@ -310,8 +310,8 @@ module Ronin
         #   # => #<Ronin::Support::Network::Host: www.example.com>
         #
         def change_suffix(new_suffix)
-          name, suffix = PublicSuffix.list.split(@name)
-          new_suffix   = new_suffix.to_s
+          name, _suffix = PublicSuffix.list.split(@name)
+          new_suffix    = new_suffix.to_s
 
           if new_suffix.start_with?('.')
             return self.class.new("#{name}#{new_suffix}")
@@ -365,7 +365,7 @@ module Ronin
 
           PublicSuffix.list.each do |suffix|
             unless suffix.wildcard?
-              if (type == nil) || (suffix.type == type)
+              if type.nil? || (suffix.type == type)
                 yield change_suffix(suffix)
               end
             end

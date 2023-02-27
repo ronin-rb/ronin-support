@@ -365,9 +365,9 @@ describe Ronin::Support::Network::HTTP::Cookie do
       end
 
       context "when the param name contain special URI characters" do
-        let(:name)         { "foo bar"   }
+        let(:name)         { "foo bar" }
         let(:encoded_name) { "foo+bar" }
-        let(:value)        { "qux"       }
+        let(:value)        { "qux"     }
 
         it "must URI encode the param names" do
           expect(subject.to_s).to eq("#{encoded_name}=#{value}")
@@ -375,7 +375,7 @@ describe Ronin::Support::Network::HTTP::Cookie do
       end
 
       context "when the param value contain special URI characters" do
-        let(:value)         { "foo bar"   }
+        let(:value)         { "foo bar" }
         let(:encoded_value) { "foo+bar" }
 
         it "must URI encode the param values" do
@@ -390,9 +390,9 @@ describe Ronin::Support::Network::HTTP::Cookie do
       end
 
       context "when the param names contain special URI characters" do
-        let(:name1)         { "foo bar"   }
+        let(:name1)         { "foo bar" }
         let(:encoded_name1) { "foo+bar" }
-        let(:name2)         { "bar baz"   }
+        let(:name2)         { "bar baz" }
         let(:encoded_name2) { "bar+baz" }
 
         it "must URI encode the param names" do
@@ -401,9 +401,9 @@ describe Ronin::Support::Network::HTTP::Cookie do
       end
 
       context "when the param values contain special URI characters" do
-        let(:value1)         { "foo bar"   }
+        let(:value1)         { "foo bar" }
         let(:encoded_value1) { "foo+bar" }
-        let(:value2)         { "bar baz"   }
+        let(:value2)         { "bar baz" }
         let(:encoded_value2) { "bar+baz" }
 
         it "must URI encode the param values" do

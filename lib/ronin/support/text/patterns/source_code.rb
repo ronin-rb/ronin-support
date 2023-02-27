@@ -35,7 +35,7 @@ module Ronin
         # Regular expression to find identifier in text
         #
         # @since 0.4.0
-        IDENTIFIER = /[_]*[a-zA-Z]+[a-zA-Z0-9_-]*/
+        IDENTIFIER = /_*[a-zA-Z]+[a-zA-Z0-9_-]*/
 
         # Regular expression to find all variable names in text.
         #
@@ -77,7 +77,7 @@ module Ronin
         # Regular expression to find all Base64 encoded strings in the text.
         #
         # @since 1.0.0
-        BASE64 = /(?:[A-Za-z0-9+\/]{4}\n?)+(?:[A-Za-z0-9+\/]{2}==\n?|[A-Za-z0-9+\/]{3}=\n?)?|[A-Za-z0-9+\/]{2}==\n?|[A-Za-z0-9+\/]{3}=\n?/
+        BASE64 = %r{(?:[A-Za-z0-9+/]{4}\n?)+(?:[A-Za-z0-9+/]{2}==\n?|[A-Za-z0-9+/]{3}=\n?)?|[A-Za-z0-9+/]{2}==\n?|[A-Za-z0-9+/]{3}=\n?}
 
         # Regular expression to match any single-line or multi-line C-style
         # comments.

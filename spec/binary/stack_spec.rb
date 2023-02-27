@@ -73,7 +73,7 @@ describe Ronin::Support::Binary::Stack do
 
   describe "#[]" do
     context "when the stack is empty" do
-      let(:index)  { 0 }
+      let(:index) { 0 }
 
       it do
         expect {

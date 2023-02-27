@@ -116,6 +116,7 @@ module Ronin
           #
           def ssl_socket(socket,**kwargs)
             ssl_socket = OpenSSL::SSL::SSLSocket.new(socket,ssl_context(**kwargs))
+
             ssl_socket.sync_close = true
             return ssl_socket
           end
@@ -182,19 +183,17 @@ module Ronin
           #
           def ssl_open?(host,port, bind_host: nil, bind_port: nil, timeout: 5,
                                                                    **kwargs)
-            begin
-              Timeout.timeout(timeout) do
-                ssl_connect(host,port, bind_host: bind_host,
-                                       bind_port: bind_port,
-                                       **kwargs)
-              end
-
-              return true
-            rescue Timeout::Error
-              return nil
-            rescue SocketError, SystemCallError
-              return false
+            Timeout.timeout(timeout) do
+              ssl_connect(host,port, bind_host: bind_host,
+                                     bind_port: bind_port,
+                                     **kwargs)
             end
+
+            return true
+          rescue Timeout::Error
+            return nil
+          rescue SocketError, SystemCallError
+            return false
           end
 
           #
@@ -392,7 +391,8 @@ module Ronin
           #
           def ssl_cert(host,port,**kwargs)
             socket = ssl_connect(host,port,**kwargs)
-            cert = Crypto::Cert(socket.peer_cert)
+            cert   = Crypto::Cert(socket.peer_cert)
+
             socket.close
             return cert
           end

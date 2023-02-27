@@ -21,7 +21,7 @@ describe String do
     context "when given `case: :lower`" do
       subject { "\xff" }
 
-      let(:uri_escaped) { '%ff'  }
+      let(:uri_escaped) { '%ff' }
 
       it "must return a lowercase hexadecimal escaped String" do
         expect(subject.uri_escape(case: :lower)).to eq(uri_escaped)
@@ -31,7 +31,7 @@ describe String do
     context "when given `case: :upper`" do
       subject { "\xff" }
 
-      let(:uri_escaped) { '%FF'  }
+      let(:uri_escaped) { '%FF' }
 
       it "must return a uppercase hexadecimal escaped String" do
         expect(subject.uri_escape(case: :upper)).to eq(uri_escaped)
@@ -80,7 +80,7 @@ describe String do
     context "when given `case: :lower`" do
       subject { "\xff" }
 
-      let(:uri_encoded) { '%ff'  }
+      let(:uri_encoded) { '%ff' }
 
       it "must return a lowercase hexadecimal escaped String" do
         expect(subject.uri_encode(case: :lower)).to eq(uri_encoded)
@@ -90,7 +90,7 @@ describe String do
     context "when given `case: :upper`" do
       subject { "\xff" }
 
-      let(:uri_encoded) { '%FF'  }
+      let(:uri_encoded) { '%FF' }
 
       it "must return a uppercase hexadecimal escaped String" do
         expect(subject.uri_encode(case: :upper)).to eq(uri_encoded)
@@ -138,7 +138,7 @@ describe String do
     context "when given `case: :lower`" do
       subject { "\xff" }
 
-      let(:uri_form_escaped) { '%ff'  }
+      let(:uri_form_escaped) { '%ff' }
 
       it "must return a lowercase hexadecimal escaped String" do
         expect(subject.uri_form_escape(case: :lower)).to eq(uri_form_escaped)
@@ -148,7 +148,7 @@ describe String do
     context "when given `case: :upper`" do
       subject { "\xff" }
 
-      let(:uri_form_escaped) { '%FF'  }
+      let(:uri_form_escaped) { '%FF' }
 
       it "must return a uppercase hexadecimal escaped String" do
         expect(subject.uri_form_escape(case: :upper)).to eq(uri_form_escaped)
@@ -158,7 +158,7 @@ describe String do
     context "when the String contains invalid byte sequences" do
       subject { "hello world\xfe\xff" }
 
-      let(:uri_form_escaped) { "hello+world%FE%FF"   }
+      let(:uri_form_escaped) { "hello+world%FE%FF" }
 
       it "must URI form escape each byte in the String" do
         expect(subject.uri_form_escape).to eq(uri_form_escaped)
@@ -178,7 +178,7 @@ describe String do
     context "when the %xx escaped character is lowercase hexadecimal" do
       subject { "x+%2b+y" }
 
-      let(:uri_form_unescaped) { "x + y"   }
+      let(:uri_form_unescaped) { "x + y" }
 
       it "must URI form unescape the String" do
         expect(subject.uri_form_unescape).to eq(uri_form_unescaped)
@@ -198,7 +198,7 @@ describe String do
     context "when given `case: :lower`" do
       subject { "\xff" }
 
-      let(:uri_form_encoded) { '%ff'  }
+      let(:uri_form_encoded) { '%ff' }
 
       it "must return a lowercase hexadecimal escaped String" do
         expect(subject.uri_form_encode(case: :lower)).to eq(uri_form_encoded)
@@ -208,7 +208,7 @@ describe String do
     context "when given `case: :upper`" do
       subject { "\xff" }
 
-      let(:uri_form_encoded) { '%FF'  }
+      let(:uri_form_encoded) { '%FF' }
 
       it "must return a uppercase hexadecimal escaped String" do
         expect(subject.uri_form_encode(case: :upper)).to eq(uri_form_encoded)

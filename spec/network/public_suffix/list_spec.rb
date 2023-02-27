@@ -299,7 +299,7 @@ describe Ronin::Support::Network::PublicSuffix::List do
       describe "record" do
         subject { super().parse.first }
       end
-     end
+    end
 
     describe ".load_file" do
       let(:path) { list_file }

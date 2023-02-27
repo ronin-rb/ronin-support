@@ -103,20 +103,20 @@ module Ronin
           # @api public
           #
           def telnet_connect(host, # connection options
-                             proxy:     Telnet.proxy,
-                             port:      Telnet::DEFAULT_PORT,
-                             binmode:   false,
-                             wait_time: 0,
-                             prompt:    Telnet::DEFAULT_PROMPT,
-                             timeout:   Telnet.default_timeout,
-                             telnet:    nil,
-                             plain:     nil,
-                             # authentication options
-                             user:     nil,
-                             password: nil,
-                             # log options
-                             output_log: nil,
-                             dump_log:   nil)
+                                   proxy:     Telnet.proxy,
+                                   port:      Telnet::DEFAULT_PORT,
+                                   binmode:   false,
+                                   wait_time: 0,
+                                   prompt:    Telnet::DEFAULT_PROMPT,
+                                   timeout:   Telnet.default_timeout,
+                                   telnet:    nil,
+                                   plain:     nil,
+                                   # authentication options
+                                   user:     nil,
+                                   password: nil,
+                                   # log options
+                                   output_log: nil,
+                                   dump_log:   nil)
             host = DNS::IDN.to_ascii(host)
 
             telnet_options = {

@@ -37,7 +37,7 @@ describe Ronin::Support::Crypto::Cipher::AES128 do
 
     it "must return all ciphers beginning with 'aes-128' or 'aes128'" do
       expect(subject.supported).to_not be_empty
-      expect(subject.supported).to all(be =~ /^aes[-]?128/)
+      expect(subject.supported).to all(be =~ /^aes(?:-)?128/)
     end
   end
 end

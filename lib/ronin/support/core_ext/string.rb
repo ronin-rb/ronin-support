@@ -199,7 +199,7 @@ class String
       other_index = (other.length - i - 1)
 
       if self[index] != other[other_index]
-        return self[(index + 1)..-1]
+        return self[(index + 1)..]
       end
     end
 
@@ -220,7 +220,7 @@ class String
   #
   def uncommon_substring(other)
     prefix  = common_prefix(other)
-    postfix = self[prefix.length..-1].common_suffix(other[prefix.length..-1])
+    postfix = self[prefix.length..].common_suffix(other[prefix.length..])
 
     return self[prefix.length...(length - postfix.length)]
   end

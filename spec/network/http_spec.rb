@@ -448,7 +448,7 @@ describe Ronin::Support::Network::HTTP do
       context "and when the URL's contains a user component" do
         let(:user)     { 'admin' }
         let(:password) { 's3cr3t' }
-        let(:uri)  do
+        let(:uri) do
           URI::HTTPS.build(
             host:     host,
             port:     port,
@@ -474,7 +474,7 @@ describe Ronin::Support::Network::HTTP do
       context "and when the URL contains a password component" do
         let(:user)     { 'admin' }
         let(:password) { 's3cr3t' }
-        let(:uri)  do
+        let(:uri) do
           URI::HTTPS.build(
             host:     host,
             port:     port,
@@ -524,7 +524,7 @@ describe Ronin::Support::Network::HTTP do
       context "and when the URL contains a user component" do
         let(:user)     { 'admin' }
         let(:password) { 's3cr3t' }
-        let(:uri)  do
+        let(:uri) do
           Addressable::URI.new(
             host:     host,
             port:     port,
@@ -550,7 +550,7 @@ describe Ronin::Support::Network::HTTP do
       context "and when the URL's contains a password component" do
         let(:user)     { 'admin' }
         let(:password) { 's3cr3t' }
-        let(:uri)  do
+        let(:uri) do
           Addressable::URI.new(
             host:     host,
             port:     port,

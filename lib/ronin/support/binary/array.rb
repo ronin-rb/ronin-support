@@ -172,16 +172,13 @@ module Ronin
         def [](index)
           offset = index * @type.size
 
-          if (index < 0 || offset+@type.size > size)
+          if (index < 0) || ((offset + @type.size) > size)
             raise(IndexError,"index #{index} is out of bounds: 0...#{@length}")
           end
 
           case @type
           when CTypes::ObjectType
-            @cache[index] ||= (
-              slice = byteslice(offset,@type.size)
-              @type.unpack(slice)
-            )
+            @cache[index] ||= @type.unpack(byteslice(offset,@type.size))
           else
             data = super(offset,@type.size)
             @type.unpack(data)
@@ -207,11 +204,11 @@ module Ronin
         #   array[0] = 0x11111111
         #   array[0]
         #   # => 286331153
-        #   
+        #
         def []=(index,value)
           offset = index * @type.size
 
-          if (index < 0 || offset+@type.size > size)
+          if (index < 0) || ((offset + @type.size) > size)
             raise(IndexError,"index #{index} is out of bounds: 0...#{@length}")
           end
 

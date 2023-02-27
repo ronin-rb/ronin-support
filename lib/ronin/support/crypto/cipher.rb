@@ -43,7 +43,7 @@ module Ronin
       # @see https://rubydoc.info/stdlib/openssl/OpenSSL/Cipher.html
       #
       # @since 1.0.0
-      # 
+      #
       # @api public
       #
       class Cipher < OpenSSL::Cipher

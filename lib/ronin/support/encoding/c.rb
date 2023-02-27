@@ -93,7 +93,7 @@ module Ronin
         # @raise [RangeError]
         #   The integer value is negative.
         #
-        # @example 
+        # @example
         #   Encoding::C.escape_byte(0x41)
         #   # => "A"
         #   Encoding::C.escape_byte(0x22)
@@ -223,11 +223,11 @@ module Ronin
           until scanner.eos?
             unescaped << case (char = scanner.getch)
                          when "\\" # backslash
-                           if (hex_char = scanner.scan(/x[0-9a-fA-F]{1,2}/)) # \xXX
+                           if (hex_char        = scanner.scan(/x[0-9a-fA-F]{1,2}/)) # \xXX
                              hex_char[1..].to_i(16).chr
-                           elsif (hex_char = scanner.scan(/u[0-9a-fA-F]{4,8}/)) # \u..
+                           elsif (hex_char     = scanner.scan(/u[0-9a-fA-F]{4,8}/)) # \u..
                              hex_char[1..].to_i(16).chr(Encoding::UTF_8)
-                           elsif (octal_char = scanner.scan(/[0-7]{1,3}/)) # \N, \NN, or \NNN
+                           elsif (octal_char   = scanner.scan(/[0-7]{1,3}/)) # \N, \NN, or \NNN
                              octal_char.to_i(8).chr
                            elsif (special_char = scanner.getch) # \[A-Za-z]
                              BACKSLASHED_CHARS.fetch(special_char,special_char)

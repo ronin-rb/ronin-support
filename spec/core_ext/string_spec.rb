@@ -125,16 +125,16 @@ describe String do
 
   describe "#common_prefix" do
     it "must find the common prefix between two Strings" do
-      one = 'What is puzzling you is the nature of my game'
-      two = 'What is puzzling you is the nature of my name'
+      one    = 'What is puzzling you is the nature of my game'
+      two    = 'What is puzzling you is the nature of my name'
       common = 'What is puzzling you is the nature of my '
 
       expect(one.common_prefix(two)).to eq(common)
     end
 
     it "must return the common prefix between two Strings with no uncommon postfix" do
-      one = "1234"
-      two = "12345"
+      one    = "1234"
+      two    = "12345"
       common = "1234"
 
       expect(one.common_prefix(two)).to eq(common)
@@ -157,8 +157,8 @@ describe String do
 
   describe "#common_suffix" do
     it "must find the common postfix between two Strings" do
-      one = 'Tell me baby whats my name'
-      two = "Can't you guess my name"
+      one    = 'Tell me baby whats my name'
+      two    = "Can't you guess my name"
       common = 's my name'
 
       expect(one.common_suffix(two)).to eq(common)
@@ -181,24 +181,24 @@ describe String do
 
   describe "#uncommon_substring" do
     it "must find the uncommon substring between two Strings" do
-      one = "Tell me baby whats my name"
-      two = "Tell me honey whats my name"
+      one      = "Tell me baby whats my name"
+      two      = "Tell me honey whats my name"
       uncommon = 'bab'
 
       expect(one.uncommon_substring(two)).to eq(uncommon)
     end
 
     it "must find the uncommon substring between two Strings with a common prefix" do
-      one = 'You and I must fight for our rights'
-      two = 'You and I must fight to survive'
+      one      = 'You and I must fight for our rights'
+      two      = 'You and I must fight to survive'
       uncommon = 'for our rights'
 
       expect(one.uncommon_substring(two)).to eq(uncommon)
     end
 
     it "must find the uncommon substring between two Strings with a common postfix" do
-      one = 'Tell me baby whats my name'
-      two = "Can't you guess my name"
+      one      = 'Tell me baby whats my name'
+      two      = "Can't you guess my name"
       uncommon = 'Tell me baby what'
 
       expect(one.uncommon_substring(two)).to eq(uncommon)

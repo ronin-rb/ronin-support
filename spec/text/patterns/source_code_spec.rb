@@ -239,9 +239,9 @@ describe Ronin::Support::Text::Patterns do
 
     it "must match a single-line // comment within a string" do
       string = <<~CODE
-      foo
-      // comment
-      bar
+        foo
+        // comment
+        bar
       CODE
 
       expect(string).to match(subject)
@@ -261,11 +261,11 @@ describe Ronin::Support::Text::Patterns do
 
     it "must match a multi-line /* ... */ comment" do
       string = <<~TEXT.chomp
-      /*
-       * foo
-       * bar
-       * baz
-       */
+        /*
+         * foo
+         * bar
+         * baz
+         */
       TEXT
 
       expect(string).to fully_match(subject)
@@ -273,11 +273,11 @@ describe Ronin::Support::Text::Patterns do
 
     it "must match a multi-line /* ... */ comment that ends with a new-line" do
       string = <<~TEXT
-      /*
-       * foo
-       * bar
-       * baz
-       */
+        /*
+         * foo
+         * bar
+         * baz
+         */
       TEXT
 
       expect(string).to match(subject)
@@ -357,9 +357,9 @@ describe Ronin::Support::Text::Patterns do
 
     it "must match a single-line # comment within a string" do
       string = <<~CODE
-      foo
-      # comment
-      bar
+        foo
+        # comment
+        bar
       CODE
 
       expect(string).to match(subject)

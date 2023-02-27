@@ -105,8 +105,13 @@ module Ronin
           #
           def decode(output=String.new)
             bytes = @bytes.take_while { |b| b != 61 } # strip padding
-            n = (bytes.length * 5.0 / 8.0).floor
-            p = bytes.length < 8 ? 5 - (n * 8) % 5 : 0
+
+            n = ((bytes.length * 5.0) / 8.0).floor
+            p = if bytes.length < 8
+                  5 - ((n * 8) % 5)
+                else
+                  0
+                end
             c = bytes.reduce(0) { |m,o|
               unless (i = Base32::TABLE.index(o.chr))
                 raise ArgumentError, "invalid character '#{o.chr}'"
@@ -115,8 +120,8 @@ module Ronin
               (m << 5) + i
             } >> p
 
-            (0..n-1).reverse_each.each do |i|
-              output << ((c >> i * 8) & 0xff).chr
+            (0..(n - 1)).reverse_each do |i|
+              output << ((c >> (i * 8)) & 0xff).chr
             end
 
             return output
@@ -132,15 +137,19 @@ module Ronin
           #   The Base32 encoded chunk.
           #
           def encode(output=String.new)
-            n = (@bytes.length * 8.0 / 5.0).ceil
-            p = n < 8 ? 5 - (@bytes.length * 8) % 5 : 0
-            c = @bytes.inject(0) {|m,o| (m << 8) + o} << p
+            n = ((@bytes.length * 8.0) / 5.0).ceil
+            p = if n < 8
+                  5 - ((@bytes.length * 8) % 5)
+                else
+                  0
+                end
+            c = @bytes.inject(0) { |m,o| (m << 8) + o } << p
 
-            (0..n-1).reverse_each do |i|
-              output << Base32::TABLE[(c >> i * 5) & 0x1f].chr
+            (0..(n - 1)).reverse_each do |i|
+              output << Base32::TABLE[(c >> (i * 5)) & 0x1f].chr
             end
 
-            return output << ("=" * (8-n))
+            return output << ("=" * (8 - n))
           end
 
         end
@@ -159,10 +168,8 @@ module Ronin
         # @api private
         #
         def self.each_chunk(data,size)
-          bytes  = data.bytes
-
-          data.bytes.each_slice(size) do |bytes|
-            yield Chunk.new(bytes)
+          data.bytes.each_slice(size) do |byte_slice|
+            yield Chunk.new(byte_slice)
           end
         end
       end

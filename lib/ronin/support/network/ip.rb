@@ -99,7 +99,7 @@ module Ronin
 
           begin
             super(address,family)
-          rescue IPAddr::InvalidAddressError => error
+          rescue IPAddr::InvalidAddressError
             raise(InvalidIP,"invalid IP address: #{address.inspect}")
           end
 
@@ -122,6 +122,7 @@ module Ronin
           response = begin
                        Net::HTTP.get_response(IPINFO_URI)
                      rescue
+                       # ignore any network failures
                      end
 
           if response && response.code == '200'
@@ -230,7 +231,7 @@ module Ronin
         #   IPAddr.extract(text,:v4) do |ip|
         #     puts ip
         #   end
-        #   
+        #
         def self.extract(text,version=nil,&block)
           return enum_for(__method__,text,version).to_a unless block_given?
 
@@ -240,10 +241,7 @@ module Ronin
                    else                    Text::Patterns::IP_ADDR
                    end
 
-          text.scan(regexp) do |match|
-            yield match
-          end
-
+          text.scan(regexp,&block)
           return nil
         end
 

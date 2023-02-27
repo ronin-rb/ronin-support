@@ -40,7 +40,7 @@ class IO
   #   # NOTICE AUTH :*** Checking Ident
   #   # NOTICE AUTH :*** Found your hostname
   #   # NOTICE AUTH :*** No ident response
-  #   # USER test_ruby * * * 
+  #   # USER test_ruby * * *
   #   # NICK test_ruby
   #   # PING :3167790481
   #   # PONG 3167790481

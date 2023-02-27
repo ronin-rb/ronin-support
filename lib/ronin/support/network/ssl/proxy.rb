@@ -28,7 +28,7 @@ module Ronin
         # protocols.
         #
         # ## Example
-        # 
+        #
         #     require 'ronin/support/network/ssl/proxy'
         #     require 'hexdump'
         #
@@ -216,7 +216,7 @@ module Ronin
           #
           # @param [OpenSSL::SSL::SSLSocket] connection
           #   A SSL connection to write data to.
-          # 
+          #
           # @param [String] data
           #   The data to write.
           #
@@ -238,11 +238,9 @@ module Ronin
           # @api public
           #
           def recv(connection)
-            begin
-              connection.readpartial(@buffer_size)
-            rescue Errno::ECONNRESET, EOFError
-              ''
-            end
+            connection.readpartial(@buffer_size)
+          rescue Errno::ECONNRESET, EOFError
+            ''
           end
 
           #
@@ -252,15 +250,15 @@ module Ronin
           #   The new SSL connection.
           #
           def accept_client_connection
-            client  = super
-            context = SSL.context(version:   @version,
-                                  key:       @key,
-                                  key_file:  @key_file,
-                                  cert:      @cert,
-                                  cert_file: @cert_file,
-                                  verify:    @verify)
-
+            client     = super
+            context    = SSL.context(version:   @version,
+                                     key:       @key,
+                                     key_file:  @key_file,
+                                     cert:      @cert,
+                                     cert_file: @cert_file,
+                                     verify:    @verify)
             ssl_socket = OpenSSL::SSL::SSLSocket.new(client,context)
+
             ssl_socket.sync_close = true
 
             begin
@@ -281,8 +279,8 @@ module Ronin
           def open_server_connection
             server_socket = super
             context       = SSL.context(verify: @verify, ca_bundle: @ca_bundle)
+            ssl_socket    = OpenSSL::SSL::SSLSocket.new(server_socket,context)
 
-            ssl_socket = OpenSSL::SSL::SSLSocket.new(server_socket,context)
             ssl_socket.sync_close = true
             ssl_socket.connect
 

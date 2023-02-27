@@ -67,24 +67,22 @@ module Ronin
         # @since 0.5.0
         #
         def self.open?(host,port, timeout: 5, **kwargs)
-          begin
-            Timeout.timeout(timeout) do
-              connect(host,port,**kwargs) do |socket|
-                # send an empty UDP packet, just like nmap
-                socket.syswrite('')
+          Timeout.timeout(timeout) do
+            connect(host,port,**kwargs) do |socket|
+              # send an empty UDP packet, just like nmap
+              socket.syswrite('')
 
-                # send an empty UDP packet again, to elicit an
-                # Errno::ECONNREFUSED
-                socket.syswrite('')
-              end
+              # send an empty UDP packet again, to elicit an
+              # Errno::ECONNREFUSED
+              socket.syswrite('')
             end
-
-            return true
-          rescue Timeout::Error
-            return nil
-          rescue SocketError, SystemCallError
-            return false
           end
+
+          return true
+        rescue Timeout::Error
+          return nil
+        rescue SocketError, SystemCallError
+          return false
         end
 
         #
@@ -328,7 +326,7 @@ module Ronin
         #
         def self.server_session(**kwargs,&block)
           server = server(**kwargs,&block)
-          server.close()
+          server.close
           return nil
         end
 

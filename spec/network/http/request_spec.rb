@@ -293,7 +293,7 @@ describe Ronin::Support::Network::HTTP::Request do
 
         context "when :query is empty" do
           it "must append an extra '&'" do
-            req = subject.build(:get,"#{path}?#{query}", query:  '')
+            req = subject.build(:get,"#{path}?#{query}", query: '')
 
             expect(req.path).to be_end_with('&')
           end
@@ -302,7 +302,7 @@ describe Ronin::Support::Network::HTTP::Request do
 
       context "when :query is empty" do
         it "must append an extra '?'" do
-          req = subject.build(:get,path, query:  '')
+          req = subject.build(:get,path, query: '')
 
           expect(req.path).to be_end_with('?')
         end

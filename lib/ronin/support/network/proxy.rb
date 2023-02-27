@@ -75,12 +75,12 @@ module Ronin
         attr_reader :port
 
         # The remote port the proxy will relay data to
-        # 
+        #
         # @return [String]
         attr_reader :server_host
 
         # The remote host the proxy will relay data to
-        # 
+        #
         # @return [Integer]
         attr_reader :server_port
 
@@ -130,7 +130,7 @@ module Ronin
           @port = port
 
           @server_host, @server_port = server
-          @server_port ||= @port
+          @server_port             ||= @port
 
           @callbacks = {client_data: [], server_data: []}
 
@@ -240,7 +240,7 @@ module Ronin
         # Closes the proxy.
         #
         # @api public
-        # 
+        #
         def close
           close_connections
           close_proxy

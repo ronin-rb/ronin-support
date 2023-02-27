@@ -183,7 +183,7 @@ module Ronin
           end
 
           private
-          
+
           #
           # Creates an `unzip` command with the additional arguments.
           #
@@ -256,7 +256,7 @@ module Ronin
           #   The parsed statistics.
           #
           def parse_statistics_line(line)
-            length, size, compression, files, _ = line.lstrip.split(/\s+/,5)
+            length, size, compression, files, _rest = line.lstrip.split(/\s+/,5)
 
             return Statistics.new(
               length:      length.to_i,

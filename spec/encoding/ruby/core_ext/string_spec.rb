@@ -143,7 +143,7 @@ describe String do
     context "when the String contains invalid byte sequences" do
       subject { "ABC\xfe\xff" }
 
-      let(:encoded) { '\x41\x42\x43\xFE\xFF'}
+      let(:encoded) { '\x41\x42\x43\xFE\xFF' }
 
       it "must encode each byte in the String" do
         expect(subject.ruby_encode).to eq(encoded)

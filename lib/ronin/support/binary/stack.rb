@@ -152,7 +152,7 @@ module Ronin
                    else              index
                    end
 
-          if offset+@machine_word.size > @size
+          if (offset + @machine_word.size) > @size
             raise(IndexError,"index #{index} is out of bounds: 0...#{@size}")
           end
 
@@ -184,12 +184,11 @@ module Ronin
                    else              index
                    end
 
-          if offset+@machine_word.size > @size
+          if (offset + @machine_word.size) > @size
             raise(IndexError,"index #{index} is out of bounds: 0...#{@size}")
           end
 
-          data = @machine_word.pack(value)
-          @string[offset,@machine_word.size] = data
+          @string[offset,@machine_word.size] = @machine_word.pack(value)
           return value
         end
 

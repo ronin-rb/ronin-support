@@ -30,10 +30,10 @@ describe Ronin::Support::Archive::Tar::Writer do
         it "must write to the given String" do
           expect(string).to_not be_empty
 
-          tar   = Gem::Package::TarReader.new(StringIO.new(string))
-          entry = tar.find { |entry| entry.full_name == 'test.txt' }
+          tar  = Gem::Package::TarReader.new(StringIO.new(string))
+          file = tar.find { |entry| entry.full_name == 'test.txt' }
 
-          expect(entry.read).to eq(txt_data)
+          expect(file.read).to eq(txt_data)
         end
 
         context "and when a block is given" do
@@ -60,10 +60,10 @@ describe Ronin::Support::Archive::Tar::Writer do
           expect(string).to start_with("foo")
           expect(string.length).to be > 3
 
-          tar = Gem::Package::TarReader.new(StringIO.new(string[3..]))
+          tar  = Gem::Package::TarReader.new(StringIO.new(string[3..]))
+          file = tar.find { |entry| entry.full_name == 'test.txt' }
 
-          entry = tar.find { |entry| entry.full_name == 'test.txt' }
-          expect(entry.read).to eq(txt_data)
+          expect(file.read).to eq(txt_data)
         end
 
         context "and when a block is given" do
@@ -90,10 +90,10 @@ describe Ronin::Support::Archive::Tar::Writer do
         it "must write to the IO object" do
           expect(buffer).to_not be_empty
 
-          tar   = Gem::Package::TarReader.new(StringIO.new(buffer))
-          entry = tar.find { |entry| entry.full_name == 'test.txt' }
+          tar  = Gem::Package::TarReader.new(StringIO.new(buffer))
+          file = tar.find { |entry| entry.full_name == 'test.txt' }
 
-          expect(entry.read).to eq(txt_data)
+          expect(file.read).to eq(txt_data)
         end
 
         context "and when a block is given" do
@@ -120,10 +120,10 @@ describe Ronin::Support::Archive::Tar::Writer do
           written_data = File.binread(tempfile.path)
           expect(written_data).to_not be_empty
 
-          tar   = Gem::Package::TarReader.new(StringIO.new(written_data))
-          entry = tar.find { |entry| entry.full_name == 'test.txt' }
+          tar  = Gem::Package::TarReader.new(StringIO.new(written_data))
+          file = tar.find { |entry| entry.full_name == 'test.txt' }
 
-          expect(entry.read).to eq(txt_data)
+          expect(file.read).to eq(txt_data)
         end
 
         context "and when a block is given" do
@@ -300,8 +300,8 @@ describe Ronin::Support::Archive::Tar::Writer do
       let(:mode) { 0777 }
 
       before do
-        subject.allocate_file(name, size, mode: mode) do
-          |io| io.write(txt_data)
+        subject.allocate_file(name, size, mode: mode) do |io|
+          io.write(txt_data)
         end
       end
 
@@ -363,7 +363,7 @@ describe Ronin::Support::Archive::Tar::Writer do
   end
 
   describe "#mkdir" do
-    let(:name)   { 'test_dir' }
+    let(:name) { 'test_dir' }
     let(:entry) do
       tar.find { |entry| entry.full_name == name }
     end

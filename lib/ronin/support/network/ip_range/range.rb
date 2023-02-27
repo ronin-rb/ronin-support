@@ -76,7 +76,7 @@ module Ronin
           #
           # @param [String] last
           #   The last IP address in the ASN IP range.
-          # 
+          #
           # @raise [ArgumentError]
           #   Both IP addresses must be either IPv4 addresses or IPv6 addresses.
           #

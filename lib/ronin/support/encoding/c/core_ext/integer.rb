@@ -29,7 +29,7 @@ class Integer
   # @raise [RangeError]
   #   The integer value is negative.
   #
-  # @example 
+  # @example
   #   0x41.c_escape
   #   # => "A"
   #   0x22.c_escape

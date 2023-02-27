@@ -323,7 +323,6 @@ module Ronin
             end
           end
         end
-
       end
     end
   end

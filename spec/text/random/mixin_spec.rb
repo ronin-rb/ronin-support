@@ -251,7 +251,7 @@ describe Ronin::Support::Text::Random::Mixin do
   describe ".symbols" do
     context "when given no arguments" do
       it "must return a string containing one symbol character" do
-        expect(subject.random_symbols).to match(/\A['"`,;:~\-\(\)\[\]\{\}\.\?!@\#\$%\^&\*_\+=\|\\<>\/]\z/)
+        expect(subject.random_symbols).to match(%r{\A['"`,;:~\-\(\)\[\]\{\}\.\?!@\#\$%\^&\*_\+=\|\\<>/]\z})
       end
     end
 
@@ -259,7 +259,7 @@ describe Ronin::Support::Text::Random::Mixin do
       let(:length) { 10 }
 
       it "must return a string of the desired length containing only symbol characters" do
-        expect(subject.random_symbols(length)).to match(/\A['"`,;:~\-\(\)\[\]\{\}\.\?!@\#\$%\^&\*_\+=\|\\<>\/]{#{length}}\z/)
+        expect(subject.random_symbols(length)).to match(%r{\A['"`,;:~\-\(\)\[\]\{\}\.\?!@\#\$%\^&\*_\+=\|\\<>/]{#{length}}\z})
       end
     end
   end

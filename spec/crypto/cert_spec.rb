@@ -315,7 +315,7 @@ describe Ronin::Support::Crypto::Cert do
             organizational_unit: organizational_unit,
             locality:            locality,
             state:               state,
-            country:             country,
+            country:             country
           },
           extensions: extensions
         )
@@ -343,7 +343,7 @@ describe Ronin::Support::Crypto::Cert do
             organizational_unit: organizational_unit,
             locality:            locality,
             state:               state,
-            country:             country,
+            country:             country
           },
           extensions: extensions
         )
@@ -353,7 +353,7 @@ describe Ronin::Support::Crypto::Cert do
         expect(subject.serial).to eq(serial)
       end
     end
-    
+
     it "must leave #subject blank by default" do
       expect(subject.subject.to_s).to eq("")
     end
@@ -368,7 +368,7 @@ describe Ronin::Support::Crypto::Cert do
             organizational_unit: organizational_unit,
             locality:            locality,
             state:               state,
-            country:             country,
+            country:             country
           },
           extensions: extensions
         )
@@ -436,7 +436,7 @@ describe Ronin::Support::Crypto::Cert do
             organizational_unit: organizational_unit,
             locality:            locality,
             state:               state,
-            country:             country,
+            country:             country
           },
           extensions: extensions
         )
@@ -447,10 +447,11 @@ describe Ronin::Support::Crypto::Cert do
       end
     end
 
+    let(:now)               { Time.now }
+    let(:one_year_from_now) { now + (60 * 60 * 24 * 365) }
+
     it "must default #not_after to one year from not_before" do
-      time = Time.now
-      one_year_from_now = time + (60 * 60 * 24 * 365)
-      allow(Time).to receive(:now).and_return(time)
+      allow(Time).to receive(:now).and_return(now)
 
       expect(subject.not_after).to be_within(1).of(one_year_from_now)
     end
@@ -468,7 +469,7 @@ describe Ronin::Support::Crypto::Cert do
             organizational_unit: organizational_unit,
             locality:            locality,
             state:               state,
-            country:             country,
+            country:             country
           },
           extensions: extensions
         )
@@ -499,7 +500,7 @@ describe Ronin::Support::Crypto::Cert do
             organizational_unit: 'Test Dept',
             locality:            'Test City',
             state:               'XX',
-            country:             'US',
+            country:             'US'
           },
           extensions: {
             'basicConstraints' => ['CA:true', false]
@@ -518,14 +519,14 @@ describe Ronin::Support::Crypto::Cert do
             organizational_unit: organizational_unit,
             locality:            locality,
             state:               state,
-            country:             country,
+            country:             country
           },
           extensions: extensions
         )
       end
 
       it "must set #serial to the CA cert's #serial + 1" do
-        expect(subject.serial).to eq(ca_cert.serial+1)
+        expect(subject.serial).to eq(ca_cert.serial + 1)
       end
 
       it "must sign the certificate using the given CA key" do
@@ -588,7 +589,7 @@ describe Ronin::Support::Crypto::Cert do
   describe "#extensions_hash" do
     it "must return a Hash of extension OID names and Extensions" do
       expect(subject.extensions_hash).to eq(
-        Hash[subject.extensions.map { |ext| [ext.oid, ext] }]
+        subject.extensions.to_h { |ext| [ext.oid, ext] }
       )
     end
   end

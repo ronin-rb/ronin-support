@@ -35,7 +35,7 @@ module Ronin
         # Regular expression to find file names in text
         #
         # @since 0.4.0
-        FILE_NAME = /(?:[^\/\\\. ]|\\[\/\\ ])+(?:#{FILE_EXT})?/
+        FILE_NAME = %r{(?:[^/\\\. ]|\\[/\\ ])+(?:#{FILE_EXT})?}
 
         # Regular expression to find Directory names in text
         #
@@ -45,12 +45,12 @@ module Ronin
         # Regular expression to find local UNIX Paths in text
         #
         # @since 0.4.0
-        RELATIVE_UNIX_PATH = /(?:#{DIR_NAME}\/)+#{DIR_NAME}\/?/
+        RELATIVE_UNIX_PATH = %r{(?:#{DIR_NAME}/)+#{DIR_NAME}/?}
 
         # Regular expression to find absolute UNIX Paths in text
         #
         # @since 0.4.0
-        ABSOLUTE_UNIX_PATH = /(?:\/#{FILE_NAME})+\/?/
+        ABSOLUTE_UNIX_PATH = %r{(?:/#{FILE_NAME})+/?}
 
         # Regular expression to find UNIX Paths in text
         #
@@ -86,7 +86,6 @@ module Ronin
         #
         # @since 0.4.0
         PATH = /#{UNIX_PATH}|#{WINDOWS_PATH}/
-
       end
     end
   end

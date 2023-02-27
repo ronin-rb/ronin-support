@@ -37,7 +37,7 @@ describe Ronin::Support::Crypto::Cipher::AES256 do
 
     it "must return all ciphers beginning with 'aes-256' or 'aes256'" do
       expect(subject.supported).to_not be_empty
-      expect(subject.supported).to all(be =~ /^aes[-]?256/)
+      expect(subject.supported).to all(be =~ /^aes(?:-)?256/)
     end
   end
 end

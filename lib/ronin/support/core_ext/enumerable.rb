@@ -17,7 +17,6 @@
 #
 
 module Enumerable
-
   #
   # Maps the elements to a Hash.
   #
@@ -49,5 +48,4 @@ module Enumerable
     each { |element| new_hash[element] }
     return new_hash
   end
-
 end

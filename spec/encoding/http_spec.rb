@@ -38,7 +38,7 @@ describe Ronin::Support::Encoding::HTTP do
     end
 
     context "when given the `case:` keyword argument with another value" do
-      let(:byte) { 0xFF  }
+      let(:byte) { 0xFF }
 
       it do
         expect {

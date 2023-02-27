@@ -106,7 +106,7 @@ describe Ronin::Support::Network::IP::Mixin do
       addresses = subject.local_addresses
 
       expect(addresses).to all(satisfy { |address|
-        !(address =~ /%.+$/)
+        address !~ /%.+$/
       })
     end
   end

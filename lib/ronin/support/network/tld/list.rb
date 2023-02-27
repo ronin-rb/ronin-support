@@ -152,6 +152,7 @@ module Ronin
               begin
                 download(url: url, path: path)
               rescue
+                # ignore any network failures
               end
             end
           end
@@ -228,7 +229,7 @@ module Ronin
             end
 
             name = host_name[0...index]
-            tld  = host_name[(index+1)..]
+            tld  = host_name[(index + 1)..]
 
             unless @list.include?(tld)
               raise(InvalidHostname,"hostname does not have a valid TLD: #{host_name.inspect}")

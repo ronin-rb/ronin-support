@@ -124,10 +124,9 @@ module Ronin
             end
 
             num_bits  = SIZES.fetch(first_ip.family)
-            mask      = MASKS.fetch(first_ip.family)
             diff_bits = first_ip.to_i ^ last_ip.to_i
 
-            if diff_bits != 0
+            if diff_bits > 0
               prefix_length = num_bits - Math.log2(diff_bits).ceil
 
               return new("#{first_ip}/#{prefix_length}")
@@ -191,9 +190,6 @@ module Ronin
             return enum_for(__method__) unless block_given?
 
             family_mask = MASKS[@family]
-            octet_mask  = if ipv6? then 0xffff
-                          else          0xff
-                          end
 
             (0..((~@mask_addr) & family_mask)).each do |i|
               ip_uint = (@addr | i)

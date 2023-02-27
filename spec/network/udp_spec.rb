@@ -80,7 +80,7 @@ describe Ronin::Support::Network::UDP do
         let(:bind_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a local port" do
-          socket      = subject.connect(host,port, bind_port: bind_port)
+          socket     = subject.connect(host,port, bind_port: bind_port)
           bound_port = socket.addr[1]
 
           expect(bound_port).to eq(bind_port)
@@ -125,8 +125,11 @@ describe Ronin::Support::Network::UDP do
         let(:bind_port) { 1024 + rand(65535 - 1024) }
 
         it "must connect and then send data" do
-          socket   = subject.connect_and_send(data,host,port)
-          banner   = socket.readline
+          socket = subject.connect_and_send(data,host,port)
+
+          # ignore the banner
+          socket.readline
+
           response = socket.readline
 
           expect(response.start_with?('250')).to be_true
@@ -135,8 +138,8 @@ describe Ronin::Support::Network::UDP do
         end
 
         it "must bind to a local port" do
-          socket      = subject.connect_and_send(
-                          data,host,port, bind_port: bind_port
+          socket     = subject.connect_and_send(
+                         data,host,port, bind_port: bind_port
                        )
           bound_port = socket.addr[1]
 
@@ -148,9 +151,11 @@ describe Ronin::Support::Network::UDP do
         it "must yield the UDPSocket" do
           response = nil
 
-          socket = subject.connect_and_send(data,host,port) do |socket|
-            banner   = socket.readline
-            response = socket.readline
+          socket = subject.connect_and_send(data,host,port) do |new_socket|
+            # ignore the banner
+            new_socket.readline
+
+            response = new_socket.readline
           end
 
           expect(response.start_with?('250')).to be_true
@@ -247,7 +252,7 @@ describe Ronin::Support::Network::UDP do
         let(:bind_port) { 1024 + rand(65535 - 1024) }
 
         it "must bind to a specific port and host" do
-          server      = subject.server(port: bind_port, host: bind_host)
+          server     = subject.server(port: bind_port, host: bind_host)
           bound_host = server.addr[3]
           bound_port = server.addr[1]
 

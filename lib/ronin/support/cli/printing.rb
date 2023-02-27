@@ -27,7 +27,7 @@ module Ronin
       # @since 1.0.0
       #
       module Printing
-        @@debug = false
+        @debug = false
 
         #
         # The current debug mode.
@@ -38,7 +38,7 @@ module Ronin
         # @api semipublic
         #
         def self.debug?
-          @@debug
+          @debug
         end
 
         #
@@ -53,7 +53,7 @@ module Ronin
         # @api semipublic
         #
         def self.debug=(debug_mode)
-          @@debug = debug_mode
+          @debug = debug_mode
         end
 
         # Enables or disables debug mode.

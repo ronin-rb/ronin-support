@@ -162,8 +162,8 @@ describe Ronin::Support::Encoding::Shell do
     end
 
     context "when the String contains escaped special characters" do
-      let(:data)      { "\\0\\a\\b\\e\\t\\n\\v\\f\\r\\\'\\\"" }
-      let(:unescaped) { "\0\a\b\e\t\n\v\f\r\'\"" }
+      let(:data)      { "\\0\\a\\b\\e\\t\\n\\v\\f\\r\\'\\\"" }
+      let(:unescaped) { "\0\a\b\e\t\n\v\f\r'\"" }
 
       it "must unescape escaped special characters" do
         expect(subject.unescape(data)).to eq(unescaped)

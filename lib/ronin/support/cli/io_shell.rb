@@ -34,7 +34,7 @@ module Ronin
       # NOTICE AUTH :*** Checking Ident
       # NOTICE AUTH :*** Found your hostname
       # NOTICE AUTH :*** No ident response
-      # USER test_ruby * * * 
+      # USER test_ruby * * *
       # NICK test_ruby
       # PING :3167790481
       # PONG 3167790481
@@ -123,7 +123,7 @@ module Ronin
           io_array = [@io, @stdin]
 
           loop do
-            readable, writable, errors = IO.select(io_array,nil,io_array)
+            readable, _writable, errors = IO.select(io_array,nil,io_array)
 
             if errors.include?(@io) || errors.include?(@stdin)
               return false
@@ -132,7 +132,7 @@ module Ronin
             if readable.include?(@io)
               data = begin
                        @io.readpartial(4096)
-                     rescue EOFError => error
+                     rescue EOFError
                        return false
                      end
 
@@ -142,7 +142,7 @@ module Ronin
             if readable.include?(@stdin)
               data = begin
                        @stdin.readpartial(4096)
-                     rescue EOFError => error
+                     rescue EOFError
                        return true
                      end
 

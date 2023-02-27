@@ -101,14 +101,15 @@ module Ronin
         # @return [self]
         #
         def concat(value)
-          value = case value
-                  when Integer then value.chr
-                  else              value.to_s
-                  end
+          value      = case value
+                       when Integer then value.chr
+                       else              value.to_s
+                       end
           value_size = value.bytesize
 
           unless value.include?(NULL)
             value = "#{value}#{NULL}"
+
             value_size += 1
           end
 
@@ -153,6 +154,7 @@ module Ronin
 
           @string.each_char do |char|
             break if char == NULL
+
             yield char
           end
         end
@@ -185,6 +187,7 @@ module Ronin
 
           @string.each_byte do |byte|
             break if byte == 0x00
+
             yield byte
           end
         end

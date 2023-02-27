@@ -133,7 +133,7 @@ module Ronin
 
             bits = (0...8)
 
-            string.each_byte.each_with_index do |byte,index|
+            string.each_byte.with_index do |byte,index|
               Integer.each_bit_flip(byte,bits) do |flipped_byte|
                 new_string = string.dup
                 new_string.force_encoding(Encoding::ASCII_8BIT)

@@ -66,7 +66,7 @@ module Ronin
         # @raise [RangeError]
         #   The byte value is negative.
         #
-        # @example 
+        # @example
         #   Encoding::Shell.encode_byte(0x41)
         #   # => "\\x41"
         #   Encoding::Shell.encode_byte(0x0a)
@@ -98,7 +98,7 @@ module Ronin
         # @raise [RangeError]
         #   The integer value is negative.
         #
-        # @example 
+        # @example
         #   Encoding::Shell.escape(0x41)
         #   # => "A"
         #   Encoding::Shell.escape(0x08)
@@ -188,7 +188,7 @@ module Ronin
           until scanner.eos?
             unescaped << if (backslash_char = scanner.scan(/\\[0abetnvfr\'\"]/)) # \n
                            BACKSLASHED_CHARS[backslash_char[1..]]
-                         elsif (hex_char = scanner.scan(/\\x[0-9a-fA-F]+/)) # \XX
+                         elsif (hex_char     = scanner.scan(/\\x[0-9a-fA-F]+/)) # \XX
                            hex_char[2..].to_i(16).chr
                          elsif (unicode_char = scanner.scan(/\\u[0-9a-fA-F]+/)) # \uXXXX
                            unicode_char[2..].to_i(16).chr(Encoding::UTF_8)

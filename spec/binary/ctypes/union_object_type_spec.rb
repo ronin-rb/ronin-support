@@ -16,9 +16,7 @@ describe Ronin::Support::Binary::CTypes::UnionObjectType do
 
   let(:union_class) { TestUnionObjectType::TestUnion }
   let(:union_members) do
-    Hash[union_class.type.members.map { |name,member|
-      [name, member.type]
-    }]
+    union_class.type.members.transform_values(&:type)
   end
   let(:union_type) do
     Ronin::Support::Binary::CTypes::UnionType.build(union_members)

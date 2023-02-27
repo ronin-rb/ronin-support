@@ -117,7 +117,7 @@ module Ronin
           # @yield [typo_word]
           #   If a block is given, it will be passed each typo variation of the
           #   original word.
-          # 
+          #
           # @yieldparam [String] typo_word
           #   One of the typoed variations of the original word.
           #
@@ -132,8 +132,8 @@ module Ronin
 
               while (match = word.match(regexp,offset))
                 start, stop = match.offset(0)
+                new_string  = word.dup
 
-                new_string = word.dup
                 new_string[start...stop] = replace
                 yield new_string
 

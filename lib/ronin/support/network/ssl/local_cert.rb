@@ -53,7 +53,7 @@ module Ronin
               subject: {
                 common_name:         'localhost',
                 organization:        'ronin-rb',
-                organizational_unit: 'ronin-support',
+                organizational_unit: 'ronin-support'
               },
               extensions: {
                 'subjectAltName' => subject_alt_name

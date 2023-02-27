@@ -28,7 +28,7 @@ module Ronin
         # The TCP Proxy allows for inspecting and manipulating TCP protocols.
         #
         # ## Example
-        # 
+        #
         #     require 'ronin/support/network/tcp/proxy'
         #     require 'hexdump'
         #
@@ -152,7 +152,7 @@ module Ronin
           def poll
             sockets = [@socket] + client_connections + server_connections
 
-            readable, writtable, errors = IO.select(sockets,nil,sockets)
+            readable, _writtable, errors = IO.select(sockets,nil,sockets)
 
             (errors & client_connections).each do |client_socket|
               server_socket = server_connection_for(client_socket)
@@ -200,7 +200,7 @@ module Ronin
           #
           # @param [TCPSocket] connection
           #   A TCP connection to write data to.
-          # 
+          #
           # @param [String] data
           #   The data to write.
           #

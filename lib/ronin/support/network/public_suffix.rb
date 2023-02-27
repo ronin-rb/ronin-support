@@ -35,10 +35,10 @@ module Ronin
         #   The loaded list file.
         #
         def self.list
-          @list ||= (
-            List.update
-            List.load_file
-          )
+          @list ||= begin
+                      List.update
+                      List.load_file
+                    end
         end
       end
     end

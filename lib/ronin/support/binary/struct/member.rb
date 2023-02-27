@@ -54,10 +54,9 @@ module Ronin
           #   The optional default value for the structure's field.
           #
           def initialize(name,type_signature, default: nil)
-            @name = name
+            @name           = name
             @type_signature = type_signature
-
-            @default = default
+            @default        = default
           end
 
           #

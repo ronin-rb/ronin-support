@@ -6,7 +6,7 @@ require_relative 'type_examples'
 
 describe Ronin::Support::Binary::CTypes::UnionType do
   describe described_class::Member do
-    let(:type)   { Ronin::Support::Binary::CTypes::UINT16 }
+    let(:type) { Ronin::Support::Binary::CTypes::UINT16 }
 
     subject { described_class.new(type) }
 

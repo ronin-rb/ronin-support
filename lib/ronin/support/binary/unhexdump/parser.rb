@@ -46,9 +46,7 @@ module Ronin
           )
 
           # Visible characters
-          VISIBLE_CHARS = Hash[
-            Chars::VISIBLE.chars.sort.zip(Chars::VISIBLE.bytes.sort)
-          ]
+          VISIBLE_CHARS = Chars::VISIBLE.chars.sort.zip(Chars::VISIBLE.bytes.sort).to_h
 
           # Escaped characters
           CHARS = {
@@ -261,7 +259,7 @@ module Ronin
             case @type
             when CTypes::CharType
               @base  = 8
-              @chars = CHARS 
+              @chars = CHARS
             end
           end
 
@@ -310,6 +308,8 @@ module Ronin
                 starts_repeating_at  = previous_address + previous_row_size
               else
                 address, row = parse_line(line)
+
+                # remember the first address
                 first_address ||= address
 
                 if previous_row_repeats
@@ -317,8 +317,8 @@ module Ronin
                   range     = starts_repeating_at...address
                   addresses = range.step(previous_row_size)
 
-                  addresses.each do |address|
-                    yield address, previous_row
+                  addresses.each do |next_address|
+                    yield next_address, previous_row
                   end
 
                   previous_row_repeats = false
@@ -368,7 +368,6 @@ module Ronin
             buffer = String.new(encoding: Encoding::ASCII_8BIT)
 
             length = parse(hexdump) do |address,row|
-              first_address ||= address
               buffer << pack(row)
             end
 
@@ -385,7 +384,7 @@ module Ronin
           #   The parsed address.
           #
           # @api private
-          #   
+          #
           def parse_address(address)
             address.to_i(@address_base)
           end
@@ -400,7 +399,7 @@ module Ronin
           #   The parsed Integer.
           #
           # @api private
-          #   
+          #
           def parse_int(string)
             string.to_i(@base)
           end
@@ -415,7 +414,7 @@ module Ronin
           #   The parsed integer or byte value of the character.
           #
           def parse_char_or_int(string)
-            @chars.fetch(string) do |string|
+            @chars.fetch(string) do
               string.to_i(@base)
             end
           end
@@ -459,6 +458,7 @@ module Ronin
               end
             else
               address, *numbers = line.split
+
               address = parse_address(address)
               numbers.map!(&@parse_method)
 
@@ -480,7 +480,7 @@ module Ronin
           #   The packed segment.
           #
           # @api private
-          #   
+          #
           def pack(values)
             values.pack(@type.pack_string * values.length)
           end

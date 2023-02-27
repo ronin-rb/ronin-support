@@ -149,6 +149,7 @@ module Ronin
               begin
                 download(url: url, path: path)
               rescue
+                # ignore any network failures
               end
             end
           end
@@ -224,6 +225,7 @@ module Ronin
 
               suffix.name.split('.').reverse_each.each_cons(2) do |parent,child|
                 subtree = tree[parent] ||= {}
+
                 subtree[child] ||= nil
 
                 tree = subtree
@@ -313,14 +315,14 @@ module Ronin
           def tld_regexp(tld,subtree)
             if subtree
               subtree_regexp = if subtree.length == 1
-                                  tld_regexp(subtree.keys[0],subtree.values[0])
-                                else
-                                  Regexp.union(
-                                    subtree.map { |sub_tld,sub_subtree|
-                                      tld_regexp(sub_tld,sub_subtree)
-                                    }
-                                  )
-                                end
+                                 tld_regexp(subtree.keys[0],subtree.values[0])
+                               else
+                                 Regexp.union(
+                                   subtree.map { |sub_tld,sub_subtree|
+                                     tld_regexp(sub_tld,sub_subtree)
+                                   }
+                                 )
+                               end
 
               /(?:#{subtree_regexp}\.)?#{tld}/
             else

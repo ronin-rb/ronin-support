@@ -29,7 +29,7 @@ class Integer
   # @raise [RangeError]
   #   The integer value is negative.
   #
-  # @example 
+  # @example
   #   0x41.shell_encode
   #   # => "\\x41"
   #   0x0a.shell_encode
@@ -61,7 +61,7 @@ class Integer
   # @raise [RangeError]
   #   The integer value is negative.
   #
-  # @example 
+  # @example
   #   0x41.shell_escape
   #   # => "A"
   #   0x08.shell_escape

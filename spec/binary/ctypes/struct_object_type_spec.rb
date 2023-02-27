@@ -16,9 +16,7 @@ describe Ronin::Support::Binary::CTypes::StructObjectType do
 
   let(:struct_class) { TestStructObjectType::TestStruct }
   let(:struct_members) do
-    Hash[struct_class.type.members.map { |name,member|
-      [name, member.type]
-    }]
+    struct_class.type.members.transform_values(&:type)
   end
   let(:struct_type) do
     Ronin::Support::Binary::CTypes::StructType.build(struct_members)

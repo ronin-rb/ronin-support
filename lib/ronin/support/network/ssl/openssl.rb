@@ -18,6 +18,6 @@
 
 begin
   require 'openssl'
-rescue ::LoadError
+rescue LoadError
   warn "WARNING: Ruby was not compiled with OpenSSL support"
 end

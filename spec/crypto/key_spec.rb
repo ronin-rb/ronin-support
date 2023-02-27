@@ -32,7 +32,7 @@ describe Ronin::Support::Crypto::Key do
     end
 
     context "when the key string starts with '-----BEGIN EC PRIVATE KEY-----'" do
-      let(:ec_pem_file)  { File.join(fixtures_dir,'ec.pem')  }
+      let(:ec_pem_file)  { File.join(fixtures_dir,'ec.pem') }
       let(:ec_pem)       { File.read(ec_pem_file) }
       let(:ec_key)       { described_class::EC.load_file(ec_pem_file) }
 
@@ -45,7 +45,7 @@ describe Ronin::Support::Crypto::Key do
     end
 
     context "when the key string is DER encoded" do
-      let(:der_file) { File.join(fixtures_dir,'rsa.der')  }
+      let(:der_file) { File.join(fixtures_dir,'rsa.der') }
       let(:der)      { File.binread(der_file) }
 
       it do
@@ -84,7 +84,7 @@ describe Ronin::Support::Crypto::Key do
     end
 
     context "when the key file starts with '-----BEGIN EC PRIVATE KEY-----'" do
-      let(:ec_pem_file)  { File.join(fixtures_dir,'ec.pem')  }
+      let(:ec_pem_file)  { File.join(fixtures_dir,'ec.pem') }
       let(:ec_pem)       { File.read(ec_pem_file) }
       let(:ec_key)       { described_class::EC.load_file(ec_pem_file) }
 
@@ -97,7 +97,7 @@ describe Ronin::Support::Crypto::Key do
     end
 
     context "when the key file is DER encoded" do
-      let(:der_file) { File.join(fixtures_dir,'rsa.der')  }
+      let(:der_file) { File.join(fixtures_dir,'rsa.der') }
       let(:der)      { File.read(der_file) }
 
       it do

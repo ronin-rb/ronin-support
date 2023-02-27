@@ -203,8 +203,8 @@ module Ronin
         def get(type,offset)
           type = @type_system[type]
 
-          if (offset < 0 || offset+type.size > size)
-            raise(IndexError,"offset #{offset} is out of bounds: 0...#{size-type.size}")
+          if (offset < 0) || ((offset + type.size) > size)
+            raise(IndexError,"offset #{offset} is out of bounds: 0...#{size - type.size}")
           end
 
           data = @string[offset,type.size]
@@ -270,27 +270,27 @@ module Ronin
         #   The read C string, without the null-byte.
         #
         def get_string(offset,length=nil)
-          if (offset < 0 || offset >= size)
-            raise(IndexError,"offset #{offset} is out of bounds: 0...#{size-1}")
-          elsif (length && offset+length > size)
-            raise(IndexError,"offset #{offset} or length #{length} is out of bounds: 0...#{size-1}")
+          if (offset < 0) || (offset >= size)
+            raise(IndexError,"offset #{offset} is out of bounds: 0...#{size - 1}")
+          elsif (length && (offset + length) > size)
+            raise(IndexError,"offset #{offset} or length #{length} is out of bounds: 0...#{size - 1}")
           end
 
           if length
             substring = @string[offset,length]
 
-            if (null_byte = substring.index("\0"))
-              substring[0...null_byte]
+            if (null_byte_index = substring.index("\0"))
+              substring[0...null_byte_index]
+            else
+              substring
             end
           else
-            if (null_byte = @string.index("\0",offset))
-              substring = @string[offset...null_byte]
+            if (null_byte_index = @string.index("\0",offset))
+              @string[offset...null_byte_index]
             else
-              substring = @string[offset..]
+              @string[offset..]
             end
           end
-
-          return substring
         end
 
         #
@@ -707,8 +707,8 @@ module Ronin
           type       = @type_system[type]
           array_type = type[count]
 
-          if (offset < 0 || offset+array_type.size > size)
-            raise(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{size-type.size}")
+          if (offset < 0) || ((offset + array_type.size) > size)
+            raise(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{size - type.size}")
           end
 
           slice = @string[offset,array_type.size]
@@ -1162,8 +1162,8 @@ module Ronin
         def put(type,offset,value)
           type = @type_system[type]
 
-          if (offset < 0 || offset+type.size > size)
-            raise(IndexError,"offset #{offset} is out of bounds: 0...#{size-type.size}")
+          if (offset < 0) || ((offset + type.size) > size)
+            raise(IndexError,"offset #{offset} is out of bounds: 0...#{size - type.size}")
           end
 
           data = type.pack(value)
@@ -1222,8 +1222,8 @@ module Ronin
           ascii_string = string.encode(Encoding::ASCII_8BIT)
           cstring      = "#{ascii_string}\0"
 
-          if (offset < 0 || offset+cstring.bytesize >= size)
-            raise(IndexError,"offset #{offset} or C string size #{cstring.bytesize} is out of bounds: 0...#{size-1}")
+          if (offset < 0) || ((offset + cstring.bytesize) >= size)
+            raise(IndexError,"offset #{offset} or C string size #{cstring.bytesize} is out of bounds: 0...#{size - 1}")
           end
 
           @string[offset,cstring.bytesize] = cstring
@@ -1605,9 +1605,9 @@ module Ronin
         def put_array_of(type,offset,array)
           type       = @type_system[type]
           array_type = type[array.length]
-          
-          if (offset < 0 || offset+array_type.size > size)
-            raise(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{size-type.size}")
+
+          if (offset < 0) || ((offset + array_type.size) > size)
+            raise(IndexError,"offset #{offset} or size #{array_type.size} is out of bounds: 0...#{size - type.size}")
           end
 
           data = array_type.pack(array)

@@ -145,7 +145,7 @@ module Ronin
 
             case length
             when Integer then @string[index,length] = value
-            when nil     then @string[index] = value
+            when nil     then @string[index]        = value
             when Float::INFINITY
               @string[index,@string.length - index] = value
             else
@@ -157,7 +157,7 @@ module Ronin
         end
 
         #
-        # Returns a byte slice of the memory at the given offset and for the 
+        # Returns a byte slice of the memory at the given offset and for the
         # remainder of the memory.
         #
         # @param [Integer] offset

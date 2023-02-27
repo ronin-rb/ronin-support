@@ -86,7 +86,7 @@ module Ronin
         # @return [String]
         #   The escaped JavaScript character.
         #
-        # @example 
+        # @example
         #   Encoding::JS.escape_byte(0x41)
         #   # => "A"
         #   Encoding::JS.escape_byte(0x22)
@@ -135,7 +135,7 @@ module Ronin
           "\\f"  => "\f",
           "\\r"  => "\r",
           "\\\"" => "\"",
-          "\\\'" => "'",
+          "\\'"  => "'",
           "\\\\" => "\\"
         }
 
@@ -187,9 +187,9 @@ module Ronin
           data.scan(/[\\%]u[0-9a-fA-F]{1,4}|[\\%][0-9a-fA-F]{1,2}|\\[btnfr\'\"\\]|./) do |c|
             unescaped << BACKSLASHED_CHARS.fetch(c) do
                            if (c.start_with?("\\u") || c.start_with?("%u"))
-                             c[2..-1].to_i(16)
+                             c[2..].to_i(16)
                            elsif (c.start_with?("\\") || c.start_with?("%"))
-                             c[1..-1].to_i(16)
+                             c[1..].to_i(16)
                            else
                              c
                            end

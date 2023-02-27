@@ -103,9 +103,9 @@ describe String do
     end
 
     context "when the String contains escaped special characters" do
-      subject { "\\0\\a\\b\\e\\t\\n\\v\\f\\r\\\'\\\"" }
+      subject { "\\0\\a\\b\\e\\t\\n\\v\\f\\r\\'\\\"" }
 
-      let(:unescaped) { "\0\a\b\e\t\n\v\f\r\'\"" }
+      let(:unescaped) { "\0\a\b\e\t\n\v\f\r'\"" }
 
       it "must unescape escaped special characters" do
         expect(subject.shell_unescape).to eq(unescaped)

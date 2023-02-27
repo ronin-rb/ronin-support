@@ -18,7 +18,7 @@
 
 begin
   require 'zlib'
-rescue ::LoadError
+rescue LoadError
   warn "WARNING: Ruby was not compiled with zlib support"
 end
 

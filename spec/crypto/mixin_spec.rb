@@ -39,7 +39,7 @@ describe Ronin::Support::Crypto::Mixin do
   end
 
   describe "#crypto_hmac" do
-    let(:key)  { 'secret' }
+    let(:key) { 'secret' }
 
     it "must return an OpenSSL::HMAC" do
       expect(subject.crypto_hmac(key: key)).to be_kind_of(OpenSSL::HMAC)
@@ -92,8 +92,8 @@ describe Ronin::Support::Crypto::Mixin do
 
   describe "#crypto_cipher" do
     let(:name)      { 'aes-256-cbc' }
-    let(:password)  { 'secret'      }
-    let(:direction) { :decrypt      }
+    let(:password)  { 'secret' }
+    let(:direction) { :decrypt }
 
     it "must return a Ronin::Support::Crypto::Cipher object" do
       new_cipher = subject.crypto_cipher(name, direction: direction,
@@ -105,10 +105,11 @@ describe Ronin::Support::Crypto::Mixin do
   end
 
   let(:cipher)   { 'aes-256-cbc' }
-  let(:password) { 'secret'      }
+  let(:password) { 'secret' }
 
   let(:cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-256-cbc')
+
     cipher.encrypt
     cipher.key = OpenSSL::Digest::SHA256.digest(password)
 
@@ -128,8 +129,8 @@ describe Ronin::Support::Crypto::Mixin do
   end
 
   describe "#crypto_aes" do
-    let(:key_size)  { 256      }
-    let(:hash)      { :sha256  }
+    let(:key_size)  { 256 }
+    let(:hash)      { :sha256 }
     let(:password)  { 'secret' }
     let(:direction) { :decrypt }
 
@@ -156,10 +157,10 @@ describe Ronin::Support::Crypto::Mixin do
 
       it "must use the given mode" do
         new_cipher = subject.crypto_aes_cipher(key_size:  key_size,
-                                        mode:      mode,
-                                        direction: direction,
-                                        password:  password,
-                                        hash:      hash)
+                                               mode:      mode,
+                                               direction: direction,
+                                               password:  password,
+                                               hash:      hash)
 
         expect(new_cipher.name).to eq("AES-256-#{mode.upcase}")
       end
@@ -168,6 +169,7 @@ describe Ronin::Support::Crypto::Mixin do
 
   let(:aes_cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-256-cbc')
+
     cipher.encrypt
     cipher.key = OpenSSL::Digest::SHA256.digest(password)
 
@@ -223,6 +225,7 @@ describe Ronin::Support::Crypto::Mixin do
 
   let(:aes128_cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-128-cbc')
+
     cipher.encrypt
     cipher.key = OpenSSL::Digest::MD5.digest(password)
 
@@ -274,6 +277,7 @@ describe Ronin::Support::Crypto::Mixin do
 
   let(:aes256_cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-256-cbc')
+
     cipher.encrypt
     cipher.key = OpenSSL::Digest::SHA256.digest(password)
 
@@ -314,7 +318,7 @@ describe Ronin::Support::Crypto::Mixin do
     end
 
     context "when the key: value is a OpenSSL::PKey::RSA object" do
-      let(:key)     { OpenSSL::PKey::RSA.new(rsa_pem)         }
+      let(:key)     { OpenSSL::PKey::RSA.new(rsa_pem) }
       let(:new_key) { Ronin::Support::Crypto::Key::RSA.load(rsa_pem) }
 
       it "must convert the key into and use #{Ronin::Support::Crypto::Key::RSA} to encrypt the data" do
@@ -402,7 +406,7 @@ describe Ronin::Support::Crypto::Mixin do
     end
 
     context "when the key: value is a OpenSSL::PKey::RSA object" do
-      let(:key)     { OpenSSL::PKey::RSA.new(rsa_pem)         }
+      let(:key)     { OpenSSL::PKey::RSA.new(rsa_pem) }
       let(:new_key) { Ronin::Support::Crypto::Key::RSA.load(rsa_pem) }
 
       it "must convert the key into and use #{Ronin::Support::Crypto::Key::RSA} to encrypt the data" do

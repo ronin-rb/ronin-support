@@ -247,7 +247,7 @@ describe Ronin::Support::Network::HTTP::Mixin do
   end
 
   describe "#http_get_headers" do
-     let(:headers) do
+    let(:headers) do
       {'X-Test' => 'foo'}
     end
 
@@ -256,7 +256,7 @@ describe Ronin::Support::Network::HTTP::Mixin do
 
       expect(subject.http_get_headers(uri)).to eq(headers)
     end
- end
+  end
 
   describe "#http_get_cookies" do
     it "must send a HTTP GET request for the given URI" do

@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'ronin/support/network/public_suffix/suffix'
 
 describe Ronin::Support::Network::PublicSuffix::Suffix do
-  let(:name) { 'com'  }
+  let(:name) { 'com' }
 
   subject { described_class.new(name) }
 

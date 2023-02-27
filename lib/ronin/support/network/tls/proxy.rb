@@ -27,7 +27,7 @@ module Ronin
         # protocols.
         #
         # ## Example
-        # 
+        #
         #     require 'ronin/support/network/tls/proxy'
         #     require 'hexdump'
         #

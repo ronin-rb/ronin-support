@@ -81,7 +81,7 @@ describe String do
     context "when the given String contains escaped special characters" do
       subject { "hello\\0world\\n" }
 
-      let(:unescaped) { "hello\0world\n"   }
+      let(:unescaped) { "hello\0world\n" }
 
       it "must unescape C special characters" do
         expect(subject.hex_unescape).to eq(unescaped)

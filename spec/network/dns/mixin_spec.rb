@@ -122,7 +122,7 @@ describe Ronin::Support::Network::DNS::Mixin do
       end
 
       context "when given a unicode domain name" do
-        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:unicode_hostname)  { "www.詹姆斯.com" }
         let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
 
         it "must lookup the addresses for the punycode version of the domain" do
@@ -167,7 +167,7 @@ describe Ronin::Support::Network::DNS::Mixin do
       end
 
       context "when given a unicode domain name" do
-        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:unicode_hostname)  { "www.詹姆斯.com" }
         let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
 
         it "must lookup the addresses for the punycode version of the domain" do
@@ -287,7 +287,7 @@ describe Ronin::Support::Network::DNS::Mixin do
 
       context "when given a unicode domain name" do
         let(:record_type)       { :a }
-        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:unicode_hostname)  { "www.詹姆斯.com" }
         let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
 
         it "must lookup the addresses for the punycode version of the domain" do
@@ -306,7 +306,7 @@ describe Ronin::Support::Network::DNS::Mixin do
       end
 
       context "when the host name has no matching records" do
-        let(:record_type)  { :cname }
+        let(:record_type) { :cname }
 
         it "must return nil" do
           expect(subject.dns_get_record(hostname,record_type)).to be(nil)
@@ -334,7 +334,7 @@ describe Ronin::Support::Network::DNS::Mixin do
 
       context "when given a unicode domain name" do
         let(:record_type)       { :a }
-        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:unicode_hostname)  { "www.詹姆斯.com" }
         let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
 
         it "must lookup the addresses for the punycode version of the domain" do
@@ -366,7 +366,7 @@ describe Ronin::Support::Network::DNS::Mixin do
 
   describe "#dns_get_cname_record" do
     context "integration", :network do
-      let(:domain)   { 'twitter.com'   }
+      let(:domain)   { 'twitter.com' }
       let(:hostname) { "www.#{domain}" }
 
       it "must return the Resolv::DNS::Resource::IN::CNAME record" do
@@ -388,7 +388,7 @@ describe Ronin::Support::Network::DNS::Mixin do
 
   describe "#dns_get_cname" do
     context "integration", :network do
-      let(:domain)   { 'twitter.com'   }
+      let(:domain)   { 'twitter.com' }
       let(:hostname) { "www.#{domain}" }
 
       it "must return the CNAME string" do
@@ -429,7 +429,7 @@ describe Ronin::Support::Network::DNS::Mixin do
 
   describe "#dns_get_a_record" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv4_address) { '93.184.216.34' }
 
       it "must return the first Resolv::DNS::Resource::IN::A record" do
@@ -451,7 +451,7 @@ describe Ronin::Support::Network::DNS::Mixin do
 
   describe "#dns_get_a_address" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv4_address) { '93.184.216.34' }
 
       it "must return the first IPv4 address" do
@@ -470,7 +470,7 @@ describe Ronin::Support::Network::DNS::Mixin do
 
   describe "#dns_get_a_records" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv4_address) { '93.184.216.34' }
 
       it "must return all Resolv::DNS::Resource::IN::A records" do
@@ -492,7 +492,7 @@ describe Ronin::Support::Network::DNS::Mixin do
 
   describe "#dns_get_a_addresses" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv4_address) { '93.184.216.34' }
 
       it "must return all IPv4 addresses" do
@@ -511,7 +511,7 @@ describe Ronin::Support::Network::DNS::Mixin do
 
   describe "#dns_get_aaaa_record" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
 
       it "must return the first Resolv::DNS::Resource::IN::AAAA record" do
@@ -533,7 +533,7 @@ describe Ronin::Support::Network::DNS::Mixin do
 
   describe "#dns_get_aaaa_address" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
 
       it "must return the first IPv6 address" do
@@ -552,7 +552,7 @@ describe Ronin::Support::Network::DNS::Mixin do
 
   describe "#dns_get_aaaa_records" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
 
       it "must return all Resolv::DNS::Resource::IN::AAAA records" do
@@ -574,7 +574,7 @@ describe Ronin::Support::Network::DNS::Mixin do
 
   describe "#dns_get_aaaa_addresses" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
 
       it "must return the IPv6 addresses" do

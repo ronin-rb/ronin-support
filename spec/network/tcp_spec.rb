@@ -38,10 +38,11 @@ describe Ronin::Support::Network::TCP do
 
       context "when given a timeout" do
         it "must have a timeout for firewalled ports" do
-          timeout = 2
+          closed_port = port + 1
+          timeout     = 2
 
           t1 = Time.now
-          subject.open?(host,port+1, timeout: timeout)
+          subject.open?(host,closed_port, timeout: timeout)
           t2 = Time.now
 
           expect((t2 - t1).to_i).to be <= timeout
@@ -131,8 +132,11 @@ describe Ronin::Support::Network::TCP do
       let(:expected_response) { "250 #{host} at your service\r\n" }
 
       it "must connect and then send data" do
-        socket   = subject.connect_and_send(data,host,port)
-        banner   = socket.readline
+        socket = subject.connect_and_send(data,host,port)
+
+        # ignore the banner
+        socket.readline
+
         response = socket.readline
 
         expect(response).to eq(expected_response)
@@ -159,9 +163,11 @@ describe Ronin::Support::Network::TCP do
         it "must yield the TCPSocket" do
           response = nil
 
-          socket = subject.connect_and_send(data,host,port) do |socket|
-            banner   = socket.readline
-            response = socket.readline
+          socket = subject.connect_and_send(data,host,port) do |new_socket|
+            # ignore the banner
+            new_socket.readline
+
+            response = new_socket.readline
           end
 
           expect(response).to eq(expected_response)

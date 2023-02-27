@@ -68,14 +68,14 @@ describe Ronin::Support::Path do
 
     it "must join with a sub-directory" do
       sub_directory = 'three'
-      expected = [subject, sub_directory].join(File::SEPARATOR)
+      expected      = [subject, sub_directory].join(File::SEPARATOR)
 
       expect(subject.join(sub_directory).to_s).to eq(expected)
     end
 
     it "must not collapse directory traversals" do
       traversal = described_class.up(n)
-      expected = [subject, traversal].join(File::SEPARATOR)
+      expected  = [subject, traversal].join(File::SEPARATOR)
 
       expect(subject.join(traversal).to_s).to eq(expected)
     end

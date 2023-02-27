@@ -61,7 +61,7 @@ module Ronin
           # @api private
           #
           def self.load_file(path)
-            table = new()
+            table = new
 
             File.open(path) do |file|
               file.each_line(chomp: true) do |line|
@@ -211,11 +211,11 @@ module Ronin
                 offset = 0
 
                 while (index = string.index(replaceable_char,offset))
-                  homoglyph = string.dup
+                  homoglyph        = string.dup
                   homoglyph[index] = substitute_char
 
                   yield homoglyph
-                  offset = index+1
+                  offset = index + 1
                 end
               end
             end

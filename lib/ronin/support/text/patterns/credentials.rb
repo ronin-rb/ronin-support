@@ -59,10 +59,10 @@ module Ronin
         # @since 1.0.0
         AWS_ACCESS_KEY_ID = /(?<=[^A-Z0-9]|^)[A-Z0-9]{20}(?=[^A-Z0-9]|$)/
 
-        # Regular expression for finding all AWS secret access key 
+        # Regular expression for finding all AWS secret access key
         #
         # @since 1.0.0
-        AWS_SECRET_ACCESS_KEY = /(?<=[^A-Za-z0-9\/+=]|^)[A-Za-z0-9\/+=]{40}(?=[^A-Za-z0-9\/+=]|$)/
+        AWS_SECRET_ACCESS_KEY = %r{(?<=[^A-Za-z0-9/+=]|^)[A-Za-z0-9/+=]{40}(?=[^A-Za-z0-9/+=]|$)}
 
         # Regular expression for finding all API keys (md5, sha1, sha256,
         # sha512, AWS access key ID or AWS secret access key).

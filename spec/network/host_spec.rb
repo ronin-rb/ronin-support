@@ -236,7 +236,7 @@ describe Ronin::Support::Network::Host do
       let(:new_suffix) { 'net' }
 
       it "must add the missing '.' character" do
-      expect(subject.change_suffix(new_suffix).name).to eq('www.example.net')
+        expect(subject.change_suffix(new_suffix).name).to eq('www.example.net')
       end
     end
 
@@ -435,7 +435,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe "#get_addresses"  do
+  describe "#get_addresses" do
     context "integration", :network do
       it "must lookup all addresses for a hostname" do
         expect(subject.get_addresses).to include(address)
@@ -508,7 +508,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe "#get_ips"  do
+  describe "#get_ips" do
     context "integration", :network do
       it "must return all IPs for the hostname" do
         ips = subject.get_ips
@@ -528,7 +528,7 @@ describe Ronin::Support::Network::Host do
     end
   end
 
-  describe "#ips"  do
+  describe "#ips" do
     context "integration", :network do
       it "must return all IPs for the hostname" do
         ips = subject.ips
@@ -590,7 +590,7 @@ describe Ronin::Support::Network::Host do
       end
 
       context "when the host name has no matching records" do
-        let(:record_type)  { :cname }
+        let(:record_type) { :cname }
 
         it "must return nil" do
           expect(subject.get_record(record_type)).to be(nil)
@@ -940,7 +940,7 @@ describe Ronin::Support::Network::Host do
 
   describe "#get_aaaa_record" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
 
       it "must return the first Resolv::DNS::Resource::IN::AAAA record" do
@@ -975,7 +975,7 @@ describe Ronin::Support::Network::Host do
 
   describe "#get_aaaa_address" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
 
       it "must return the first IPv6 address" do
@@ -1004,7 +1004,7 @@ describe Ronin::Support::Network::Host do
 
   describe "#get_aaaa_records" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
 
       it "must return all Resolv::DNS::Resource::IN::AAAA records" do
@@ -1040,7 +1040,7 @@ describe Ronin::Support::Network::Host do
 
   describe "#get_aaaa_addresses" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
 
       it "must return the IPv6 addresses" do
@@ -1438,7 +1438,7 @@ describe Ronin::Support::Network::Host do
 
           soa_record = subject.get_soa_records(name)
 
-          expect(ns_record).to all(be_kind_of(Resolv::DNS::Resource::IN::SOA))
+          expect(soa_record).to all(be_kind_of(Resolv::DNS::Resource::IN::SOA))
         end
       end
     end

@@ -148,7 +148,7 @@ describe Ronin::Support::Binary::ByteSlice do
         let(:index) { 1 }
 
         it "must add the offset to the index" do
-          expect(subject[index]).to eq(string[offset+index])
+          expect(subject[index]).to eq(string[offset + index])
         end
       end
 
@@ -157,7 +157,7 @@ describe Ronin::Support::Binary::ByteSlice do
         let(:count) { 2 }
 
         it "must add the offset to the index and read length number of chars" do
-          expect(subject[index,count]).to eq(string[offset+index,count])
+          expect(subject[index,count]).to eq(string[offset + index,count])
         end
       end
 
@@ -166,7 +166,7 @@ describe Ronin::Support::Binary::ByteSlice do
         let(:count) { Float::INFINITY }
 
         it "must add the offset to the index and subtrack the index from the total length of the byte slice" do
-          expect(subject[index,count]).to eq(string[offset+index,length-index])
+          expect(subject[index,count]).to eq(string[offset + index,length - index])
         end
       end
 
@@ -175,7 +175,7 @@ describe Ronin::Support::Binary::ByteSlice do
 
         it "must add the offset to the Range's beginning and read till the Range's end" do
           expect(subject[range]).to eq(
-            string[offset+range.begin...offset+range.end]
+            string[offset + range.begin...offset + range.end]
           )
         end
       end
@@ -197,7 +197,7 @@ describe Ronin::Support::Binary::ByteSlice do
         let(:index) { 1 }
 
         it "must add the two offsets to the index" do
-          expect(subject[index]).to eq(string[offset+sub_offset+index])
+          expect(subject[index]).to eq(string[offset + sub_offset + index])
         end
       end
 
@@ -207,7 +207,7 @@ describe Ronin::Support::Binary::ByteSlice do
 
         it "must add the two offsets to the index and read length number of chars" do
           expect(subject[index,count]).to eq(
-            string[offset+sub_offset+index,count]
+            string[offset + sub_offset + index,count]
           )
         end
       end
@@ -218,7 +218,7 @@ describe Ronin::Support::Binary::ByteSlice do
 
         it "must add the offset to the index and subtrack the index from the total length of the byte slice" do
           expect(subject[index,count]).to eq(
-            string[offset+sub_offset+index,sub_length-index]
+            string[offset + sub_offset + index,sub_length - index]
           )
         end
       end
@@ -228,7 +228,7 @@ describe Ronin::Support::Binary::ByteSlice do
 
         it "must add the two offsets to the Range's beginning and read till the Range's end" do
           expect(subject[range]).to eq(
-            string[offset+sub_offset+range.begin...offset+sub_offset+range.end]
+            string[offset + sub_offset + range.begin...offset + sub_offset + range.end]
           )
         end
       end
@@ -265,9 +265,9 @@ describe Ronin::Support::Binary::ByteSlice do
         let(:char)  { 'A' }
 
         before { subject[index] = char }
-        
+
         it "must set the character at that index plus the offset" do
-          expect(string[offset+index]).to eq(char)
+          expect(string[offset + index]).to eq(char)
         end
       end
 
@@ -279,7 +279,7 @@ describe Ronin::Support::Binary::ByteSlice do
         before { subject[index,count] = chars }
 
         it "must set the characters at that index plus the offset" do
-          expect(string[offset+index,count]).to eq(chars)
+          expect(string[offset + index,count]).to eq(chars)
         end
       end
 
@@ -297,12 +297,12 @@ describe Ronin::Support::Binary::ByteSlice do
 
       context "and when a Range is given" do
         let(:range) { 1..3 }
-        let(:chars) { 'A' * (range.end-range.begin) }
+        let(:chars) { 'A' * (range.end - range.begin) }
 
         before { subject[range] = chars }
-        
+
         it "must set the characters between the Range's beginning plus the offset and read till the Range's end plus the offset" do
-          expect(string[range.begin+offset,range.end-range.begin]).to eq(chars)
+          expect(string[range.begin + offset,range.end - range.begin]).to eq(chars)
         end
       end
     end
@@ -324,9 +324,9 @@ describe Ronin::Support::Binary::ByteSlice do
         let(:char)  { 'A' }
 
         before { subject[index] = char }
-        
+
         it "must set the character at that the index plus the two offsets" do
-          expect(string[offset+sub_offset+index]).to eq(char)
+          expect(string[offset + sub_offset + index]).to eq(char)
         end
       end
 
@@ -336,9 +336,9 @@ describe Ronin::Support::Binary::ByteSlice do
         let(:chars) { 'A' * count }
 
         before { subject[index,count] = chars }
-        
+
         it "must set the characters at that the index plus the two offsets" do
-          expect(string[offset+sub_offset+index,count]).to eq(chars)
+          expect(string[offset + sub_offset + index,count]).to eq(chars)
         end
       end
 
@@ -350,18 +350,18 @@ describe Ronin::Support::Binary::ByteSlice do
         before { subject[index,count] = chars }
 
         it "must add the offset to the index and subtrack the index from the total length of the byte slice" do
-          expect(string[offset+sub_offset+index,length-index]).to eq(chars)
+          expect(string[offset + sub_offset + index,length - index]).to eq(chars)
         end
       end
 
       context "and when a Range is given" do
         let(:range) { 1..3 }
-        let(:chars) { 'A' * (range.end-range.begin) }
+        let(:chars) { 'A' * (range.end - range.begin) }
 
         before { subject[range] = chars }
-        
+
         it "must set the characters between the Range's beginning plus the two offsets and read till the Range's end plus the two offsets" do
-          expect(string[range.begin+offset+sub_offset,range.end-range.begin]).to eq(chars)
+          expect(string[range.begin + offset + sub_offset,range.end - range.begin]).to eq(chars)
         end
       end
     end
@@ -383,7 +383,7 @@ describe Ronin::Support::Binary::ByteSlice do
     end
 
     it "must set the new #{described_class}'s #offset to the combination of the previous offset and the new offset" do
-      expect(subject.offset).to eq(offset+sub_offset)
+      expect(subject.offset).to eq(offset + sub_offset)
     end
 
     it "must set the new #{described_class}'s #length" do
@@ -437,7 +437,7 @@ describe Ronin::Support::Binary::ByteSlice do
       let(:index) { 1 }
 
       it "must return the byte at the given index plus the offset" do
-        expect(subject.getbyte(index)).to eq(string.getbyte(offset+index))
+        expect(subject.getbyte(index)).to eq(string.getbyte(offset + index))
       end
     end
 
@@ -450,7 +450,7 @@ describe Ronin::Support::Binary::ByteSlice do
     end
 
     context "when the index is greater than the length" do
-      let(:index) { length+1 }
+      let(:index) { length + 1 }
 
       it "must return nil" do
         expect(subject.getbyte(index)).to be(nil)
@@ -467,7 +467,7 @@ describe Ronin::Support::Binary::ByteSlice do
       before { subject.setbyte(index,byte) }
 
       it "must set the byte at the given index plus the offset" do
-        expect(string.getbyte(offset+index)).to eq(byte)
+        expect(string.getbyte(offset + index)).to eq(byte)
       end
     end
 
@@ -482,7 +482,7 @@ describe Ronin::Support::Binary::ByteSlice do
     end
 
     context "when the index is greater than the length" do
-      let(:index) { length+1 }
+      let(:index) { length + 1 }
 
       it "must raise an IndexError" do
         expect {

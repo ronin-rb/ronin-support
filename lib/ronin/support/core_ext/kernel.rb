@@ -39,10 +39,8 @@ module Kernel
   # @api public
   #
   def try
-    begin
-      yield() if block_given?
-    rescue Exception
-      return nil
-    end
+    yield() if block_given?
+  rescue Exception
+    # ignore any exceptions
   end
 end

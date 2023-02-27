@@ -320,7 +320,7 @@ module Ronin
                            ESCAPED_CHARS.fetch(named_char.downcase)
                          elsif (decimal_char = scanner.scan(/&#\d+;/))
                            decimal_char[2..-2].to_i.chr(Encoding::UTF_8)
-                         elsif (hex_char = scanner.scan(/&#x[a-f0-9]+;/i))
+                         elsif (hex_char     = scanner.scan(/&#x[a-f0-9]+;/i))
                            hex_char[3..-2].to_i(16).chr(Encoding::UTF_8)
                          else
                            scanner.getch

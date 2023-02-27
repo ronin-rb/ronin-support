@@ -37,10 +37,10 @@ describe Ronin::Support::Archive::Mixin do
       end
 
       it "must tar_stream the String in a StringIO object" do
-        tar   = subject.tar_stream(string)
-        entry = tar.find { |entry| entry.full_name == 'file.txt' }
+        tar  = subject.tar_stream(string)
+        file = tar.find { |entry| entry.full_name == 'file.txt' }
 
-        expect(entry.read).to eq(txt_data)
+        expect(file.read).to eq(txt_data)
       end
 
       context "when given mode: 'w'" do
@@ -98,10 +98,10 @@ describe Ronin::Support::Archive::Mixin do
       end
 
       it "must tar_stream the String in a StringIO object" do
-        tar   = subject.tar_stream(string_io)
-        entry = tar.find { |entry| entry.full_name == 'file.txt' }
+        tar  = subject.tar_stream(string_io)
+        file = tar.find { |entry| entry.full_name == 'file.txt' }
 
-        expect(entry.read).to eq(txt_data)
+        expect(file.read).to eq(txt_data)
       end
 
       context "when given mode: 'w'" do

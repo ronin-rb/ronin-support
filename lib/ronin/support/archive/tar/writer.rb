@@ -122,7 +122,7 @@ module Ronin
           # @return [self]
           #
           # @see https://rubydoc.info/stdlib/rubygems/Gem/Package/TarWriter/RestrictedStream
-          #   
+          #
           def add_file(name,contents=nil, mode: 0644, &block)
             if contents
               super(name,mode) do |io|
@@ -154,7 +154,7 @@ module Ronin
           # @return [self]
           #
           # @see https://rubydoc.info/stdlib/rubygems/Gem/Package/TarWriter/BoundedStream
-          #   
+          #
           def allocate_file(name,size, mode: 0644, &block)
             add_file_simple(name,mode,size,&block)
           end

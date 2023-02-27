@@ -78,7 +78,7 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
   describe "#read_array_of" do
     let(:type_name)  { :int32_le }
     let(:type)       { Ronin::Support::Binary::CTypes[type_name] }
-    let(:array_type) { type[array.length]  }
+    let(:array_type) { type[array.length] }
     let(:array)      { [-1, -2, -3] }
     let(:count)      { array.length }
     let(:buffer)     { array_type.pack(array) }
@@ -235,7 +235,7 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
   describe "#write_array_of" do
     let(:type_name)  { :int32_le }
     let(:type)       { Ronin::Support::Binary::CTypes[type_name] }
-    let(:array_type) { type[array.length]  }
+    let(:array_type) { type[array.length] }
     let(:array)      { [-1, -2, -3] }
     let(:array_type) { type[array.length] }
     let(:count)      { array.length }
@@ -265,7 +265,7 @@ shared_examples_for "Ronin::Support::Binary::Stream::Methods examples" do
   ].each do |type_name|
     describe "#read_#{type_name}" do
       let(:type_name) { type_name }
-      let(:count)     { double('count')  }
+      let(:count)     { double('count') }
 
       it "must call #read_array_of with :#{type_name} and the given count" do
         expect(subject).to receive(:read_array_of).with(type_name,count)

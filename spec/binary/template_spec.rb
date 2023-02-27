@@ -75,7 +75,7 @@ describe Ronin::Support::Binary::Template do
 
     context "when given an Array of the type name and length" do
       let(:length) { 10 }
-      let(:fields) { [ [type_name, length] ] }
+      let(:fields) { [[type_name, length]] }
       let(:array_type) do
         Ronin::Support::Binary::CTypes::ArrayType.new(type,length)
       end
@@ -101,7 +101,7 @@ describe Ronin::Support::Binary::Template do
     context "when given an Array of an Array of the type name and length" do
       let(:length1) { 2  }
       let(:length2) { 10 }
-      let(:fields)  { [ [[type_name, length2], length1] ] }
+      let(:fields)  { [[[type_name, length2], length1]] }
 
       let(:sub_array_type) do
         Ronin::Support::Binary::CTypes::ArrayType.new(type,length2)
@@ -190,7 +190,7 @@ describe Ronin::Support::Binary::Template do
       let(:type_name) { :uint32 }
       let(:type)      { Ronin::Support::Binary::CTypes::BigEndian[type_name] }
       let(:fields)    { [type_name] }
-      let(:endian)    { :big  }
+      let(:endian)    { :big }
 
       subject { described_class.new(fields, endian: endian) }
 
@@ -215,7 +215,7 @@ describe Ronin::Support::Binary::Template do
       let(:type_name) { :uint32 }
       let(:type)      { Ronin::Support::Binary::CTypes::Network[type_name] }
       let(:fields)    { [type_name] }
-      let(:endian)    { :big  }
+      let(:endian)    { :big }
 
       subject { described_class.new(fields, endian: endian) }
 

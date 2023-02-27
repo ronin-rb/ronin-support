@@ -44,7 +44,7 @@ module Ronin
         #         puts "#{host}:#{port} <- #{proxy}"
         #         hex.dump(data)
         #       end
-        #     
+        #
         #     end
         #
         # @since 0.5.0
@@ -70,7 +70,7 @@ module Ronin
           def poll
             sockets = [@socket] + server_connections
 
-            readable, writtable, errors = IO.select(sockets,nil,sockets)
+            readable, _writtable, errors = IO.select(sockets,nil,sockets)
 
             (errors & server_connections).each do |server_socket|
               client_socket = client_connection_for(server_socket)
@@ -79,8 +79,8 @@ module Ronin
             end
 
             (readable & server_connections).each do |server_socket|
-              client_socket  = client_connection_for(server_socket)
-              data, addrinfo = recv(server_socket)
+              client_socket   = client_connection_for(server_socket)
+              data, _addrinfo = recv(server_socket)
 
               server_data(client_socket,server_socket,data)
             end
@@ -133,7 +133,7 @@ module Ronin
           def recv(connection)
             case connection
             when Array
-              socket, (host, port) = connection
+              socket, _host_and_port = connection
 
               socket.recvfrom(@buffer_size)
             when UDPSocket

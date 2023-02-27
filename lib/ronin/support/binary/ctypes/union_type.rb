@@ -162,9 +162,9 @@ module Ronin
           #   The uninitialized values for the new union's members.
           #
           def uninitialized_value
-            Hash[@members.map { |name,member|
-              [name, member.type.uninitialized_value]
-            }]
+            @members.transform_values do |member|
+              member.type.uninitialized_value
+            end
           end
 
           #

@@ -52,15 +52,15 @@ describe String do
     end
 
     it "must format specific chars in a String" do
-      expect(subject.encode_chars(include: ['h', 'l']) { |c|
-        c.upcase
-      }).to eq('HeLLo')
+      encoded = subject.encode_chars(include: ['h', 'l'], &:upcase)
+
+      expect(encoded).to eq('HeLLo')
     end
 
     it "must not format specific chars in a String" do
-      expect(subject.encode_chars(exclude: ['h', 'l']) { |c|
-        c.upcase
-      }).to eq('hEllO')
+      encoded = subject.encode_chars(exclude: ['h', 'l'], &:upcase)
+
+      expect(encoded).to eq('hEllO')
     end
   end
 end

@@ -92,7 +92,7 @@ describe Ronin::Support::Network::DNS do
       end
 
       context "when given a unicode domain name" do
-        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:unicode_hostname)  { "www.詹姆斯.com" }
         let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
 
         it "must lookup the addresses for the punycode version of the domain" do
@@ -126,14 +126,14 @@ describe Ronin::Support::Network::DNS do
     end
   end
 
-  describe ".get_addresses"  do
+  describe ".get_addresses" do
     context "integration", :network do
       it "must lookup all addresses for a hostname" do
         expect(subject.get_addresses(hostname)).to include(address)
       end
 
       context "when given a unicode domain name" do
-        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:unicode_hostname)  { "www.詹姆斯.com" }
         let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
 
         it "must lookup the addresses for the punycode version of the domain" do
@@ -153,7 +153,7 @@ describe Ronin::Support::Network::DNS do
     end
   end
 
-  describe ".get_name"  do
+  describe ".get_name" do
     context "integration", :network do
       it "must lookup the address for a hostname" do
         expect(subject.get_name(reverse_address)).to eq(reverse_hostname)
@@ -167,7 +167,7 @@ describe Ronin::Support::Network::DNS do
     end
   end
 
-  describe ".reverse_lookup"  do
+  describe ".reverse_lookup" do
     context "integration", :network do
       it "must lookup the address for a hostname" do
         expect(subject.reverse_lookup(reverse_address)).to eq(reverse_hostname)
@@ -181,7 +181,7 @@ describe Ronin::Support::Network::DNS do
     end
   end
 
-  describe ".get_names"  do
+  describe ".get_names" do
     context "integration", :network do
       it "must lookup all addresses for a hostname" do
         expect(subject.get_names(reverse_address)).to include(reverse_hostname)
@@ -213,7 +213,7 @@ describe Ronin::Support::Network::DNS do
 
       context "when given a unicode domain name" do
         let(:record_type)       { :a }
-        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:unicode_hostname)  { "www.詹姆斯.com" }
         let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
 
         it "must lookup the addresses for the punycode version of the domain" do
@@ -260,7 +260,7 @@ describe Ronin::Support::Network::DNS do
 
       context "when given a unicode domain name" do
         let(:record_type)       { :a }
-        let(:unicode_hostname)  { "www.詹姆斯.com"         }
+        let(:unicode_hostname)  { "www.詹姆斯.com" }
         let(:punycode_hostname) { "www.xn--8ws00zhy3a.com" }
 
         it "must lookup the addresses for the punycode version of the domain" do
@@ -475,7 +475,7 @@ describe Ronin::Support::Network::DNS do
 
   describe ".get_aaaa_record" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
 
       it "must return the first Resolv::DNS::Resource::IN::AAAA record" do
@@ -497,7 +497,7 @@ describe Ronin::Support::Network::DNS do
 
   describe ".get_aaaa_address" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
 
       it "must return the first IPv6 address" do
@@ -516,7 +516,7 @@ describe Ronin::Support::Network::DNS do
 
   describe ".get_ipv6_address" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
 
       it "must return the first IPv6 address" do
@@ -535,7 +535,7 @@ describe Ronin::Support::Network::DNS do
 
   describe ".get_aaaa_records" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
 
       it "must return all Resolv::DNS::Resource::IN::AAAA records" do
@@ -557,7 +557,7 @@ describe Ronin::Support::Network::DNS do
 
   describe ".get_aaaa_addresses" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
 
       it "must return the IPv6 addresses" do
@@ -576,7 +576,7 @@ describe Ronin::Support::Network::DNS do
 
   describe ".get_ipv6_addresses" do
     context "integration", :network do
-      let(:hostname)     { 'example.com'   }
+      let(:hostname)     { 'example.com' }
       let(:ipv6_address) { '2606:2800:220:1:248:1893:25c8:1946' }
 
       it "must return the IPv6 addresses" do

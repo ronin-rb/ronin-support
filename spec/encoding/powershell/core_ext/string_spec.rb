@@ -4,8 +4,8 @@ require 'ronin/support/encoding/powershell/core_ext/string'
 describe String do
   subject { "hello world" }
 
-  it { expect(subject).to respond_to(:powershell_escape)   }
-  it { expect(subject).to respond_to(:psh_escape)   }
+  it { expect(subject).to respond_to(:powershell_escape) }
+  it { expect(subject).to respond_to(:psh_escape) }
 
   it { expect(subject).to respond_to(:powershell_unescape) }
   it { expect(subject).to respond_to(:psh_unescape) }

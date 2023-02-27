@@ -23,11 +23,10 @@ describe Ronin::Support::Binary::CString do
       end
     end
 
-    context "when given an Array" do
-    end
+    context "when given an Array"
 
     context "when given no arguments" do
-      subject { described_class.new() }
+      subject { described_class.new }
 
       it "must initialize #string to \"\\0\"" do
         expect(subject.string).to eq("\0")
@@ -139,7 +138,7 @@ describe Ronin::Support::Binary::CString do
       end
 
       it "must concat the CString's contents with the other CString's contents" do
-        expect((subject + other).string).to eq("#{subject}#{other.to_s}\0")
+        expect((subject + other).string).to eq("#{subject}#{other}\0")
       end
 
       it "must not modify the original CString" do
@@ -215,7 +214,7 @@ describe Ronin::Support::Binary::CString do
       let(:string) { "ABC\0XYZ\0" }
 
       it "must return the characters before the first '\\0' byte" do
-        expect(subject.chars).to eq(%w[A B C ])
+        expect(subject.chars).to eq(%w[A B C])
       end
     end
   end

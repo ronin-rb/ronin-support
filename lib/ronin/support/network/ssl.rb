@@ -139,7 +139,7 @@ module Ronin
                          cert:      nil,
                          cert_file: nil,
                          ca_bundle: nil)
-          context = OpenSSL::SSL::SSLContext.new()
+          context = OpenSSL::SSL::SSLContext.new
 
           if version
             context.ssl_version = VERSIONS.fetch(version,version)
@@ -169,7 +169,6 @@ module Ronin
 
           return context
         end
-
       end
     end
   end

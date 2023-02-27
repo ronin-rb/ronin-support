@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'ronin/support/binary/ctypes/type'
 
 describe Ronin::Support::Binary::CTypes::Type do
-  let(:pack_string) { 'L<'    }
+  let(:pack_string) { 'L<' }
 
   subject do
     described_class.new(
@@ -18,7 +18,7 @@ describe Ronin::Support::Binary::CTypes::Type do
     context "when the pack_string: keyword is not given" do
       it do
         expect {
-          described_class.new()
+          described_class.new
         }.to raise_error(ArgumentError)
       end
     end

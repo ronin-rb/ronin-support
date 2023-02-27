@@ -104,7 +104,7 @@ class File
     path = expand_path(File.join('/',path))
 
     # remove the leading slash
-    return path[1..-1]
+    return path[1..]
   end
 
 end

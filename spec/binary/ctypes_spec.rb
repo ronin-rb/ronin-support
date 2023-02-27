@@ -618,7 +618,7 @@ describe Ronin::Support::Binary::CTypes do
       subject { super()[:uint32_le] }
 
       it "must equal #{described_class}::LittleEndian::UINT32" do
-        expect(subject).to eq(described_class::LittleEndian::UINT32) 
+        expect(subject).to eq(described_class::LittleEndian::UINT32)
       end
     end
 

@@ -44,13 +44,13 @@ shared_examples_for "Types examples" do
   end
 
   describe "USHORT" do
-    subject { described_class::USHORT}
+    subject { described_class::USHORT }
 
     it { expect(subject).to eq(described_class::UINT16) }
   end
 
   describe "UINT" do
-    subject { described_class::UINT}
+    subject { described_class::UINT }
 
     it { expect(subject).to eq(described_class::UINT32) }
   end

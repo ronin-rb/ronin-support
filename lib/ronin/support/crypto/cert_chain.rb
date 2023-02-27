@@ -59,7 +59,7 @@ module Ronin
         #
         def self.parse(string)
           cert_buffer = String.new
-          certs = []
+          certs       = []
 
           string.each_line do |line|
             cert_buffer << line

@@ -60,7 +60,7 @@ module Ronin
           #   Custom type alignment to override the type's alignment.
           #
           def initialize(type,length, alignment: nil)
-            if type.class == UnboundedArrayType
+            if type.kind_of?(UnboundedArrayType)
               raise(ArgumentError,"cannot initialize an #{self.class} of #{UnboundedArrayType}")
             end
 

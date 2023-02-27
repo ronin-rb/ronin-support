@@ -33,7 +33,7 @@ describe Ronin::Support::Crypto do
   end
 
   describe ".hmac" do
-    let(:key)  { 'secret' }
+    let(:key) { 'secret' }
 
     it "must return an OpenSSL::HMAC" do
       expect(subject.hmac(key: key)).to be_kind_of(OpenSSL::HMAC)
@@ -109,6 +109,7 @@ describe Ronin::Support::Crypto do
 
   let(:cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-256-cbc')
+
     cipher.encrypt
     cipher.key = OpenSSL::Digest::SHA256.digest(password)
 
@@ -129,6 +130,7 @@ describe Ronin::Support::Crypto do
 
   let(:aes_cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-256-cbc')
+
     cipher.encrypt
     cipher.key = OpenSSL::Digest::SHA256.digest(password)
 
@@ -223,6 +225,7 @@ describe Ronin::Support::Crypto do
 
   let(:aes128_cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-128-cbc')
+
     cipher.encrypt
     cipher.key = OpenSSL::Digest::MD5.digest(password)
 
@@ -274,6 +277,7 @@ describe Ronin::Support::Crypto do
 
   let(:aes256_cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-256-cbc')
+
     cipher.encrypt
     cipher.key = OpenSSL::Digest::SHA256.digest(password)
 
@@ -301,7 +305,7 @@ describe Ronin::Support::Crypto do
     let(:encrypted_pem)      { File.read(encrypted_pem_file) }
 
     context "when given a #{described_class::Key::RSA} object" do
-      let(:key)  { described_class::Key::RSA.load_file(path) }
+      let(:key) { described_class::Key::RSA.load_file(path) }
 
       it "must return the #{described_class::Key::RSA} object" do
         expect(subject.rsa_key(key)).to be(key)
@@ -309,7 +313,7 @@ describe Ronin::Support::Crypto do
     end
 
     context "when given an OpenSSL::PKey::RSA object" do
-      let(:key)  { OpenSSL::PKey::RSA.new(pem) }
+      let(:key) { OpenSSL::PKey::RSA.new(pem) }
 
       it "must convert the object into a #{described_class::Key::RSA} object" do
         new_key = subject.rsa_key(key)
@@ -320,7 +324,7 @@ describe Ronin::Support::Crypto do
     end
 
     context "when given a String object" do
-      let(:key)  { described_class::Key::RSA.load_file(path) }
+      let(:key) { described_class::Key::RSA.load_file(path) }
 
       it "must return the #{described_class::Key::RSA} object" do
         key = subject.rsa_key(pem)

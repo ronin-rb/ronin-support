@@ -12,6 +12,7 @@ describe Ronin::Support::Crypto::Cipher do
       let(:key)         { Digest::MD5.hexdigest(password) }
       let(:cipher_text) do
         cipher = OpenSSL::Cipher.new('aes-256-cbc')
+
         cipher.encrypt
         cipher.key = key
 
@@ -32,6 +33,7 @@ describe Ronin::Support::Crypto::Cipher do
         let(:iv)          { '0123456789abcdef' }
         let(:cipher_text) do
           cipher = OpenSSL::Cipher.new('aes-256-cbc')
+
           cipher.encrypt
           cipher.iv  = iv
           cipher.key = key
@@ -53,6 +55,7 @@ describe Ronin::Support::Crypto::Cipher do
       let(:password)    { "other secret" }
       let(:cipher_text) do
         cipher = OpenSSL::Cipher.new('aes-256-cbc')
+
         cipher.encrypt
         cipher.key = OpenSSL::Digest::SHA256.digest(password)
 
@@ -75,6 +78,7 @@ describe Ronin::Support::Crypto::Cipher do
         let(:hash)        { :sha256 }
         let(:cipher_text) do
           cipher = OpenSSL::Cipher.new('aes-256-cbc')
+
           cipher.encrypt
           cipher.key = OpenSSL::Digest::SHA256.digest(password)
 
@@ -112,6 +116,7 @@ describe Ronin::Support::Crypto::Cipher do
 
   let(:cipher_text) do
     cipher = OpenSSL::Cipher.new(name)
+
     cipher.encrypt
     cipher.key = OpenSSL::Digest::SHA256.digest(password)
 

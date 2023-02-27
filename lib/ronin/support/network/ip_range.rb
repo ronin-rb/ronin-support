@@ -173,9 +173,7 @@ module Ronin
         #   Indicates that the IP range is a IP-glob range.
         #
         def self.glob?(string)
-          string.include?('*') ||
-          string.include?(',') ||
-          string.include?('-')
+          string.include?('*') || string.include?(',') || string.include?('-')
         end
 
         #

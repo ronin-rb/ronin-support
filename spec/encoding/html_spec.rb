@@ -120,7 +120,7 @@ describe Ronin::Support::Encoding::HTML do
 
   describe ".encode_byte" do
     context "when the byte is a printable ASCII character" do
-      let(:byte)        { 0x41    }
+      let(:byte) { 0x41 }
       let(:encoded_html) { "&#65;" }
 
       it "must HTML encode the character as a HTML special character" do
@@ -351,7 +351,7 @@ describe Ronin::Support::Encoding::HTML do
     end
 
     context "when the String contains invalid byte sequences" do
-      let(:data)        { "hello\xfe\xff" }
+      let(:data) { "hello\xfe\xff" }
       let(:encoded_html) { "&#104;&#101;&#108;&#108;&#111;&#254;&#255;" }
 
       it "must HTML encode each byte in the String" do
@@ -390,7 +390,7 @@ describe Ronin::Support::Encoding::HTML do
 
       context "and when `zero_pad: true` is given" do
         let(:encoded_html) do
-            "&#x000006f;&#x000006e;&#x0000065;&#x0000020;&#x0000026;&#x0000020;&#x0000074;&#x0000077;&#x000006f;"
+          "&#x000006f;&#x000006e;&#x0000065;&#x0000020;&#x0000026;&#x0000020;&#x0000074;&#x0000077;&#x000006f;"
         end
 
         it "must encode the String with '&#X00000xx' HTML escaped characters" do

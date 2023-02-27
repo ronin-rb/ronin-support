@@ -176,7 +176,9 @@ describe Ronin::Support::Network::TLS::Mixin do
       end
 
       it "must return false for closed ports" do
-        expect(subject.tls_open?('localhost',rand(1024) + 1)).to be(false)
+        random_port = rand(1..1024)
+
+        expect(subject.tls_open?('localhost',random_port)).to be(false)
       end
 
       it "must have a timeout for firewalled ports" do
@@ -218,8 +220,11 @@ describe Ronin::Support::Network::TLS::Mixin do
       end
 
       it "must connect and then send data" do
-        socket   = subject.tls_connect_and_send(data,host,port)
-        banner   = socket.readline
+        socket = subject.tls_connect_and_send(data,host,port)
+
+        # ignore the banner
+        socket.readline
+
         response = socket.readline
 
         expect(response).to be =~ expected_response
@@ -230,9 +235,11 @@ describe Ronin::Support::Network::TLS::Mixin do
       it "must yield the OpenSSL::SSL::SSLSocket" do
         response = nil
 
-        socket = subject.tls_connect_and_send(data,host,port) do |socket|
-          banner   = socket.readline
-          response = socket.readline
+        socket = subject.tls_connect_and_send(data,host,port) do |new_socket|
+          # ignore the banner
+          new_socket.readline
+
+          response = new_socket.readline
         end
 
         expect(response).to be =~ expected_response

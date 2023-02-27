@@ -100,7 +100,7 @@ describe Ronin::Support::Binary::CTypes::ScalarType do
           described_class.new(
             size:   size,
             endian: endian,
-            signed: signed,
+            signed: signed
           )
         }.to raise_error(ArgumentError)
       end

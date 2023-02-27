@@ -198,11 +198,11 @@ module Ronin
           until scanner.eos?
             buffer << case (char = scanner.getch)
                       when '\\'
-                        if (hex_escape = scanner.scan(/x[0-9a-fA-F]{4,8}/))
+                        if (hex_escape    = scanner.scan(/x[0-9a-fA-F]{4,8}/))
                           hex_escape[1..].to_i(16).chr(Encoding::UTF_8)
                         elsif (hex_escape = scanner.scan(/x[0-9a-fA-F]{1,2}/))
                           hex_escape[1..].to_i(16).chr
-                        elsif (char = scanner.getch)
+                        elsif (char       = scanner.getch)
                           BACKSLASHED_CHARS.fetch(char,char)
                         end
                       else

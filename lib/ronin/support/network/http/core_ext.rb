@@ -16,4 +16,4 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/http/core_ext/uri/http.rb'
+require 'ronin/support/network/http/core_ext/uri/http'

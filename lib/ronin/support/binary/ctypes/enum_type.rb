@@ -54,8 +54,8 @@ module Ronin
           def initialize(int_type,mapping)
             super(pack_string: nil)
 
-            @int_type = int_type
-            @mapping  = mapping
+            @int_type        = int_type
+            @mapping         = mapping
             @reverse_mapping = @mapping.invert
           end
 

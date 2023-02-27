@@ -276,7 +276,7 @@ module Ronin
           end
 
           case ssl
-          when true then initialize_ssl()
+          when true then initialize_ssl
           when Hash then initialize_ssl(**ssl)
           end
 
@@ -364,7 +364,7 @@ module Ronin
           @http.extra_chain_cert = extra_chain_cert if extra_chain_cert
           @http.key              = key              if key
 
-          @http.ssl_timeout = timeout     if timeout
+          @http.ssl_timeout = timeout if timeout
           @http.ssl_version = SSL::VERSIONS.fetch(version,version) if version
           @http.min_version = min_version if min_version
           @http.max_version = max_version if max_version
@@ -2353,7 +2353,6 @@ module Ronin
 
           http.allowed_methods(path,**kwargs)
         end
-
 
         #
         # Performs a `PATCH` request for the given URI.

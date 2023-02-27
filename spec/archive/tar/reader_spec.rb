@@ -21,9 +21,9 @@ describe Ronin::Support::Archive::Tar::Reader do
       subject { described_class.new(string) }
 
       it "must read from the String" do
-        entry = subject.find { |entry| entry.full_name == 'file.txt' }
+        file = subject.find { |entry| entry.full_name == 'file.txt' }
 
-        expect(entry.read).to eq(txt_data)
+        expect(file.read).to eq(txt_data)
       end
 
       context "and when a block is given" do
@@ -41,9 +41,9 @@ describe Ronin::Support::Archive::Tar::Reader do
       subject { described_class.new(string_io) }
 
       it "must read from the StringIO object" do
-        entry = subject.find { |entry| entry.full_name == 'file.txt' }
+        file = subject.find { |entry| entry.full_name == 'file.txt' }
 
-        expect(entry.read).to eq(txt_data)
+        expect(file.read).to eq(txt_data)
       end
 
       context "and when a block is given" do
@@ -61,9 +61,9 @@ describe Ronin::Support::Archive::Tar::Reader do
       subject { described_class.new(io) }
 
       it "must read from the StringIO object" do
-        entry = subject.find { |entry| entry.full_name == 'file.txt' }
+        file = subject.find { |entry| entry.full_name == 'file.txt' }
 
-        expect(entry.read).to eq(txt_data)
+        expect(file.read).to eq(txt_data)
       end
 
       context "and when a block is given" do

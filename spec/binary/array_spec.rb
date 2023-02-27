@@ -346,7 +346,7 @@ describe Ronin::Support::Binary::Array do
 
       before { subject[index] = value }
 
-      let(:offset)       { index*subject.type.size  }
+      let(:offset)       { index * subject.type.size }
       let(:size)         { subject.type.size        }
       let(:packed_value) { subject.type.pack(value) }
 

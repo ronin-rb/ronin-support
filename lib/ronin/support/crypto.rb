@@ -656,7 +656,6 @@ module Ronin
           when Key::RSA           then key
           when OpenSSL::PKey::RSA then Key::RSA.new(key)
           when String             then Key::RSA.load(key, password: password)
-          else
           end
         else
           raise(ArgumentError,"either key: or key_file: keyword arguments must be given")

@@ -40,20 +40,20 @@ module Ronin
       #     Tar.new(io, mode: 'w') do |tar|
       #       # add a file
       #       tar.add_file('file1.txt', "...")
-      #     
+      #
       #       # add a file and open an output stream
       #       tar.add_file('file2.txt') do |io|
       #         io.write("...")
       #       end
-      #     
+      #
       #       # add a symlink 'link' pointing to 'file1.txt'
       #       tar.add_symlink('link','file1.txt')
-      #     
+      #
       #       # add a directory
       #       tar.mkdir('foo')
       #     end
       #
-      # Opening 
+      # Opening
       #
       # @api public
       #

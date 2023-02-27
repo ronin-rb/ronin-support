@@ -37,10 +37,10 @@ module Ronin
       # ### Defining Members
       #
       #     class Point < Ronin::Support::Binary::Struct
-      #     
+      #
       #       member :x, :int32
       #       member :y, :int32
-      #     
+      #
       #     end
       #
       # ### Initializing Structs
@@ -69,10 +69,10 @@ module Ronin
       # ### Packing Structs
       #
       #     class Point < Ronin::Support::Binary::Struct
-      #     
+      #
       #       member :x, :int32
       #       member :y, :int32
-      #     
+      #
       #     end
       #
       #     point = Point.new(x: 10, y: -1)
@@ -82,12 +82,12 @@ module Ronin
       # ### Unpacking Structs
       #
       #     class Point < Ronin::Support::Binary::Struct
-      #     
+      #
       #       member :x, :int32
       #       member :y, :int32
-      #     
+      #
       #     end
-      #     
+      #
       #     point = Point.unpack("\x00\x00\x00\x01\xFF\xFF\xFF\xFF")
       #     point.x
       #     # => 1
@@ -95,30 +95,30 @@ module Ronin
       #     # => -1
       #
       # ### Inheriting Structs
-      #     
+      #
       #     class Point < Ronin::Support::Binary::Struct
-      #     
+      #
       #       member :x, :int32
       #       member :y, :int32
-      #     
+      #
       #     end
-      #     
+      #
       #     class Point3D < Point
-      #     
+      #
       #       member :z, :int32
       #
       #     end
-      #     
+      #
       #     point   = Point.new(x: 100, y: 42)
       #     point3d = Point3D.new(x: 100, y: 42, z: -1)
       #
       # ### Array Fields
       #
       #     class MyStruct < Ronin::Support::Binary::Struct
-      #     
+      #
       #       member :x,    :uint32
       #       member :nums, [:uint8, 10]
-      #     
+      #
       #     end
       #
       #     struct = MyStruct.new
@@ -129,12 +129,12 @@ module Ronin
       # ### Unbounded Array Fields
       #
       #     class MyStruct < Ronin::Support::Binary::Struct
-      #     
+      #
       #       member :length,  :uint32
       #       member :payload, (:uint8..)
-      #     
+      #
       #     end
-      #     
+      #
       #     struct = MyStruct.new
       #     struct.payload = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08]
       #     struct.pack
@@ -143,14 +143,14 @@ module Ronin
       # ### Struct Endianness
       #
       #     class MyStruct < Ronin::Support::Binary::Struct
-      #     
+      #
       #       platform endian: :big
-      #     
+      #
       #       member :x, :uint32
       #       member :y, :uint32
-      #     
+      #
       #     end
-      #     
+      #
       #     struct = MyStruct.new
       #     struct.x = 0xAABB
       #     struct.y = 0xCCDD
@@ -160,13 +160,13 @@ module Ronin
       # ### Struct Architecture
       #
       #     class MyStruct < Ronin::Support::Binary::Struct
-      #     
+      #
       #       platform arch: :arm64_be
-      #     
+      #
       #       member :x, :int
       #       member :y, :int
       #       member :f, :double
-      #     
+      #
       #     end
       #
       #     struct = MyStruct.new
@@ -177,16 +177,16 @@ module Ronin
       #     # => "\x00\x00\x00d\xFF\xFF\xFF\x9C@<\xA5\xDC\x1Ac\xC1\xF8"
       #
       # ### Struct Operating System (OS)
-      #    
+      #
       #     class MyStruct < Ronin::Support::Binary::Struct
-      #     
+      #
       #       platform arch: :x86_64, os: :windows
-      #     
+      #
       #       member :x, :long
       #       member :y, :long
-      #     
+      #
       #     end
-      #     
+      #
       #     struct = MyStruct.new
       #     struct.x = 255
       #     struct.y = -1
@@ -196,20 +196,20 @@ module Ronin
       # ### Struct Alignment
       #
       #     class Pixel < Ronin::Support::Binary::Struct
-      #     
+      #
       #       align 4
-      #     
+      #
       #       member :r, :uint8
       #       member :g, :uint8
       #       member :b, :uint8
-      #     
+      #
       #     end
       #
       #     class PixelBuf < Ronin::Support::Binary::Struct
-      #     
+      #
       #       member :count, :uint8
       #       member :pixels, [Pixel, 255]
-      #     
+      #
       #     end
       #
       #     pixelbuf = PixelBuf.new
@@ -226,12 +226,12 @@ module Ronin
       # ### Disable Struct Padding
       #
       #     class MyStruct < Ronin::Support::Binary::Struct
-      #     
+      #
       #       padding false
-      #     
+      #
       #       member :c, :char
       #       member :i, :int32
-      #     
+      #
       #     end
       #
       #     struct = MyStruct.new
@@ -259,13 +259,13 @@ module Ronin
         #
         # @example Initiializing a new struct from a buffer:
         #   class MyStruct < Ronin::Support::Binary::Struct
-        #   
+        #
         #     member :x,    :uint32
         #     member :f,    :double
         #     member :nums, [:uint8, 10]
-        #   
+        #
         #   end
-        #   
+        #
         #   struct = MyStruct.new("\x01\x00\x00\x00\x00\x00\x00\x00333333\xD3?\x01\x02\x03\x00\x00\x00\x00\x00\x00\x00")
         #   struct.x
         #   # => 1
@@ -328,12 +328,12 @@ module Ronin
         #
         # @example
         #   class MyStruct < Ronin::Support::Binary::Struct
-        #   
+        #
         #     member :x, :uint32
         #     member :y, :uint32
-        #   
+        #
         #   end
-        #   
+        #
         #   MyStruct.size
         #   # => 8
         #
@@ -412,13 +412,13 @@ module Ronin
         #
         # @example
         #   class MyStruct < Ronin::Support::Binary::Struct
-        #   
+        #
         #     member :x,    :uint32
         #     member :f,    :double
         #     member :nums, [:uint8, 10]
-        #   
+        #
         #   end
-        #   
+        #
         #   MyStruct.pack(x: 1, f: 0.3, nums: [1,2,3])
         #   # => "\x01\x00\x00\x00\x00\x00\x00\x00333333\xD3?\x01\x02\x03\x00\x00\x00\x00\x00\x00\x00"
         #
@@ -439,13 +439,13 @@ module Ronin
         #
         # @example
         #   class MyStruct < Ronin::Support::Binary::Struct
-        #   
+        #
         #     member :x,    :uint32
         #     member :f,    :double
         #     member :nums, [:uint8, 10]
-        #   
+        #
         #   end
-        #   
+        #
         #   struct = MyStruct.unpack("\x01\x00\x00\x00\x00\x00\x00\x00333333\xD3?\x01\x02\x03\x00\x00\x00\x00\x00\x00\x00")
         #
         # @api public
@@ -465,13 +465,13 @@ module Ronin
         #
         # @example
         #   class MyStruct < Ronin::Support::Binary::Struct
-        #   
+        #
         #     member :x,    :uint32
         #     member :f,    :double
         #     member :nums, [:uint8, 10]
-        #   
+        #
         #   end
-        #   
+        #
         #   file   = File.new('binary.dat','b')
         #   struct = MyStruct.read_from(file)
         #
@@ -480,7 +480,7 @@ module Ronin
         # @api public
         #
         def self.read_from(io)
-          new().read_from(io)
+          new.read_from(io)
         end
 
         #
@@ -497,13 +497,13 @@ module Ronin
         #
         # @example
         #   class MyStruct < Ronin::Support::Binary::Struct
-        #   
+        #
         #     member :x,    :uint32
         #     member :f,    :double
         #     member :nums, [:uint8, 10]
-        #   
+        #
         #   end
-        #   
+        #
         #   struct = MyStruct.new("\x01\x00\x00\x00\x00\x00\x00\x00333333\xD3?\x01\x02\x03\x00\x00\x00\x00\x00\x00\x00")
         #   struct[:x]
         #   # => 1
@@ -519,15 +519,21 @@ module Ronin
             case member.type
             when CTypes::UnboundedArrayType
               # XXX: but how do we handle an unbounded array of structs?
-              @cache[name] ||= (
-                slice = byteslice(member.offset,size - member.offset)
-                Binary::Array.new(member.type.type,slice)
-              )
+              @cache[name] ||= begin
+                                 offset = member.offset
+                                 length = size - member.offset
+                                 slice  = byteslice(offset,length)
+
+                                 Binary::Array.new(member.type.type,slice)
+                               end
             when CTypes::ObjectType
-              @cache[name] ||= (
-                slice = byteslice(member.offset,member.type.size)
-                member.type.unpack(slice)
-              )
+              @cache[name] ||= begin
+                                 offset = member.offset
+                                 length = member.type.size
+                                 slice  = byteslice(offset,length)
+
+                                 member.type.unpack(slice)
+                               end
             else
               data = super(member.offset,member.type.size)
               member.type.unpack(data)
@@ -554,13 +560,13 @@ module Ronin
         #
         # @example
         #   class MyStruct < Ronin::Support::Binary::Struct
-        #   
+        #
         #     member :x,    :uint32
         #     member :f,    :double
         #     member :nums, [:uint8, 10]
-        #   
+        #
         #   end
-        #   
+        #
         #   struct = MyStruct.new
         #   struct[:x] = 1
         #   struct[:x]
@@ -606,7 +612,7 @@ module Ronin
         def each(&block)
           return enum_for(__method__) unless block_given?
 
-          @type.members.each_key  do |name|
+          @type.members.each_key do |name|
             yield name, self[name]
           end
         end
@@ -620,9 +626,7 @@ module Ronin
         # @api public
         #
         def to_h
-          Hash[@type.members.keys.map { |name|
-            [name, self[name]]
-          }]
+          each.to_h
         end
 
         #
@@ -634,9 +638,7 @@ module Ronin
         # @api public
         #
         def to_a
-          @type.members.keys.map do |name|
-            self[name]
-          end
+          each.map { |name,value| value }
         end
 
         extend CTypes::Mixin
@@ -755,7 +757,7 @@ module Ronin
         # @api semipublic
         #
         def self.type_resolver
-          @resolver ||= CTypes::TypeResolver.new(type_system)
+          @type_resolver ||= CTypes::TypeResolver.new(type_system)
         end
 
         #
@@ -771,7 +773,7 @@ module Ronin
         #   class MyStruct < Ronin::Support::Binary::Struct
         #     member :x, :uint32
         #   end
-        #   
+        #
         #   struct = MyStruct.new
         #   struct.x = 0x11223344
         #
@@ -779,7 +781,7 @@ module Ronin
         #   class MyStruct < Ronin::Support::Binary::Struct
         #     member :nums, [:uint32, 10]
         #   end
-        #   
+        #
         #   struct = MyStruct.new
         #   struct.x = [0x11111111, 0x22222222, 0x33333333, 0x44444444]
         #
@@ -787,7 +789,7 @@ module Ronin
         #   class MyStruct < Ronin::Support::Binary::Struct
         #     member :payload, :uint8..
         #   end
-        #   
+        #
         #   struct = MyStruct.new
         #   struct.payloads = [0x1, 0x2, 0x3, 0x4]
         #

@@ -146,8 +146,8 @@ module Ronin
                                  ssl:  nil,
                                  helo: 'localhost',
                                  auth: :login)
-            host = DNS::IDN.to_ascii(host)
-            user = user.to_s
+            host     = DNS::IDN.to_ascii(host)
+            user     = user.to_s
             password = password.to_s
 
             case ssl
