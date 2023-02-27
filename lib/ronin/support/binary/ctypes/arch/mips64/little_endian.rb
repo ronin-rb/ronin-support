@@ -24,6 +24,10 @@ module Ronin
       module CTypes
         module Arch
           module MIPS64
+            #
+            # Represents the C types for the MIPS64 architecture,
+            # in little-endian mode.
+            #
             module LittleEndian
               include CTypes::LittleEndian
 
