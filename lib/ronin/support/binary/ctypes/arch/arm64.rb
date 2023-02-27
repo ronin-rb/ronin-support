@@ -23,6 +23,9 @@ module Ronin
     module Binary
       module CTypes
         module Arch
+          #
+          # Represents the C types for the ARM64 architecture.
+          #
           module ARM64
             include LittleEndian
 
