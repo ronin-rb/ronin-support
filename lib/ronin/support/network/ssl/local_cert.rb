@@ -90,8 +90,6 @@ module Ronin
             end
           end
 
-          private
-
           #
           # The value for the `subjectAltName` extension.
           #
