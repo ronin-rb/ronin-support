@@ -72,13 +72,15 @@ module Ronin
           return decoded
         end
 
-        private
-
         # Base32 alphabet
+        #
+        # @api private
         TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
 
         #
         # Represents a chunk of data.
+        #
+        # @api private
         #
         class Chunk
 
@@ -153,6 +155,8 @@ module Ronin
         # @yield [chunk]
         #
         # @yieldparam [Chunk] chunk
+        #
+        # @api private
         #
         def self.each_chunk(data,size)
           bytes  = data.bytes
