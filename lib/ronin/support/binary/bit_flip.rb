@@ -32,6 +32,9 @@ module Ronin
       # @api semipublic
       #
       module BitFlip
+        #
+        # Methods for bit-flipping Integers.
+        #
         module Integer
           #
           # Enumerates over every bit flip in the integer.
@@ -101,6 +104,9 @@ module Ronin
           end
         end
 
+        #
+        # Methods for bit-flipping Strings.
+        #
         module String
           #
           # Enumerates over every bit flip of every byte in the string.
