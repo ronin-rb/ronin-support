@@ -22,6 +22,9 @@ module Ronin
   module Support
     module Crypto
       class Cipher < OpenSSL::Cipher
+        #
+        # The AES cipher.
+        #
         class AES < Cipher
 
           # The AES cipher key size.
