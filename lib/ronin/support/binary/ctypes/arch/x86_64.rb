@@ -23,6 +23,9 @@ module Ronin
     module Binary
       module CTypes
         module Arch
+          #
+          # Represents the C types for the x86-64 architecture.
+          #
           module X86_64
             include LittleEndian
 
