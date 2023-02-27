@@ -22,6 +22,9 @@ module Ronin
   module Support
     module Text
       module ERB
+        #
+        # Mixin which adds `erb` helper methods.
+        #
         module Mixin
           #
           # Renders the ERB template file.
