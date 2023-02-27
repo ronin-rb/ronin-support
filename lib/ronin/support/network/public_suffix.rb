@@ -21,6 +21,11 @@ require 'ronin/support/network/public_suffix/list'
 module Ronin
   module Support
     module Network
+      #
+      # Manages the [public suffixes list].
+      #
+      # [public suffix list]: https://publicsuffix.org/
+      #
       module PublicSuffix
         #
         # Downloads/updates then loads the cached file
