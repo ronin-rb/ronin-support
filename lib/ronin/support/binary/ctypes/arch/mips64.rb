@@ -23,6 +23,9 @@ module Ronin
     module Binary
       module CTypes
         module Arch
+          #
+          # Represents the C types for the MIPS64 architecture.
+          #
           module MIPS64
             include BigEndian
 
