@@ -25,7 +25,7 @@ describe Kernel do
 
     it "must not rescue SyntaxError exceptions" do
       expect {
-        try { eval("\"syntax error") }
+        try { eval("\"syntax error", binding, __FILE__, __LINE__) }
       }.to raise_error(SyntaxError)
     end
   end
