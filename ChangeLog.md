@@ -1,3 +1,14 @@
+### 1.0.1 / 2023-03-01
+
+* {Ronin::Support::Network::HTTP.connect_uri} can now infer when to enable
+  SSL/TLS from the given URI.
+* {Ronin::Support::Network::HTTP.connect_uri} can now use the `user` and
+  `password` information from the given URI.
+* All {Ronin::Support::Network::HTTP} class methods which accept URI objects
+  can now accept URLs with International Domain Names (IDN).
+* Changed {Kernel#try} to not silently ignore `SyntaxError` exceptions.
+* Documentation improvements.
+
 ### 1.0.0 / 2023-02-01
 
 * Added {File.aes_encrypt}.
