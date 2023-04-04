@@ -16,7 +16,7 @@ describe URI::HTTP do
     context "integration", :network do
       before(:all) { WebMock.allow_net_connect! }
 
-      it "must request the HTTP stauts for the URI" do
+      it "must request the HTTP status for the URI" do
         expect(subject.status).to eq(200)
       end
     end
