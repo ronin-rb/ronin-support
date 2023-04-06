@@ -25,6 +25,8 @@ module Ronin
         #
         # Provides helper methods for performing DNS queries.
         #
+        # @api public
+        #
         module Mixin
           #
           # Sets the DNS nameservers to query.
@@ -79,8 +81,6 @@ module Ronin
           # @return [Resolv, Resolv::DNS]
           #   The DNS Resolver.
           #
-          # @api public
-          #
           def dns_resolver(nameservers: nil, nameserver: nil)
             if nameserver
               Network::DNS.resolver(nameserver: nameserver)
@@ -111,8 +111,6 @@ module Ronin
           # @return [String, nil]
           #   The address of the hostname.
           #
-          # @api public
-          #
           def dns_get_address(host,**kwargs)
             dns_resolver(**kwargs).get_address(host.to_s)
           end
@@ -137,8 +135,6 @@ module Ronin
           # @return [Array<String>]
           #   The addresses of the hostname.
           #
-          # @api public
-          #
           def dns_get_addresses(host,**kwargs)
             dns_resolver(**kwargs).get_addresses(host.to_s)
           end
@@ -160,8 +156,6 @@ module Ronin
           #
           # @return [String, nil]
           #   The hostname of the address.
-          #
-          # @api public
           #
           def dns_get_name(ip,**kwargs)
             dns_resolver(**kwargs).get_name(ip.to_s)
@@ -186,8 +180,6 @@ module Ronin
           #
           # @return [Array<String>]
           #   The hostnames of the address.
-          #
-          # @api public
           #
           def dns_get_names(ip,**kwargs)
             dns_resolver(**kwargs).get_names(ip.to_s)
