@@ -12,11 +12,11 @@ describe Ronin::Support::Network::Wildcard do
     end
   end
 
-  describe "#%" do
+  describe "#subdomain" do
     let(:name) { 'www' }
 
     it "must replace the '*' in the wildcard template with the given value and return a new Ronin::Support::Network::Host object with" do
-      host = subject % name
+      host = subject.subdomain(name)
 
       expect(host).to be_kind_of(Ronin::Support::Network::Host)
       expect(host.name).to eq("www.example.com")
