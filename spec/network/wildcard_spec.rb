@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/network/host/wildcard'
+require 'ronin/support/network/wildcard'
 
-describe Ronin::Support::Network::Host::Wildcard do
+describe Ronin::Support::Network::Wildcard do
   let(:wildcard) { '*.example.com' }
 
   subject { described_class.new(wildcard) }
