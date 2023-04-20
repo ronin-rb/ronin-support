@@ -27,7 +27,7 @@ module Ronin
       # ## Examples
       #
       #     wildcard = Network::Wildcard.new('*.example.com')
-      #     wildcard % 'www'
+      #     wildcard.subdomain('www')
       #     # => #<Ronin::Support::Network::Host: www.example.com>
       #
       # @api public
@@ -65,10 +65,10 @@ module Ronin
         #
         # @example
         #   wildcard = Network::Wildcard.new('*.example.com')
-        #   wildcard % 'www'
+        #   wildcard.subdomain('www')
         #   # => #<Ronin::Support::Network::Host: www.example.com>
         #
-        def %(name)
+        def subdomain(name)
           Host.new(@template.sub('*',name))
         end
 
