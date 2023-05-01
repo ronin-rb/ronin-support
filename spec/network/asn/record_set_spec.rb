@@ -70,7 +70,7 @@ describe Ronin::Support::Network::ASN::RecordSet do
 
     it "must return a Set of all record numbers" do
       expect(subject).to be_kind_of(Set)
-      expect(subject).to eq(records.map(&:number).to_set)
+      expect(subject).to eq(records.to_set(&:number))
     end
   end
 
@@ -97,7 +97,7 @@ describe Ronin::Support::Network::ASN::RecordSet do
 
     it "must return a Set of all record country_codes" do
       expect(subject).to be_kind_of(Set)
-      expect(subject).to eq(records.map(&:country_code).to_set)
+      expect(subject).to eq(records.to_set(&:country_code))
     end
   end
 
@@ -201,7 +201,7 @@ describe Ronin::Support::Network::ASN::RecordSet do
 
     it "must return a Set of all record names" do
       expect(subject).to be_kind_of(Set)
-      expect(subject).to eq(records.map(&:name).to_set)
+      expect(subject).to eq(records.to_set(&:name))
     end
   end
 

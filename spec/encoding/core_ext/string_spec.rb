@@ -58,7 +58,7 @@ describe String do
     end
 
     it "must set the String encoding to Encoding::UTF_8" do
-      new_string = subject.encode_chars { |c| c.upcase }
+      new_string = subject.encode_chars(&:upcase)
 
       expect(new_string.encoding).to be(Encoding::UTF_8)
     end
