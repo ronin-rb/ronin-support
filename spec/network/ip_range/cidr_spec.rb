@@ -149,6 +149,28 @@ describe Ronin::Support::Network::IPRange::CIDR do
 
   subject { described_class.new(cidr) }
 
+  describe "#include?" do
+    let(:in_range_ip)     { '10.1.1.2' }
+    let(:not_in_range_ip) { '1.1.1.2' }
+
+    context "when given a String" do
+      it "must determine if the given String exists within the IP CIDR range" do
+        expect(subject.include?(in_range_ip)).to be(true)
+        expect(subject.include?(not_in_range_ip)).to be(false)
+      end
+    end
+
+    context "when given an IPAddr object" do
+      let(:in_range_ip)     { IPAddr.new(super()) }
+      let(:not_in_range_ip) { IPAddr.new(super()) }
+
+      it "must convert the IPAddr object into a String" do
+        expect(subject.include?(in_range_ip)).to be(true)
+        expect(subject.include?(not_in_range_ip)).to be(false)
+      end
+    end
+  end
+
   describe "#each" do
     context "when initialized with a class-D IP address" do
       let(:cidr) { '10.1.1.2' }

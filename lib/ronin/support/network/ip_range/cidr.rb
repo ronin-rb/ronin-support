@@ -161,6 +161,28 @@ module Ronin
           end
 
           #
+          # Determines if the given IP belongs to the IP CIDR range.
+          #
+          # @param [IP, IPAddr, String] ip
+          #   The IP to test.
+          #
+          # @return [Boolean]
+          #   Specifies whether the IP is or is not within the IP CIDR range.
+          #
+          # @since 1.1.0
+          #
+          def include?(ip)
+            ip = IPAddr.new(ip) unless ip.kind_of?(IPAddr)
+
+            family_mask = MASKS[@family]
+            start_addr  = @addr
+            end_addr    = @addr | (~@mask_addr & family_mask)
+            ip_addr     = ip.to_i
+
+            return (ip_addr >= start_addr) && (ip_addr <= end_addr)
+          end
+
+          #
           # Iterates over each IP address that is included in the addresses
           # netmask. Supports both IPv4 and IPv6 addresses.
           #
