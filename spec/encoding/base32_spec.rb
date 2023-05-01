@@ -17,5 +17,9 @@ describe Ronin::Support::Encoding::Base32 do
     it "must Base32 decode the given String" do
       expect(subject.decode(encoded)).to eq(decoded)
     end
+
+    it "must set the String encoding to Encoding::UTF_8" do
+      expect(subject.decode(encoded).encoding).to be(Encoding::UTF_8)
+    end
   end
 end

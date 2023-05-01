@@ -182,7 +182,7 @@ module Ronin
         #   # => "hello world"
         #
         def self.unescape(data)
-          unescaped = String.new
+          unescaped = String.new(encoding: Encoding::UTF_8)
 
           data.scan(/[\\%]u[0-9a-fA-F]{1,4}|[\\%][0-9a-fA-F]{1,2}|\\[btnfr\'\"\\]|./) do |c|
             unescaped << BACKSLASHED_CHARS.fetch(c) do

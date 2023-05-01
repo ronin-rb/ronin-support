@@ -108,6 +108,10 @@ describe Ronin::Support::Encoding::JS do
     it "must ignore non-escaped characters" do
       expect(subject.unescape(js_mixed)).to eq(data)
     end
+
+    it "must set the String encoding to Encoding::UTF_8" do
+      expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
+    end
   end
 
   describe ".encode" do

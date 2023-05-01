@@ -213,6 +213,10 @@ describe Ronin::Support::Encoding::C do
         expect(subject.unescape(data)).to eq(data)
       end
     end
+
+    it "must set the String encoding to Encoding::UTF_8" do
+      expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
+    end
   end
 
   describe ".encode" do

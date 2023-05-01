@@ -167,6 +167,10 @@ describe Ronin::Support::Encoding::PowerShell do
       it "must unescape the hexadecimal characters" do
         expect(subject.unescape(data)).to eq(unescaped)
       end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
+      end
     end
 
     context "when the String contains interpolated unicode characters" do
@@ -175,6 +179,10 @@ describe Ronin::Support::Encoding::PowerShell do
 
       it "must unescape the hexadecimal characters" do
         expect(subject.unescape(data)).to eq(unescaped)
+      end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
       end
     end
 
@@ -185,6 +193,10 @@ describe Ronin::Support::Encoding::PowerShell do
       it "must unescape the hexadecimal characters" do
         expect(subject.unescape(data)).to eq(unescaped)
       end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
+      end
     end
 
     context "when the String contains grave-accent escaped special characters" do
@@ -194,6 +206,10 @@ describe Ronin::Support::Encoding::PowerShell do
       it "must unescape the grave-accent escaped special characters" do
         expect(subject.unescape(data)).to eq(unescaped)
       end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
+      end
     end
 
     context "when the String does not contain escaped characters" do
@@ -201,6 +217,10 @@ describe Ronin::Support::Encoding::PowerShell do
 
       it "must return the String" do
         expect(subject.unescape(data)).to eq(data)
+      end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
       end
     end
   end

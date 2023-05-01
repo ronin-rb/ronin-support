@@ -19,6 +19,12 @@ describe String do
       }).to eq("%68%65%6c%6c%6f")
     end
 
+    it "must set the String encoding to Encoding::UTF_8" do
+      new_string = subject.encode_bytes { |b| b + 1 }
+
+      expect(new_string.encoding).to be(Encoding::UTF_8)
+    end
+
     it "must format specific bytes in a String" do
       expect(subject.encode_bytes(include: [104, 108]) { |b|
         b - 32
@@ -49,6 +55,12 @@ describe String do
       expect(subject.encode_chars { |c|
         "#{c}."
       }).to eq("h.e.l.l.o.")
+    end
+
+    it "must set the String encoding to Encoding::UTF_8" do
+      new_string = subject.encode_chars { |c| c.upcase }
+
+      expect(new_string.encoding).to be(Encoding::UTF_8)
     end
 
     it "must format specific chars in a String" do

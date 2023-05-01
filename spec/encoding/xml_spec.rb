@@ -300,6 +300,10 @@ describe Ronin::Support::Encoding::XML do
       expect(subject.unescape(xml_escaped)).to eq(data)
     end
 
+    it "must set the String encoding to Encoding::UTF_8" do
+      expect(subject.unescape(xml_escaped).encoding).to be(Encoding::UTF_8)
+    end
+
     context "when the String contains XML decimal escape characters" do
       let(:xml_escaped) do
         "&#111;&#110;&#101;&#32;&#38;&#32;&#116;&#119;&#111;"
@@ -415,6 +419,10 @@ describe Ronin::Support::Encoding::XML do
 
     it "must XML unescape the String" do
       expect(subject.decode(xml_escaped)).to eq(data)
+    end
+
+    it "must set the String encoding to Encoding::UTF_8" do
+      expect(subject.decode(xml_escaped).encoding).to be(Encoding::UTF_8)
     end
 
     context "when the String contains XML decimal escape characters" do

@@ -115,7 +115,7 @@ module Ronin
       #   # => #<Ronin::Support::Path:../../../../../../../etc/passwd>
       #
       def join(*names)
-        joined_path = if root? then String.new
+        joined_path = if root? then String.new(encoding: Encoding::UTF_8)
                       else          self.to_s
                       end
 

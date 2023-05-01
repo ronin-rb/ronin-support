@@ -48,7 +48,7 @@ class String
   def encode_bytes(include: nil, exclude: nil)
     included  = (Chars::CharSet.new(*include) if include)
     excluded  = (Chars::CharSet.new(*exclude) if exclude)
-    formatted = String.new
+    formatted = String.new(encoding: ::Encoding::UTF_8)
 
     each_byte do |b|
       formatted << if (included.nil? || included.include_byte?(b)) &&
@@ -90,7 +90,7 @@ class String
   def encode_chars(include: nil, exclude: nil)
     included  = (Chars::CharSet.new(*include) if include)
     excluded  = (Chars::CharSet.new(*exclude) if exclude)
-    formatted = String.new
+    formatted = String.new(encoding: ::Encoding::UTF_8)
 
     each_char do |c|
       formatted << if (included.nil? || included.include_char?(c)) &&

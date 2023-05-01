@@ -71,7 +71,7 @@ module Ronin
         #   # => "hello"
         #
         def self.decode(data)
-          decoded = String.new
+          decoded = String.new(encoding: Encoding::UTF_8)
 
           data.scan(/../).each do |hex_char|
             decoded << hex_char.to_i(16).chr

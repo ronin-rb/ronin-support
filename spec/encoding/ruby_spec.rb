@@ -171,6 +171,10 @@ describe Ronin::Support::Encoding::Ruby do
       it "must unescape the hexadecimal characters" do
         expect(subject.unescape(data)).to eq(unescaped)
       end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
+      end
     end
 
     context "when the given String contains escaped unicode characters" do
@@ -179,6 +183,10 @@ describe Ronin::Support::Encoding::Ruby do
 
       it "must unescape the hexadecimal characters" do
         expect(subject.unescape(data)).to eq(unescaped)
+      end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
       end
     end
 
@@ -189,6 +197,10 @@ describe Ronin::Support::Encoding::Ruby do
       it "must unescape the octal characters" do
         expect(subject.unescape(data)).to eq(unescaped)
       end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
+      end
     end
 
     context "when the given String contains two character escaped octal characters" do
@@ -197,6 +209,10 @@ describe Ronin::Support::Encoding::Ruby do
 
       it "must unescape the octal characters" do
         expect(subject.unescape(data)).to eq(unescaped)
+      end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
       end
     end
 
@@ -209,6 +225,10 @@ describe Ronin::Support::Encoding::Ruby do
       it "must unescape the octal characters" do
         expect(subject.unescape(data)).to eq(unescaped)
       end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
+      end
     end
 
     context "when the given String contains escaped special characters" do
@@ -218,6 +238,10 @@ describe Ronin::Support::Encoding::Ruby do
       it "must unescape Ruby special characters" do
         expect(subject.unescape(data)).to eq(unescaped)
       end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
+      end
     end
 
     context "when the given String does not contain escaped characters" do
@@ -225,6 +249,10 @@ describe Ronin::Support::Encoding::Ruby do
 
       it "must return the given String" do
         expect(subject.unescape(data)).to eq(data)
+      end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
       end
     end
   end

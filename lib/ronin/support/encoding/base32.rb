@@ -63,7 +63,7 @@ module Ronin
         #   The Base32 decoded String.
         #
         def self.decode(data)
-          decoded = String.new
+          decoded = String.new(encoding: Encoding::UTF_8)
 
           each_chunk(data,8) do |chunk|
             chunk.decode(decoded)

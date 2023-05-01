@@ -16,5 +16,9 @@ describe Ronin::Support::Encoding::Base16 do
     it "must Base16 decode each two hex characters in the String" do
       expect(subject.decode(data)).to eq("hello\x4e")
     end
+
+    it "must set the String encoding to Encoding::UTF_8" do
+      expect(subject.decode(data).encoding).to be(Encoding::UTF_8)
+    end
   end
 end

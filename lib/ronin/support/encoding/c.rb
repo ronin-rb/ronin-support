@@ -217,7 +217,7 @@ module Ronin
         #   # => "hello world"
         #
         def self.unescape(data)
-          unescaped = String.new
+          unescaped = String.new(encoding: Encoding::UTF_8)
           scanner   = StringScanner.new(data)
 
           until scanner.eos?

@@ -91,6 +91,10 @@ describe Ronin::Support::Encoding::Hex do
     it "must hex decode a String" do
       expect(subject.decode(data)).to eq("hello\x4e")
     end
+
+    it "must set the String encoding to Encoding::ASCII_8BIT" do
+      expect(subject.decode(data).encoding).to be(Encoding::ASCII_8BIT)
+    end
   end
 
   describe ".escape" do
@@ -119,6 +123,10 @@ describe Ronin::Support::Encoding::Hex do
       it "must unescape the hexadecimal characters" do
         expect(subject.unescape(data)).to eq(unescaped)
       end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
+      end
     end
 
     context "when the given String contains escaped multi-byte characters" do
@@ -127,6 +135,10 @@ describe Ronin::Support::Encoding::Hex do
 
       it "must unescape the hexadecimal characters" do
         expect(subject.unescape(data)).to eq(unescaped)
+      end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
       end
     end
 
@@ -137,6 +149,10 @@ describe Ronin::Support::Encoding::Hex do
       it "must unescape C special characters" do
         expect(subject.unescape(data)).to eq(unescaped)
       end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
+      end
     end
 
     context "when the given String does not contain escaped characters" do
@@ -144,6 +160,10 @@ describe Ronin::Support::Encoding::Hex do
 
       it "must return the given String" do
         expect(subject.unescape(data)).to eq(data)
+      end
+
+      it "must set the String encoding to Encoding::UTF_8" do
+        expect(subject.unescape(data).encoding).to be(Encoding::UTF_8)
       end
     end
   end
