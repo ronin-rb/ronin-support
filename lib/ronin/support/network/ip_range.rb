@@ -204,6 +204,21 @@ module Ronin
         end
 
         #
+        # Determines whether the IP address exists within the IP range.
+        #
+        # @param [IP, IPAddr, String] ip
+        #   The IP address to check.
+        #
+        # @return [Boolean]
+        #   Indicates whether the IP address exists within the IP range.
+        #
+        # @since 1.1.0
+        #
+        def include?(ip)
+          @range.include?(ip)
+        end
+
+        #
         # Enumerates over each IP address that is included in the addresses
         # netmask. Supports both IPv4 and IPv6 addresses.
         #
