@@ -78,7 +78,7 @@ module Ronin
           multiplier = 1
           table_size = TABLE.length
 
-          string.each_char.reverse_each.each_with_index do |char,index|
+          string.each_char.reverse_each.with_index do |char,index|
             decoded    += TABLE.index(char) * multiplier
             multiplier *= table_size
           end
