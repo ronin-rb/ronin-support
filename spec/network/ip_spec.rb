@@ -471,6 +471,33 @@ describe Ronin::Support::Network::IP do
     end
   end
 
+  describe "#address" do
+    context "when initialized with an IP address String" do
+      it "must return the IP address String" do
+        expect(subject.address).to eq(address)
+      end
+
+      it "must return the same IP address String each time" do
+        expect(subject.address).to be(subject.address)
+      end
+    end
+
+    context "when initialized with a numeric IP address" do
+      let(:integer) { IPAddr.new(address).to_i }
+      let(:family)  { Socket::AF_INET }
+
+      subject { described_class.new(integer,family) }
+
+      it "must return the IP address String for the numeric address" do
+        expect(subject.address).to eq(address)
+      end
+
+      it "must return the same IP address String each time" do
+        expect(subject.address).to be(subject.address)
+      end
+    end
+  end
+
   describe "#broadcast?" do
     context "when the IP is an IPv4 adress" do
       context "and the IP address is 255.255.255.255" do

@@ -66,11 +66,6 @@ module Ronin
       #
       class IP < IPAddr
 
-        # The address of the IP.
-        #
-        # @return [String]
-        attr_reader :address
-
         #
         # Initializes the IP address.
         #
@@ -92,9 +87,15 @@ module Ronin
         #   the IP address.
         #
         def initialize(address,family=Socket::AF_UNSPEC)
-          # XXX: remove the %iface suffix for ruby < 3.1.0
-          if address.kind_of?(String) && address =~ /%.+$/
-            address = address.sub(/%.+$/,'')
+          case address
+          when String
+            # XXX: remove the %iface suffix for ruby < 3.1.0
+            if address =~ /%.+$/
+              address = address.sub(/%.+$/,'')
+            end
+
+            # pre-cache the given IP address String
+            @address = address
           end
 
           begin
@@ -102,12 +103,29 @@ module Ronin
           rescue IPAddr::InvalidAddressError
             raise(InvalidIP,"invalid IP address: #{address.inspect}")
           end
-
-          @address = case address
-                     when String then address.to_s
-                     else             to_s
-                     end
         end
+
+        protected
+
+        #
+        # Sets the IP address using the numeric IP address value.
+        #
+        # @param [Integer] addr
+        #   The new numeric IP address value.
+        #
+        # @param [Integer] family
+        #   Optional IP address family.
+        #
+        # @api private
+        #
+        def set(addr,*family)
+          super(addr,*family)
+
+          # unset the cached IP address since the numeric address has changed
+          @address = nil
+        end
+
+        public
 
         # The URI for https://ipinfo.io/ip
         IPINFO_URI = URI::HTTPS.build(host: 'ipinfo.io', path: '/ip')
@@ -284,6 +302,16 @@ module Ronin
         #
         def logical?
           ipv4? && (@addr & 0xff) == 0x00
+        end
+
+        #
+        # The IP address.
+        #
+        # @return [String]
+        #   The String version of the IP address.
+        #
+        def address
+          @address ||= to_s
         end
 
         #
@@ -519,8 +547,8 @@ module Ronin
         end
 
         alias canonical to_string
-        alias to_uint to_i
         alias to_str to_s
+        alias to_uint to_i
 
         #
         # Inspects the IP.
