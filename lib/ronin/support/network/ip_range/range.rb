@@ -145,7 +145,7 @@ module Ronin
           #
           # Determines if the given IP belongs to the ASN IP range.
           #
-          # @param [IPAddr, String] ip
+          # @param [IP, IPAddr, String] ip
           #   The IP to test.
           #
           # @return [Boolean]
