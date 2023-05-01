@@ -167,6 +167,21 @@ module Ronin
           end
 
           #
+          # Determines whether the IP address exists within the IP range.
+          #
+          # @param [IP, IPAddr, String] ip
+          #   The IP address to check.
+          #
+          # @return [Boolean]
+          #   Indicates whether the IP address exists within the IP range.
+          #
+          # @since 1.1.0
+          #
+          def include?(ip)
+            super(ip.to_s)
+          end
+
+          #
           # Enumerates over the IP-glob range.
           #
           # @yield [ip]
