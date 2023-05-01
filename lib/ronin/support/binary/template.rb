@@ -209,7 +209,7 @@ module Ronin
 
             values.pack(@pack_string)
           else
-            buffer = String.new('', encoding: Encoding::ASCII_8BIT)
+            buffer = String.new
 
             @types.each do |type|
               # shift off the next value and pack it

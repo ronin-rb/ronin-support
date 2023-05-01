@@ -125,7 +125,7 @@ module Ronin
             @size   = @string.bytesize
             @length = @size / @machine_word.size
           else
-            @string = String.new("", encoding: Encoding::ASCII_8BIT)
+            @string = String.new
             @size   = 0
             @length = 0
           end

@@ -152,7 +152,7 @@ module Ronin
             if @pack_string
               super(array)
             else
-              buffer = String.new("", encoding: Encoding::ASCII_8BIT)
+              buffer = String.new
 
               @length.times do |index|
                 value = array[index] || @type.uninitialized_value

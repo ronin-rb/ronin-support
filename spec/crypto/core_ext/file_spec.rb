@@ -125,7 +125,7 @@ describe File do
 
     context "when given a block" do
       it "must yield each encrypted block" do
-        output = String.new('', encoding: Encoding::ASCII_8BIT)
+        output = String.new
 
         subject.encrypt(path,cipher, password: password) do |block|
           output << block
@@ -148,7 +148,7 @@ describe File do
 
     context "when given a block" do
       it "must yield each decrypted block" do
-        output = String.new('', encoding: Encoding::ASCII_8BIT)
+        output = String.new
 
         subject.decrypt(path,cipher, password: password) do |block|
           output << block
@@ -177,7 +177,7 @@ describe File do
 
     context "when given a block" do
       it "must yield each AES encrypted block" do
-        output = String.new('', encoding: Encoding::ASCII_8BIT)
+        output = String.new
 
         subject.aes_encrypt(path, key_size: key_size, password: password) do |block|
           output << block
@@ -202,7 +202,7 @@ describe File do
 
     context "when given a block" do
       it "must yield each AES decrypted block" do
-        output = String.new('', encoding: Encoding::ASCII_8BIT)
+        output = String.new
 
         subject.aes_decrypt(path, key_size: key_size, password: password) do |block|
           output << block
@@ -229,7 +229,7 @@ describe File do
 
     context "when given a block" do
       it "must yield each AES encrypted block" do
-        output = String.new('', encoding: Encoding::ASCII_8BIT)
+        output = String.new
 
         subject.aes128_encrypt(path, password: password) do |block|
           output << block
@@ -252,7 +252,7 @@ describe File do
 
     context "when given a block" do
       it "must yield each AES decrypted block" do
-        output = String.new('', encoding: Encoding::ASCII_8BIT)
+        output = String.new
 
         subject.aes128_decrypt(path, password: password) do |block|
           output << block
@@ -279,7 +279,7 @@ describe File do
 
     context "when given a block" do
       it "must yield each AES encrypted block" do
-        output = String.new('', encoding: Encoding::ASCII_8BIT)
+        output = String.new
 
         subject.aes256_encrypt(path, password: password) do |block|
           output << block
@@ -302,7 +302,7 @@ describe File do
 
     context "when given a block" do
       it "must yield each AES decrypted block" do
-        output = String.new('', encoding: Encoding::ASCII_8BIT)
+        output = String.new
 
         subject.aes256_decrypt(path, password: password) do |block|
           output << block

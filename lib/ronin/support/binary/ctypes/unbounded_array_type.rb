@@ -149,7 +149,7 @@ module Ronin
             if @pack_string
               super(array)
             else
-              buffer = String.new('', encoding: Encoding::ASCII_8BIT)
+              buffer = String.new
 
               array.each do |element|
                 buffer << @type.pack(element)
