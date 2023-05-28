@@ -1,3 +1,7 @@
+### 1.1.0 / 2023-XX-XX
+
+* Added {Ronin::Support::Binary::CTypes::OS::Android}.
+
 ### 1.0.1 / 2023-03-01
 
 * {Ronin::Support::Network::HTTP.connect_uri} can now infer when to enable
