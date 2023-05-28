@@ -1,3 +1,7 @@
+### 1.1.0 / 2023-XX-XX
+
+* Added {Ronin::Support::Binary::CTypes::OS::Android}.
+
 ### 1.0.7 / 2024-07-13
 
 * Improved the performance of {Ronin::Support::Encoding::JS.unescape} and
