@@ -41,7 +41,7 @@ class Float
   #                 :arm64, :arm64_le, :arm64_be] :arch
   #   The desired architecture of the binary format.
   #
-  # @option kwargs [:linux, :macos, :windows,
+  # @option kwargs [:linux, :macos, :windows, :android,
   #                 :bsd, :freebsd, :openbsd, :netbsd] :os
   #   The Operating System name to lookup.
   #

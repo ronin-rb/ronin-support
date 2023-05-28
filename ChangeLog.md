@@ -1,3 +1,7 @@
+### 1.1.0 / 2023-XX-XX
+
+* Added {Ronin::Support::Binary::CTypes::OS::Android}.
+
 ### 1.0.5 / 2023-12-27
 
 * Fixed a bug in {Ronin::Support::Binary::Stream::Methods#read_string} on Ruby
