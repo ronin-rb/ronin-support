@@ -33,7 +33,7 @@ module Ronin
           class BSD < UNIX
 
             #
-            # Initializes the FreeBSD types object.
+            # Initializes the common BSD types object.
             #
             # @param [#[]] types
             #   The base types module.
