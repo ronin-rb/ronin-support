@@ -104,6 +104,7 @@ module Ronin
       # * {CTypes::OS::Linux Linux}
       # * {CTypes::OS::MacOS macOS}
       # * {CTypes::OS::Windows Windows}
+      # * {CTypes::OS::Android Android}
       #
       module CTypes
         include Native
@@ -392,7 +393,8 @@ module Ronin
 
           linux:   OS::Linux,
           macos:   OS::MacOS,
-          windows: OS::Windows
+          windows: OS::Windows,
+          android: OS::Android
         }
 
         #
@@ -410,7 +412,7 @@ module Ronin
         #         :arm64, :arm64_le, :arm64_be] arch
         #   The architecture name to lookup.
         #
-        # @param [:linux, :macos, :windows,
+        # @param [:linux, :macos, :windows, :android,
         #         :bsd, :freebsd, :openbsd, :netbsd] os
         #   The Operating System name to lookup.
         #

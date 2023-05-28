@@ -8,6 +8,7 @@
   can now accept URLs with International Domain Names (IDN).
 * Changed {Kernel#try} to not silently ignore `SyntaxError` exceptions.
 * Documentation improvements.
+* Added {Ronin::Support::Binary::CTypes::OS::Android}.
 
 ### 1.0.0 / 2023-02-01
 

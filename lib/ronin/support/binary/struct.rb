@@ -657,7 +657,7 @@ module Ronin
         #         :arm64, :arm64_le, :arm64_be] arch
         #   The desired architecture for the struct.
         #
-        # @param [:linux, :macos, :windows,
+        # @param [:linux, :macos, :windows, :android,
         #         :bsd, :freebsd, :openbsd, :netbsd] os
         #   The Operating System (OS) for the struct.
         #
