@@ -1,3 +1,7 @@
+### 1.1.0 / 2023-XX-XX
+
+* Added {Ronin::Support::Binary::CTypes::OS::Android}.
+
 ### 1.0.6 / 2024-06-19
 
 * Fixed error messages in {Ronin::Support::Encoding::Base64.encode} and
