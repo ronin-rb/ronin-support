@@ -58,14 +58,10 @@ module Ronin
       # * `:double_be` - double-precision float, big endian.
       # * `:byte` - signed byte.
       # * `:string` - binary String, `\0` terminated.
-      # * `:uint16_le` - unsigned 16-bit integer, little endian.
-      # * `:uint32_le` - unsigned 32-bit integer, little endian.
       # * `:uint64_le` - unsigned 64-bit integer, little endian.
       # * `:int16_le` - signed 16-bit integer, little endian.
       # * `:int32_le` - signed 32-bit integer, little endian.
       # * `:int64_le` - signed 64-bit integer, little endian.
-      # * `:uint16_be` - unsigned 16-bit integer, big endian.
-      # * `:uint32_be` - unsigned 32-bit integer, big endian.
       # * `:uint64_be` - unsigned 64-bit integer, big endian.
       # * `:int16_be` - signed 16-bit integer, big endian.
       # * `:int32_be` - signed 32-bit integer, big endian.
