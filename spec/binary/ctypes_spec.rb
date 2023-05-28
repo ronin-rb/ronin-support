@@ -1439,7 +1439,7 @@ describe Ronin::Support::Binary::CTypes do
     describe ":linux" do
       subject { super()[:linux] }
 
-      it { expect(subject).to be(Ronin::Support::Binary::CTypes::OS::Linux ) }
+      it { expect(subject).to be(Ronin::Support::Binary::CTypes::OS::Linux) }
     end
 
     describe ":macos" do
@@ -1452,6 +1452,12 @@ describe Ronin::Support::Binary::CTypes do
       subject { super()[:windows] }
 
       it { expect(subject).to be(Ronin::Support::Binary::CTypes::OS::Windows) }
+    end
+
+    describe ":android" do
+      subject { super()[:android] }
+
+      it { expect(subject).to be(Ronin::Support::Binary::CTypes::OS::Android) }
     end
   end
 
@@ -1522,14 +1528,14 @@ describe Ronin::Support::Binary::CTypes do
           expect(subject.platform(os: :linux)).to be_kind_of(described_class::OS::Linux)
         end
 
-        context "and the endian: keyword is also given" do
-          it "must initialize the #{described_class::OS}:: class with the correspding endian module" do
+        context "and the endian: keyword argument is also given" do
+          it "must initialize the #{described_class::OS}:: class with the corresponding endian module" do
             expect(subject.platform(endian: :big, os: :linux).types).to be(described_class::BigEndian)
           end
         end
 
-        context "and the arch: keyword is also given" do
-          it "must initialize the #{described_class::OS}:: class with the correspding #{described_class}::Arch:: module" do
+        context "and the arch: keyword argument is also given" do
+          it "must initialize the #{described_class::OS}:: class with the corresponding #{described_class}::Arch:: module" do
             expect(subject.platform(arch: :arm64, os: :linux).types).to be(described_class::Arch::ARM64)
           end
         end

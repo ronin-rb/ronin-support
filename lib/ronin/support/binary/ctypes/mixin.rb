@@ -45,7 +45,7 @@ module Ronin
 
           # The desired Operating System (OS) of the binary format.
           #
-          # @return [:linux, :macos, :windows,
+          # @return [:linux, :macos, :windows, :android,
           #          :bsd, :freebsd, :openbsd, :netbsd, nil]
           #
           # @api public
@@ -64,7 +64,8 @@ module Ronin
           #          OS::OpenBSD,
           #          OS::Linux,
           #          OS::MacOS,
-          #          OS::Windows]
+          #          OS::Windows,
+          #          OS::Android]
           #
           # @api semipublic
           attr_reader :type_system
@@ -92,7 +93,8 @@ module Ronin
           #         OS::OpenBSD,
           #         OS::Linux,
           #         OS::MacOS,
-          #         OS::Windows, nil] type_system
+          #         OS::Windows,
+          #         OS::Android, nil] type_system
           #   Optional type system to use instead.
           #
           # @param [:little, :big, :net, nil] endian
@@ -106,7 +108,7 @@ module Ronin
           #         :arm64, :arm64_le, :arm64_be] arch
           #   The desired architecture to use.
           #
-          # @param [:linux, :macos, :windows,
+          # @param [:linux, :macos, :windows, :android,
           #         :bsd, :freebsd, :openbsd, :netbsd] os
           #   The Operating System (OS) to use.
           #

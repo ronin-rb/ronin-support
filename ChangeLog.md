@@ -1,3 +1,7 @@
+### 1.1.0 / 2023-XX-XX
+
+* Added {Ronin::Support::Binary::CTypes::OS::Android}.
+
 ### 1.0.2 / 2023-06-09
 
 * Fixed a bug in {Ronin::Support::Encoding::Base32.decode},
