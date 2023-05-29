@@ -36,10 +36,6 @@ module Ronin
       # * `:int16` - signed 16-bit integer.
       # * `:int32` - signed 32-bit integer.
       # * `:int64` - signed 64-bit integer.
-      # * `:uint16_le` - unsigned 16-bit integer, little endian.
-      # * `:uint32_le` - unsigned 32-bit integer, little endian.
-      # * `:uint16_be` - unsigned 16-bit integer, big endian.
-      # * `:uint32_be` - unsigned 32-bit integer, big endian.
       # * `:uchar` - unsigned character.
       # * `:ushort` - unsigned short integer, native endian.
       # * `:uint` - unsigned integer, native endian.
