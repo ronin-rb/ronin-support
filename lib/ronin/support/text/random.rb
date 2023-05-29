@@ -73,7 +73,7 @@ module Ronin
         #
         # Generates a random String of numeric characters.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -88,7 +88,7 @@ module Ronin
         #
         # Alias for {numeric}.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -103,7 +103,7 @@ module Ronin
         #
         # A random octal-digit string.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -118,7 +118,7 @@ module Ronin
         #
         # The upper-case hexadecimal character set.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -133,7 +133,7 @@ module Ronin
         #
         # Alias for {uppercase_hex}.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -148,7 +148,7 @@ module Ronin
         #
         # The lower-case hexadecimal character set.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -163,7 +163,7 @@ module Ronin
         #
         # Alias for {lowercase_hex}.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -178,7 +178,7 @@ module Ronin
         #
         # A random hexadecimal string.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -193,7 +193,7 @@ module Ronin
         #
         # The upper-case alphabetic character set.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -208,7 +208,7 @@ module Ronin
         #
         # Alias for {uppercase_alpha}.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -223,7 +223,7 @@ module Ronin
         #
         # The lower-case alphabetic character set.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -238,7 +238,7 @@ module Ronin
         #
         # Alias for {lowercase_alpha}.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -253,7 +253,7 @@ module Ronin
         #
         # A random alphabetic string.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -268,7 +268,7 @@ module Ronin
         #
         # A random alpha-numeric string.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -283,7 +283,7 @@ module Ronin
         #
         # A random punctuation string.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -298,7 +298,7 @@ module Ronin
         #
         # A random symbolic string.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -313,7 +313,7 @@ module Ronin
         #
         # A random whitespace string.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -328,7 +328,7 @@ module Ronin
         #
         # A random whitespace string.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -342,7 +342,7 @@ module Ronin
         #
         # The set of printable characters, not including spaces.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -357,7 +357,7 @@ module Ronin
         #
         # The set of printable characters, including spaces.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -372,7 +372,7 @@ module Ronin
         #
         # A random control-character string.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -387,7 +387,7 @@ module Ronin
         #
         # The signed ASCII character set.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
@@ -402,7 +402,7 @@ module Ronin
         #
         # A random ASCII string.
         #
-        # @param [Integer] n
+        # @param [Integer, Range<Integer>] n
         #   The desired length of the String.
         #
         # @return [String]
