@@ -47,7 +47,8 @@ module Ronin
           #          OS::Linux,
           #          OS::MacOS,
           #          OS::Windows,
-          #          OS::Android]
+          #          OS::Android,
+          #          OS::AppleIOS]
           attr_reader :types
 
           #
@@ -65,7 +66,8 @@ module Ronin
           #          OS::Linux,
           #          OS::MacOS,
           #          OS::Windows,
-          #          OS::Android] types
+          #          OS::Android,
+          #          OS::AppleIOS] types
           #   The types module or object that provides a `#[]` method for
           #   looking up type names.
           #

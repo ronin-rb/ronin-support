@@ -1459,6 +1459,12 @@ describe Ronin::Support::Binary::CTypes do
 
       it { expect(subject).to be(Ronin::Support::Binary::CTypes::OS::Android) }
     end
+
+    describe ":apple_ios" do
+      subject { super()[:apple_ios] }
+
+      it { expect(subject).to be(Ronin::Support::Binary::CTypes::OS::AppleIOS) }
+    end
   end
 
   describe ".platform" do

@@ -43,7 +43,8 @@ module Ronin
           #          OS::Linux,
           #          OS::MacOS,
           #          OS::Windows,
-          #          OS::Android]
+          #          OS::Android,
+          #          OS::AppleIOS]
           attr_reader :types
 
           # The defined typedefs for the OS.
@@ -126,3 +127,4 @@ require 'ronin/support/binary/ctypes/os/netbsd'
 require 'ronin/support/binary/ctypes/os/macos'
 require 'ronin/support/binary/ctypes/os/windows'
 require 'ronin/support/binary/ctypes/os/android'
+require 'ronin/support/binary/ctypes/os/apple_ios'

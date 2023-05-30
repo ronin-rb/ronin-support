@@ -1,6 +1,7 @@
 ### 1.1.0 / 2023-XX-XX
 
 * Added {Ronin::Support::Binary::CTypes::OS::Android}.
+* Added {Ronin::Support::Binary::CTypes::OS::AppleIOS}.
 
 ### 1.0.5 / 2023-12-27
 
