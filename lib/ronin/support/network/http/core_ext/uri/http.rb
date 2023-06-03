@@ -33,6 +33,10 @@ module URI
     # @return [Integer]
     #   The HTTP Response Status.
     #
+    # @example
+    #   URI('http://github.com/').status
+    #   # => 301
+    #
     # @see Ronin::Support::Network::HTTP.response_status
     #
     # @since 0.3.0
@@ -52,6 +56,10 @@ module URI
     #   Specifies whether the response had an HTTP OK status code or not.
     #
     # @see Ronin::Support::Network::HTTP.ok?
+    #
+    # @example
+    #   URI('https://example.com/').ok?
+    #   # => true
     #
     # @since 0.3.0
     #
