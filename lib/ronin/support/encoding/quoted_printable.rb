@@ -22,7 +22,9 @@ module Ronin
   module Support
     class Encoding < ::Encoding
       #
-      # Contains methods for encoding/decoding Quoted Printable data.
+      # Contains methods for encoding/decoding [Quoted Printable] data.
+      #
+      # [Quoted-Printable]: https://en.wikipedia.org/wiki/Quoted-printable
       #
       # ## Core-Ext Methods
       #
