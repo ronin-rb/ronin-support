@@ -213,7 +213,7 @@ module Ronin
         #   The unescaped C String.
         #
         # @example
-        #   Encoding::C.unescape("\x68\x65\x6c\x6c\x6f\x20\x77\x6f\x72\x6c\x64")
+        #   Encoding::C.unescape("\\x68\\x65\\x6c\\x6c\\x6f\\x20\\x77\\x6f\\x72\\x6c\\x64")
         #   # => "hello world"
         #
         def self.unescape(data)

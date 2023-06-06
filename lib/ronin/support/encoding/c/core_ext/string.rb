@@ -47,7 +47,7 @@ class String
   #   The unescaped C String.
   #
   # @example
-  #   "\x68\x65\x6c\x6c\x6f\x20\x77\x6f\x72\x6c\x64".c_unescape
+  #   "\\x68\\x65\\x6c\\x6c\\x6f\\x20\\x77\\x6f\\x72\\x6c\\x64".c_unescape
   #   # => "hello world"
   #
   # @see Ronin::Support::Encoding::C.unescape
