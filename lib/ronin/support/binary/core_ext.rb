@@ -16,6 +16,8 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require 'ronin/support/binary/core_ext/integer'
+require 'ronin/support/binary/core_ext/float'
 require 'ronin/support/binary/core_ext/string'
 require 'ronin/support/binary/core_ext/array'
 require 'ronin/support/binary/core_ext/io'
