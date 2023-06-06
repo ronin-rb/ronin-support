@@ -79,7 +79,7 @@ class String
   #   The hex unescaped version of the String.
   #
   # @example
-  #   "hello\\nworld".hex_escape
+  #   "hello\\nworld".hex_unescape
   #   # => "hello\nworld"
   #
   # @see Ronin::Support::Encoding::Hex.unescape

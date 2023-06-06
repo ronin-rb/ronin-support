@@ -188,7 +188,7 @@ module Ronin
         #   the same String if it is not quoted.
         #
         # @example
-        #   Encoding::Hex.unescape("\"hello\\nworld\"")
+        #   Encoding::Hex.unescape("hello\\nworld")
         #   # => "hello\nworld"
         #
         def self.unescape(data)
