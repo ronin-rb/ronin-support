@@ -16,4 +16,4 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/compression/core_ext/file'
+require 'ronin/support/archive/core_ext/file'
