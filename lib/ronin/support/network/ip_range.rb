@@ -40,7 +40,7 @@ module Ronin
       #
       # Enumerating over a IP-glob range:
       #
-      #     IPRange.each('10.0.1-3.*/24') { |ip| puts ip }
+      #     IPRange.each('10.0.1-3.*') { |ip| puts ip }
       #     # 10.0.1.1
       #     # 10.0.1.2
       #     # ...
@@ -75,7 +75,7 @@ module Ronin
         #   ip_range = IPRange.new('10.0.0.1/24')
         #
         # @example Initializing an IP-glob range:
-        #   ip_range = IPRange.new('10.0.1-3.*/24')
+        #   ip_range = IPRange.new('10.0.1-3.*')
         #
         def initialize(string)
           @range = if self.class.glob?(string) then Glob.new(string)
@@ -125,7 +125,7 @@ module Ronin
         #   # 10.0.0.255
         #
         # @example Enumerating over a IP-glob range:
-        #   IPRange.each('10.0.1-3.*/24') { |ip| puts ip }
+        #   IPRange.each('10.0.1-3.*') { |ip| puts ip }
         #   # 10.0.1.1
         #   # 10.0.1.2
         #   # ...
@@ -228,7 +228,7 @@ module Ronin
         #   # 10.0.0.255
         #
         # @example Enumerating over a IP-glob range:
-        #   ip_range = IPRange.new('10.0.1-3.*/24')
+        #   ip_range = IPRange.new('10.0.1-3.*')
         #   ip_range.each { |ip| puts ip }
         #   # 10.0.1.1
         #   # 10.0.1.2
