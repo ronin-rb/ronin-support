@@ -20,7 +20,9 @@ module Ronin
   module Support
     class Encoding < ::Encoding
       #
-      # Contains methods for encoding/decoding UUEncoded data.
+      # Contains methods for encoding/decoding [UUEncoded][uuencoding] data.
+      #
+      # [uuencoding]: https://en.wikipedia.org/wiki/Uuencoding
       #
       # ## Core-Ext Methods
       #
