@@ -41,6 +41,10 @@ class String
   # @return [String]
   #   A random typo of the String.
   #
+  # @example
+  #   "microsoft".typo
+  #   # => "microssoft"
+  #
   # @see Ronin::Support::Text::Typo.substitute
   #
   # @api public
@@ -79,6 +83,11 @@ class String
   # @return [Enumerator]
   #   If no block is given, an Enumerator will be returned.
   #
+  # @example
+  #   "consciousness".each_typo do |typo|
+  #     # ...
+  #   end
+  #
   # @see Ronin::Support::Text::Typo.each_substitution
   #
   # @api public
@@ -109,6 +118,21 @@ class String
   #
   # @return [Array<String>]
   #   Every typo variation of the String.
+  #
+  # @example
+  #   "consciousness".typos
+  #   # =>
+  #   # ["consciusness",
+  #   #  "consciosness",
+  #   #  "conscuosness",
+  #   #  "consciosness",
+  #   #  "coonsciousness",
+  #   #  "conscioousness",
+  #   #  "conssciousness",
+  #   #  "conscioussness",
+  #   #  "consciousnesss",
+  #   #  "consciuosness",
+  #   #  "consciousnes"]
   #
   # @see Ronin::Support::Text::Typo.each_substitution
   #
