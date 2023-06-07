@@ -36,6 +36,13 @@ class File
   # @return [Ronin::Support::Compression::Gzip::Reader]
   #   The gzip reader object.
   #
+  # @example
+  #   File.gunzip('wordlist.gz') do |gz|
+  #     gz.each_line do |line|
+  #       # ...
+  #     end
+  #   end
+  #
   # @api public
   #
   # @since 1.0.0
@@ -58,6 +65,15 @@ class File
   #
   # @return [Ronin::Support::Compression::Gzip::Writer]
   #   The gzip writer object.
+  #
+  # @example
+  #   File.gunzip('file.gz') do |gz|
+  #     # gzip header info
+  #     gz.mtime = Time.now
+  #     gz.orig_name = 'file.txt'
+  #
+  #     gz.write('Hello World!')
+  #   end
   #
   # @api public
   #
