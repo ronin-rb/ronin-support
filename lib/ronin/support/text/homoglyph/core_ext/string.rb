@@ -39,6 +39,10 @@ class String
   # @raise [Ronin::Support::Text::Homoglyph::NotViable]
   #   No homoglyph replaceable characters were found in the String.
   #
+  # @example
+  #   "microsoft".homoglyph
+  #   # => "mｉcrosoft"
+  #
   # @see Ronin::Support::Text::Homoglyph.substitute
   #
   # @api public
@@ -68,6 +72,11 @@ class String
   # @return [Enumerator]
   #   If no block is given, an Enumerator object will be returned.
   #
+  # @example
+  #   "microsoft".each_homoglyph do |homoglyph|
+  #     # ...
+  #   end
+  #
   # @see Ronin::Support::Text::Homoglyph.each_substitution
   #
   # @api public
@@ -94,6 +103,30 @@ class String
   #
   # @return [Array<String>]
   #   All variation of the given String.
+  #
+  # @example
+  #   "microsoft".homoglyphs
+  #   # =>
+  #   # ["ⅿicrosoft",
+  #   #  "ｍicrosoft",
+  #   #  "mіcrosoft",
+  #   #  "mⅰcrosoft",
+  #   #  "mｉcrosoft",
+  #   #  "miϲrosoft",
+  #   #  "miсrosoft",
+  #   #  "miⅽrosoft",
+  #   #  "miｃrosoft",
+  #   #  "micｒosoft",
+  #   #  "micrοsoft",
+  #   #  "microsοft",
+  #   #  "micrоsoft",
+  #   #  "microsоft",
+  #   #  "micrｏsoft",
+  #   #  "microsｏft",
+  #   #  "microѕoft",
+  #   #  "microｓoft",
+  #   #  "microsoｆt",
+  #   #  "microsofｔ"]
   #
   # @see Ronin::Support::Text::Homoglyph.each_substitution
   #
