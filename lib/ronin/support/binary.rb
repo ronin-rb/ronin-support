@@ -19,6 +19,7 @@
 require 'ronin/support/binary/core_ext'
 require 'ronin/support/binary/template'
 require 'ronin/support/binary/buffer'
+require 'ronin/support/binary/cstring'
 require 'ronin/support/binary/array'
 require 'ronin/support/binary/stack'
 require 'ronin/support/binary/struct'
