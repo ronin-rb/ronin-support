@@ -30,7 +30,7 @@ module Ronin
       #
       # Writing bytes into an empty buffer:
       #
-      #     buffer = Buffer.new(10)
+      #     buffer = Binary::Buffer.new(10)
       #     # => #<Ronin::Support::Binary::Buffer: "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00">
       #     buffer[0] = 0x41
       #     buffer[1] = 0x42
@@ -40,7 +40,7 @@ module Ronin
       #
       # Writing different types of data to a buffer:
       #
-      #     buffer = Buffer.new(16)
+      #     buffer = Binary::Buffer.new(16)
       #     # => #<Ronin::Support::Binary::Buffer: "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00">
       #     buffer.put_uint32(0,0x11223344)
       #     buffer.put_int32(4,-1)
@@ -51,7 +51,7 @@ module Ronin
       #
       # Creating a buffer from an existing String:
       #
-      #     buffer = Buffer.new("\x41\x00\x00\x00\x42\x00\x00\x00")
+      #     buffer = Binary::Buffer.new("\x41\x00\x00\x00\x42\x00\x00\x00")
       #     # => #<Ronin::Support::Binary::Buffer: "A\u0000\u0000\u0000B\u0000\u0000\u0000">
       #     buffer.get_uint32(0)
       #     # => 65

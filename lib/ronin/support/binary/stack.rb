@@ -36,7 +36,7 @@ module Ronin
       #
       # Creating a new stack:
       #
-      #     stack = Stack.new
+      #     stack = Binary::Stack.new
       #     # => #<Ronin::Support::Binary::Stack: "">
       #     stack.push 0x41414141
       #     # => #<Ronin::Support::Binary::Stack: "AAAA\x00\x00\x00\x00">
@@ -49,7 +49,7 @@ module Ronin
       #
       # Creating a stack from an existing String:
       #
-      #     stack = Stack.new("\x41\x00\x00\x00\x00\x00\x00\x00\x42\x00\x00\x00\x00\x00\x00\x00")
+      #     stack = Binary::Stack.new("\x41\x00\x00\x00\x00\x00\x00\x00\x42\x00\x00\x00\x00\x00\x00\x00")
       #     stack[0]
       #     # => 65
       #     stack[8]

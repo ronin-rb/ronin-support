@@ -35,7 +35,7 @@ module Ronin
       #
       # Creating an array of `int32`s:
       #
-      #     array = Binary::Array.new(:int32, 4)
+      #     array = Binary::Binary::Array.new(:int32, 4)
       #     # => #<Ronin::Support::Binary::Binary::Array: "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00">
       #     array[0] = 0x11111111
       #     array[1] = 0x22222222
