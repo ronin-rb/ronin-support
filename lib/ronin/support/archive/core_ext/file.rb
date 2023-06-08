@@ -106,6 +106,22 @@ class File
   # @return [Ronin::Support::Archive::Zip::Reader]
   #   The zip reader object.
   #
+  # @example Enumerating over each file in a zip archive:
+  #   File.unzip('file.zip') do |zip|
+  #     zip.each do |entry|
+  #       puts entry.name
+  #       puts '-' * 80
+  #       puts entry.read
+  #       puts '-' * 80
+  #     end
+  #   end
+  #
+  # @example Reads a specific file from a zip archive:
+  #   File.unzip('file.zip') do |zip|
+  #     data = zip.read('foo.txt')
+  #     # ...
+  #   end
+  #
   # @api public
   #
   # @since 1.0.0
@@ -128,6 +144,11 @@ class File
   #
   # @return [Ronin::Support::Archive::Zip::Writer]
   #   The zip writer object.
+  #
+  # @example
+  #   File.zip('output.zip') do |zip|
+  #     zip.add_file('foo/bar.txt','Hello World!')
+  #   end
   #
   # @api public
   #
