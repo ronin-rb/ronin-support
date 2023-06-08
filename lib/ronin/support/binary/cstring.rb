@@ -24,6 +24,49 @@ module Ronin
       #
       # Represents a null terminated C string.
       #
+      # ## Examples
+      #
+      # ### Initializing C Strings
+      #
+      # From a String:
+      #
+      #     str = Binary::CString.new("hello ")
+      #     # => #<Ronin::Support::Binary::CString:0x00007fc94ba577f8 @string="hello \u0000">
+      #
+      # From a binary C string:
+      #
+      #     str = Binary::CString.new("world\0".b)
+      #     # => #<Ronin::Support::Binary::CString:0x00007fc94ba06f88 @string="world\u0000">
+      #
+      # From characters:
+      #
+      #     str = Binary::CString['A', 'B', 'C']
+      #     # => #<Ronin::Support::Binary::CString:0x00007fc94ba6f268 @string="ABC\x00">
+      #
+      # ### Modifying C Strings
+      #
+      # Concating Strings to a C String:
+      #
+      #     str = Binary::CString.new("hello ")
+      #     str.concat("world")
+      #     # => #<Ronin::Support::Binary::CString:0x00007fc94b978df0 @string="hello world\u0000">
+      #     str.to_s
+      #     # => "hello world"
+      #
+      # Appending two C Strings:
+      #
+      #     str1 = Binary::CString.new("hello ")
+      #     str2 = Binary::CString.new("world\0")
+      #     str = str1 + str2
+      #     # => #<Ronin::Support::Binary::CString:0x00007fc94b9523f8 @string="hello world\u0000">
+      #
+      # Setting characters:
+      #
+      #     str = Binary::CString.new("hello")
+      #     str[0] = 'X'
+      #     str.to_s
+      #     # => "Xello"
+      #
       # @api public
       #
       # @since 1.0.0
