@@ -24,6 +24,83 @@ module Ronin
       #
       # Represents a network packet in network byte-order.
       #
+      # ## Examples
+      #
+      # ### Defining Packet Fields
+      #
+      #     class Packet < Ronin::Support::Binary::Packet
+      #
+      #       member :flags,  :uint8
+      #       member :src,    :uint32
+      #       member :dst,    :uint32
+      #       member :length, :uint32
+      #
+      #     end
+      #
+      # ### Initializing Packets
+      #
+      # From a Hash:
+      #
+      #     packet = Packet.new(
+      #       flags:  0x0c,
+      #       src:    IPAddr.new('1.2.3.4').to_i,
+      #       dst:    IPAddr.new('5.6.7.8').to_i,
+      #       length: 1024
+      #     )
+      #
+      # From a buffer:
+      #
+      #     packet = Packet.unpack("\f\x01\x02\x03\x04\x05\x06\a\b\x00\x00\x04\x00")
+      #
+      # ### Reading Fields
+      #
+      #     packet = Packet.new("\f\x01\x02\x03\x04\x05\x06\a\b\x00\x00\x04\x00")
+      #     packet[:flags]
+      #     # => 12
+      #     packet.flags
+      #     # => 12
+      #
+      # ### Packing Packets
+      #
+      #     class Packet < Ronin::Support::Binary::Packet
+      #
+      #       member :flags,  :uint8
+      #       member :src,    :uint32
+      #       member :dst,    :uint32
+      #       member :length, :uint32
+      #
+      #     end
+      #
+      #     packet = Packet.new(
+      #       flags:  0x0c,
+      #       src:    IPAddr.new('1.2.3.4').to_i,
+      #       dst:    IPAddr.new('5.6.7.8').to_i,
+      #       length: 1024
+      #     )
+      #     packet.pack
+      #     # => "\f\x01\x02\x03\x04\x05\x06\a\b\x00\x00\x04\x00"
+      #
+      # ### Unpacking Packets
+      #
+      #     class Packet < Ronin::Support::Binary::Packet
+      #
+      #       member :flags,  :uint8
+      #       member :src,    :uint32
+      #       member :dst,    :uint32
+      #       member :length, :uint32
+      #
+      #     end
+      #
+      #     packet = Packet.unpack("\f\x01\x02\x03\x04\x05\x06\a\b\x00\x00\x04\x00")
+      #     packet.flags
+      #     # => 12
+      #     packet.src
+      #     # => 16909060
+      #     packet.dst
+      #     # => 84281096
+      #     packet.length
+      #     # => 1024
+      #
       class Packet < Binary::Struct
 
         platform endian: :net
