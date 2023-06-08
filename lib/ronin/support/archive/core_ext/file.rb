@@ -38,6 +38,22 @@ class File
   # @return [Ronin::Support::Archive::Tar::Reader]
   #   The tar reader object.
   #
+  # @example Enumerating over each entry in the tar archive:
+  #   File.untar('file.tar') do |tar|
+  #     tar.each do |entry|
+  #       puts entry.full_name
+  #       puts '-' * 80
+  #       puts entry.read
+  #       puts '-' * 80
+  #     end
+  #   end
+  #
+  # @example Reads a specific file from the tar archive:
+  #   File.untar('file.tar') do |tar|
+  #     data = tar.read('foo.txt')
+  #     # ...
+  #   end
+  #
   # @api public
   #
   # @since 1.0.0
@@ -60,6 +76,12 @@ class File
   #
   # @return [Ronin::Support::Archive::Tar::Writer]
   #   The tar writer object.
+  #
+  # @example
+  #   File.tar('output.tar') do |tar|
+  #     tar.mkdir('foo')
+  #     tar.add_file('foo/bar.txt','Hello World!')
+  #   end
   #
   # @api public
   #
