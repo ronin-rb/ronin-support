@@ -327,6 +327,10 @@ class String
   # @raise [ArgumentError]
   #   Either the the `key:` or `password:` keyword argument must be given.
   #
+  # @example
+  #   "top secret".aes128_encrypt(password: 's3cr3t')
+  #   # => "\x88\xA53\xE9|\xE2\x8E\xA0\xABv\xCF\x94\x17\xBB*\xC5"
+  #
   # @since 1.0.0
   #
   def aes128_encrypt(**kwargs)
@@ -362,6 +366,10 @@ class String
   #
   # @raise [ArgumentError]
   #   Either the the `key:` or `password:` keyword argument must be given.
+  #
+  # @example
+  #   "\x88\xA53\xE9|\xE2\x8E\xA0\xABv\xCF\x94\x17\xBB*\xC5".aes128_decrypt(password: 's3cr3t')
+  #   # => "top secret"
   #
   # @since 1.0.0
   #
