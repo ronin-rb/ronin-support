@@ -1,3 +1,24 @@
+### 1.0.2 / 2023-06-09
+
+* Fixed a bug in {Ronin::Support::Encoding::Base32.decode},
+  {Ronin::Support::Encoding::Hex.unescape},
+  {Ronin::Support::Encoding::C.unescape},
+  {Ronin::Support::Encoding::JS.unescape},
+  {Ronin::Support::Encoding::PowerShell.unescape},
+  {Ronin::Support::Encoding::Ruby.unescape},
+  {Ronin::Support::Encoding::XML.unescape},
+  {Ronin::Support::Path#join}, {String#encode_bytes}, and {String#encode_chars}
+  where ASCII-bit Strings were always being returned instead of UTF-8 Strings.
+* Fixed a bug where {Ronin::Support::Network::IP#address} was being improperly
+  cached.
+* Added missing `require` for {File.tar}, {File.untar}, {File.zip}, and
+  {File.unzip} core-ext methods.
+* Added missing `require` for {Integer#pack} and {Float#pack} core-ext methods.
+* No longer include {Ronin::Support::Mixin} into {Kernel} which caused Mixin
+  methods to be included into *every* Class and object.
+* Added more example code to documentation.
+* Documentation fixes.
+
 ### 1.0.1 / 2023-03-01
 
 * {Ronin::Support::Network::HTTP.connect_uri} can now infer when to enable
