@@ -17,8 +17,8 @@ describe Ronin::Support::Encoding::Base16 do
       expect(subject.decode(data)).to eq("hello\x4e")
     end
 
-    it "must set the String encoding to Encoding::UTF_8" do
-      expect(subject.decode(data).encoding).to be(Encoding::UTF_8)
+    it "must set the String encoding to Encoding::ASCII_8BIT" do
+      expect(subject.decode(data).encoding).to be(Encoding::ASCII_8BIT)
     end
   end
 end
