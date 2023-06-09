@@ -152,6 +152,10 @@ class String
   # @return [String]
   #   The encrypted String.
   #
+  # @example
+  #   "top secret".encrypt('aes-256-cbc', password: 's3cr3t')
+  #   # => "\xF0[\x17\xDA\xA2\x82\x93\xF4\xB6s\xB5\xD8\x1F\xF2\xC6\\"
+  #
   # @see http://rubydoc.info/stdlib/openssl/OpenSSL/Cipher
   #
   # @since 0.6.0
@@ -190,6 +194,10 @@ class String
   #
   # @return [String]
   #   The decrypted String.
+  #
+  # @example
+  #  "\xF0[\x17\xDA\xA2\x82\x93\xF4\xB6s\xB5\xD8\x1F\xF2\xC6\\".decrypt('aes-256-cbc', password: 's3cr3t')
+  #  # => "top secret"
   #
   # @see http://rubydoc.info/stdlib/openssl/OpenSSL/Cipher
   #
