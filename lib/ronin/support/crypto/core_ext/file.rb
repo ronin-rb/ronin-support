@@ -455,6 +455,10 @@ class File
   # @raise [ArgumentError]
   #   Either the the `key:` or `password:` keyword argument must be given.
   #
+  # @example
+  #   File.aes128_encrypt('file.txt', password: 's3cr3t')
+  #   # => "..."
+  #
   # @since 1.0.0
   #
   def self.aes128_encrypt(path, block_size: 16384, output: nil, **kwargs,&block)
@@ -503,6 +507,10 @@ class File
   #
   # @raise [ArgumentError]
   #   Either the the `key:` or `password:` keyword argument must be given.
+  #
+  # @example
+  #   File.aes256_decrypt('encrypted.bin', password: 's3cr3t')
+  #   # => "..."
   #
   # @since 1.0.0
   #
