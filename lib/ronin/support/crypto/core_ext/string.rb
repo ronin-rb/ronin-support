@@ -407,6 +407,10 @@ class String
   # @raise [ArgumentError]
   #   Either the the `key:` or `password:` keyword argument must be given.
   #
+  # @example
+  #   "top secret".aes256_encrypt(password: 's3cr3t')
+  #   # => "\xF0[\x17\xDA\xA2\x82\x93\xF4\xB6s\xB5\xD8\x1F\xF2\xC6\\"
+  #
   # @since 1.0.0
   #
   def aes256_encrypt(**kwargs)
@@ -442,6 +446,10 @@ class String
   #
   # @raise [ArgumentError]
   #   Either the the `key:` or `password:` keyword argument must be given.
+  #
+  # @example
+  #   "\xF0[\x17\xDA\xA2\x82\x93\xF4\xB6s\xB5\xD8\x1F\xF2\xC6\\".aes256_decrypt(password: 's3cr3t')
+  #   # => "top secret"
   #
   # @since 1.0.0
   #
