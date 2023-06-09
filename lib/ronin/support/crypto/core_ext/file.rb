@@ -224,6 +224,10 @@ class File
   # @return [String]
   #   The encrypted data.
   #
+  # @example
+  #   File.encrypt('file.txt', 'aes-256-cbc', password: 's3cr3t')
+  #   # => "..."
+  #
   # @see http://rubydoc.info/stdlib/openssl/OpenSSL/Cipher
   #
   # @since 0.6.0
@@ -280,6 +284,10 @@ class File
   #
   # @return [String]
   #   The decrypted data.
+  #
+  # @example
+  #   File.decrypt('encrypted.bin', 'aes-256-cbc', password: 's3cr3t')
+  #   # => "..."
   #
   # @see http://rubydoc.info/stdlib/openssl/OpenSSL/Cipher
   #
