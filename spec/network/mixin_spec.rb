@@ -29,24 +29,4 @@ describe Ronin::Support::Network::Mixin do
   it "must include `Ronin::Support::Network::HTTP::Mixin`" do
     expect(subject).to include(Ronin::Support::Network::HTTP::Mixin)
   end
-
-  it "must include `Ronin::Support::Network::FTP::Mixin`" do
-    expect(subject).to include(Ronin::Support::Network::FTP::Mixin)
-  end
-
-  it "must include `Ronin::Support::Network::SMTP::Mixin`" do
-    expect(subject).to include(Ronin::Support::Network::SMTP::Mixin)
-  end
-
-  it "must include `Ronin::Support::Network::ESMTP::Mixin`" do
-    expect(subject).to include(Ronin::Support::Network::ESMTP::Mixin)
-  end
-
-  it "must include `Ronin::Support::Network::POP3::Mixin`" do
-    expect(subject).to include(Ronin::Support::Network::POP3::Mixin)
-  end
-
-  it "must include `Ronin::Support::Network::IMAP::Mixin`" do
-    expect(subject).to include(Ronin::Support::Network::IMAP::Mixin)
-  end
 end
