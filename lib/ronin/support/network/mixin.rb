@@ -23,11 +23,6 @@ require 'ronin/support/network/udp/mixin'
 require 'ronin/support/network/ssl/mixin'
 require 'ronin/support/network/unix/mixin'
 require 'ronin/support/network/http/mixin'
-require 'ronin/support/network/ftp/mixin'
-require 'ronin/support/network/smtp/mixin'
-require 'ronin/support/network/esmtp/mixin'
-require 'ronin/support/network/pop3/mixin'
-require 'ronin/support/network/imap/mixin'
 
 module Ronin
   module Support
@@ -47,11 +42,6 @@ module Ronin
         include SSL::Mixin
         include UNIX::Mixin
         include HTTP::Mixin
-        include FTP::Mixin
-        include SMTP::Mixin
-        include ESMTP::Mixin
-        include POP3::Mixin
-        include IMAP::Mixin
       end
     end
   end
