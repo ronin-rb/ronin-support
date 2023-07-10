@@ -61,4 +61,10 @@ describe Ronin::Support::Crypto::Key::EC do
   end
 
   subject { described_class.load_file(path) }
+
+  describe "#curve" do
+    it "must return the #group #curve_name String" do
+      expect(subject.curve).to eq(subject.group.curve_name)
+    end
+  end
 end
