@@ -4,12 +4,20 @@ require 'ronin/support/crypto/key'
 describe Ronin::Support::Crypto::Key do
   let(:fixtures_dir) { File.join(__dir__,'fixtures') }
 
+  let(:rsa_pem_file) { File.join(fixtures_dir,'rsa.pem') }
+  let(:rsa_pem)      { File.read(rsa_pem_file) }
+  let(:rsa_key)      { described_class::DSA.load_file(rsa_pem_file) }
+
+  let(:dsa_pem_file) { File.join(fixtures_dir,'dsa.pem') }
+  let(:dsa_pem)      { File.read(dsa_pem_file) }
+  let(:dsa_key)      { described_class::DSA.load_file(dsa_pem_file) }
+
+  let(:ec_pem_file)  { File.join(fixtures_dir,'ec.pem') }
+  let(:ec_pem)       { File.read(ec_pem_file) }
+  let(:ec_key)       { described_class::EC.load_file(ec_pem_file) }
+
   describe ".parse" do
     context "when the key string starts with '-----BEGIN RSA PRIVATE KEY-----'" do
-      let(:rsa_pem_file) { File.join(fixtures_dir,'rsa.pem') }
-      let(:rsa_pem)      { File.read(rsa_pem_file) }
-      let(:rsa_key)      { described_class::DSA.load_file(rsa_pem_file) }
-
       subject { super().parse(rsa_pem) }
 
       it "must load the #{described_class}::RSA key from the parse" do
@@ -19,10 +27,6 @@ describe Ronin::Support::Crypto::Key do
     end
 
     context "when the key string starts with '-----BEGIN DSA PRIVATE KEY-----'" do
-      let(:dsa_pem_file) { File.join(fixtures_dir,'dsa.pem') }
-      let(:dsa_pem)      { File.read(dsa_pem_file) }
-      let(:dsa_key)      { described_class::DSA.load_file(dsa_pem_file) }
-
       subject { super().parse(dsa_pem) }
 
       it "must load the #{described_class}::DSA key from the string" do
@@ -32,10 +36,6 @@ describe Ronin::Support::Crypto::Key do
     end
 
     context "when the key string starts with '-----BEGIN EC PRIVATE KEY-----'" do
-      let(:ec_pem_file)  { File.join(fixtures_dir,'ec.pem') }
-      let(:ec_pem)       { File.read(ec_pem_file) }
-      let(:ec_key)       { described_class::EC.load_file(ec_pem_file) }
-
       subject { super().parse(ec_pem) }
 
       it "must load the #{described_class}::EC key from the string" do
@@ -58,10 +58,6 @@ describe Ronin::Support::Crypto::Key do
 
   describe ".load_file" do
     context "when the key file starts with '-----BEGIN RSA PRIVATE KEY-----'" do
-      let(:rsa_pem_file) { File.join(fixtures_dir,'rsa.pem') }
-      let(:rsa_pem)      { File.read(rsa_pem_file) }
-      let(:rsa_key)      { described_class::DSA.load_file(rsa_pem_file) }
-
       subject { super().load_file(rsa_pem_file) }
 
       it "must load the #{described_class}::RSA key from the file" do
@@ -71,11 +67,7 @@ describe Ronin::Support::Crypto::Key do
     end
 
     context "when the key file starts with '-----BEGIN DSA PRIVATE KEY-----'" do
-      let(:dsa_pem_file) { File.join(fixtures_dir,'dsa.pem') }
-      let(:dsa_pem)      { File.read(dsa_pem_file) }
-      let(:dsa_key)      { described_class::DSA.load_file(dsa_pem_file) }
-
-      subject { super().load_file(dsa_pem_file) }
+     subject { super().load_file(dsa_pem_file) }
 
       it "must load the #{described_class}::DSA key from the file" do
         expect(subject).to be_kind_of(described_class::DSA)
@@ -84,10 +76,6 @@ describe Ronin::Support::Crypto::Key do
     end
 
     context "when the key file starts with '-----BEGIN EC PRIVATE KEY-----'" do
-      let(:ec_pem_file)  { File.join(fixtures_dir,'ec.pem') }
-      let(:ec_pem)       { File.read(ec_pem_file) }
-      let(:ec_key)       { described_class::EC.load_file(ec_pem_file) }
-
       subject { super().load_file(ec_pem_file) }
 
       it "must load the #{described_class}::EC key from the file" do
