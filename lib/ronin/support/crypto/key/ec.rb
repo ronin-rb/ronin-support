@@ -103,6 +103,19 @@ module Ronin
             group.curve_name
           end
 
+          #
+          # The size of the EC key in bits.
+          #
+          # @return [Integer, nil]
+          #
+          # @since 1.1.0
+          #
+          def size
+            if (match = to_text.match(/\((\d+) bit\)/))
+              match[1].to_i
+            end
+          end
+
         end
       end
     end
