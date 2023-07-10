@@ -40,7 +40,7 @@ module Ronin
         # @return [OpenSSL::PKey]
         #   The parsed key.
         #
-        # @return [DSA, EC, RSA]
+        # @return [DH, DSA, EC, RSA]
         #   The parsed key.
         #
         # @raise [ArgumentError]
@@ -53,6 +53,8 @@ module Ronin
                         RSA
                       elsif key.start_with?('-----BEGIN DSA PRIVATE KEY-----')
                         DSA
+                      elsif key.start_with?('-----BEGIN DH PARAMETERS-----')
+                        DH
                       elsif key.start_with?('-----BEGIN EC PRIVATE KEY-----')
                         EC
                       else
@@ -74,7 +76,7 @@ module Ronin
         # @option kwargs [String, nil] :password
         #   Optional password to decrypt the key.
         #
-        # @return [DSA, EC, RSA]
+        # @return [DH, DSA, EC, RSA]
         #   The parsed key.
         #
         # @see parse
@@ -91,7 +93,7 @@ module Ronin
         # @param [String] path
         #   The path to the key file.
         #
-        # @return [DSA, EC, RSA]
+        # @return [DH, DSA, EC, RSA]
         #   The loaded key.
         #
         # @raise [ArgumentError]
