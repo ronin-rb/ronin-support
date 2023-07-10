@@ -12,6 +12,10 @@ describe Ronin::Support::Crypto::Key do
   let(:dsa_pem)      { File.read(dsa_pem_file) }
   let(:dsa_key)      { described_class::DSA.load_file(dsa_pem_file) }
 
+  let(:dh_pem_file)  { File.join(fixtures_dir,'dh.pem') }
+  let(:dh_pem)       { File.read(dh_pem_file) }
+  let(:dh_key)       { described_class::DSA.load_file(dh_pem_file) }
+
   let(:ec_pem_file)  { File.join(fixtures_dir,'ec.pem') }
   let(:ec_pem)       { File.read(ec_pem_file) }
   let(:ec_key)       { described_class::EC.load_file(ec_pem_file) }
@@ -32,6 +36,15 @@ describe Ronin::Support::Crypto::Key do
       it "must load the #{described_class}::DSA key from the string" do
         expect(subject).to be_kind_of(described_class::DSA)
         expect(subject.to_pem).to eq(dsa_pem)
+      end
+    end
+
+    context "when the key string starts with '-----BEGIN DH PARAMETERS-----'" do
+      subject { super().parse(dh_pem) }
+
+      it "must load the #{described_class}::DH key from the string" do
+        expect(subject).to be_kind_of(described_class::DH)
+        expect(subject.to_pem).to eq(dh_pem)
       end
     end
 
@@ -72,6 +85,15 @@ describe Ronin::Support::Crypto::Key do
       it "must load the #{described_class}::DSA key from the file" do
         expect(subject).to be_kind_of(described_class::DSA)
         expect(subject.to_pem).to eq(dsa_pem)
+      end
+    end
+
+    context "when the key file starts with '-----BEGIN DH PARAMETERS-----'" do
+      subject { super().load_file(dh_pem_file) }
+
+      it "must load the #{described_class}::DH key from the file" do
+        expect(subject).to be_kind_of(described_class::DH)
+        expect(subject.to_pem).to eq(dh_pem)
       end
     end
 
