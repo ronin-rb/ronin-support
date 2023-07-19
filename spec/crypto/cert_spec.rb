@@ -27,6 +27,16 @@ describe Ronin::Support::Crypto::Cert do
         end
       end
 
+      context "when given the email_address: keyword argument" do
+        let(:email_address) { 'john.smith@example.com' }
+
+        subject { super().build(email_address: email_address) }
+
+        it "must add an emailAddress= entry" do
+          expect(subject.to_s).to eq("/emailAddress=#{email_address}")
+        end
+      end
+
       context "when given the organizational_unit: keyword argument" do
         let(:organizational_unit) { 'IT' }
 

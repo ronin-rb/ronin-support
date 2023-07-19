@@ -45,6 +45,9 @@ module Ronin
           # @param [String, nil] common_name
           #   The "common name" for the cert (ex: `github.com`).
           #
+          # @param [String, nil] email_address
+          #   The email address for the cert (ex: `admin@github.com`).
+          #
           # @param [String, nil] organizational_unit
           #   The organizational unit for the cert.
           #
@@ -66,14 +69,15 @@ module Ronin
           # @return [Name]
           #   The populated name.
           #
-          def self.build(common_name: nil, organizational_unit: nil, organization: nil, locality: nil, state: nil, province: nil, country: nil)
+          def self.build(common_name: nil, email_address: nil, organizational_unit: nil, organization: nil, locality: nil, state: nil, province: nil, country: nil)
             name = new
-            name.add_entry("CN",common_name)         if common_name
-            name.add_entry("OU",organizational_unit) if organizational_unit
-            name.add_entry("O",organization)         if organization
-            name.add_entry("L",locality)             if locality
-            name.add_entry("ST",state || province)   if (state || province)
-            name.add_entry("C",country)              if country
+            name.add_entry("CN",common_name)             if common_name
+            name.add_entry('emailAddress',email_address) if email_address
+            name.add_entry("OU",organizational_unit)     if organizational_unit
+            name.add_entry("O",organization)             if organization
+            name.add_entry("L",locality)                 if locality
+            name.add_entry("ST",state || province)       if (state || province)
+            name.add_entry("C",country)                  if country
 
             return name
           end
