@@ -99,6 +99,7 @@ describe Ronin::Support::Crypto::Cert do
     end
 
     let(:common_name)         { 'test' }
+    let(:email_address)       { 'admin@test.com' }
     let(:organization)        { 'Test, Inc.' }
     let(:organizational_unit) { 'Test Dept' }
     let(:locality)            { 'Test City' }
@@ -156,6 +157,34 @@ describe Ronin::Support::Crypto::Cert do
     describe "#common_name" do
       it "must return the 'CN' entry value" do
         expect(subject.common_name).to eq(common_name)
+      end
+    end
+
+    describe "#email_address" do
+      context "when the 'emailAddress' entry is present" do
+        subject do
+          described_class.new(
+            [
+              ['CN', common_name],
+              ['emailAddress', email_address],
+              ['O',  organization],
+              ['OU', organizational_unit],
+              ['L',  locality],
+              ['ST', state],
+              ['C',  country]
+            ]
+          )
+        end
+
+        it "must return the 'emailAddress' entry value" do
+          expect(subject.email_address).to eq(email_address)
+        end
+      end
+
+      context "when the 'emailAddress' entry is not present" do
+        it "must return nil" do
+          expect(subject.email_address).to be(nil)
+        end
       end
     end
 

@@ -116,6 +116,17 @@ module Ronin
           end
 
           #
+          # The email address (`emailAddress`) entry.
+          #
+          # @return [String, nil]
+          #
+          # @since 1.1.0
+          #
+          def email_address
+            self['emailAddress']
+          end
+
+          #
           # The organization (`O`) entry.
           #
           # @return [String, nil]
