@@ -362,7 +362,7 @@ describe Ronin::Support::Binary::Buffer do
 
     context "when the offset + array type size is within bounds" do
       before do
-        subject.put(type_name, 1,               array[0])
+        subject.put(type_name, 1, array[0])
         subject.put(type_name, 1 + type.size, array[1])
         subject.put(type_name, 1 + (type.size * 2), array[2])
       end
