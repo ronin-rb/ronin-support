@@ -18,6 +18,7 @@
 
 require 'ronin/support/crypto/openssl'
 require 'ronin/support/crypto/key/rsa'
+require 'ronin/support/crypto/key/ec'
 
 module Ronin
   module Support
@@ -343,7 +344,10 @@ module Ronin
 
           cert.not_before = not_before
           cert.not_after  = not_after
-          cert.public_key = key.public_key
+          cert.public_key = case key
+                            when OpenSSL::PKey::EC then key
+                            else                        key.public_key
+                            end
           cert.subject    = Name(subject) if subject
           cert.issuer     = if ca_cert then ca_cert.subject
                             else            cert.subject

@@ -1,5 +1,8 @@
 require 'spec_helper'
 require 'ronin/support/crypto/cert'
+require 'ronin/support/crypto/key/rsa'
+require 'ronin/support/crypto/key/dsa'
+require 'ronin/support/crypto/key/ec'
 
 require 'tempfile'
 
@@ -276,6 +279,16 @@ describe Ronin::Support::Crypto::Cert do
     Ronin::Support::Crypto::Key::RSA.load_file(rsa_key_path)
   end
 
+  let(:dsa_key_path) { File.join(fixtures_dir,"dsa.pem") }
+  let(:dsa_key) do
+    Ronin::Support::Crypto::Key::DSA.load_file(dsa_key_path)
+  end
+
+  let(:ec_key_path) { File.join(fixtures_dir,"ec.pem") }
+  let(:ec_key) do
+    Ronin::Support::Crypto::Key::EC.load_file(ec_key_path)
+  end
+
   describe ".generate" do
     let(:common_name)         { 'test' }
     let(:organization)        { 'Test, Inc.' }
@@ -480,12 +493,38 @@ describe Ronin::Support::Crypto::Cert do
       end
     end
 
-    it "must set the #public_key to the given RSA key's #public_key" do
-      expect(subject.public_key.to_pem).to eq(rsa_key.public_key.to_pem)
+    context "when key: is an RSA key" do
+      it "must set the #public_key to the given RSA key's #public_key" do
+        expect(subject.public_key.to_pem).to eq(rsa_key.public_key.to_pem)
+      end
+
+      it "must sign the certificate with the given RSA key" do
+        expect(subject.verify(rsa_key)).to be(true)
+      end
     end
 
-    it "must sign the certificate with the given RSA key" do
-      expect(subject.verify(rsa_key)).to be(true)
+    context "when key: is a DSA key" do
+      subject do
+        Ronin::Support::Crypto::Cert.generate(key: dsa_key)
+      end
+
+      it "must set the #public_key to the given DSA key's #public_key" do
+        expect(subject.public_key.to_pem).to eq(dsa_key.public_key.to_pem)
+      end
+
+      it "must sign the certificate with the given DSA key" do
+        expect(subject.verify(dsa_key)).to be(true)
+      end
+    end
+
+    context "when key: is a EC key" do
+      subject do
+        Ronin::Support::Crypto::Cert.generate(key: ec_key)
+      end
+
+      it "must set the #public_key to the EC key" do
+        expect(subject.public_key.to_pem).to eq(ec_key.to_pem)
+      end
     end
 
     context "when the ca_key: and ca_key: keyword arguments are given" do
