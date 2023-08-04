@@ -271,7 +271,7 @@ module Ronin
         #     key: key,
         #     subject: {
         #       common_name:         'localhost',
-        #       organization:        'Test Co..',
+        #       organization:        'Test Co.',
         #       organizational_unit: 'Test Dept',
         #       locality:            'Test City',
         #       state:               'XX',
@@ -290,7 +290,7 @@ module Ronin
         #     key: ca_key,
         #     subject: {
         #       common_name:         'Test CA',
-        #       organization:        'Test CA, Inc..',
+        #       organization:        'Test CA, Inc.',
         #       organizational_unit: 'Test Dept',
         #       locality:            'Test City',
         #       state:               'XX',
@@ -311,7 +311,7 @@ module Ronin
         #     ca_cert: ca_cert,
         #     subject: {
         #       common_name:         'test.com',
-        #       organization:        'Test Co..',
+        #       organization:        'Test Co.',
         #       organizational_unit: 'Test Dept',
         #       locality:            'Test City',
         #       state:               'XX',
