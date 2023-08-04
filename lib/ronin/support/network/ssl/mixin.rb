@@ -151,6 +151,9 @@ module Ronin
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
           #
+          # @option kwargs [String, nil] :hostname (host)
+          #   Sets the hostname used for SNI.
+          #
           # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
           #   The RSA key to use for the SSL context.
           #
@@ -204,6 +207,9 @@ module Ronin
           #
           # @param [Integer] port
           #   The port to connect to.
+          #
+          # @param [String, nil] hostname
+          #   Sets the hostname used for SNI.
           #
           # @param [String] bind_host
           #   The local host to bind to.
@@ -263,12 +269,12 @@ module Ronin
           #
           # @api public
           #
-          def ssl_connect(host,port, bind_host: nil, bind_port: nil, **kwargs)
+          def ssl_connect(host,port, hostname: host, bind_host: nil, bind_port: nil, **kwargs)
             socket     = tcp_connect(host,port,bind_host: bind_host,
                                                bind_port: bind_port)
             ssl_socket = ssl_socket(socket,**kwargs)
 
-            ssl_socket.hostname = host
+            ssl_socket.hostname = hostname
             ssl_socket.connect
 
             if block_given?
@@ -308,6 +314,9 @@ module Ronin
           #   * `:peer`
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
+          #
+          # @option kwargs [String, nil] :hostname (host)
+          #   Sets the hostname used for SNI.
           #
           # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
           #   The RSA key to use for the SSL context.
@@ -373,6 +382,9 @@ module Ronin
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
           #
+          # @option kwargs [String, nil] :hostname (host)
+          #   Sets the hostname used for SNI.
+          #
           # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
           #   The RSA key to use for the SSL context.
           #
@@ -426,6 +438,9 @@ module Ronin
           #   * `:peer`
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
+          #
+          # @option kwargs [String, nil] :hostname (host)
+          #   Sets the hostname used for SNI.
           #
           # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
           #   The RSA key to use for the SSL context.
@@ -502,6 +517,9 @@ module Ronin
           #   * `:peer`
           #   * `:fail_if_no_peer_cert`
           #   * `:client_once`
+          #
+          # @option kwargs [String, nil] :hostname (host)
+          #   Sets the hostname used for SNI.
           #
           # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
           #   The RSA key to use for the SSL context.

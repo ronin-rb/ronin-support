@@ -168,6 +168,25 @@ describe Ronin::Support::Network::TLS::Mixin do
       it "must create a new OpenSSL::SSL::SSLSocket" do
         expect(subject.tls_socket(socket)).to be_kind_of(OpenSSL::SSL::SSLSocket)
       end
+
+      it "must default the SSLSocket#hostname to the given host" do
+        socket = subject.tls_connect(host,port)
+
+        expect(socket.hostname).to eq(host)
+      end
+
+      context "when given the hostname: keyword argument" do
+        let(:host) { '162.159.140.67' }
+        let(:port) { 443 }
+
+        let(:hostname) { 'merch.ronin-rb.dev' }
+
+        it "must set the SSLSocket#hostname to the hostname: keyword argument" do
+          socket = subject.tls_connect(host,port, hostname: hostname)
+
+          expect(socket.hostname).to eq(hostname)
+        end
+      end
     end
 
     describe "#tls_open?" do
