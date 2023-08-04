@@ -201,6 +201,19 @@ describe Ronin::Support::Network::SSL::Mixin do
         expect(socket.hostname).to eq(host)
       end
 
+      context "when given the hostname: keyword argument" do
+        let(:host) { '162.159.140.67' }
+        let(:port) { 443 }
+
+        let(:hostname) { 'merch.ronin-rb.dev' }
+
+        it "must set the SSLSocket#hostname to the hostname: keyword argument" do
+          socket = subject.ssl_connect(host,port, hostname: hostname)
+
+          expect(socket.hostname).to eq(hostname)
+        end
+      end
+
       context "when a block is given" do
         it "must open then close a OpenSSL::SSL::SSLSocket" do
           socket = nil
