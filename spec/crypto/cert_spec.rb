@@ -121,6 +121,12 @@ describe Ronin::Support::Crypto::Cert do
           }
         )
       end
+
+      it "must convert all values to UTF-8 Strings" do
+        values = subject.entries.values
+
+        expect(values.map(&:encoding)).to all(be(Encoding::UTF_8))
+      end
     end
 
     describe "#[]" do

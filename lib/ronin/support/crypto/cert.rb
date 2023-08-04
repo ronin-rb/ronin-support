@@ -84,7 +84,9 @@ module Ronin
           # @return [Hash{String => String}]
           #
           def entries
-            @entries ||= to_a.to_h { |(oid,value,type)| [oid, value] }
+            @entries ||= to_a.to_h do |(oid,value,type)|
+              [oid, value && value.force_encoding(Encoding::UTF_8)]
+            end
           end
 
           alias to_h entries
