@@ -161,7 +161,7 @@ module Ronin
         #
         # Coerces a value into a {Name} object.
         #
-        # @param [String, Hash, OpenSSL::X509::Name] name
+        # @param [String, Hash, OpenSSL::X509::Name, Name] name
         #   The name value to coerce.
         #
         # @return [Cert::Name]
@@ -171,8 +171,9 @@ module Ronin
         #
         def self.Name(name)
           case name
-          when String              then Name.parse(name)
-          when Hash                then Name.build(**name)
+          when String then Name.parse(name)
+          when Hash   then Name.build(**name)
+          when Name   then name
           when OpenSSL::X509::Name
             new_name = Name.allocate
             new_name.send(:initialize_copy,name)
