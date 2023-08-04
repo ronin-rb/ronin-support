@@ -496,7 +496,7 @@ module Ronin
       #
       # Coerces a value into a {Cert} object.
       #
-      # @param [String, OpenSSL::X509::Certificate] cert
+      # @param [String, OpenSSL::X509::Certificate, Cert] cert
       #   The certificate String or `OpenSSL::X509::Certificate` value.
       #
       # @return [Cert]
@@ -510,6 +510,7 @@ module Ronin
       def self.Cert(cert)
         case cert
         when String then Cert.parse(cert)
+        when Cert   then cert
         when OpenSSL::X509::Certificate
           new_cert = Cert.allocate
           new_cert.send(:initialize_copy,cert)

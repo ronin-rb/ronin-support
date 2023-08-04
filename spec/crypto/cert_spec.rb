@@ -783,6 +783,16 @@ describe Ronin::Support::Crypto::Cert do
       end
     end
 
+    context "when given a #{described_class} object" do
+      let(:cert) { described_class.new }
+
+      subject { Ronin::Support::Crypto::Cert(cert) }
+
+      it "must return the #{described_class} object" do
+        expect(subject).to be(cert)
+      end
+    end
+
     context "when given another kind of Object" do
       let(:object) { Object.new }
 
