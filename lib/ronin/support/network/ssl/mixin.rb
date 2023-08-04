@@ -267,6 +267,8 @@ module Ronin
             socket     = tcp_connect(host,port,bind_host: bind_host,
                                                bind_port: bind_port)
             ssl_socket = ssl_socket(socket,**kwargs)
+
+            ssl_socket.hostname = host
             ssl_socket.connect
 
             if block_given?

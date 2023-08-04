@@ -195,6 +195,12 @@ describe Ronin::Support::Network::SSL::Mixin do
         expect(socket).to be_kind_of(OpenSSL::SSL::SSLSocket)
       end
 
+      it "must default the SSLSocket#hostname to the given host" do
+        socket = subject.ssl_connect(host,port)
+
+        expect(socket.hostname).to eq(host)
+      end
+
       context "when a block is given" do
         it "must open then close a OpenSSL::SSL::SSLSocket" do
           socket = nil
