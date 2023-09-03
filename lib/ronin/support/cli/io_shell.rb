@@ -26,6 +26,8 @@ module Ronin
       #
       # ## Example
       #
+      #     require 'ronin/support/cli/io_shell'
+      #
       #     socket = TCPSocket.new('irc.undernet.org',6667)
       #     CLI::IOShell.sstart(socket)
       #
