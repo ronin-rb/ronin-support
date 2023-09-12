@@ -558,7 +558,7 @@ module Ronin
         #   The inspected IP object.
         #
         def inspect
-          "#<#{self.class}: #{@address}>"
+          "#<#{self.class}: #{address}>"
         end
 
       end
