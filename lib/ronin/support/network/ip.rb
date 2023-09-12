@@ -123,6 +123,7 @@ module Ronin
 
           # unset the cached IP address since the numeric address has changed
           @address = nil
+          return self
         end
 
         public
