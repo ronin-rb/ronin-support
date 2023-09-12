@@ -471,6 +471,28 @@ describe Ronin::Support::Network::IP do
     end
   end
 
+  describe "#set" do
+    let(:ipv6_addr) { 1 }
+    let(:family)    { Socket::AF_INET6 }
+
+    it "must set the numeric address and address family" do
+      subject.send(:set,ipv6_addr,family)
+
+      expect(subject.to_i).to eq(ipv6_addr)
+      expect(subject.family).to eq(family)
+    end
+
+    it "must return self" do
+      expect(subject.send(:set,ipv6_addr,family)).to be(subject)
+    end
+
+    it "must clear the previous #address value" do
+      subject.send(:set,ipv6_addr,family)
+
+      expect(subject.address).to eq('::1')
+    end
+  end
+
   describe "#address" do
     context "when initialized with an IP address String" do
       it "must return the IP address String" do
