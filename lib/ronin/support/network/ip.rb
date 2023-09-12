@@ -116,6 +116,8 @@ module Ronin
         # @param [Integer] family
         #   Optional IP address family.
         #
+        # @return [self]
+        #
         # @api private
         #
         def set(addr,*family)
