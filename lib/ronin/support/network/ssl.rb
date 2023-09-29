@@ -16,7 +16,7 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/ssl/openssl'
+require 'ronin/support/crypto/openssl'
 require 'ronin/support/crypto/key'
 require 'ronin/support/network/ssl/local_key'
 require 'ronin/support/network/ssl/local_cert'
