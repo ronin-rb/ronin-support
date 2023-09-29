@@ -28,6 +28,20 @@ require 'ronin/support/text'
 require 'ronin/support/version'
 
 module Ronin
+  #
+  # Top-level namespace for `ronin-support`.
+  #
+  # ## Example
+  #
+  #     require 'ronin/support'
+  #     include Ronin::Support
+  #
+  #     "hello world".base64_encode
+  #     # => "aGVsbG8gd29ybGQ=\n"
+  #
+  #     http_get 'https://example.com/'
+  #     # => #<Net::HTTPOK 200 OK readbody=true>
+  #
   module Support
     include Mixin
   end
