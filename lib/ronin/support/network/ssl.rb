@@ -17,6 +17,7 @@
 #
 
 require 'ronin/support/network/ssl/openssl'
+require 'ronin/support/crypto/key'
 require 'ronin/support/network/ssl/local_key'
 require 'ronin/support/network/ssl/local_cert'
 require 'ronin/support/network/ssl/proxy'
@@ -148,7 +149,7 @@ module Ronin
           context.verify_mode = VERIFY[verify]
 
           if (key_file || key) && (cert_file || cert)
-            context.key  = if key_file then Crypto::Key::RSA.load_file(key_file)
+            context.key  = if key_file then Crypto::Key.load_file(key_file)
                            else             key
                            end
 
