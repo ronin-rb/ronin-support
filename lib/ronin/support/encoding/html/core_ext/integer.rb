@@ -78,7 +78,7 @@ class Integer
   #   The `format:` or `case:` keyword argument is invalid.
   #
   # @example
-  #   0x41.html_enocde
+  #   0x41.html_encode
   #   # => "&#65;"
   #
   # @example Zero-padding:
