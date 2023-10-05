@@ -182,7 +182,7 @@ module Ronin
           #   The HTTP method to use for the request.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -215,7 +215,7 @@ module Ronin
           #   The HTTP method to use for the request.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -240,7 +240,7 @@ module Ronin
           #   The HTTP method to use for the request.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -263,7 +263,7 @@ module Ronin
           #   The HTTP method to use for the request.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -285,7 +285,7 @@ module Ronin
           # Sends an HTTP request and returns the `Server` header.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro connect_kwargs
           # @!macro request_kwargs
@@ -307,7 +307,7 @@ module Ronin
           # Sends an HTTP request and returns the `X-Powered-By` header.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -332,7 +332,7 @@ module Ronin
           #   The HTTP method to use for the request.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -354,7 +354,7 @@ module Ronin
           # Performs a `COPY` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -380,7 +380,7 @@ module Ronin
           # Performs a `DELETE` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -406,7 +406,7 @@ module Ronin
           # Performs a `GET` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -433,7 +433,7 @@ module Ronin
           # headers.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -456,7 +456,7 @@ module Ronin
           # header(s).
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -477,7 +477,7 @@ module Ronin
           # body.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -497,7 +497,7 @@ module Ronin
           # Performs a `HEAD` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -523,7 +523,7 @@ module Ronin
           # Performs a `LOCK` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -549,7 +549,7 @@ module Ronin
           # Performs a `MKCOL` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -575,7 +575,7 @@ module Ronin
           # Performs a `MOVE` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -601,7 +601,7 @@ module Ronin
           # Performs a `OPTIONS` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -628,7 +628,7 @@ module Ronin
           # `Allow` response header.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -654,7 +654,7 @@ module Ronin
           # Performs a `PATCH` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -682,7 +682,7 @@ module Ronin
           # Performs a `POST` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -709,7 +709,7 @@ module Ronin
           # headers.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -732,7 +732,7 @@ module Ronin
           # response body.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -752,7 +752,7 @@ module Ronin
           # Performs a `PROPFIND` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -780,7 +780,7 @@ module Ronin
           # Performs a `PROPPATCH` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -808,7 +808,7 @@ module Ronin
           # Performs a `PUT` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -836,7 +836,7 @@ module Ronin
           # Performs a `TRACE` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
@@ -862,7 +862,7 @@ module Ronin
           # Performs a `UNLOCK` request for the given URI.
           #
           # @param [URI::HTTP, Addressable::URI, String] url
-          #   Optional URL to create the HTTP request for.
+          #   The URL to create the HTTP request for.
           #
           # @!macro request_kwargs
           # @!macro connect_kwargs
