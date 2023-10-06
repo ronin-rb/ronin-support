@@ -633,12 +633,6 @@ module Ronin
           # @!macro request_kwargs
           # @!macro connect_kwargs
           #
-          # @yield [response]
-          #   If a block is given it will be passed the received HTTP response.
-          #
-          # @yieldparam [Net::HTTPRresponse] response
-          #   The received HTTP response object.
-          #
           # @return [Array<Symbol>]
           #   The allowed HTTP request methods for the given URL.
           #
@@ -646,8 +640,8 @@ module Ronin
           #
           # @api public
           #
-          def http_allowed_methods(url, ssl: nil, **kwargs,&block)
-            Network::HTTP.allowed_methods(url, ssl: ssl, **kwargs,&block)
+          def http_allowed_methods(url, ssl: nil, **kwargs)
+            Network::HTTP.allowed_methods(url, ssl: ssl, **kwargs)
           end
 
           #
