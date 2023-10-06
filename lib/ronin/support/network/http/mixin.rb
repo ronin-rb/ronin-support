@@ -372,8 +372,8 @@ module Ronin
           #
           # @api public
           #
-          def http_copy(url, ssl: nil, **kwargs)
-            Network::HTTP.copy(url, ssl: ssl, **kwargs)
+          def http_copy(url, ssl: nil, **kwargs,&block)
+            Network::HTTP.copy(url, ssl: ssl, **kwargs,&block)
           end
 
           #
