@@ -1154,7 +1154,7 @@ describe Ronin::Support::Network::HTTP do
       {'X-Test' => 'foo'}
     end
 
-    it "must send a HTTP GET request for the path and return the response headers" do
+    it "must send a HTTP GET request for the given path and return the response headers" do
       stub_request(:get,uri).to_return(headers: headers)
 
       expect(subject.get_headers(path)).to eq(headers)
@@ -1162,7 +1162,7 @@ describe Ronin::Support::Network::HTTP do
   end
 
   describe "#get_cookies" do
-    it "must send a HTTP GET request for the path" do
+    it "must send a HTTP GET request for the given path" do
       stub_request(:get,uri)
 
       subject.get_cookies(path)
@@ -1226,7 +1226,7 @@ describe Ronin::Support::Network::HTTP do
   describe "#get_body" do
     let(:body) { 'Test body' }
 
-    it "must send a HTTP GET request for the path and return the response body" do
+    it "must send a HTTP GET request for the given path and return the response body" do
       stub_request(:get,uri).to_return(body: body)
 
       subject.get_body(path)
@@ -1238,7 +1238,7 @@ describe Ronin::Support::Network::HTTP do
       {'X-Test' => 'foo'}
     end
 
-    it "must send a HTTP POST request for the path and return the response headers" do
+    it "must send a HTTP POST request for the given path and return the response headers" do
       stub_request(:post,uri).to_return(headers: headers)
 
       expect(subject.post_headers(path)).to eq(headers)
@@ -1248,7 +1248,7 @@ describe Ronin::Support::Network::HTTP do
   describe "#post_body" do
     let(:body) { 'Test body' }
 
-    it "must send a HTTP POST request for the path and return the response body" do
+    it "must send a HTTP POST request for the given path and return the response body" do
       stub_request(:post,uri).to_return(body: body)
 
       expect(subject.post_body(path)).to eq(body)
