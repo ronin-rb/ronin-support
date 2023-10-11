@@ -97,6 +97,36 @@ module Ronin
           }
 
           #
+          # Resolves the MIME type.
+          #
+          # @param [String, :text, :xml, :html, :json, nil] mime_type
+          #   The MIME type String or Symbol.
+          #   If a Symbol is given it will be resolved to a common MIME type:
+          #   * `:text` - `text/plain`
+          #   * `:xml` - `text/xml`
+          #   * `:html` - `text/html`
+          #   * `:json` - `application/json`
+          #
+          # @return [String]
+          #   The resolved MIME type String.
+          #
+          # @raise [ArgumentError]
+          #   An unknown Symbol is given.
+          #
+          # @since 1.1.0
+          #
+          def self.mime_type_for(mime_type)
+            case mime_type
+            when Symbol
+              MIME_TYPES.fetch(mime_type) do
+                raise(ArgumentError,"unsupported MIME type: #{mime_type.inspect}")
+              end
+            else
+              mime_type
+            end
+          end
+
+          #
           # Creates a new `Net::HTTP` request.
           #
           # @param [:copy, :delete, :get, :head, :lock, :mkcol, :move,
@@ -197,14 +227,7 @@ module Ronin
             end
 
             if content_type
-              request.content_type = case content_type
-                                     when Symbol
-                                       MIME_TYPES.fetch(content_type) do
-                                         raise(ArgumentError,"unsupported MIME type: #{content_type.inspect}")
-                                       end
-                                     else
-                                       content_type
-                                     end
+              request.content_type = mime_type_for(content_type)
             end
 
             if user_agent
