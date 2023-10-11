@@ -711,5 +711,34 @@ describe Ronin::Support::Network::HTTP::Request do
         end
       end
     end
+
+    context "when given the json: keyword argument" do
+      let(:payload) do
+        {'foo' => 1, 'bar' => 2}
+      end
+
+      it "must set the body to the JSON formatted object" do
+        req = subject.build(:post, '/', json: payload)
+
+        expect(req.body).to eq(payload.to_json)
+      end
+
+      it "must default 'Content-Type' to 'application/json'" do
+        req = subject.build(:post, '/', json: payload)
+
+        expect(req['Content-Type']).to eq('application/json')
+      end
+
+      context "and when the 'Content-Type' is already set" do
+        let(:content_type) { 'application/vnd.foo.bar+json' }
+
+        it "must not override the desired 'Content-Type' value" do
+          req = subject.build(:post, '/', content_type: content_type,
+                                          json:         payload)
+
+          expect(req['Content-Type']).to eq(content_type)
+        end
+      end
+    end
   end
 end
