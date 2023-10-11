@@ -187,6 +187,11 @@ module Ronin
           # @param [Hash, String, nil] form_data
           #   The form data that may be sent in the body of the request.
           #
+          # @param [#to_json, nil] json
+          #   The JSON data that will be sent in the body of the request.
+          #   Will also default the `Content-Type` header to `application/json`,
+          #   unless already set.
+          #
           # @return [Net::HTTP::Copy,
           #          Net::HTTP::Delete,
           #          Net::HTTP::Get,
@@ -218,7 +223,8 @@ module Ronin
                                       cookie:       nil,
                                       # request body keyword arguments
                                       body:      nil,
-                                      form_data: nil)
+                                      form_data: nil,
+                                      json:      nil)
             request_class = METHODS.fetch(method) do
               raise(ArgumentError,"unknown HTTP request method: #{method.inspect}")
             end
@@ -257,7 +263,11 @@ module Ronin
                                   end
             end
 
-            if form_data
+            if json
+              request['Content-Type'] ||= 'application/json'
+
+              request.body = json.to_json
+            elsif form_data
               case form_data
               when String
                 request['Content-Type'] ||= 'application/x-www-form-urlencoded'
