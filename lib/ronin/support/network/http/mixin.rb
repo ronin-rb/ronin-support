@@ -190,6 +190,11 @@ module Ronin
           #   @option kwargs [Hash, String, nil] :form_data
           #     The form data that may be sent in the body of the request.
           #
+          #   @option kwargs [#to_json, nil] :json
+          #     The JSON data that will be sent in the body of the request.
+          #     Will also default the `Content-Type` header to
+          #     `application/json`, unless already set.
+          #
 
           #
           # Performs and arbitrary HTTP request.
