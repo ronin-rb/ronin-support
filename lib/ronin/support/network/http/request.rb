@@ -236,7 +236,7 @@ module Ronin
             end
 
             if content_type
-              request.content_type = mime_type_for(content_type)
+              request['Content-Type'] = mime_type_for(content_type)
             end
 
             if accept
@@ -260,10 +260,11 @@ module Ronin
             if form_data
               case form_data
               when String
-                request.content_type = 'application/x-www-form-urlencoded'
-                request.body         = form_data
+                request['Content-Type'] = 'application/x-www-form-urlencoded'
+
+                request.body = form_data
               else
-                request.form_data    = form_data
+                request.form_data = form_data
               end
             elsif body
               case body
