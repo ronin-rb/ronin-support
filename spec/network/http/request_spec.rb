@@ -660,17 +660,30 @@ describe Ronin::Support::Network::HTTP::Request do
     end
 
     context "when given the form_data: keyword argument" do
-      subject { super().build(:post,'/', form_data: form_data) }
-
       context "but it's a String value" do
         let(:form_data) { "foo=1&bar=2" }
 
         it "must set the content_type of the request to 'application/x-www-form-urlencoded'" do
-          expect(subject.content_type).to eq('application/x-www-form-urlencoded')
+          req = subject.build(:post,'/', form_data: form_data)
+
+          expect(req['Content-Type']).to eq('application/x-www-form-urlencoded')
         end
 
         it "must set the body of the request" do
-          expect(subject.body).to eq(form_data)
+          req = subject.build(:post,'/', form_data: form_data)
+
+          expect(req.body).to eq(form_data)
+        end
+
+        context "but 'Content-Type' has already been set" do
+          let(:content_type) { 'application/foo' }
+
+          it "must not override the existing 'Content-Type' value" do
+            req = subject.build(:post,'/', content_type: content_type,
+                                           form_data:    form_data)
+
+            expect(req['Content-Type']).to eq(content_type)
+          end
         end
       end
 
@@ -680,7 +693,9 @@ describe Ronin::Support::Network::HTTP::Request do
         end
 
         it "must set the body of the request to the encoded form data" do
-          expect(subject.body).to eq(URI.encode_www_form(form_data))
+          req = subject.build(:post,'/', form_data: form_data)
+
+          expect(req.body).to eq(URI.encode_www_form(form_data))
         end
       end
 
@@ -690,7 +705,9 @@ describe Ronin::Support::Network::HTTP::Request do
         end
 
         it "must set the body of the request to the encoded form data" do
-          expect(subject.body).to eq(URI.encode_www_form(form_data))
+          req = subject.build(:post,'/', form_data: form_data)
+
+          expect(req.body).to eq(URI.encode_www_form(form_data))
         end
       end
     end
