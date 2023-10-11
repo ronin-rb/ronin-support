@@ -149,6 +149,39 @@ describe Ronin::Support::Network::HTTP::Request do
     end
   end
 
+  describe ".mime_type_for" do
+    context "when given a String" do
+      let(:mime_type) { 'application/vnd.foo.bar+json' }
+
+      it "must set the 'Content-Type' header" do
+        expect(subject.mime_type_for(mime_type)).to eq(mime_type)
+      end
+    end
+
+    context "when given a Symbol" do
+      described_class::MIME_TYPES.each do |symbol,mime_type|
+        context "and it's #{symbol.inspect}" do
+          let(:symbol)    { symbol }
+          let(:mime_type) { mime_type }
+
+          it "must set the 'Content-Type' header to '#{mime_type}'" do
+            expect(subject.mime_type_for(symbol)).to eq(mime_type)
+          end
+        end
+      end
+
+      context "but the Symbol value is known a common MIME type" do
+        let(:symbol) { :foo }
+
+        it do
+          expect {
+            subject.mime_type_for(symbol)
+          }.to raise_error(ArgumentError,"unsupported MIME type: #{symbol.inspect}")
+        end
+      end
+    end
+  end
+
   describe ".build" do
     let(:path) { '/foo' }
 
