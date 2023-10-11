@@ -86,6 +86,16 @@ module Ronin
             unlock:    Net::HTTP::Unlock
           }
 
+          # Common MIME types.
+          #
+          # @since 1.1.0
+          MIME_TYPES = {
+            text: 'text/plain',
+            xml:  'text/xml',
+            html: 'text/html',
+            json: 'application/json'
+          }
+
           #
           # Creates a new `Net::HTTP` request.
           #
@@ -110,6 +120,14 @@ module Ronin
           #
           # @param [Hash{Symbol => String}, Hash{String => String}, nil] headers
           #   Additional HTTP header names and values to add to the request.
+          #
+          # @param [String, :text, :xml, :html, :json, nil] content_type
+          #   The `Content-Type` header value for the request.
+          #   If a Symbol is given it will be resolved to a common MIME type:
+          #   * `:text` - `text/plain`
+          #   * `:xml` - `text/xml`
+          #   * `:html` - `text/html`
+          #   * `:json` - `application/json`
           #
           # @param [String, :random, :chrome, :chrome_linux, :chrome_macos,
           #         :chrome_windows, :chrome_iphone, :chrome_ipad,
@@ -155,9 +173,10 @@ module Ronin
                                       user:     nil,
                                       password: nil,
                                       # Header keyword arguments
-                                      headers:    nil,
-                                      user_agent: nil,
-                                      cookie:     nil,
+                                      headers:      nil,
+                                      content_type: nil,
+                                      user_agent:   nil,
+                                      cookie:       nil,
                                       # request body keyword arguments
                                       body:      nil,
                                       form_data: nil)
@@ -175,6 +194,17 @@ module Ronin
               password = password.to_s if password
 
               request.basic_auth(user,password)
+            end
+
+            if content_type
+              request.content_type = case content_type
+                                     when Symbol
+                                       MIME_TYPES.fetch(content_type) do
+                                         raise(ArgumentError,"unsupported MIME type: #{content_type.inspect}")
+                                       end
+                                     else
+                                       content_type
+                                     end
             end
 
             if user_agent
