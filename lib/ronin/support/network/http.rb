@@ -667,6 +667,11 @@ module Ronin
         # @param [Hash, String, nil] form_data
         #   The form data that may be sent in the body of the request.
         #
+        # @param [#to_json, nil] json
+        #   The JSON data that will be sent in the body of the request.
+        #   Will also default the `Content-Type` header to `application/json`,
+        #   unless already set.
+        #
         # @param [Hash{Symbol => String}] additional_headers
         #   Additional headers to add to the request.
         #
@@ -728,6 +733,7 @@ module Ronin
                                  # request body keyword arguments
                                  body:      nil,
                                  form_data: nil,
+                                 json:      nil,
                                  **additional_headers,
                                  &block)
           request = Request.build(method,path, headers:      @headers,
@@ -740,7 +746,8 @@ module Ronin
                                                query:        query,
                                                query_params: query_params,
                                                body:         body,
-                                               form_data:    form_data)
+                                               form_data:    form_data,
+                                               json:         json)
 
           if headers
             # populate any arbitrary headers
@@ -805,6 +812,11 @@ module Ronin
         #
         #   @option kwargs [Hash, String, nil] :form_data
         #     The form data that may be sent in the body of the request.
+        #
+        #   @option kwargs [#to_json, nil] :json
+        #     The JSON data that will be sent in the body of the request.
+        #     Will also default the `Content-Type` header to
+        #     `application/json`, unless already set.
         #
 
         #
