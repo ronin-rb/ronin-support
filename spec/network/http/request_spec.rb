@@ -400,6 +400,43 @@ describe Ronin::Support::Network::HTTP::Request do
       end
     end
 
+    context "when the accept: keyword argument is given" do
+      context "and the vlaue is a String" do
+        let(:accept) { 'application/vnd.foo.bar+json' }
+
+        it "must set the 'Accept' header" do
+          req = subject.build(:get,path, accept: accept)
+
+          expect(req['Accept']).to eq(accept)
+        end
+      end
+
+      context "and the value is a Symbol" do
+        described_class::MIME_TYPES.each do |symbol,mime_type|
+          context "and it's #{symbol.inspect}" do
+            let(:symbol)    { symbol }
+            let(:mime_type) { mime_type }
+
+            it "must set the 'Accept' header to '#{mime_type}'" do
+              req = subject.build(:get,path, accept: symbol)
+
+              expect(req['Accept']).to eq(mime_type)
+            end
+          end
+        end
+
+        context "but the Symbol value is known a common MIME type" do
+          let(:symbol) { :foo }
+
+          it do
+            expect {
+              subject.build(:get,path, accept: symbol)
+            }.to raise_error(ArgumentError,"unsupported MIME type: #{symbol.inspect}")
+          end
+        end
+      end
+    end
+
     context "when the user_agent: keyword argument is given" do
       context "and the value is a String" do
         let(:user_agent) { "Mozilla/5.0 Foo Bar" }

@@ -159,6 +159,14 @@ module Ronin
           #   * `:html` - `text/html`
           #   * `:json` - `application/json`
           #
+          # @param [String, :text, :xml, :html, :json, nil] accept
+          #   The `Accept` header value for the request.
+          #   If a Symbol is given it will be resolved to a common MIME type:
+          #   * `:text` - `text/plain`
+          #   * `:xml` - `text/xml`
+          #   * `:html` - `text/html`
+          #   * `:json` - `application/json`
+          #
           # @param [String, :random, :chrome, :chrome_linux, :chrome_macos,
           #         :chrome_windows, :chrome_iphone, :chrome_ipad,
           #         :chrome_android, :firefox, :firefox_linux, :firefox_macos,
@@ -205,6 +213,7 @@ module Ronin
                                       # Header keyword arguments
                                       headers:      nil,
                                       content_type: nil,
+                                      accept:       nil,
                                       user_agent:   nil,
                                       cookie:       nil,
                                       # request body keyword arguments
@@ -228,6 +237,10 @@ module Ronin
 
             if content_type
               request.content_type = mime_type_for(content_type)
+            end
+
+            if accept
+              request['Accept'] = mime_type_for(accept)
             end
 
             if user_agent
