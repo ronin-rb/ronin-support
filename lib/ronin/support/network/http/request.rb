@@ -260,7 +260,7 @@ module Ronin
             if form_data
               case form_data
               when String
-                request['Content-Type'] = 'application/x-www-form-urlencoded'
+                request['Content-Type'] ||= 'application/x-www-form-urlencoded'
 
                 request.body = form_data
               else
