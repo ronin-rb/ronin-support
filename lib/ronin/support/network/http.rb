@@ -641,6 +641,14 @@ module Ronin
         # @param [Hash{Symbol,String => String}, nil] headers
         #   Additional HTTP header names and values to add to the request.
         #
+        # @param [String, :text, :xml, :html, :json, nil] content_type
+        #   The `Content-Type` header value for the request.
+        #   If a Symbol is given it will be resolved to a common MIME type:
+        #   * `:text` - `text/plain`
+        #   * `:xml` - `text/xml`
+        #   * `:html` - `text/html`
+        #   * `:json` - `application/json`
+        #
         # @param [String, Hash{String => String}, nil] cookie
         #   Additional `Cookie` header. If a `Hash` is given, it will be
         #   converted to a `String` using {Cookie}.
@@ -701,9 +709,10 @@ module Ronin
                                  query:        nil,
                                  query_params: nil,
                                  # header keyword arguments
-                                 headers:    nil,
-                                 user_agent: @user_agent,
-                                 cookie:     @cookie,
+                                 headers:      nil,
+                                 content_type: nil,
+                                 user_agent:   @user_agent,
+                                 cookie:       @cookie,
                                  # Basic-Auth keyword arguments
                                  user:     @user,
                                  password: @password,
@@ -713,6 +722,7 @@ module Ronin
                                  **additional_headers,
                                  &block)
           request = Request.build(method,path, headers:      @headers,
+                                               content_type: content_type,
                                                user_agent:   user_agent,
                                                cookie:       cookie,
                                                user:         user,
@@ -758,6 +768,14 @@ module Ronin
         #
         #   @option kwargs [Hash{Symbol,String => String}, nil] :headers
         #     Additional HTTP header names and values to add to the request.
+        #
+        #   @option kwargs [String, :text, :xml, :html, :json, nil] :content_type
+        #     The `Content-Type` header value for the request.
+        #     If a Symbol is given it will be resolved to a common MIME type:
+        #     * `:text` - `text/plain`
+        #     * `:xml` - `text/xml`
+        #     * `:html` - `text/html`
+        #     * `:json` - `application/json`
         #
         #   @option kwargs [String, Hash{String => String}, Cookie, nil] :cookie
         #     Additional `Cookie` header. If a `Hash` is given, it will be
