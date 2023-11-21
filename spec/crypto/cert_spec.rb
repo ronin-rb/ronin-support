@@ -590,6 +590,17 @@ describe Ronin::Support::Crypto::Cert do
         expect(subject.issuer).to eq(ca_cert.subject)
       end
     end
+
+    context "when the ca: keyword argument is given" do
+      subject do
+        Ronin::Support::Crypto::Cert.generate(key: rsa_key, ca: true)
+      end
+
+      it "must add 'basicConstraints' => ['CA:TRUE', true] to the extensions" do
+        expect(subject.extension_names).to eq(['basicConstraints'])
+        expect(subject.extension_value('basicConstraints')).to eq("CA:TRUE")
+      end
+    end
   end
 
   subject { described_class.new(File.read(cert_path)) }
