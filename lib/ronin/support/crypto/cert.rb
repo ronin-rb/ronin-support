@@ -358,7 +358,7 @@ module Ronin
                             end
 
           if ca
-            extensions ||= {}
+            extensions                   ||= {}
             extensions['basicConstraints'] = ['CA:TRUE', true]
           end
 
