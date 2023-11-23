@@ -337,6 +337,7 @@ module Ronin
                           key: ,
                           ca_cert: nil,
                           ca_key:  nil,
+                          subject_alt_names: nil,
                           signing_hash: :sha256)
           cert = new
 
@@ -355,6 +356,11 @@ module Ronin
           cert.issuer     = if ca_cert then ca_cert.subject
                             else            cert.subject
                             end
+
+          if subject_alt_names
+            extensions ||= {}
+            extensions   = extensions.merge('subjectAltName' => subject_alt_names.join(', '))
+          end
 
           if extensions
             extension_factory = OpenSSL::X509::ExtensionFactory.new

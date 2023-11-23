@@ -441,6 +441,21 @@ describe Ronin::Support::Crypto::Cert do
           expect(extension.critical?).to be(true)
         end
       end
+
+      context "when ca kwarg is given" do
+        subject do
+          Ronin::Support::Crypto::Cert.generate(
+            key:               rsa_key,
+            extensions:        { 'basicConstraints' => ['CA:TRUE', true] },
+            subject_alt_names: ["DNS: localhost", "IP: 127.0.0.1"]
+          )
+        end
+
+        it "must not override extensions from extensions kwarg" do
+          expect(subject.extension_names).to match_array(["subjectAltName", "basicConstraints"])
+          expect(subject.extension_value("subjectAltName")).to eq("DNS:localhost, IP Address:127.0.0.1")
+        end
+      end
     end
 
     it "must default #not_before to Time.now" do
