@@ -358,8 +358,8 @@ module Ronin
                             end
 
           if ca
-            extensions                   ||= {}
-            extensions['basicConstraints'] = ['CA:TRUE', true]
+            extensions ||= {}
+            extensions   = extensions.merge({ 'basicConstraints' => ['CA:TRUE', true] })
           end
 
           if extensions
