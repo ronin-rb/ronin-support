@@ -480,6 +480,20 @@ describe Ronin::Support::Crypto::Cert do
           expect(extension.critical?).to be(true)
         end
       end
+
+      context "when ca kwarg is given" do
+        subject do
+          Ronin::Support::Crypto::Cert.generate(
+            key:        rsa_key,
+            extensions: extensions,
+            ca:         true
+          )
+        end
+
+        it "must not override extensions from extensions kwarg" do
+          expect(subject.extension_names).to match_array(["subjectAltName", "basicConstraints"])
+        end
+      end
     end
 
     it "must default #not_before to Time.now" do
@@ -627,6 +641,17 @@ describe Ronin::Support::Crypto::Cert do
 
       it "must set #issuer to the CA cert's #subject" do
         expect(subject.issuer).to eq(ca_cert.subject)
+      end
+    end
+
+    context "when the ca: keyword argument is given" do
+      subject do
+        Ronin::Support::Crypto::Cert.generate(key: rsa_key, ca: true)
+      end
+
+      it "must add 'basicConstraints' => ['CA:TRUE', true] to the extensions" do
+        expect(subject.extension_names).to eq(['basicConstraints'])
+        expect(subject.extension_value('basicConstraints')).to eq("CA:TRUE")
       end
     end
   end
