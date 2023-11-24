@@ -93,6 +93,7 @@ Naming/MethodParameterName:
     - iv
     - os
     - to
+    - ca
 
 # prefer to keep `self.user_agent` a method
 Style/TrivialAccessors:
