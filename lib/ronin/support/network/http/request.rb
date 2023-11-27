@@ -86,6 +86,46 @@ module Ronin
             unlock:    Net::HTTP::Unlock
           }
 
+          # Common MIME types.
+          #
+          # @since 1.1.0
+          MIME_TYPES = {
+            text: 'text/plain',
+            xml:  'text/xml',
+            html: 'text/html',
+            json: 'application/json'
+          }
+
+          #
+          # Resolves the MIME type.
+          #
+          # @param [String, :text, :xml, :html, :json, nil] mime_type
+          #   The MIME type String or Symbol.
+          #   If a Symbol is given it will be resolved to a common MIME type:
+          #   * `:text` - `text/plain`
+          #   * `:xml` - `text/xml`
+          #   * `:html` - `text/html`
+          #   * `:json` - `application/json`
+          #
+          # @return [String]
+          #   The resolved MIME type String.
+          #
+          # @raise [ArgumentError]
+          #   An unknown Symbol is given.
+          #
+          # @since 1.1.0
+          #
+          def self.mime_type_for(mime_type)
+            case mime_type
+            when Symbol
+              MIME_TYPES.fetch(mime_type) do
+                raise(ArgumentError,"unsupported MIME type: #{mime_type.inspect}")
+              end
+            else
+              mime_type
+            end
+          end
+
           #
           # Creates a new `Net::HTTP` request.
           #
@@ -111,6 +151,22 @@ module Ronin
           # @param [Hash{Symbol => String}, Hash{String => String}, nil] headers
           #   Additional HTTP header names and values to add to the request.
           #
+          # @param [String, :text, :xml, :html, :json, nil] content_type
+          #   The `Content-Type` header value for the request.
+          #   If a Symbol is given it will be resolved to a common MIME type:
+          #   * `:text` - `text/plain`
+          #   * `:xml` - `text/xml`
+          #   * `:html` - `text/html`
+          #   * `:json` - `application/json`
+          #
+          # @param [String, :text, :xml, :html, :json, nil] accept
+          #   The `Accept` header value for the request.
+          #   If a Symbol is given it will be resolved to a common MIME type:
+          #   * `:text` - `text/plain`
+          #   * `:xml` - `text/xml`
+          #   * `:html` - `text/html`
+          #   * `:json` - `application/json`
+          #
           # @param [String, :random, :chrome, :chrome_linux, :chrome_macos,
           #         :chrome_windows, :chrome_iphone, :chrome_ipad,
           #         :chrome_android, :firefox, :firefox_linux, :firefox_macos,
@@ -130,6 +186,11 @@ module Ronin
           #
           # @param [Hash, String, nil] form_data
           #   The form data that may be sent in the body of the request.
+          #
+          # @param [#to_json, nil] json
+          #   The JSON data that will be sent in the body of the request.
+          #   Will also default the `Content-Type` header to `application/json`,
+          #   unless already set.
           #
           # @return [Net::HTTP::Copy,
           #          Net::HTTP::Delete,
@@ -155,12 +216,15 @@ module Ronin
                                       user:     nil,
                                       password: nil,
                                       # Header keyword arguments
-                                      headers:    nil,
-                                      user_agent: nil,
-                                      cookie:     nil,
+                                      headers:      nil,
+                                      content_type: nil,
+                                      accept:       nil,
+                                      user_agent:   nil,
+                                      cookie:       nil,
                                       # request body keyword arguments
                                       body:      nil,
-                                      form_data: nil)
+                                      form_data: nil,
+                                      json:      nil)
             request_class = METHODS.fetch(method) do
               raise(ArgumentError,"unknown HTTP request method: #{method.inspect}")
             end
@@ -177,6 +241,14 @@ module Ronin
               request.basic_auth(user,password)
             end
 
+            if content_type
+              request['Content-Type'] = mime_type_for(content_type)
+            end
+
+            if accept
+              request['Accept'] = mime_type_for(accept)
+            end
+
             if user_agent
               request['User-Agent'] = case user_agent
                                       when Symbol then UserAgents[user_agent]
@@ -191,13 +263,18 @@ module Ronin
                                   end
             end
 
-            if form_data
+            if json
+              request['Content-Type'] ||= 'application/json'
+
+              request.body = json.to_json
+            elsif form_data
               case form_data
               when String
-                request.content_type = 'application/x-www-form-urlencoded'
-                request.body         = form_data
+                request['Content-Type'] ||= 'application/x-www-form-urlencoded'
+
+                request.body = form_data
               else
-                request.form_data    = form_data
+                request.form_data = form_data
               end
             elsif body
               case body

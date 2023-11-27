@@ -74,8 +74,15 @@ Style/Documentation:
     - 'lib/ronin/support/**/core_ext/**/*.rb'
     # BUG: Ronin::Support::Crypto is already documented in lib/ronin/support/crypto.rb
     - 'lib/ronin/support/crypto/cert.rb'
+    - 'lib/ronin/support/crypto/key.rb'
     # BUG: Ronin::Support::Binary is already documented in lib/ronin/support/binary.rb
     - 'lib/ronin/support/binary/struct.rb'
+
+# make an exception for Coercion() style methods
+Naming/MethodName:
+  Exclude:
+    - 'lib/ronin/support/crypto/key.rb'
+    - 'lib/ronin/support/crypto/cert.rb'
 
 Naming/MethodParameterName:
   AllowedNames:
@@ -86,6 +93,7 @@ Naming/MethodParameterName:
     - iv
     - os
     - to
+    - ca
 
 # prefer to keep `self.user_agent` a method
 Style/TrivialAccessors:

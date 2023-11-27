@@ -18,6 +18,8 @@
 
 require 'ronin/support/encoding/base16'
 require 'ronin/support/encoding/base32'
+require 'ronin/support/encoding/base36'
+require 'ronin/support/encoding/base62'
 require 'ronin/support/encoding/base64'
 require 'ronin/support/encoding/hex'
 require 'ronin/support/encoding/c'
@@ -65,6 +67,10 @@ module Ronin
     # * {String#base16_encode}
     # * {String#base32_decode}
     # * {String#base32_encode}
+    # * {Integer#base36_encode}
+    # * {String#base36_decode}
+    # * {String#base62_decode}
+    # * {Integer#base62_encode}
     # * {String#base64_decode}
     # * {String#base64_encode}
     # * {String#c_encode}

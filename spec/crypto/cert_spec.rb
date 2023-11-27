@@ -27,6 +27,16 @@ describe Ronin::Support::Crypto::Cert do
         end
       end
 
+      context "when given the email_address: keyword argument" do
+        let(:email_address) { 'john.smith@example.com' }
+
+        subject { super().build(email_address: email_address) }
+
+        it "must add an emailAddress= entry" do
+          expect(subject.to_s).to eq("/emailAddress=#{email_address}")
+        end
+      end
+
       context "when given the organizational_unit: keyword argument" do
         let(:organizational_unit) { 'IT' }
 
@@ -89,6 +99,7 @@ describe Ronin::Support::Crypto::Cert do
     end
 
     let(:common_name)         { 'test' }
+    let(:email_address)       { 'admin@test.com' }
     let(:organization)        { 'Test, Inc.' }
     let(:organizational_unit) { 'Test Dept' }
     let(:locality)            { 'Test City' }
@@ -146,6 +157,34 @@ describe Ronin::Support::Crypto::Cert do
     describe "#common_name" do
       it "must return the 'CN' entry value" do
         expect(subject.common_name).to eq(common_name)
+      end
+    end
+
+    describe "#email_address" do
+      context "when the 'emailAddress' entry is present" do
+        subject do
+          described_class.new(
+            [
+              ['CN', common_name],
+              ['emailAddress', email_address],
+              ['O',  organization],
+              ['OU', organizational_unit],
+              ['L',  locality],
+              ['ST', state],
+              ['C',  country]
+            ]
+          )
+        end
+
+        it "must return the 'emailAddress' entry value" do
+          expect(subject.email_address).to eq(email_address)
+        end
+      end
+
+      context "when the 'emailAddress' entry is not present" do
+        it "must return nil" do
+          expect(subject.email_address).to be(nil)
+        end
       end
     end
 
@@ -445,6 +484,20 @@ describe Ronin::Support::Crypto::Cert do
       context "when ca kwarg is given" do
         subject do
           Ronin::Support::Crypto::Cert.generate(
+            key:        rsa_key,
+            extensions: extensions,
+            ca:         true
+          )
+        end
+
+        it "must not override extensions from extensions kwarg" do
+          expect(subject.extension_names).to match_array(["subjectAltName", "basicConstraints"])
+        end
+      end
+      
+      context "when subject_alt_names kwarg is given" do
+        subject do
+          Ronin::Support::Crypto::Cert.generate(
             key:               rsa_key,
             extensions:        { 'basicConstraints' => ['CA:TRUE', true] },
             subject_alt_names: ["DNS: localhost", "IP: 127.0.0.1"]
@@ -603,6 +656,17 @@ describe Ronin::Support::Crypto::Cert do
 
       it "must set #issuer to the CA cert's #subject" do
         expect(subject.issuer).to eq(ca_cert.subject)
+      end
+    end
+
+    context "when the ca: keyword argument is given" do
+      subject do
+        Ronin::Support::Crypto::Cert.generate(key: rsa_key, ca: true)
+      end
+
+      it "must add 'basicConstraints' => ['CA:TRUE', true] to the extensions" do
+        expect(subject.extension_names).to eq(['basicConstraints'])
+        expect(subject.extension_value('basicConstraints')).to eq("CA:TRUE")
       end
     end
   end

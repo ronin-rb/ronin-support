@@ -42,7 +42,9 @@ module Ronin
           #          OS::OpenBSD,
           #          OS::Linux,
           #          OS::MacOS,
-          #          OS::Windows]
+          #          OS::Windows,
+          #          OS::Android,
+          #          OS::AppleIOS]
           attr_reader :types
 
           # The defined typedefs for the OS.
@@ -64,7 +66,8 @@ module Ronin
           #          OS::OpenBSD,
           #          OS::Linux,
           #          OS::MacOS,
-          #          OS::Windows] types
+          #          OS::Windows,
+          #          OS::Android] types
           #   The base types that the OS builds upon.
           #
           def initialize(types)
@@ -123,3 +126,5 @@ require 'ronin/support/binary/ctypes/os/openbsd'
 require 'ronin/support/binary/ctypes/os/netbsd'
 require 'ronin/support/binary/ctypes/os/macos'
 require 'ronin/support/binary/ctypes/os/windows'
+require 'ronin/support/binary/ctypes/os/android'
+require 'ronin/support/binary/ctypes/os/apple_ios'

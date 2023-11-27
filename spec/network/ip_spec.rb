@@ -920,6 +920,38 @@ describe Ronin::Support::Network::IP do
     end
   end
 
+  describe "#ipv4" do
+    context "when the IP address is IPv6" do
+      context "and it's an IPv4-mapped IPv6 address" do
+        let(:ipv4_address) { "93.184.216.34" }
+        let(:address)      { "::ffff:#{ipv4_address}" }
+
+        it "must return an #{described_class} with the IPv4 address" do
+          ipv4 = subject.ipv4
+
+          expect(ipv4).to be_kind_of(described_class)
+          expect(ipv4).to be_kind_of(described_class)
+        end
+      end
+
+      context "but it's a regular IPv6 address" do
+        let(:address) { '2606:2800:220:1:248:1893:25c8:1946' }
+
+        it do
+          expect {
+            subject.ipv4
+          }.to raise_error(Ronin::Support::Network::InvalidIP,"cannot convert a regular IPv6 address to an IPv4 address: #{subject.inspect}")
+        end
+      end
+    end
+
+    context "when the IP address is IPv4" do
+      it "must return self" do
+        expect(subject.ipv4).to be(subject)
+      end
+    end
+  end
+
   describe "#inspect" do
     it "must return the class name and address" do
       expect(subject.inspect).to eq("#<#{described_class}: #{address}>")

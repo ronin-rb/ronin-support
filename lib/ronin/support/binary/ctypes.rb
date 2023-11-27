@@ -104,6 +104,8 @@ module Ronin
       # * {CTypes::OS::Linux Linux}
       # * {CTypes::OS::MacOS macOS}
       # * {CTypes::OS::Windows Windows}
+      # * {CTypes::OS::Android Android}
+      # * {CTypes::OS::AppleIOS Apple iOS}
       #
       module CTypes
         include Native
@@ -383,16 +385,19 @@ module Ronin
 
         # The supported Operating Systems.
         OSES = {
-          unix:  OS::UNIX,
+          unix:      OS::UNIX,
 
-          bsd:     OS::BSD,
-          freebsd: OS::FreeBSD,
-          openbsd: OS::OpenBSD,
-          netbsd:  OS::NetBSD,
+          bsd:       OS::BSD,
+          freebsd:   OS::FreeBSD,
+          openbsd:   OS::OpenBSD,
+          netbsd:    OS::NetBSD,
 
-          linux:   OS::Linux,
-          macos:   OS::MacOS,
-          windows: OS::Windows
+          linux:     OS::Linux,
+          macos:     OS::MacOS,
+          windows:   OS::Windows,
+
+          android:   OS::Android,
+          apple_ios: OS::AppleIOS
         }
 
         #
@@ -411,7 +416,8 @@ module Ronin
         #   The architecture name to lookup.
         #
         # @param [:linux, :macos, :windows,
-        #         :bsd, :freebsd, :openbsd, :netbsd] os
+        #         :android, :apple_ios, :bsd,
+        #         :freebsd, :openbsd, :netbsd] os
         #   The Operating System name to lookup.
         #
         # @return [CTypes,

@@ -40,7 +40,7 @@ module Ronin
         # @return [OpenSSL::PKey]
         #   The parsed key.
         #
-        # @return [DSA, EC, RSA]
+        # @return [DH, DSA, EC, RSA]
         #   The parsed key.
         #
         # @raise [ArgumentError]
@@ -53,6 +53,8 @@ module Ronin
                         RSA
                       elsif key.start_with?('-----BEGIN DSA PRIVATE KEY-----')
                         DSA
+                      elsif key.start_with?('-----BEGIN DH PARAMETERS-----')
+                        DH
                       elsif key.start_with?('-----BEGIN EC PRIVATE KEY-----')
                         EC
                       else
@@ -74,7 +76,7 @@ module Ronin
         # @option kwargs [String, nil] :password
         #   Optional password to decrypt the key.
         #
-        # @return [DSA, EC, RSA]
+        # @return [DH, DSA, EC, RSA]
         #   The parsed key.
         #
         # @see parse
@@ -91,7 +93,7 @@ module Ronin
         # @param [String] path
         #   The path to the key file.
         #
-        # @return [DSA, EC, RSA]
+        # @return [DH, DSA, EC, RSA]
         #   The loaded key.
         #
         # @raise [ArgumentError]
@@ -101,6 +103,48 @@ module Ronin
         #
         def self.load_file(path)
           parse(File.read(path))
+        end
+      end
+
+      #
+      # Coerces a value into a {Key} object.
+      #
+      # @param [String, OpenSSL::PKey::RSA, OpenSSL::PKey::DSA, OpenSSL::PKey::DH , OpenSSL::PKey::EC] key
+      #   The key String or `OpenSSL::PKey::PKey` value.
+      #
+      # @return [RSA, DSA, DH, EC]
+      #   The coerced certificate.
+      #
+      # @raise [ArgumentError]
+      #   The key value was not a String or a `OpenSSL::PKey::PKey` object.
+      #
+      # @raise [NotImplementedError]
+      #   A new `OpenSSL::PKey::PKey` value that was not `OpenSSL::PKey::RSA`,
+      #   `OpenSSL::PKey::DSA`, `OpenSSL::PKey::DH`, or `OpenSSL::PKey::EC`
+      #   was given.
+      #
+      # @api semipublic
+      #
+      # @since 1.1.0
+      #
+      def self.Key(key)
+        case key
+        when String then Key.parse(key)
+        when OpenSSL::PKey::PKey
+          key_class = case key
+                      when OpenSSL::PKey::RSA then Key::RSA
+                      when OpenSSL::PKey::DSA then Key::DSA
+                      when OpenSSL::PKey::DH  then Key::DH
+                      when OpenSSL::PKey::EC  then Key::EC
+                      else
+                        raise(NotImplementedError,"#{key.inspect} is not supported")
+                      end
+
+          new_key = key_class.allocate
+          new_key.send(:initialize_copy,key)
+          new_key
+        else
+          raise(ArgumentError,"value must be either a String or a OpenSSL::PKey::PKey object: #{key.inspect}")
         end
       end
     end

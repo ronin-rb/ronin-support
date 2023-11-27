@@ -149,6 +149,39 @@ describe Ronin::Support::Network::HTTP::Request do
     end
   end
 
+  describe ".mime_type_for" do
+    context "when given a String" do
+      let(:mime_type) { 'application/vnd.foo.bar+json' }
+
+      it "must set the 'Content-Type' header" do
+        expect(subject.mime_type_for(mime_type)).to eq(mime_type)
+      end
+    end
+
+    context "when given a Symbol" do
+      described_class::MIME_TYPES.each do |symbol,mime_type|
+        context "and it's #{symbol.inspect}" do
+          let(:symbol)    { symbol }
+          let(:mime_type) { mime_type }
+
+          it "must set the 'Content-Type' header to '#{mime_type}'" do
+            expect(subject.mime_type_for(symbol)).to eq(mime_type)
+          end
+        end
+      end
+
+      context "but the Symbol value is known a common MIME type" do
+        let(:symbol) { :foo }
+
+        it do
+          expect {
+            subject.mime_type_for(symbol)
+          }.to raise_error(ArgumentError,"unsupported MIME type: #{symbol.inspect}")
+        end
+      end
+    end
+  end
+
   describe ".build" do
     let(:path) { '/foo' }
 
@@ -327,6 +360,80 @@ describe Ronin::Support::Network::HTTP::Request do
 
         expect(req[header_name1]).to eq(header_value1)
         expect(req[header_name2]).to eq(header_value2)
+      end
+    end
+
+    context "when the content_type: keyword argument is given" do
+      context "and the vlaue is a String" do
+        let(:content_type) { 'application/vnd.foo.bar+json' }
+
+        it "must set the 'Content-Type' header" do
+          req = subject.build(:get,path, content_type: content_type)
+
+          expect(req['Content-Type']).to eq(content_type)
+        end
+      end
+
+      context "and the value is a Symbol" do
+        described_class::MIME_TYPES.each do |symbol,mime_type|
+          context "and it's #{symbol.inspect}" do
+            let(:symbol)    { symbol }
+            let(:mime_type) { mime_type }
+
+            it "must set the 'Content-Type' header to '#{mime_type}'" do
+              req = subject.build(:get,path, content_type: symbol)
+
+              expect(req['Content-Type']).to eq(mime_type)
+            end
+          end
+        end
+
+        context "but the Symbol value is known a common MIME type" do
+          let(:symbol) { :foo }
+
+          it do
+            expect {
+              subject.build(:get,path, content_type: symbol)
+            }.to raise_error(ArgumentError,"unsupported MIME type: #{symbol.inspect}")
+          end
+        end
+      end
+    end
+
+    context "when the accept: keyword argument is given" do
+      context "and the vlaue is a String" do
+        let(:accept) { 'application/vnd.foo.bar+json' }
+
+        it "must set the 'Accept' header" do
+          req = subject.build(:get,path, accept: accept)
+
+          expect(req['Accept']).to eq(accept)
+        end
+      end
+
+      context "and the value is a Symbol" do
+        described_class::MIME_TYPES.each do |symbol,mime_type|
+          context "and it's #{symbol.inspect}" do
+            let(:symbol)    { symbol }
+            let(:mime_type) { mime_type }
+
+            it "must set the 'Accept' header to '#{mime_type}'" do
+              req = subject.build(:get,path, accept: symbol)
+
+              expect(req['Accept']).to eq(mime_type)
+            end
+          end
+        end
+
+        context "but the Symbol value is known a common MIME type" do
+          let(:symbol) { :foo }
+
+          it do
+            expect {
+              subject.build(:get,path, accept: symbol)
+            }.to raise_error(ArgumentError,"unsupported MIME type: #{symbol.inspect}")
+          end
+        end
       end
     end
 
@@ -553,17 +660,30 @@ describe Ronin::Support::Network::HTTP::Request do
     end
 
     context "when given the form_data: keyword argument" do
-      subject { super().build(:post,'/', form_data: form_data) }
-
       context "but it's a String value" do
         let(:form_data) { "foo=1&bar=2" }
 
         it "must set the content_type of the request to 'application/x-www-form-urlencoded'" do
-          expect(subject.content_type).to eq('application/x-www-form-urlencoded')
+          req = subject.build(:post,'/', form_data: form_data)
+
+          expect(req['Content-Type']).to eq('application/x-www-form-urlencoded')
         end
 
         it "must set the body of the request" do
-          expect(subject.body).to eq(form_data)
+          req = subject.build(:post,'/', form_data: form_data)
+
+          expect(req.body).to eq(form_data)
+        end
+
+        context "but 'Content-Type' has already been set" do
+          let(:content_type) { 'application/foo' }
+
+          it "must not override the existing 'Content-Type' value" do
+            req = subject.build(:post,'/', content_type: content_type,
+                                           form_data:    form_data)
+
+            expect(req['Content-Type']).to eq(content_type)
+          end
         end
       end
 
@@ -573,7 +693,9 @@ describe Ronin::Support::Network::HTTP::Request do
         end
 
         it "must set the body of the request to the encoded form data" do
-          expect(subject.body).to eq(URI.encode_www_form(form_data))
+          req = subject.build(:post,'/', form_data: form_data)
+
+          expect(req.body).to eq(URI.encode_www_form(form_data))
         end
       end
 
@@ -583,7 +705,38 @@ describe Ronin::Support::Network::HTTP::Request do
         end
 
         it "must set the body of the request to the encoded form data" do
-          expect(subject.body).to eq(URI.encode_www_form(form_data))
+          req = subject.build(:post,'/', form_data: form_data)
+
+          expect(req.body).to eq(URI.encode_www_form(form_data))
+        end
+      end
+    end
+
+    context "when given the json: keyword argument" do
+      let(:payload) do
+        {'foo' => 1, 'bar' => 2}
+      end
+
+      it "must set the body to the JSON formatted object" do
+        req = subject.build(:post, '/', json: payload)
+
+        expect(req.body).to eq(payload.to_json)
+      end
+
+      it "must default 'Content-Type' to 'application/json'" do
+        req = subject.build(:post, '/', json: payload)
+
+        expect(req['Content-Type']).to eq('application/json')
+      end
+
+      context "and when the 'Content-Type' is already set" do
+        let(:content_type) { 'application/vnd.foo.bar+json' }
+
+        it "must not override the desired 'Content-Type' value" do
+          req = subject.build(:post, '/', content_type: content_type,
+                                          json:         payload)
+
+          expect(req['Content-Type']).to eq(content_type)
         end
       end
     end

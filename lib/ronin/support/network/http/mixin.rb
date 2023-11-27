@@ -41,6 +41,22 @@ module Ronin
           #   @option kwargs [Hash{Symbol,String => String,Array}, nil] :headers
           #     Additional headers to add to each request.
           #
+          #   @option kwargs [String, :text, :xml, :html, :json, nil] :content_type
+          #     The `Content-Type` header value for the request.
+          #     If a Symbol is given it will be resolved to a common MIME type:
+          #     * `:text` - `text/plain`
+          #     * `:xml` - `text/xml`
+          #     * `:html` - `text/html`
+          #     * `:json` - `application/json`
+          #
+          #   @option kwargs [String, :text, :xml, :html, :json, nil] :accept
+          #     The `Accept` header value for the request.
+          #     If a Symbol is given it will be resolved to a common MIME type:
+          #     * `:text` - `text/plain`
+          #     * `:xml` - `text/xml`
+          #     * `:html` - `text/html`
+          #     * `:json` - `application/json`
+          #
           #   @option kwargs [String, :random, :chrome, :chrome_linux, :chrome_macos, :chrome_windows, :chrome_iphone, :chrome_ipad, :chrome_android, :firefox, :firefox_linux, :firefox_macos, :firefox_windows, :firefox_iphone, :firefox_ipad, :firefox_android, :safari, :safari_macos, :safari_iphone, :safari_ipad, :edge, :linux, :macos, :windows, :iphone, :ipad, :android, nil] user_agent (HTTP.user_agent)
           #     The default `User-Agent` string to add to each request.
           #
@@ -173,6 +189,11 @@ module Ronin
           #
           #   @option kwargs [Hash, String, nil] :form_data
           #     The form data that may be sent in the body of the request.
+          #
+          #   @option kwargs [#to_json, nil] :json
+          #     The JSON data that will be sent in the body of the request.
+          #     Will also default the `Content-Type` header to
+          #     `application/json`, unless already set.
           #
 
           #

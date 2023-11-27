@@ -42,7 +42,8 @@ class Float
   #   The desired architecture of the binary format.
   #
   # @option kwargs [:linux, :macos, :windows,
-  #                 :bsd, :freebsd, :openbsd, :netbsd] :os
+  #                 :android, :apple_ios, :bsd,
+  #                 :freebsd, :openbsd, :netbsd] :os
   #   The Operating System name to lookup.
   #
   # @return [String]

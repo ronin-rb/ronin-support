@@ -45,6 +45,9 @@ module Ronin
           # @param [String, nil] common_name
           #   The "common name" for the cert (ex: `github.com`).
           #
+          # @param [String, nil] email_address
+          #   The email address for the cert (ex: `admin@github.com`).
+          #
           # @param [String, nil] organizational_unit
           #   The organizational unit for the cert.
           #
@@ -66,14 +69,15 @@ module Ronin
           # @return [Name]
           #   The populated name.
           #
-          def self.build(common_name: nil, organizational_unit: nil, organization: nil, locality: nil, state: nil, province: nil, country: nil)
+          def self.build(common_name: nil, email_address: nil, organizational_unit: nil, organization: nil, locality: nil, state: nil, province: nil, country: nil)
             name = new
-            name.add_entry("CN",common_name)         if common_name
-            name.add_entry("OU",organizational_unit) if organizational_unit
-            name.add_entry("O",organization)         if organization
-            name.add_entry("L",locality)             if locality
-            name.add_entry("ST",state || province)   if (state || province)
-            name.add_entry("C",country)              if country
+            name.add_entry("CN",common_name)             if common_name
+            name.add_entry('emailAddress',email_address) if email_address
+            name.add_entry("OU",organizational_unit)     if organizational_unit
+            name.add_entry("O",organization)             if organization
+            name.add_entry("L",locality)                 if locality
+            name.add_entry("ST",state || province)       if (state || province)
+            name.add_entry("C",country)                  if country
 
             return name
           end
@@ -109,6 +113,17 @@ module Ronin
           #
           def common_name
             self['CN']
+          end
+
+          #
+          # The email address (`emailAddress`) entry.
+          #
+          # @return [String, nil]
+          #
+          # @since 1.1.0
+          #
+          def email_address
+            self['emailAddress']
           end
 
           #
@@ -338,6 +353,7 @@ module Ronin
                           ca_cert: nil,
                           ca_key:  nil,
                           subject_alt_names: nil,
+                          ca:      false,
                           signing_hash: :sha256)
           cert = new
 
@@ -360,6 +376,10 @@ module Ronin
           if subject_alt_names
             extensions ||= {}
             extensions   = extensions.merge('subjectAltName' => subject_alt_names.join(', '))
+
+          if ca
+            extensions ||= {}
+            extensions   = extensions.merge('basicConstraints' => ['CA:TRUE', true])
           end
 
           if extensions

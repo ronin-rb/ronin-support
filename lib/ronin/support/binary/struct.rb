@@ -658,7 +658,8 @@ module Ronin
         #   The desired architecture for the struct.
         #
         # @param [:linux, :macos, :windows,
-        #         :bsd, :freebsd, :openbsd, :netbsd] os
+        #         :android, :apple_ios, :bsd,
+        #         :freebsd, :openbsd, :netbsd] os
         #   The Operating System (OS) for the struct.
         #
         # @return [Hash{Symbol => Object}]

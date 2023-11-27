@@ -638,6 +638,22 @@ module Ronin
         # @param [Hash{Symbol,String => String}, nil] headers
         #   Additional HTTP header names and values to add to the request.
         #
+        # @param [String, :text, :xml, :html, :json, nil] content_type
+        #   The `Content-Type` header value for the request.
+        #   If a Symbol is given it will be resolved to a common MIME type:
+        #   * `:text` - `text/plain`
+        #   * `:xml` - `text/xml`
+        #   * `:html` - `text/html`
+        #   * `:json` - `application/json`
+        #
+        # @param [String, :text, :xml, :html, :json, nil] accept
+        #   The `Accept` header value for the request.
+        #   If a Symbol is given it will be resolved to a common MIME type:
+        #   * `:text` - `text/plain`
+        #   * `:xml` - `text/xml`
+        #   * `:html` - `text/html`
+        #   * `:json` - `application/json`
+        #
         # @param [String, Hash{String => String}, nil] cookie
         #   Additional `Cookie` header. If a `Hash` is given, it will be
         #   converted to a `String` using {Cookie}.
@@ -647,6 +663,11 @@ module Ronin
         #
         # @param [Hash, String, nil] form_data
         #   The form data that may be sent in the body of the request.
+        #
+        # @param [#to_json, nil] json
+        #   The JSON data that will be sent in the body of the request.
+        #   Will also default the `Content-Type` header to `application/json`,
+        #   unless already set.
         #
         # @param [Hash{Symbol => String}] additional_headers
         #   Additional headers to add to the request.
@@ -698,18 +719,23 @@ module Ronin
                                  query:        nil,
                                  query_params: nil,
                                  # header keyword arguments
-                                 headers:    nil,
-                                 user_agent: @user_agent,
-                                 cookie:     @cookie,
+                                 headers:      nil,
+                                 content_type: nil,
+                                 accept:       nil,
+                                 user_agent:   @user_agent,
+                                 cookie:       @cookie,
                                  # Basic-Auth keyword arguments
                                  user:     @user,
                                  password: @password,
                                  # request body keyword arguments
                                  body:      nil,
                                  form_data: nil,
+                                 json:      nil,
                                  **additional_headers,
                                  &block)
           request = Request.build(method,path, headers:      @headers,
+                                               content_type: content_type,
+                                               accept:       accept,
                                                user_agent:   user_agent,
                                                cookie:       cookie,
                                                user:         user,
@@ -717,7 +743,8 @@ module Ronin
                                                query:        query,
                                                query_params: query_params,
                                                body:         body,
-                                               form_data:    form_data)
+                                               form_data:    form_data,
+                                               json:         json)
 
           if headers
             # populate any arbitrary headers
@@ -756,6 +783,22 @@ module Ronin
         #   @option kwargs [Hash{Symbol,String => String}, nil] :headers
         #     Additional HTTP header names and values to add to the request.
         #
+        #   @option kwargs [String, :text, :xml, :html, :json, nil] :content_type
+        #     The `Content-Type` header value for the request.
+        #     If a Symbol is given it will be resolved to a common MIME type:
+        #     * `:text` - `text/plain`
+        #     * `:xml` - `text/xml`
+        #     * `:html` - `text/html`
+        #     * `:json` - `application/json`
+        #
+        #   @option kwargs [String, :text, :xml, :html, :json, nil] :accept
+        #     The `Accept` header value for the request.
+        #     If a Symbol is given it will be resolved to a common MIME type:
+        #     * `:text` - `text/plain`
+        #     * `:xml` - `text/xml`
+        #     * `:html` - `text/html`
+        #     * `:json` - `application/json`
+        #
         #   @option kwargs [String, Hash{String => String}, Cookie, nil] :cookie
         #     Additional `Cookie` header. If a `Hash` is given, it will be
         #     converted to a `String` using {Cookie}. If the cookie value is
@@ -766,6 +809,11 @@ module Ronin
         #
         #   @option kwargs [Hash, String, nil] :form_data
         #     The form data that may be sent in the body of the request.
+        #
+        #   @option kwargs [#to_json, nil] :json
+        #     The JSON data that will be sent in the body of the request.
+        #     Will also default the `Content-Type` header to
+        #     `application/json`, unless already set.
         #
 
         #

@@ -549,6 +549,42 @@ module Ronin
           DNS.get_ptr_names(@address,**kwargs)
         end
 
+        #
+        # Converts the IP address to it's IPv4 version.
+        #
+        # @note [IP]
+        #   If the IP address is an IPv4-mapped IPv6 address then the IPv6
+        #   address will be extracted from the IPv6 address. If the IP address
+        #   is a regular IPv4 address, then the IP address will be returned.
+        #
+        # @raise [InvalidIP]
+        #   The IP address was a regular IPv6 address and cannot be converted to
+        #   a smaller IPv4 address.
+        #
+        # @example Converting an IPv4-mapped IPv6 address to an IPv4 address:
+        #   ip = Network::IP.new('::ffff:127.0.0.1')
+        #   ip.ipv4
+        #   # => #<Ronin::Support::Network::IP: 127.0.0.1>
+        #
+        # @example When the IP address is already an IPv4 address:
+        #   ip = Network::IP.new('127.0.0.1')
+        #   ip.ipv4
+        #   # => #<Ronin::Support::Network::IP: 127.0.0.1>
+        #
+        # @since 1.1.0
+        #
+        def ipv4
+          if ipv6?
+            if ipv4_mapped?
+              self.class.new(to_i & 0xffffffff,Socket::AF_INET)
+            else
+              raise(InvalidIP,"cannot convert a regular IPv6 address to an IPv4 address: #{inspect}")
+            end
+          else
+            self
+          end
+        end
+
         alias canonical to_string
         alias to_str to_s
         alias to_uint to_i

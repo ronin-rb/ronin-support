@@ -1,19 +1,7 @@
-### 1.0.3 / 2023-09-19
+### 1.1.0 / 2023-XX-XX
 
-* {Ronin::Support::Crypto::Cert::Name#entries} now returns UTF-8 encoded
-  Strings.
-* {Ronin::Support::Crypto::Cert.Name} now passes through
-  {Ronin::Support::Crypto::Cert::Name} objects instead of copying them.
-* Fixed a bug in {Ronin::Support::Crypto::Cert.generate} when it is given a
-  `OpenSSL::PKey::EC` signing key.
-* Fixed a bug in {Ronin::Support::Network::SSL::Mixin#ssl_connect} where the
-  `OpenSSL::SSL::SSLSocket#hostname` attribute was not being set to the
-  host being connected to, which prevented connecting to TLS servers that use
-  SNI.
-* Fixed {Ronin::Support::Network::IP#set} to return `self`.
-* Fixed {Ronin::Support::Network::IP#inspect} to call the lazy-initialized
-  {Ronin::Support::Network::IP#address} method instead of the `@address`
-  instance variable directly.
+* Added {Ronin::Support::Binary::CTypes::OS::Android}.
+* Added {Ronin::Support::Binary::CTypes::OS::AppleIOS}.
 
 ### 1.0.2 / 2023-06-09
 

@@ -61,4 +61,16 @@ describe Ronin::Support::Crypto::Key::EC do
   end
 
   subject { described_class.load_file(path) }
+
+  describe "#curve" do
+    it "must return the #group #curve_name String" do
+      expect(subject.curve).to eq(subject.group.curve_name)
+    end
+  end
+
+  describe "#size" do
+    it "must return the size of the EC key in bits" do
+      expect(subject.size).to eq(256)
+    end
+  end
 end
