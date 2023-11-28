@@ -66,6 +66,11 @@ module Ronin
       #
       class IP < IPAddr
 
+        # A regular expression for matching IP addresses.
+        #
+        # @since 1.0.0
+        REGEX = /#{IPAddr::RE_IPV4ADDRLIKE}|#{IPAddr::RE_IPV6ADDRLIKE_FULL}|#{IPAddr::RE_IPV6ADDRLIKE_COMPRESSED}/
+
         #
         # Initializes the IP address.
         #

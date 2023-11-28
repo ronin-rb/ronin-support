@@ -19,6 +19,7 @@
 require 'ronin/support/crypto/openssl'
 require 'ronin/support/crypto/key/rsa'
 require 'ronin/support/crypto/key/ec'
+require 'ronin/support/network/ip'
 
 module Ronin
   module Support
@@ -353,6 +354,7 @@ module Ronin
                           ca_cert: nil,
                           ca_key:  nil,
                           ca:      false,
+                          subject_alt_names: nil,
                           signing_hash: :sha256)
           cert = new
 
@@ -371,6 +373,20 @@ module Ronin
           cert.issuer     = if ca_cert then ca_cert.subject
                             else            cert.subject
                             end
+
+          if subject_alt_names
+            extensions ||= {}
+
+            subject_alt_names.map! do |alt_name|
+              if alt_name.match?(Ronin::Support::Network::IP::REGEX)
+                "IP:#{alt_name}"
+              else
+                "DNS:#{alt_name}"
+              end
+            end
+
+            extensions = extensions.merge('subjectAltName' => subject_alt_names.join(', '))
+          end
 
           if ca
             extensions ||= {}
