@@ -375,8 +375,6 @@ module Ronin
                             end
 
           if subject_alt_names
-            extensions ||= {}
-
             subject_alt_names.map! do |alt_name|
               if alt_name.match?(Ronin::Support::Network::IP::REGEX)
                 "IP:#{alt_name}"
@@ -385,7 +383,8 @@ module Ronin
               end
             end
 
-            extensions = extensions.merge('subjectAltName' => subject_alt_names.join(', '))
+            extensions ||= {}
+            extensions   = extensions.merge('subjectAltName' => subject_alt_names.join(', '))
           end
 
           if ca

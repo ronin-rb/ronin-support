@@ -68,7 +68,7 @@ module Ronin
 
         # A regular expression for matching IP addresses.
         #
-        # @since 1.0.0
+        # @since 1.1.0
         REGEX = /#{IPAddr::RE_IPV4ADDRLIKE}|#{IPAddr::RE_IPV6ADDRLIKE_FULL}|#{IPAddr::RE_IPV6ADDRLIKE_COMPRESSED}/
 
         #
