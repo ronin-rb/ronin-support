@@ -277,6 +277,12 @@ module Ronin
         #   The optional Certificate Authority (CA) certificate to attach to the
         #   new certificate.
         #
+        # @param [Boolean] ca
+        #   Indicates whether to add the basicConstraints extension.
+        #
+        # @param [Array[String], nil] subject_alt_names
+        #   List of subject alt names to add into subjectAltName extension.
+        #
         # @param [Symbol] signing_hash
         #   The hashing algorithm to use to sign the new certificate.
         #
@@ -375,16 +381,16 @@ module Ronin
                             end
 
           if subject_alt_names
-            subject_alt_names.map! do |alt_name|
-              if alt_name.match?(Ronin::Support::Network::IP::REGEX)
+            subject_alt_name = subject_alt_names.map do |alt_name|
+              if alt_name.match?(Network::IP::REGEX)
                 "IP:#{alt_name}"
               else
                 "DNS:#{alt_name}"
               end
-            end
+            end.join(', ')
 
             extensions ||= {}
-            extensions   = extensions.merge('subjectAltName' => subject_alt_names.join(', '))
+            extensions   = extensions.merge('subjectAltName' => subject_alt_name)
           end
 
           if ca
