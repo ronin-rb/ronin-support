@@ -141,7 +141,7 @@ module Ronin
         #   A given type is not known.
         #
         # @example
-        #   template = Template.new([:uint32, [:char, 100]])
+        #   template = Template.new([:uint32, [:char, 10]])
         #   template.pack(0x123456, ['A', 'B', 'C'])
         #   # => "CBA\x00XYZ\x00\x00\x00\x00\x00\x00\x00"
         #   template.unpack("CBA\x00XYZ\x00\x00\x00\x00\x00\x00\x00")
@@ -171,7 +171,7 @@ module Ronin
 
         #
         # @example
-        #   template = Template.new[:uint32, [:char, 10]]
+        #   template = Template[:uint32, [:char, 10]]
         #   template.pack(0x123456, ['A', 'B', 'C'])
         #   # => "CBA\x00XYZ\x00\x00\x00\x00\x00\x00\x00"
         #   template.unpack("CBA\x00XYZ\x00\x00\x00\x00\x00\x00\x00")
