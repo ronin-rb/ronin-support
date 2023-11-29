@@ -41,6 +41,11 @@ class Array
   #                 :mips, :mips_le, :mips64, :mips64_le, nil] :arch
   #   The desired architecture to pack the data for.
   #
+  # @option kwargs [:linux, :macos, :windows,
+  #                 :android, :apple_ios, :bsd,
+  #                 :freebsd, :openbsd, :netbsd] :os
+  #   The Operating System (OS) to use.
+  #
   # @return [String]
   #   The packed Array.
   #

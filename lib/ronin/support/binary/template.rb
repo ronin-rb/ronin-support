@@ -132,6 +132,11 @@ module Ronin
         #                 :arm64, :arm64_le, :arm64_be] :arch
         #   The desired architecture for the values within the template.
         #
+        # @option kwargs [:linux, :macos, :windows,
+        #                 :android, :apple_ios, :bsd,
+        #                 :freebsd, :openbsd, :netbsd] :os
+        #   The Operating System (OS) to use.
+        #
         # @raise [ArgumentError]
         #   A given type is not known.
         #

@@ -43,6 +43,11 @@ class String
   #                 :mips, :mips_le, :mips64, :mips64_le, nil] :arch
   #   The desired architecture that the data was packed for.
   #
+  # @option kwargs [:linux, :macos, :windows,
+  #                 :android, :apple_ios, :bsd,
+  #                 :freebsd, :openbsd, :netbsd] :os
+  #   The Operating System (OS) to use.
+  #
   # @return [Array]
   #   The values unpacked from the String.
   #
