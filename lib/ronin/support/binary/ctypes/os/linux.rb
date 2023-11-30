@@ -44,7 +44,7 @@ module Ronin
               typedef :long, :__blkcnt_t
               typedef :long, :__blksize_t
               typedef :long, :blksize_t
-              typedef types::POINTER, :__caddr_t
+              typedef :pointer, :__caddr_t
               typedef :int, :__clockid_t
               typedef :int, :clockid_t
               typedef :long, :__clock_t
@@ -170,7 +170,7 @@ module Ronin
                 typedef :uint, :nlink_t
                 typedef :long_long, :__off64_t
                 typedef :long_long, :off_t
-                typedef types::POINTER, :__qaddr_t
+                typedef :pointer, :__qaddr_t
                 typedef :long_long, :__quad_t
                 typedef :long_long, :quad_t
                 typedef :ulong_long, :__rlim64_t
