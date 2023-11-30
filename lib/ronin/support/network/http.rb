@@ -1079,7 +1079,7 @@ module Ronin
         # @return [Array<Cookie>]
         #   The parsed `Cookie` headers.
         #
-        # @since 1.0.0
+        # @since 1.1.0
         #
         def post_cookies(path, **kwargs)
           response = request(:post,path,**kwargs)
