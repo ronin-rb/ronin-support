@@ -19,6 +19,7 @@
 require 'ronin/support/crypto/openssl'
 require 'ronin/support/crypto/key/rsa'
 require 'ronin/support/crypto/key/ec'
+require 'ronin/support/network/ip'
 
 module Ronin
   module Support
@@ -279,6 +280,9 @@ module Ronin
         # @param [Boolean] ca
         #   Indicates whether to add the basicConstraints extension.
         #
+        # @param [Array<String>, nil] subject_alt_names
+        #   List of subject alt names to add into subjectAltName extension.
+        #
         # @param [Symbol] signing_hash
         #   The hashing algorithm to use to sign the new certificate.
         #
@@ -356,6 +360,7 @@ module Ronin
                           ca_cert: nil,
                           ca_key:  nil,
                           ca:      false,
+                          subject_alt_names: nil,
                           signing_hash: :sha256)
           cert = new
 
@@ -374,6 +379,19 @@ module Ronin
           cert.issuer     = if ca_cert then ca_cert.subject
                             else            cert.subject
                             end
+
+          if subject_alt_names
+            subject_alt_name = subject_alt_names.map { |alt_name|
+              if alt_name.match?(Network::IP::REGEX)
+                "IP:#{alt_name}"
+              else
+                "DNS:#{alt_name}"
+              end
+            }.join(', ')
+
+            extensions ||= {}
+            extensions   = extensions.merge('subjectAltName' => subject_alt_name)
+          end
 
           if ca
             extensions ||= {}
