@@ -170,6 +170,36 @@ module Ronin
         end
 
         #
+        # Alias for `Template.new`.
+        #
+        # @param [::Array<Symbol, (Symbol, Integer)>] fields
+        #   The C-types which the packer will use.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments.
+        #
+        # @option kwargs [:little, :big, :net, nil] :endian
+        #   The desired endianness of the values within the template.
+        #
+        # @option kwargs [:x86, :x86_64,
+        #                 :ppc, :ppc64,
+        #                 :mips, :mips_le, :mips_be,
+        #                 :mips64, :mips64_le, :mips64_be,
+        #                 :arm, :arm_le, :arm_be,
+        #                 :arm64, :arm64_le, :arm64_be] :arch
+        #   The desired architecture for the values within the template.
+        #
+        # @option kwargs [:linux, :macos, :windows,
+        #                 :android, :apple_ios, :bsd,
+        #                 :freebsd, :openbsd, :netbsd] :os
+        #   The Operating System (OS) to use.
+        #
+        # @return [Template]
+        #   The new template object.
+        #
+        # @raise [ArgumentError]
+        #   A given type is not known.
+        #
         # @example
         #   template = Template[:uint32, [:char, 10]]
         #   template.pack(0x123456, ['A', 'B', 'C'])
