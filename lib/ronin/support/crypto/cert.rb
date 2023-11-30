@@ -280,7 +280,7 @@ module Ronin
         # @param [Boolean] ca
         #   Indicates whether to add the basicConstraints extension.
         #
-        # @param [Array[String], nil] subject_alt_names
+        # @param [Array<String>, nil] subject_alt_names
         #   List of subject alt names to add into subjectAltName extension.
         #
         # @param [Symbol] signing_hash
@@ -381,13 +381,13 @@ module Ronin
                             end
 
           if subject_alt_names
-            subject_alt_name = subject_alt_names.map do |alt_name|
+            subject_alt_name = subject_alt_names.map { |alt_name|
               if alt_name.match?(Network::IP::REGEX)
                 "IP:#{alt_name}"
               else
                 "DNS:#{alt_name}"
               end
-            end.join(', ')
+            }.join(', ')
 
             extensions ||= {}
             extensions   = extensions.merge('subjectAltName' => subject_alt_name)
