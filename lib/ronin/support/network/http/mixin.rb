@@ -494,6 +494,26 @@ module Ronin
           end
 
           #
+          # Sends an HTTP request and returns the parsed `Cookie` header(s).
+          #
+          # @param [URI::HTTP, Addressable::URI, String] url
+          #   Optional URL to create the HTTP request for.
+          #
+          # @!macro request_kwargs
+          # @!macro connect_kwargs
+          #
+          # @return [Array<Cookie>, nil]
+          #   The parsed `Cookie` header(s).
+          #
+          # @see Network::HTTP.post_cookies
+          #
+          # @api public
+          #
+          def http_post_cookies(url, ssl: nil, **kwargs)
+            Network::HTTP.post_cookies(url, ssl: ssl, **kwargs)
+          end
+
+          #
           # Performs a `GET` request for the given URI and returns the response
           # body.
           #
