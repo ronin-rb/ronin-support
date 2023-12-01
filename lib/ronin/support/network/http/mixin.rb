@@ -494,7 +494,7 @@ module Ronin
           end
 
           #
-          # Sends an HTTP request and returns the parsed `Cookie` header(s).
+          # Sends an HTTP request and returns the parsed `Set-Cookie` header(s).
           #
           # @param [URI::HTTP, Addressable::URI, String] url
           #   Optional URL to create the HTTP request for.

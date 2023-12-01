@@ -1069,14 +1069,14 @@ module Ronin
         end
 
         #
-        # Sends an HTTP request and returns the parsed `Cookie` header(s).
+        # Sends an HTTP request and returns the parsed `Set-Cookie` header(s).
         #
         # @param [String] path
         #   The path to to make the request for.
         #
         # @!macro request_kwargs
         #
-        # @return [Array<Cookie>]
+        # @return [Array<Cookie>, nil]
         #   The parsed `Cookie` headers.
         #
         # @since 1.1.0
@@ -1084,12 +1084,10 @@ module Ronin
         def post_cookies(path, **kwargs)
           response = request(:post,path,**kwargs)
 
-          if (set_cookies = response.get_fields('Cookie'))
+          if (set_cookies = response.get_fields('Set-Cookie'))
             set_cookies.map do |cookie|
-              Cookie.parse(cookie)
+              SetCookie.parse(cookie)
             end
-          else
-            []
           end
         end
 
@@ -2893,7 +2891,7 @@ module Ronin
         end
 
         #
-        # Sends an HTTP request and returns the parsed `Cookie` header(s).
+        # Sends an HTTP request and returns the parsed `Set-Cookie` header(s).
         #
         # @param [URI::HTTP, Addressable::URI, String] url
         #   Optional URL to create the HTTP request for.
