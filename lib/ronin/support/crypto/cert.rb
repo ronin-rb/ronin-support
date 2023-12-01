@@ -359,6 +359,7 @@ module Ronin
                           key: ,
                           ca_cert: nil,
                           ca_key:  nil,
+                          ca:      false,
                           subject_alt_names: nil,
                           signing_hash: :sha256)
           cert = new
@@ -378,6 +379,7 @@ module Ronin
           cert.issuer     = if ca_cert then ca_cert.subject
                             else            cert.subject
                             end
+
           if subject_alt_names
             subject_alt_name = subject_alt_names.map { |alt_name|
               if alt_name.match?(Network::IP::REGEX)
