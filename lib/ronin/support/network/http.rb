@@ -1072,6 +1072,29 @@ module Ronin
         end
 
         #
+        # Sends an HTTP request and returns the parsed `Set-Cookie` header(s).
+        #
+        # @param [String] path
+        #   The path to to make the request for.
+        #
+        # @!macro request_kwargs
+        #
+        # @return [Array<SetCookie>, nil]
+        #   The parsed `Cookie` headers.
+        #
+        # @since 1.1.0
+        #
+        def post_cookies(path, **kwargs)
+          response = request(:post,path,**kwargs)
+
+          if (set_cookies = response.get_fields('Set-Cookie'))
+            set_cookies.map do |cookie|
+              SetCookie.parse(cookie)
+            end
+          end
+        end
+
+        #
         # Sends a `GET` HTTP request and returns the response body.
         #
         # @param [String] path
@@ -2868,6 +2891,53 @@ module Ronin
                                   password:   password)
 
           http.unlock(path,**kwargs,&block)
+        end
+
+        #
+        # Sends an HTTP request and returns the parsed `Set-Cookie` header(s).
+        #
+        # @param [URI::HTTP, Addressable::URI, String] url
+        #   Optional URL to create the HTTP request for.
+        #
+        # @!macro request_kwargs
+        # @!macro initialize_kwargs
+        #
+        # @return [Array<SetCookie>, nil]
+        #   The parsed `Cookie` header(s).
+        #
+        # @see connect_uri
+        # @see #post_cookies
+        #
+        # @since 1.1.0
+        #
+        def self.post_cookies(url, proxy:      self.proxy,
+                                   ssl:        nil,
+                                   headers:    {},
+                                   user_agent: nil,
+                                   cookie:     nil,
+                                   user:       nil,
+                                   password:   nil,
+                                   **kwargs,
+                                   &block)
+          uri = case url
+                when Addressable::URI, URI::HTTP
+                  url
+                when String
+                  Addressable::URI.parse(url)
+                else
+                  raise(ArgumentError,"URL argument must be either a Addressable::URI, URI::HTTP, or a String: #{url.inspect}")
+                end
+
+          path = uri.request_uri
+          http = connect_uri(url, proxy:      proxy,
+                                  ssl:        ssl,
+                                  headers:    headers,
+                                  user_agent: user_agent,
+                                  cookie:     cookie,
+                                  user:       user,
+                                  password:   password)
+
+          http.post_cookies(path,**kwargs)
         end
       end
     end
