@@ -1253,6 +1253,68 @@ describe Ronin::Support::Network::HTTP do
     end
   end
 
+  describe "#post_cookies" do
+    it "must send a HTTP POST request for the path" do
+      stub_request(:post,uri)
+
+      subject.post_cookies(path)
+    end
+
+    context "when the response contains a Set-Cookie header" do
+      let(:name)  { 'foo' }
+      let(:value) { 'bar' }
+
+      let(:headers) do
+        {'Set-Cookie' => "#{name}=#{value}"}
+      end
+
+      it "must return an Array containing the parsed Set-Cookie header" do
+        stub_request(:post,uri).to_return(headers: headers)
+
+        cookies = subject.post_cookies(path)
+
+        expect(cookies).to be_kind_of(Array)
+        expect(cookies.length).to eq(1)
+        expect(cookies[0]).to be_kind_of(described_class::SetCookie)
+        expect(cookies[0][name]).to eq(value)
+      end
+    end
+
+    context "when the response contains multiple Set-Cookie headers" do
+      let(:name1)  { 'foo' }
+      let(:value1) { 'bar' }
+      let(:name2)  { 'baz' }
+      let(:value2) { 'qux' }
+
+      let(:headers) do
+        {'Set-Cookie' => ["#{name1}=#{value1}", "#{name2}=#{value2}"]}
+      end
+
+      it "must return an Array containing the parsed Set-Cookie headers" do
+        stub_request(:post,uri).to_return(headers: headers)
+
+        cookies = subject.post_cookies(path)
+
+        expect(cookies).to be_kind_of(Array)
+        expect(cookies.length).to eq(2)
+        expect(cookies[0]).to be_kind_of(described_class::SetCookie)
+        expect(cookies[0][name2]).to eq(value2)
+        expect(cookies[1]).to be_kind_of(described_class::SetCookie)
+        expect(cookies[1][name1]).to eq(value1)
+      end
+    end
+
+    context "when the response contains no Set-Cookie headers" do
+      let(:headers) { {} }
+
+      it "must return nil" do
+        stub_request(:post,uri).to_return(headers: headers)
+
+        expect(subject.post_cookies(path)).to be(nil)
+      end
+    end
+  end
+
   describe "#get_body" do
     let(:body) { 'Test body' }
 
@@ -1606,6 +1668,73 @@ describe Ronin::Support::Network::HTTP do
         stub_request(:get,uri).to_return(headers: headers)
 
         expect(subject.get_cookies(uri)).to eq([])
+      end
+    end
+  end
+
+  describe ".post_cookies" do
+    subject { described_class }
+
+    it "must send a HTTP POST request for the URI" do
+      stub_request(:post,uri)
+
+      subject.post_cookies(uri)
+    end
+
+    context "when the response contains a Set-Cookie header" do
+      let(:name)  { 'foo' }
+      let(:value) { 'bar' }
+
+      let(:headers) do
+        {'Set-Cookie' => "#{name}=#{value}"}
+      end
+
+      it "must return an Array containing the parsed Set-Cookie header" do
+        stub_request(:post,uri).to_return(headers: headers)
+
+        cookies = subject.post_cookies(uri)
+
+        expect(cookies).to be_kind_of(Array)
+        expect(cookies.length).to eq(1)
+        expect(cookies[0]).to be_kind_of(described_class::Cookie)
+        expect(cookies[0][name]).to eq(value)
+      end
+    end
+
+    context "when the response contains multiple Set-Cookie headers" do
+      let(:name1)  { 'foo' }
+      let(:value1) { 'bar' }
+      let(:name2)  { 'baz' }
+      let(:value2) { 'qux' }
+
+      let(:headers) do
+        {'Set-Cookie' => ["#{name1}=#{value1}", "#{name2}=#{value2}"]}
+      end
+
+      it "must return an Array containing the parsed Set-Cookie headers" do
+        stub_request(:post,uri).to_return(headers: headers)
+
+        cookies = subject.post_cookies(uri)
+
+        expect(cookies).to be_kind_of(Array)
+        expect(cookies.length).to eq(2)
+        expect(cookies[0]).to be_kind_of(described_class::Cookie)
+        expect(cookies[0][name2]).to eq(value2)
+        expect(cookies[1]).to be_kind_of(described_class::Cookie)
+        expect(cookies[1][name1]).to eq(value1)
+      end
+    end
+
+    context "when the response contains no Set-Cookie headers" do
+      let(:name)  { 'foo' }
+      let(:value) { 'bar' }
+
+      let(:headers) { {} }
+
+      it "must return nil" do
+        stub_request(:post,uri).to_return(headers: headers)
+
+        expect(subject.post_cookies(uri)).to be(nil)
       end
     end
   end
