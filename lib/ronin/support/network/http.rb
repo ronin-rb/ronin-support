@@ -1076,7 +1076,7 @@ module Ronin
         #
         # @!macro request_kwargs
         #
-        # @return [Array<Cookie>, nil]
+        # @return [Array<SetCookie>, nil]
         #   The parsed `Cookie` headers.
         #
         # @since 1.1.0
@@ -2899,7 +2899,7 @@ module Ronin
         # @!macro request_kwargs
         # @!macro initialize_kwargs
         #
-        # @return [Array<Cookie>, nil]
+        # @return [Array<SetCookie>, nil]
         #   The parsed `Cookie` header(s).
         #
         # @see connect_uri

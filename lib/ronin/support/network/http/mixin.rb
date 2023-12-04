@@ -502,7 +502,7 @@ module Ronin
           # @!macro request_kwargs
           # @!macro connect_kwargs
           #
-          # @return [Array<Cookie>, nil]
+          # @return [Array<SetCookie>, nil]
           #   The parsed `Cookie` header(s).
           #
           # @see Network::HTTP.post_cookies
