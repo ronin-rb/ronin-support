@@ -320,6 +320,68 @@ describe Ronin::Support::Network::HTTP::Mixin do
     end
   end
 
+  describe "#http_post_cookies" do
+    it "must send a HTTP POST request for the given URI" do
+      stub_request(:post,uri)
+
+      subject.http_post_cookies(uri)
+    end
+
+    context "when the response contains a Set-Cookie header" do
+      let(:name)  { 'foo' }
+      let(:value) { 'bar' }
+
+      let(:headers) do
+        {'Set-Cookie' => "#{name}=#{value}"}
+      end
+
+      it "must return an Array containing the parsed Set-Cookie header" do
+        stub_request(:post,uri).to_return(headers: headers)
+
+        cookies = subject.http_post_cookies(uri)
+
+        expect(cookies).to be_kind_of(Array)
+        expect(cookies.length).to eq(1)
+        expect(cookies[0]).to be_kind_of(Ronin::Support::Network::HTTP::SetCookie)
+        expect(cookies[0][name]).to eq(value)
+      end
+    end
+
+    context "when the response contains multiple Set-Cookie headers" do
+      let(:name1)  { 'foo' }
+      let(:value1) { 'bar' }
+      let(:name2)  { 'baz' }
+      let(:value2) { 'qux' }
+
+      let(:headers) do
+        {'Set-Cookie' => ["#{name1}=#{value1}", "#{name2}=#{value2}"]}
+      end
+
+      it "must return an Array containing the parsed Set-Cookie headers" do
+        stub_request(:post,uri).to_return(headers: headers)
+
+        cookies = subject.http_post_cookies(uri)
+
+        expect(cookies).to be_kind_of(Array)
+        expect(cookies.length).to eq(2)
+        expect(cookies[0]).to be_kind_of(Ronin::Support::Network::HTTP::SetCookie)
+        expect(cookies[0][name2]).to eq(value2)
+        expect(cookies[1]).to be_kind_of(Ronin::Support::Network::HTTP::SetCookie)
+        expect(cookies[1][name1]).to eq(value1)
+      end
+    end
+
+    context "when the response contains no Set-Cookie headers" do
+      let(:headers) { {} }
+
+      it "must return nil" do
+        stub_request(:post,uri).to_return(headers: headers)
+
+        expect(subject.http_post_cookies(uri)).to be(nil)
+      end
+    end
+  end
+
   describe "#http_get_body" do
     let(:body) { 'Test body' }
 
