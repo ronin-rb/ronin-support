@@ -45,7 +45,13 @@ module Ronin
           def initialize(size)
             @size = size
 
-            super(pack_string: "a#{@size}")
+            super(
+              pack_string: if size.finite?
+                             "a#{@size}"
+                           else
+                             'a*'
+                           end
+            )
           end
 
         end

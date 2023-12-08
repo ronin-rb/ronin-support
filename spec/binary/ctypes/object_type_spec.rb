@@ -14,6 +14,14 @@ describe Ronin::Support::Binary::CTypes::ObjectType do
     it "must set #pack_string to 'a\#{size}'" do
       expect(subject.pack_string).to eq("a#{size}")
     end
+
+    context "when the given size is Float::INFINITY" do
+      let(:size) { Float::INFINITY }
+
+      it "must set #pack_string to 'a*'" do
+        expect(subject.pack_string).to eq('a*')
+      end
+    end
   end
 
   describe "#size" do
