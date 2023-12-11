@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'ronin/support/text/text_score/n_glyphs'
+
 module Ronin
   module Support
     module Text
