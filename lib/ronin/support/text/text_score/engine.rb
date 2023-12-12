@@ -5,18 +5,6 @@ require 'ronin/support/text/text_score/n_glyphs'
 module Ronin
   module Support
     module Text
-      # a nice default metric for use with TSE
-      def englishNGlyphMetric element
-        # sum the sums computed from the original maps maps
-        [MONOGLYPH_MAP, DIGLYPH_MAP, TRIGLYPH_MAP].sum do | glyph_map |
-          # compute the occurence of each glyph
-          glyph_map.sum do | glyph_and_score |
-            glyph, score = *glyph_and_score
-            element.scan(/?=#{glyph})/).count * score
-          end
-        end
-      end
-
       #
       # Implements a basic text scoring enigne.
       #
@@ -28,6 +16,30 @@ module Ronin
       #
       # @api public
       module Scoring
+        # a nice default metric for use with TSE
+        #
+        # @parameter element
+        #   this opaque element param expects a string,
+        #   which is provided by the score function of TSE
+        # @return float
+        #   the computed N-glyph score of the text
+        def self.english_n_glyph_metric(element)
+          # sum the sums computed from the original maps maps
+          [MONOGLYPH_MAP, DIGLYPH_MAP, TRIGLYPH_MAP].sum do |glyph_map|
+            p_sum        = 0 # partial sum
+            # get the length of the glyph
+            glyph_length = glyph_map.keys[0].length
+            # grab all blocks in the element
+            element.bytes.each_with_index do |_, i|
+              # extract blk from element
+              blk    = element[i, glyph_length]
+              # add to the sum if we have a match
+              p_sum += glyph_map[blk] if glyph_map.has_key?(blk)
+            end
+            p_sum
+          end
+        end
+
         #
         # Text Scoring engine implementation
         class TextScoringEngine
@@ -51,7 +63,7 @@ module Ronin
 
           #
           # add an element to process
-          
+
           # @param <Element> elements
           #   opaque 'element' that the metric
           #   score function can accept
@@ -59,17 +71,17 @@ module Ronin
           def add_element(elements)
             @dataset << [elements]
           end
-          
+
           #
           # add elements to process
           #
           # @param [Array<Element>] elements
-          #   array of opaque elements 
+          #   array of opaque elements
           #   (each element still needs to be
           #   compatable with the score function)
           #
           def add_elements(elements)
-            @dataset += elements
+            @dataset = elements
           end
 
           #
@@ -103,7 +115,7 @@ module Ronin
           #
           # @return [Array<Float, Element>]
           def top(n)
-            @scores.sort_by { |k, v| v }.reverse[0..n]
+            @scores.sort_by { |k, v| v }.reverse[0..(n - 1)]
           end
         end
       end

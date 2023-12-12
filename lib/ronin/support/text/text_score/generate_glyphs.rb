@@ -30,26 +30,33 @@ class NGlyphFrequencyAnalyzer
     blocks = self.to_blocks.uniq.drop(@n)
     # scan the data for each glyph
     blocks.each do |block|
-      next if block.match /\W/ # ignore spaces
-      @scores[block] += @data.count(block)
+      next if block.match(/\W/) # ignore spaces
+
+      @scores[block] += @data.scan(Regexp.escape(block)).count
     rescue ArgumentError
-      # puts "could not count on #{block} for some reason"
+      puts "could not count on #{block} for some reason"
       break
     end
-    # normalize the glyph occurences with simple average
-    blocks.map { |block|
-      @scores[block] = @scores[block] / blocks.length.to_f
+
+    all_score_sum = @scores.values.sum
+    puts "score sum: #{all_score_sum}"
+
+    @scores.each_key { |k|
+      @scores[k] = ( @scores[k].to_r / all_score_sum.to_r ).to_f
     }
+
+    all_score_sum = @scores.values.sum
+    puts "score sum after normalization: #{all_score_sum}"
     self
   end
 
   def top
     # sort hash into [[<glyph>, <score>], ...]
-    scores      = @scores.sort_by { |k, v| v }.reverse
+    scores      = @scores.sort_by { |k, v| v }.reverse.to_h
     # compute 1% of the normal frequency of the highest frequency glyph
-    one_percent = scores.first[SCORE_SORT_INDEX] * 0.01
+    one_percent = scores.values[0] * 0.01
     # delete any elements with scores lower than 1%
-    scores.delete_if { |v| v[SCORE_SORT_INDEX] < one_percent }
+    scores.delete_if { |k, v| v < one_percent }
   end
 
 end
@@ -80,6 +87,9 @@ def main
     module Ronin
       module Support
         module Text
+          # Negitive constant to make random data look even less like english
+          # -phi because I was just working on fib calculators
+          NOISE_CONSTANT = -1.618
         <% analyzers.each do | analyzer | %>
           ##{' '}
           # a <%=prefixes[analyzer.n]%>glyph is a section of text that is <%= analyzer.n %> characters long appering in text.#{' '}
