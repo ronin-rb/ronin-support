@@ -14,7 +14,7 @@ describe Ronin::Support::Text::Scoring do
       end
 
       it "must score the data with a positive floating point number" do
-        expect(subject.find_english_text(data)[1]).to be < 0
+        expect(subject.find_english_text(data)[1]).to be > 0
       end
     end
   end
