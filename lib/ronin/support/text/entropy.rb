@@ -51,7 +51,7 @@ module Ronin
           length  = string.length.to_f
           entropy = 0.0
 
-          char_counts.each do |char,count|
+          char_counts.each_value do |count|
             freq     = count / length
             entropy -= freq * Math.log(freq,base)
           end
