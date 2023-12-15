@@ -74,8 +74,8 @@ class String
     if (arguments.length == 1 && arguments.first.kind_of?(String))
       unpack_original(arguments.first)
     else
-      format = Ronin::Support::Binary::Template.new(arguments,**kwargs)
-      unpack_original(format.pack_string)
+      template = Ronin::Support::Binary::Template.new(arguments,**kwargs)
+      template.unpack(self)
     end
   end
 
