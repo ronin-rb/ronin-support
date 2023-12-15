@@ -72,8 +72,8 @@ class Array
     if (arguments.length == 1 && arguments.first.kind_of?(String))
       pack_original(arguments.first)
     else
-      format = Ronin::Support::Binary::Template.new(arguments,**kwargs)
-      pack_original(format.pack_string)
+      template = Ronin::Support::Binary::Template.new(arguments,**kwargs)
+      template.pack(*self)
     end
   end
 
