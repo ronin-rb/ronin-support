@@ -1,3 +1,13 @@
+### 1.0.4 / 2023-12-15
+
+* Fixed a bug in {Array#pack} where complex types (ex: `[[:uint32, 4], 10]`)
+  were not being packed correctly.
+* Fixed a bug in {String#unpack} where complex types (ex: `[[:uint32, 4], 10]`)
+  were not being unpacked correctly.
+* Fixed a bug in {Ronin::Support::Binary::CTypes::ObjectType#initialize} when
+  the object's type has an infinite size, such as an unbounded Array type.
+* Allow using non-RSA keys in all SSL/TLS methods.
+
 ### 1.0.3 / 2023-09-19
 
 * {Ronin::Support::Crypto::Cert::Name#entries} now returns UTF-8 encoded
