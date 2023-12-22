@@ -108,7 +108,7 @@ module Ronin
           #   Path to the CA certificate file or directory.
           #
           # @return [OpenSSL::SSL::SSLSocket]
-          #   the new SSL Socket.
+          #   The new SSL Socket.
           #
           # @api public
           #
@@ -246,7 +246,7 @@ module Ronin
           #   The new SSL Socket.
           #
           # @return [OpenSSL::SSL::SSLSocket, nil]
-          #   the new SSL Socket. If a block is given, then `nil` will be
+          #   The new SSL Socket. If a block is given, then `nil` will be
           #   returned.
           #
           # @example
@@ -573,7 +573,7 @@ module Ronin
           #   Path to the CA certificate file or directory.
           #
           # @return [OpenSSL::SSL::SSLSocket]
-          #   the new SSL Socket.
+          #   The new SSL Socket.
           #
           # @api public
           #
