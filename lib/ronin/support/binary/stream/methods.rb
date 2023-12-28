@@ -111,7 +111,11 @@ module Ronin
           # @api public
           #
           def read_string(length=nil)
-            new_string = String.new('', encoding: external_encoding)
+            new_string = if (encoding = external_encoding)
+                           String.new('', encoding: encoding)
+                         else
+                           String.new('')
+                         end
 
             if length
               length.times do
