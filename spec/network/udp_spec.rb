@@ -228,7 +228,7 @@ describe Ronin::Support::Network::UDP do
   end
 
   let(:bind_host) { 'localhost' }
-  let(:local_ip)   { '127.0.0.1' } # XXX: UPDSocket defaults to using IPv4
+  let(:local_ip)  { '127.0.0.1' } # XXX: UPDSocket defaults to using IPv4
 
   describe ".send" do
     context "integration", :network do

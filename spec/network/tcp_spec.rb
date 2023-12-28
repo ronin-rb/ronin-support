@@ -242,7 +242,7 @@ describe Ronin::Support::Network::TCP do
   end
 
   let(:bind_host) { 'localhost' }
-  let(:local_ip)   { Resolv.getaddress(bind_host) }
+  let(:local_ip)  { Resolv.getaddress(bind_host) }
 
   describe ".send" do
     context "integration", :network do
