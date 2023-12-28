@@ -389,6 +389,91 @@ describe Ronin::Support::Network::SSL do
     pending "need to automate connecting to the SSL server"
   end
 
+  let(:bind_host) { 'localhost' }
+  let(:local_ip)  { Resolv.getaddress(bind_host) }
+
+  describe ".server" do
+    context "integration", :network do
+      it "must create a new OpenSSL::SSL::SSLServer" do
+        ssl_server = subject.server
+        tcp_server = ssl_server.to_io
+
+        expect(ssl_server).to be_kind_of(OpenSSL::SSL::SSLServer)
+        expect(tcp_server).not_to be_closed
+
+        ssl_server.close
+      end
+
+      context "when given a local host and port" do
+        let(:bind_port) { 1024 + rand(65535 - 1024) }
+
+        it "must bind to a specific port and host" do
+          ssl_server = subject.server(port: bind_port, host: bind_host)
+          tcp_server = ssl_server.to_io
+          bound_host = tcp_server.addr[3]
+          bound_port = tcp_server.addr[1]
+
+          expect(bound_host).to eq(local_ip)
+          expect(bound_port).to eq(bind_port)
+
+          ssl_server.close
+        end
+      end
+
+      context "when given a block" do
+        it "must yield the new OpenSSL::SSL::SSLServer" do
+          ssl_server = nil
+          tcp_server = nil
+
+          subject.server do |yielded_server|
+            ssl_server = yielded_server
+            tcp_server = ssl_server.to_io
+          end
+
+          expect(ssl_server).to be_kind_of(OpenSSL::SSL::SSLServer)
+          expect(tcp_server).not_to be_closed
+
+          ssl_server.close
+        end
+      end
+    end
+  end
+
+  describe ".server_session" do
+    context "integration", :network do
+      it "must create a temporary OpenSSL::SSL::SSLServer" do
+        ssl_server = nil
+        tcp_server = nil
+
+        subject.server_session do |yielded_server|
+          ssl_server = yielded_server
+          tcp_server = ssl_server.to_io
+        end
+
+        expect(ssl_server).to be_kind_of(OpenSSL::SSL::SSLServer)
+        expect(tcp_server).to be_closed
+      end
+
+      context "when given a block" do
+        let(:bind_port) { 1024 + rand(65535 - 1024) }
+
+        it "must bind to a specific port and host" do
+          bound_host = nil
+          bound_port = nil
+
+          subject.server_session(port: bind_port, host: bind_host) do |ssl_server|
+            tcp_server = ssl_server.to_io
+            bound_host = tcp_server.addr[3]
+            bound_port = tcp_server.addr[1]
+          end
+
+          expect(bound_host).to eq(local_ip)
+          expect(bound_port).to eq(bind_port)
+        end
+      end
+    end
+  end
+
   describe ".server_loop", network: true do
     pending "need to automate connecting to the SSL server"
   end
