@@ -541,6 +541,125 @@ module Ronin
         end
 
         #
+        # Creates a new TLS server listening on a given host and port.
+        #
+        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        #   The TLS version to use.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {context}.
+        #
+        # @option kwargs [Integer] :port (0)
+        #   The local port to listen on.
+        #
+        # @option kwargs [String, nil] :host
+        #   The host to bind to.
+        #
+        # @option kwargs [Integer] :backlog (5)
+        #   The maximum backlog of pending connections.
+        #
+        # @option kwargs [Symbol, Boolean] :verify
+        #   Specifies whether to verify the SSL certificate.
+        #   May be one of the following:
+        #
+        #   * `:none`
+        #   * `:peer`
+        #   * `:fail_if_no_peer_cert`
+        #   * `:client_once`
+        #
+        # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
+        #   The RSA key to use for the SSL context.
+        #
+        # @option kwargs [String] :key_file
+        #   The path to the SSL `.key` file.
+        #
+        # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+        #   The X509 certificate to use for the SSL context.
+        #
+        # @option kwargs [String] :cert_file
+        #   The path to the SSL `.crt` file.
+        #
+        # @option kwargs [String] :ca_bundle
+        #   Path to the CA certificate file or directory.
+        #
+        # @yield [server]
+        #   The given block will be passed the newly created SSL server.
+        #
+        # @yieldparam [OpenSSL::SSL::SSLServer] server
+        #   The newly created SSL server.
+        #
+        # @return [OpenSSL::SSL::SSLServer]
+        #   The newly created SSL server.
+        #
+        # @api public
+        #
+        # @since 1.1.0
+        #
+        def self.server(version: 1.2, **kwargs, &block)
+          SSL.server(version: version, **kwargs, &block)
+        end
+
+        #
+        # Creates a new temporary TLS server listening on a given host and port.
+        #
+        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        #   The TLS version to use.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {context}.
+        #
+        # @option kwargs [Integer] :port (0)
+        #   The local port to listen on.
+        #
+        # @option kwargs [String, nil] :host
+        #   The host to bind to.
+        #
+        # @option kwargs [Integer] :backlog (5)
+        #   The maximum backlog of pending connections.
+        #
+        # @option kwargs [Symbol, Boolean] :verify
+        #   Specifies whether to verify the SSL certificate.
+        #   May be one of the following:
+        #
+        #   * `:none`
+        #   * `:peer`
+        #   * `:fail_if_no_peer_cert`
+        #   * `:client_once`
+        #
+        # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
+        #   The RSA key to use for the SSL context.
+        #
+        # @option kwargs [String] :key_file
+        #   The path to the SSL `.key` file.
+        #
+        # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+        #   The X509 certificate to use for the SSL context.
+        #
+        # @option kwargs [String] :cert_file
+        #   The path to the SSL `.crt` file.
+        #
+        # @option kwargs [String] :ca_bundle
+        #   Path to the CA certificate file or directory.
+        #
+        # @yield [server]
+        #   The given block will be passed the newly created SSL server.
+        #
+        # @yieldparam [OpenSSL::SSL::SSLServer] server
+        #   The newly created SSL server. Once the block has finished,
+        #   the server will be closed.
+        #
+        # @return [OpenSSL::SSL::SSLServer]
+        #   The newly created SSL server.
+        #
+        # @api public
+        #
+        # @since 1.1.0
+        #
+        def self.server_session(version: 1.2, **kwargs, &block)
+          SSL.server_session(version: version, **kwargs, &block)
+        end
+
+        #
         # Creates a new SSL socket listening on a given host and port,
         # accepting clients in a loop.
         #
