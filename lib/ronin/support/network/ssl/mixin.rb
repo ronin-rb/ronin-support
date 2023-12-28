@@ -17,8 +17,6 @@
 #
 
 require 'ronin/support/network/ssl'
-require 'ronin/support/network/tcp/mixin'
-require 'ronin/support/crypto/cert'
 
 module Ronin
   module Support
@@ -28,8 +26,6 @@ module Ronin
         # Provides helper methods for communicating with SSL-enabled services.
         #
         module Mixin
-          include TCP::Mixin
-
           #
           # Creates a new SSL Context.
           #
@@ -68,10 +64,12 @@ module Ronin
           #
           # @api semipublic
           #
+          # @see SSL.context
+          #
           # @since 0.6.0
           #
           def ssl_context(**kwargs)
-            Network::SSL.context(**kwargs)
+            SSL.context(**kwargs)
           end
 
           #
@@ -112,13 +110,12 @@ module Ronin
           #
           # @api public
           #
+          # @see SSL.socket
+          #
           # @since 0.6.0
           #
           def ssl_socket(socket,**kwargs)
-            ssl_socket = OpenSSL::SSL::SSLSocket.new(socket,ssl_context(**kwargs))
-
-            ssl_socket.sync_close = true
-            return ssl_socket
+            SSL.socket(socket,**kwargs)
           end
 
           #
@@ -130,17 +127,17 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] bind_host
-          #   The local host to bind to.
-          #
-          # @param [Integer] bind_port
-          #   The local port to bind to.
-          #
-          # @param [Integer] timeout (5)
-          #   The maximum time to attempt connecting.
-          #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#ssl_connect}.
+          #
+          # @option kwargs [String] :bind_host
+          #   The local host to bind to.
+          #
+          # @option kwargs [Integer] :bind_port
+          #   The local port to bind to.
+          #
+          # @option kwargs [Integer] :timeout (5)
+          #   The maximum time to attempt connecting.
           #
           # @option options [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -182,21 +179,12 @@ module Ronin
           #
           # @api public
           #
+          # @see SSL.open?
+          #
           # @since 0.6.0
           #
-          def ssl_open?(host,port, bind_host: nil, bind_port: nil, timeout: 5,
-                                                                   **kwargs)
-            Timeout.timeout(timeout) do
-              ssl_connect(host,port, bind_host: bind_host,
-                                     bind_port: bind_port,
-                                     **kwargs)
-            end
-
-            return true
-          rescue Timeout::Error
-            return nil
-          rescue SocketError, SystemCallError
-            return false
+          def ssl_open?(host,port,**kwargs)
+            SSL.open?(host,port,**kwargs)
           end
 
           #
@@ -208,17 +196,17 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String, nil] hostname
-          #   Sets the hostname used for SNI.
-          #
-          # @param [String] bind_host
-          #   The local host to bind to.
-          #
-          # @param [Integer] bind_port
-          #   The local port to bind to.
-          #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#ssl_socket}.
+          #
+          # @option kwargs [String, nil] hostname (host)
+          #   Sets the hostname used for SNI.
+          #
+          # @option kwargs [String] :bind_host
+          #   The local host to bind to.
+          #
+          # @option kwargs [Integer] :bind_port
+          #   The local port to bind to.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -266,23 +254,12 @@ module Ronin
           #   end
           #
           # @see http://rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLSocket
+          # @see SSL.connect
           #
           # @api public
           #
-          def ssl_connect(host,port, hostname: host, bind_host: nil, bind_port: nil, **kwargs)
-            socket     = tcp_connect(host,port,bind_host: bind_host,
-                                               bind_port: bind_port)
-            ssl_socket = ssl_socket(socket,**kwargs)
-
-            ssl_socket.hostname = hostname
-            ssl_socket.connect
-
-            if block_given?
-              yield ssl_socket
-              ssl_socket.close
-            else
-              return ssl_socket
-            end
+          def ssl_connect(host,port,**kwargs,&block)
+            SSL.connect(host,port,**kwargs,&block)
           end
 
           #
@@ -297,14 +274,14 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] bind_host
-          #   The local host to bind to.
-          #
-          # @param [Integer] bind_port
-          #   The local port to bind to.
-          #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#ssl_connect}.
+          #
+          # @option kwargs [String] :bind_host
+          #   The local host to bind to.
+          #
+          # @option kwargs [Integer] :bind_port
+          #   The local port to bind to.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -341,18 +318,12 @@ module Ronin
           #
           # @api public
           #
+          # @see SSL.connect_and_send
+          #
           # @since 0.6.0
           #
-          def ssl_connect_and_send(data,host,port, bind_host: nil,
-                                                   bind_port: nil,
-                                                   **kwargs)
-            socket = ssl_connect(host,port, bind_host: bind_host,
-                                            bind_port: bind_port,
-                                            **kwargs)
-            socket.write(data)
-
-            yield socket if block_given?
-            return socket
+          def ssl_connect_and_send(data,host,port,**kwargs,&block)
+            SSL.connect_and_send(data,host,port,**kwargs,&block)
           end
 
           #
@@ -403,12 +374,10 @@ module Ronin
           # @return [Crypto::Cert]
           #   The server's certificate.
           #
+          # @see SSL.get_cert
+          #
           def ssl_cert(host,port,**kwargs)
-            socket = ssl_connect(host,port,**kwargs)
-            cert   = Crypto::Cert(socket.peer_cert)
-
-            socket.close
-            return cert
+            SSL.get_cert(host,port,**kwargs)
           end
 
           #
@@ -421,14 +390,14 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] bind_host
-          #   The local host to bind to.
-          #
-          # @param [Integer] bind_port
-          #   The local port to bind to.
-          #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#ssl_connect}.
+          #
+          # @option kwargs [String] :bind_host
+          #   The local host to bind to.
+          #
+          # @option kwargs [Integer] :bind_port
+          #   The local port to bind to.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -472,19 +441,12 @@ module Ronin
           #
           # @api public
           #
+          # @see SSL.banner
+          #
           # @since 0.6.0
           #
-          def ssl_banner(host,port, bind_host: nil, bind_port: nil, **kwargs)
-            banner = nil
-
-            ssl_connect(host,port, bind_host: bind_host,
-                                   bind_port: bind_port,
-                                   **kwargs) do |ssl_socket|
-              banner = ssl_socket.readline.strip
-            end
-
-            yield banner if block_given?
-            return banner
+          def ssl_banner(host,port,**kwargs,&block)
+            SSL.banner(host,port,**kwargs,&block)
           end
 
           #
@@ -500,14 +462,14 @@ module Ronin
           # @param [Integer] port
           #   The port to connect to.
           #
-          # @param [String] bind_host
-          #   The local host to bind to.
-          #
-          # @param [Integer] bind_port
-          #   The local port to bind to.
-          #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#ssl_connect}.
+          #
+          # @option kwargs [String] :bind_host
+          #   The local host to bind to.
+          #
+          # @option kwargs [Integer] :bind_port
+          #   The local port to bind to.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -546,15 +508,12 @@ module Ronin
           #
           # @api public
           #
+          # @see SSL.send
+          #
           # @since 0.6.0
           #
-          def ssl_send(data,host,port, bind_host: nil, bind_port: nil,**kwargs)
-            ssl_connect(host,port, bind_host: bind_host,
-                                   bind_port: bind_port,**kwargs) do |socket|
-              socket.write(data)
-            end
-
-            return true
+          def ssl_send(data,host,port,**kwargs)
+            SSL.send(data,host,port,**kwargs)
           end
 
           #
@@ -563,14 +522,14 @@ module Ronin
           # @param [TCPSocket] socket
           #   The existing TCP socket.
           #
-          # @param [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] key
-          #   The RSA key to use for the SSL context.
-          #
-          # @param [Crypto::Cert, OpenSSL::X509::Certificate, nil] cert
-          #   The X509 certificate to use for the SSL context.
-          #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#ssl_socket}.
+          #
+          # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key (SSL.key)
+          #   The RSA key to use for the SSL context.
+          #
+          # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert (SSL.cert)
+          #   The X509 certificate to use for the SSL context.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -595,29 +554,29 @@ module Ronin
           #
           # @api public
           #
+          # @see SSL.server_socket
+          #
           # @since 0.6.0
           #
-          def ssl_server_socket(socket, key:  Network::SSL.key,
-                                        cert: Network::SSL.cert,
-                                        **kwargs)
-            return ssl_socket(socket, cert: cert, key: key, **kwargs)
+          def ssl_server_socket(socket,**kwargs)
+            SSL.server_socket(socket,**kwargs)
           end
 
           #
           # Creates a new SSL socket listening on a given host and port,
           # accepting clients in a loop.
           #
-          # @param [Integer] port
-          #   The local port to listen on.
-          #
-          # @param [String] host
-          #   The host to bind to.
-          #
-          # @param [Integer] backlog (5)
-          #   The maximum backlog of pending connections.
-          #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#ssl_server_socket}.
+          #
+          # @option kwargs [Integer] :port
+          #   The local port to listen on.
+          #
+          # @option kwargs [String] :host
+          #   The host to bind to.
+          #
+          # @option kwargs [Integer] :backlog (5)
+          #   The maximum backlog of pending connections.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -663,33 +622,26 @@ module Ronin
           #
           # @api public
           #
+          # @see SSL.server_loop
+          #
           # @since 0.6.0
           #
-          def ssl_server_loop(port: nil, host: nil, backlog: 5, **kwargs)
-            return tcp_server_session(port: port, host: host, backlog: backlog) do |server|
-              loop do
-                client     = server.accept
-                ssl_client = ssl_server_socket(client,**kwargs)
-                ssl_client.accept
-
-                yield ssl_client if block_given?
-                ssl_client.close
-              end
-            end
+          def ssl_server_loop(**kwargs,&block)
+            SSL.server_loop(**kwargs,&block)
           end
 
           #
           # Creates a new SSL socket listening on a given host and port,
           # accepts only one client and then stops listening.
           #
-          # @param [Integer] port
-          #   The local port to listen on.
-          #
-          # @param [String] host
-          #   The host to bind to.
-          #
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments for {#ssl_server_socket}.
+          #
+          # @option kwargs [Integer] :port
+          #   The local port to listen on.
+          #
+          # @option kwargs [String] :host
+          #   The host to bind to.
           #
           # @option kwargs [Symbol, Boolean] :verify
           #   Specifies whether to verify the SSL certificate.
@@ -741,17 +693,12 @@ module Ronin
           #
           # @api public
           #
+          # @see SSL.accept
+          #
           # @since 0.6.0
           #
-          def ssl_accept(port: nil, host: nil,**kwargs)
-            tcp_server_session(port: port, host: host, backlog: 1) do |server|
-              client     = server.accept
-              ssl_client = ssl_server_socket(client,options)
-              ssl_client.accept
-
-              yield ssl_client if block_given?
-              ssl_client.close
-            end
+          def ssl_accept(**kwargs,&block)
+            SSL.accept(**kwargs,&block)
           end
         end
       end

@@ -112,7 +112,7 @@ describe Ronin::Support::Network::SSL do
       let(:context) { double(OpenSSL::SSL::SSLContext) }
 
       context "and it's 1" do
-        it "must call OpenSSL::SSL::SSLContext#ssl_version with :TLSv1" do
+        it "must call OpenSSL::SSL::SSLContext.version with :TLSv1" do
           expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
           expect(context).to receive(:ssl_version=).with(:TLSv1)
           allow(context).to receive(:verify_mode=).with(0)
@@ -122,7 +122,7 @@ describe Ronin::Support::Network::SSL do
       end
 
       context "and it's 1.1" do
-        it "must call OpenSSL::SSL::SSLContext#ssl_version with :TLSv1_1" do
+        it "must call OpenSSL::SSL::SSLContext.version with :TLSv1_1" do
           expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
           expect(context).to receive(:ssl_version=).with(:TLSv1_1)
           allow(context).to receive(:verify_mode=).with(0)
@@ -132,7 +132,7 @@ describe Ronin::Support::Network::SSL do
       end
 
       context "and it's 1_2" do
-        it "must call OpenSSL::SSL::SSLContext#ssl_version with :TLSv1_2" do
+        it "must call OpenSSL::SSL::SSLContext.version with :TLSv1_2" do
           expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
           expect(context).to receive(:ssl_version=).with(:TLSv1_2)
           allow(context).to receive(:verify_mode=).with(0)
@@ -144,7 +144,7 @@ describe Ronin::Support::Network::SSL do
       context "and it's a Symbol" do
         let(:symbol) { :TLSv1 }
 
-        it "must call OpenSSL::SSL::SSLContext#ssl_version= with the Symbol" do
+        it "must call OpenSSL::SSL::SSLContext.version= with the Symbol" do
           expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
           expect(context).to receive(:ssl_version=).with(symbol)
           allow(context).to receive(:verify_mode=).with(0)
@@ -156,7 +156,7 @@ describe Ronin::Support::Network::SSL do
       context "and it's a String" do
         let(:string) { "SSLv23" }
 
-        it "must call OpenSSL::SSL::SSLContext#ssl_version= with the String" do
+        it "must call OpenSSL::SSL::SSLContext.version= with the String" do
           expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
           expect(context).to receive(:ssl_version=).with(string)
           allow(context).to receive(:verify_mode=).with(0)
@@ -227,5 +227,173 @@ describe Ronin::Support::Network::SSL do
         end
       end
     end
+  end
+
+  let(:host) { 'smtp.gmail.com' }
+  let(:port) { 465 }
+
+  let(:server_host) { 'localhost' }
+  let(:server_ip)   { Resolv.getaddress(server_host) }
+
+  let(:fixtures_dir) { File.join(__dir__,'fixtures') }
+  let(:key_file)     { File.join(fixtures_dir,'ssl.key') }
+  let(:key)          { Ronin::Support::Crypto::Key::RSA.load_file(key_file) }
+  let(:cert_file)    { File.join(fixtures_dir,'ssl.crt') }
+  let(:cert)         { Ronin::Support::Crypto::Cert.load_file(cert_file) }
+
+  describe ".socket", network: true do
+    let(:socket) { TCPSocket.new(host,port) }
+
+    it "must create a new OpenSSL::SSL::SSLSocket" do
+      expect(subject.socket(socket)).to be_kind_of(OpenSSL::SSL::SSLSocket)
+    end
+  end
+
+  describe ".open?", network: true do
+    it "must return true for open ports" do
+      expect(subject.open?(host,port)).to be(true)
+    end
+
+    it "must return false for closed ports" do
+      closed_port = rand(1..1024)
+
+      expect(subject.open?('localhost',closed_port)).to be(false)
+    end
+
+    it "must have a timeout for firewalled ports" do
+      timeout = 2
+
+      t1 = Time.now
+      subject.open?(host,1337, timeout: timeout)
+      t2 = Time.now
+
+      expect((t2 - t1).to_i).to be <= timeout
+    end
+  end
+
+  describe ".connect", network: true do
+    it "must return an OpenSSL::SSL::SSLSocket" do
+      socket = subject.connect(host,port)
+
+      expect(socket).to be_kind_of(OpenSSL::SSL::SSLSocket)
+    end
+
+    it "must default the SSLSocket#hostname to the given host" do
+      socket = subject.connect(host,port)
+
+      expect(socket.hostname).to eq(host)
+    end
+
+    context "when given the hostname: keyword argument" do
+      let(:host) { '162.159.140.67' }
+      let(:port) { 443 }
+
+      let(:hostname) { 'merch.ronin-rb.dev' }
+
+      it "must set the SSLSocket#hostname to the hostname: keyword argument" do
+        socket = subject.connect(host,port, hostname: hostname)
+
+        expect(socket.hostname).to eq(hostname)
+      end
+    end
+
+    context "when a block is given" do
+      it "must open then close a OpenSSL::SSL::SSLSocket" do
+        socket = nil
+
+        subject.connect(host,port) do |yielded_socket|
+          socket = yielded_socket
+        end
+
+        expect(socket).to be_kind_of(OpenSSL::SSL::SSLSocket)
+        expect(socket).to be_closed
+      end
+    end
+  end
+
+  describe ".connect_and_send", network: true do
+    let(:data) { "HELO ronin\n" }
+    let(:expected_response) do
+      /^250 (smtp\.gmail\.com|mx\.google\.com) at your service\r\n$/
+    end
+
+    it "must connect and then send data" do
+      socket = subject.connect_and_send(data,host,port)
+
+      # ignore the banner
+      socket.readline
+
+      response = socket.readline
+
+      expect(response).to be =~ expected_response
+
+      socket.close
+    end
+
+    it "must yield the OpenSSL::SSL::SSLSocket" do
+      response = nil
+
+      socket = subject.connect_and_send(data,host,port) do |new_socket|
+        # ignore the banner
+        new_socket.readline
+
+        response = new_socket.readline
+      end
+
+      expect(response).to be =~ expected_response
+
+      socket.close
+    end
+  end
+
+  describe ".get_cert", network: true do
+    it "must connect and return the peer Ronin::Support::Crypto::Cert object" do
+      cert = subject.get_cert(host,port)
+
+      expect(cert).to be_kind_of(Ronin::Support::Crypto::Cert)
+      expect(cert.subject.common_name).to eq(host)
+    end
+  end
+
+  describe ".banner", network: true do
+    let(:expected_banner) { /^220 (smtp\.gmail\.com|mx\.google\.com) ESMTP/ }
+
+    it "must return the read service banner" do
+      banner = subject.banner(host,port)
+
+      expect(banner).to be =~ expected_banner
+    end
+
+    context "when bindl_port: keyword argument is given" do
+      let(:bind_port) { 1024 + rand(65535 - 1024) }
+
+      it "must bind to a local host and port" do
+        banner = subject.banner(host,port, bind_port: bind_port)
+
+        expect(banner).to be =~ expected_banner
+      end
+    end
+
+    it "must yield the banner" do
+      banner = nil
+
+      subject.banner(host,port) do |yielded_banner|
+        banner = yielded_banner
+      end
+
+      expect(banner).to be =~ expected_banner
+    end
+  end
+
+  describe ".server_socket", network: true do
+    pending "need to automate connecting to the SSL server"
+  end
+
+  describe ".server_loop", network: true do
+    pending "need to automate connecting to the SSL server"
+  end
+
+  describe ".accept", network: true do
+    pending "need to automate connecting to the SSL server"
   end
 end
