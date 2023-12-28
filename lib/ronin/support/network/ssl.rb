@@ -724,20 +724,146 @@ module Ronin
         end
 
         #
-        # Creates a new SSL socket listening on a given host and port,
-        # accepting clients in a loop.
+        # Creates a new SSL server listening on a given host and port.
         #
         # @param [Integer] port
         #   The local port to listen on.
         #
-        # @param [String] host
+        # @param [String, nil] host
         #   The host to bind to.
         #
         # @param [Integer] backlog (5)
         #   The maximum backlog of pending connections.
         #
+        # @param [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] key
+        #   The RSA key to use for the SSL context.
+        #
+        # @param [Crypto::Cert, OpenSSL::X509::Certificate, nil] cert
+        #   The X509 certificate to use for the SSL context.
+        #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {server_socket}.
+        #   Additional keyword arguments for {context}.
+        #
+        # @option kwargs [Symbol, Boolean] :verify
+        #   Specifies whether to verify the SSL certificate.
+        #   May be one of the following:
+        #
+        #   * `:none`
+        #   * `:peer`
+        #   * `:fail_if_no_peer_cert`
+        #   * `:client_once`
+        #
+        # @option kwargs [String] :key_file
+        #   The path to the SSL `.key` file.
+        #
+        # @option kwargs [String] :cert_file
+        #   The path to the SSL `.crt` file.
+        #
+        # @option kwargs [String] :ca_bundle
+        #   Path to the CA certificate file or directory.
+        #
+        # @yield [server]
+        #   The given block will be passed the newly created SSL server.
+        #
+        # @yieldparam [OpenSSL::SSL::SSLServer] server
+        #   The newly created SSL server.
+        #
+        # @return [OpenSSL::SSL::SSLServer]
+        #   The newly created SSL server.
+        #
+        # @api public
+        #
+        # @since 1.1.0
+        #
+        def self.server(port:    0,
+                        host:    nil,
+                        backlog: 5,
+                        key:     Network::SSL.key,
+                        cert:    Network::SSL.cert,
+                        **kwargs)
+          context    = self.context(key: key, cert: cert, **kwargs)
+          tcp_server = TCP.server(port: port, host: host, backlog: backlog)
+          ssl_server = OpenSSL::SSL::SSLServer.new(tcp_server,context)
+
+          yield ssl_server if block_given?
+          return ssl_server
+        end
+
+        #
+        # Creates a new temporary SSL server listening on a given host and
+        # port.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {context}.
+        #
+        # @option kwargs [Integer] :port (0)
+        #   The local port to listen on.
+        #
+        # @option kwargs [String, nil] :host
+        #   The host to bind to.
+        #
+        # @option kwargs [Integer] :backlog (5)
+        #   The maximum backlog of pending connections.
+        #
+        # @option kwargs [Symbol, Boolean] :verify
+        #   Specifies whether to verify the SSL certificate.
+        #   May be one of the following:
+        #
+        #   * `:none`
+        #   * `:peer`
+        #   * `:fail_if_no_peer_cert`
+        #   * `:client_once`
+        #
+        # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key (Network::SSL.key)
+        #   The RSA key to use for the SSL context.
+        #
+        # @option kwargs [String] :key_file
+        #   The path to the SSL `.key` file.
+        #
+        # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert (Network::SSL.cert)
+        #   The X509 certificate to use for the SSL context.
+        #
+        # @option kwargs [String] :cert_file
+        #   The path to the SSL `.crt` file.
+        #
+        # @option kwargs [String] :ca_bundle
+        #   Path to the CA certificate file or directory.
+        #
+        # @yield [server]
+        #   The given block will be passed the newly created SSL server.
+        #   Once the block has finished, the server will be closed.
+        #
+        # @yieldparam [OpenSSL::SSL::SSLServer] server
+        #   The newly created SSL server.
+        #
+        # @return [OpenSSL::SSL::SSLServer]
+        #   The newly created SSL server.
+        #
+        # @api public
+        #
+        # @since 1.1.0
+        #
+        def self.server_session(**kwargs,&block)
+          ssl_server = self.server(**kwargs,&block)
+          ssl_server.close
+          return ssl_server
+        end
+
+        #
+        # Creates a new SSL socket listening on a given host and port,
+        # accepting clients in a loop.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {context}.
+        #
+        # @option kwargs [Integer] :port (0)
+        #   The local port to listen on.
+        #
+        # @option kwargs [String, nil] :host
+        #   The host to bind to.
+        #
+        # @option kwargs [Integer] :backlog (5)
+        #   The maximum backlog of pending connections.
         #
         # @option kwargs [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
@@ -785,12 +911,10 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.server_loop(port: nil, host: nil, backlog: 5, **kwargs)
-          return TCP.server_session(port: port, host: host, backlog: backlog) do |server|
+        def self.server_loop(**kwargs)
+          server(**kwargs) do |ssl_server|
             loop do
-              client     = server.accept
-              ssl_client = server_socket(client,**kwargs)
-              ssl_client.accept
+              ssl_client = ssl_server.accept
 
               yield ssl_client if block_given?
               ssl_client.close
@@ -802,14 +926,17 @@ module Ronin
         # Creates a new SSL socket listening on a given host and port,
         # accepts only one client and then stops listening.
         #
-        # @param [Integer] port
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {context}.
+        #
+        # @option kwargs [Integer] :port (0)
         #   The local port to listen on.
         #
-        # @param [String] host
+        # @option kwargs [String, nil] :host
         #   The host to bind to.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {server_socket}.
+        # @option kwargs [Integer] :backlog (5)
+        #   The maximum backlog of pending connections.
         #
         # @option kwargs [Symbol, Boolean] :verify
         #   Specifies whether to verify the SSL certificate.
@@ -863,11 +990,9 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.accept(port: nil, host: nil,**kwargs)
-          TCP.server_session(port: port, host: host, backlog: 1) do |server|
-            client     = server.accept
-            ssl_client = server_socket(client,options)
-            ssl_client.accept
+        def self.accept(**kwargs)
+          server_session(**kwargs) do |server|
+            ssl_client = server.accept
 
             yield ssl_client if block_given?
             ssl_client.close
