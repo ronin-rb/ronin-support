@@ -83,10 +83,10 @@ describe Ronin::Support::Network::TCP do
         end
       end
 
-      context "when given a local host and port" do
+      context "when given the bind_port: keyword argument" do
         let(:bind_port) { 1024 + rand(65535 - 1024) }
 
-        it "must bind to a local host and port" do
+        it "must bind to the local port" do
           socket     = subject.connect(host,port, bind_port: bind_port)
           bound_port = socket.addr[1]
 
@@ -108,10 +108,10 @@ describe Ronin::Support::Network::TCP do
           expect(socket).to be_closed
         end
 
-        context "when given a local host and port" do
+        context "when given the bind_port: keyword argument" do
           let(:bind_port) { 1024 + rand(65535 - 1024) }
 
-          it "must bind to a local host and port" do
+          it "must bind to the local port" do
             bound_port = nil
 
             subject.connect(host,port, bind_port: bind_port) do |socket|
