@@ -320,7 +320,43 @@ describe Ronin::Support::Network::UDP::Mixin do
 
   describe "#udp_recv" do
     context "integration", :network do
-      let(:server_port) { 1024 + rand(65535 - 1024) }
+      context "when a block is given" do
+        let(:server_host) { '0.0.0.0' }
+        let(:server_port) { 1024 + rand(65535 - 1024) }
+        let(:mesg)        { "hello world" }
+
+        it "must open a UDP server socket, receive a single message, yield the message and sender information, and then close the server socket" do
+          Thread.new do
+            sleep 0.1
+            socket = UDPSocket.new
+            socket.connect(server_host,server_port)
+            sleep 0.5
+
+            socket.send(mesg,0)
+            socket.close
+          end
+
+          yielded_server = nil
+          yielded_host   = nil
+          yielded_port   = nil
+          yielded_mesg   = nil
+
+          subject.udp_recv(host: server_host, port: server_port) do |server,(host,port),mesg|
+            yielded_server = server
+            yielded_host   = host
+            yielded_port   = port
+            yielded_mesg   = mesg
+          end
+
+          expect(yielded_server).to be_kind_of(UDPSocket)
+          expect(yielded_server).to be_closed
+
+          expect(yielded_port).to be_kind_of(Integer)
+          expect(yielded_port).to be > 0
+
+          expect(yielded_mesg).to eq(mesg)
+        end
+      end
     end
   end
 end
