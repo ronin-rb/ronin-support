@@ -479,6 +479,32 @@ describe Ronin::Support::Network::SSL do
   end
 
   describe ".accept", network: true do
-    pending "need to automate connecting to the SSL server"
+    context "integration", :network do
+      context "when a block is given" do
+        let(:server_host) { 'localhost' }
+        let(:server_port) { 1024 + rand(65535 - 1024) }
+
+        it "must open a SSL server socket, accept a single connection, yield a OpenSSL::SSL::SSLSocket, and then close both sockets" do
+          Thread.new do
+            sleep 0.1
+            socket     = TCPSocket.new(server_host,server_port)
+            ssl_socket = OpenSSL::SSL::SSLSocket.new(socket)
+            ssl_socket.connect
+
+            sleep 0.5
+            ssl_socket.close
+          end
+
+          yielded_client = nil
+
+          subject.accept(port: server_port) do |client|
+            yielded_client = client
+          end
+
+          expect(yielded_client).to be_kind_of(OpenSSL::SSL::SSLSocket)
+          expect(yielded_client).to be_closed
+        end
+      end
+    end
   end
 end
