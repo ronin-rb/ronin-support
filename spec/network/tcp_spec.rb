@@ -359,9 +359,29 @@ describe Ronin::Support::Network::TCP do
 
   describe ".accept" do
     context "integration", :network do
-      let(:server_port) { 1024 + rand(65535 - 1024) }
+      context "when a block is given" do
+        let(:server_host) { 'localhost' }
+        let(:server_port) { 1024 + rand(65535 - 1024) }
 
-      pending "need to automate connecting to the TCPServer"
+        it "must open a TCP server socket, accept a single connection, yield a TCPSocket, and then close both sockets" do
+          Thread.new do
+            sleep 0.1
+            socket = TCPSocket.new(server_host,server_port)
+
+            sleep 0.5
+            socket.close
+          end
+
+          yielded_client = nil
+
+          subject.accept(port: server_port) do |client|
+            yielded_client = client
+          end
+
+          expect(yielded_client).to be_kind_of(TCPSocket)
+          expect(yielded_client).to be_closed
+        end
+      end
     end
   end
 end
