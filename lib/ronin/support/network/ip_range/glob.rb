@@ -55,6 +55,48 @@ module Ronin
 
           include Enumerable
 
+          ipv4_octet       = /(?:\d{1,2}|1\d{2}|2[1-4]\d|25[0-5])/
+          ipv4_octet_range = /#{ipv4_octet}(?:-#{ipv4_octet})?/
+          ipv4_octet_list  = /(?:#{ipv4_octet_range}(?:,#{ipv4_octet_range})*|\*)/
+          ipv4_addr        = /#{ipv4_octet_list}(?:\.#{ipv4_octet_list}){3}/
+
+          # Regular expression that matches IPv4-glob ranges.
+          #
+          # @api private
+          #
+          # @since 1.1.0
+          IPV4_REGEX = /\A#{ipv4_addr}\z/
+
+          ipv6_octet       = /[0-9a-fA-F]{1,4}/
+          ipv6_octet_range = /#{ipv6_octet}(?:-#{ipv6_octet})?/
+          ipv6_octet_list  = /(?:#{ipv6_octet_range}(?:,#{ipv6_octet_range})*|\*)/
+
+          # Regular expression that matches IPv6-glob ranges.
+          #
+          # @api private
+          #
+          # @since 1.1.0
+          IPV6_REGEX = /\A(?:
+            (?:#{ipv6_octet_list}:){6}#{ipv4_addr}|
+            (?:#{ipv6_octet_list}:){5}#{ipv6_octet_list}:#{ipv4_addr}|
+            (?:#{ipv6_octet_list}:){5}:#{ipv6_octet_list}:#{ipv4_addr}|
+            (?:#{ipv6_octet_list}:){1,1}(?::#{ipv6_octet_list}){1,4}:#{ipv4_addr}|
+            (?:#{ipv6_octet_list}:){1,2}(?::#{ipv6_octet_list}){1,3}:#{ipv4_addr}|
+            (?:#{ipv6_octet_list}:){1,3}(?::#{ipv6_octet_list}){1,2}:#{ipv4_addr}|
+            (?:#{ipv6_octet_list}:){1,4}(?::#{ipv6_octet_list}){1,1}:#{ipv4_addr}|
+            :(?::#{ipv6_octet_list}){1,5}:#{ipv4_addr}|
+            (?:(?:#{ipv6_octet_list}:){1,5}|:):#{ipv4_addr}|
+            (?:#{ipv6_octet_list}:){1,1}(?::#{ipv6_octet_list}){1,6}|
+            (?:#{ipv6_octet_list}:){1,2}(?::#{ipv6_octet_list}){1,5}|
+            (?:#{ipv6_octet_list}:){1,3}(?::#{ipv6_octet_list}){1,4}|
+            (?:#{ipv6_octet_list}:){1,4}(?::#{ipv6_octet_list}){1,3}|
+            (?:#{ipv6_octet_list}:){1,5}(?::#{ipv6_octet_list}){1,2}|
+            (?:#{ipv6_octet_list}:){1,6}(?::#{ipv6_octet_list}){1,1}|
+            #{ipv6_octet_list}(?::#{ipv6_octet_list}){7}|
+            :(?::#{ipv6_octet_list}){1,7}|
+            (?:(?:#{ipv6_octet_list}:){1,7}|:):
+          )\z/x
+
           # The IP glob string.
           #
           # @return [String]
@@ -66,26 +108,32 @@ module Ronin
           # @param [String] string
           #   The IP-glob string to parse.
           #
+          # @raise [ArgumentError]
+          #   The IP-glob string was neither a valid IPv4 or IPv6 glob address.
+          #
           def initialize(string)
             @string = string
 
-            if @string.include?(':') # IPv6
+            case string
+            when IPV6_REGEX
               @version   = 6
               @base      = 16
               @formatter = method(:format_ipv6_address)
 
               separator   = ':'
               octet_range = (0..0xffff)
-            else # IPv4
+            when IPV4_REGEX
               @version   = 4
               @base      = 10
               @formatter = method(:format_ipv4_address)
 
               separator   = '.'
               octet_range = (0..255)
+            else
+              raise(ArgumentError,"invalid IP-glob range: #{string.inspect}")
             end
 
-            @ranges = @string.split(separator).map do |segment|
+            @ranges = string.split(separator).map do |segment|
               if    segment == '*'        then octet_range
               elsif segment.include?(',') then parse_list(segment)
               elsif segment.include?('-') then parse_range(segment)

@@ -1,14 +1,321 @@
 require 'spec_helper'
+require 'matchers/fully_match'
 require 'ronin/support/network/ip_range/glob'
 
 describe Ronin::Support::Network::IPRange::Glob do
   let(:glob) { "10.1.1.*" }
+
+  describe "IPV4_REGEX" do
+    subject { described_class::IPV4_REGEX }
+
+    it "must match the full string" do
+      expect(' 1.2.3.4 ').to_not match(subject)
+    end
+
+    it "must match '0.0.0.0'" do
+      expect('0.0.0.0').to fully_match(subject)
+    end
+
+    it "must match '255.255.255.255'" do
+      expect('255.255.255.255').to fully_match(subject)
+    end
+
+    it "must not match octets greater than 255" do
+      expect('256.255.255.255').to_not match(subject)
+      expect('255.256.255.255').to_not match(subject)
+      expect('255.255.256.255').to_not match(subject)
+      expect('255.255.256.256').to_not match(subject)
+    end
+
+    it "must match a range of octets within the IPv4 address" do
+      expect('1-255.1.1.1').to fully_match(subject)
+      expect('1.1-255.1.1').to fully_match(subject)
+      expect('1.1.1-255.1').to fully_match(subject)
+      expect('1.1.1.1-255').to fully_match(subject)
+    end
+
+    it "must match a list of octets within the IPv4 address" do
+      expect('1,10,255.1.1.1').to fully_match(subject)
+      expect('1.1,10,255.1.1').to fully_match(subject)
+      expect('1.1.1,10,255.1').to fully_match(subject)
+      expect('1.1.1.1,10,255').to fully_match(subject)
+    end
+
+    it "must match a list of octets and octet ranges within the IPv4 address" do
+      expect('1,10-20,255.1.1.1').to fully_match(subject)
+      expect('1.1,10-20,255.1.1').to fully_match(subject)
+      expect('1.1.1,10-20,255.1').to fully_match(subject)
+      expect('1.1.1.1,10-20,255').to fully_match(subject)
+    end
+
+    it "must match a wildcard '*' octet within the IPv4 address" do
+      expect('*.1.1.1').to fully_match(subject)
+      expect('1.*.1.1').to fully_match(subject)
+      expect('1.1.*.1').to fully_match(subject)
+      expect('1.1.1.*').to fully_match(subject)
+    end
+
+    it "must not allow a wildcard '*' in octet ranges" do
+      expect('1-*.1.1.1').to_not match(subject)
+      expect('1.1-*.1.1').to_not match(subject)
+      expect('1.1.1-*.1').to_not match(subject)
+      expect('1.1.1.1-*').to_not match(subject)
+      expect('*-2.1.1.1').to_not match(subject)
+      expect('1.*-2.1.1').to_not match(subject)
+      expect('1.1.*-2.1').to_not match(subject)
+      expect('1.1.1.*-2').to_not match(subject)
+    end
+
+    it "must not allow a wildcard '*' in octet lists" do
+      expect('1,*,3.1.1.1').to_not match(subject)
+      expect('1.1,*,3.1.1').to_not match(subject)
+      expect('1.1.1,*,3.1').to_not match(subject)
+      expect('1.1.1.1,*,3').to_not match(subject)
+    end
+  end
+
+  describe "IPV6_REGEX" do
+    subject { described_class::IPV6_REGEX }
+
+    it "must match the full string" do
+      expect(' 1111:2222:3333:4444:5555:6666:7777:8888 ').to_not match(subject)
+    end
+
+    it "must match a fully qualified IPv6 address" do
+      expect('1111:2222:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+    end
+
+    it "must match lowercase hex IPv6 octets" do
+      expect('1111:2222:aaaa:bbbb:cccc:dddd:eeee:ffff').to fully_match(subject)
+    end
+
+    it "must match uppercase hex IPv6 octets" do
+      expect('1111:2222:AAAA:BBBB:CCCC:DDDD:EEEE:FFFF').to fully_match(subject)
+    end
+
+    it "must not match octects longer than four characters" do
+      expect('11111:2222:3333:4444:5555:6666:7777:8888').to_not match(subject)
+      expect('1111:22222:3333:4444:5555:6666:7777:8888').to_not match(subject)
+      expect('1111:2222:33333:4444:5555:6666:7777:8888').to_not match(subject)
+      expect('1111:2222:3333:44444:5555:6666:7777:8888').to_not match(subject)
+      expect('1111:2222:3333:4444:55555:6666:7777:8888').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:66666:7777:8888').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:6666:77777:8888').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7777:88888').to_not match(subject)
+    end
+
+    it "must match truncated IPv6 octets" do
+      expect('1:2222:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7777:8').to fully_match(subject)
+
+      expect('11:2222:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:22:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:33:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:44:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:55:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:66:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:77:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7777:88').to fully_match(subject)
+
+      expect('111:2222:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:222:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7777:888').to fully_match(subject)
+    end
+
+    it "must match truncated IPv6 address containing '::'" do
+      expect('::1111').to fully_match(subject)
+      expect('::1111:2222').to fully_match(subject)
+      expect('::1111:2222:3333').to fully_match(subject)
+      expect('::1111:2222:3333:4444').to fully_match(subject)
+      expect('::1111:2222:3333:4444:5555').to fully_match(subject)
+      expect('::1111:2222:3333:4444:5555:6666').to fully_match(subject)
+      expect('::1111:2222:3333:4444:5555:6666:7777').to fully_match(subject)
+      expect('1111::').to fully_match(subject)
+      expect('1111:2222::').to fully_match(subject)
+      expect('1111:2222:3333::').to fully_match(subject)
+      expect('1111:2222:3333:4444::').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555::').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666::').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7777::').to fully_match(subject)
+      expect('1111::8888').to fully_match(subject)
+      expect('1111:2222::8888').to fully_match(subject)
+      expect('1111:2222:3333::8888').to fully_match(subject)
+      expect('1111:2222:3333:4444::8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555::8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666::8888').to fully_match(subject)
+      expect('1111::7777:8888').to fully_match(subject)
+      expect('1111::6666:7777:8888').to fully_match(subject)
+      expect('1111::5555:6666:7777:8888').to fully_match(subject)
+      expect('1111::4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111::3333:4444:5555:6666:7777:8888').to fully_match(subject)
+    end
+
+    it "must match a range of octets within the IPv6 address" do
+      expect('1-1000:2222:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2-2000:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3-3000:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4-4000:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5-5000:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6-6000:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7-7000:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7777:8-8000').to fully_match(subject)
+    end
+
+    it "must match a list of octets within the IPv6 address" do
+      expect('1,10,100,1000:2222:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2,20,200,2000:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3,30,300,3000:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4,40,400,4000:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5,50,500,5000:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6,60,600,6000:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7,70,700,7000:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7777:8,80,800,8000').to fully_match(subject)
+    end
+
+    it "must match a list of octets and octet ranges within the IPv6 address" do
+      expect('1,10-100,1000:2222:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2,20-200,2000:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3,30-300,3000:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4,40-400,4000:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5,50-500,5000:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6,60-600,6000:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7,70-700,7000:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7777:8,80-800,8000').to fully_match(subject)
+    end
+
+    it "must match a wildcard '*' octet within the IPv6 address" do
+      expect('*:2222:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:*:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:*:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:*:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:*:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:*:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:*:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7777:*').to fully_match(subject)
+    end
+
+    it "must not allow a wildcard '*' in octet ranges" do
+      expect('*-10:2222:3333:4444:5555:6666:7777:8888').to_not match(subject)
+      expect('1111:*-20:3333:4444:5555:6666:7777:8888').to_not match(subject)
+      expect('1111:2222:*-30:4444:5555:6666:7777:8888').to_not match(subject)
+      expect('1111:2222:3333:*-40:5555:6666:7777:8888').to_not match(subject)
+      expect('1111:2222:3333:4444:*-50:6666:7777:8888').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:*-60:7777:8888').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:6666:*-70:8888').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7777:*-80').to_not match(subject)
+    end
+
+    it "must not allow a wildcard '*' in octet lists" do
+      expect('1,*,10:2222:3333:4444:5555:6666:7777:8888').to_not match(subject)
+      expect('1111:2,*,20:3333:4444:5555:6666:7777:8888').to_not match(subject)
+      expect('1111:2222:3,*,30:4444:5555:6666:7777:8888').to_not match(subject)
+      expect('1111:2222:3333:4,*,40:5555:6666:7777:8888').to_not match(subject)
+      expect('1111:2222:3333:4444:5,*,50:6666:7777:8888').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:6,*,60:7777:8888').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7,*,70:8888').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7777:8,*,80').to_not match(subject)
+    end
+
+    it "must match IPv4 mapped IPv6 addresses" do
+      expect('::1.2.3.4').to fully_match(subject)
+      expect('::1111:1.2.3.4').to fully_match(subject)
+      expect('::1111:2222:1.2.3.4').to fully_match(subject)
+      expect('::1111:2222:3333:1.2.3.4').to fully_match(subject)
+      expect('::1111:2222:3333:4444:1.2.3.4').to fully_match(subject)
+      expect('::1111:2222:3333:4444:5555:1.2.3.4').to fully_match(subject)
+      expect('1111::1.2.3.4').to fully_match(subject)
+      expect('1111:2222::1.2.3.4').to fully_match(subject)
+      expect('1111:2222:3333::1.2.3.4').to fully_match(subject)
+      expect('1111:2222:3333:4444::1.2.3.4').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555::1.2.3.4').to fully_match(subject)
+      expect('1111::6666:1.2.3.4').to fully_match(subject)
+      expect('1111:2222::6666:1.2.3.4').to fully_match(subject)
+      expect('1111:2222:3333::6666:1.2.3.4').to fully_match(subject)
+      expect('1111:2222:3333:4444::6666:1.2.3.4').to fully_match(subject)
+      expect('1111::5555:6666:1.2.3.4').to fully_match(subject)
+      expect('1111::4444:5555:6666:1.2.3.4').to fully_match(subject)
+      expect('1111::3333:4444:5555:6666:1.2.3.4').to fully_match(subject)
+    end
+
+    it "must match a range of octets within the IPv4 mapped IPv6 address" do
+      expect('1111:2222:3333:4444:5555:6666:1-10.2.3.4').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2-20.3.4').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2.3-30.4').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2.3.4-40').to fully_match(subject)
+    end
+
+    it "must match a list of octets within the IPv6 address" do
+      expect('1111:2222:3333:4444:5555:6666:1,2,3.2.3.4').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2,3,4.3.4').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2.3,4,5.4').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2.3.4,5,6').to fully_match(subject)
+    end
+
+    it "must match a list of octets and octet ranges within the IPv4 mapped IPv6 address" do
+      expect('1111:2222:3333:4444:5555:6666:1,2-20,3.2.3.4').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2,3-30,4.3.4').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2.3,4-40,5.4').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2.3.4,5-50,6').to fully_match(subject)
+    end
+
+    it "must match a wildcard '*' octet within the IPv4 mapped IPv6 address" do
+      expect('1111:2222:3333:4444:5555:6666:*.2.3.4').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.*.3.4').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2.*.4').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2.3.*').to fully_match(subject)
+    end
+
+    it "must not allow a wildcard '*' in octet ranges of IPv4 mapped IPv6 addresses" do
+      expect('1111:2222:3333:4444:5555:6666:1-*.2.3.4').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2-*.3.4').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2.3-*.4').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2.3.4-*').to_not match(subject)
+    end
+
+    it "must not allow a wildcard '*' in octet lists of IPv4 mapped IPv6 addresses" do
+      expect('1111:2222:3333:4444:5555:6666:1,*,3.2.3.4').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2,*,3.3.4').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2.3,*,4.4').to_not match(subject)
+      expect('1111:2222:3333:4444:5555:6666:1.2.3.4,*,5').to_not match(subject)
+    end
+  end
 
   describe "#initialize" do
     subject { described_class.new(glob) }
 
     it "must set #string" do
       expect(subject.string).to eq(glob)
+    end
+
+    context "when given an invalid IPv4 glob string" do
+      let(:glob) { '1.2.3.4/24' }
+
+      it do
+        expect {
+          described_class.new(glob)
+        }.to raise_error(ArgumentError,"invalid IP-glob range: #{glob.inspect}")
+      end
+    end
+
+    context "when given an invalid IPv6 glob string" do
+      let(:glob) { '::1/64' }
+
+      it do
+        expect {
+          described_class.new(glob)
+        }.to raise_error(ArgumentError,"invalid IP-glob range: #{glob.inspect}")
+      end
     end
   end
 
