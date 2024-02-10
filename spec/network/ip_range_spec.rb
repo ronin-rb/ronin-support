@@ -21,6 +21,16 @@ describe Ronin::Support::Network::IPRange do
         expect(subject.string).to eq(glob)
       end
     end
+
+    context "when the IP range string is neither a CIDR range or a IP-glob range" do
+      let(:string) { 'foo' }
+
+      it do
+        expect {
+          described_class.new(string)
+        }.to raise_error(ArgumentError,"invalid IP range: #{string.inspect}")
+      end
+    end
   end
 
   describe ".parse" do

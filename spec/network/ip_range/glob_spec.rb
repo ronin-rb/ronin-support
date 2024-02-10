@@ -291,6 +291,22 @@ describe Ronin::Support::Network::IPRange::Glob do
     end
   end
 
+  describe "REGEX" do
+    subject { described_class::REGEX }
+
+    it "must match IPv4 glob ranges" do
+      expect('1.1-10.2,4,8.*').to fully_match(subject)
+    end
+
+    it "must match IPv6 glob ranges" do
+      expect('1111:1-ff:2,4,8::*').to fully_match(subject)
+    end
+
+    it "must match IPv4-mapped IPv6 glob ranges" do
+      expect('::ffff:1.1-10.2,4,8.*').to fully_match(subject)
+    end
+  end
+
   describe "#initialize" do
     subject { described_class.new(glob) }
 
