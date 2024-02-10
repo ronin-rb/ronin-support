@@ -115,3 +115,7 @@ Naming/BinaryOperatorParameterName:
 Lint/RescueException:
   Exclude:
     - 'lib/ronin/support/core_ext/kernel.rb'
+
+Style/CaseEquality:
+  Exclude:
+    - 'spec/network/ip_range/glob_spec.rb'
