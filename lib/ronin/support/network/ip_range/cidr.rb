@@ -233,6 +233,25 @@ module Ronin
           end
 
           #
+          # Determines if the given IP range is a sub-set of the IP CIDR range.
+          #
+          # @param [CIDR, Glob, Enumerable<String>] other
+          #   The other IP range.
+          #
+          # @return [Boolean]
+          #
+          # @since 1.1.0
+          #
+          def ===(other)
+            case other
+            when CIDR
+              include?(other.first) && include?(other.last)
+            else
+              other.all? { |ip| include?(ip) }
+            end
+          end
+
+          #
           # Iterates over each IP address that is included in the addresses
           # netmask. Supports both IPv4 and IPv6 addresses.
           #

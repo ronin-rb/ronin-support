@@ -126,4 +126,5 @@ Style/MapIntoArray:
 
 Style/CaseEquality:
   Exclude:
+    - 'spec/network/ip_range/cidr_spec.rb'
     - 'spec/network/ip_range/glob_spec.rb'

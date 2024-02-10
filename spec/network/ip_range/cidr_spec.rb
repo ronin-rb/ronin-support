@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'matchers/fully_match'
 require 'ronin/support/network/ip_range/cidr'
+require 'ronin/support/network/ip_range/glob'
 
 describe Ronin::Support::Network::IPRange::CIDR do
   let(:cidr) { '10.1.1.2/24' }
@@ -314,6 +315,80 @@ describe Ronin::Support::Network::IPRange::CIDR do
       it "must convert the IPAddr object into a String" do
         expect(subject.include?(in_range_ip)).to be(true)
         expect(subject.include?(not_in_range_ip)).to be(false)
+      end
+    end
+  end
+
+  describe "#===" do
+    let(:cidr) { '10.1.1.1/24' }
+
+    context "when given Ronin::Support::Network::CIDR" do
+      context "and the other CIDR range is equal to the CIDR range" do
+        let(:other) { described_class.new(cidr) }
+
+        it "must return true" do
+          expect(subject === other).to be(true)
+        end
+      end
+
+      context "and the other CIDR range overlaps with the CIDR range" do
+        let(:other_cidr) { '10.1.1.1/25' }
+        let(:other)      { described_class.new(other_cidr) }
+
+        it "must return true" do
+          expect(subject === other).to be(true)
+        end
+      end
+
+      context "and the other CIDR range does not overlap with the CIDR range" do
+        let(:other_cidr) { '1.1.1.1/24' }
+        let(:other)      { described_class.new(other_cidr) }
+
+        it "must return false" do
+          expect(subject === other).to be(false)
+        end
+      end
+    end
+
+    context "when given Ronin::Support::Network::Glob" do
+      context "and the other IP glob range overlaps with the CIDR range" do
+        let(:other_glob) { '10.1.1.1-254' }
+        let(:other)      { Ronin::Support::Network::IPRange::Glob.new(other_glob) }
+
+        it "must return true" do
+          expect(subject === other).to be(true)
+        end
+      end
+
+      context "and the other IP glob range does not overlap with the CIDR range" do
+        let(:other_glob) { '1.1.1.1-254' }
+        let(:other)      { Ronin::Support::Network::IPRange::Glob.new(other_glob) }
+
+        it "must return false" do
+          expect(subject === other).to be(false)
+        end
+      end
+    end
+
+    context "when given an Enumerable object" do
+      let(:other) do
+        (0..255).map { |i| "10.1.1.%d" % i }
+      end
+
+      context "and when every IP in the Enumerable object is included in the CIDR range" do
+        it "must return true" do
+          expect(subject === other).to be(true)
+        end
+      end
+
+      context "but one of the IPs in the Enumerable object is not included in the CIDR range" do
+        let(:other) do
+          super() + ['10.1.2.1']
+        end
+
+        it "must return false" do
+          expect(subject === other).to be(false)
+        end
       end
     end
   end
