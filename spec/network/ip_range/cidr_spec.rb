@@ -193,7 +193,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
     let(:cidr) { '10.1.1.0/24' }
 
     it "must first the first IP address of the CIDR range" do
-      expect(subject.first).to eq('10.1.1.0')
+      expect(subject.first).to eq('10.1.1.1')
     end
   end
 
@@ -201,7 +201,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
     let(:cidr) { '10.1.1.0/24' }
 
     it "must first the first IP address of the CIDR range" do
-      expect(subject.last).to eq('10.1.1.255')
+      expect(subject.last).to eq('10.1.1.254')
     end
   end
 

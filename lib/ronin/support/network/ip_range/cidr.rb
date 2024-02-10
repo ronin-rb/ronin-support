@@ -211,7 +211,7 @@ module Ronin
           # @return [String]
           #
           def first
-            _to_string(@addr)
+            _to_string(@addr | 0x01)
           end
 
           #
@@ -220,7 +220,7 @@ module Ronin
           # @return [String]
           #
           def last
-            _to_string(@addr | ~@mask_addr)
+            _to_string(@addr | (~@mask_addr ^ 0x01))
           end
 
           #
