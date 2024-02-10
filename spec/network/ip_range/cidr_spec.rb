@@ -119,6 +119,22 @@ describe Ronin::Support::Network::IPRange::CIDR do
     end
   end
 
+  describe "REGEX" do
+    subject { described_class::REGEX }
+
+    it "must match IPv4 CIDR ranges" do
+      expect('1.2.3.4/24').to fully_match(subject)
+    end
+
+    it "must match IPv6 CIDR ranges" do
+      expect('1111:2222::8888/120').to fully_match(subject)
+    end
+
+    it "must match IPv4-mapped IPv6 CIDR ranges" do
+      expect('::ffff:1.2.3.4/120').to fully_match(subject)
+    end
+  end
+
   describe "#initialize" do
     subject { described_class.new(cidr) }
 
