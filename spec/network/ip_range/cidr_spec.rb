@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'matchers/fully_match'
 require 'ronin/support/network/ip_range/cidr'
 
 describe Ronin::Support::Network::IPRange::CIDR do
@@ -8,11 +9,141 @@ describe Ronin::Support::Network::IPRange::CIDR do
     expect(described_class).to be < IPAddr
   end
 
+  describe "IPV4_REGEX" do
+    subject { described_class::IPV4_REGEX }
+
+    it "must match the full string" do
+      expect(' 1.2.3.4/24 ').to_not match(subject)
+    end
+
+    it "must match non-CIDR IPv4 addresses" do
+      expect('1.2.3.4').to fully_match(subject)
+    end
+
+    it "must match '0.0.0.0'" do
+      expect('0.0.0.0').to fully_match(subject)
+    end
+
+    it "must match '255.255.255.255'" do
+      expect('255.255.255.255').to fully_match(subject)
+    end
+
+    it "must not match octets greater than 255" do
+      expect('256.255.255.255').to_not match(subject)
+      expect('255.256.255.255').to_not match(subject)
+      expect('255.255.256.255').to_not match(subject)
+      expect('255.255.256.256').to_not match(subject)
+    end
+
+    it "must match CIDR IPv4 addresses" do
+      expect('1.2.3.4/24').to fully_match(subject)
+    end
+
+    it "must not match bit lengths greater than 32" do
+      expect('1.2.3.4/33').to_not match(subject)
+    end
+  end
+
+  describe "IPV6_REGEX" do
+    subject { described_class::IPV6_REGEX }
+
+    it "must match the full string" do
+      expect(' 1111:2222:3333:4444:5555:6666:7777:8888/128 ').to_not match(subject)
+    end
+
+    it "must match non-CIDR IPv6 addresses" do
+      expect('1111:2222:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+    end
+
+    it "must match '0:0:0:0:0:0:0:0'" do
+      expect('0:0:0:0:0:0:0:0').to fully_match(subject)
+    end
+
+    it "must match 'ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff'" do
+      expect('ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff').to fully_match(subject)
+    end
+
+    it "must match 'FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF'" do
+      expect('FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF').to fully_match(subject)
+    end
+
+    it "must not match octets longer than four hex digits" do
+      expect('fffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff').to_not match(subject)
+      expect('ffff:fffff:ffff:ffff:ffff:ffff:ffff:ffff').to_not match(subject)
+      expect('ffff:ffff:fffff:ffff:ffff:ffff:ffff:ffff').to_not match(subject)
+      expect('ffff:ffff:ffff:fffff:ffff:ffff:ffff:ffff').to_not match(subject)
+      expect('ffff:ffff:ffff:ffff:fffff:ffff:ffff:ffff').to_not match(subject)
+      expect('ffff:ffff:ffff:ffff:ffff:fffff:ffff:ffff').to_not match(subject)
+      expect('ffff:ffff:ffff:ffff:ffff:ffff:fffff:ffff').to_not match(subject)
+      expect('ffff:ffff:ffff:ffff:ffff:ffff:ffff:fffff').to_not match(subject)
+    end
+
+    it "must match non-CIDR truncated IPv6 addresses" do
+      expect('::').to fully_match(subject)
+      expect('::2222:3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111::3333:4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222::4444:5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333::5555:6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444::6666:7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555::7777:8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666::8888').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7777::').to fully_match(subject)
+    end
+
+    it "must match non-CIDR IPv4-mapped IPv6 addresses" do
+      expect('::ffff:1.2.3.4').to fully_match(subject)
+    end
+
+    it "must match CIDR IPv6 addresses" do
+      expect('1111:2222:3333:4444:5555:6666:7777:8888/128').to fully_match(subject)
+    end
+
+    it "must match CIDR truncated IPv6 addresses" do
+      expect('::/128').to fully_match(subject)
+      expect('::2222:3333:4444:5555:6666:7777:8888/128').to fully_match(subject)
+      expect('1111::3333:4444:5555:6666:7777:8888/128').to fully_match(subject)
+      expect('1111:2222::4444:5555:6666:7777:8888/128').to fully_match(subject)
+      expect('1111:2222:3333::5555:6666:7777:8888/128').to fully_match(subject)
+      expect('1111:2222:3333:4444::6666:7777:8888/128').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555::7777:8888/128').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666::8888/128').to fully_match(subject)
+      expect('1111:2222:3333:4444:5555:6666:7777::/128').to fully_match(subject)
+    end
+
+    it "must match CIDR IPv4-mapped IPv6 addresses" do
+      expect('::ffff:1.2.3.4/128').to fully_match(subject)
+    end
+
+    it "must not match bit lengths greater than 128" do
+      expect('1111:2222:3333:4444:5555:6666:7777:8888/129').to_not match(subject)
+    end
+  end
+
   describe "#initialize" do
     subject { described_class.new(cidr) }
 
     it "must set #string" do
       expect(subject.string).to eq(cidr)
+    end
+
+    context "when given an invalid IPv4 CIDR string" do
+      let(:cidr) { '256.256.256.256/32' }
+
+      it do
+        expect {
+          described_class.new(cidr)
+        }.to raise_error(ArgumentError,"invalid CIDR range: #{cidr.inspect}")
+      end
+    end
+
+    context "when given an invalid IPv6 CIDR string" do
+      let(:cidr) { '11:11:11:11:11:11/128' }
+
+      it do
+        expect {
+          described_class.new(cidr)
+        }.to raise_error(ArgumentError,"invalid CIDR range: #{cidr.inspect}")
+      end
     end
   end
 
