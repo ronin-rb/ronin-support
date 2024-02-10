@@ -184,7 +184,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
       let(:last)  { IPAddr.new('1.1.255.255') }
 
       it "must calculate the CIDR range between them" do
-        expect(subject.range(first,last)).to eq(subject.new("1.1.0.0/16"))
+        expect(subject.range(first,last)).to eq(subject.new("1.1.1.1/16"))
       end
 
       context "when there is no difference between the two addresses" do
@@ -202,7 +202,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
       let(:last)  { IPAddr.new('2607:f8b0:4005:80c::ffff') }
 
       it "must calculate the CIDR range between them" do
-        expect(subject.range(first,last)).to eq(subject.new("2607:f8b0:4005:80c::0000/112"))
+        expect(subject.range(first,last)).to eq(subject.new("2607:f8b0:4005:80c::200e/112"))
       end
 
       context "when there is no difference between the two addresses" do
@@ -220,7 +220,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
       let(:last)  { IPAddr.new('1.1.255.255') }
 
       it "must convert the first argument into an IPAddr" do
-        expect(subject.range(first,last)).to eq(subject.new("1.1.0.0/16"))
+        expect(subject.range(first,last)).to eq(subject.new("1.1.1.1/16"))
       end
     end
 
@@ -229,7 +229,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
       let(:last)  { '1.1.255.255' }
 
       it "must convert the second argument into an IPAddr" do
-        expect(subject.range(first,last)).to eq(subject.new("1.1.0.0/16"))
+        expect(subject.range(first,last)).to eq(subject.new("1.1.1.1/16"))
       end
     end
 
@@ -315,6 +315,39 @@ describe Ronin::Support::Network::IPRange::CIDR do
       it "must convert the IPAddr object into a String" do
         expect(subject.include?(in_range_ip)).to be(true)
         expect(subject.include?(not_in_range_ip)).to be(false)
+      end
+    end
+  end
+
+  describe "#==" do
+    let(:cidr) { '10.1.1.1/16' }
+
+    subject { described_class.new(cidr) }
+
+    context "when the other IP range is a CIDR range" do
+      context "and it has the same range as the CIDR range" do
+        let(:other) { described_class.new(cidr) }
+
+        it "must return true" do
+          expect(subject == other).to be(true)
+        end
+      end
+
+      context "but it has a different range compared to the CIDR range" do
+        let(:other_cidr) { '1.1.1.1/24' }
+        let(:other)      { described_class.new(other_cidr) }
+
+        it "must return false" do
+          expect(subject == other).to be(false)
+        end
+      end
+    end
+
+    context "when the other IP range is another kind of object" do
+      let(:other) { Object.new }
+
+      it "must return false" do
+        expect(subject == other).to be(false)
       end
     end
   end
