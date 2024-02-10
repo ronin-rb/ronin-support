@@ -587,6 +587,42 @@ describe Ronin::Support::Network::IPRange do
     end
   end
 
+  describe "#first" do
+    context "when initialized with a CIDR IP range" do
+      subject { described_class.new(cidr) }
+
+      it "must return the first IP address in the CIDR range" do
+        expect(subject.first).to eq('10.1.1.0')
+      end
+    end
+
+    context "when initialized with a IP glob range" do
+      subject { described_class.new(glob) }
+
+      it "must return the first IP address in the IP glob range" do
+        expect(subject.first).to eq('10.1.1.0')
+      end
+    end
+  end
+
+  describe "#last" do
+    context "when initialized with a CIDR IP range" do
+      subject { described_class.new(cidr) }
+
+      it "must return the last IP address in the CIDR range" do
+        expect(subject.last).to eq('10.1.1.255')
+      end
+    end
+
+    context "when initialized with a IP glob range" do
+      subject { described_class.new(glob) }
+
+      it "must return the last IP address in the IP glob range" do
+        expect(subject.last).to eq('10.1.1.255')
+      end
+    end
+  end
+
   describe "#to_s" do
     context "when initialized with a CIDR IP range" do
       subject { described_class.new(cidr) }
