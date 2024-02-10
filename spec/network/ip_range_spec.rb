@@ -345,6 +345,140 @@ describe Ronin::Support::Network::IPRange do
     end
   end
 
+  describe "#===" do
+    context "when initialized with a CIDR range" do
+      let(:cidr) { '10.1.1.1/24' }
+
+      subject { described_class.new(cidr) }
+
+      context "when given Ronin::Support::Network::CIDR" do
+        context "and the other CIDR range overlaps with the CIDR range" do
+          let(:other_cidr) { '10.1.1.1/25' }
+          let(:other)      { described_class.new(other_cidr) }
+
+          it "must return true" do
+            expect(subject === other).to be(true)
+          end
+        end
+
+        context "and the other CIDR range does not overlap with the CIDR range" do
+          let(:other_cidr) { '1.1.1.1/24' }
+          let(:other)      { described_class.new(other_cidr) }
+
+          it "must return false" do
+            expect(subject === other).to be(false)
+          end
+        end
+      end
+
+      context "when given Ronin::Support::Network::Glob" do
+        context "and the other IP glob range overlaps with the CIDR range" do
+          let(:other_glob) { '10.1.1.1-254' }
+          let(:other)      { described_class.new(other_glob) }
+
+          it "must return true" do
+            expect(subject === other).to be(true)
+          end
+        end
+
+        context "and the other IP glob range does not overlap with the CIDR range" do
+          let(:other_glob) { '1.1.1.1-254' }
+          let(:other)      { described_class.new(other_glob) }
+
+          it "must return false" do
+            expect(subject === other).to be(false)
+          end
+        end
+      end
+
+      context "when given an Enumerable object" do
+        let(:other) do
+          (0..255).map { |i| "10.1.1.%d" % i }
+        end
+
+        context "and every IP in the Enumerable object is included in the CIDR range" do
+          it "must return true" do
+            expect(subject === other).to be(true)
+          end
+        end
+
+        context "but one of the IPs in the Enumerable object is not included in the CIDR range" do
+          let(:other) { super() + ['10.1.2.1'] }
+
+          it "must return false" do
+            expect(subject === other).to be(false)
+          end
+        end
+      end
+    end
+
+    context "when initialized with an IP glob range" do
+      let(:glob) { '10.1.1.*' }
+
+      subject { described_class.new(glob) }
+
+      context "when given Ronin::Support::Network::Glob" do
+        context "and the other IP glob range overlaps with the IP glob range" do
+          let(:other_glob) { '10.1.1.1-254' }
+          let(:other)      { described_class.new(other_glob) }
+
+          it "must return true" do
+            expect(subject === other).to be(true)
+          end
+        end
+
+        context "and the other IP glob range does not overlap with the IP glob range" do
+          let(:other_glob) { '1.1.1.1-254' }
+          let(:other)      { described_class.new(other_glob) }
+
+          it "must return false" do
+            expect(subject === other).to be(false)
+          end
+        end
+      end
+
+      context "when given Ronin::Support::Network::CIDR" do
+        context "and the other CIDR range overlaps with the IP glob range" do
+          let(:other_cidr)  { '10.1.1.1/25' }
+          let(:other)       { described_class.new(other_cidr) }
+
+          it "must return true" do
+            expect(subject === other).to be(true)
+          end
+        end
+
+        context "and the other CIDR range does not overlap with the IP glob range" do
+          let(:other_cidr) { '1.1.1.1/24' }
+          let(:other)      { described_class.new(other_cidr) }
+
+          it "must return false" do
+            expect(subject === other).to be(false)
+          end
+        end
+      end
+
+      context "when given an Enumerable object" do
+        let(:other) do
+          (0..255).map { |i| "10.1.1.%d" % i }
+        end
+
+        context "and every IP in the Enumerable object is included in the IP glob range" do
+          it "must return true" do
+            expect(subject === other).to be(true)
+          end
+        end
+
+        context "but one of the IPs in the Enumerable object is not included in the IP glob range" do
+          let(:other) { super() + ['10.1.2.1'] }
+
+          it "must return false" do
+            expect(subject === other).to be(false)
+          end
+        end
+      end
+    end
+  end
+
   describe "#each" do
     context "when initialized with a CIDR IP range" do
       context "and when initialized with a class-D IP address" do
