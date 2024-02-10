@@ -72,6 +72,15 @@ module Ronin
         # @since 1.1.0
         REGEX = /#{CIDR::REGEX}|#{Glob::REGEX}/
 
+        # The parsed IP range.
+        #
+        # @return [CIDR, Glob]
+        #
+        # @api private
+        #
+        # @since 1.1.0
+        attr_reader :range
+
         #
         # Initializes the IP range.
         #
@@ -238,6 +247,28 @@ module Ronin
         #
         def include?(ip)
           @range.include?(ip)
+        end
+
+        #
+        # Determines if the given IP range is a sub-set of the IP range.
+        #
+        # @param [IPRange, Enumerable<String>] other
+        #   The other IP range.
+        #
+        # @return [Boolean]
+        #
+        # @see CIDR#===
+        # @see Glob#===
+        #
+        # @since 1.1.0
+        #
+        def ===(other)
+          case other
+          when IPRange
+            @range === other.range
+          else
+            @range === other
+          end
         end
 
         #
