@@ -240,6 +240,20 @@ module Ronin
           end
 
           #
+          # Determines if the given IP range is a sub-set of the IP CIDR range.
+          #
+          # @param [Glob, CIDR, Enumerable<String>] other
+          #   The other IP range.
+          #
+          # @return [Boolean]
+          #
+          # @since 1.1.0
+          #
+          def ===(other)
+            other.all? { |ip| include?(ip) }
+          end
+
+          #
           # Enumerates over the IP-glob range.
           #
           # @yield [ip]
