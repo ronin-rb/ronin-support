@@ -43,6 +43,42 @@ module Ronin
 
           include Enumerable
 
+          ipv4_octet = /(?:\d{1,2}|1\d{2}|2[1-4]\d|25[0-5])/
+          ipv4_addr  = /#{ipv4_octet}(?:\.#{ipv4_octet}){3}/
+
+          # Regular expression that matches IPv4 CIDR ranges.
+          #
+          # @api private
+          #
+          # @since 1.1.0
+          IPV4_REGEX = %r{\A#{ipv4_addr}(?:/(?:\d|[12]\d|3[0-2]))?\z}
+
+          # Regular expression that matches IPv6 CIDR ranges.
+          #
+          # @api private
+          #
+          # @since 1.1.0
+          IPV6_REGEX = %r{\A(?:
+            (?:[0-9a-fA-F]{1,4}:){6}#{ipv4_addr}|
+            (?:[0-9a-fA-F]{1,4}:){5}[0-9a-fA-F]{1,4}:#{ipv4_addr}|
+            (?:[0-9a-fA-F]{1,4}:){5}:[0-9a-fA-F]{1,4}:#{ipv4_addr}|
+            (?:[0-9a-fA-F]{1,4}:){1,1}(?::[0-9a-fA-F]{1,4}){1,4}:#{ipv4_addr}|
+            (?:[0-9a-fA-F]{1,4}:){1,2}(?::[0-9a-fA-F]{1,4}){1,3}:#{ipv4_addr}|
+            (?:[0-9a-fA-F]{1,4}:){1,3}(?::[0-9a-fA-F]{1,4}){1,2}:#{ipv4_addr}|
+            (?:[0-9a-fA-F]{1,4}:){1,4}(?::[0-9a-fA-F]{1,4}){1,1}:#{ipv4_addr}|
+            :(?::[0-9a-fA-F]{1,4}){1,5}:#{ipv4_addr}|
+            (?:(?:[0-9a-fA-F]{1,4}:){1,5}|:):#{ipv4_addr}|
+            (?:[0-9a-fA-F]{1,4}:){1,1}(?::[0-9a-fA-F]{1,4}){1,6}|
+            (?:[0-9a-fA-F]{1,4}:){1,2}(?::[0-9a-fA-F]{1,4}){1,5}|
+            (?:[0-9a-fA-F]{1,4}:){1,3}(?::[0-9a-fA-F]{1,4}){1,4}|
+            (?:[0-9a-fA-F]{1,4}:){1,4}(?::[0-9a-fA-F]{1,4}){1,3}|
+            (?:[0-9a-fA-F]{1,4}:){1,5}(?::[0-9a-fA-F]{1,4}){1,2}|
+            (?:[0-9a-fA-F]{1,4}:){1,6}(?::[0-9a-fA-F]{1,4}){1,1}|
+            [0-9a-fA-F]{1,4}(?::[0-9a-fA-F]{1,4}){7}|
+            :(?::[0-9a-fA-F]{1,4}){1,7}|
+            (?:(?:[0-9a-fA-F]{1,4}:){1,7}|:):
+          )(?:/(?:\d{1,2}|1[0-1]\d+|12[0-8]))?\z}x
+
           # The CIDR IP range string.
           #
           # @return [String]
@@ -58,7 +94,14 @@ module Ronin
           #   The address family for the CIDR range. This is mainly for
           #   backwards compatibility with `IPAddr#initialize`.
           #
+          # @raise [ArgumentError]
+          #   The CIDR range string was not a valid IPv4 or IPv6 CIDR range.
+          #
           def initialize(string,family=Socket::AF_UNSPEC)
+            unless (string =~ IPV4_REGEX || string =~ IPV6_REGEX)
+              raise(ArgumentError,"invalid CIDR range: #{string.inspect}")
+            end
+
             super(string,family)
 
             @string = string
