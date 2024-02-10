@@ -181,6 +181,9 @@ module Ronin
         #
         # @return [String]
         #
+        # @see CIDR#string
+        # @see Glob#string
+        #
         def string
           @range.string
         end
@@ -190,6 +193,9 @@ module Ronin
         #
         # @return [Boolean]
         #
+        # @see CIDR#ipv4?
+        # @see Glob#ipv4?
+        #
         def ipv4?
           @range.ipv4?
         end
@@ -198,6 +204,9 @@ module Ronin
         # Determines if the IP range is IPv6.
         #
         # @return [Boolean]
+        #
+        # @see CIDR#ipv6?
+        # @see Glob#ipv6?
         #
         def ipv6?
           @range.ipv6?
