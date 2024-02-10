@@ -761,6 +761,22 @@ describe Ronin::Support::Network::IPRange::Glob do
     end
   end
 
+  describe "#first" do
+    let(:glob) { '1.1-10,20-40.2,4,8.*' }
+
+    it "must first the first address in the IP glob range" do
+      expect(subject.first).to eq('1.1.2.0')
+    end
+  end
+
+  describe "#last" do
+    let(:glob) { '1.1-10,20-40.2,4,8.*' }
+
+    it "must first the first address in the IP glob range" do
+      expect(subject.last).to eq('1.40.8.255')
+    end
+  end
+
   describe "#to_s" do
     it "must return the original string" do
       expect(subject.to_s).to eq(glob)
