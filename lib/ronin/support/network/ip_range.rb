@@ -293,6 +293,34 @@ module Ronin
         end
 
         #
+        # The first IP address in the IP range.
+        #
+        # @return [String]
+        #
+        # @see CIDR#first
+        # @see Glob#last
+        #
+        # @since 1.1.0
+        #
+        def first
+          @range.first
+        end
+
+        #
+        # The last IP address in the IP range.
+        #
+        # @return [String]
+        #
+        # @see CIDR#first
+        # @see Glob#last
+        #
+        # @since 1.1.0
+        #
+        def last
+          @range.last
+        end
+
+        #
         # Converts the IP range back to a String.
         #
         # @return [String]
