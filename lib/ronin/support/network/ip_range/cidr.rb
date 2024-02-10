@@ -79,6 +79,13 @@ module Ronin
             (?:(?:[0-9a-fA-F]{1,4}:){1,7}|:):
           )(?:/(?:\d{1,2}|1[0-1]\d+|12[0-8]))?\z}x
 
+          # Regular expression to match IP-glob ranges.
+          #
+          # @api private
+          #
+          # @since 1.1.0
+          REGEX = /#{IPV4_REGEX}|#{IPV6_REGEX}/
+
           # The CIDR IP range string.
           #
           # @return [String]
