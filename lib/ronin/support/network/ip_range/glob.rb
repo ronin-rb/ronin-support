@@ -288,6 +288,30 @@ module Ronin
           end
 
           #
+          # The first address in the IP glob range.
+          #
+          # @return [String]
+          #   The first IP address in the IP glob range.
+          #
+          # @since 1.1.0
+          #
+          def first
+            @formatter.call(@ranges.map(&:first))
+          end
+
+          #
+          # The last address in the IP glob range.
+          #
+          # @return [String]
+          #   The last IP address in the IP glob range.
+          #
+          # @since 1.1.0
+          #
+          def last
+            @formatter.call(@ranges.map(&:last))
+          end
+
+          #
           # Converts the IP-glob range back into a String.
           #
           # @return [String]
