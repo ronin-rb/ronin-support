@@ -29,23 +29,23 @@ module Ronin
         #
         #     ip_range = IPRange::Glob.new('10.0.1-3.*/24')
         #     ip_range.each { |ip| puts ip }
+        #     # 10.0.1.0
         #     # 10.0.1.1
-        #     # 10.0.1.2
         #     # ...
-        #     # 10.0.1.253
         #     # 10.0.1.254
+        #     # 10.0.1.255
         #     # ...
+        #     # 10.0.2.0
         #     # 10.0.2.1
-        #     # 10.0.2.2
         #     # ...
-        #     # 10.0.2.253
         #     # 10.0.2.254
+        #     # 10.0.2.255
         #     # ...
+        #     # 10.0.3.0
         #     # 10.0.3.1
-        #     # 10.0.3.2
         #     # ...
-        #     # 10.0.3.253
         #     # 10.0.3.254
+        #     # 10.0.3.255
         #
         # @api public
         #
@@ -83,7 +83,7 @@ module Ronin
 
             @ranges = @string.split(@separator).map do |segment|
               case segment
-              when '*' then (1..254)
+              when '*' then (0..255)
               when /,/ then parse_list(segment)
               when /-/ then parse_range(segment)
               else          [segment]
@@ -123,23 +123,23 @@ module Ronin
           #
           # @example Enumerate through a IPv4 glob range:
           #   IPRange::Glob.each('10.0.1-3.*') { |ip| puts ip }
+          #   # 10.0.1.0
           #   # 10.0.1.1
-          #   # 10.0.1.2
           #   # ...
-          #   # 10.0.1.253
           #   # 10.0.1.254
+          #   # 10.0.1.255
           #   # ...
+          #   # 10.0.2.0
           #   # 10.0.2.1
-          #   # 10.0.2.2
           #   # ...
-          #   # 10.0.2.253
           #   # 10.0.2.254
+          #   # 10.0.2.255
           #   # ...
+          #   # 10.0.3.0
           #   # 10.0.3.1
-          #   # 10.0.3.2
           #   # ...
-          #   # 10.0.3.253
           #   # 10.0.3.254
+          #   # 10.0.3.255
           #
           # @example Enumerate through a globbed IPv6 range:
           #   IPRange::Glob.each('::ff::02-0a::c3') { |ip| puts ip }
@@ -181,23 +181,23 @@ module Ronin
           # @example Enumerate through a IPv4 glob range:
           #   ip_range = IPRange::Glob.new('10.0.1-3.*')
           #   ip_range.each { |ip| puts ip }
+          #   # 10.0.1.0
           #   # 10.0.1.1
-          #   # 10.0.1.2
           #   # ...
-          #   # 10.0.1.253
           #   # 10.0.1.254
+          #   # 10.0.1.255
           #   # ...
+          #   # 10.0.2.0
           #   # 10.0.2.1
-          #   # 10.0.2.2
           #   # ...
-          #   # 10.0.2.253
           #   # 10.0.2.254
+          #   # 10.0.2.255
           #   # ...
+          #   # 10.0.3.0
           #   # 10.0.3.1
-          #   # 10.0.3.2
           #   # ...
-          #   # 10.0.3.253
           #   # 10.0.3.254
+          #   # 10.0.3.255
           #
           # @example Enumerate through a globbed IPv6 range:
           #   ip_range = IPRange::Glob.new('::ff::02-0a::c3')

@@ -72,7 +72,7 @@ describe Ronin::Support::Network::IPRange do
       context "when initialized with a class-C IP address range" do
         let(:cidr) { '10.1.1.2/24' }
         let(:addresses) do
-          (1..254).map { |d| "10.1.1.#{d}" }
+          (0..255).map { |d| "10.1.1.#{d}" }
         end
 
         it "must iterate over every IP address within the IP range" do
@@ -94,7 +94,7 @@ describe Ronin::Support::Network::IPRange do
         context "and when the IP address is a v4 address" do
           let(:glob) { "10.1.1.*" }
           let(:addresses) do
-            (1..254).map { |d| "10.1.1.#{d}" }
+            (0..255).map { |d| "10.1.1.#{d}" }
           end
 
           it "must expand '*' globs to 1-254" do
@@ -113,7 +113,7 @@ describe Ronin::Support::Network::IPRange do
         context "and when the IP address is a v6 address" do
           let(:glob) { "fe80::abc:*" }
           let(:addresses) do
-            (1..254).map { |d| "fe80::abc:%x" % d }
+            (0..255).map { |d| "fe80::abc:%x" % d }
           end
 
           it "must expand '*' globs to 01-fe" do
@@ -274,7 +274,7 @@ describe Ronin::Support::Network::IPRange do
       context "and when initialized with a class-C IP address range" do
         let(:cidr) { '10.1.1.2/24' }
         let(:addresses) do
-          (1..254).map { |d| "10.1.1.#{d}" }
+          (0..255).map { |d| "10.1.1.#{d}" }
         end
 
         subject { described_class.new(cidr) }
@@ -300,7 +300,7 @@ describe Ronin::Support::Network::IPRange do
         context "and when the IP address is a v4 address" do
           let(:glob) { "10.1.1.*" }
           let(:addresses) do
-            (1..254).map { |d| "10.1.1.#{d}" }
+            (0..255).map { |d| "10.1.1.#{d}" }
           end
 
           it "must expand '*' globs to 1-254" do
@@ -319,7 +319,7 @@ describe Ronin::Support::Network::IPRange do
         context "and when the IP address is a v6 address" do
           let(:glob) { "fe80::abc:*" }
           let(:addresses) do
-            (1..254).map { |d| "fe80::abc:%x" % d }
+            (0..255).map { |d| "fe80::abc:%x" % d }
           end
 
           it "must expand '*' globs to 01-fe" do

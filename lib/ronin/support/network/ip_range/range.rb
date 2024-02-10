@@ -171,26 +171,14 @@ module Ronin
           # @return [Enumerator]
           #   If no block is given, an Enumerator will be returned.
           #
-          # @note
-          #   This method will skip IPv4 addresses ending in `.0` or `.255`.
-          #
           # @example
-          #   range = IPRange::Range.new('1.1.1.0','1.1.1.255')
+          #   range = IPRange::Range.new('1.1.1.1','1.1.3.42')
           #   range.each { |ip| puts ip }
           #   # 1.1.1.1
           #   # 1.1.1.2
           #   # ...
-          #   # 1.1.1.253
-          #   # 1.1.1.254
-          #
-          # @example
-          #   range IPRange::Range.new('1.1.1.100','1.1.3.200')
-          #   range.each { |ip| puts ip }
-          #   # 1.1.1.100
-          #   # 1.1.1.101
-          #   # ...
-          #   # 1.1.3.199
-          #   # 1.1.3.200
+          #   # 1.1.3.41
+          #   # 1.1.3.42
           #
           def each
             return enum_for(__method__) unless block_given?
@@ -198,11 +186,6 @@ module Ronin
             ipaddr = @begin.clone
 
             (@begin_uint..@end_uint).each do |ip_uint|
-              # skip IPv4 addresses ending in .0 or .255
-              if (ipv4? && ((ip_uint & 0xff) == 0 || (ip_uint & 0xff) == 0xff))
-                next
-              end
-
               ipaddr.send(:set,ip_uint)
               yield ipaddr.to_s
             end

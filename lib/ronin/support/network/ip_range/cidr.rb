@@ -31,7 +31,6 @@ module Ronin
         #     cidr.each { |ip puts }
         #     # 10.0.0.0
         #     # 10.0.0.1
-        #     # 10.0.0.2
         #     # ...
         #     # 10.0.0.254
         #     # 10.0.0.255
@@ -151,8 +150,8 @@ module Ronin
           #
           # @example
           #   IPRange::CIDR.each('10.0.0.1/24') { |ip| puts ip }
+          #   # 10.0.0.0
           #   # 10.0.0.1
-          #   # 10.0.0.2
           #   # ...
           #   # 10.0.0.254
           #   # 10.0.0.255
@@ -174,17 +173,14 @@ module Ronin
           #
           # @return [self]
           #
-          # @note
-          #   This method will skip IPv4 addresses ending in `.0` or `.255`.
-          #
           # @example
           #   cidr = IPAddr.new('10.1.1.1/24')
           #   cidr.each { |ip| puts ip }
+          #   # 10.0.0.0
           #   # 10.0.0.1
-          #   # 10.0.0.2
           #   # ...
-          #   # 10.0.0.253
           #   # 10.0.0.254
+          #   # 10.0.0.255
           #
           def each
             return enum_for(__method__) unless block_given?
@@ -192,14 +188,7 @@ module Ronin
             family_mask = MASKS[@family]
 
             (0..((~@mask_addr) & family_mask)).each do |i|
-              ip_uint = (@addr | i)
-
-              # skip IPv4 addresses ending in .0 or .255
-              if (ipv4? && ((ip_uint & 0xff) == 0 || (ip_uint & 0xff) == 0xff))
-                next
-              end
-
-              yield _to_string(ip_uint)
+              yield _to_string(@addr | i)
             end
 
             return self
@@ -211,7 +200,7 @@ module Ronin
           # @return [String]
           #
           def first
-            _to_string(@addr | 0x01)
+            _to_string(@addr)
           end
 
           #
@@ -220,7 +209,7 @@ module Ronin
           # @return [String]
           #
           def last
-            _to_string(@addr | (~@mask_addr ^ 0x01))
+            _to_string(@addr | ~@mask_addr)
           end
 
           #

@@ -130,7 +130,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
     context "when initialized with a class-C IP address range" do
       let(:cidr) { '10.1.1.2/24' }
       let(:addresses) do
-        (1..254).map { |d| "10.1.1.#{d}" }
+        (0..255).map { |d| "10.1.1.#{d}" }
       end
 
       it "must iterate over every IP address within the IP range" do
@@ -170,7 +170,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
     context "when initialized with a class-C IP address range" do
       let(:cidr) { '10.1.1.2/24' }
       let(:addresses) do
-        (1..254).map { |d| "10.1.1.#{d}" }
+        (0..255).map { |d| "10.1.1.#{d}" }
       end
 
       subject { described_class.new(cidr) }
@@ -193,7 +193,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
     let(:cidr) { '10.1.1.0/24' }
 
     it "must first the first IP address of the CIDR range" do
-      expect(subject.first).to eq('10.1.1.1')
+      expect(subject.first).to eq('10.1.1.0')
     end
   end
 
@@ -201,7 +201,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
     let(:cidr) { '10.1.1.0/24' }
 
     it "must first the first IP address of the CIDR range" do
-      expect(subject.last).to eq('10.1.1.254')
+      expect(subject.last).to eq('10.1.1.255')
     end
   end
 

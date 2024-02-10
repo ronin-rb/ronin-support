@@ -199,28 +199,6 @@ describe Ronin::Support::Network::IPRange::Range do
             '1.2.3.10'
           )
         end
-
-        context "when the range includes *.*.*.0 or *.*.*.255 addresses" do
-          let(:first) { '1.2.3.250' }
-          let(:last)  { '1.2.4.5'   }
-
-          it "must skip the addresses ending in .0 or .255" do
-            expect { |b|
-              subject.each(&b)
-            }.to yield_successive_args(
-              '1.2.3.250',
-              '1.2.3.251',
-              '1.2.3.252',
-              '1.2.3.253',
-              '1.2.3.254',
-              '1.2.4.1',
-              '1.2.4.2',
-              '1.2.4.3',
-              '1.2.4.4',
-              '1.2.4.5'
-            )
-          end
-        end
       end
 
       context "when no block is given" do
@@ -236,28 +214,6 @@ describe Ronin::Support::Network::IPRange::Range do
               '1.2.3.10'
             ]
           )
-        end
-
-        context "when the range includes *.*.*.0 or *.*.*.255 addresses" do
-          let(:first) { '1.2.3.250' }
-          let(:last)  { '1.2.4.5'   }
-
-          it "must skip the addresses ending in .0 or .255" do
-            expect(subject.each.to_a).to eq(
-              [
-                '1.2.3.250',
-                '1.2.3.251',
-                '1.2.3.252',
-                '1.2.3.253',
-                '1.2.3.254',
-                '1.2.4.1',
-                '1.2.4.2',
-                '1.2.4.3',
-                '1.2.4.4',
-                '1.2.4.5'
-              ]
-            )
-          end
         end
       end
     end
