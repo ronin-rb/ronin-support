@@ -65,6 +65,13 @@ module Ronin
       #
       class IPRange
 
+        # Regular expression to match CIDR ranges or IP-glob ranges.
+        #
+        # @api private
+        #
+        # @since 1.1.0
+        REGEX = /#{CIDR::REGEX}|#{Glob::REGEX}/
+
         #
         # Initializes the IP range.
         #
@@ -77,9 +84,15 @@ module Ronin
         # @example Initializing an IP-glob range:
         #   ip_range = IPRange.new('10.0.1-3.*')
         #
+        # @raise [ArgumentError]
+        #   The IP range was neither a CIDR range or a IP-glob range.
+        #
         def initialize(string)
-          @range = if self.class.glob?(string) then Glob.new(string)
-                   else                             CIDR.new(string)
+          @range = case string
+                   when CIDR::REGEX then CIDR.new(string)
+                   when Glob::REGEX then Glob.new(string)
+                   else
+                     raise(ArgumentError,"invalid IP range: #{string.inspect}")
                    end
         end
 
@@ -160,7 +173,7 @@ module Ronin
         #   Indicates that the IP range is a CIDR range.
         #
         def self.cidr?(string)
-          !glob?(string)
+          string =~ CIDR::REGEX
         end
 
         #
@@ -173,7 +186,7 @@ module Ronin
         #   Indicates that the IP range is a IP-glob range.
         #
         def self.glob?(string)
-          string.include?('*') || string.include?(',') || string.include?('-')
+          string =~ Glob::REGEX
         end
 
         #
