@@ -35,9 +35,13 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
 
         it "must expand '*' globs to 1-254" do
-          expect { |b|
-            subject.each(glob,&b)
-          }.to yield_successive_args(*addresses)
+          yielded_addresses = []
+
+          subject.each(glob) do |address|
+            yielded_addresses << address
+          end
+
+          expect(yielded_addresses).to eq(addresses)
         end
 
         context "but no block is given" do
@@ -79,9 +83,13 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
 
         it "must expend 'i-j' ranges" do
-          expect { |b|
-            subject.each(glob,&b)
-          }.to yield_successive_args(*addresses)
+          yielded_addresses = []
+
+          subject.each(glob) do |address|
+            yielded_addresses << address
+          end
+
+          expect(yielded_addresses).to eq(addresses)
         end
 
         context "but no block is given" do
@@ -98,9 +106,13 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
 
         it "must expand 'i-j' ranges" do
-          expect { |b|
-            subject.each(glob,&b)
-          }.to yield_successive_args(*addresses)
+          yielded_addresses = []
+
+          subject.each(glob) do |address|
+            yielded_addresses << address
+          end
+
+          expect(yielded_addresses).to eq(addresses)
         end
 
         context "but no block is given" do
@@ -119,9 +131,13 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
 
         it "must expand 'i,j,k' ranges" do
-          expect { |b|
-            subject.each(glob,&b)
-          }.to yield_successive_args(*addresses)
+          yielded_addresses = []
+
+          subject.each(glob) do |address|
+            yielded_addresses << address
+          end
+
+          expect(yielded_addresses).to eq(addresses)
         end
 
         context "but no block is given" do
@@ -138,9 +154,13 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
 
         it "must expand 'i,j,k' ranges" do
-          expect { |b|
-            subject.each(glob,&b)
-          }.to yield_successive_args(*addresses)
+          yielded_addresses = []
+
+          subject.each(glob) do |address|
+            yielded_addresses << address
+          end
+
+          expect(yielded_addresses).to eq(addresses)
         end
 
         context "but no block is given" do
@@ -159,9 +179,13 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
 
         it "must expand combination 'i,j-k' ranges" do
-          expect { |b|
-            subject.each(glob,&b)
-          }.to yield_successive_args(*addresses)
+          yielded_addresses = []
+
+          subject.each(glob) do |address|
+            yielded_addresses << address
+          end
+
+          expect(yielded_addresses).to eq(addresses)
         end
 
         context "but no block is given" do
@@ -178,9 +202,13 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
 
         it "must expand 'i,j-k' ranges" do
-          expect { |b|
-            subject.each(glob,&b)
-          }.to yield_successive_args(*addresses)
+          yielded_addresses = []
+
+          subject.each(glob) do |address|
+            yielded_addresses << address
+          end
+
+          expect(yielded_addresses).to eq(addresses)
         end
 
         context "but no block is given" do
@@ -203,9 +231,13 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
 
         it "must expand '*' globs to 1-254" do
-          expect { |b|
-            subject.each(&b)
-          }.to yield_successive_args(*addresses)
+          yielded_addresses = []
+
+          subject.each do |address|
+            yielded_addresses << address
+          end
+
+          expect(yielded_addresses).to eq(addresses)
         end
 
         context "but no block is given" do
@@ -247,9 +279,13 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
 
         it "must expend 'i-j' ranges" do
-          expect { |b|
-            subject.each(&b)
-          }.to yield_successive_args(*addresses)
+          yielded_addresses = []
+
+          subject.each do |address|
+            yielded_addresses << address
+          end
+
+          expect(yielded_addresses).to eq(addresses)
         end
 
         context "but no block is given" do
@@ -266,9 +302,13 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
 
         it "must expand 'i-j' ranges" do
-          expect { |b|
-            subject.each(&b)
-          }.to yield_successive_args(*addresses)
+          yielded_addresses = []
+
+          subject.each do |address|
+            yielded_addresses << address
+          end
+
+          expect(yielded_addresses).to eq(addresses)
         end
 
         context "but no block is given" do
@@ -287,9 +327,13 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
 
         it "must expand 'i,j,k' ranges" do
-          expect { |b|
-            subject.each(&b)
-          }.to yield_successive_args(*addresses)
+          yielded_addresses = []
+
+          subject.each do |address|
+            yielded_addresses << address
+          end
+
+          expect(yielded_addresses).to eq(addresses)
         end
 
         context "but no block is given" do
@@ -306,9 +350,13 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
 
         it "must expand 'i,j,k' ranges" do
-          expect { |b|
-            subject.each(&b)
-          }.to yield_successive_args(*addresses)
+          yielded_addresses = []
+
+          subject.each do |address|
+            yielded_addresses << address
+          end
+
+          expect(yielded_addresses).to eq(addresses)
         end
 
         context "but no block is given" do
@@ -327,9 +375,13 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
 
         it "must expand combination 'i,j-k' ranges" do
-          expect { |b|
-            subject.each(&b)
-          }.to yield_successive_args(*addresses)
+          yielded_addresses = []
+
+          subject.each do |address|
+            yielded_addresses << address
+          end
+
+          expect(yielded_addresses).to eq(addresses)
         end
 
         context "but no block is given" do
@@ -346,9 +398,13 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
 
         it "must expand 'i,j-k' ranges" do
-          expect { |b|
-            subject.each(&b)
-          }.to yield_successive_args(*addresses)
+          yielded_addresses = []
+
+          subject.each do |address|
+            yielded_addresses << address
+          end
+
+          expect(yielded_addresses).to eq(addresses)
         end
 
         context "but no block is given" do

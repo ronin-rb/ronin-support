@@ -117,7 +117,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
       it "must only iterate over one IP address for an address" do
         expect { |b|
           subject.each(cidr,&b)
-        }.to yield_successive_args(cidr)
+        }.to yield_with_args(cidr)
       end
 
       context "but no block is given" do
@@ -157,7 +157,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
       it "must only iterate over one IP address for an address" do
         expect { |b|
           subject.each(&b)
-        }.to yield_successive_args(cidr)
+        }.to yield_with_args(cidr)
       end
 
       context "but no block is given" do
@@ -176,9 +176,13 @@ describe Ronin::Support::Network::IPRange::CIDR do
       subject { described_class.new(cidr) }
 
       it "must iterate over every IP address within the IP range" do
-        expect { |b|
-          subject.each(&b)
-        }.to yield_successive_args(*addresses)
+        yielded_addresses = []
+
+        subject.each do |address|
+          yielded_addresses << address
+        end
+
+        expect(yielded_addresses).to eq(addresses)
       end
 
       context "when no block is given" do
