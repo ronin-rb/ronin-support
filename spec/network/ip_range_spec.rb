@@ -113,13 +113,17 @@ describe Ronin::Support::Network::IPRange do
         context "and when the IP address is a v6 address" do
           let(:glob) { "fe80::abc:*" }
           let(:addresses) do
-            (0..255).map { |d| "fe80::abc:%x" % d }
+            (0..0xffff).map { |d| "fe80::abc:%x" % d }
           end
 
           it "must expand '*' globs to 01-fe" do
-            expect { |b|
-              subject.each(glob,&b)
-            }.to yield_successive_args(*addresses)
+            yielded_addresses = []
+
+            subject.each(glob) do |address|
+              yielded_addresses << address
+            end
+
+            expect(yielded_addresses).to eq(addresses)
           end
 
           context "but no block is given" do
@@ -319,13 +323,17 @@ describe Ronin::Support::Network::IPRange do
         context "and when the IP address is a v6 address" do
           let(:glob) { "fe80::abc:*" }
           let(:addresses) do
-            (0..255).map { |d| "fe80::abc:%x" % d }
+            (0..0xffff).map { |d| "fe80::abc:%x" % d }
           end
 
           it "must expand '*' globs to 01-fe" do
-            expect { |b|
-              subject.each(&b)
-            }.to yield_successive_args(*addresses)
+            yielded_addresses = []
+
+            subject.each do |address|
+              yielded_addresses << address
+            end
+
+            expect(yielded_addresses).to eq(addresses)
           end
 
           context "but no block is given" do

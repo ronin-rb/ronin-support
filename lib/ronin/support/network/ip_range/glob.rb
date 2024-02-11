@@ -74,17 +74,19 @@ module Ronin
               @base      = 16
               @formatter = method(:format_ipv6_address)
 
-              separator = ':'
+              separator   = ':'
+              octet_range = (0..0xffff)
             else # IPv4
               @version   = 4
               @base      = 10
               @formatter = method(:format_ipv4_address)
 
-              separator = '.'
+              separator   = '.'
+              octet_range = (0..255)
             end
 
             @ranges = @string.split(separator).map do |segment|
-              if    segment == '*'        then (0..255)
+              if    segment == '*'        then octet_range
               elsif segment.include?(',') then parse_list(segment)
               elsif segment.include?('-') then parse_range(segment)
               else                             [segment]
