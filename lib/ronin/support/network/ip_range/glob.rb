@@ -240,6 +240,20 @@ module Ronin
           end
 
           #
+          # Compares the IP glob range to another IP range.
+          #
+          # @param [Object] other
+          #   The other IP range.
+          #
+          # @return [Boolean]
+          #
+          # @since 1.1.0
+          #
+          def ==(other)
+            other.kind_of?(self.class) && @string == other.string
+          end
+
+          #
           # Determines if the given IP range is a sub-set of the IP CIDR range.
           #
           # @param [Glob, CIDR, Enumerable<String>] other
