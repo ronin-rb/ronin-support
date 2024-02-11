@@ -71,17 +71,19 @@ module Ronin
 
             if @string.include?(':') # IPv6
               @version   = 6
-              @separator = ':'
               @base      = 16
               @formatter = method(:format_ipv6_address)
+
+              separator = ':'
             else # IPv4
               @version   = 4
-              @separator = '.'
               @base      = 10
               @formatter = method(:format_ipv4_address)
+
+              separator = '.'
             end
 
-            @ranges = @string.split(@separator).map do |segment|
+            @ranges = @string.split(separator).map do |segment|
               case segment
               when '*' then (0..255)
               when /,/ then parse_list(segment)
