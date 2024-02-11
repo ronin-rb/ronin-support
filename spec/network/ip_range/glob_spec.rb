@@ -568,6 +568,39 @@ describe Ronin::Support::Network::IPRange::Glob do
     end
   end
 
+  describe "#==" do
+    let(:glob) { '10.1.1.*' }
+
+    subject { described_class.new(glob) }
+
+    context "when the other IP range is an IP glob range" do
+      context "and it has the same range as the IP glob range" do
+        let(:other) { described_class.new(glob) }
+
+        it "must return true" do
+          expect(subject == other).to be(true)
+        end
+      end
+
+      context "but it has a different range from the CIDR range" do
+        let(:other_glob) { '1.1.1.*' }
+        let(:other)      { described_class.new(other_glob) }
+
+        it "must return false" do
+          expect(subject == other).to be(false)
+        end
+      end
+    end
+
+    context "when the other IP range is another kind of object" do
+      let(:other) { Object.new }
+
+      it "must return false" do
+        expect(subject == other).to be(false)
+      end
+    end
+  end
+
   describe "#===" do
     let(:glob) { '10.1.1.*' }
 
