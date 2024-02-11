@@ -345,6 +345,98 @@ describe Ronin::Support::Network::IPRange do
     end
   end
 
+  describe "#==" do
+    context "when initialized with a CIDR range" do
+      let(:cidr) { '10.1.1.1/16' }
+
+      subject { described_class.new(cidr) }
+
+      context "when the other IP range is also initialized with a CIDR range" do
+        context "and it has the same range as the CIDR range" do
+          let(:other) { described_class.new(cidr) }
+
+          it "must return true" do
+            expect(subject == other).to be(true)
+          end
+        end
+
+        context "but it has a different range compared to the CIDR range" do
+          let(:other_cidr) { '1.1.1.1/24' }
+          let(:other)      { described_class.new(other_cidr) }
+
+          it "must return false" do
+            expect(subject == other).to be(false)
+          end
+        end
+      end
+
+      context "when the other IP range is an IP glob range" do
+        context "and it has the same range as the CIDR range" do
+          let(:other_glob) { '10.1.*.*' }
+          let(:other)      { described_class.new(other_glob) }
+
+          it "must return false" do
+            expect(subject == other).to be(false)
+          end
+        end
+
+        context "but it has a different range from the CIDR range" do
+          let(:other_glob) { '1.1.1.*' }
+          let(:other)      { described_class.new(other_glob) }
+
+          it "must return false" do
+            expect(subject == other).to be(false)
+          end
+        end
+      end
+    end
+
+    context "when initialized with an IP glob range" do
+      let(:glob) { '10.1.1.*' }
+
+      subject { described_class.new(glob) }
+
+      context "when the other IP range is an IP glob range" do
+        context "and it has the same range as the IP glob range" do
+          let(:other) { described_class.new(glob) }
+
+          it "must return true" do
+            expect(subject == other).to be(true)
+          end
+        end
+
+        context "but it has a different range from the CIDR range" do
+          let(:other_glob) { '1.1.1.*' }
+          let(:other)      { described_class.new(other_glob) }
+
+          it "must return false" do
+            expect(subject == other).to be(false)
+          end
+        end
+      end
+
+      context "when the other IP range is a CIDR range" do
+        context "and it has the same range as the CIDR range" do
+          let(:other_cidr) { '10.1.1.1/24' }
+          let(:other)      { described_class.new(other_cidr) }
+
+          it "must return false" do
+            expect(subject == other).to be(false)
+          end
+        end
+
+        context "but it has a different range compared to the CIDR range" do
+          let(:other_cidr) { '1.1.1.1/24' }
+          let(:other)      { described_class.new(other_cidr) }
+
+          it "must return false" do
+            expect(subject == other).to be(false)
+          end
+        end
+      end
+    end
+  end
+
   describe "#===" do
     context "when initialized with a CIDR range" do
       let(:cidr) { '10.1.1.1/24' }
