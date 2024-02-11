@@ -250,6 +250,20 @@ module Ronin
         end
 
         #
+        # Compares the IP range to another IP range.
+        #
+        # @param [Object] other
+        #   The other IP range.
+        #
+        # @return [Boolean]
+        #
+        # @since 1.1.0
+        #
+        def ==(other)
+          other.kind_of?(self.class) && @range == other.range
+        end
+
+        #
         # Determines if the given IP range is a sub-set of the IP range.
         #
         # @param [IPRange, Enumerable<String>] other
