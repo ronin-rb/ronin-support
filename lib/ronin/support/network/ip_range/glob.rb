@@ -84,11 +84,10 @@ module Ronin
             end
 
             @ranges = @string.split(separator).map do |segment|
-              case segment
-              when '*' then (0..255)
-              when /,/ then parse_list(segment)
-              when /-/ then parse_range(segment)
-              else          [segment]
+              if    segment == '*'        then (0..255)
+              elsif segment.include?(',') then parse_list(segment)
+              elsif segment.include?('-') then parse_range(segment)
+              else                             [segment]
               end
             end
           end
