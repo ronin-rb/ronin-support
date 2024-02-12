@@ -366,6 +366,20 @@ module Ronin
         end
 
         #
+        # Calculates the size of the IP range.
+        #
+        # @return [Integer]
+        #
+        # @see CIDR#size
+        # @see Glob#size
+        #
+        # @since 1.1.0
+        #
+        def size
+          @range.size
+        end
+
+        #
         # Converts the IP range back to a String.
         #
         # @return [String]
