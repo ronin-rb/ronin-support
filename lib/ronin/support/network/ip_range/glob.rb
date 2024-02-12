@@ -122,13 +122,6 @@ module Ronin
             @string = string
 
             case string
-            when IPV6_REGEX
-              @version   = 6
-              @base      = 16
-              @formatter = method(:format_ipv6_address)
-
-              separator   = ':'
-              octet_range = (0..0xffff)
             when IPV4_REGEX
               @version   = 4
               @base      = 10
@@ -136,6 +129,13 @@ module Ronin
 
               separator   = '.'
               octet_range = (0..255)
+            when IPV6_REGEX
+              @version   = 6
+              @base      = 16
+              @formatter = method(:format_ipv6_address)
+
+              separator   = ':'
+              octet_range = (0..0xffff)
             else
               raise(ArgumentError,"invalid IP-glob range: #{string.inspect}")
             end
