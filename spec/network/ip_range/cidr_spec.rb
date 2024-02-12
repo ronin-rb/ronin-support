@@ -4,7 +4,9 @@ require 'ronin/support/network/ip_range/cidr'
 require 'ronin/support/network/ip_range/glob'
 
 describe Ronin::Support::Network::IPRange::CIDR do
-  let(:cidr) { '10.1.1.2/24' }
+  let(:prefix) { '10.1.1.2' }
+  let(:suffix) { 24 }
+  let(:cidr)   { "#{prefix}/#{suffix}" }
 
   it "must inherit IPAddr" do
     expect(described_class).to be < IPAddr
@@ -296,6 +298,22 @@ describe Ronin::Support::Network::IPRange::CIDR do
   end
 
   subject { described_class.new(cidr) }
+
+  describe "#prefix_address" do
+    it "must return the CIDR prefix address with the least significant bits zeroed out" do
+      expect(subject.prefix_address).to eq('10.1.1.0')
+    end
+
+    context "when initialized with a non-CIDR IP address" do
+      let(:address) { '10.1.1.1' }
+
+      subject { described_class.new(address) }
+
+      it "must return the IP address" do
+        expect(subject.prefix_address).to eq(address)
+      end
+    end
+  end
 
   describe "#include?" do
     let(:in_range_ip)     { '10.1.1.2' }
