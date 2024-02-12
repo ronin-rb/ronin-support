@@ -130,3 +130,8 @@ Style/CaseEquality:
     - 'spec/network/ip_range_spec.rb'
     - 'spec/network/ip_range/cidr_spec.rb'
     - 'spec/network/ip_range/glob_spec.rb'
+
+Style/ConditionalAssignment:
+  Exclude:
+    # BUG: this seems like a bug in rubocop
+    - 'lib/ronin/support/network/ip_range.rb'
