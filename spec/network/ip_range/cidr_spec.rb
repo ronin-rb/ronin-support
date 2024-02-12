@@ -359,6 +359,15 @@ describe Ronin::Support::Network::IPRange::CIDR do
           expect(subject == other).to be(false)
         end
       end
+
+      context "but the address family is different in the other CIDR range" do
+        let(:other_cidr) { '::ffff:1.1.1.1/24' }
+        let(:other)      { described_class.new(other_cidr) }
+
+        it "must return false" do
+          expect(subject == other).to be(false)
+        end
+      end
     end
 
     context "when the other IP range is another kind of object" do
