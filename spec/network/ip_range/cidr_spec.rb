@@ -362,6 +362,15 @@ describe Ronin::Support::Network::IPRange::CIDR do
         it "must return true" do
           expect(subject === other).to be(true)
         end
+
+        context "but one of the CIDR range strings are different, but technically equivalent" do
+          let(:other_cidr) { '10.1.1.0/24' }
+          let(:other)      { described_class.new(other_cidr) }
+
+          it "must return true" do
+            expect(subject === other).to be(true)
+          end
+        end
       end
 
       context "and the other CIDR range overlaps with the CIDR range" do

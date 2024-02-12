@@ -243,7 +243,9 @@ module Ronin
           # @since 1.1.0
           #
           def ==(other)
-            other.kind_of?(self.class) && @string == other.string
+            other.kind_of?(self.class) &&
+              first == other.first &&
+              last  == other.last
           end
 
           #
