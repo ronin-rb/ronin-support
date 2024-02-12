@@ -849,6 +849,34 @@ describe Ronin::Support::Network::IPRange do
     end
   end
 
+  describe "#size" do
+    context "when initialized with a CIDR IP range" do
+      subject { described_class.new(cidr) }
+
+      it "must return the number of IPs in the CIDR range" do
+        expect(subject.size).to eq(256)
+      end
+    end
+
+    context "when initialized with a IP glob range" do
+      subject { described_class.new(glob) }
+
+      it "must return the number of IPs in the IP glob range" do
+        expect(subject.size).to eq(256)
+      end
+    end
+
+    context "when initialized with an IP address" do
+      let(:address) { '10.1.1.1' }
+
+      subject { described_class.new(address) }
+
+      it "must return 1" do
+        expect(subject.size).to eq(1)
+      end
+    end
+  end
+
   describe "#to_s" do
     context "when initialized with a CIDR IP range" do
       subject { described_class.new(cidr) }
