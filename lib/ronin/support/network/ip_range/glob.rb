@@ -340,6 +340,19 @@ module Ronin
           end
 
           #
+          # Calculates the size of the IP glob range.
+          #
+          # @return [Integer]
+          #
+          # @since 1.1.0
+          #
+          def size
+            @ranges.reduce(1) do |total,parts|
+              total * parts.size
+            end
+          end
+
+          #
           # Converts the IP-glob range back into a String.
           #
           # @return [String]

@@ -894,6 +894,24 @@ describe Ronin::Support::Network::IPRange::Glob do
     end
   end
 
+  describe "#size" do
+    let(:glob) { '1.1-10,20-40.2,4,8.*' }
+
+    it "must return the number of IPs in the IP glob range" do
+      expect(subject.size).to eq((10 + 21) * 3 * 256)
+    end
+
+    context "when initialized with a non-globbed IP address" do
+      let(:address) { '10.1.1.1' }
+
+      subject { described_class.new(address) }
+
+      it "must return 1" do
+        expect(subject.size).to eq(1)
+      end
+    end
+  end
+
   describe "#to_s" do
     it "must return the original string" do
       expect(subject.to_s).to eq(glob)
