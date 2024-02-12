@@ -114,6 +114,8 @@ module Ronin
             @string = string
           end
 
+          alias prefix_address to_string
+
           #
           # Alias for {#initialize new}.
           #
