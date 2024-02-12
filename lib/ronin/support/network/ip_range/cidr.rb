@@ -246,8 +246,8 @@ module Ronin
           #
           def ==(other)
             other.kind_of?(self.class) &&
-              first == other.first &&
-              last  == other.last
+              family == other.family &&
+              to_i   == other.to_i
           end
 
           #
