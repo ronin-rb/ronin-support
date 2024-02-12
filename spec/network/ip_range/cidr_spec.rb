@@ -522,6 +522,24 @@ describe Ronin::Support::Network::IPRange::CIDR do
     end
   end
 
+  describe "#size" do
+    let(:cidr) { '10.1.1.0/24' }
+
+    it "must return the number of IPs in the CIDR range" do
+      expect(subject.size).to eq(256)
+    end
+
+    context "when initialized with a non-CIDR IP address" do
+      let(:address) { '10.1.1.1' }
+
+      subject { described_class.new(address) }
+
+      it "must return 1" do
+        expect(subject.size).to eq(1)
+      end
+    end
+  end
+
   describe "#to_s" do
     it "must return the original string" do
       expect(subject.to_s).to eq(cidr)

@@ -322,6 +322,17 @@ module Ronin
           end
 
           #
+          # Calculates the size of the CIDR range.
+          #
+          # @return [Integer]
+          #
+          # @since 1.1.0
+          #
+          def size
+            2**(SIZES.fetch(family) - prefix)
+          end
+
+          #
           # Converts the CIDR range back into a String.
           #
           # @return [String]
