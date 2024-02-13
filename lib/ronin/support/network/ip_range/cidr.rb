@@ -264,8 +264,10 @@ module Ronin
             case other
             when CIDR
               include?(other.first) && include?(other.last)
-            else
+            when Enumerable
               other.all? { |ip| include?(ip) }
+            else
+              false
             end
           end
 

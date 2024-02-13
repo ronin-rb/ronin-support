@@ -502,6 +502,14 @@ describe Ronin::Support::Network::IPRange do
           end
         end
       end
+
+      context "when given another kind of Object" do
+        let(:other) { Object.new }
+
+        it "must return false" do
+          expect(subject === other).to be(false)
+        end
+      end
     end
 
     context "when initialized with an IP glob range" do
@@ -566,6 +574,14 @@ describe Ronin::Support::Network::IPRange do
           it "must return false" do
             expect(subject === other).to be(false)
           end
+        end
+      end
+
+      context "when given another kind of Object" do
+        let(:other) { Object.new }
+
+        it "must return false" do
+          expect(subject === other).to be(false)
         end
       end
     end

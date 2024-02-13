@@ -682,6 +682,14 @@ describe Ronin::Support::Network::IPRange::Glob do
         end
       end
     end
+
+    context "when given another kind of Object" do
+      let(:other) { Object.new }
+
+      it "must return false" do
+        expect(subject === other).to be(false)
+      end
+    end
   end
 
   describe "#each" do

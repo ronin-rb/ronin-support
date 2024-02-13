@@ -221,8 +221,10 @@ module Ronin
             case other
             when IPRange::Range
               self.begin <= other.begin && self.end >= other.end
-            else
+            when Enumerable
               other.all? { |ip| include?(ip) }
+            else
+              false
             end
           end
 
