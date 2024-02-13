@@ -301,6 +301,60 @@ describe Ronin::Support::Network::IPRange::Range do
     end
   end
 
+  describe "#===" do
+    context "when given Ronin::Support::Network::IPRange::Range" do
+      context "and the other IP range is equal to the IP range" do
+        let(:other) { described_class.new(first,last) }
+
+        it "must return true" do
+          expect(subject === other).to be(true)
+        end
+      end
+
+      context "and the other IP range is a subset within the IP range" do
+        let(:other_first) { '127.0.0.128' }
+        let(:other_last)  { '127.0.1.0' }
+        let(:other)       { described_class.new(other_first,other_last) }
+
+        it "must return true" do
+          expect(subject === other).to be(true)
+        end
+      end
+
+      context "and the other IP range does not overlap with the IP range" do
+        let(:other_first) { '1.0.0.0' }
+        let(:other_last)  { '1.0.0.1' }
+        let(:other)       { described_class.new(other_first,other_last) }
+
+        it "must return false" do
+          expect(subject === other).to be(false)
+        end
+      end
+    end
+
+    context "when given an Enumerable object" do
+      let(:other) do
+        (128..255).map { |i| "127.0.0.%d" % i }
+      end
+
+      context "and when every IP in the Enumerable object is included in the IP range" do
+        it "must return true" do
+          expect(subject === other).to be(true)
+        end
+      end
+
+      context "but one of the IPs in the Enumerable object is not included in the IP range" do
+        let(:other) do
+          super() + ['127.0.1.255']
+        end
+
+        it "must return false" do
+          expect(subject === other).to be(false)
+        end
+      end
+    end
+  end
+
   describe "#size" do
     it "must return the number of IPs in the IP range" do
       expect(subject.size).to eq(257)
