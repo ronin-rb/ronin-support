@@ -443,7 +443,7 @@ describe Ronin::Support::Network::IPRange do
 
       subject { described_class.new(cidr) }
 
-      context "when given Ronin::Support::Network::CIDR" do
+      context "when given Ronin::Support::Network::IPRange::CIDR" do
         context "and the other CIDR range overlaps with the CIDR range" do
           let(:other_cidr) { '10.1.1.1/25' }
           let(:other)      { described_class.new(other_cidr) }
@@ -463,7 +463,7 @@ describe Ronin::Support::Network::IPRange do
         end
       end
 
-      context "when given Ronin::Support::Network::Glob" do
+      context "when given Ronin::Support::Network::IPRange::Glob" do
         context "and the other IP glob range overlaps with the CIDR range" do
           let(:other_glob) { '10.1.1.1-254' }
           let(:other)      { described_class.new(other_glob) }
@@ -509,7 +509,7 @@ describe Ronin::Support::Network::IPRange do
 
       subject { described_class.new(glob) }
 
-      context "when given Ronin::Support::Network::Glob" do
+      context "when given Ronin::Support::Network::IPRange::Glob" do
         context "and the other IP glob range overlaps with the IP glob range" do
           let(:other_glob) { '10.1.1.1-254' }
           let(:other)      { described_class.new(other_glob) }
@@ -529,7 +529,7 @@ describe Ronin::Support::Network::IPRange do
         end
       end
 
-      context "when given Ronin::Support::Network::CIDR" do
+      context "when given Ronin::Support::Network::IPRange::CIDR" do
         context "and the other CIDR range overlaps with the IP glob range" do
           let(:other_cidr)  { '10.1.1.1/25' }
           let(:other)       { described_class.new(other_cidr) }
