@@ -2,10 +2,10 @@ require 'spec_helper'
 require 'ronin/support/network/ip_range/range'
 
 describe Ronin::Support::Network::IPRange::Range do
-  let(:first_ipv4) { '128.0.0.0' }
-  let(:last_ipv4)  { '128.1.2.3' }
-  let(:first_ipv6) { '1234:abcd::' }
-  let(:last_ipv6)  { '1234:abcd:ffff:ffff:ffff:ffff:ffff:ffff' }
+  let(:first_ipv4) { '127.0.0.127' }
+  let(:last_ipv4)  { '127.0.1.127' }
+  let(:first_ipv6) { '1234:abcd::7fff' }
+  let(:last_ipv6)  { '1234:abcd::1:7fff' }
 
   let(:first) { first_ipv4 }
   let(:last)  { last_ipv4  }
@@ -98,8 +98,8 @@ describe Ronin::Support::Network::IPRange::Range do
 
   describe "#include?" do
     context "when the two IP addresses are IPv4 addresses" do
-      let(:first) { '1.2.3.4'  }
-      let(:last)  { '1.2.3.10' }
+      let(:first) { first_ipv4 }
+      let(:last)  { last_ipv4 }
 
       context "when the given IP address matches the first IP address" do
         it "must return true" do
@@ -114,7 +114,7 @@ describe Ronin::Support::Network::IPRange::Range do
       end
 
       context "when the given IP address is between the two IP addresses" do
-        let(:ip) { '1.2.3.6' }
+        let(:ip) { '127.0.0.255' }
 
         it "must return true" do
           expect(subject.include?(ip)).to be(true)
@@ -122,7 +122,7 @@ describe Ronin::Support::Network::IPRange::Range do
       end
 
       context "when the given IP address is less than the first IP address" do
-        let(:ip) { '1.0.0.1' }
+        let(:ip) { '127.0.0.126' }
 
         it "must return false" do
           expect(subject.include?(ip)).to be(false)
@@ -130,7 +130,7 @@ describe Ronin::Support::Network::IPRange::Range do
       end
 
       context "when the given IP address is greater than the last IP address" do
-        let(:ip) { '255.255.255.254' }
+        let(:ip) { '127.0.1.128' }
 
         it "must return false" do
           expect(subject.include?(ip)).to be(false)
@@ -139,8 +139,8 @@ describe Ronin::Support::Network::IPRange::Range do
     end
 
     context "when the two IP addresses are IPv6 addresses" do
-      let(:first) { 'abcd::1234' }
-      let(:last)  { 'abcd::123a' }
+      let(:first) { first_ipv6 }
+      let(:last)  { last_ipv6 }
 
       context "when the given IP address matches the first IP address" do
         it "must return true" do
@@ -155,7 +155,7 @@ describe Ronin::Support::Network::IPRange::Range do
       end
 
       context "when the given IP address is between the two IP addresses" do
-        let(:ip) { 'abcd::1236' }
+        let(:ip) { '1234:abcd::ffff' }
 
         it "must return true" do
           expect(subject.include?(ip)).to be(true)
@@ -163,7 +163,7 @@ describe Ronin::Support::Network::IPRange::Range do
       end
 
       context "when the given IP address is less than the first IP address" do
-        let(:ip) { '1.0.0.1' }
+        let(:ip) { '1234:abcd::7ffe' }
 
         it "must return false" do
           expect(subject.include?(ip)).to be(false)
@@ -171,7 +171,7 @@ describe Ronin::Support::Network::IPRange::Range do
       end
 
       context "when the given IP address is greater than the last IP address" do
-        let(:ip) { '255.255.255.254' }
+        let(:ip) { '1234:abcd::1:8000' }
 
         it "must return false" do
           expect(subject.include?(ip)).to be(false)
@@ -261,39 +261,33 @@ describe Ronin::Support::Network::IPRange::Range do
       let(:first) { '1.0.0.0' }
       let(:last)  { '1.0.0.255' }
 
-      context "but the #begin attributes are different" do
-        let(:other_first) { '1.0.0.1' }
-        let(:other_last)  { last }
-
-        subject { described_class.new(first,last) }
-        let(:other) { described_class.new(other_first,other_last) }
-
-        it "must return false" do
-          expect(subject == other).to be(false)
-        end
-      end
-
-      context "but the #end attributes are different" do
-        let(:other_first) { first }
-        let(:other_last)  { '1.0.1.255' }
-
-        subject { described_class.new(first,last) }
-        let(:other) { described_class.new(other_first,other_last) }
-
-        it "must return false" do
-          expect(subject == other).to be(false)
-        end
-      end
-
       context "and when both #begin and #end attributes are the same" do
         let(:other_first) { first }
         let(:other_last)  { last  }
-
-        subject { described_class.new(first,last) }
-        let(:other) { described_class.new(other_first,other_last) }
+        let(:other)       { described_class.new(other_first,other_last) }
 
         it "must return true" do
           expect(subject == other).to be(true)
+        end
+      end
+
+      context "but the #begin attribute is different" do
+        let(:other_first) { '1.0.0.1' }
+        let(:other_last)  { last }
+        let(:other)       { described_class.new(other_first,other_last) }
+
+        it "must return false" do
+          expect(subject == other).to be(false)
+        end
+      end
+
+      context "but the #end attribute is different" do
+        let(:other_first) { first }
+        let(:other_last)  { '1.0.1.255' }
+        let(:other)       { described_class.new(other_first,other_last) }
+
+        it "must return false" do
+          expect(subject == other).to be(false)
         end
       end
     end
