@@ -301,6 +301,12 @@ describe Ronin::Support::Network::IPRange::Range do
     end
   end
 
+  describe "#size" do
+    it "must return the number of IPs in the IP range" do
+      expect(subject.size).to eq(257)
+    end
+  end
+
   describe "#to_s" do
     it "must return the two IP addresses" do
       expect(subject.to_s).to eq("#{first} - #{last}")
