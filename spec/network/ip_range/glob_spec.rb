@@ -604,7 +604,7 @@ describe Ronin::Support::Network::IPRange::Glob do
   describe "#===" do
     let(:glob) { '10.1.1.*' }
 
-    context "when given Ronin::Support::Network::IPRange::Glob" do
+    context "when given #{described_class}" do
       context "and the other IP glob range is equal to the IP glob range" do
         let(:other) { described_class.new(glob) }
 

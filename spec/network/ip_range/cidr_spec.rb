@@ -382,7 +382,7 @@ describe Ronin::Support::Network::IPRange::CIDR do
   describe "#===" do
     let(:cidr) { '10.1.1.1/24' }
 
-    context "when given Ronin::Support::Network::IPRange::CIDR" do
+    context "when given #{described_class}" do
       context "and the other CIDR range is equal to the CIDR range" do
         let(:other) { described_class.new(cidr) }
 
