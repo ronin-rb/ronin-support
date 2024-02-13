@@ -264,7 +264,12 @@ module Ronin
           # @since 1.1.0
           #
           def ===(other)
-            other.all? { |ip| include?(ip) }
+            case other
+            when Enumerable
+              other.all? { |ip| include?(ip) }
+            else
+              false
+            end
           end
 
           #
