@@ -604,7 +604,7 @@ describe Ronin::Support::Network::IPRange::Glob do
   describe "#===" do
     let(:glob) { '10.1.1.*' }
 
-    context "when given Ronin::Support::Network::Glob" do
+    context "when given Ronin::Support::Network::IPRange::Glob" do
       context "and the other IP glob range is equal to the IP glob range" do
         let(:other) { described_class.new(glob) }
 
@@ -632,7 +632,7 @@ describe Ronin::Support::Network::IPRange::Glob do
       end
     end
 
-    context "when given Ronin::Support::Network::CIDR" do
+    context "when given Ronin::Support::Network::IPRange::CIDR" do
       context "and the other CIDR range is equal to the IP glob range" do
         let(:other_cidr) { '10.1.1.1/24' }
         let(:other)      { Ronin::Support::Network::IPRange::CIDR.new(other_cidr) }
