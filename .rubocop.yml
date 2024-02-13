@@ -130,6 +130,7 @@ Style/CaseEquality:
     - 'spec/network/ip_range_spec.rb'
     - 'spec/network/ip_range/cidr_spec.rb'
     - 'spec/network/ip_range/glob_spec.rb'
+    - 'spec/network/ip_range/range_spec.rb'
 
 Style/ConditionalAssignment:
   Exclude:
