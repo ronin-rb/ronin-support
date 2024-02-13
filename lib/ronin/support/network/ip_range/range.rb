@@ -208,6 +208,17 @@ module Ronin
           end
 
           #
+          # Calculates the size of the IP range.
+          #
+          # @return [Integer]
+          #
+          # @since 1.1.0
+          #
+          def size
+            (@end_uint - @begin_uint) + 1
+          end
+
+          #
           # Converts the IP range to a String.
           #
           # @return [String]
