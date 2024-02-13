@@ -208,6 +208,25 @@ module Ronin
           end
 
           #
+          # Determines if the given IP range is a sub-set of the IP range.
+          #
+          # @param [IPRange::Range, CIDR, Glob, Enumerable<String>] other
+          #   The other IP range.
+          #
+          # @return [Boolean]
+          #
+          # @since 1.1.0
+          #
+          def ===(other)
+            case other
+            when IPRange::Range
+              self.begin <= other.begin && self.end >= other.end
+            else
+              other.all? { |ip| include?(ip) }
+            end
+          end
+
+          #
           # Calculates the size of the IP range.
           #
           # @return [Integer]
