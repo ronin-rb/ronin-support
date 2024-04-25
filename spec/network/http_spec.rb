@@ -223,6 +223,28 @@ describe Ronin::Support::Network::HTTP do
       expect(subject.headers).to eq({})
     end
 
+    it "must default #ssl? to false" do
+      expect(subject.ssl?).to be(false)
+    end
+
+    context "when initialized with the ssl: keyword argument" do
+      context "and it's true" do
+        subject { described_class.new(host,port, ssl: true) }
+
+        it "must set #ssl? to true" do
+          expect(subject.ssl?).to be(true)
+        end
+      end
+
+      context "and it's a Hash" do
+        subject { described_class.new(host,port, ssl: {}) }
+
+        it "must set #ssl? to true" do
+          expect(subject.ssl?).to be(true)
+        end
+      end
+    end
+
     context "when initialized with the headers: keyword argument" do
       let(:headers) do
         {'X-Foo' => 'foo', 'X-Bar' => 'bar'}
