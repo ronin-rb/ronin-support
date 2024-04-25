@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/support/network/ssl'
+require 'ronin/support/network/tls'
 
-describe Ronin::Support::Network::SSL do
+describe Ronin::Support::Network::TLS do
   describe "VERSIONS" do
     subject { described_class::VERSIONS }
 
@@ -82,7 +82,7 @@ describe Ronin::Support::Network::SSL do
         expect(context).to receive(:ssl_version=).with(:TLSv1_2)
         allow(context).to receive(:verify_mode=).with(0)
 
-        subject.context(version: 1.2)
+        subject.context
       end
     end
 
