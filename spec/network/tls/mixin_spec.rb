@@ -53,7 +53,7 @@ describe Ronin::Support::Network::TLS::Mixin do
           expect(context).to receive(:ssl_version=).with(:TLSv1_2)
           allow(context).to receive(:verify_mode=).with(0)
 
-          subject.tls_context(version: 1.2)
+          subject.tls_context
         end
       end
 
