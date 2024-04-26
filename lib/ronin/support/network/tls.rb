@@ -31,7 +31,7 @@ module Ronin
         #
         # Creates a new SSL Context.
         #
-        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The SSL version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -52,7 +52,7 @@ module Ronin
         # @param [TCPSocket] socket
         #   The existing TCP socket.
         #
-        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -105,7 +105,7 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -175,7 +175,7 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -257,7 +257,7 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -319,7 +319,7 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -380,7 +380,7 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -453,7 +453,7 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -514,7 +514,7 @@ module Ronin
         # @param [TCPSocket] socket
         #   The existing TCP socket.
         #
-        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -543,7 +543,7 @@ module Ronin
         #
         # Creates a new TLS server listening on a given host and port.
         #
-        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -602,7 +602,7 @@ module Ronin
         #
         # Creates a new temporary TLS server listening on a given host and port.
         #
-        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -663,7 +663,7 @@ module Ronin
         # Creates a new SSL socket listening on a given host and port,
         # accepting clients in a loop.
         #
-        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -732,7 +732,7 @@ module Ronin
         # Creates a new SSL socket listening on a given host and port,
         # accepts only one client and then stops listening.
         #
-        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs

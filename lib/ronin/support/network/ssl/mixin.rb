@@ -32,7 +32,7 @@ module Ronin
           # @param [Hash{Symbol => Object}] kwargs
           #   Additional keyword arguments.
           #
-          # @option kwargs [1, 1.1, 1.2, String, Symbol, nil] :version
+          # @option kwargs [1, 1.1, 1.2, Symbol, nil] :version
           #   The SSL version to use.
           #
           # @option kwargs [Symbol, Boolean] :verify

@@ -365,7 +365,13 @@ module Ronin
           @http.key              = key              if key
 
           @http.ssl_timeout = timeout if timeout
-          @http.ssl_version = SSL::VERSIONS.fetch(version,version) if version
+
+          if version
+            version = SSL::VERSIONS.fetch(version,version)
+
+            @http.min_version = @http.max_version = version
+          end
+
           @http.min_version = min_version if min_version
           @http.max_version = max_version if max_version
 
