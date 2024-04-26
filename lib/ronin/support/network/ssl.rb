@@ -35,6 +35,7 @@ module Ronin
           1   => OpenSSL::SSL::TLS1_VERSION,
           1.1 => OpenSSL::SSL::TLS1_1_VERSION,
           1.2 => OpenSSL::SSL::TLS1_2_VERSION,
+          1.3 => OpenSSL::SSL::TLS1_3_VERSION,
 
           # deprecated TLS version symbols
           :TLSv1   => OpenSSL::SSL::TLS1_VERSION,
@@ -101,13 +102,13 @@ module Ronin
         #
         # Creates a new SSL Context.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] version
         #   The SSL version to use.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] min_version
         #   The minimum SSL version to use.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] max_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] max_version
         #   The maximum SSL version to use.
         #
         # @param [Symbol, Boolean] verify
@@ -197,13 +198,13 @@ module Ronin
 
         #
         # @!macro context_kwargs
-        #   @option kwargs [1, 1.1, 1.2, Symbol, nil] :version
+        #   @option kwargs [1, 1.1, 1.2, 1.3, Symbol, nil] :version
         #     The SSL version to use.
         #
-        #   @option kwargs [1, 1.1, 1.2, Symbol, nil] :min_version
+        #   @option kwargs [1, 1.1, 1.2, 1.3, Symbol, nil] :min_version
         #     The minimum SSL version to use.
         #
-        #   @option kwargs [1, 1.1, 1.2, Symbol, nil] :max_version
+        #   @option kwargs [1, 1.1, 1.2, 1.3, Symbol, nil] :max_version
         #     The maximum SSL version to use.
         #
         #   @option kwargs [Symbol, Boolean] :verify

@@ -30,13 +30,13 @@ module Ronin
 
         #
         # @!macro context_kwargs
-        #   @option kwargs [1, 1.1, 1.2, Symbol, nil] :version
+        #   @option kwargs [1, 1.1, 1.2, 1.3, Symbol, nil] :version
         #     The SSL version to use.
         #
-        #   @option kwargs [1, 1.1, 1.2, Symbol, nil] :min_version
+        #   @option kwargs [1, 1.1, 1.2, 1.3, Symbol, nil] :min_version
         #     The minimum SSL version to use.
         #
-        #   @option kwargs [1, 1.1, 1.2, Symbol, nil] :max_version
+        #   @option kwargs [1, 1.1, 1.2, 1.3, Symbol, nil] :max_version
         #     The maximum SSL version to use.
         #
         #   @option kwargs [Symbol, Boolean] :verify
@@ -67,7 +67,7 @@ module Ronin
         #
         # Creates a new TLS context.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] min_version
         #   The minimum TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -90,7 +90,7 @@ module Ronin
         # @param [TCPSocket] socket
         #   The existing TCP socket.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] min_version
         #   The minimum TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -129,7 +129,7 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] min_version
         #   The minimum TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -165,7 +165,7 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] min_version
         #   The minimum TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -216,7 +216,7 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] min_version
         #   The minimum TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -247,7 +247,7 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] min_version
         #   The minimum TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -277,7 +277,7 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] min_version
         #   The minimum TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -319,7 +319,7 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] min_version
         #   The minimum TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -360,7 +360,7 @@ module Ronin
         # @param [TCPSocket] socket
         #   The existing TCP socket.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] min_version
         #   The minimum TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -396,7 +396,7 @@ module Ronin
         #
         # Creates a new TLS server listening on a given host and port.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] min_version
         #   The minimum TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -424,7 +424,7 @@ module Ronin
         #
         # Creates a new temporary TLS server listening on a given host and port.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] min_version
         #   The minimum TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -454,7 +454,7 @@ module Ronin
         # Creates a new SSL socket listening on a given host and port,
         # accepting clients in a loop.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] min_version
         #   The minimum TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs
@@ -492,7 +492,7 @@ module Ronin
         # Creates a new SSL socket listening on a given host and port,
         # accepts only one client and then stops listening.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        # @param [1, 1.1, 1.2, 1.3, Symbol, nil] min_version
         #   The minimum TLS version to use.
         #
         # @param [Hash{Symbol => Object}] kwargs

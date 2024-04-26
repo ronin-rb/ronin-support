@@ -28,7 +28,7 @@ module Ronin
         module Mixin
           #
           # @!macro context_kwargs
-          #   @option kwargs [1, 1.1, 1.2, Symbol, nil] :version
+          #   @option kwargs [1, 1.1, 1.2, 1.3, Symbol, nil] :version
           #     The SSL version to use.
           #
           #   @option kwargs [Symbol, Boolean] :verify

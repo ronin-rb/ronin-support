@@ -81,6 +81,17 @@ describe Ronin::Support::Network::SSL::Mixin do
           end
         end
 
+        context "and it's 1.3" do
+          it "must call OpenSSL::SSL::SSLContext#min_version= and #max_version= with OpenSSL::SSL::TLS1_3_VERSION" do
+            expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+            expect(context).to receive(:min_version=).with(OpenSSL::SSL::TLS1_3_VERSION)
+            expect(context).to receive(:max_version=).with(OpenSSL::SSL::TLS1_3_VERSION)
+            allow(context).to receive(:verify_mode=).with(0)
+
+            subject.ssl_context(version: 1.3)
+          end
+        end
+
         context "and it's a Symbol" do
           let(:symbol) { :TLS1 }
 
@@ -161,6 +172,16 @@ describe Ronin::Support::Network::SSL::Mixin do
           end
         end
 
+        context "and it's 1.3" do
+          it "must call OpenSSL::SSL::SSLContext#min_version= with OpenSSL::SSL::TLS1_3_VERSION" do
+            expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+            expect(context).to receive(:min_version=).with(OpenSSL::SSL::TLS1_3_VERSION)
+            allow(context).to receive(:verify_mode=).with(0)
+
+            subject.ssl_context(min_version: 1.3)
+          end
+        end
+
         context "and it's a Symbol" do
           let(:symbol) { :TLS1 }
 
@@ -234,6 +255,16 @@ describe Ronin::Support::Network::SSL::Mixin do
             allow(context).to receive(:verify_mode=).with(0)
 
             subject.ssl_context(max_version: 1.2)
+          end
+        end
+
+        context "and it's 1.3" do
+          it "must call OpenSSL::SSL::SSLContext#max_version= with OpenSSL::SSL::TLS1_3_VERSION" do
+            expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+            expect(context).to receive(:max_version=).with(OpenSSL::SSL::TLS1_3_VERSION)
+            allow(context).to receive(:verify_mode=).with(0)
+
+            subject.ssl_context(max_version: 1.3)
           end
         end
 
