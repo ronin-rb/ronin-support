@@ -104,6 +104,12 @@ module Ronin
         # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The SSL version to use.
         #
+        # @param [1, 1.1, 1.2, Symbol, nil] min_version
+        #   The minimum SSL version to use.
+        #
+        # @param [1, 1.1, 1.2, Symbol, nil] version
+        #   The maximum SSL version to use.
+        #
         # @param [Symbol, Boolean] verify
         #   Specifies whether to verify the SSL certificate.
         #   May be one of the following:
@@ -139,19 +145,29 @@ module Ronin
         #
         # @since 1.0.0
         #
-        def self.context(version:   nil,
-                         verify:    :none,
-                         key:       nil,
-                         key_file:  nil,
-                         cert:      nil,
-                         cert_file: nil,
-                         ca_bundle: nil)
+        def self.context(version:     nil,
+                         min_version: nil,
+                         max_version: nil,
+                         verify:      :none,
+                         key:         nil,
+                         key_file:    nil,
+                         cert:        nil,
+                         cert_file:   nil,
+                         ca_bundle:   nil)
           context = OpenSSL::SSL::SSLContext.new
 
           if version
             version = VERSIONS.fetch(version,version)
 
             context.min_version = context.max_version = version
+          else min_version || max_version
+            if min_version
+              context.min_version = VERSIONS.fetch(min_version,min_version)
+            end
+
+            if max_version
+              context.max_version = VERSIONS.fetch(max_version,max_version)
+            end
           end
 
           context.verify_mode = VERIFY[verify]
