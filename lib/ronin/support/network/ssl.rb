@@ -107,7 +107,7 @@ module Ronin
         # @param [1, 1.1, 1.2, Symbol, nil] min_version
         #   The minimum SSL version to use.
         #
-        # @param [1, 1.1, 1.2, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] max_version
         #   The maximum SSL version to use.
         #
         # @param [Symbol, Boolean] verify
@@ -196,6 +196,42 @@ module Ronin
         end
 
         #
+        # @!macro context_kwargs
+        #   @option kwargs [1, 1.1, 1.2, Symbol, nil] :version
+        #     The SSL version to use.
+        #
+        #   @option kwargs [1, 1.1, 1.2, Symbol, nil] :min_version
+        #     The minimum SSL version to use.
+        #
+        #   @option kwargs [1, 1.1, 1.2, Symbol, nil] :max_version
+        #     The maximum SSL version to use.
+        #
+        #   @option kwargs [Symbol, Boolean] :verify
+        #     Specifies whether to verify the SSL certificate.
+        #     May be one of the following:
+        #
+        #     * `:none`
+        #     * `:peer`
+        #     * `:fail_if_no_peer_cert`
+        #     * `:client_once`
+        #
+        #   @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
+        #     The RSA key to use for the SSL context.
+        #
+        #   @option kwargs [String] :key_file
+        #     The path to the SSL `.key` file.
+        #
+        #   @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
+        #     The X509 certificate to use for the SSL context.
+        #
+        #   @option kwargs [String] :cert_file
+        #     The path to the SSL `.crt` file.
+        #
+        #   @option kwargs [String] :ca_bundle
+        #     Path to the CA certificate file or directory.
+        #
+
+        #
         # Initiates an SSL session with an existing TCP socket.
         #
         # @param [TCPSocket] socket
@@ -204,29 +240,7 @@ module Ronin
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {context}.
         #
-        # @option kwargs [Symbol, Boolean] :verify
-        #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
-        #
-        #   * `:none`
-        #   * `:peer`
-        #   * `:fail_if_no_peer_cert`
-        #   * `:client_once`
-        #
-        # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
-        #   The RSA key to use for the SSL context.
-        #
-        # @option kwargs [String] :key_file
-        #   The path to the SSL `.key` file.
-        #
-        # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The X509 certificate to use for the SSL context.
-        #
-        # @option kwargs [String] :cert_file
-        #   The path to the SSL `.crt` file.
-        #
-        # @option kwargs [String] :ca_bundle
-        #   Path to the CA certificate file or directory.
+        # @!macro context_kwargs
         #
         # @return [OpenSSL::SSL::SSLSocket]
         #   The new SSL Socket.
@@ -243,6 +257,17 @@ module Ronin
         end
 
         #
+        # @!macro connect_kwargs
+        #   @option kwargs [String] :bind_host
+        #     The local host to bind to.
+        #
+        #   @option kwargs [Integer] :bind_port
+        #     The local port to bind to.
+        #
+        #   @!macro context_kwargs
+        #
+
+        #
         # Tests whether a remote SSLed TCP port is open.
         #
         # @param [String] host
@@ -251,44 +276,13 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [String] bind_host
-        #   The local host to bind to.
-        #
-        # @param [Integer] bind_port
-        #   The local port to bind to.
-        #
         # @param [Integer] timeout (5)
         #   The maximum time to attempt connecting.
         #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {connect}.
         #
-        # @option options [Symbol, Boolean] :verify
-        #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
-        #
-        #   * `:none`
-        #   * `:peer`
-        #   * `:fail_if_no_peer_cert`
-        #   * `:client_once`
-        #
-        # @option kwargs [String, nil] :hostname (host)
-        #   Sets the hostname used for SNI.
-        #
-        # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
-        #   The RSA key to use for the SSL context.
-        #
-        # @option kwargs [String] :key_file
-        #   The path to the SSL `.key` file.
-        #
-        # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The X509 certificate to use for the SSL context.
-        #
-        # @option kwargs [String] :cert_file
-        #   The path to the SSL `.crt` file.
-        #
-        # @option kwargs [String] :ca_bundle
-        #   Path to the CA certificate file or directory.
+        # @!macro connect_kwargs
         #
         # @return [Boolean, nil]
         #   Specifies whether the remote SSLed TCP port is open.
@@ -305,14 +299,9 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.open?(host,port, bind_host: nil,
-                                  bind_port: nil,
-                                  timeout: 5,
-                                  **kwargs)
+        def self.open?(host,port, timeout: 5, **kwargs)
           Timeout.timeout(timeout) do
-            connect(host,port, bind_host: bind_host,
-                               bind_port: bind_port,
-                               **kwargs)
+            connect(host,port,**kwargs)
           end
 
           return true
@@ -343,29 +332,7 @@ module Ronin
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {socket}.
         #
-        # @option kwargs [Symbol, Boolean] :verify
-        #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
-        #
-        #   * `:none`
-        #   * `:peer`
-        #   * `:fail_if_no_peer_cert`
-        #   * `:client_once`
-        #
-        # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
-        #   The RSA key to use for the SSL context.
-        #
-        # @option kwargs [String] :key_file
-        #   The path to the SSL `.key` file.
-        #
-        # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The X509 certificate to use for the SSL context.
-        #
-        # @option kwargs [String] :cert_file
-        #   The path to the SSL `.crt` file.
-        #
-        # @option kwargs [String] :ca_bundle
-        #   Path to the CA certificate file or directory.
+        # @!macro context_kwargs
         #
         # @yield [ssl_socket]
         #   The given block will be passed the new SSL socket. Once the block
@@ -435,41 +402,10 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [String] bind_host
-        #   The local host to bind to.
-        #
-        # @param [Integer] bind_port
-        #   The local port to bind to.
-        #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {connect}.
         #
-        # @option kwargs [Symbol, Boolean] :verify
-        #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
-        #
-        #   * `:none`
-        #   * `:peer`
-        #   * `:fail_if_no_peer_cert`
-        #   * `:client_once`
-        #
-        # @option kwargs [String, nil] :hostname (host)
-        #   Sets the hostname used for SNI.
-        #
-        # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
-        #   The RSA key to use for the SSL context.
-        #
-        # @option kwargs [String] :key_file
-        #   The path to the SSL `.key` file.
-        #
-        # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The X509 certificate to use for the SSL context.
-        #
-        # @option kwargs [String] :cert_file
-        #   The path to the SSL `.crt` file.
-        #
-        # @option kwargs [String] :ca_bundle
-        #   Path to the CA certificate file or directory.
+        # @!macro connect_kwargs
         #
         # @yield [ssl_socket]
         #   The given block will be passed the newly created SSL Socket.
@@ -481,12 +417,8 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.connect_and_send(data,host,port, bind_host: nil,
-                                                 bind_port: nil,
-                                                 **kwargs)
-          socket = connect(host,port, bind_host: bind_host,
-                                      bind_port: bind_port,
-                                      **kwargs)
+        def self.connect_and_send(data,host,port,**kwargs)
+          socket = connect(host,port,**kwargs)
           socket.write(data)
 
           yield socket if block_given?
@@ -503,40 +435,9 @@ module Ronin
         #   The port to connect to.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments.
+        #   Additional keyword arguments for {connect}.
         #
-        # @option kwargs [String] :bind_host
-        #   The local host to bind to.
-        #
-        # @option kwargs [Integer] :bind_port
-        #   The local port to bind to.
-        #
-        # @option kwargs [Symbol, Boolean] :verify
-        #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
-        #
-        #   * `:none`
-        #   * `:peer`
-        #   * `:fail_if_no_peer_cert`
-        #   * `:client_once`
-        #
-        # @option kwargs [String, nil] :hostname (host)
-        #   Sets the hostname used for SNI.
-        #
-        # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
-        #   The RSA key to use for the SSL context.
-        #
-        # @option kwargs [String] :key_file
-        #   The path to the SSL `.key` file.
-        #
-        # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The X509 certificate to use for the SSL context.
-        #
-        # @option kwargs [String] :cert_file
-        #   The path to the SSL `.crt` file.
-        #
-        # @option kwargs [String] :ca_bundle
-        #   Path to the CA certificate file or directory.
+        # @!macro connect_kwargs
         #
         # @return [Crypto::Cert]
         #   The server's certificate.
@@ -563,41 +464,10 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [String] bind_host
-        #   The local host to bind to.
-        #
-        # @param [Integer] bind_port
-        #   The local port to bind to.
-        #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {connect}.
         #
-        # @option kwargs [Symbol, Boolean] :verify
-        #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
-        #
-        #   * `:none`
-        #   * `:peer`
-        #   * `:fail_if_no_peer_cert`
-        #   * `:client_once`
-        #
-        # @option kwargs [String, nil] :hostname (host)
-        #   Sets the hostname used for SNI.
-        #
-        # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
-        #   The RSA key to use for the SSL context.
-        #
-        # @option kwargs [String] :key_file
-        #   The path to the SSL `.key` file.
-        #
-        # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The X509 certificate to use for the SSL context.
-        #
-        # @option kwargs [String] :cert_file
-        #   The path to the SSL `.crt` file.
-        #
-        # @option kwargs [String] :ca_bundle
-        #   Path to the CA certificate file or directory.
+        # @!macro connect_kwargs
         #
         # @yield [banner]
         #   If a block is given, it will be passed the grabbed banner.
@@ -616,12 +486,10 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.banner(host,port, bind_host: nil, bind_port: nil, **kwargs)
+        def self.banner(host,port,**kwargs)
           banner = nil
 
-          connect(host,port, bind_host: bind_host,
-                             bind_port: bind_port,
-                             **kwargs) do |ssl_socket|
+          connect(host,port,**kwargs) do |ssl_socket|
             banner = ssl_socket.readline.strip
           end
 
@@ -642,41 +510,10 @@ module Ronin
         # @param [Integer] port
         #   The port to connect to.
         #
-        # @param [String] bind_host
-        #   The local host to bind to.
-        #
-        # @param [Integer] bind_port
-        #   The local port to bind to.
-        #
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {connect}.
         #
-        # @option kwargs [Symbol, Boolean] :verify
-        #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
-        #
-        #   * `:none`
-        #   * `:peer`
-        #   * `:fail_if_no_peer_cert`
-        #   * `:client_once`
-        #
-        # @option kwargs [String, nil] :hostname (host)
-        #   Sets the hostname used for SNI.
-        #
-        # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key
-        #   The RSA key to use for the SSL context.
-        #
-        # @option kwargs [String] :key_file
-        #   The path to the SSL `.key` file.
-        #
-        # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert
-        #   The X509 certificate to use for the SSL context.
-        #
-        # @option kwargs [String] :cert_file
-        #   The path to the SSL `.crt` file.
-        #
-        # @option kwargs [String] :ca_bundle
-        #   Path to the CA certificate file or directory.
+        # @!macro connect_kwargs
         #
         # @return [true]
         #   The data was successfully sent.
@@ -690,10 +527,8 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.send(data,host,port, bind_host: nil, bind_port: nil,**kwargs)
-          connect(host,port, bind_host: bind_host,
-                             bind_port: bind_port,
-                             **kwargs) do |socket|
+        def self.send(data,host,port,**kwargs)
+          connect(host,port,**kwargs) do |socket|
             socket.write(data)
           end
 
@@ -715,23 +550,7 @@ module Ronin
         # @param [Hash{Symbol => Object}] kwargs
         #   Additional keyword arguments for {socket}.
         #
-        # @option kwargs [Symbol, Boolean] :verify
-        #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
-        #
-        #   * `:none`
-        #   * `:peer`
-        #   * `:fail_if_no_peer_cert`
-        #   * `:client_once`
-        #
-        # @option kwargs [String] :key_file
-        #   The path to the SSL `.key` file.
-        #
-        # @option kwargs [String] :cert_file
-        #   The path to the SSL `.crt` file.
-        #
-        # @option kwargs [String] :ca_bundle
-        #   Path to the CA certificate file or directory.
+        # @!macro context_kwargs
         #
         # @return [OpenSSL::SSL::SSLSocket]
         #   The new SSL Socket.
@@ -764,26 +583,7 @@ module Ronin
         # @param [Crypto::Cert, OpenSSL::X509::Certificate, nil] cert
         #   The X509 certificate to use for the SSL context.
         #
-        # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {context}.
-        #
-        # @option kwargs [Symbol, Boolean] :verify
-        #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
-        #
-        #   * `:none`
-        #   * `:peer`
-        #   * `:fail_if_no_peer_cert`
-        #   * `:client_once`
-        #
-        # @option kwargs [String] :key_file
-        #   The path to the SSL `.key` file.
-        #
-        # @option kwargs [String] :cert_file
-        #   The path to the SSL `.crt` file.
-        #
-        # @option kwargs [String] :ca_bundle
-        #   Path to the CA certificate file or directory.
+        # @!macro context_kwargs
         #
         # @yield [server]
         #   The given block will be passed the newly created SSL server.
@@ -813,44 +613,33 @@ module Ronin
         end
 
         #
+        # @!macro server_kwargs
+        #   @option kwargs [Integer] :port (0)
+        #     The local port to listen on.
+        #
+        #   @option kwargs [String, nil] :host
+        #     The host to bind to.
+        #
+        #   @option kwargs [Integer] :backlog (5)
+        #     The maximum backlog of pending connections.
+        #
+        #   @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key (Network::SSL.key)
+        #     The RSA key to use for the SSL context.
+        #
+        #   @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert (Network::SSL.cert)
+        #     The X509 certificate to use for the SSL context.
+        #
+        #   @!macro context_kwargs
+        #
+
+        #
         # Creates a new temporary SSL server listening on a given host and
         # port.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {context}.
+        #   Additional keyword arguments for {server}.
         #
-        # @option kwargs [Integer] :port (0)
-        #   The local port to listen on.
-        #
-        # @option kwargs [String, nil] :host
-        #   The host to bind to.
-        #
-        # @option kwargs [Integer] :backlog (5)
-        #   The maximum backlog of pending connections.
-        #
-        # @option kwargs [Symbol, Boolean] :verify
-        #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
-        #
-        #   * `:none`
-        #   * `:peer`
-        #   * `:fail_if_no_peer_cert`
-        #   * `:client_once`
-        #
-        # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key (Network::SSL.key)
-        #   The RSA key to use for the SSL context.
-        #
-        # @option kwargs [String] :key_file
-        #   The path to the SSL `.key` file.
-        #
-        # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert (Network::SSL.cert)
-        #   The X509 certificate to use for the SSL context.
-        #
-        # @option kwargs [String] :cert_file
-        #   The path to the SSL `.crt` file.
-        #
-        # @option kwargs [String] :ca_bundle
-        #   Path to the CA certificate file or directory.
+        # @!macro server_kwargs
         #
         # @yield [server]
         #   The given block will be passed the newly created SSL server.
@@ -877,40 +666,9 @@ module Ronin
         # accepting clients in a loop.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {context}.
+        #   Additional keyword arguments for {server}.
         #
-        # @option kwargs [Integer] :port (0)
-        #   The local port to listen on.
-        #
-        # @option kwargs [String, nil] :host
-        #   The host to bind to.
-        #
-        # @option kwargs [Integer] :backlog (5)
-        #   The maximum backlog of pending connections.
-        #
-        # @option kwargs [Symbol, Boolean] :verify
-        #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
-        #
-        #   * `:none`
-        #   * `:peer`
-        #   * `:fail_if_no_peer_cert`
-        #   * `:client_once`
-        #
-        # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key (Network::SSL.key)
-        #   The RSA key to use for the SSL context.
-        #
-        # @option kwargs [String] :key_file
-        #   The path to the SSL `.key` file.
-        #
-        # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert (Network::SSL.cert)
-        #   The X509 certificate to use for the SSL context.
-        #
-        # @option kwargs [String] :cert_file
-        #   The path to the SSL `.crt` file.
-        #
-        # @option kwargs [String] :ca_bundle
-        #   Path to the CA certificate file or directory.
+        # @!macro server_kwargs
         #
         # @yield [client]
         #   The given block will be passed the newly connected client.
@@ -950,45 +708,9 @@ module Ronin
         # accepts only one client and then stops listening.
         #
         # @param [Hash{Symbol => Object}] kwargs
-        #   Additional keyword arguments for {context}.
+        #   Additional keyword arguments for {server}.
         #
-        # @option kwargs [Integer] :port (0)
-        #   The local port to listen on.
-        #
-        # @option kwargs [String, nil] :host
-        #   The host to bind to.
-        #
-        # @option kwargs [Integer] :backlog (5)
-        #   The maximum backlog of pending connections.
-        #
-        # @option kwargs [Symbol, Boolean] :verify
-        #   Specifies whether to verify the SSL certificate.
-        #   May be one of the following:
-        #
-        #   * `:none`
-        #   * `:peer`
-        #   * `:fail_if_no_peer_cert`
-        #   * `:client_once`
-        #
-        # @option kwargs [Crypto::Key::RSA, OpenSSL::PKey::RSA, nil] :key (Network::SSL.key)
-        #   The RSA key to use for the SSL context.
-        #
-        # @option kwargs [String] :key_file
-        #   The path to the SSL `.key` file.
-        #
-        # @option kwargs [Crypto::Cert, OpenSSL::X509::Certificate, nil] :cert (Network::SSL.cert)
-        #   The X509 certificate to use for the SSL context.
-        #
-        # @option kwargs [String] :cert_file
-        #   The path to the SSL `.crt` file.
-        #
-        # @option kwargs [String] :ca_bundle
-        #   Path to the CA certificate file or directory.
-        #
-        # @example
-        #   ssl_accept(1337) do |client|
-        #     client.puts 'lol'
-        #   end
+        # @!macro server_kwargs
         #
         # @yield [client]
         #   The given block will be passed the newly connected client.
@@ -1001,6 +723,11 @@ module Ronin
         # @return [nil]
         #
         # @example
+        #   ssl_accept(1337) do |client|
+        #     client.puts 'lol'
+        #   end
+        #
+        # @example Using a self-signed certificate:e
         #   # $ openssl genrsa -out ssl.key 1024
         #   # $ openssl req -new -key ssl.key -x509 -days 3653 -out ssl.crt
         #   # $ cat ssl.key ssl.crt > ssl.pem
