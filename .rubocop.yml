@@ -107,3 +107,11 @@ Naming/BinaryOperatorParameterName:
 Lint/RescueException:
   Exclude:
     - 'lib/ronin/support/core_ext/kernel.rb'
+
+# make an exception when we need to test the #each method directly
+Style/MapIntoArray:
+  Exclude:
+    - 'spec/archive/zip/reader_spec.rb'
+    - 'spec/network/ip_range/cidr_spec.rb'
+    - 'spec/network/ip_range/glob_spec.rb'
+    - 'spec/network/ip_range_spec.rb'
