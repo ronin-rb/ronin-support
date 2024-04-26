@@ -136,3 +136,8 @@ Style/ConditionalAssignment:
   Exclude:
     # BUG: this seems like a bug in rubocop
     - 'lib/ronin/support/network/ip_range.rb'
+
+Layout/IndentationConsistency:
+  Exclude:
+    # BUG: this seems like a bug in rubocop
+    - 'lib/ronin/support/network/ssl.rb'
