@@ -31,13 +31,13 @@ module Ronin
 
           #
           # @!macro context_kwargs
-          #   @option kwargs [1, 1.1, 1.2, Symbol, nil] :version
+          #   @option kwargs [1, 1.1, 1.2, 1.3, Symbol, nil] :version
           #     The TLS version to use.
           #
-          #   @option kwargs [1, 1.1, 1.2, Symbol, nil] :min_version
+          #   @option kwargs [1, 1.1, 1.2, 1.3, Symbol, nil] :min_version
           #     The minimum TLS version to use.
           #
-          #   @option kwargs [1, 1.1, 1.2, Symbol, nil] :max_version
+          #   @option kwargs [1, 1.1, 1.2, 1.3, Symbol, nil] :max_version
           #     The maximum TLS version to use.
           #
           #   @option kwargs [Symbol, Boolean] :verify
