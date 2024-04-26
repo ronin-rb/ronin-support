@@ -32,9 +32,14 @@ module Ronin
       module SSL
         # SSL/TLS versions
         VERSIONS = {
-          1   => :TLSv1,
-          1.1 => :TLSv1_1,
-          1.2 => :TLSv1_2
+          1   => OpenSSL::SSL::TLS1_VERSION,
+          1.1 => OpenSSL::SSL::TLS1_1_VERSION,
+          1.2 => OpenSSL::SSL::TLS1_2_VERSION,
+
+          # deprecated TLS version symbols
+          :TLSv1   => OpenSSL::SSL::TLS1_VERSION,
+          :TLSv1_1 => OpenSSL::SSL::TLS1_1_VERSION,
+          :TLSv1_2 => OpenSSL::SSL::TLS1_2_VERSION
         }
 
         # SSL verify modes
@@ -96,7 +101,7 @@ module Ronin
         #
         # Creates a new SSL Context.
         #
-        # @param [1, 1.1, 1.2, String, Symbol, nil] version
+        # @param [1, 1.1, 1.2, Symbol, nil] version
         #   The SSL version to use.
         #
         # @param [Symbol, Boolean] verify
@@ -144,7 +149,9 @@ module Ronin
           context = OpenSSL::SSL::SSLContext.new
 
           if version
-            context.ssl_version = VERSIONS.fetch(version,version)
+            version = VERSIONS.fetch(version,version)
+
+            context.min_version = context.max_version = version
           end
 
           context.verify_mode = VERIFY[verify]

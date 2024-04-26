@@ -32,7 +32,7 @@ module Ronin
           #
           # Creates a new TLS Context.
           #
-          # @param [1, 1.1, 1.2, String, Symbol, nil] version
+          # @param [1, 1.1, 1.2, Symbol, nil] version
           #   The TLS version to use.
           #
           # @param [Hash{Symbol => Object}] kwargs
