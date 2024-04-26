@@ -119,7 +119,7 @@ describe Ronin::Support::Network::TLS do
         end
       end
 
-      context "and it's 1_2" do
+      context "and it's 1.2" do
         it "must call OpenSSL::SSL::SSLContext#min_version= and #max_version= with OpenSSL::SSL::TLS1_2_VERSION" do
           expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
           expect(context).to receive(:min_version=).with(OpenSSL::SSL::TLS1_2_VERSION)
@@ -202,7 +202,7 @@ describe Ronin::Support::Network::TLS do
         end
       end
 
-      context "and it's 1_2" do
+      context "and it's 1.2" do
         it "must call OpenSSL::SSL::SSLContext#min_version= with OpenSSL::SSL::TLS1_2_VERSION" do
           expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
           expect(context).to receive(:min_version=).with(OpenSSL::SSL::TLS1_2_VERSION)
@@ -282,7 +282,7 @@ describe Ronin::Support::Network::TLS do
         end
       end
 
-      context "and it's 1_2" do
+      context "and it's 1.2" do
         it "must call OpenSSL::SSL::SSLContext#max_version= with OpenSSL::SSL::TLS1_2_VERSION" do
           expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
           expect(context).to receive(:min_version=).with(OpenSSL::SSL::TLS1_VERSION)
