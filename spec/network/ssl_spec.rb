@@ -11,7 +11,7 @@ describe Ronin::Support::Network::SSL do
       expect(subject[1]).to eq(:TLSv1)
     end
 
-    it "must map 1.1 to :TLSv1_!" do
+    it "must map 1.1 to :TLSv1_1" do
       expect(subject[1.1]).to eq(:TLSv1_1)
     end
 
