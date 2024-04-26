@@ -48,7 +48,7 @@ describe Ronin::Support::Network::TLS::Mixin do
       context "when no version: keyword argument is given" do
         let(:context) { double(OpenSSL::SSL::SSLContext) }
 
-        it "must call OpenSSL::SSL::SSLContext#ssl_version with :TLSv1_2" do
+        it "must call OpenSSL::SSL::SSLContext#ssl_version= with :TLSv1_2" do
           expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
           expect(context).to receive(:ssl_version=).with(:TLSv1_2)
           allow(context).to receive(:verify_mode=).with(0)
@@ -61,7 +61,7 @@ describe Ronin::Support::Network::TLS::Mixin do
         let(:context) { double(OpenSSL::SSL::SSLContext) }
 
         context "and it's 1" do
-          it "must call OpenSSL::SSL::SSLContext#ssl_version with :TLSv1" do
+          it "must call OpenSSL::SSL::SSLContext#ssl_version= with :TLSv1" do
             expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
             expect(context).to receive(:ssl_version=).with(:TLSv1)
             allow(context).to receive(:verify_mode=).with(0)
@@ -71,7 +71,7 @@ describe Ronin::Support::Network::TLS::Mixin do
         end
 
         context "and it's 1.1" do
-          it "must call OpenSSL::SSL::SSLContext#ssl_version with :TLSv1_1" do
+          it "must call OpenSSL::SSL::SSLContext#ssl_version= with :TLSv1_1" do
             expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
             expect(context).to receive(:ssl_version=).with(:TLSv1_1)
             allow(context).to receive(:verify_mode=).with(0)
@@ -81,7 +81,7 @@ describe Ronin::Support::Network::TLS::Mixin do
         end
 
         context "and it's 1_2" do
-          it "must call OpenSSL::SSL::SSLContext#ssl_version with :TLSv1_2" do
+          it "must call OpenSSL::SSL::SSLContext#ssl_version= with :TLSv1_2" do
             expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
             expect(context).to receive(:ssl_version=).with(:TLSv1_2)
             allow(context).to receive(:verify_mode=).with(0)
