@@ -7,16 +7,28 @@ describe Ronin::Support::Network::SSL do
   describe "VERSIONS" do
     subject { described_class::VERSIONS }
 
-    it "must map 1 to :TLSv1" do
-      expect(subject[1]).to eq(:TLSv1)
+    it "must map 1 to OpenSSL::SSL::TLS1_VERSION" do
+      expect(subject[1]).to eq(OpenSSL::SSL::TLS1_VERSION)
     end
 
-    it "must map 1.1 to :TLSv1_1" do
-      expect(subject[1.1]).to eq(:TLSv1_1)
+    it "must map 1.1 to OpenSSL::SSL::TLS1_1_VERSION" do
+      expect(subject[1.1]).to eq(OpenSSL::SSL::TLS1_1_VERSION)
     end
 
-    it "must map 1.2 to :TLSv1_2" do
-      expect(subject[1.2]).to eq(:TLSv1_2)
+    it "must map 1.2 to OpenSSL::SSL::TLS1_2_VERSION" do
+      expect(subject[1.2]).to eq(OpenSSL::SSL::TLS1_2_VERSION)
+    end
+
+    it "must map :TLSv1 to OpenSSL::SSL::TLS1_VERSION" do
+      expect(subject[:TLSv1]).to eq(OpenSSL::SSL::TLS1_VERSION)
+    end
+
+    it "must map :TLSv1_1 to OpenSSL::SSL::TLS1_1_VERSION" do
+      expect(subject[:TLSv1_1]).to eq(OpenSSL::SSL::TLS1_1_VERSION)
+    end
+
+    it "must map :TLSv1_2 to OpenSSL::SSL::TLS1_2_VERSION" do
+      expect(subject[:TLSv1_2]).to eq(OpenSSL::SSL::TLS1_2_VERSION)
     end
   end
 
@@ -112,9 +124,10 @@ describe Ronin::Support::Network::SSL do
       let(:context) { double(OpenSSL::SSL::SSLContext) }
 
       context "and it's 1" do
-        it "must call OpenSSL::SSL::SSLContext#ssl_version= with :TLSv1" do
+        it "must call OpenSSL::SSL::SSLContext#min_version= and #max_version= with OpenSSL::SSL::TLS1_VERSION" do
           expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
-          expect(context).to receive(:ssl_version=).with(:TLSv1)
+          expect(context).to receive(:min_version=).with(OpenSSL::SSL::TLS1_VERSION)
+          expect(context).to receive(:max_version=).with(OpenSSL::SSL::TLS1_VERSION)
           allow(context).to receive(:verify_mode=).with(0)
 
           subject.context(version: 1)
@@ -122,9 +135,10 @@ describe Ronin::Support::Network::SSL do
       end
 
       context "and it's 1.1" do
-        it "must call OpenSSL::SSL::SSLContext#ssl_version= with :TLSv1_1" do
+        it "must call OpenSSL::SSL::SSLContext#min_version= and #max_version= with OpenSSL::SSL::TLS1_1_VERSION" do
           expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
-          expect(context).to receive(:ssl_version=).with(:TLSv1_1)
+          expect(context).to receive(:min_version=).with(OpenSSL::SSL::TLS1_1_VERSION)
+          expect(context).to receive(:max_version=).with(OpenSSL::SSL::TLS1_1_VERSION)
           allow(context).to receive(:verify_mode=).with(0)
 
           subject.context(version: 1.1)
@@ -132,9 +146,10 @@ describe Ronin::Support::Network::SSL do
       end
 
       context "and it's 1_2" do
-        it "must call OpenSSL::SSL::SSLContext#ssl_version= with :TLSv1_2" do
+        it "must call OpenSSL::SSL::SSLContext#min_version= and #max_version= with OpenSSL::SSL::TLS1_2_VERSION" do
           expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
-          expect(context).to receive(:ssl_version=).with(:TLSv1_2)
+          expect(context).to receive(:min_version=).with(OpenSSL::SSL::TLS1_2_VERSION)
+          expect(context).to receive(:max_version=).with(OpenSSL::SSL::TLS1_2_VERSION)
           allow(context).to receive(:verify_mode=).with(0)
 
           subject.context(version: 1.2)
@@ -142,26 +157,48 @@ describe Ronin::Support::Network::SSL do
       end
 
       context "and it's a Symbol" do
-        let(:symbol) { :TLSv1 }
+        let(:symbol) { :TLS1 }
 
-        it "must call OpenSSL::SSL::SSLContext#ssl_version= with the Symbol" do
+        it "must call OpenSSL::SSL::SSLContext#min_version= and #max_version= with the Symbol" do
           expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
-          expect(context).to receive(:ssl_version=).with(symbol)
+          expect(context).to receive(:min_version=).with(symbol)
+          expect(context).to receive(:max_version=).with(symbol)
           allow(context).to receive(:verify_mode=).with(0)
 
           subject.context(version: symbol)
         end
-      end
 
-      context "and it's a String" do
-        let(:string) { "SSLv23" }
+        context "but it's :TLSv1" do
+          it "must call OpenSSL::SSL::SSLContext#min_version= and #max_version= with OpenSSL::SSL::TLS1_VERSION" do
+            expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+            expect(context).to receive(:min_version=).with(OpenSSL::SSL::TLS1_VERSION)
+            expect(context).to receive(:max_version=).with(OpenSSL::SSL::TLS1_VERSION)
+            allow(context).to receive(:verify_mode=).with(0)
 
-        it "must call OpenSSL::SSL::SSLContext#ssl_version= with the String" do
-          expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
-          expect(context).to receive(:ssl_version=).with(string)
-          allow(context).to receive(:verify_mode=).with(0)
+            subject.context(version: :TLSv1)
+          end
+        end
 
-          subject.context(version: string)
+        context "but it's :TLSv1_1" do
+          it "must call OpenSSL::SSL::SSLContext#min_version= and #max_version= with OpenSSL::SSL::TLS1_1_VERSION" do
+            expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+            expect(context).to receive(:min_version=).with(OpenSSL::SSL::TLS1_1_VERSION)
+            expect(context).to receive(:max_version=).with(OpenSSL::SSL::TLS1_1_VERSION)
+            allow(context).to receive(:verify_mode=).with(0)
+
+            subject.context(version: :TLSv1_1)
+          end
+        end
+
+        context "but it's :TLSv1_2" do
+          it "must call OpenSSL::SSL::SSLContext#min_version= and #max_version= with OpenSSL::SSL::TLS1_2_VERSION" do
+            expect(OpenSSL::SSL::SSLContext).to receive(:new).and_return(context)
+            expect(context).to receive(:min_version=).with(OpenSSL::SSL::TLS1_2_VERSION)
+            expect(context).to receive(:max_version=).with(OpenSSL::SSL::TLS1_2_VERSION)
+            allow(context).to receive(:verify_mode=).with(0)
+
+            subject.context(version: :TLSv1_2)
+          end
         end
       end
     end
