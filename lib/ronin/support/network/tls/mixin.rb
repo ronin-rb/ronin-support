@@ -67,8 +67,8 @@ module Ronin
           #
           # @api semipublic
           #
-          def tls_context(version: 1.2, **kwargs)
-            TLS.context(version: version, **kwargs)
+          def tls_context(min_version: 1, **kwargs)
+            TLS.context(min_version: min_version, **kwargs)
           end
 
           #

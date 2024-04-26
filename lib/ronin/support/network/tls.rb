@@ -42,8 +42,8 @@ module Ronin
         #
         # @api semipublic
         #
-        def self.context(version: 1.2, **kwargs)
-          SSL.context(version: version, **kwargs)
+        def self.context(min_version: 1, **kwargs)
+          SSL.context(min_version: min_version, **kwargs)
         end
 
         #
@@ -92,8 +92,8 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.socket(socket, version: 1.2, **kwargs)
-          SSL.socket(socket,version: version, **kwargs)
+        def self.socket(socket, min_version: 1, **kwargs)
+          SSL.socket(socket,min_version: min_version, **kwargs)
         end
 
         #
@@ -162,8 +162,8 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.open?(host,port, version: 1.2, **kwargs)
-          SSL.open?(host,port, version: version, **kwargs)
+        def self.open?(host,port, min_version: 1, **kwargs)
+          SSL.open?(host,port, min_version: min_version, **kwargs)
         end
 
         #
@@ -241,8 +241,8 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.connect(host,port, version: 1.2, **kwargs, &block)
-          SSL.connect(host,port, version: version, **kwargs, &block)
+        def self.connect(host,port, min_version: 1, **kwargs, &block)
+          SSL.connect(host,port, min_version: min_version, **kwargs, &block)
         end
 
         #
@@ -306,8 +306,8 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.connect_and_send(data,host,port, version: 1.2, **kwargs, &block)
-          SSL.connect_and_send(data,host,port, version: version, **kwargs, &block)
+        def self.connect_and_send(data,host,port, min_version: 1, **kwargs, &block)
+          SSL.connect_and_send(data,host,port, min_version: min_version, **kwargs, &block)
         end
 
         #
@@ -366,8 +366,8 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.get_cert(host,port, version: 1.2, **kwargs)
-          SSL.get_cert(host,port, version: version, **kwargs)
+        def self.get_cert(host,port, min_version: 1, **kwargs)
+          SSL.get_cert(host,port, min_version: min_version, **kwargs)
         end
 
         #
@@ -436,8 +436,8 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.banner(host,port, version: 1.2, **kwargs, &block)
-          SSL.banner(host,port, version: version, **kwargs, &block)
+        def self.banner(host,port, min_version: 1, **kwargs, &block)
+          SSL.banner(host,port, min_version: min_version, **kwargs, &block)
         end
 
         #
@@ -504,8 +504,8 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.send(data,host,port, version: 1.2, **kwargs)
-          SSL.send(data,host,port, version: version, **kwargs)
+        def self.send(data,host,port, min_version: 1, **kwargs)
+          SSL.send(data,host,port, min_version: min_version, **kwargs)
         end
 
         #
@@ -536,8 +536,8 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.server_socket(socket, version: 1.2, **kwargs)
-          SSL.server_socket(socket, version: version, **kwargs)
+        def self.server_socket(socket, min_version: 1, **kwargs)
+          SSL.server_socket(socket, min_version: min_version, **kwargs)
         end
 
         #
@@ -595,8 +595,8 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.server(version: 1.2, **kwargs, &block)
-          SSL.server(version: version, **kwargs, &block)
+        def self.server(version: 1, **kwargs, &block)
+          SSL.server(min_version: min_version, **kwargs, &block)
         end
 
         #
@@ -655,8 +655,8 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.server_session(version: 1.2, **kwargs, &block)
-          SSL.server_session(version: version, **kwargs, &block)
+        def self.server_session(min_version: 1, **kwargs, &block)
+          SSL.server_session(min_version: min_version, **kwargs, &block)
         end
 
         #
@@ -724,8 +724,8 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.server_loop(version: 1.2, **kwargs, &block)
-          SSL.server_loop(version: 1.2, **kwargs, &block)
+        def self.server_loop(min_version: 1, **kwargs, &block)
+          SSL.server_loop(min_version: min_version, **kwargs, &block)
         end
 
         #
@@ -796,8 +796,8 @@ module Ronin
         #
         # @since 1.1.0
         #
-        def self.accept(version: 1.2, **kwargs, &block)
-          SSL.accept(version: version, **kwargs, &block)
+        def self.accept(min_version: 1, **kwargs, &block)
+          SSL.accept(min_version: min_version, **kwargs, &block)
         end
       end
     end
