@@ -370,6 +370,14 @@ module Ronin
             version = SSL::VERSIONS.fetch(version,version)
 
             @http.min_version = @http.max_version = version
+          else min_version || max_version
+            if min_version
+              @http.min_version = SSL::VERSIONS.fetch(min_version,min_version)
+            end
+
+            if max_version
+              @http.max_version = SSL::VERSIONS.fetch(max_version,max_version)
+            end
           end
 
           @http.min_version = min_version if min_version

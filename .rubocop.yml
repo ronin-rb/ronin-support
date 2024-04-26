@@ -141,3 +141,5 @@ Layout/IndentationConsistency:
   Exclude:
     # BUG: this seems like a bug in rubocop
     - 'lib/ronin/support/network/ssl.rb'
+    # BUG: this seems like a bug in rubocop
+    - 'lib/ronin/support/network/http.rb'
