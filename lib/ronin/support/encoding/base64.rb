@@ -52,7 +52,7 @@ module Ronin
           when :url_safe then ::Base64.urlsafe_encode64(data)
           when nil       then ::Base64.encode64(data)
           else
-            raise(ArgumentError,"Base64 mode must be either :string, :url, or nil: #{mode.inspect}")
+            raise(ArgumentError,"Base64 mode must be either :string, :url_safe, or nil: #{mode.inspect}")
           end
         end
 
@@ -74,7 +74,7 @@ module Ronin
           when :url_safe then ::Base64.urlsafe_decode64(data)
           when nil       then ::Base64.decode64(data)
           else
-            raise(ArgumentError,"Base64 mode must be either :string, :url, or nil: #{mode.inspect}")
+            raise(ArgumentError,"Base64 mode must be either :string, :url_safe, or nil: #{mode.inspect}")
           end
         end
       end

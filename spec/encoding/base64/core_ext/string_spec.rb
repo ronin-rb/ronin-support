@@ -42,7 +42,7 @@ describe String do
       it do
         expect {
           subject.base64_encode(mode: mode)
-        }.to raise_error(ArgumentError,"Base64 mode must be either :string, :url, or nil: #{mode.inspect}")
+        }.to raise_error(ArgumentError,"Base64 mode must be either :string, :url_safe, or nil: #{mode.inspect}")
       end
     end
   end
@@ -79,7 +79,7 @@ describe String do
       it do
         expect {
           subject.base64_decode(mode: mode)
-        }.to raise_error(ArgumentError,"Base64 mode must be either :string, :url, or nil: #{mode.inspect}")
+        }.to raise_error(ArgumentError,"Base64 mode must be either :string, :url_safe, or nil: #{mode.inspect}")
       end
     end
   end
