@@ -108,6 +108,30 @@ describe Ronin::Support::Network::TCP do
           expect(socket).to be_closed
         end
 
+        it "must return the block's return value" do
+          returned_value = subject.connect(host,port) do |socket|
+            :return_value
+          end
+
+          expect(returned_value).to eq(:return_value)
+        end
+
+        context "when the block raises an exception" do
+          it "must close the TCPSocket" do
+            socket = nil
+
+            expect do
+              subject.connect(host,port) do |yielded_socket|
+                socket = yielded_socket
+                raise "test exception"
+              end
+            end.to raise_error("test exception")
+
+            expect(socket).to be_kind_of(TCPSocket)
+            expect(socket).to be_closed
+          end
+        end
+
         context "when given the bind_port: keyword argument" do
           let(:bind_port) { 1024 + rand(65535 - 1024) }
 

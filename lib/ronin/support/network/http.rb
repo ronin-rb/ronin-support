@@ -473,8 +473,11 @@ module Ronin
           http = new(host,port, ssl: ssl, **kwargs)
 
           if block_given?
-            yield http
-            http.close
+            begin
+              yield http
+            ensure
+              http.close
+            end
           else
             return http
           end
