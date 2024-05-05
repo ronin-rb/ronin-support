@@ -58,6 +58,16 @@ describe Ronin::Support::Network::POP3::Mixin do
           expect(yielded_pop3).to be_kind_of(Net::POP3)
         end
 
+        it "must return the block's return value" do
+          pending "need valid POP3 credentials"
+
+          returned_value = subject.pop3_connect(host, port: port, ssl: true) do |pop3|
+            :return_value
+          end
+
+          expect(returned_value).to be(:return_value)
+        end
+
         it "must finish the POP3 session after yielding it" do
           pending "need valid POP3 credentials"
 
@@ -71,6 +81,26 @@ describe Ronin::Support::Network::POP3::Mixin do
 
           expect(was_started).to be(true)
           expect(pop3).to_not be_started
+        end
+
+        context "when the block raises an exception" do
+          it "must finish the POP3 session after yielding it" do
+            pending "need valid POP3 credentials"
+
+            pop3        = nil
+            was_started = nil
+
+            expect do
+              subject.pop3_connect(host, port: port, ssl: true) do |yielded_pop3|
+                pop3        = yielded_pop3
+                was_started = pop3.started?
+                raise "test exception"
+              end
+            end.to raise_error("test exception")
+
+            expect(was_started).to be(true)
+            expect(pop3).to_not be_started
+          end
         end
       end
     end

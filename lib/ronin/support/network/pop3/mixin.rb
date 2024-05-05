@@ -100,8 +100,11 @@ module Ronin
             pop3.start(user,password)
 
             if block_given?
-              yield pop3
-              pop3.finish
+              begin
+                yield pop3
+              ensure
+                pop3.finish
+              end
             else
               return pop3
             end

@@ -164,8 +164,11 @@ module Ronin
             smtp.start(helo,user,password,auth)
 
             if block_given?
-              yield smtp
-              smtp.finish
+              begin
+                yield smtp
+              ensure
+                smtp.finish
+              end
             else
               return smtp
             end
