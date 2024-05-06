@@ -56,6 +56,16 @@ describe Ronin::Support::Network::SMTP::Mixin do
           expect(yielded_smtp).to be_kind_of(Net::SMTP)
         end
 
+        it "must return the block's return value" do
+          pending "need valid SMTP credentials"
+
+          returned_value = subject.smtp_connect(host) do |smtp|
+            :return_value
+          end
+
+          expect(returned_value).to be(:return_value)
+        end
+
         it "must finish the SMTP session after yielding it" do
           pending "need valid SMTP credentials"
 
@@ -69,6 +79,26 @@ describe Ronin::Support::Network::SMTP::Mixin do
 
           expect(was_started).to be(true)
           expect(smtp).to_not be_started
+        end
+
+        context "when the block raises an exception" do
+          it "must finish the SMTP session after yielding it" do
+            pending "need valid SMTP credentials"
+
+            smtp        = nil
+            was_started = nil
+
+            expect do
+              subject.smtp_connect(host) do |yielded_smtp|
+                smtp        = yielded_smtp
+                was_started = smtp.started?
+                raise "test exception"
+              end
+            end.to raise_error("test exception")
+
+            expect(was_started).to be(true)
+            expect(smtp).to_not be_started
+          end
         end
       end
     end

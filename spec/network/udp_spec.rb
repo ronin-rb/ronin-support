@@ -103,6 +103,30 @@ describe Ronin::Support::Network::UDP do
           expect(socket).to be_closed
         end
 
+        it "must return the block's return value" do
+          returned_value = subject.connect(host,port) do |socket|
+            :return_value
+          end
+
+          expect(returned_value).to eq(:return_value)
+        end
+
+        context "when the block raises an exception" do
+          it "must close the UDPSocket" do
+            socket = nil
+
+            expect do
+              subject.connect(host,port) do |yielded_socket|
+                socket = yielded_socket
+                raise "test exception"
+              end
+            end.to raise_error("test exception")
+
+            expect(socket).to be_kind_of(UDPSocket)
+            expect(socket).to be_closed
+          end
+        end
+
         context "when given the bind_port: keyword argument" do
           it "must bind to the local port" do
             bound_port = nil

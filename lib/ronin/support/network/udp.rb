@@ -137,8 +137,11 @@ module Ronin
           socket.connect(host,port)
 
           if block_given?
-            yield socket
-            socket.close
+            begin
+              yield socket
+            ensure
+              socket.close
+            end
           else
             return socket
           end

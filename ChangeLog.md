@@ -1,3 +1,11 @@
+### 1.0.6 / 2024-XX-XX
+
+* {Ronin::Support::Network::TCP.connect}, {Ronin::Support::Network::UDP.connect}, and
+  {Ronin::Support::Network::HTTP.connect}, when given a block, now returns the block's return value.
+* {Ronin::Support::Network::TCP.connect} and {Ronin::Support::Network::UDP.connect} properly closes the
+  socket when passed a block that raises an exception.
+
+
 ### 1.0.5 / 2023-12-27
 
 * Fixed a bug in {Ronin::Support::Binary::Stream::Methods#read_string} on Ruby
@@ -704,4 +712,3 @@
   * Require combinatorics ~> 0.3.
   * Require uri-query_params ~> 0.5, >= 0.5.2.
   * Require data_paths ~> 0.2, >= 0.2.1.
-

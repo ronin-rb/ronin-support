@@ -442,6 +442,14 @@ describe Ronin::Support::Network::HTTP do
           described_class.connect(host,port,&b)
         }.to yield_with_args(described_class)
       end
+
+      it "must return the block's return value" do
+        returned_value = described_class.connect(host,port) do
+          :return_value
+        end
+
+        expect(returned_value).to eq(:return_value)
+      end
     end
   end
 
