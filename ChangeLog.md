@@ -1,8 +1,8 @@
-### next
+### 1.0.6 / 2023-XX-XX
 
 * {Ronin::Support::Network::TCP.connect}, {Ronin::Support::Network::UDP.connect}, and
-  {Ronin::Support::Network::HTTP.connect}, when passed a block, return the block's return value.
-* {Ronin::Support::Network::TCP.connect} and {Ronin::Support::Network::UDP.connect} properly close the
+  {Ronin::Support::Network::HTTP.connect}, when given a block, now returns the block's return value.
+* {Ronin::Support::Network::TCP.connect} and {Ronin::Support::Network::UDP.connect} properly closes the
   socket when passed a block that raises an exception.
 
 
