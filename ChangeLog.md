@@ -1,4 +1,4 @@
-### 1.0.6 / 2023-XX-XX
+### 1.0.6 / 2024-XX-XX
 
 * {Ronin::Support::Network::TCP.connect}, {Ronin::Support::Network::UDP.connect}, and
   {Ronin::Support::Network::HTTP.connect}, when given a block, now returns the block's return value.
