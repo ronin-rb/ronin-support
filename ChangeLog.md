@@ -1,10 +1,16 @@
-### 1.0.6 / 2024-XX-XX
+### 1.0.6 / 2024-06-19
 
-* {Ronin::Support::Network::TCP.connect}, {Ronin::Support::Network::UDP.connect}, and
-  {Ronin::Support::Network::HTTP.connect}, when given a block, now returns the block's return value.
-* {Ronin::Support::Network::TCP.connect} and {Ronin::Support::Network::UDP.connect} properly closes the
-  socket when passed a block that raises an exception.
-
+* Fixed error messages in {Ronin::Support::Encoding::Base64.encode} and
+  {Ronin::Support::Encoding::Base64.decode}.
+* Fixed {Ronin::Support::Network::IPRange::Glob#each} to support `*` in IPv6
+  glob ranges.
+* {Ronin::Support::Network::TCP.connect},
+  {Ronin::Support::Network::UDP.connect}, and
+  {Ronin::Support::Network::HTTP.connect}, when given a block, now returns the
+  block's return value.
+* {Ronin::Support::Network::TCP.connect} and
+  {Ronin::Support::Network::UDP.connect} properly closes the socket when passed
+  a block that raises an exception.
 
 ### 1.0.5 / 2023-12-27
 
