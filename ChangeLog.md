@@ -1,7 +1,113 @@
-### 1.1.0 / 2023-XX-XX
+### 1.1.0 / 2024-XX-XX
 
 * Added {Ronin::Support::Binary::CTypes::OS::Android}.
 * Added {Ronin::Support::Binary::CTypes::OS::AppleIOS}.
+* Added the `ca:` keyword argument to {Ronin::Support::Crypto::Cert.generate}.
+* Added the `subject_alt_names:` keyword argument to
+  {Ronin::Support::Crypto::Cert.generate}.
+* Added {Ronin::Support::Crypto::Cert::Name#email_address}.
+* Added the `email_address:` keyword to
+  {Ronin::Support::Crypto::Cert::Name.build}.
+* Added {Ronin::Support::Crypto::Key::EC#curve}.
+* Added {Ronin::Support::Crypto::Key::EC#size}.
+* Added {Ronin::Support::Crypto.Key}.
+* Added support for parsing PEM encoded DH keys in
+  {Ronin::Support::Crypto::Key#load}.
+* Added {Ronin::Support::Encoding::Base36}.
+* Added {Ronin::Support::Encoding::Base62}.
+* Added the `content_type:` keyword argument to
+  {Ronin::Support::Network::HTTP#request}.
+* Added the `accept:` keyword argument to
+  {Ronin::Support::Network::HTTP#request}.
+* Added the `json:` keyword argument to
+  {Ronin::Support::Network::HTTP#request}.
+* Added {Ronin::Support::Network::HTTP.post_cookies}.
+* Added {Ronin::Support::Network::HTTP#post_cookies}.
+* Added {Ronin::Support::Network::HTTP::Mixin#http_post_cookies}.
+* Added {Ronin::Support::Network::IP#ipv4}.
+* Added {Ronin::Support::Network::IPRange#first}.
+* Added {Ronin::Support::Network::IPRange#last}.
+* Added {Ronin::Support::Network::IPRange#include?}.
+* Added {Ronin::Support::Network::IPRange#==}.
+* Added {Ronin::Support::Network::IPRange#===}.
+* Added {Ronin::Support::Network::IPRange#size}.
+* Added {Ronin::Support::Network::IPRange::CIDR#first}.
+* Added {Ronin::Support::Network::IPRange::CIDR#last}.
+* Added {Ronin::Support::Network::IPRange::CIDR#include?}.
+* Added {Ronin::Support::Network::IPRange::CIDR#==}.
+* Added {Ronin::Support::Network::IPRange::CIDR#===}.
+* Added {Ronin::Support::Network::IPRange::CIDR#prefix_address}.
+* Added {Ronin::Support::Network::IPRange::CIDR#size}.
+* Added {Ronin::Support::Network::IPRange::Glob#first}.
+* Added {Ronin::Support::Network::IPRange::Glob#last}.
+* Added {Ronin::Support::Network::IPRange::Glob#include?}.
+* Added {Ronin::Support::Network::IPRange::Glob#==}.
+* Added {Ronin::Support::Network::IPRange::Glob#===}.
+* Added {Ronin::Support::Network::IPRange::Glob#size}.
+* Added {Ronin::Support::Network::IPRange::Range#===}.
+* Added {Ronin::Support::Network::IPRange::Range#size}.
+* Added {Ronin::Support::Network::SSL.socket}.
+* Added {Ronin::Support::Network::SSL.open?}.
+* Added {Ronin::Support::Network::SSL.connect}.
+* Added {Ronin::Support::Network::SSL.connect_and_send}.
+* Added {Ronin::Support::Network::SSL.get_cert}.
+* Added {Ronin::Support::Network::SSL.banner}.
+* Added {Ronin::Support::Network::SSL.send}.
+* Added {Ronin::Support::Network::SSL.server}.
+* Added {Ronin::Support::Network::SSL.server_session}.
+* Added {Ronin::Support::Network::SSL.server_socket}.
+* Added {Ronin::Support::Network::SSL.server_loop}.
+* Added {Ronin::Support::Network::SSL.accept}.
+* Added {Ronin::Support::Network::SSL::Mixin#ssl_server}.
+* Added {Ronin::Support::Network::SSL::Mixin#ssl_server_session}.
+* Added the `min_version:` and `max_version:` keyword arguments to
+  all methods in {Ronin::Support::Network::SSL},
+  {Ronin::Support::Network::SSL::Mixin},
+  {Ronin::Support::Network::TLS},
+  {Ronin::Support::Network::TLS::Mixin},
+  {Ronin::Support::Network::HTTP}, and
+  {Ronin::Support::Network::HTTP::Mixin}.
+  * Default the SSL `min_version:` to `1`.
+* Added {Ronin::Support::Network::TLS.socket}.
+* Added {Ronin::Support::Network::TLS.open?}.
+* Added {Ronin::Support::Network::TLS.connect}.
+* Added {Ronin::Support::Network::TLS.connect_and_send}.
+* Added {Ronin::Support::Network::TLS.get_cert}.
+* Added {Ronin::Support::Network::TLS.banner}.
+* Added {Ronin::Support::Network::TLS.send}.
+* Added {Ronin::Support::Network::TLS.server}.
+* Added {Ronin::Support::Network::TLS.server_session}.
+* Added {Ronin::Support::Network::TLS.server_socket}.
+* Added {Ronin::Support::Network::TLS.server_loop}.
+* Added {Ronin::Support::Network::TLS.accept}.
+* Added {Ronin::Support::Network::TLS::Mixin#tls_server}.
+* Added {Ronin::Support::Network::TLS::Mixin#tls_server_session}.
+* Added the `hostname:` keyword argument to all methods in
+  {Ronin::Support::Network::SSL::Mixin} and
+  {Ronin::Support::Network::TLS::Mixin} methods.
+* Added {Ronin::Support::Network::Wildcard}.
+* No longer automatically require lesser used network protocols in
+  `ronin/support/network/mixin`:
+  * `ronin/support/network/ftp/mixin`
+  * `ronin/support/network/smtp/mixin`
+  * `ronin/support/network/esmtp/mixin`
+  * `ronin/support/network/pop3/mixin`
+  * `ronin/support/network/imap/mixin`
+* Improve the validation of IP ranges in
+  {Ronin::Support::Network::IPRange#initialize}.
+* Improve the validation of IP CIDR ranges in
+  {Ronin::Support::Network::IPRange::CIDR#initialize}.
+* Improve the validation of IP glob ranges in
+  {Ronin::Support::Network::IPRange::Glob#initialize}.
+* No longer use deprecated `Net::HTTP` methods in
+  {Ronin::Support::Network::HTTP#initialize}.
+* Add support for specify a SSL version of `1.3` in all
+  {Ronin::Support::Network::SSL},
+  {Ronin::Support::Network::SSL::Mixin},
+  {Ronin::Support::Network::TLS},
+  {Ronin::Support::Network::TLS::Mixin},
+  {Ronin::Support::Network::HTTP}, and
+  {Ronin::Support::Network::HTTP::Mixin} methods.
 
 ### 1.0.6 / 2024-06-19
 
