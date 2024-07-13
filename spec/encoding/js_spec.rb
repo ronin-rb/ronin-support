@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'ronin/support/encoding/js'
 
+require 'json'
+
 describe Ronin::Support::Encoding::JS do
   describe ".escape_byte" do
     context "when given a byte that maps to a special character" do
@@ -95,6 +97,12 @@ describe Ronin::Support::Encoding::JS do
 
     it "must unescape JavaScript unicode characters" do
       expect(subject.unescape(js_unicode)).to eq(data)
+    end
+
+    it "must unescape Unicode surrogate pair characters" do
+      expect(subject.unescape("\\uD83D\\uDE80")).to eq(
+        JSON.parse("\"\\uD83D\\uDE80\"")
+      )
     end
 
     it "must unescape JavaScript hex characters" do
