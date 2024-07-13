@@ -183,16 +183,17 @@ module Ronin
         #
         def self.unescape(data)
           unescaped = String.new(encoding: Encoding::UTF_8)
+          scanner   = StringScanner.new(data)
 
-          data.scan(/[\\%]u[0-9a-fA-F]{1,4}|[\\%][0-9a-fA-F]{1,2}|\\[btnfr\'\"\\]|./) do |c|
-            unescaped << BACKSLASHED_CHARS.fetch(c) do
-                           if (c.start_with?("\\u") || c.start_with?("%u"))
-                             c[2..].to_i(16)
-                           elsif (c.start_with?("\\") || c.start_with?("%"))
-                             c[1..].to_i(16)
-                           else
-                             c
-                           end
+          until scanner.eos?
+            unescaped << if (backslash_escape = scanner.scan(/\\[btnfr'"\\]/))
+                           BACKSLASHED_CHARS[backslash_escape]
+                         elsif (unicode_escape = scanner.scan(/[\\%]u[0-9a-fA-F]{1,4}/))
+                           unicode_escape[2..].to_i(16)
+                         elsif (hex_escape     = scanner.scan(/[\\%][0-9a-fA-F]{1,2}/))
+                           hex_escape[1..].to_i(16)
+                         else
+                           scanner.getch
                          end
           end
 
