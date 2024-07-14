@@ -1,3 +1,12 @@
+### 1.0.7 / 2024-07-13
+
+* Improved the performance of {Ronin::Support::Encoding::JS.unescape} and
+  {String#js_unescape} by 2x.
+* Correctly parse Unicode surrogate character pairs in JavaScript
+  strings (ex: `"\uD83D\uDE80"`) in {Ronin::Support::Encoding::JS.unescape},
+  {String#js_unescape}, {Ronin::Support::Encoding::JS.unquote}, and
+  {String#js_unquote}.
+
 ### 1.0.6 / 2024-06-19
 
 * Fixed error messages in {Ronin::Support::Encoding::Base64.encode} and
