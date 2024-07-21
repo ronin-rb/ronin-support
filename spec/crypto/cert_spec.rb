@@ -383,9 +383,6 @@ describe Ronin::Support::Crypto::Cert do
             state:               state,
             country:             country
           }
-          # BUG: specifying extensions causes cert.version to be upgraded to 2
-          # on ruby >= 3.2 and openssl 3.2.1.
-          # extensions: extensions
         )
       end
 
