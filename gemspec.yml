@@ -5,13 +5,13 @@ description: |
   many Core Extensions to Ruby's built-in classes as well as its own
   Classes/Modules. ronin-support can be used by other Ruby libraries, tools, or
   scripts.
-  
+
   It's like pwntools combined with activesupport.
-  
+
   ronin-support is part of the ronin-rb project, a Ruby toolkit for security
   research and development.
 
-license: LGPL-3.0
+license: LGPL-3.0-or-later
 authors: Postmodern
 email: postmodern.mod3@gmail.com
 homepage: https://ronin-rb.dev
