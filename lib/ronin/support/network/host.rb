@@ -166,7 +166,7 @@ module Ronin
         # @return [Boolean]
         #
         # @example
-        #   host = Network::Host.new("www.詹姆斯.com')
+        #   host = Network::Host.new("www.詹姆斯.com")
         #   host.idn?
         #   # => true
         #
