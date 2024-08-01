@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Copyright (c) 2006-2026 Hal Brodigan (postmodern.mod3 at gmail.com)
+# Copyright (c) 2006-2024 Hal Brodigan (postmodern.mod3 at gmail.com)
 #
 # ronin-support is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published
@@ -16,27 +16,4 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/encoding/base64'
-require 'ronin/support/encoding/quoted_printable'
-
-module Ronin
-  module Support
-    class Encoding < ::Encoding
-      #
-      # Alias for {QuotedPrintable}.
-      #
-      # ## Core-Ext Methods
-      #
-      # * {String#smtp_escape}
-      # * {String#smtp_unescape}
-      #
-      # @api public
-      #
-      # @since 1.2.0
-      #
-      SMTP = QuotedPrintable
-    end
-  end
-end
-
-require 'ronin/support/encoding/smtp/core_ext'
+require 'ronin/support/encoding/smtp/core_ext/string'
