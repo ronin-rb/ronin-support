@@ -31,6 +31,7 @@ require 'ronin/support/encoding/html'
 require 'ronin/support/encoding/js'
 require 'ronin/support/encoding/sql'
 require 'ronin/support/encoding/quoted_printable'
+require 'ronin/support/encoding/smtp'
 require 'ronin/support/encoding/ruby'
 require 'ronin/support/encoding/uri'
 require 'ronin/support/encoding/punycode'
@@ -108,6 +109,8 @@ module Ronin
     # * {String#punycode_encode}
     # * {String#quoted_printable_escape}
     # * {String#quoted_printable_unescape}
+    # * {String#smtp_escape}
+    # * {String#smtp_unescape}
     # * {String#ruby_decode}
     # * {String#ruby_encode}
     # * {String#ruby_escape}
