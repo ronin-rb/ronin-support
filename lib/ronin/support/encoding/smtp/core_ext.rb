@@ -16,27 +16,4 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/encoding/base64'
-require 'ronin/support/encoding/quoted_printable'
-
-module Ronin
-  module Support
-    class Encoding < ::Encoding
-      #
-      # Alias for {QuotedPrintable}.
-      #
-      # ## Core-Ext Methods
-      #
-      # * {String#smtp_escape}
-      # * {String#smtp_unescape}
-      #
-      # @api public
-      #
-      # @since 1.2.0
-      #
-      SMTP = QuotedPrintable
-    end
-  end
-end
-
-require 'ronin/support/encoding/smtp/core_ext'
+require 'ronin/support/encoding/smtp/core_ext/string'
