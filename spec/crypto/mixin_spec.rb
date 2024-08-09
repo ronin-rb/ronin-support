@@ -128,7 +128,7 @@ describe Ronin::Support::Crypto::Mixin do
     end
   end
 
-  describe "#crypto_aes" do
+  describe "#crypto_aes_cipher" do
     let(:key_size)  { 256 }
     let(:hash)      { :sha256 }
     let(:password)  { 'secret' }
@@ -192,7 +192,7 @@ describe Ronin::Support::Crypto::Mixin do
     end
   end
 
-  describe "#crypto_aes128" do
+  describe "#crypto_aes128_cipher" do
     let(:password)  { 'secret' }
     let(:direction) { :decrypt }
 
@@ -244,7 +244,7 @@ describe Ronin::Support::Crypto::Mixin do
     end
   end
 
-  describe "#crypto_aes256" do
+  describe "#crypto_aes256_cipher" do
     let(:password)  { 'secret' }
     let(:direction) { :decrypt }
 
