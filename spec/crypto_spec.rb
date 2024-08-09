@@ -153,15 +153,18 @@ describe Ronin::Support::Crypto do
       expect(new_cipher.name).to eq("DES-EDE3-CBC")
     end
 
-    context "when the mode: keyword argument is given" do
-      let(:mode) { :wrap }
+    # NOTE: Ruby 3.0's openssl does not support des3-wrap
+    if RUBY_VERSION >= '3.1.0'
+      context "when the mode: keyword argument is given" do
+        let(:mode) { :wrap }
 
-      it "must use the given mode" do
-        new_cipher = subject.des3_cipher(mode:      mode,
-                                         direction: direction,
-                                         key:       key)
+        it "must use the given mode" do
+          new_cipher = subject.des3_cipher(mode:      mode,
+                                           direction: direction,
+                                           key:       key)
 
-        expect(new_cipher.name).to eq("DES3-#{mode.upcase}")
+          expect(new_cipher.name).to eq("DES3-#{mode.upcase}")
+        end
       end
     end
   end
