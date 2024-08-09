@@ -122,6 +122,28 @@ describe String do
     end
   end
 
+  let(:des3_key) { 'A' * 24 }
+  let(:des3_cipher_text) do
+    cipher = OpenSSL::Cipher.new('des3')
+
+    cipher.encrypt
+    cipher.key = des3_key
+
+    cipher.update(subject) + cipher.final
+  end
+
+  describe "#des3_encrypt" do
+    it "must encrypt a given String using DES3" do
+      expect(subject.des3_encrypt(key: des3_key)).to eq(des3_cipher_text)
+    end
+  end
+
+  describe "#des3_decrypt" do
+    it "must decrypt the given String" do
+      expect(des3_cipher_text.des3_decrypt(key: des3_key)).to eq(subject)
+    end
+  end
+
   let(:aes_cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-256-cbc')
 
