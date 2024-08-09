@@ -304,6 +304,100 @@ class File
   end
 
   #
+  # Encrypts the file using DES3.
+  #
+  # @param [String] path
+  #   The path to the file.
+  #
+  # @param [Integer] block_size
+  #   Reads data from the file in chunks of the given block size.
+  #
+  # @param [String, #<<, nil] output
+  #   The optional output buffer to append the AES encrypted data to.
+  #   Defaults to an empty ASCII 8bit encoded String.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {Ronin::Support::Crypto.des3_cipher}.
+  #
+  # @option kwargs [:wrap, Symbol, nil] :mode
+  #   The desired DES3 cipher mode.
+  #
+  # @option kwargs [String] :key
+  #   The secret key to use.
+  #
+  # @option kwargs [String] :iv
+  #   The optional Initial Vector (IV).
+  #
+  # @option kwargs [Integer] :padding
+  #   Sets the padding for the cipher.
+  #
+  # @return [String]
+  #   The encrypted data.
+  #
+  # @raise [ArgumentError]
+  #   The `key:` keyword argument must be given.
+  #
+  # @example
+  #   File.des3_encrypt('file.txt', key: 'A' * 24)
+  #   # => "..."
+  #
+  # @since 1.2.0
+  #
+  def self.des3_encrypt(path, block_size: 16384, output: nil, **kwargs,&block)
+    cipher = Ronin::Support::Crypto.des3_cipher(direction: :encrypt, **kwargs)
+    file   = File.open(path,'rb')
+
+    return cipher.stream(file, block_size: block_size, output: output,&block)
+  end
+
+  #
+  # Decrypts the file using DES3.
+  #
+  # @param [String] path
+  #   The path to the file.
+  #
+  # @param [Integer] block_size
+  #   Reads data from the file in chunks of the given block size.
+  #
+  # @param [String, #<<, nil] output
+  #   The optional output buffer to append the AES encrypted data to.
+  #   Defaults to an empty ASCII 8bit encoded String.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {Ronin::Support::Crypto.des3_cipher}.
+  #
+  # @option kwargs [:wrap, Symbol, nil] :mode
+  #   The desired DES3 cipher mode.
+  #
+  # @option kwargs [String] :key
+  #   The secret key to use.
+  #
+  # @option kwargs [String] :iv
+  #   The optional Initial Vector (IV).
+  #
+  # @option kwargs [Integer] :padding
+  #   Sets the padding for the cipher.
+  #
+  # @return [String]
+  #   The decrypted data.
+  #
+  # @raise [ArgumentError]
+  #   The `key:` keyword argument must be given.
+  #
+  # @example
+  #   File.des3_decrypt('encrypted.bin', key: 'A' * 24)
+  #   # => "..."
+  #
+  # @since 1.2.0
+  #
+  def self.des3_decrypt(path, block_size: 16384, output: nil, **kwargs,&block)
+    cipher = Ronin::Support::Crypto.des3_cipher(direction: :decrypt, **kwargs)
+    file   = File.open(path,'rb')
+
+    return cipher.stream(file, block_size: block_size, output: output,&block)
+  end
+
+  #
   # Encrypts the file using AES.
   #
   # @param [String] path
