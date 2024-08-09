@@ -206,6 +206,115 @@ module Ronin
         alias decrypt crypto_decrypt
 
         #
+        # Creates a new DES3 cipher.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {Cipher::DES3#initialize}.
+        #
+        # @option kwargs [:wrap, Symbol, nil] :mode
+        #   The desired AES cipher mode.
+        #
+        # @option kwargs [String] :key
+        #   The secret key to use.
+        #
+        # @option kwargs [String] :iv
+        #   The optional Initial Vector (IV).
+        #
+        # @option kwargs [Integer] :padding
+        #   Sets the padding for the cipher.
+        #
+        # @return [Cipher::DES3]
+        #   The new DES3 cipher.
+        #
+        # @example
+        #   crypto_des3_cipher(direction: :encrypt, key: 'A' * 24)
+        #   # => #<Ronin::Support::Crypto::Cipher::DES3:0x00007f54c3752b90 @mode=nil>
+        #
+        # @see Crypto.des3_cipher
+        #
+        # @since 1.2.0
+        #
+        def crypto_des3_cipher(**kwargs)
+          Crypto.des3_cipher(**kwargs)
+        end
+
+        alias des3_cipher crypto_des3_cipher
+
+        #
+        # Encrypts data using DES3.
+        #
+        # @param [#to_s] data
+        #   The data to encrypt.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {Cipher::DES3#initialize}.
+        #
+        # @option kwargs [:wrap, Symbol, nil] :mode
+        #   The desired DES3 cipher mode.
+        #
+        # @option kwargs [String] :key
+        #   The secret key to use.
+        #
+        # @option kwargs [String] :iv
+        #   The optional Initial Vector (IV).
+        #
+        # @option kwargs [Integer] :padding
+        #   Sets the padding for the cipher.
+        #
+        # @return [String]
+        #   The encrypted data.
+        #
+        # @raise [ArgumentError]
+        #   The `key:` keyword argument must be given.
+        #
+        # @see Crypto.des3_encrypt
+        #
+        # @since 1.2.0
+        #
+        def crypto_des3_encrypt(data,**kwargs)
+          Crypto.des3_encrypt(data,**kwargs)
+        end
+
+        alias des3_encrypt crypto_des3_encrypt
+
+        #
+        # Decrypts data using DES3.
+        #
+        # @param [#to_s] data
+        #   The data to decrypt.
+        #
+        # @param [Hash{Symbol => Object}] kwargs
+        #   Additional keyword arguments for {Cipher::DES3#initialize}.
+        #
+        # @option kwargs [:wrap, Symbol, nil] :mode
+        #   The desired DES3 cipher mode.
+        #
+        # @option kwargs [String] :key
+        #   The secret key to use.
+        #
+        # @option kwargs [String] :iv
+        #   The optional Initial Vector (IV).
+        #
+        # @option kwargs [Integer] :padding
+        #   Sets the padding for the cipher.
+        #
+        # @return [String]
+        #   The encrypted data.
+        #
+        # @raise [ArgumentError]
+        #   The `key:` keyword argument must be given.
+        #
+        # @see Crypto.des3_decrypt
+        #
+        # @since 1.2.0
+        #
+        def crypto_des3_decrypt(data,**kwargs)
+          Crypto.des3_decrypt(data,**kwargs)
+        end
+
+        alias des3_decrypt crypto_des3_decrypt
+
+        #
         # Creates a new AES cipher.
         #
         # @param [Hash{Symbol => Object}] kwargs
