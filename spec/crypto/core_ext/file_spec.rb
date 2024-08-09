@@ -159,6 +159,57 @@ describe File do
     end
   end
 
+  let(:des3_key) { 'A' * 24 }
+  let(:des3_cipher_text) do
+    cipher = OpenSSL::Cipher.new('des3')
+
+    cipher.encrypt
+    cipher.key = des3_key
+
+    cipher.update(clear_text) + cipher.final
+  end
+
+  describe ".des3_encrypt" do
+    it "must encrypt a given String using DES3" do
+      expect(subject.des3_encrypt(path, key: des3_key)).to eq(des3_cipher_text)
+    end
+
+    context "when given a block" do
+      it "must yield each AES encrypted block" do
+        output = String.new
+
+        subject.des3_encrypt(path, key: des3_key) do |block|
+          output << block
+        end
+
+        expect(output).to eq(des3_cipher_text)
+      end
+    end
+  end
+
+  describe ".des3_decrypt" do
+    let(:tempfile) { Tempfile.new('ronin-support') }
+    let(:path)     { tempfile.path }
+
+    before { File.write(path,des3_cipher_text) }
+
+    it "must decrypt the given String" do
+      expect(subject.des3_decrypt(path, key: des3_key)).to eq(clear_text)
+    end
+
+    context "when given a block" do
+      it "must yield each AES decrypted block" do
+        output = String.new
+
+        subject.des3_decrypt(path, key: des3_key) do |block|
+          output << block
+        end
+
+        expect(output).to eq(clear_text)
+      end
+    end
+  end
+
   let(:aes_cipher_text) do
     cipher = OpenSSL::Cipher.new('aes-256-cbc')
 
