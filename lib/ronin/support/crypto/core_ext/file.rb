@@ -344,7 +344,7 @@ class File
   #   The encrypted data.
   #
   # @raise [ArgumentError]
-  #   Either the the `key:` or `password:` keyword argument must be given.
+  #   Either the `key:` or `password:` keyword argument must be given.
   #
   # @example
   #   File.aes_encrypt('file.txt', key_size: 256, password: 's3cr3t')
@@ -400,7 +400,7 @@ class File
   #   The encrypted data.
   #
   # @raise [ArgumentError]
-  #   Either the the `key:` or `password:` keyword argument must be given.
+  #   Either the `key:` or `password:` keyword argument must be given.
   #
   # @example
   #   File.aes_decrypt('encrypted.bin', key_size: 256, password: 's3cr3t')
@@ -453,7 +453,7 @@ class File
   #   The encrypted data.
   #
   # @raise [ArgumentError]
-  #   Either the the `key:` or `password:` keyword argument must be given.
+  #   Either the `key:` or `password:` keyword argument must be given.
   #
   # @example
   #   File.aes128_encrypt('file.txt', password: 's3cr3t')
@@ -506,7 +506,7 @@ class File
   #   The encrypted data.
   #
   # @raise [ArgumentError]
-  #   Either the the `key:` or `password:` keyword argument must be given.
+  #   Either the `key:` or `password:` keyword argument must be given.
   #
   # @example
   #   File.aes256_decrypt('encrypted.bin', password: 's3cr3t')
@@ -559,7 +559,7 @@ class File
   #   The encrypted data.
   #
   # @raise [ArgumentError]
-  #   Either the the `key:` or `password:` keyword argument must be given.
+  #   Either the `key:` or `password:` keyword argument must be given.
   #
   # @example
   #   File.aes256_encrypt('file.txt', password: 's3cr3t')
@@ -612,7 +612,7 @@ class File
   #   The encrypted data.
   #
   # @raise [ArgumentError]
-  #   Either the the `key:` or `password:` keyword argument must be given.
+  #   Either the `key:` or `password:` keyword argument must be given.
   #
   # @example
   #   File.aes256_decrypt('encrypted.bin', password: 's3cr3t')

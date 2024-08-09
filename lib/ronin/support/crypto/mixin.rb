@@ -109,7 +109,7 @@ module Ronin
         #   The newly created cipher.
         #
         # @raise [ArgumentError]
-        #   Either the the `key:` or `password:` keyword argument must be given.
+        #   Either the `key:` or `password:` keyword argument must be given.
         #
         # @example
         #   crypto_cipher('aes-128-cbc', mode: :encrypt, key 'secret'.md5)
@@ -139,7 +139,7 @@ module Ronin
         #   The encrypted data.
         #
         # @raise [ArgumentError]
-        #   Either the the `key:` or `password:` keyword argument must be given.
+        #   Either the `key:` or `password:` keyword argument must be given.
         #
         # @see Crypto.encrypt
         #
@@ -165,7 +165,7 @@ module Ronin
         #   The decrypted data.
         #
         # @raise [ArgumentError]
-        #   Either the the `key:` or `password:` keyword argument must be given.
+        #   Either the `key:` or `password:` keyword argument must be given.
         #
         # @see Crypto.decrypt
         #
@@ -251,7 +251,7 @@ module Ronin
         #   The encrypted data.
         #
         # @raise [ArgumentError]
-        #   Either the the `key:` or `password:` keyword argument must be given.
+        #   Either the `key:` or `password:` keyword argument must be given.
         #
         # @see Crypto.aes_encrypt
         #
@@ -295,7 +295,7 @@ module Ronin
         #   The encrypted data.
         #
         # @raise [ArgumentError]
-        #   Either the the `key:` or `password:` keyword argument must be given.
+        #   Either the `key:` or `password:` keyword argument must be given.
         #
         # @see Crypto.aes_decrypt
         #
@@ -375,7 +375,7 @@ module Ronin
         #   The encrypted data.
         #
         # @raise [ArgumentError]
-        #   Either the the `key:` or `password:` keyword argument must be given.
+        #   Either the `key:` or `password:` keyword argument must be given.
         #
         # @see Crypto.aes128_encrypt
         #
@@ -416,7 +416,7 @@ module Ronin
         #   The encrypted data.
         #
         # @raise [ArgumentError]
-        #   Either the the `key:` or `password:` keyword argument must be given.
+        #   Either the `key:` or `password:` keyword argument must be given.
         #
         # @see Crypto.aes128_decrypt
         #
@@ -496,7 +496,7 @@ module Ronin
         #   The encrypted data.
         #
         # @raise [ArgumentError]
-        #   Either the the `key:` or `password:` keyword argument must be given.
+        #   Either the `key:` or `password:` keyword argument must be given.
         #
         # @see Crypto.aes256_encrypt
         #
@@ -537,7 +537,7 @@ module Ronin
         #   The encrypted data.
         #
         # @raise [ArgumentError]
-        #   Either the the `key:` or `password:` keyword argument must be given.
+        #   Either the `key:` or `password:` keyword argument must be given.
         #
         # @see Crypto.aes256_decrypt
         #

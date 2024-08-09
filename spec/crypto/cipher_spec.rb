@@ -101,7 +101,7 @@ describe Ronin::Support::Crypto::Cipher do
       it do
         expect {
           described_class.new(name, direction: :encrypt)
-        }.to raise_error(ArgumentError,"the the key: or password: keyword argument must be given")
+        }.to raise_error(ArgumentError,"the key: or password: keyword argument must be given")
       end
     end
   end

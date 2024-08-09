@@ -199,7 +199,7 @@ module Ronin
       #   The newly created cipher.
       #
       # @raise [ArgumentError]
-      #   Either the the `key:` or `password:` keyword argument must be given.
+      #   Either the `key:` or `password:` keyword argument must be given.
       #
       # @example
       #   Crypto.cipher('aes-128-cbc', direction: :encrypt, key 'secret'.md5)
@@ -242,7 +242,7 @@ module Ronin
       #   The encrypted data.
       #
       # @raise [ArgumentError]
-      #   Either the the `key:` or `password:` keyword argument must be given.
+      #   Either the `key:` or `password:` keyword argument must be given.
       #
       # @see Cipher#encrypt
       #
@@ -281,7 +281,7 @@ module Ronin
       #   The decrypted data.
       #
       # @raise [ArgumentError]
-      #   Either the the `key:` or `password:` keyword argument must be given.
+      #   Either the `key:` or `password:` keyword argument must be given.
       #
       # @see Cipher#decrypt
       #
@@ -363,7 +363,7 @@ module Ronin
       #   The encrypted data.
       #
       # @raise [ArgumentError]
-      #   Either the the `key:` or `password:` keyword argument must be given.
+      #   Either the `key:` or `password:` keyword argument must be given.
       #
       def self.aes_encrypt(data,**kwargs)
         self.aes_cipher(direction: :encrypt, **kwargs).encrypt(data)
@@ -403,7 +403,7 @@ module Ronin
       #   The encrypted data.
       #
       # @raise [ArgumentError]
-      #   Either the the `key:` or `password:` keyword argument must be given.
+      #   Either the `key:` or `password:` keyword argument must be given.
       #
       def self.aes_decrypt(data,**kwargs)
         self.aes_cipher(direction: :decrypt, **kwargs).decrypt(data)
@@ -477,7 +477,7 @@ module Ronin
       #   The encrypted data.
       #
       # @raise [ArgumentError]
-      #   Either the the `key:` or `password:` keyword argument must be given.
+      #   Either the `key:` or `password:` keyword argument must be given.
       #
       def self.aes128_encrypt(data,**kwargs)
         self.aes128_cipher(direction: :encrypt, **kwargs).encrypt(data)
@@ -514,7 +514,7 @@ module Ronin
       #   The encrypted data.
       #
       # @raise [ArgumentError]
-      #   Either the the `key:` or `password:` keyword argument must be given.
+      #   Either the `key:` or `password:` keyword argument must be given.
       #
       def self.aes128_decrypt(data,**kwargs)
         self.aes128_cipher(direction: :decrypt, **kwargs).decrypt(data)
@@ -588,7 +588,7 @@ module Ronin
       #   The encrypted data.
       #
       # @raise [ArgumentError]
-      #   Either the the `key:` or `password:` keyword argument must be given.
+      #   Either the `key:` or `password:` keyword argument must be given.
       #
       def self.aes256_encrypt(data,**kwargs)
         self.aes256_cipher(direction: :encrypt, **kwargs).encrypt(data)
@@ -625,7 +625,7 @@ module Ronin
       #   The encrypted data.
       #
       # @raise [ArgumentError]
-      #   Either the the `key:` or `password:` keyword argument must be given.
+      #   Either the `key:` or `password:` keyword argument must be given.
       #
       def self.aes256_decrypt(data,**kwargs)
         self.aes256_cipher(direction: :decrypt, **kwargs).decrypt(data)

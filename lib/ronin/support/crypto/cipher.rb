@@ -94,7 +94,7 @@ module Ronin
           elsif key
             self.key = key
           else
-            raise(ArgumentError,"the the key: or password: keyword argument must be given")
+            raise(ArgumentError,"the key: or password: keyword argument must be given")
           end
 
           self.iv      = iv      if iv

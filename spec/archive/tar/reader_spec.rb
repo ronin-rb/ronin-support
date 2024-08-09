@@ -129,7 +129,7 @@ describe Ronin::Support::Archive::Tar::Reader do
   describe "#read" do
     let(:name) { 'file.txt' }
 
-    it "must read the the full contents of the file within the archive" do
+    it "must read the full contents of the file within the archive" do
       expect(subject.read(name)).to eq(txt_data)
     end
 
