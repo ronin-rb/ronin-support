@@ -220,6 +220,66 @@ class String
   end
 
   #
+  # Encrypts data using DES3.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {Ronin::Support::Crypto.des3_encrypt}.
+  #
+  # @option kwargs [:wrap, Symbol, nil] :mode
+  #   The desired DES3 cipher mode.
+  #
+  # @option kwargs [String] :key
+  #   The secret key to use.
+  #
+  # @option kwargs [String] :iv
+  #   The optional Initial Vector (IV).
+  #
+  # @option kwargs [Integer] :padding
+  #   Sets the padding for the cipher.
+  #
+  # @return [String]
+  #   The encrypted data.
+  #
+  # @raise [ArgumentError]
+  #   The `key:` keyword argument must be given.
+  #
+  # @since 1.2.0
+  #
+  def des3_encrypt(**kwargs)
+    Ronin::Support::Crypto.des3_encrypt(self,**kwargs)
+  end
+
+  #
+  # Decrypts data using DES3.
+  #
+  # @param [Hash{Symbol => Object}] kwargs
+  #   Additional keyword arguments for {Ronin::Support::Crypto.des3_decrypt}.
+  #
+  # @option kwargs [:wrap, Symbol, nil] :mode
+  #   The desired DES3 cipher mode.
+  #
+  # @option kwargs [String] :key
+  #   The secret key to use.
+  #
+  # @option kwargs [String] :iv
+  #   The optional Initial Vector (IV).
+  #
+  # @option kwargs [Integer] :padding
+  #   Sets the padding for the cipher.
+  #
+  # @return [String]
+  #   The encrypted data.
+  #
+  # @raise [ArgumentError]
+  #   The `key:` keyword argument must be given.
+  #
+  # @since 1.2.0
+  #
+  def des3_decrypt(**kwargs)
+    Ronin::Support::Crypto.des3_decrypt(self,**kwargs)
+  end
+
+  #
   # Encrypts the String using AES.
   #
   # @param [Hash{Symbol => Object}] kwargs
