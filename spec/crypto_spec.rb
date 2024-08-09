@@ -137,6 +137,57 @@ describe Ronin::Support::Crypto do
     cipher.update(clear_text) + cipher.final
   end
 
+  describe ".des3_cipher" do
+    let(:key)       { 'A' * 24 }
+    let(:direction) { :decrypt }
+
+    it "must return a Ronin::Support::Crypto::Cipher::DES3 object" do
+      new_cipher = subject.des3_cipher(direction: direction, key: key)
+
+      expect(new_cipher).to be_kind_of(Ronin::Support::Crypto::Cipher::DES3)
+    end
+
+    it "must default to cipher 'DES-EDE3-CBC'" do
+      new_cipher = subject.des3_cipher(direction: direction, key: key)
+
+      expect(new_cipher.name).to eq("DES-EDE3-CBC")
+    end
+
+    context "when the mode: keyword argument is given" do
+      let(:mode) { :wrap }
+
+      it "must use the given mode" do
+        new_cipher = subject.des3_cipher(mode:      mode,
+                                         direction: direction,
+                                         key:       key)
+
+        expect(new_cipher.name).to eq("DES3-#{mode.upcase}")
+      end
+    end
+  end
+
+  let(:des3_key) { 'A' * 24 }
+  let(:des3_cipher_text) do
+    cipher = OpenSSL::Cipher.new('des3')
+
+    cipher.encrypt
+    cipher.key = des3_key
+
+    cipher.update(clear_text) + cipher.final
+  end
+
+  describe ".des3_encrypt" do
+    it "must encrypt a given String using DES3" do
+      expect(subject.des3_encrypt(clear_text, key: des3_key)).to eq(des3_cipher_text)
+    end
+  end
+
+  describe ".des3_decrypt" do
+    it "must decrypt the given String" do
+      expect(subject.des3_decrypt(des3_cipher_text, key: des3_key)).to eq(clear_text)
+    end
+  end
+
   describe ".aes_cipher" do
     let(:key_size)  { 256      }
     let(:hash)      { :sha256  }
