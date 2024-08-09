@@ -19,6 +19,7 @@
 require 'ronin/support/crypto/openssl'
 require 'ronin/support/crypto/hmac'
 require 'ronin/support/crypto/cipher'
+require 'ronin/support/crypto/cipher/des3'
 require 'ronin/support/crypto/cipher/aes'
 require 'ronin/support/crypto/cipher/aes128'
 require 'ronin/support/crypto/cipher/aes256'
@@ -285,6 +286,105 @@ module Ronin
       #
       def self.decrypt(data, cipher: ,**kwargs)
         self.cipher(cipher, direction: :decrypt, **kwargs).decrypt(data)
+      end
+
+      #
+      # Creates a new DES3 cipher.
+      #
+      # @param [Hash{Symbol => Object}] kwargs
+      #   Additional keyword arguments for {Cipher::DES3#initialize}.
+      #
+      # @option kwargs [:wrap, Symbol, nil] :mode
+      #   The desired DES3 cipher mode.
+      #
+      # @option kwargs [String] :key
+      #   The secret key to use.
+      #
+      # @option kwargs [String] :iv
+      #   The optional Initial Vector (IV).
+      #
+      # @option kwargs [Integer] :padding
+      #   Sets the padding for the cipher.
+      #
+      # @return [Cipher::DES3]
+      #   The new DES3 cipher.
+      #
+      # @example
+      #   Crypto.des3_cipher(direction: :encrypt, key: 'A' * 24)
+      #   # => #<Ronin::Support::Crypto::Cipher::DES3:0x00007f54c3752b90 @mode=nil>
+      #
+      # @see Cipher::DES3
+      #
+      # @since 1.2.0
+      #
+      def self.des3_cipher(**kwargs)
+        Cipher::DES3.new(**kwargs)
+      end
+
+      #
+      # Encrypts data using DES3.
+      #
+      # @param [#to_s] data
+      #   The data to encrypt.
+      #
+      # @param [Hash{Symbol => Object}] kwargs
+      #   Additional keyword arguments for {Cipher::DES3#initialize}.
+      #
+      # @option kwargs [:wrap, Symbol, nil] :mode
+      #   The desired DES3 cipher mode.
+      #
+      # @option kwargs [String] :key
+      #   The secret key to use.
+      #
+      # @option kwargs [String] :iv
+      #   The optional Initial Vector (IV).
+      #
+      # @option kwargs [Integer] :padding
+      #   Sets the padding for the cipher.
+      #
+      # @return [String]
+      #   The encrypted data.
+      #
+      # @raise [ArgumentError]
+      #   The `key:` keyword argument must be given.
+      #
+      # @since 1.2.0
+      #
+      def self.des3_encrypt(data,**kwargs)
+        self.des3_cipher(direction: :encrypt, **kwargs).encrypt(data)
+      end
+
+      #
+      # Decrypts data using DES3.
+      #
+      # @param [#to_s] data
+      #   The data to decrypt.
+      #
+      # @param [Hash{Symbol => Object}] kwargs
+      #   Additional keyword arguments for {Cipher::DES3#initialize}.
+      #
+      # @option kwargs [:wrap, Symbol, nil] :mode
+      #   The desired DES3 cipher mode.
+      #
+      # @option kwargs [String] :key
+      #   The secret key to use.
+      #
+      # @option kwargs [String] :iv
+      #   The optional Initial Vector (IV).
+      #
+      # @option kwargs [Integer] :padding
+      #   Sets the padding for the cipher.
+      #
+      # @return [String]
+      #   The encrypted data.
+      #
+      # @raise [ArgumentError]
+      #   The `key:` keyword argument must be given.
+      #
+      # @since 1.2.0
+      #
+      def self.des3_decrypt(data,**kwargs)
+        self.des3_cipher(direction: :decrypt, **kwargs).decrypt(data)
       end
 
       #
