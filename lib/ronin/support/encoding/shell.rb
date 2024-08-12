@@ -126,17 +126,17 @@ module Ronin
 
         # Shell characters that must be back-slashed.
         BACKSLASHED_CHARS = {
-          '0'  => "\0",
-          'a'  => "\a",
-          'b'  => "\b",
-          'e'  => "\e",
-          't'  => "\t",
-          'n'  => "\n",
-          'v'  => "\v",
-          'f'  => "\f",
-          'r'  => "\r",
-          "'"  => "'",
-          '"'  => '"'
+          '\0'  => "\0",
+          '\a'  => "\a",
+          '\b'  => "\b",
+          '\e'  => "\e",
+          '\t'  => "\t",
+          '\n'  => "\n",
+          '\v'  => "\v",
+          '\f'  => "\f",
+          '\r'  => "\r",
+          "\\'"  => "'",
+          '\\"'  => '"'
         }
 
         #
@@ -187,7 +187,7 @@ module Ronin
 
           until scanner.eos?
             unescaped << if (backslash_char = scanner.scan(/\\[0abetnvfr\'\"]/)) # \n
-                           BACKSLASHED_CHARS[backslash_char[1..]]
+                           BACKSLASHED_CHARS[backslash_char]
                          elsif (hex_char     = scanner.scan(/\\x[0-9a-fA-F]+/)) # \XX
                            hex_char[2..].to_i(16).chr
                          elsif (unicode_char = scanner.scan(/\\u[0-9a-fA-F]+/)) # \uXXXX
