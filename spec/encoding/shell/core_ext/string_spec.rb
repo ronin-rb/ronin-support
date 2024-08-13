@@ -140,6 +140,16 @@ describe String do
       it "must return a double quoted shell string" do
         expect(subject.shell_string).to eq(shell_string)
       end
+
+      context "and it contains '$' characters" do
+        subject { "hello $world" }
+
+        let(:shell_string) { '"hello \\$world"' }
+
+        it "must escape escape the '$' characters as '\\$' to avoid interpreting them as shell variables" do
+          expect(subject.shell_string).to eq(shell_string)
+        end
+      end
     end
 
     context "when the string contains non-printable characters" do

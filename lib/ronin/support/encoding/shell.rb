@@ -262,7 +262,7 @@ module Ronin
           if data =~ /[^[:print:]]/
             "$'#{escape(data)}'"
           else
-            "\"#{escape(data)}\""
+            "\"#{escape(data).gsub('$',"\\$")}\""
           end
         end
 
