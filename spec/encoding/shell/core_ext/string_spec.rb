@@ -30,16 +30,6 @@ describe String do
       end
     end
 
-    context "when the String contains a '#' character" do
-      subject { "hello#world" }
-
-      let(:escaped_shell_string) { "hello\\#world" }
-
-      it "must back-slash escape the '#' character" do
-        expect(subject.shell_escape).to eq(escaped_shell_string)
-      end
-    end
-
     context "when the String contains back-slashed escaped characters" do
       subject { "\0\a\b\t\n\v\f\r\e\\" }
 

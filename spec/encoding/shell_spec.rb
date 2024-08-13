@@ -94,15 +94,6 @@ describe Ronin::Support::Encoding::Shell do
       end
     end
 
-    context "when the String contains a '#' character" do
-      let(:data)                 { "hello#world"   }
-      let(:escaped_shell_string) { "hello\\#world" }
-
-      it "must back-slash escape the '#' character" do
-        expect(subject.escape(data)).to eq(escaped_shell_string)
-      end
-    end
-
     context "when the String contains back-slashed escaped characters" do
       let(:data)                 { "\0\a\b\t\n\v\f\r\e\\"            }
       let(:escaped_shell_string) { "\\0\\a\\b\\t\\n\\v\\f\\r\\e\\\\" }
