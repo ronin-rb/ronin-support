@@ -225,6 +225,15 @@ describe Ronin::Support::Encoding::Shell do
       it "must remove double-quotes and unescape any escaped double-quotes" do
         expect(subject.unquote(data)).to eq(unescaped)
       end
+
+      context "and when the String contains escaped '\\$' characters" do
+        let(:data)      { "\"hello \\$world\"" }
+        let(:unescaped) { "hello $world"       }
+
+        it "must unescape '\\$' characters as '$'" do
+          expect(subject.unquote(data)).to eq(unescaped)
+        end
+      end
     end
 
     context "when the String is single-quoted" do

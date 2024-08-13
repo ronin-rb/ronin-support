@@ -172,6 +172,16 @@ describe String do
       it "must remove double-quotes and unescape any escaped double-quotes" do
         expect(subject.shell_unquote).to eq(unescaped)
       end
+
+      context "and when the String contains escaped '\\$' characters" do
+        subject { "\"hello \\$world\"" }
+
+        let(:unescaped) { "hello $world" }
+
+        it "must unescape '\\$' characters as '$'" do
+          expect(subject.shell_unquote).to eq(unescaped)
+        end
+      end
     end
 
     context "when the String is single-quoted" do

@@ -288,7 +288,9 @@ module Ronin
           if (data[0,2] == "$'" && data[-1] == "'")
             unescape(data[2..-2])
           elsif (data[0] == '"' && data[-1] == '"')
-            data[1..-2].gsub("\\\"",'"')
+            data[1..-2].gsub(/\\["\$]/) do |backslash_char|
+              backslash_char[1]
+            end
           elsif (data[0] == "'" && data[-1] == "'")
             data[1..-2].gsub("\\'","'")
           else
