@@ -50,6 +50,7 @@ research and development.
     * [PowerShell][docs-encoding-powershell]
     * [Punycode][docs-encoding-punycode]
     * [Quoted-printable][docs-encoding-quoted-printable]
+    * [PHP strings][docs-encoding-php]
     * [Ruby strings][docs-encoding-ruby]
     * [Shell][docs-encoding-shell]
     * [SQL][docs-encoding-sql]
@@ -209,6 +210,7 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [docs-encoding-powershell]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/PowerShell.html
 [docs-encoding-punycode]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Punycode.html
 [docs-encoding-quoted-printable]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/QuotedPrintable.html
+[docs-encoding-php]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/PHP.html
 [docs-encoding-ruby]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Ruby.html
 [docs-encoding-shell]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Shell.html
 [docs-encoding-sql]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/SQL.html
