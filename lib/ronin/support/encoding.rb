@@ -32,6 +32,7 @@ require 'ronin/support/encoding/js'
 require 'ronin/support/encoding/sql'
 require 'ronin/support/encoding/quoted_printable'
 require 'ronin/support/encoding/smtp'
+require 'ronin/support/encoding/php'
 require 'ronin/support/encoding/ruby'
 require 'ronin/support/encoding/uri'
 require 'ronin/support/encoding/punycode'
@@ -99,6 +100,12 @@ module Ronin
     # * {String#js_string}
     # * {String#js_unescape}
     # * {String#js_unquote}
+    # * {String#php_escape}
+    # * {String#php_unescape}
+    # * {String#php_encode}
+    # * {String#php_decode}
+    # * {String#php_string}
+    # * {String#php_unquote}
     # * {String#powershell_decode}
     # * {String#powershell_encode}
     # * {String#powershell_escape}
