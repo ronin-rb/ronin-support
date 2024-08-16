@@ -145,20 +145,18 @@ module Ronin
         end
 
         # Common escaped characters.
-        UNESCAPE_CHARS = Hash.new do |hash,char|
-          if char[0] == '\\' then char[1]
-          else                    char
-          end
-        end
-
-        UNESCAPE_CHARS['\0'] = "\0"
-        UNESCAPE_CHARS['\a'] = "\a"
-        UNESCAPE_CHARS['\b'] = "\b"
-        UNESCAPE_CHARS['\t'] = "\t"
-        UNESCAPE_CHARS['\n'] = "\n"
-        UNESCAPE_CHARS['\v'] = "\v"
-        UNESCAPE_CHARS['\f'] = "\f"
-        UNESCAPE_CHARS['\r'] = "\r"
+        #
+        # @since 1.2.0
+        BACKSLASH_CHARS = {
+          '\0' => "\0",
+          '\a' => "\a",
+          '\b' => "\b",
+          '\t' => "\t",
+          '\n' => "\n",
+          '\v' => "\v",
+          '\f' => "\f",
+          '\r' => "\r"
+        }
 
         #
         # Unescapes the escaped String.
@@ -188,7 +186,7 @@ module Ronin
                            octal_escape[1,3].to_i(8).chr
 
                          elsif (backslash_escape = scanner.scan(/\\./))
-                           UNESCAPE_CHARS[backslash_escape]
+                           BACKSLASH_CHARS.fetch(backslash_escape,backslash_escape)
                          else
                            scanner.getch
                          end
