@@ -187,7 +187,7 @@ module Ronin
 
           until scanner.eos?
             unescaped << if (backslash_escape = scanner.scan(/\\[btnfr'"\\]/))
-                           BACKSLASHED_CHARS[backslash_escape]
+                           BACKSLASHED_CHARS.fetch(backslash_escape)
                          elsif (surrogate_pair = scanner.scan(/\\u[dD][890abAB][0-9a-fA-F]{2}\\u[dD][cdefCDEF][0-9a-fA-F]{2}/))
                            hi = surrogate_pair[2..6].to_i(16)
                            lo = surrogate_pair[8..12].to_i(16)

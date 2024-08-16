@@ -192,15 +192,15 @@ module Ronin
 
         # C characters that must be back-slashed.
         BACKSLASHED_CHARS = {
-          '0'  => "\0",
-          'a'  => "\a",
-          'b'  => "\b",
-          'e'  => "\e",
-          't'  => "\t",
-          'n'  => "\n",
-          'v'  => "\v",
-          'f'  => "\f",
-          'r'  => "\r"
+          '\\0'  => "\0",
+          '\\a'  => "\a",
+          '\\b'  => "\b",
+          '\\e'  => "\e",
+          '\\t'  => "\t",
+          '\\n'  => "\n",
+          '\\v'  => "\v",
+          '\\f'  => "\f",
+          '\\r'  => "\r"
         }
 
         #
@@ -221,19 +221,18 @@ module Ronin
           scanner   = StringScanner.new(data)
 
           until scanner.eos?
-            unescaped << case (char = scanner.getch)
-                         when "\\" # backslash
-                           if (hex_char        = scanner.scan(/x[0-9a-fA-F]{1,2}/)) # \xXX
-                             hex_char[1..].to_i(16).chr
-                           elsif (hex_char     = scanner.scan(/u[0-9a-fA-F]{4,8}/)) # \u..
-                             hex_char[1..].to_i(16).chr(Encoding::UTF_8)
-                           elsif (octal_char   = scanner.scan(/[0-7]{1,3}/)) # \N, \NN, or \NNN
-                             octal_char.to_i(8).chr
-                           elsif (special_char = scanner.getch) # \[A-Za-z]
-                             BACKSLASHED_CHARS.fetch(special_char,special_char)
+            unescaped << if (hex_escape          = scanner.scan(/\\x[0-9a-fA-F]{1,2}/)) # \xXX
+                           hex_escape[2..].to_i(16).chr
+                         elsif (unicode_escape   = scanner.scan(/\\u[0-9a-fA-F]{4,8}/)) # \u..
+                           unicode_escape[2..].to_i(16).chr(Encoding::UTF_8)
+                         elsif (octal_escape     = scanner.scan(/\\[0-7]{1,3}/)) # \N, \NN, or \NNN
+                           octal_escape[1..].to_i(8).chr
+                         elsif (backslash_escape = scanner.scan(/\\./)) # \[A-Za-z]
+                           BACKSLASHED_CHARS.fetch(backslash_escape) do
+                             backslash_escape[1]
                            end
                          else
-                           char
+                           scanner.getch
                          end
           end
 

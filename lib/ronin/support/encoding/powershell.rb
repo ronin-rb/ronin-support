@@ -195,14 +195,14 @@ module Ronin
           scanner   = StringScanner.new(data)
 
           until scanner.eos?
-            unescaped << if (backslash_char = scanner.scan(/`[0abetnvfr]/)) # `c
-                           BACKSLASHED_CHARS[backslash_char[1,1]]
-                         elsif (hex_char     = scanner.scan(/\$\(\[char\]0x[0-9a-fA-F]{1,2}\)/)) # [char]0xXX
-                           hex_char[10..-2].to_i(16).chr
-                         elsif (hex_char     = scanner.scan(/\$\(\[char\]0x[0-9a-fA-F]{3,}\)/)) # [char]0xXX
-                           hex_char[10..-2].to_i(16).chr(Encoding::UTF_8)
-                         elsif (unicode_char = scanner.scan(/`u\{[0-9a-fA-F]+\}/)) # `u{XXXX}'
-                           unicode_char[3..-2].to_i(16).chr(Encoding::UTF_8)
+            unescaped << if (grave_escape      = scanner.scan(/`[0abetnvfr]/)) # `c
+                           BACKSLASHED_CHARS.fetch(grave_escape[1,1])
+                         elsif (hex_escape     = scanner.scan(/\$\(\[char\]0x[0-9a-fA-F]{1,2}\)/)) # [char]0xXX
+                           hex_escape[10..-2].to_i(16).chr
+                         elsif (hex_escape     = scanner.scan(/\$\(\[char\]0x[0-9a-fA-F]{3,}\)/)) # [char]0xXX
+                           hex_escape[10..-2].to_i(16).chr(Encoding::UTF_8)
+                         elsif (unicode_escape = scanner.scan(/`u\{[0-9a-fA-F]+\}/)) # `u{XXXX}'
+                           unicode_escape[3..-2].to_i(16).chr(Encoding::UTF_8)
                          else
                            scanner.getch
                          end

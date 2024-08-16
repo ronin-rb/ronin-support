@@ -178,14 +178,15 @@ module Ronin
           scanner   = StringScanner.new(data)
 
           until scanner.eos?
-            unescaped << if (unicode_escape = scanner.scan(/\\(?:[0-7]{1,3}|[0-7])/))
-                           unicode_escape[1,3].to_i(8).chr
-                         elsif (hex_escape = scanner.scan(/\\u[0-9a-fA-F]{4,8}/))
-                           hex_escape[2..].to_i(16).chr(Encoding::UTF_8)
-                         elsif (hex_escape = scanner.scan(/\\x[0-9a-fA-F]{1,2}/))
+            unescaped << if (unicode_escape      = scanner.scan(/\\u[0-9a-fA-F]{4,8}/))
+                           unicode_escape[2..].to_i(16).chr(Encoding::UTF_8)
+                         elsif (hex_escape       = scanner.scan(/\\x[0-9a-fA-F]{1,2}/))
                            hex_escape[2..].to_i(16).chr
-                         elsif (escape     = scanner.scan(/\\./))
-                           UNESCAPE_CHARS[escape]
+                         elsif (octal_escape     = scanner.scan(/\\(?:[0-7]{1,3}|[0-7])/))
+                           octal_escape[1,3].to_i(8).chr
+
+                         elsif (backslash_escape = scanner.scan(/\\./))
+                           UNESCAPE_CHARS[backslash_escape]
                          else
                            scanner.getch
                          end
