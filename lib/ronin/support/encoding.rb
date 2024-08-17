@@ -34,6 +34,7 @@ require 'ronin/support/encoding/sql'
 require 'ronin/support/encoding/quoted_printable'
 require 'ronin/support/encoding/smtp'
 require 'ronin/support/encoding/php'
+require 'ronin/support/encoding/python'
 require 'ronin/support/encoding/ruby'
 require 'ronin/support/encoding/uri'
 require 'ronin/support/encoding/punycode'
@@ -123,6 +124,13 @@ module Ronin
     # * {String#powershell_unquote}
     # * {String#punycode_decode}
     # * {String#punycode_encode}
+    # * {Integer#python_escape}
+    # * {Integer#python_encode}
+    # * {String#python_escape}
+    # * {String#python_unescape}
+    # * {String#python_encode}
+    # * {String#python_string}
+    # * {String#python_unquote}
     # * {String#quoted_printable_escape}
     # * {String#quoted_printable_unescape}
     # * {String#smtp_escape}
