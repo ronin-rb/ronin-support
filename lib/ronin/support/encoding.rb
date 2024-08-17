@@ -29,6 +29,7 @@ require 'ronin/support/encoding/http'
 require 'ronin/support/encoding/xml'
 require 'ronin/support/encoding/html'
 require 'ronin/support/encoding/js'
+require 'ronin/support/encoding/node_js'
 require 'ronin/support/encoding/sql'
 require 'ronin/support/encoding/quoted_printable'
 require 'ronin/support/encoding/smtp'
@@ -100,6 +101,14 @@ module Ronin
     # * {String#js_string}
     # * {String#js_unescape}
     # * {String#js_unquote}
+    # * {Integer#node_js_escape}
+    # * {Integer#node_js_encode}
+    # * {String#node_js_escape}
+    # * {String#node_js_unescape}
+    # * {String#node_js_encode}
+    # * {String#node_js_decode}
+    # * {String#node_js_string}
+    # * {String#node_js_unquote}
     # * {String#php_escape}
     # * {String#php_unescape}
     # * {String#php_encode}
