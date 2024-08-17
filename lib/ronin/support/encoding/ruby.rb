@@ -182,7 +182,7 @@ module Ronin
                            unicode_escape[2..].to_i(16).chr(Encoding::UTF_8)
                          elsif (hex_escape       = scanner.scan(/\\x[0-9a-fA-F]{1,2}/))
                            hex_escape[2..].to_i(16).chr
-                         elsif (octal_escape     = scanner.scan(/\\(?:[0-7]{1,3}|[0-7])/))
+                         elsif (octal_escape     = scanner.scan(/\\[0-7]{1,3}/))
                            octal_escape[1,3].to_i(8).chr
 
                          elsif (backslash_escape = scanner.scan(/\\./))
