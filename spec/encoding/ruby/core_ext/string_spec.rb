@@ -73,7 +73,7 @@ describe String do
     end
 
     context "when the String contains escaped unicode characters" do
-      subject { "\\u00D8\\u2070E" }
+      subject { "\\u00D8\\u{2070E}" }
 
       let(:unescaped) { "Ø𠜎" }
 

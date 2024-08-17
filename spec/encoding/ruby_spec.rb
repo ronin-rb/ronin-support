@@ -178,7 +178,7 @@ describe Ronin::Support::Encoding::Ruby do
     end
 
     context "when the given String contains escaped unicode characters" do
-      let(:data)      { "\\u00D8\\u2070E" }
+      let(:data)      { "\\u00D8\\u{2070E}" }
       let(:unescaped) { "Ø𠜎" }
 
       it "must unescape the hexadecimal characters" do
