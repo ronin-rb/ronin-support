@@ -223,7 +223,7 @@ module Ronin
           until scanner.eos?
             unescaped << if (hex_escape          = scanner.scan(/\\x[0-9a-fA-F]{1,2}/)) # \xXX
                            hex_escape[2..].to_i(16).chr
-                         elsif (unicode_escape   = scanner.scan(/\\u[0-9a-fA-F]{4,8}/)) # \u..
+                         elsif (unicode_escape   = scanner.scan(/\\u[0-9a-fA-F]{4}|\\U[0-9a-fA-F]{8}/)) # \uXXXX or \UXXXXXXXX
                            unicode_escape[2..].to_i(16).chr(Encoding::UTF_8)
                          elsif (octal_escape     = scanner.scan(/\\[0-7]{1,3}/)) # \N, \NN, or \NNN
                            octal_escape[1..].to_i(8).chr
