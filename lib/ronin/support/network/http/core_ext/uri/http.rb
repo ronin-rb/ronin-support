@@ -55,11 +55,11 @@ module URI
     # @return [Boolean]
     #   Specifies whether the response had an HTTP OK status code or not.
     #
-    # @see Ronin::Support::Network::HTTP.ok?
-    #
     # @example
     #   URI('https://example.com/').ok?
     #   # => true
+    #
+    # @see Ronin::Support::Network::HTTP.ok?
     #
     # @since 0.3.0
     #
