@@ -16,21 +16,33 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/encoding/base16/core_ext'
-require 'ronin/support/encoding/base32/core_ext'
-require 'ronin/support/encoding/base64/core_ext'
-require 'ronin/support/encoding/hex/core_ext'
-require 'ronin/support/encoding/c/core_ext'
-require 'ronin/support/encoding/shell/core_ext'
-require 'ronin/support/encoding/powershell/core_ext'
-require 'ronin/support/encoding/html/core_ext'
-require 'ronin/support/encoding/http/core_ext'
-require 'ronin/support/encoding/js/core_ext'
+require 'ronin/support/encoding/js'
+
+module Ronin
+  module Support
+    class Encoding < ::Encoding
+      #
+      # Contains methods for encoding/decoding escaping/unescaping Node.js
+      # data.
+      #
+      # ## Core-Ext Methods
+      #
+      # * {Integer#node_js_escape}
+      # * {Integer#node_js_encode}
+      # * {String#node_js_escape}
+      # * {String#node_js_unescape}
+      # * {String#node_js_encode}
+      # * {String#node_js_decode}
+      # * {String#node_js_string}
+      # * {String#node_js_unquote}
+      #
+      # @api public
+      #
+      # @since 1.2.0
+      #
+      NodeJS = JS
+    end
+  end
+end
+
 require 'ronin/support/encoding/node_js/core_ext'
-require 'ronin/support/encoding/sql/core_ext'
-require 'ronin/support/encoding/xml/core_ext'
-require 'ronin/support/encoding/quoted_printable/core_ext'
-require 'ronin/support/encoding/smtp/core_ext'
-require 'ronin/support/encoding/php/core_ext'
-require 'ronin/support/encoding/ruby/core_ext'
-require 'ronin/support/encoding/uri/core_ext'
