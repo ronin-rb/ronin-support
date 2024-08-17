@@ -245,8 +245,8 @@ module Ronin
         #   # => "hello\nworld"
         #
         def self.unquote(data)
-          if ((data[0] == '"' && data[-1] == '"') ||
-              (data[0] == "'" && data[-1] == "'"))
+          if ((data.start_with?('"') && data.end_with?('"')) ||
+              (data.start_with?("'") && data.end_with?("'")))
             unescape(data[1..-2])
           else
             data

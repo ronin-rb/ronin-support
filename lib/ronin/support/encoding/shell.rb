@@ -285,13 +285,13 @@ module Ronin
         #   # => "hello\nworld"
         #
         def self.unquote(data)
-          if (data[0,2] == "$'" && data[-1] == "'")
+          if (data.start_with?("$'") && data.end_with?("'"))
             unescape(data[2..-2])
-          elsif (data[0] == '"' && data[-1] == '"')
+          elsif (data.start_with?('"') && data.end_with?('"'))
             data[1..-2].gsub(/\\["\$]/) do |backslash_char|
               backslash_char[1]
             end
-          elsif (data[0] == "'" && data[-1] == "'")
+          elsif (data.start_with?("'") && data.end_with?("'"))
             data[1..-2].gsub("\\'","'")
           else
             data
