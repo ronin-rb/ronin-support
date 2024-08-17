@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'ronin/support/network/http/core_ext/uri/http'
 
+require 'webmock/rspec'
+
 describe URI::HTTP do
   subject { URI('https://example.com/') }
 
