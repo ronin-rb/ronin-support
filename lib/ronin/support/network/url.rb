@@ -19,7 +19,7 @@
 require 'ronin/support/network/http'
 
 require 'addressable/uri'
-require 'uri/query_params/mixin'
+require 'uri/query_params/core_ext/addressable/uri'
 
 module Ronin
   module Support
@@ -36,8 +36,6 @@ module Ronin
       # @since 1.2.0
       #
       class URL < Addressable::URI
-
-        include URI::QueryParams::Mixin
 
         #
         # Returns the Status Code of the HTTP Response for the URL.
