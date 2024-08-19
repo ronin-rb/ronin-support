@@ -20,14 +20,14 @@ module Ronin
   module Support
     class Encoding < ::Encoding
       #
-      # [Base62] encoding.
-      #
-      # [Base62]: https://en.wikipedia.org/wiki/Base62
+      # Base62 encoding.
       #
       # ## Core-Ext Methods
       #
       # * {Integer#base62_encode}
       # * {String#base62_decode}
+      #
+      # @see https://en.wikipedia.org/wiki/Base62
       #
       # @api public
       #

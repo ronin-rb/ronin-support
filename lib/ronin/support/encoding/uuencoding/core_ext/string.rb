@@ -21,9 +21,7 @@ require 'ronin/support/encoding/uuencoding'
 class String
 
   #
-  # [uuencodes][uuencoding] the String.
-  #
-  # [uuencoding]: https://en.wikipedia.org/wiki/Uuencoding
+  # UUEncodes the String.
   #
   # @return [String]
   #   The UU encoded String.
@@ -33,6 +31,7 @@ class String
   #   # => "+:&5L;&\\@=V]R;&0`\n"
   #
   # @see Ronin::Support::Encoding::UUEncoding.encode
+  # @see https://en.wikipedia.org/wiki/Uuencoding
   #
   # @api public
   #
@@ -46,9 +45,7 @@ class String
   alias uu_escape uu_encode
 
   #
-  # Decodes the [uuencoded][uuencoding] String.
-  #
-  # [uuencoding]: https://en.wikipedia.org/wiki/Uuencoding
+  # Decodes the UUEncoded String.
   #
   # @return [String]
   #   The decoded String.
@@ -58,6 +55,7 @@ class String
   #   # => "hello world"
   #
   # @see Ronin::Support::Encoding::UUEncoding.decode
+  # @see https://en.wikipedia.org/wiki/Uuencoding
   #
   # @api public
   #

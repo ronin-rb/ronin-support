@@ -22,22 +22,20 @@ module Ronin
   module Support
     class Encoding < ::Encoding
       #
-      # Contains methods for encoding/decoding [Quoted Printable] data.
-      #
-      # [Quoted-Printable]: https://en.wikipedia.org/wiki/Quoted-printable
+      # Contains methods for encoding/decoding Quoted Printable data.
       #
       # ## Core-Ext Methods
       #
       # * {String#quoted_printable_escape}
       # * {String#quoted_printable_unescape}
       #
+      # @see https://en.wikipedia.org/wiki/Quoted-printable
+      #
       # @api public
       #
       module QuotedPrintable
         #
-        # Escapes the data as [Quoted-Printable].
-        #
-        # [Quoted-Printable]: https://en.wikipedia.org/wiki/Quoted-printable
+        # Escapes the data as Quoted Printable.
         #
         # @param [String] data
         #   The data to escape.
@@ -48,6 +46,8 @@ module Ronin
         # @example
         #   Encoding::QuotedPrintable.escape('<a href="https://example.com/">link</a>')
         #   # => "<a href=3D\"https://example.com/\">link</a>=\n"
+        #
+        # @see https://en.wikipedia.org/wiki/Quoted-printable
         #
         def self.escape(data)
           [data].pack('M')
@@ -69,9 +69,7 @@ module Ronin
         end
 
         #
-        # Unescapes a [Quoted-Printable] encoded String.
-        #
-        # [Quoted-Printable]: https://en.wikipedia.org/wiki/Quoted-printable
+        # Unescapes a Quoted Printable encoded String.
         #
         # @param [String] data
         #   The Quoted-Printable String to unescape.
@@ -82,6 +80,8 @@ module Ronin
         # @example
         #   Encoding::QuotedPrintable.unescape("<a href=3D\"https://example.com/\">link</a>=\n")
         #   # => "<a href=\"https://example.com/\">link</a>"
+        #
+        # @see https://en.wikipedia.org/wiki/Quoted-printable
         #
         def self.unescape(data)
           data.unpack1('M')

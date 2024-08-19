@@ -22,14 +22,14 @@ module Ronin
   module Support
     class Encoding < ::Encoding
       #
-      # [Base64] encoding/decoding.
-      #
-      # [Base64]: https://en.wikipedia.org/wiki/Base64
+      # Base64 encoding/decoding.
       #
       # ## Core-Ext Methods
       #
       # * {String#base64_encode}
       # * {String#base64_decode}
+      #
+      # @see https://en.wikipedia.org/wiki/Base64
       #
       # @api public
       #

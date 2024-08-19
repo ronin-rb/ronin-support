@@ -40,6 +40,8 @@ module Ronin
       #
       module PowerShell
         # Special PowerShell bytes and their escaped Strings.
+        #
+        # @see https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
         ESCAPE_BYTES = {
           0x00 => "`0",
           0x07 => "`a",
@@ -78,6 +80,8 @@ module Ronin
         #   Encoding::PowerShell.encode_byte(1001)
         #   # => "`u{1001}"
         #
+        # @see https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
+        #
         def self.encode_byte(byte)
           if byte >= 0x00 && byte <= 0xff
             "$([char]0x%.2x)" % byte
@@ -112,6 +116,8 @@ module Ronin
         #   Encoding::PowerShell.escape_byte(1001)
         #   # => "`u{1001}"
         #
+        # @see https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
+        #
         def self.escape_byte(byte)
           if byte >= 0x00 && byte <= 0xff
             ESCAPE_BYTES.fetch(byte) do
@@ -145,9 +151,7 @@ module Ronin
         }
 
         #
-        # [PowerShell escapes][1] the special characters in the data.
-        #
-        # [1]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
+        # PowerShell escapes the special characters in the data.
         #
         # @param [String] data
         #   The data to PowerShell escape.
@@ -158,6 +162,8 @@ module Ronin
         # @example
         #   Encoding::PowerShell.escape("hello\nworld")
         #   # => "hello`nworld"
+        #
+        # @see https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
         #
         def self.escape(data)
           escaped = String.new
@@ -176,9 +182,7 @@ module Ronin
         end
 
         #
-        # [PowerShell unescapes][1] the characters in the data.
-        #
-        # [1]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
+        # PowerShell unescapes the characters in the data.
         #
         # @param [String] data
         #   The PowerShell encoded data to unescape.
@@ -189,6 +193,8 @@ module Ronin
         # @example
         #   Encoding::PowerShell.unescape("hello`nworld")
         #   # => "hello\nworld"
+        #
+        # @see https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
         #
         def self.unescape(data)
           unescaped = String.new(encoding: Encoding::UTF_8)
@@ -212,9 +218,7 @@ module Ronin
         end
 
         #
-        # [PowerShell encodes][1] every character in the data.
-        #
-        # [1]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
+        # PowerShell encodes every character in the data.
         #
         # @param [String] data
         #   The data to encode.
@@ -225,6 +229,8 @@ module Ronin
         # @example
         #   Encoding::PowerShell.encode("hello world")
         #   # => "$([char]0x68)$([char]0x65)$([char]0x6c)$([char]0x6c)$([char]0x6f)$([char]0x20)$([char]0x77)$([char]0x6f)$([char]0x72)$([char]0x6c)$([char]0x64)"
+        #
+        # @see https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
         #
         def self.encode(data)
           encoded = String.new

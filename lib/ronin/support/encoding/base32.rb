@@ -20,14 +20,14 @@ module Ronin
   module Support
     class Encoding < ::Encoding
       #
-      # [Base32] encoding.
-      #
-      # [Base32]: https://datatracker.ietf.org/doc/html/rfc3548#page-6
+      # Base32 encoding.
       #
       # ## Core-Ext Methods
       #
       # * {String#base32_encode}
       # * {String#base32_decode}
+      #
+      # @see https://datatracker.ietf.org/doc/html/rfc3548#page-6
       #
       # @api public
       #

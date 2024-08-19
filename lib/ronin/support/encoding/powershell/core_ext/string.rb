@@ -21,9 +21,7 @@ require 'ronin/support/encoding/powershell'
 class String
 
   #
-  # [PowerShell escapes][1] the characters in the String.
-  #
-  # [1]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
+  # PowerShell escapes the characters in the String.
   #
   # @return [String]
   #   The PowerShell escaped string.
@@ -33,6 +31,7 @@ class String
   #   # => "hello`nworld"
   #
   # @see Ronin::Support::Encoding::PowerShell.escape
+  # @see https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
   #
   # @api public
   #
@@ -45,9 +44,7 @@ class String
   alias psh_escape powershell_escape
 
   #
-  # [PowerShell unescapes][1] the characters in the String.
-  #
-  # [1]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
+  # PowerShell unescapes the characters in the String.
   #
   # @return [String]
   #   The PowerShell unescaped string.
@@ -57,6 +54,7 @@ class String
   #   # => "hello\nworld"
   #
   # @see Ronin::Support::Encoding::PowerShell.unescape
+  # @see https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
   #
   # @api public
   #
@@ -69,9 +67,7 @@ class String
   alias psh_unescape powershell_unescape
 
   #
-  # [PowerShell encodes][1] every character in the String.
-  #
-  # [1]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
+  # PowerShell encodes every character in the String.
   #
   # @return [String]
   #   The PowerShell encoded String.
@@ -81,7 +77,7 @@ class String
   #   # => "$([char]0x68)$([char]0x65)$([char]0x6c)$([char]0x6c)$([char]0x6f)$([char]0x20)$([char]0x77)$([char]0x6f)$([char]0x72)$([char]0x6c)$([char]0x64)"
   #
   # @see Ronin::Support::Encoding::PowerShell.encode
-  #
+  # @see https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
   # @api public
   #
   # @since 1.0.0

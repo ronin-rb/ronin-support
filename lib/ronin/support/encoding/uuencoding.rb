@@ -20,9 +20,7 @@ module Ronin
   module Support
     class Encoding < ::Encoding
       #
-      # Contains methods for encoding/decoding [UUEncoded][uuencoding] data.
-      #
-      # [uuencoding]: https://en.wikipedia.org/wiki/Uuencoding
+      # Contains methods for encoding/decoding UUEncoded data.
       #
       # ## Core-Ext Methods
       #
@@ -31,11 +29,11 @@ module Ronin
       #
       # @api public
       #
+      # @see https://en.wikipedia.org/wiki/Uuencoding
+      #
       module UUEncoding
         #
-        # [uuencodes][uuencoding] the String.
-        #
-        # [uuencoding]: https://en.wikipedia.org/wiki/Uuencoding
+        # UUEncodes the String.
         #
         # @param [String] data
         #   The data to uuencode.
@@ -47,14 +45,14 @@ module Ronin
         #   Encoding::UUEncoding.encode("hello world")
         #   # => "+:&5L;&\\@=V]R;&0`\n"
         #
+        # @see https://en.wikipedia.org/wiki/Uuencoding
+        #
         def self.encode(data)
           [data].pack('u')
         end
 
         #
-        # Decodes the [uuencoded][uuencoding] String.
-        #
-        # [uuencoding]: https://en.wikipedia.org/wiki/Uuencoding
+        # Decodes the UUEncoded String.
         #
         # @param [String] data
         #   The data to uudecode.
@@ -65,6 +63,8 @@ module Ronin
         # @example
         #   Encoding::UUEncoding.encode("+:&5L;&\\@=V]R;&0`\n")
         #   # => "hello world"
+        #
+        # @see https://en.wikipedia.org/wiki/Uuencoding
         #
         def self.decode(data)
           data.unpack1('u')

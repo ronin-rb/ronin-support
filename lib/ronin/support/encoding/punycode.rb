@@ -22,14 +22,14 @@ module Ronin
   module Support
     class Encoding < ::Encoding
       #
-      # Contains methods for encoding/decoding [punycode] encoded Strings.
-      #
-      # [punycode]: https://en.wikipedia.org/wiki/Punycode
+      # Contains methods for encoding/decoding Punycode encoded Strings.
       #
       # ## Core-Ext Methods
       #
       # * {String#punycode_encode}
       # * {String#punycode_decode}
+      #
+      # @see https://en.wikipedia.org/wiki/Punycode
       #
       # @api public
       #
@@ -37,9 +37,7 @@ module Ronin
       #
       module Punycode
         #
-        # Encodes a unicode String into [punycode].
-        #
-        # [punycode]: https://en.wikipedia.org/wiki/Punycode
+        # Encodes a unicode String into Punycode.
         #
         # @param [String] data
         #   The unicode String to encode.
@@ -51,14 +49,14 @@ module Ronin
         #   Encoding::Punycode.encode("詹姆斯")
         #   # => "xn--8ws00zhy3a"
         #
+        # @see https://en.wikipedia.org/wiki/Punycode
+        #
         def self.encode(data)
           Addressable::IDNA.to_ascii(data)
         end
 
         #
-        # Decodes a [punycode] String back into unicode.
-        #
-        # [punycode]: https://en.wikipedia.org/wiki/Punycode
+        # Decodes a Punycode String back into unicode.
         #
         # @param [String] data
         #   The punycode String to decode.
@@ -69,6 +67,8 @@ module Ronin
         # @example
         #   Encoding::Punycode.decode("xn--8ws00zhy3a")
         #   # => "詹姆斯"
+        #
+        # @see https://en.wikipedia.org/wiki/Punycode
         #
         def self.decode(data)
           Addressable::IDNA.to_unicode(data)

@@ -21,9 +21,7 @@ require 'ronin/support/encoding/punycode'
 class String
 
   #
-  # Encodes a unicode String into [punycode].
-  #
-  # [punycode]: https://en.wikipedia.org/wiki/Punycode
+  # Encodes a unicode String into Punycode.
   #
   # @return [String]
   #   The punycode String.
@@ -31,6 +29,8 @@ class String
   # @example
   #   "詹姆斯".punycode_encode
   #   # => "xn--8ws00zhy3a"
+  #
+  # @see https://en.wikipedia.org/wiki/Punycode
   #
   # @api public
   #
@@ -41,9 +41,7 @@ class String
   end
 
   #
-  # Decodes a [punycode] String back into unicode.
-  #
-  # [punycode]: https://en.wikipedia.org/wiki/Punycode
+  # Decodes a Punycode String back into unicode.
   #
   # @return [String]
   #   The decoded unicode String.
@@ -51,6 +49,8 @@ class String
   # @example
   #   "xn--8ws00zhy3a".punycode_decode
   #   # => "詹姆斯"
+  #
+  # @see https://en.wikipedia.org/wiki/Punycode
   #
   # @api public
   #

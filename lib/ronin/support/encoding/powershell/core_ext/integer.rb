@@ -40,6 +40,7 @@ class Integer
   #   # => "`u{1001}"
   #
   # @see Ronin::Support::Encoding::PowerShell.encode_byte
+  # @see https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
   #
   # @since 1.0.0
   #
@@ -73,6 +74,7 @@ class Integer
   #   # => "`u{1001}"
   #
   # @see Ronin::Support::Encoding::PowerShell.escape_byte
+  # @see https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_special_characters?view=powershell-7.2
   #
   # @since 1.0.0
   #

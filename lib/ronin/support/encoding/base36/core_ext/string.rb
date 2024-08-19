@@ -21,9 +21,7 @@ require 'ronin/support/encoding/base36'
 class String
 
   #
-  # [Base36] decodes the String.
-  #
-  # [Base36]: https://en.wikipedia.org/wiki/Base36
+  # Base36 decodes the String.
   #
   # @return [Integer]
   #   The Base36 decoded Integer.
@@ -31,6 +29,8 @@ class String
   # @example
   #   "rs".base36_decode
   #   # => 1000
+  #
+  # @see https://en.wikipedia.org/wiki/Base36
   #
   # @api public
   #

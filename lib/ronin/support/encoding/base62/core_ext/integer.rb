@@ -21,9 +21,7 @@ require 'ronin/support/encoding/base62'
 class Integer
 
   #
-  # [Base62] encodes the Integer.
-  #
-  # [Base62]: https://en.wikipedia.org/wiki/Base62
+  # Base62 encodes the Integer.
   #
   # @return [String]
   #   The Base62 encoded String.
@@ -31,6 +29,8 @@ class Integer
   # @example
   #   1337.base62_encode
   #   # => "LZ"
+  #
+  # @see https://en.wikipedia.org/wiki/Base62
   #
   # @api public
   #

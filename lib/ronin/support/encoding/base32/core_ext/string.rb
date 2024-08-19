@@ -21,9 +21,7 @@ require 'ronin/support/encoding/base32'
 class String
 
   #
-  # [Base32] encodes the String.
-  #
-  # [Base32]: https://en.wikipedia.org/wiki/Base32
+  # Base32 encodes the String.
   #
   # @return [String]
   #   The Base32 encoded String.
@@ -31,6 +29,8 @@ class String
   # @example
   #   "The quick brown fox jumps over the lazy dog".base32_encode
   #   # => "KRUGKIDROVUWG2ZAMJZG653OEBTG66BANJ2W24DTEBXXMZLSEB2GQZJANRQXU6JAMRXWO==="
+  #
+  # @see https://en.wikipedia.org/wiki/Base32
   #
   # @api public
   #
@@ -41,9 +41,7 @@ class String
   end
 
   #
-  # [Base32] decodes the String.
-  #
-  # [Base32]: https://en.wikipedia.org/wiki/Base32
+  # Base32 decodes the String.
   #
   # @return [String]
   #   The Base32 decodes String.
@@ -51,6 +49,8 @@ class String
   # @example
   #   "KRUGKIDROVUWG2ZAMJZG653OEBTG66BANJ2W24DTEBXXMZLSEB2GQZJANRQXU6JAMRXWO===".base32_decode
   #   # => "The quick brown fox jumps over the lazy dog"
+  #
+  # @see https://en.wikipedia.org/wiki/Base32
   #
   # @api public
   #

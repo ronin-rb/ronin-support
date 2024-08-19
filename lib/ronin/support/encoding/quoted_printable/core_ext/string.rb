@@ -21,9 +21,7 @@ require 'ronin/support/encoding/quoted_printable'
 class String
 
   #
-  # Escapes the String as [Quoted-Printable].
-  #
-  # [Quoted-Printable]: https://en.wikipedia.org/wiki/Quoted-printable
+  # Escapes the String as Quoted Printable.
   #
   # @return [String]
   #   The quoted-printable escaped String.
@@ -33,6 +31,7 @@ class String
   #   # => "<a href=3D\"https://example.com/\">link</a>=\n"
   #
   # @see Ronin::Support::Encoding::QuotedPrintable.escape
+  # @see https://en.wikipedia.org/wiki/Quoted-printable
   #
   # @api public
   #
@@ -47,9 +46,7 @@ class String
   alias qp_encode quoted_printable_escape
 
   #
-  # Unescapes a [Quoted-Printable] encoded String.
-  #
-  # [Quoted-Printable]: https://en.wikipedia.org/wiki/Quoted-printable
+  # Unescapes a Quoted Printable encoded String.
   #
   # @return [String]
   #   The unescaped String.
@@ -59,6 +56,7 @@ class String
   #   # => "<a href=\"https://example.com/\">link</a>"
   #
   # @see Ronin::Support::Encoding::QuotedPrintable.unescape
+  # @see https://en.wikipedia.org/wiki/Quoted-printable
   #
   # @api public
   #

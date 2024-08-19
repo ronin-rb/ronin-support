@@ -21,9 +21,7 @@ require 'ronin/support/encoding/base62'
 class String
 
   #
-  # [Base62] decodes the String.
-  #
-  # [Base62]: https://en.wikipedia.org/wiki/Base62
+  # Base62 decodes the String.
   #
   # @return [Integer]
   #   The Base62 decoded Integer.
@@ -31,6 +29,8 @@ class String
   # @example
   #   "LZ".base62_decode
   #   # => 1337
+  #
+  # @see https://en.wikipedia.org/wiki/Base62
   #
   # @api public
   #

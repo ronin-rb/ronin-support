@@ -21,9 +21,7 @@ require 'ronin/support/encoding/base64'
 class String
 
   #
-  # [Base64] encodes a string.
-  #
-  # [Base64]: https://en.wikipedia.org/wiki/Base64
+  # Base64 encodes a string.
   #
   # @param [Symbol, nil] mode
   #   The base64 mode to use. May be either:
@@ -39,6 +37,8 @@ class String
   #   "hello".base64_encode
   #   # => "aGVsbG8=\n"
   #
+  # @see https://en.wikipedia.org/wiki/Base64
+  #
   # @api public
   #
   def base64_encode(mode: nil)
@@ -46,9 +46,7 @@ class String
   end
 
   #
-  # [Base64] decodes a string.
-  #
-  # [Base64]: https://en.wikipedia.org/wiki/Base64
+  # Base64 decodes a string.
   #
   # @param [Symbol, nil] mode
   #   The base64 mode to use. May be either:
@@ -66,6 +64,8 @@ class String
   # @example
   #   "aGVsbG8=\n".base64_decode
   #   # => "hello"
+  #
+  # @see https://en.wikipedia.org/wiki/Base64
   #
   # @api public
   #

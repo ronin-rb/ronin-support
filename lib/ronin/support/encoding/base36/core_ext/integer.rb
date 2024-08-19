@@ -21,9 +21,7 @@ require 'ronin/support/encoding/base36'
 class Integer
 
   #
-  # [Base36] encodes the Integer.
-  #
-  # [Base36]: https://en.wikipedia.org/wiki/Base36
+  # Base36 encodes the Integer.
   #
   # @return [String]
   #   The Base36 encoded String.
@@ -31,6 +29,8 @@ class Integer
   # @example
   #   1000.base36_encode
   #   # => "rs"
+  #
+  # @see https://en.wikipedia.org/wiki/Base36
   #
   # @api public
   #
