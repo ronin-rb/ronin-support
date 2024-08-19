@@ -165,16 +165,16 @@ module Ronin
 
         # Backslash escaped characters.
         BACKSLASHED_CHARS = {
-          "\\" => '\\',
-          '"'  => '"',
-          '0'  => "\0",
-          'a'  => "\a",
-          'b'  => "\b",
-          't'  => "\t",
-          'n'  => "\n",
-          'v'  => "\v",
-          'f'  => "\f",
-          'r'  => "\r"
+          "\\\\" => "\\",
+          '\\"'  => '"',
+          '\\0'  => "\0",
+          '\\a'  => "\a",
+          '\\b'  => "\b",
+          '\\t'  => "\t",
+          '\\n'  => "\n",
+          '\\v'  => "\v",
+          '\\f'  => "\f",
+          '\\r'  => "\r"
         }
 
         #
@@ -196,17 +196,16 @@ module Ronin
           scanner = StringScanner.new(data)
 
           until scanner.eos?
-            buffer << case (char = scanner.getch)
-                      when '\\'
-                        if (hex_escape    = scanner.scan(/x[0-9a-fA-F]{4,8}/))
-                          hex_escape[1..].to_i(16).chr(Encoding::UTF_8)
-                        elsif (hex_escape = scanner.scan(/x[0-9a-fA-F]{1,2}/))
-                          hex_escape[1..].to_i(16).chr
-                        elsif (char       = scanner.getch)
-                          BACKSLASHED_CHARS.fetch(char,char)
+            buffer << if (unicode_escape      = scanner.scan(/\\x[0-9a-fA-F]{4,8}/))
+                        unicode_escape[2..].to_i(16).chr(Encoding::UTF_8)
+                      elsif (hex_escape       = scanner.scan(/\\x[0-9a-fA-F]{1,2}/))
+                        hex_escape[2..].to_i(16).chr
+                      elsif (backslash_escape = scanner.scan(/\\./))
+                        BACKSLASHED_CHARS.fetch(backslash_escape) do
+                          backslash_escape[1]
                         end
                       else
-                        char
+                        scanner.getch
                       end
           end
 
