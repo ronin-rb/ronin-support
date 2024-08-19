@@ -87,7 +87,7 @@ class String
   alias ruby_decode ruby_unescape
 
   #
-  # Rubyonverts the String into a Ruby string.
+  # Converts the String into a Ruby string.
   #
   # @return [String]
   #
