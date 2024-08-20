@@ -23,6 +23,8 @@ require 'digest'
 class String
 
   #
+  # Calculates the MD5 checksum of the String.
+  #
   # @return [String]
   #   The MD5 checksum of the String.
   #
@@ -36,6 +38,8 @@ class String
     Digest::MD5.hexdigest(self)
   end
 
+  #
+  # Calculates the SHA1 checksum of the String.
   #
   # @return [String]
   #   The SHA1 checksum of the String.
@@ -53,6 +57,8 @@ class String
   alias sha128 sha1
 
   #
+  # Calculates the SHA256 checksum of the String.
+  #
   # @return [String]
   #   The SHA256 checksum of the String.
   #
@@ -68,6 +74,8 @@ class String
 
   alias sha2 sha256
 
+  #
+  # Calculates the SHA512 checksum of the String.
   #
   # @return [String]
   #   The SHA512 checksum of the String.
