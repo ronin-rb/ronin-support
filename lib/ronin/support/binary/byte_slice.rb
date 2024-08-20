@@ -57,7 +57,7 @@ module Ronin
         #   The length of the byte slice, in bytes.
         #
         # @raise [ArgumentError]
-        #   The given string was not a Stirng or a {ByteSlice}.
+        #   The given string was not a String or a {ByteSlice}.
         #
         # @raise [IndexError]
         #   The offset or length is out of bounds of the strings length.
