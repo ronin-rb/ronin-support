@@ -200,7 +200,7 @@ class File
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {Ronin::Support::Crypto.cipher}.
   #
-  # @option kwargs [Symbol] :hash (:sha1)
+  # @option kwargs [Symbol] :hash (:sha256)
   #   The algorithm to hash the `:password`.
   #
   # @option kwargs [String] :key
@@ -261,7 +261,7 @@ class File
   # @param [Hash{Symbol => Object}] kwargs
   #   Additional keyword arguments for {Ronin::Support::Crypto.cipher}.
   #
-  # @option kwargs [Symbol] :hash (:sha1)
+  # @option kwargs [Symbol] :hash (:sha256)
   #   The algorithm to hash the `:password`.
   #
   # @option kwargs [String] :key
