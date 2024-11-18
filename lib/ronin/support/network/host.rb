@@ -21,6 +21,7 @@ require 'ronin/support/network/dns/idn'
 require 'ronin/support/network/ip'
 require 'ronin/support/network/tld'
 require 'ronin/support/network/public_suffix'
+require 'ronin/support/network/defang'
 
 module Ronin
   module Support
@@ -156,6 +157,23 @@ module Ronin
         #
         def initialize(name)
           @name = name
+        end
+
+        #
+        # Defangs the host name.
+        #
+        # @return [String]
+        #   The defanged host name.
+        #
+        # @example
+        #   host = Host.new("www.example.com")
+        #   host.defang
+        #   # => "www[.]example[.]com"
+        #
+        # @since 1.2.0
+        #
+        def defang
+          Defang.defang_host(self)
         end
 
         #
