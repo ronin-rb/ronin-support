@@ -93,6 +93,7 @@ research and development.
     * [Public Suffix List][docs-network-public_suffix]
     * [Host names][docs-network-host]
     * [Domain names][docs-network-domain]
+    * [Defangin / Refanging][docs-network-defang]
   * Working with text:
     * [Generating typos][docs-text-typo].
     * [Generating homoglyphs][docs-text-homoglyp].
@@ -258,6 +259,7 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [docs-network-public_suffix]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/PublicSuffix.html
 [docs-network-host]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/Host.html
 [docs-network-domain]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/Domain.html
+[docs-network-defang]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Network/Defang.html
 [docs-text-typo]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Text/Typo.html
 [docs-text-homoglyp]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Text/Homoglyph.html
 [docs-text-patterns]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Text/Patterns.html
