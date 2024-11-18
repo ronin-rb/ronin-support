@@ -17,6 +17,7 @@
 #
 
 require 'ronin/support/network/http'
+require 'ronin/support/network/defang'
 
 require 'addressable/uri'
 require 'uri/query_params/core_ext/addressable/uri'
@@ -36,6 +37,21 @@ module Ronin
       # @since 1.2.0
       #
       class URL < Addressable::URI
+
+        #
+        # Defangs the URL.
+        #
+        # @return [String]
+        #   The defanged URL.
+        #
+        # @example
+        #   url = URL.new("https://www.example.com:8080/foo?q=1")
+        #   url.defang
+        #   # => "hxxps[://]www[.]example[.]com[:]8080/foo?q=1"
+        #
+        def defang
+          Defang.defang_url(self)
+        end
 
         #
         # Returns the Status Code of the HTTP Response for the URL.
