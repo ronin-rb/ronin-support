@@ -17,6 +17,7 @@
 #
 
 require 'ronin/support/network/asn'
+require 'ronin/support/network/defang'
 require 'ronin/support/network/dns'
 require 'ronin/support/network/domain'
 require 'ronin/support/network/email_address'
