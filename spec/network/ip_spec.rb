@@ -536,6 +536,16 @@ describe Ronin::Support::Network::IP do
     end
   end
 
+  describe "#defang" do
+    subject { described_class.new('192.168.1.1') }
+
+    let(:defanged) { '192[.]168[.]1[.]1' }
+
+    it "must return the defanged IP address" do
+      expect(subject.defang).to eq(defanged)
+    end
+  end
+
   describe "#broadcast?" do
     context "when the IP is an IPv4 adress" do
       context "and the IP address is 255.255.255.255" do
