@@ -20,6 +20,7 @@ require 'ronin/support/network/exceptions'
 require 'ronin/support/network/asn'
 require 'ronin/support/network/dns'
 require 'ronin/support/network/host'
+require 'ronin/support/network/defang'
 require 'ronin/support/text/patterns'
 
 require 'ipaddr'
@@ -320,6 +321,23 @@ module Ronin
         #
         def address
           @address ||= to_s
+        end
+
+        #
+        # Defangs the IP address.
+        #
+        # @return [String]
+        #   The defanged IP address.
+        #
+        # @example
+        #   ip = IP.new("192.168.1.1")
+        #   ip.defang
+        #   # => "192[.]168[.]1[.]1"
+        #
+        # @since 1.2.0
+        #
+        def defang
+          Defang.defang_ip(self)
         end
 
         #
