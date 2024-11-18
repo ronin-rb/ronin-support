@@ -24,6 +24,15 @@ describe Ronin::Support::Network::Host do
     end
   end
 
+  describe "#defang" do
+    let(:hostname) { 'www.example.com' }
+    let(:defanged) { 'www[.]example[.]com' }
+
+    it "must return the defanged host name" do
+      expect(subject.defang).to eq(defanged)
+    end
+  end
+
   let(:unicode_hostname)  { "www.詹姆斯.com" }
   let(:punycode_hostname) { 'www.xn--8ws00zhy3a.com' }
 
