@@ -16,24 +16,27 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/network/asn'
 require 'ronin/support/network/defang'
-require 'ronin/support/network/dns'
-require 'ronin/support/network/domain'
-require 'ronin/support/network/email_address'
-require 'ronin/support/network/host'
-require 'ronin/support/network/http'
-require 'ronin/support/network/ip_range'
-require 'ronin/support/network/ip'
-require 'ronin/support/network/packet'
-require 'ronin/support/network/proxy'
-require 'ronin/support/network/public_suffix'
-require 'ronin/support/network/smtp'
-require 'ronin/support/network/ssl'
-require 'ronin/support/network/tcp'
-require 'ronin/support/network/tld'
-require 'ronin/support/network/tls'
-require 'ronin/support/network/udp'
-require 'ronin/support/network/url'
-require 'ronin/support/network/mixin'
-require 'ronin/support/network/core_ext'
+
+class IPAddr
+
+  #
+  # Defangs an IP address.
+  #
+  # @return [String]
+  #   The defanged IP address.
+  #
+  # @example
+  #   ip = IPAddr.new("192.168.1.1")
+  #   ip.defang
+  #   # => "192[.]168[.]1[.]1"
+  #
+  # @api public
+  #
+  # @since 1.2.0
+  #
+  def defang
+    Ronin::Support::Network::Defang.defang_ip(self)
+  end
+
+end

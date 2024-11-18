@@ -23,6 +23,7 @@ require 'ronin/support/network/udp/mixin'
 require 'ronin/support/network/ssl/mixin'
 require 'ronin/support/network/unix/mixin'
 require 'ronin/support/network/http/mixin'
+require 'ronin/support/network/defang/mixin'
 
 module Ronin
   module Support
@@ -42,6 +43,7 @@ module Ronin
         include SSL::Mixin
         include UNIX::Mixin
         include HTTP::Mixin
+        include Defang::Mixin
       end
     end
   end

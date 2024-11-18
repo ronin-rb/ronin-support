@@ -29,4 +29,8 @@ describe Ronin::Support::Network::Mixin do
   it "must include `Ronin::Support::Network::HTTP::Mixin`" do
     expect(subject).to include(Ronin::Support::Network::HTTP::Mixin)
   end
+
+  it "must include `Ronin::Support::Network::Defang::Mixin`" do
+    expect(subject).to include(Ronin::Support::Network::Defang::Mixin)
+  end
 end
