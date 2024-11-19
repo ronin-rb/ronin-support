@@ -289,7 +289,7 @@ module Ronin
         #
         def broadcast?
           # NOTE: IPv6 does not have broadcast addresses
-          ipv4? && (@addr & 0xff) == 0xff
+          ipv4? && @addr.allbits?(0xff) # IPv4: A.B.C.255
         end
 
         #
@@ -309,7 +309,7 @@ module Ronin
         #   # => false
         #
         def logical?
-          ipv4? && (@addr & 0xff) == 0x00
+          ipv4? && @addr.nobits?(0xff) # IPv4: A.B.C.0
         end
 
         #
