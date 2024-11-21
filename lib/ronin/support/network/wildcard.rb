@@ -41,6 +41,13 @@ module Ronin
         # @return [String]
         attr_reader :template
 
+        # The regular expression that represents the hostname wildcard.
+        #
+        # @return [Regexp]
+        #
+        # @since 1.2.0
+        attr_reader :regex
+
         #
         # Initializes the wildcard hostname.
         #
@@ -52,6 +59,14 @@ module Ronin
         #
         def initialize(template)
           @template = template
+
+          if @template.include?('*')
+            prefix, suffix = @template.split('*',2)
+
+            @regex = /\A#{Regexp.escape(prefix)}(.*?)#{Regexp.escape(suffix)}\z/
+          else
+            @regex = /\A#{Regexp.escape(@template)}\z/
+          end
         end
 
         #
@@ -71,6 +86,27 @@ module Ronin
         def subdomain(name)
           Host.new(@template.sub('*',name))
         end
+
+        #
+        # Tests whether the hostname belongs to the wildcard hostname.
+        #
+        # @param [String] host
+        #   The hostname to compare against the wildcard hostname.
+        #
+        # @return [Boolean]
+        #
+        # @example
+        #   wildcard = Network::Wildcard.new('*.example.com')
+        #   wildcard === 'www.example.com'
+        #   # => true
+        #
+        # @since 1.2.0
+        #
+        def ===(host)
+          @regex === host
+        end
+
+        alias include? ===
 
         #
         # Converts the wildcard hostname to a String.
