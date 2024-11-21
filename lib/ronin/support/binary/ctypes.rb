@@ -24,7 +24,7 @@ require 'ronin/support/binary/ctypes/arch'
 require 'ronin/support/binary/ctypes/os'
 
 require 'ronin/support/binary/ctypes/array_type'
-require 'ronin/support/binary/ctypes/unbounded_array_type'
+require 'ronin/support/binary/ctypes/flexible_array_type'
 require 'ronin/support/binary/ctypes/struct_type'
 
 require 'ronin/support/binary/ctypes/array_object_type'
@@ -65,7 +65,7 @@ module Ronin
       #       `1.79769313486231570E+308`)
       # * Aggregate Types:
       #   * {CTypes::ArrayType Array} (ex: `{1,2,3}`)
-      #   * {CTypes::UnboundedArrayType unbounded Array} (ex: `char c[] = {...}`)
+      #   * {CTypes::FlexibleArrayType unbounded Array} (ex: `char c[] = {...}`)
       #   * {CTypes::StructType struct} (ex: `struct s = {1, 'c', ...}`)
       #   * {CTypes::UnionType union} (ex: `union u = {1234}`)
       # * Object Types:

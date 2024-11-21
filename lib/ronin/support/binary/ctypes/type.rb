@@ -53,13 +53,13 @@ module Ronin
           # @param [Integer, nil] length
           #   The length of the Array.
           #
-          # @return [ArrayType, UnboundedArrayType]
+          # @return [ArrayType, FlexibleArrayType]
           #   The new Array type or an unbounded Array type if `length` was not
           #   given.
           #
           def [](length=nil)
             if length then ArrayType.new(self,length)
-            else           UnboundedArrayType.new(self)
+            else           FlexibleArrayType.new(self)
             end
           end
 

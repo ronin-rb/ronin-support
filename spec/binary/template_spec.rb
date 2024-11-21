@@ -132,21 +132,21 @@ describe Ronin::Support::Binary::Template do
 
     context "when given an infinite range" do
       let(:fields) { [type_name..] }
-      let(:unbounded_array_type) do
-        Ronin::Support::Binary::CTypes::UnboundedArrayType.new(type)
+      let(:flexible_array_type) do
+        Ronin::Support::Binary::CTypes::FlexibleArrayType.new(type)
       end
 
       it "must set #type_system to Ronin::Support::Binary::CTypes" do
         expect(subject.type_system).to be(Ronin::Support::Binary::CTypes)
       end
 
-      it "must add an Ronin::Support::Binary::CTypes::UnboundedArrayType to #types" do
-        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::CTypes::UnboundedArrayType)
+      it "must add an Ronin::Support::Binary::CTypes::FlexibleArrayType to #types" do
+        expect(subject.types.first).to be_kind_of(Ronin::Support::Binary::CTypes::FlexibleArrayType)
         expect(subject.types.first.type).to eq(type)
       end
 
-      it "must set #pack_string to the UnboundedArrayType's #pack_string" do
-        expect(subject.pack_string).to eq(unbounded_array_type.pack_string)
+      it "must set #pack_string to the FlexibleArrayType's #pack_string" do
+        expect(subject.pack_string).to eq(flexible_array_type.pack_string)
       end
     end
 
@@ -362,8 +362,8 @@ describe Ronin::Support::Binary::Template do
         let(:type_name2) { :uint16 }
         let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
-        let(:unbounded_array_type) do
-          Ronin::Support::Binary::CTypes::UnboundedArrayType.new(type2)
+        let(:flexible_array_type) do
+          Ronin::Support::Binary::CTypes::FlexibleArrayType.new(type2)
         end
 
         let(:fields) { [type_name1, type_name2..] }
@@ -374,7 +374,7 @@ describe Ronin::Support::Binary::Template do
 
         it "must pack the remainder of the values using the last field's pack string" do
           expect(subject.pack(*values)).to eq(
-            "#{type1.pack(value1)}#{unbounded_array_type.pack(value2)}"
+            "#{type1.pack(value1)}#{flexible_array_type.pack(value2)}"
           )
         end
       end
@@ -387,8 +387,8 @@ describe Ronin::Support::Binary::Template do
         let(:array_type) do
           Ronin::Support::Binary::CTypes::ArrayType.new(type2,array_length)
         end
-        let(:unbounded_array_type) do
-          Ronin::Support::Binary::CTypes::UnboundedArrayType.new(array_type)
+        let(:flexible_array_type) do
+          Ronin::Support::Binary::CTypes::FlexibleArrayType.new(array_type)
         end
 
         let(:fields) { [type_name1, [type_name2, array_length]..] }
@@ -399,7 +399,7 @@ describe Ronin::Support::Binary::Template do
 
         it "must pack the last value using the last field's type's #pack method" do
           expect(subject.pack(*values)).to eq(
-            "#{type1.pack(value1)}#{unbounded_array_type.pack(value2)}"
+            "#{type1.pack(value1)}#{flexible_array_type.pack(value2)}"
           )
         end
       end
@@ -478,8 +478,8 @@ describe Ronin::Support::Binary::Template do
         let(:type_name2) { :uint16 }
         let(:type2)      { Ronin::Support::Binary::CTypes::TYPES[type_name2] }
 
-        let(:unbounded_array_type) do
-          Ronin::Support::Binary::CTypes::UnboundedArrayType.new(type2)
+        let(:flexible_array_type) do
+          Ronin::Support::Binary::CTypes::FlexibleArrayType.new(type2)
         end
 
         let(:fields) { [type_name1, type_name2..] }
@@ -488,7 +488,7 @@ describe Ronin::Support::Binary::Template do
         let(:value2) { [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
 
         let(:data) do
-          "#{type1.pack(value1)}#{unbounded_array_type.pack(value2)}"
+          "#{type1.pack(value1)}#{flexible_array_type.pack(value2)}"
         end
 
         it "must unpack the remainder of the values using the last field's pack string" do
@@ -508,8 +508,8 @@ describe Ronin::Support::Binary::Template do
         let(:array_type) do
           Ronin::Support::Binary::CTypes::ArrayType.new(type2,array_length)
         end
-        let(:unbounded_array_type) do
-          Ronin::Support::Binary::CTypes::UnboundedArrayType.new(array_type)
+        let(:flexible_array_type) do
+          Ronin::Support::Binary::CTypes::FlexibleArrayType.new(array_type)
         end
 
         let(:fields) { [type_name1, [type_name2, array_length]..] }
@@ -519,7 +519,7 @@ describe Ronin::Support::Binary::Template do
         let(:values) { [value1, value2] }
 
         let(:data) do
-          "#{type1.pack(value1)}#{unbounded_array_type.pack(value2)}"
+          "#{type1.pack(value1)}#{flexible_array_type.pack(value2)}"
         end
 
         it "must unpack the remainder of the values using the last field's type's #unpack method" do

@@ -142,7 +142,7 @@ module Ronin
           #
           # @param [Range] type_signature
           #
-          # @return [UnboundedArrayType]
+          # @return [FlexibleArrayType]
           #
           def resolve_range(type_signature)
             range = type_signature
