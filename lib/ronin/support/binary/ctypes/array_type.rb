@@ -17,7 +17,7 @@
 #
 
 require 'ronin/support/binary/ctypes/aggregate_type'
-require 'ronin/support/binary/ctypes/unbounded_array_type'
+require 'ronin/support/binary/ctypes/flexible_array_type'
 
 module Ronin
   module Support
@@ -60,8 +60,8 @@ module Ronin
           #   Custom type alignment to override the type's alignment.
           #
           def initialize(type,length, alignment: nil)
-            if type.kind_of?(UnboundedArrayType)
-              raise(ArgumentError,"cannot initialize an #{self.class} of #{UnboundedArrayType}")
+            if type.kind_of?(FlexibleArrayType)
+              raise(ArgumentError,"cannot initialize an #{self.class} of #{FlexibleArrayType}")
             end
 
             @type   = type

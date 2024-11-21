@@ -121,7 +121,7 @@ module Ronin
       #     union.pack
       #     # => "\x01\x02\x03\x04\x00\x00\x00\x00\x00\x00"
       #
-      # ### Unbounded Array Fields
+      # ### Flexible Array Fields
       #
       #     class MyUnion < Ronin::Support::Binary::Union
       #
