@@ -228,10 +228,10 @@ describe Ronin::Support::Binary::CTypes::TypeResolver do
 
     context "when given a Range" do
       context "and it starts with a Symbol" do
-        it "must return an UnboundedArrayType containing the resolved Type" do
+        it "must return an FlexibleArrayType containing the resolved Type" do
           type = subject.resolve(type_name..)
 
-          expect(type).to be_kind_of(Ronin::Support::Binary::CTypes::UnboundedArrayType)
+          expect(type).to be_kind_of(Ronin::Support::Binary::CTypes::FlexibleArrayType)
           expect(type.type).to eq(types[type_name])
         end
       end
@@ -243,7 +243,7 @@ describe Ronin::Support::Binary::CTypes::TypeResolver do
           it "must return an ArrayObjectType containing the resolved Type and length" do
             type = subject.resolve([type_name, length]..)
 
-            expect(type).to be_kind_of(Ronin::Support::Binary::CTypes::UnboundedArrayType)
+            expect(type).to be_kind_of(Ronin::Support::Binary::CTypes::FlexibleArrayType)
             expect(type.type).to be_kind_of(Ronin::Support::Binary::CTypes::ArrayObjectType)
             expect(type.type.type).to eq(types[type_name])
             expect(type.type.length).to eq(length)
@@ -257,7 +257,7 @@ describe Ronin::Support::Binary::CTypes::TypeResolver do
           it "must return an ArrayObjectType containing an ArrayObjectType and the length" do
             type = subject.resolve([[type_name, length2], length1]..)
 
-            expect(type).to be_kind_of(Ronin::Support::Binary::CTypes::UnboundedArrayType)
+            expect(type).to be_kind_of(Ronin::Support::Binary::CTypes::FlexibleArrayType)
             expect(type.type).to be_kind_of(Ronin::Support::Binary::CTypes::ArrayObjectType)
             expect(type.type.type).to be_kind_of(Ronin::Support::Binary::CTypes::ArrayObjectType)
             expect(type.type.length).to eq(length1)
@@ -273,7 +273,7 @@ describe Ronin::Support::Binary::CTypes::TypeResolver do
           it "must return an ArrayObjectType containing a StructObjectType and the length" do
             type = subject.resolve([struct_class, length]..)
 
-            expect(type).to be_kind_of(Ronin::Support::Binary::CTypes::UnboundedArrayType)
+            expect(type).to be_kind_of(Ronin::Support::Binary::CTypes::FlexibleArrayType)
             expect(type.type).to be_kind_of(Ronin::Support::Binary::CTypes::ArrayObjectType)
             expect(type.type.type).to be_kind_of(Ronin::Support::Binary::CTypes::StructObjectType)
             expect(type.type.length).to eq(length)
@@ -300,7 +300,7 @@ describe Ronin::Support::Binary::CTypes::TypeResolver do
           it "must return an ArrayObjectType containing a UnionObjectType and the length" do
             type = subject.resolve([union_class, length]..)
 
-            expect(type).to be_kind_of(Ronin::Support::Binary::CTypes::UnboundedArrayType)
+            expect(type).to be_kind_of(Ronin::Support::Binary::CTypes::FlexibleArrayType)
             expect(type.type).to be_kind_of(Ronin::Support::Binary::CTypes::ArrayObjectType)
             expect(type.type.type).to be_kind_of(Ronin::Support::Binary::CTypes::UnionObjectType)
             expect(type.type.length).to eq(length)
@@ -327,7 +327,7 @@ describe Ronin::Support::Binary::CTypes::TypeResolver do
           it "must return an ArrayObjectType containing the Type and length" do
             type = subject.resolve([type_object, length]..)
 
-            expect(type).to be_kind_of(Ronin::Support::Binary::CTypes::UnboundedArrayType)
+            expect(type).to be_kind_of(Ronin::Support::Binary::CTypes::FlexibleArrayType)
             expect(type.type).to be_kind_of(Ronin::Support::Binary::CTypes::ArrayObjectType)
             expect(type.type.type).to eq(type_object)
             expect(type.type.length).to eq(length)

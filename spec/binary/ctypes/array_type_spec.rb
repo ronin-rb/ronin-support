@@ -39,9 +39,9 @@ describe Ronin::Support::Binary::CTypes::ArrayType do
       end
     end
 
-    context "when the given type is an UnboundedArrayType" do
+    context "when the given type is an FlexibleArrayType" do
       let(:type) do
-        Ronin::Support::Binary::CTypes::UnboundedArrayType.new(super())
+        Ronin::Support::Binary::CTypes::FlexibleArrayType.new(super())
       end
 
       it do

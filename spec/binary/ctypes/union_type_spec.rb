@@ -126,7 +126,7 @@ describe Ronin::Support::Binary::CTypes::UnionType do
         expect(subject.pack_string).to be(nil)
       end
 
-      context "when one of the fields is a Ronin::Support::Binary::CTypes::UnboundedArrayType" do
+      context "when one of the fields is a Ronin::Support::Binary::CTypes::FlexibleArrayType" do
         let(:members) do
           {
             a: Ronin::Support::Binary::CTypes::CHAR,
@@ -135,7 +135,7 @@ describe Ronin::Support::Binary::CTypes::UnionType do
           }
         end
 
-        it "must omit the UnboundedArrayType member size from #size" do
+        it "must omit the FlexibleArrayType member size from #size" do
           expect(subject.size).to eq(
             [members[:a].size, members[:b].size].max
           )
@@ -257,7 +257,7 @@ describe Ronin::Support::Binary::CTypes::UnionType do
         end
       end
 
-      context "and when the member type is an UnboundedArrayType" do
+      context "and when the member type is an FlexibleArrayType" do
         let(:members) do
           {
             a: Ronin::Support::Binary::CTypes::CHAR,
@@ -270,7 +270,7 @@ describe Ronin::Support::Binary::CTypes::UnionType do
         let(:value) { [*0x00..0x10] }
         let(:hash)  { {key => value} }
 
-        it "must pack the value using the member's UnboundedArrayType" do
+        it "must pack the value using the member's FlexibleArrayType" do
           expect(subject.pack(hash)).to eq(type.pack(value))
         end
       end
@@ -455,7 +455,7 @@ describe Ronin::Support::Binary::CTypes::UnionType do
       end
     end
 
-    context "when the last value in #members is an UnboundedArrayType" do
+    context "when the last value in #members is an FlexibleArrayType" do
       let(:members) do
         {
           a: Ronin::Support::Binary::CTypes::CHAR,

@@ -28,9 +28,9 @@ module Ronin
         #
         # @api private
         #
-        # @since 1.0.0
+        # @since 1.2.0
         #
-        class UnboundedArrayType < AggregateType
+        class FlexibleArrayType < AggregateType
 
           # The type of each element in the unbounded array type.
           #
@@ -44,11 +44,11 @@ module Ronin
           #   The type of each element in the unbounded array type.
           #
           # @raise [ArgumentError]
-          #   Cannot initialize a nested {UnboundedArrayType}.
+          #   Cannot initialize a nested {FlexibleArrayType}.
           #
           def initialize(type, alignment: nil)
-            if type.kind_of?(UnboundedArrayType)
-              raise(ArgumentError,"cannot initialize a nested #{UnboundedArrayType}")
+            if type.kind_of?(FlexibleArrayType)
+              raise(ArgumentError,"cannot initialize a nested #{FlexibleArrayType}")
             end
 
             @type      = type
