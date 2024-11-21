@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ronin/support/binary/ctypes/unbounded_array_type'
+require 'ronin/support/binary/ctypes/flexible_array_type'
 require 'ronin/support/binary/ctypes/int32_type'
 require 'ronin/support/binary/ctypes/array_type'
 require 'ronin/support/binary/ctypes/struct_type'
 require 'ronin/support/binary/ctypes'
 
-describe Ronin::Support::Binary::CTypes::UnboundedArrayType do
+describe Ronin::Support::Binary::CTypes::FlexibleArrayType do
   let(:endian)      { :little }
   let(:pack_string) { 'L<'    }
 
@@ -48,9 +48,9 @@ describe Ronin::Support::Binary::CTypes::UnboundedArrayType do
       end
     end
 
-    context "when the given type is an UnboundedArrayType" do
+    context "when the given type is an FlexibleArrayType" do
       let(:type) do
-        Ronin::Support::Binary::CTypes::UnboundedArrayType.new(super())
+        Ronin::Support::Binary::CTypes::FlexibleArrayType.new(super())
       end
 
       it do

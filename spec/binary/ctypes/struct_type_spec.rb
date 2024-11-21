@@ -191,7 +191,7 @@ describe Ronin::Support::Binary::CTypes::StructType do
         let(:members) do
           {
             a: Ronin::Support::Binary::CTypes::INT32,
-            b: Ronin::Support::Binary::CTypes::UnboundedArrayType.new(
+            b: Ronin::Support::Binary::CTypes::FlexibleArrayType.new(
                  Ronin::Support::Binary::CTypes::INT32[3]
                )
           }
@@ -202,7 +202,7 @@ describe Ronin::Support::Binary::CTypes::StructType do
         end
       end
 
-      context "when one of the members is a Ronin::Support::Binary::CTypes::UnboundedArrayType" do
+      context "when one of the members is a Ronin::Support::Binary::CTypes::FlexibleArrayType" do
         let(:members) do
           {
             a: Ronin::Support::Binary::CTypes::INT16,
@@ -211,7 +211,7 @@ describe Ronin::Support::Binary::CTypes::StructType do
           }
         end
 
-        it "must omit the UnboundedArrayType member size from #size" do
+        it "must omit the FlexibleArrayType member size from #size" do
           expect(subject.size).to eq(
             members[:a].size + members[:b].size
           )
@@ -366,7 +366,7 @@ describe Ronin::Support::Binary::CTypes::StructType do
       end
     end
 
-    context "when the last value in #members is an UnboundedArrayType" do
+    context "when the last value in #members is an FlexibleArrayType" do
       let(:members) do
         {
           a: Ronin::Support::Binary::CTypes::CHAR,
@@ -539,7 +539,7 @@ describe Ronin::Support::Binary::CTypes::StructType do
       end
     end
 
-    context "when the last value in #members is an UnboundedArrayType" do
+    context "when the last value in #members is an FlexibleArrayType" do
       let(:members) do
         {
           a: Ronin::Support::Binary::CTypes::CHAR,
@@ -734,7 +734,7 @@ describe Ronin::Support::Binary::CTypes::StructType do
       end
     end
 
-    context "when the last value in #members is an UnboundedArrayType" do
+    context "when the last value in #members is an FlexibleArrayType" do
       let(:members) do
         {
           a: Ronin::Support::Binary::CTypes::CHAR,
@@ -861,7 +861,7 @@ describe Ronin::Support::Binary::CTypes::StructType do
       end
     end
 
-    context "when the last value in #members is an UnboundedArrayType" do
+    context "when the last value in #members is an FlexibleArrayType" do
       let(:members) do
         {
           a: Ronin::Support::Binary::CTypes::CHAR,

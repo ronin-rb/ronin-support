@@ -1,6 +1,6 @@
 require 'rspec'
 require 'ronin/support/binary/ctypes/array_type'
-require 'ronin/support/binary/ctypes/unbounded_array_type'
+require 'ronin/support/binary/ctypes/flexible_array_type'
 
 shared_examples_for "Type examples" do
   describe "#[]" do
@@ -21,8 +21,8 @@ shared_examples_for "Type examples" do
     end
 
     context "when no argument is given" do
-      it "must return an UnboundedArrayType" do
-        expect(subject[]).to be_kind_of(Ronin::Support::Binary::CTypes::UnboundedArrayType)
+      it "must return an FlexibleArrayType" do
+        expect(subject[]).to be_kind_of(Ronin::Support::Binary::CTypes::FlexibleArrayType)
       end
 
       it "must have a #type of self" do
