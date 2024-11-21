@@ -24,7 +24,7 @@ describe Ronin::Support::Binary::Struct do
       member :baz, :uint64
     end
 
-    class StructWithUnboundedArray < Ronin::Support::Binary::Struct
+    class StructWithFlexibleArray < Ronin::Support::Binary::Struct
       member :foo, :uint16
       member :bar, :int32
       member :baz, (:uint64..)
