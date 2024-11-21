@@ -126,7 +126,7 @@ module Ronin
       #     struct.pack
       #     # => "\x00\x00\x00\x00\x01\x02\x03\x04\x00\x00\x00\x00\x00\x00"
       #
-      # ### Unbounded Array Fields
+      # ### Flexible Array Fields
       #
       #     class MyStruct < Ronin::Support::Binary::Struct
       #
@@ -517,7 +517,7 @@ module Ronin
         def [](name)
           if (member = @type.members[name])
             case member.type
-            when CTypes::UnboundedArrayType
+            when CTypes::FlexibleArrayType
               # XXX: but how do we handle an unbounded array of structs?
               @cache[name] ||= begin
                                  offset = member.offset
