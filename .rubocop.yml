@@ -126,10 +126,12 @@ Style/MapIntoArray:
 Style/CaseEquality:
   Exclude:
     - 'lib/ronin/support/network/ip_range.rb'
+    - 'lib/ronin/support/network/wildcard.rb'
     - 'spec/network/ip_range_spec.rb'
     - 'spec/network/ip_range/cidr_spec.rb'
     - 'spec/network/ip_range/glob_spec.rb'
     - 'spec/network/ip_range/range_spec.rb'
+    - 'spec/network/wildcard_spec.rb'
 
 Style/ConditionalAssignment:
   Exclude:
