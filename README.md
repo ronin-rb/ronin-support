@@ -46,6 +46,7 @@ research and development.
     * [Hex][docs-encoding-hex]
     * [HTML][docs-encoding-html]
     * [HTTP][docs-encoding-http]
+    * [Java][docs-encoding-java]
     * [JavaScript][docs-encoding-js]
     * [Node.js][docs-encoding-node-js]
     * [PowerShell][docs-encoding-powershell]
@@ -209,6 +210,7 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [docs-encoding-hex]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Hex.html
 [docs-encoding-html]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/HTML.html
 [docs-encoding-http]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/HTTP.html
+[docs-encoding-java]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/Java.html
 [docs-encoding-js]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/JS.html
 [docs-encoding-node-js]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/NodeJS.html
 [docs-encoding-powershell]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Encoding/PowerShell.html
