@@ -28,6 +28,7 @@ require 'ronin/support/encoding/powershell'
 require 'ronin/support/encoding/http'
 require 'ronin/support/encoding/xml'
 require 'ronin/support/encoding/html'
+require 'ronin/support/encoding/java'
 require 'ronin/support/encoding/js'
 require 'ronin/support/encoding/node_js'
 require 'ronin/support/encoding/sql'
@@ -97,6 +98,13 @@ module Ronin
     # * {String#http_encode}
     # * {String#http_escape}
     # * {String#http_unescape}
+    # * {Integer#java_escape}
+    # * {Integer#java_encode}
+    # * {String#java_escape}
+    # * {String#java_unescape}
+    # * {String#java_encode}
+    # * {String#java_string}
+    # * {String#java_unquote}
     # * {String#js_decode}
     # * {String#js_encode}
     # * {String#js_escape}
