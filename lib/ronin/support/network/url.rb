@@ -38,6 +38,9 @@ module Ronin
       #
       class URL < Addressable::URI
 
+        # Regular expression to match all URLs.
+        REGEX = URI::DEFAULT_PARSER.make_regexp
+
         #
         # Defangs the URL.
         #
