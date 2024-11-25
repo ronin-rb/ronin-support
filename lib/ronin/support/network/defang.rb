@@ -16,6 +16,9 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+require_relative 'url'
+require_relative 'ip'
+
 module Ronin
   module Support
     module Network
@@ -156,6 +159,31 @@ module Ronin
             end
 
             "#{scheme}://#{authority}"
+          end
+        end
+
+        #
+        # Defangs a URL, IP address, or host name.
+        #
+        # @param [String] string
+        #   The URL, IP address, or host name.
+        #
+        # @return [String]
+        #   The defanged URL, IP address, or host name.
+        #
+        # @example
+        #   Defang.defang("https://www.example.com:8080/foo?q=1")
+        #   # => "hxxps[://]www[.]example[.]com[:]8080/foo?q=1"
+        #   Defang.defang("192.168.1.1")
+        #   # => "192[.]168[.]1[.]1"
+        #   Defang.defang("www.example.com")
+        #   # => "www[.]example[.]com"
+        #
+        def self.defang(string)
+          case string
+          when IP::REGEX  then defang_ip(string)
+          when URL::REGEX then defang_url(string)
+          else                 defang_host(string)
           end
         end
 
