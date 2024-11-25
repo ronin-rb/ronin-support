@@ -16,6 +16,42 @@ describe Ronin::Support::Network::URL do
 
   subject { described_class.parse(url) }
 
+  describe "REGEX" do
+    subject { described_class::REGEX }
+
+    it "must match a http:// URL" do
+      expect(subject =~ 'http://example.com/').to be_truthy
+    end
+
+    it "must match a https:// URL" do
+      expect(subject =~ 'https://example.com/').to be_truthy
+    end
+
+    it "must match a http(s):// URL with an IP address for a host name" do
+      expect(subject =~ 'http://[192.168.1.1]/').to be_truthy
+      expect(subject =~ 'https://[192.168.1.1]/').to be_truthy
+    end
+
+    it "must match a http(s):// URL with a path" do
+      expect(subject =~ 'http://example.com/foo/index.html').to be_truthy
+      expect(subject =~ 'https://example.com/foo/index.html').to be_truthy
+    end
+
+    it "must match a http(s):// URL with a query string" do
+      expect(subject =~ 'http://example.com/?q=1').to be_truthy
+      expect(subject =~ 'https://example.com/?q=1').to be_truthy
+    end
+
+    it "must match a http(s):// URL with a fragment" do
+      expect(subject =~ 'http://example.com/#foo').to be_truthy
+      expect(subject =~ 'https://example.com/#foo').to be_truthy
+    end
+
+    it "must match a URI with an arbitrary scheme" do
+      expect(subject =~ 'foo:').to be_truthy
+    end
+  end
+
   describe "#defang" do
     let(:url)      { 'http://www.example.com/foo?q=1' }
     let(:defanged) { 'hxxp[://]www[.]example[.]com/foo?q=1' }
