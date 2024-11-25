@@ -27,6 +27,7 @@ module Ronin
       #
       # ## Core-Ext Methods
       #
+      # * {String#defang}
       # * {String#refang}
       # * {IPAddr#defang}
       # * {URI::HTTP#defang}

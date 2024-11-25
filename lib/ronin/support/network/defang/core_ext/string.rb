@@ -21,6 +21,24 @@ require 'ronin/support/network/defang'
 class String
 
   #
+  # Defangs a URL, IP address, or host name.
+  #
+  # @return [String]
+  #   The defanged URL, IP address, or host name.
+  #
+  # @example
+  #   "https://www.example.com:8080/foo?q=1".defang
+  #   # => "hxxps[://]www[.]example[.]com[:]8080/foo?q=1"
+  #   "192.168.1.1".defang
+  #   # => "192[.]168[.]1[.]1"
+  #   "www.example.com".defang
+  #   # => "www[.]example[.]com"
+  #
+  def defang
+    Ronin::Support::Network::Defang.defang(self)
+  end
+
+  #
   # Refangs a defanged URL, IP address, or host name.
   #
   # @return [String]
