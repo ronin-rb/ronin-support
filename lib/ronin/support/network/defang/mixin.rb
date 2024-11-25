@@ -134,6 +134,27 @@ module Ronin
           end
 
           #
+          # Defangs a URL, IP address, or host name.
+          #
+          # @param [String] string
+          #   The URL, IP address, or host name.
+          #
+          # @return [String]
+          #   The defanged URL, IP address, or host name.
+          #
+          # @example
+          #   defang("https://www.example.com:8080/foo?q=1")
+          #   # => "hxxps[://]www[.]example[.]com[:]8080/foo?q=1"
+          #   defang("192.168.1.1")
+          #   # => "192[.]168[.]1[.]1"
+          #   defang("www.example.com")
+          #   # => "www[.]example[.]com"
+          #
+          def defang(string)
+            Defang.defang(string)
+          end
+
+          #
           # Refangs a defanged URL, IP address, or host name.
           #
           # @param [String] string
