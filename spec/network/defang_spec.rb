@@ -190,6 +190,44 @@ describe Ronin::Support::Network::Defang do
     end
   end
 
+  describe ".defang" do
+    context "when given a defanged URL" do
+      let(:url)      { 'http://www.example.com/foo?q=1' }
+      let(:defanged) { 'hxxp[://]www[.]example[.]com/foo?q=1' }
+
+      it "must return the defanged URL" do
+        expect(subject.defang(url)).to eq(defanged)
+      end
+    end
+
+    context "when given a defanged IPv4 address" do
+      let(:ip)       { '192.168.1.1' }
+      let(:defanged) { '192[.]168[.]1[.]1' }
+
+      it "must return the defanged IPv4 address" do
+        expect(subject.defang(ip)).to eq(defanged)
+      end
+    end
+
+    context "when given a defanged IPv6 address" do
+      let(:ip)       { '2606:2800:21f:cb07:6820:80da:af6b:8b2c' }
+      let(:defanged) { '2606[:]2800[:]21f[:]cb07[:]6820[:]80da[:]af6b[:]8b2c' }
+
+      it "must return the defanged IPv6 address" do
+        expect(subject.defang(ip)).to eq(defanged)
+      end
+    end
+
+    context "when given a defanged host name" do
+      let(:host)     { 'www.example.com' }
+      let(:defanged) { 'www[.]example[.]com' }
+
+      it "must return the defanged host name" do
+        expect(subject.defang(host)).to eq(defanged)
+      end
+    end
+  end
+
   describe ".refang" do
     context "when given a defanged URL" do
       let(:defanged) { 'hxxp[://]www[.]example[.]com/foo?q=1' }
