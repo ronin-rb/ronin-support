@@ -25,6 +25,7 @@ require 'ronin/support/mixin'
 require 'ronin/support/network'
 require 'ronin/support/path'
 require 'ronin/support/text'
+require 'ronin/support/software'
 require 'ronin/support/version'
 
 module Ronin
