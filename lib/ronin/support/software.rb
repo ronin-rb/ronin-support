@@ -16,34 +16,5 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/binary'
-require 'ronin/support/cli'
-require 'ronin/support/core_ext'
-require 'ronin/support/crypto'
-require 'ronin/support/encoding'
-require 'ronin/support/mixin'
-require 'ronin/support/network'
-require 'ronin/support/path'
-require 'ronin/support/text'
-require 'ronin/support/software'
-require 'ronin/support/version'
-
-module Ronin
-  #
-  # Top-level namespace for `ronin-support`.
-  #
-  # ## Example
-  #
-  #     require 'ronin/support'
-  #     include Ronin::Support
-  #
-  #     "hello world".base64_encode
-  #     # => "aGVsbG8gd29ybGQ=\n"
-  #
-  #     http_get 'https://example.com/'
-  #     # => #<Net::HTTPOK 200 OK readbody=true>
-  #
-  module Support
-    include Mixin
-  end
-end
+require_relative 'software/version'
+require_relative 'software/version_range'
