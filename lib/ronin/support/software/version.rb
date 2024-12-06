@@ -18,102 +18,231 @@
 
 module Ronin
   module Support
-    #
-    # Represents a software version number.
-    #
-    # ## Examples
-    #
-    # Supports parsing a variety of version formats:
-    #
-    #     Software::Version.new('42')
-    #     Software::Version.new('1.2')
-    #     Software::Version.new('1.2.3')
-    #     Software::Version.new('1.2.3.4')
-    #     Software::Version.new('1.2.3.rc1')
-    #     Software::Version.new('1.2.3-rc1')
-    #     Software::Version.new('1.2.a')
-    #     Software::Version.new('1.2.abc')
-    #
-    # Supports comparing version numbers:
-    #
-    #     version1 = Software::Version.new('1.2.0')
-    #     version2 = Software::Version.new('1.2.3.1')
-    #     version2 >= version1
-    #     # => true
-    #
-    # @api public
-    #
-    # @since 1.2.0
-    #
-    class Version
+    module Software
+      #
+      # Represents a software version number.
+      #
+      # ## Examples
+      #
+      # Supports parsing a variety of version formats:
+      #
+      #     Software::Version.new('42')
+      #     Software::Version.new('1.2')
+      #     Software::Version.new('1.2.3')
+      #     Software::Version.new('1.2.3.4')
+      #     Software::Version.new('1.2.3.rc1')
+      #     Software::Version.new('1.2.3-rc1')
+      #     Software::Version.new('1.2.a')
+      #     Software::Version.new('1.2.abc')
+      #
+      # Supports comparing version numbers:
+      #
+      #     version1 = Software::Version.new('1.2.0')
+      #     version2 = Software::Version.new('1.2.3.1')
+      #     version2 >= version1
+      #     # => true
+      #
+      # @api public
+      #
+      # @since 1.2.0
+      #
+      class Version
 
-      include Compareable
+        include Comparable
 
-      # The version string.
-      #
-      # @return [String]
-      attr_reader :string
+        # The version string.
+        #
+        # @return [String]
+        attr_reader :string
 
-      # The parsed version numbers.
-      #
-      # @return [Array<Integer, String>]
-      attr_reader :parts
+        # The individual parsed version numbers.
+        #
+        # @return [Array<Integer, :pre, :alpha, :beta, :rc, String>]
+        attr_reader :parts
 
-      #
-      # Initializes the version number.
-      #
-      # @param [String] string
-      #   The version string to parse.
-      #
-      # @example
-      #   Software::Version.new('42')
-      #   Software::Version.new('1.2')
-      #   Software::Version.new('1.2.3')
-      #   Software::Version.new('1.2.3.rc1')
-      #   Software::Version.new('1.2.3-rc1')
-      #   Software::Version.new('1.2.a')
-      #   Software::Version.new('1.2.abc')
-      #
-      def initialize(string)
-        @string  = string
-        @parts   = string.split(/[.-]/).map do |part|
-          if part =~ /\A\d+\z/ then part.to_i
-          else                      part
+        #
+        # Initializes the version number.
+        #
+        # @param [String] string
+        #   The version string to parse.
+        #
+        # @example
+        #   Software::Version.new('42')
+        #   Software::Version.new('1.2')
+        #   Software::Version.new('1.2.3')
+        #   Software::Version.new('1.2.3.rc1')
+        #   Software::Version.new('1.2.3-rc1')
+        #   Software::Version.new('1.2.a')
+        #   Software::Version.new('1.2.abc')
+        #
+        def initialize(string)
+          @string = string
+          @parts  = []
+
+          string.split(/[._-]/).each do |part|
+            if part =~ /\A\d+\z/
+              @parts << part.to_i
+            elsif (match = part.match(/\A(pre|alpha|beta|rc)(\d+)?\z/))
+              @parts << match[1].to_sym
+
+              if (number = match[2])
+                @parts << number.to_i
+              end
+            else
+              @parts << part
+            end
           end
         end
+
+        #
+        # Parses the version string.
+        #
+        # @param [String] string
+        #   The version string to parse.
+        #
+        # @return [Version]
+        #   The parsed version string.
+        #
+        # @see #initialize
+        #
+        def self.parse(string)
+          new(string)
+        end
+
+        # Explicit order of pre-release version tags.
+        #
+        # @api private
+        PRERELEASE_ORDER = [
+          :pre,
+          :alpha,
+          :beta,
+          :rc
+        ]
+
+        #
+        # Compares the version to another version.
+        #
+        # @param [Version] other
+        #   The other version to compare with.
+        #
+        # @return [-1, 0, 1]
+        #   Returns `-1`, `0`, `1`, if the version is less than, equal to, or
+        #   greater than the other version, respectively.
+        #
+        def <=>(other)
+          # quickly return if the version strings are identical
+          return 0 if @string == other.string
+
+          max_length = [@parts.length, other.parts.length].max
+          index      = 0
+
+          while index < max_length
+            # missing version parts will be filled in with 0s
+            #
+            #   1.2 <=> 1.2.3 ---> 1.2.0 <=> 1.2.3
+            #
+            part       = @parts.fetch(index,0)
+            other_part = other.parts.fetch(index,0)
+
+            # must increment index before calling next
+            index += 1
+
+            case part
+            when Integer
+              case other_part
+              when Integer
+                # Comparison between two version numbers.
+                #
+                # Examples:
+                #   1.2.3 == 1.2.3
+                #   1.2.0 < 1.2.3
+                #   1.2.3 > 1.2.0
+                if part == other_part
+                  next # keep going
+                else
+                  return part <=> other_part # tie breaker
+                end
+              when Symbol, String
+                # Comparison between a version number and a recognized version
+                # modifier or an unrecognized version tag / build-info string.
+                #
+                # Examples:
+                #   1.2.0.1 > 1.2.0.alpha
+                #   1.2.0.1 > 1.2.0-a1b2c3
+                return 1
+              end
+            when Symbol
+              case other_part
+              when Integer
+                # Comparison between a recognized version modifier and a
+                # version number.
+                #
+                # Examples:
+                #   1.2.0.alpha < 1.2.0.1
+                return -1
+              when String
+                # Comparison between a recognized version modifier (ex: alpha)
+                # and an unrecognized version tag or build-info.
+                #
+                # Examples:
+                #   1.2.0.alpha > 1.2.0.foobar
+                #   1.2.0.alpha > 1.2.0-1a2b3c
+                return 1
+              when Symbol
+                # Comparison between two recognized version modifiers.
+                #
+                # Examples:
+                #   1.2.0.pre   < 1.2.0.alpha
+                #   1.2.0.alpha < 1.2.0.beta
+                #   1.2.3.beta  < 1.2.0.rc
+                if part == other_part
+                  next # keep going
+                else
+                  # tie breaker
+                  return PRERELEASE_ORDER.index(part) <=>
+                         PRERELEASE_ORDER.index(other_part)
+                end
+              end
+            when String
+              case other_part
+              when Integer
+                # Comparison between an unrecognized version tag or build-info
+                # string and an Integer.
+                #
+                # Examples:
+                #   1.2.0-a1b2c3 < 1.2.0.1
+                return -1
+              when Symbol
+                # Comparison between an unrecognized version tag or build-info
+                # string and a recognized version modifier.
+                #
+                # Examples:
+                #   1.2.0-a1b2c3 > 1.2.0.pre1
+                return 1
+              when String
+                # Comparison between two unrecognized version tags or build-info
+                # strings.
+                #
+                # Examples:
+                #   1.2.3-foobar ??? 1.2.3-bazqux
+                return part <=> other_part # fallback to lexical comparison
+              end
+            end
+          end
+
+          # All version elements are equal, even though the version strings may
+          # be slightly different.
+          #
+          # Examples:
+          #   1.2.3.alpha1 == 1.2.3.alpha.1
+          #   1.2.3.alpha1 == 1.2.3-alpha1
+          #   1.2.3.alpha1 == 1.2.3-alpha-1
+          return 0
+        end
+
+        alias to_s string
+
       end
-
-      #
-      # Parses the version string.
-      #
-      # @param [String] string
-      #   The version string to parse.
-      #
-      # @return [Version]
-      #   The parsed version string.
-      #
-      # @see #initialize
-      #
-      def self.parse(string)
-        new(string)
-      end
-
-      #
-      # Compares the version to another version.
-      #
-      # @param [Version] other
-      #   The other version to compare with.
-      #
-      # @return [-1, 0, 1]
-      #   Returns `-1`, `0`, `1`, if the version is less than, equal to, or
-      #   greater than the other version, respectively.
-      #
-      def <=>(other)
-        @parts <=> other.parts
-      end
-
-      alias to_s string
-
     end
   end
 end
