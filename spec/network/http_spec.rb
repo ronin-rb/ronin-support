@@ -1373,11 +1373,12 @@ describe Ronin::Support::Network::HTTP do
       end
 
       it "must send a request with the given method and path to the host and return an Net::HTTPResponse object" do
-        stub_request(method,uri)
+        # NOTE: webmock 3.24.0 stopped accepting Addressable::URI values
+        stub_request(method,uri.to_s)
 
         expect(subject.request(method,uri)).to be_kind_of(Net::HTTPResponse)
 
-        expect(WebMock).to have_requested(method,uri)
+        expect(WebMock).to have_requested(method,uri.to_s)
       end
     end
 
