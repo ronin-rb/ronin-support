@@ -26,14 +26,37 @@ module Ronin
       #
       # Supports parsing a variety of version formats:
       #
-      #     Software::Version.new('42')
-      #     Software::Version.new('1.2')
-      #     Software::Version.new('1.2.3')
-      #     Software::Version.new('1.2.3.4')
-      #     Software::Version.new('1.2.3.rc1')
-      #     Software::Version.new('1.2.3-rc1')
-      #     Software::Version.new('1.2.a')
-      #     Software::Version.new('1.2.abc')
+      #     42
+      #     1.2
+      #     1.2.3
+      #     1.2.3a
+      #     1.2.3.4
+      #     1.2.3-4
+      #     1.2.3_4
+      #     1.2.3.pre
+      #     1.2.3-pre
+      #     1.2.3_pre
+      #     1.2.3.pre1
+      #     1.2.3-pre1
+      #     1.2.3_pre1
+      #     1.2.3.alpha
+      #     1.2.3-alpha
+      #     1.2.3_alpha
+      #     1.2.3.alpha1
+      #     1.2.3-alpha1
+      #     1.2.3_alpha1
+      #     1.2.3.beta
+      #     1.2.3-beta
+      #     1.2.3_beta
+      #     1.2.3.beta1
+      #     1.2.3-beta1
+      #     1.2.3_beta1
+      #     1.2.3.rc
+      #     1.2.3-rc
+      #     1.2.3_rc
+      #     1.2.3.rc1
+      #     1.2.3-rc1
+      #     1.2.3_rc1
       #
       # Supports comparing version numbers:
       #
@@ -188,14 +211,21 @@ module Ronin
                 else
                   return part <=> other_part # tie breaker
                 end
-              when Symbol, String
-                # Comparison between a version number and a recognized version
-                # modifier or an unrecognized version tag / build-info string.
+              when Symbol
+                # Comparison between a version number and a version modifier.
                 #
                 # Examples:
                 #   1.2.0.1 > 1.2.0.alpha
                 #   1.2.0.1 > 1.2.0-a1b2c3
                 return 1
+              when String
+                # Comparison between a version number and an unrecognized
+                # version tag / build-info string.
+                #
+                # Examples:
+                #   1.2.3 < 1.2.3a
+                #   1.2.30 > 1.2.3a
+                return part.to_s <=> other_part
               end
             when Symbol
               case other_part
@@ -206,14 +236,6 @@ module Ronin
                 # Examples:
                 #   1.2.0.alpha < 1.2.0.1
                 return -1
-              when String
-                # Comparison between a recognized version modifier (ex: alpha)
-                # and an unrecognized version tag or build-info.
-                #
-                # Examples:
-                #   1.2.0.alpha > 1.2.0.foobar
-                #   1.2.0.alpha > 1.2.0-1a2b3c
-                return 1
               when Symbol
                 # Comparison between two recognized version modifiers.
                 #
@@ -228,6 +250,13 @@ module Ronin
                   return PRERELEASE_ORDER.index(part) <=>
                          PRERELEASE_ORDER.index(other_part)
                 end
+              when String
+                # Comparison between a recognized version modifier (ex: alpha)
+                # and an unrecognized version tag or build-info.
+                #
+                # Examples:
+                #   1.2.0.alpha > 1.2.0.1a
+                return 1
               end
             when String
               case other_part
@@ -236,22 +265,24 @@ module Ronin
                 # string and an Integer.
                 #
                 # Examples:
-                #   1.2.0-a1b2c3 < 1.2.0.1
-                return -1
+                #   1.2.3a > 1.2.3
+                #   1.2.3a < 1.2.30
+                return part <=> other_part.to_s
               when Symbol
                 # Comparison between an unrecognized version tag or build-info
                 # string and a recognized version modifier.
                 #
                 # Examples:
-                #   1.2.0-a1b2c3 > 1.2.0.pre1
+                #   1.2.0.1a > 1.2.0.pre1
                 return 1
               when String
                 # Comparison between two unrecognized version tags or build-info
                 # strings.
                 #
                 # Examples:
-                #   1.2.3-foobar ??? 1.2.3-bazqux
-                return part <=> other_part # fallback to lexical comparison
+                #   1.2.3a < 1.2.3b
+                #   1.2.3b < 1.2.3c
+                return part <=> other_part
               end
             end
           end
