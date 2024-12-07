@@ -1,5 +1,4 @@
 AllCops:
-  NewCops: enable
   SuggestExtensions: false
   TargetRubyVersion: 3.1
 
