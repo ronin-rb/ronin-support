@@ -79,20 +79,46 @@ module Ronin
           @string = string
           @parts  = []
 
-          string.split(/[._-]/).each do |part|
+          parse!
+        end
+
+        private
+
+        #
+        # Internal method which parses the {#string} instance variable and
+        # populates {#parts}.
+        #
+        # @note
+        #   This method mainly exists in case you want to sub-class {Version}
+        #   and define your own custom version string parsing logic.
+        #
+        # @api private
+        #
+        def parse!
+          # ignore everything after the '+' symbol, then split by '.', '-', '_'.
+          @string.sub(/\+.+\z/,'').split(/[._-]/).each do |part|
             if part =~ /\A\d+\z/
+              # append the version number
               @parts << part.to_i
             elsif (match = part.match(/\A(pre|alpha|beta|rc)(\d+)?\z/))
+              # append the pre|alpha|beta|rc as a separate Symbol element
               @parts << match[1].to_sym
 
               if (number = match[2])
+                # append the number as a separate Integer element
                 @parts << number.to_i
               end
+            elsif (match = part.match(/\Ap(\d+)\z/)) # -pN / .pN
+              # omit the 'p' prefix and append the number
+              @parts << match[1].to_i
             else
+              # append everything else as a String
               @parts << part
             end
           end
         end
+
+        public
 
         #
         # Parses the version string.
