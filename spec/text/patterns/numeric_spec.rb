@@ -114,7 +114,7 @@ describe Ronin::Support::Text::Patterns do
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Yxyz' versions" do
+    it "must match 'X.Y.Yword' versions" do
       version = '1.2.3hotfix'
 
       expect(version).to fully_match(subject)
@@ -144,7 +144,7 @@ describe Ronin::Support::Text::Patterns do
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-xyz' versions" do
+    it "must match 'X.Y.Y-word' versions" do
       version = '1.2.3-hotfix'
 
       expect(version).to fully_match(subject)
@@ -174,337 +174,337 @@ describe Ronin::Support::Text::Patterns do
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.xyz' versions" do
-      version = '1.2.3.hotfix'
+    it "must match 'X.Y.Y.word' versions" do
+      version = '1.2.3.word'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.YpreXYZ' versions" do
-      version = '1.2.3pre1234'
+    it "must match 'X.Y.YpreNNN' versions" do
+      version = '1.2.3pre123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.YrcXYZ' versions" do
+    it "must match 'X.Y.YrcNNN' versions" do
       version = '1.2.3rc123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.YalphaXYZ' versions" do
+    it "must match 'X.Y.YalphaNNN' versions" do
       version = '1.2.3alpha123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.YbetaXYZ' versions" do
+    it "must match 'X.Y.YbetaNNN' versions" do
       version = '1.2.3beta123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.YxyzXYZ' versions" do
+    it "must match 'X.Y.YwordNNN' versions" do
       version = '1.2.3hotfix123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Ypre-XYZ' versions" do
-      version = '1.2.3pre-1234'
+    it "must match 'X.Y.Ypre-NNN' versions" do
+      version = '1.2.3pre-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Yrc-XYZ' versions" do
+    it "must match 'X.Y.Yrc-NNN' versions" do
       version = '1.2.3rc-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Yalpha-XYZ' versions" do
+    it "must match 'X.Y.Yalpha-NNN' versions" do
       version = '1.2.3alpha-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Ybeta-XYZ' versions" do
+    it "must match 'X.Y.Ybeta-NNN' versions" do
       version = '1.2.3beta-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Yxyz-XYZ' versions" do
+    it "must match 'X.Y.Yword-NNN' versions" do
       version = '1.2.3hotfix-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Ypre.XYZ' versions" do
-      version = '1.2.3pre.1234'
+    it "must match 'X.Y.Ypre.NNN' versions" do
+      version = '1.2.3pre.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Yrc.XYZ' versions" do
+    it "must match 'X.Y.Yrc.NNN' versions" do
       version = '1.2.3rc.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Yalpha.XYZ' versions" do
+    it "must match 'X.Y.Yalpha.NNN' versions" do
       version = '1.2.3alpha.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Ybeta.XYZ' versions" do
+    it "must match 'X.Y.Ybeta.NNN' versions" do
       version = '1.2.3beta.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Yxyz.XYZ' versions" do
+    it "must match 'X.Y.Yword.NNN' versions" do
       version = '1.2.3hotfix-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-preXYZ' versions" do
+    it "must match 'X.Y.Y-preNNN' versions" do
       version = '1.2.3-pre123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-rcXYZ' versions" do
+    it "must match 'X.Y.Y-rcNNN' versions" do
       version = '1.2.3-rc123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-alphaXYZ' versions" do
+    it "must match 'X.Y.Y-alphaNNN' versions" do
       version = '1.2.3-alpha123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-betaXYZ' versions" do
+    it "must match 'X.Y.Y-betaNNN' versions" do
       version = '1.2.3-beta123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-xyzXYZ' versions" do
+    it "must match 'X.Y.Y-xyzNNN' versions" do
       version = '1.2.3-hotfix123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.preXYZ' versions" do
+    it "must match 'X.Y.Y.preNNN' versions" do
       version = '1.2.3.pre123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.rcXYZ' versions" do
+    it "must match 'X.Y.Y.rcNNN' versions" do
       version = '1.2.3.rc123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.alphaXYZ' versions" do
+    it "must match 'X.Y.Y.alphaNNN' versions" do
       version = '1.2.3.alpha123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.betaXYZ' versions" do
+    it "must match 'X.Y.Y.betaNNN' versions" do
       version = '1.2.3.beta123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.xyzXYZ' versions" do
+    it "must match 'X.Y.Y.xyzNNN' versions" do
       version = '1.2.3.hotfix123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Ypre-XYZ' versions" do
+    it "must match 'X.Y.Ypre-NNN' versions" do
       version = '1.2.3pre-1234'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Yrc-XYZ' versions" do
+    it "must match 'X.Y.Yrc-NNN' versions" do
       version = '1.2.3rc-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Yalpha-XYZ' versions" do
+    it "must match 'X.Y.Yalpha-NNN' versions" do
       version = '1.2.3alpha-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Ybeta-XYZ' versions" do
+    it "must match 'X.Y.Ybeta-NNN' versions" do
       version = '1.2.3beta-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Yxyz-XYZ' versions" do
+    it "must match 'X.Y.Yxyz-NNN' versions" do
       version = '1.2.3hotfix-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-pre-XYZ' versions" do
+    it "must match 'X.Y.Y-pre-NNN' versions" do
       version = '1.2.3-pre-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-rc-XYZ' versions" do
+    it "must match 'X.Y.Y-rc-NNN' versions" do
       version = '1.2.3-rc-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-alpha-XYZ' versions" do
+    it "must match 'X.Y.Y-alpha-NNN' versions" do
       version = '1.2.3-alpha-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-beta-XYZ' versions" do
+    it "must match 'X.Y.Y-beta-NNN' versions" do
       version = '1.2.3-beta-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-xyz-XYZ' versions" do
+    it "must match 'X.Y.Y-xyz-NNN' versions" do
       version = '1.2.3-hotfix-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.pre-XYZ' versions" do
+    it "must match 'X.Y.Y.pre-NNN' versions" do
       version = '1.2.3.pre-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.rc-XYZ' versions" do
+    it "must match 'X.Y.Y.rc-NNN' versions" do
       version = '1.2.3.rc-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.alpha-XYZ' versions" do
+    it "must match 'X.Y.Y.alpha-NNN' versions" do
       version = '1.2.3.alpha-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.beta-XYZ' versions" do
+    it "must match 'X.Y.Y.beta-NNN' versions" do
       version = '1.2.3.beta-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.xyz-XYZ' versions" do
+    it "must match 'X.Y.Y.xyz-NNN' versions" do
       version = '1.2.3.hotfix-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Ypre.XYZ' versions" do
+    it "must match 'X.Y.Ypre.NNN' versions" do
       version = '1.2.3pre.1234'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Yrc.XYZ' versions" do
+    it "must match 'X.Y.Yrc.NNN' versions" do
       version = '1.2.3rc.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Yalpha.XYZ' versions" do
+    it "must match 'X.Y.Yalpha.NNN' versions" do
       version = '1.2.3alpha.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Ybeta.XYZ' versions" do
+    it "must match 'X.Y.Ybeta.NNN' versions" do
       version = '1.2.3beta.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Yxyz.XYZ' versions" do
+    it "must match 'X.Y.Yxyz.NNN' versions" do
       version = '1.2.3hotfix.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-pre.XYZ' versions" do
+    it "must match 'X.Y.Y-pre.NNN' versions" do
       version = '1.2.3-pre.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-rc.XYZ' versions" do
+    it "must match 'X.Y.Y-rc.NNN' versions" do
       version = '1.2.3-rc.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-alpha.XYZ' versions" do
+    it "must match 'X.Y.Y-alpha.NNN' versions" do
       version = '1.2.3-alpha.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-beta.XYZ' versions" do
+    it "must match 'X.Y.Y-beta.NNN' versions" do
       version = '1.2.3-beta.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y-xyz.XYZ' versions" do
+    it "must match 'X.Y.Y-xyz.NNN' versions" do
       version = '1.2.3-hotfix.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.pre.XYZ' versions" do
+    it "must match 'X.Y.Y.pre.NNN' versions" do
       version = '1.2.3.pre.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.rc.XYZ' versions" do
+    it "must match 'X.Y.Y.rc.NNN' versions" do
       version = '1.2.3.rc.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.alpha.XYZ' versions" do
+    it "must match 'X.Y.Y.alpha.NNN' versions" do
       version = '1.2.3.alpha.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.beta.XYZ' versions" do
+    it "must match 'X.Y.Y.beta.NNN' versions" do
       version = '1.2.3.beta.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Y.xyz.XYZ' versions" do
+    it "must match 'X.Y.Y.xyz.NNN' versions" do
       version = '1.2.3.hotfix.123'
 
       expect(version).to fully_match(subject)
@@ -534,7 +534,7 @@ describe Ronin::Support::Text::Patterns do
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zxyz' versions" do
+    it "must match 'X.Y.Z.Y.Zword' versions" do
       version = '1.2.3.4hotfix'
 
       expect(version).to fully_match(subject)
@@ -594,337 +594,337 @@ describe Ronin::Support::Text::Patterns do
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.xyz' versions" do
+    it "must match 'X.Y.Z.Y.Z.word' versions" do
       version = '1.2.3.4.hotfix'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zpre.Y.ZZ' versions" do
-      version = '1.2.3.4pre1234'
+    it "must match 'X.Y.Z.Y.ZpreNNN' versions" do
+      version = '1.2.3.4pre123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zrc.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.ZrcNNN' versions" do
       version = '1.2.3.4rc123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zalpha.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.ZalphaNNN' versions" do
       version = '1.2.3.4alpha123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zbeta.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.ZbetaNNN' versions" do
       version = '1.2.3.4beta123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zxyz.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.ZwordNNN' versions" do
       version = '1.2.3.4hotfix123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zpre-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zpre-NNN' versions" do
       version = '1.2.3.4pre-1234'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zrc-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zrc-NNN' versions" do
       version = '1.2.3.4rc-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zalpha-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zalpha-NNN' versions" do
       version = '1.2.3.4alpha-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zbeta-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zbeta-NNN' versions" do
       version = '1.2.3.4beta-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zxyz-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zword-NNN' versions" do
       version = '1.2.3.4hotfix-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zpre..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zpre.NNN' versions" do
       version = '1.2.3.4pre.1234'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zrc..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zrc.NNN' versions" do
       version = '1.2.3.4rc.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zalpha..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zalpha.NNN' versions" do
       version = '1.2.3.4alpha.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zbeta..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zbeta.NNN' versions" do
       version = '1.2.3.4beta.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zxyz..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zword-NNN' versions" do
       version = '1.2.3.4hotfix-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-pre.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-preNNN' versions" do
       version = '1.2.3.4-pre123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-rc.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-rcNNN' versions" do
       version = '1.2.3.4-rc123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-alpha.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-alphaNNN' versions" do
       version = '1.2.3.4-alpha123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-beta.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-betaNNN' versions" do
       version = '1.2.3.4-beta123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-xyz.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-wordNNN' versions" do
       version = '1.2.3.4-hotfix123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.pre.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.preNNN' versions" do
       version = '1.2.3.4.pre123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.rc.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.rcNNN' versions" do
       version = '1.2.3.4.rc123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.alpha.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.alphaNNN' versions" do
       version = '1.2.3.4.alpha123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.beta.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.betaNNN' versions" do
       version = '1.2.3.4.beta123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.xyz.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.wordNNN' versions" do
       version = '1.2.3.4.hotfix123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zpre-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zpre-NNN' versions" do
       version = '1.2.3.4pre-1234'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zrc-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zrc-NNN' versions" do
       version = '1.2.3.4rc-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zalpha-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zalpha-NNN' versions" do
       version = '1.2.3.4alpha-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zbeta-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zbeta-NNN' versions" do
       version = '1.2.3.4beta-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zxyz-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zword-NNN' versions" do
       version = '1.2.3.4hotfix-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-pre-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-pre-NNN' versions" do
       version = '1.2.3.4-pre-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-rc-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-rc-NNN' versions" do
       version = '1.2.3.4-rc-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-alpha-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-alpha-NNN' versions" do
       version = '1.2.3.4-alpha-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-beta-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-beta-NNN' versions" do
       version = '1.2.3.4-beta-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-xyz-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-word-NNN' versions" do
       version = '1.2.3.4-hotfix-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.pre-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.pre-NNN' versions" do
       version = '1.2.3.4.pre-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.rc-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.rc-NNN' versions" do
       version = '1.2.3.4.rc-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.alpha-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.alpha-NNN' versions" do
       version = '1.2.3.4.alpha-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.beta-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.beta-NNN' versions" do
       version = '1.2.3.4.beta-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.xyz-.Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.word-NNN' versions" do
       version = '1.2.3.4.hotfix-123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zpre..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zpre.NNN' versions" do
       version = '1.2.3.4pre.1234'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zrc..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zrc.NNN' versions" do
       version = '1.2.3.4rc.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zalpha..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zalpha.NNN' versions" do
       version = '1.2.3.4alpha.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zbeta..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zbeta.NNN' versions" do
       version = '1.2.3.4beta.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Zxyz..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Zword.NNN' versions" do
       version = '1.2.3.4hotfix.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-pre..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-pre.NNN' versions" do
       version = '1.2.3.4-pre.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-rc..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-rc.NNN' versions" do
       version = '1.2.3.4-rc.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-alpha..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-alpha.NNN' versions" do
       version = '1.2.3.4-alpha.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-beta..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-beta.NNN' versions" do
       version = '1.2.3.4-beta.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z-xyz..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z-word.NNN' versions" do
       version = '1.2.3.4-hotfix.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.pre..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.pre.NNN' versions" do
       version = '1.2.3.4.pre.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.rc..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.rc.NNN' versions" do
       version = '1.2.3.4.rc.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.alpha..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.alpha.NNN' versions" do
       version = '1.2.3.4.alpha.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.beta..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.beta.NNN' versions" do
       version = '1.2.3.4.beta.123'
 
       expect(version).to fully_match(subject)
     end
 
-    it "must match 'X.Y.Z.Y.Z.xyz..Y.ZZ' versions" do
+    it "must match 'X.Y.Z.Y.Z.word.NNN' versions" do
       version = '1.2.3.4.hotfix.123'
 
       expect(version).to fully_match(subject)
