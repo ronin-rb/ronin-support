@@ -99,6 +99,9 @@ research and development.
     * [Generating typos][docs-text-typo].
     * [Generating homoglyphs][docs-text-homoglyp].
     * [Regexs for matching/extracting common types of data][docs-text-patterns].
+  * Working with software versions:
+    * [Parsing versions][docs-software-version].
+    * [Version ranges][docs-software-version_range].
 * Adds additional methods to many of [Ruby's core classes][docs-core-exts].
 * Small memory footprint (~46Kb).
 * Has 96% documentation coverage.
@@ -263,4 +266,6 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [docs-text-typo]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Text/Typo.html
 [docs-text-homoglyp]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Text/Homoglyph.html
 [docs-text-patterns]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Text/Patterns.html
+[docs-software-version]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Software/Version.html
+[docs-software-version_range]: https://ronin-rb.dev/docs/ronin-support/Ronin/Support/Software/VersionRange.html
 [docs-core-exts]: https://ronin-rb.dev/docs/ronin-support/top-level-namespace.html
