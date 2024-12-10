@@ -141,6 +141,11 @@ module Ronin
       #
       class Host
 
+        # A regular expression for matching host names.
+        #
+        # @since 1.2.0
+        REGEX = /\A(?:(?:[a-zA-Z\d](?:[-a-zA-Z\d]*[a-zA-Z\d])?)\.)*(?:[a-zA-Z](?:[-a-zA-Z\d]*[a-zA-Z\d])?)\.?\z/
+
         # The host name.
         #
         # @return [String]
