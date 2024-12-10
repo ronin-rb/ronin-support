@@ -42,6 +42,11 @@ module Ronin
         # @since 0.4.0
         DECIMAL_OCTET = DECIMAL_BYTE
 
+        # Regular expression for finding hexadecimal bytes (00 - ff).
+        #
+        # @since 1.2.0
+        HEX_BYTE = /(?:0x)?[0-9a-fA-F]{2}/
+
         # Regular expression for finding all hexadecimal numbers in text.
         #
         # @since 1.0.0
