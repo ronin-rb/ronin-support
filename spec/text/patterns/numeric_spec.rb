@@ -35,6 +35,40 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "HEX_BYTE" do
+    subject { described_class::HEX_BYTE }
+
+    it "must match 00 - ff" do
+      hex_bytes = (0..0xff).map { |byte| "%.2x" % byte }
+
+      expect(hex_bytes).to all(match(subject))
+    end
+
+    it "must match 00 - FF" do
+      hex_bytes = (0..0xff).map { |byte| "%.2X" % byte }
+
+      expect(hex_bytes).to all(match(subject))
+    end
+
+    it "must match 0x00 - 0xff" do
+      hex_bytes = (0..0xff).map { |byte| "0x%.2x" % byte }
+
+      expect(hex_bytes).to all(match(subject))
+    end
+
+    it "must match 0x00 - 0xFF" do
+      hex_bytes = (0..0xff).map { |byte| "0x%.2X" % byte }
+
+      expect(hex_bytes).to all(match(subject))
+    end
+
+    it "must only match two hexadecimal digits" do
+      string = "a1b2"
+
+      expect(string[subject]).to eq("a1")
+    end
+  end
+
   describe "HEX_NUMBER" do
     subject { described_class::HEX_NUMBER }
 
