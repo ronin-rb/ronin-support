@@ -9,6 +9,22 @@ describe Ronin::Support::Network::IP do
 
   subject { described_class.new(address) }
 
+  describe "REGEX" do
+    subject { described_class::REGEX }
+
+    it "must match an IPv4 address" do
+      expect(subject =~ '127.0.0.1').to be_truthy
+    end
+
+    it "must match a fully qualified IPv6 address" do
+      expect(subject =~ '2606:2800:21f:cb07:6820:80da:af6b:8b2c').to be_truthy
+    end
+
+    it "must match a compressed IPv6 address" do
+      expect(subject =~ '::1').to be_truthy
+    end
+  end
+
   describe "#initialize" do
     it "must set #address" do
       expect(subject.address).to eq(address)
