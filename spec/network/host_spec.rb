@@ -18,6 +18,22 @@ describe Ronin::Support::Network::Host do
 
   subject { described_class.new(hostname) }
 
+  describe "REGEX" do
+    subject { described_class::REGEX }
+
+    it "must match a local hostname" do
+      expect(subject =~ 'localhost').to be_truthy
+    end
+
+    it "must match a domain name" do
+      expect(subject =~ 'example.com').to be_truthy
+    end
+
+    it "must match a sub-domain name" do
+      expect(subject =~ 'www.example.com').to be_truthy
+    end
+  end
+
   describe "#initialize" do
     it "must set #name" do
       expect(subject.name).to eq(hostname)
