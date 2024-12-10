@@ -13,8 +13,8 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
-  describe "DECIMAL_OCTET" do
-    subject { described_class::DECIMAL_OCTET }
+  describe "DECIMAL_BYTE" do
+    subject { described_class::DECIMAL_BYTE }
 
     it "must match 0 - 255" do
       numbers = (0..255).map(&:to_s)
@@ -24,6 +24,14 @@ describe Ronin::Support::Text::Patterns do
 
     it "must not match numbers greater than 255" do
       expect('256').to_not match(subject)
+    end
+  end
+
+  describe "DECIMAL_OCTET" do
+    subject { described_class::DECIMAL_OCTET }
+
+    it "must be an alias for DECIMAL_BYTE" do
+      expect(subject).to be(described_class::DECIMAL_BYTE)
     end
   end
 
