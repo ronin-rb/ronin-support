@@ -32,10 +32,15 @@ module Ronin
         # @since 1.0.0
         NUMBER = /[0-9]+/
 
+        # Regular expression for finding a decimal bytes (0 - 255)
+        #
+        # @since 1.2.0
+        DECIMAL_BYTE = /(?<=[^\d]|^)(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])(?=[^\d]|$)/
+
         # Regular expression for finding a decimal octet (0 - 255)
         #
         # @since 0.4.0
-        DECIMAL_OCTET = /(?<=[^\d]|^)(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])(?=[^\d]|$)/
+        DECIMAL_OCTET = DECIMAL_BYTE
 
         # Regular expression for finding all hexadecimal numbers in text.
         #
