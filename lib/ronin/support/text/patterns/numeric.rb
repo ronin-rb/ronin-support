@@ -45,7 +45,7 @@ module Ronin
         # Regular expression for finding version numbers in text.
         #
         # @since 1.0.0
-        VERSION_NUMBER = /(?<=[^\d]|^)\d+(?:\.\d+){1,3}(?:[-.]?[A-Za-z]+(?:[-.]?\d+)?)?/
+        VERSION_NUMBER = /\d+(?:\.\d+){1,3}(?:[-.]?[A-Za-z]+(?:[-.]?\d+)?)?/
       end
     end
   end
