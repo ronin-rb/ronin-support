@@ -13,6 +13,38 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "FLOAT" do
+    subject { described_class::FLOAT }
+
+    it "must match 0.5" do
+      expect('0.5').to fully_match(subject)
+    end
+
+    it "must match 0.1234" do
+      expect('0.1234').to fully_match(subject)
+    end
+
+    it "must match 1234.0" do
+      expect('1234.0').to fully_match(subject)
+    end
+
+    it "must match 1234.5678" do
+      expect('1234.5678').to fully_match(subject)
+    end
+
+    it "must match 1.0e10" do
+      expect('1.0e10').to fully_match(subject)
+    end
+
+    it "must match 1.0e+10" do
+      expect('1.0e+10').to fully_match(subject)
+    end
+
+    it "must match 1.0e-10" do
+      expect('1.0e-10').to fully_match(subject)
+    end
+  end
+
   describe "OCTAL_BYTE" do
     subject { described_class::OCTAL_BYTE }
 
