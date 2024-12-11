@@ -99,6 +99,36 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "HEX_DWORD" do
+    subject { described_class::HEX_DWORD }
+
+    it "must match 00000000 - ffffffff" do
+      expect("00000000").to match(subject)
+      expect("ffffffff").to match(subject)
+    end
+
+    it "must match 00000000 - FFFFFFFF" do
+      expect("00000000").to match(subject)
+      expect("FFFFFFFF").to match(subject)
+    end
+
+    it "must match 0x00000000 - 0xffffffff" do
+      expect("0x00000000").to match(subject)
+      expect("0xffffffff").to match(subject)
+    end
+
+    it "must match 0x00000000 - 0xFFFFFFFF" do
+      expect("0x00000000").to match(subject)
+      expect("0xFFFFFFFF").to match(subject)
+    end
+
+    it "must only match eight hexadecimal digits" do
+      string = "1234abcdefg"
+
+      expect(string[subject]).to eq("1234abcd")
+    end
+  end
+
   describe "HEX_NUMBER" do
     subject { described_class::HEX_NUMBER }
 
