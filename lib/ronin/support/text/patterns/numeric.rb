@@ -47,6 +47,11 @@ module Ronin
         # @since 1.2.0
         HEX_BYTE = /(?:0x)?[0-9a-fA-F]{2}/
 
+        # Regular expression for finding hexadecimal words (0000 - ffff).
+        #
+        # @since 1.2.0
+        HEX_WORD = /(?:0x)?[0-9a-fA-F]{4}/
+
         # Regular expression for finding all hexadecimal numbers in text.
         #
         # @since 1.0.0
