@@ -50,6 +50,9 @@ module Ronin
         # Regular expression for finding a decimal octet (0 - 255)
         #
         # @since 0.4.0
+        #
+        # @deprecated
+        #   Deprecated as of 1.2.0. Please use {DECIMAL_BYTE} instead.
         DECIMAL_OCTET = DECIMAL_BYTE
 
         # Regular expression for finding hexadecimal bytes (00 - ff).
