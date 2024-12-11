@@ -129,6 +129,36 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "HEX_QWORD" do
+    subject { described_class::HEX_QWORD }
+
+    it "must match 0000000000000000 - ffffffffffffffff" do
+      expect("0000000000000000").to match(subject)
+      expect("ffffffffffffffff").to match(subject)
+    end
+
+    it "must match 0000000000000000 - FFFFFFFFFFFFFFFF" do
+      expect("0000000000000000").to match(subject)
+      expect("FFFFFFFFFFFFFFFF").to match(subject)
+    end
+
+    it "must match 0x0000000000000000 - 0xffffffffffffffff" do
+      expect("0x0000000000000000").to match(subject)
+      expect("0xffffffffffffffff").to match(subject)
+    end
+
+    it "must match 0x0000000000000000 - 0xFFFFFFFFFFFFFFFF" do
+      expect("0x0000000000000000").to match(subject)
+      expect("0xFFFFFFFFFFFFFFFF").to match(subject)
+    end
+
+    it "must only match eight hexadecimal digits" do
+      string = "1234567890abcdef11111"
+
+      expect(string[subject]).to eq("1234567890abcdef")
+    end
+  end
+
   describe "HEX_NUMBER" do
     subject { described_class::HEX_NUMBER }
 

@@ -57,6 +57,11 @@ module Ronin
         # @since 1.2.0
         HEX_DWORD = /(?:0x)?[0-9a-fA-F]{8}/
 
+        # Regular expression for finding hexadecimal double words (0000000000000000 - ffffffffffffffff).
+        #
+        # @since 1.2.0
+        HEX_QWORD = /(?:0x)?[0-9a-fA-F]{16}/
+
         # Regular expression for finding all hexadecimal numbers in text.
         #
         # @since 1.0.0
