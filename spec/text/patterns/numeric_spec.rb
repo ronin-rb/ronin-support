@@ -13,6 +13,20 @@ describe Ronin::Support::Text::Patterns do
     end
   end
 
+  describe "OCTAL_BYTE" do
+    subject { described_class::OCTAL_BYTE }
+
+    it "must match 0 - 377" do
+      numbers = (0..255).map { |byte| byte.to_s(8) }
+
+      expect(numbers).to all(match(subject))
+    end
+
+    it "must not match numbers greater than 377" do
+      expect('378').to_not match(subject)
+    end
+  end
+
   describe "DECIMAL_BYTE" do
     subject { described_class::DECIMAL_BYTE }
 
