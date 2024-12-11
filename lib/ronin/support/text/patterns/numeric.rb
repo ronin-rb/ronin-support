@@ -32,6 +32,11 @@ module Ronin
         # @since 1.0.0
         NUMBER = /[0-9]+/
 
+        # Regular expression for finding a octal bytes (0 - 377)
+        #
+        # @since 1.2.0
+        OCTAL_BYTE = /(?<=[^\d]|^)(?:3[0-7]{2}|[0-2][0-7]{2}|[0-7]{1,2})(?=[^\d]|$)/
+
         # Regular expression for finding a decimal bytes (0 - 255)
         #
         # @since 1.2.0
