@@ -16,12 +16,22 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/support/text/patterns/language'
-require 'ronin/support/text/patterns/numeric'
-require 'ronin/support/text/patterns/credentials'
-require 'ronin/support/text/patterns/crypto'
-require 'ronin/support/text/patterns/file_system'
-require 'ronin/support/text/patterns/network'
-require 'ronin/support/text/patterns/pii'
-require 'ronin/support/text/patterns/software'
-require 'ronin/support/text/patterns/source_code'
+module Ronin
+  module Support
+    module Text
+      #
+      # @since 0.3.0
+      #
+      module Patterns
+        #
+        # @group Software Version Patterns
+        #
+
+        # Regular expression for finding version numbers in text.
+        #
+        # @since 1.0.0
+        VERSION_NUMBER = /\d+\.\d+(?:(?!\.(?:tar|tgz|tbz|zip|rar|txt|htm|xml))[._-][A-Za-z0-9]+)*/
+      end
+    end
+  end
+end
