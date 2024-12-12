@@ -931,4 +931,48 @@ describe Ronin::Support::Text::Patterns do
       end
     end
   end
+
+  describe "VERSION_CONSTRAINT" do
+    subject { described_class::VERSION_CONSTRAINT }
+
+    it "must match '>= X.Y.Z'" do
+      expect('>= 1.2.3').to fully_match(subject)
+    end
+
+    it "must match '> X.Y.Z'" do
+      expect('> 1.2.3').to fully_match(subject)
+    end
+
+    it "must match '<= X.Y.Z'" do
+      expect('<= 1.2.3').to fully_match(subject)
+    end
+
+    it "must match '< X.Y.Z'" do
+      expect('< 1.2.3').to fully_match(subject)
+    end
+
+    it "must match '= X.Y.Z'" do
+      expect('= 1.2.3').to fully_match(subject)
+    end
+
+    it "must match '>=X.Y.Z'" do
+      expect('>=1.2.3').to fully_match(subject)
+    end
+
+    it "must match '>X.Y.Z'" do
+      expect('>1.2.3').to fully_match(subject)
+    end
+
+    it "must match '<=X.Y.Z'" do
+      expect('<=1.2.3').to fully_match(subject)
+    end
+
+    it "must match '<X.Y.Z'" do
+      expect('<1.2.3').to fully_match(subject)
+    end
+
+    it "must match '=X.Y.Z'" do
+      expect('=1.2.3').to fully_match(subject)
+    end
+  end
 end

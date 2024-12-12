@@ -31,6 +31,11 @@ module Ronin
         #
         # @since 1.0.0
         VERSION_NUMBER = /\d+\.\d+(?:(?!\.(?:tar|tgz|tbz|zip|rar|txt|htm|xml))[._-][A-Za-z0-9]+)*/
+
+        # Regular expression for finding version constraints in text.
+        #
+        # @since 1.2.0
+        VERSION_CONSTRAINT = /(?:>=|>|<=|<|=)\s*#{VERSION_NUMBER}/
       end
     end
   end
