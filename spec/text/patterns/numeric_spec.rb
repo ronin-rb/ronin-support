@@ -15,6 +15,18 @@ describe Ronin::Support::Text::Patterns do
     it "must match negative numbers" do
       expect("-#{number}").to fully_match(subject)
     end
+
+    it "must match numbers with an 'e' exponent suffix" do
+      expect("1e10").to fully_match(subject)
+    end
+
+    it "must match numbers with an 'e+' exponent suffix" do
+      expect("1e+10").to fully_match(subject)
+    end
+
+    it "must match numbers with an 'e-' exponent suffix" do
+      expect("1e-10").to fully_match(subject)
+    end
   end
 
   describe "FLOAT" do

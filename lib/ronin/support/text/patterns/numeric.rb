@@ -30,7 +30,7 @@ module Ronin
         # Regular expression for finding all numbers in text.
         #
         # @since 1.0.0
-        NUMBER = /(?:-)?[0-9]+/
+        NUMBER = /(?:-)?[0-9]+(?:e[+-]?\d+)?/
 
         # Regular expression for finding all floating point numbers in text.
         #
