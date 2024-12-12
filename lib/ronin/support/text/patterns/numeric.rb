@@ -79,11 +79,6 @@ module Ronin
         #
         # @since 1.0.0
         HEX_NUMBER = /(?:0x)?[0-9a-fA-F]+/
-
-        # Regular expression for finding version numbers in text.
-        #
-        # @since 1.0.0
-        VERSION_NUMBER = /\d+\.\d+(?:(?!\.(?:tar|tgz|tbz|zip|rar|txt|htm|xml))[._-][A-Za-z0-9]+)*/
       end
     end
   end
