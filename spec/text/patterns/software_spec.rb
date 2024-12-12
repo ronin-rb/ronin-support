@@ -975,4 +975,32 @@ describe Ronin::Support::Text::Patterns do
       expect('=1.2.3').to fully_match(subject)
     end
   end
+
+  describe "VERSION_RANGE" do
+    subject { described_class::VERSION_RANGE }
+
+    it "must match '(>=|>|<=|<|=) X.Y.Z'" do
+      expect('>= 1.2.3').to fully_match(subject)
+    end
+
+    it "must match '(>=|>|<=|<|=)X.Y.Z'" do
+      expect('>=1.2.3').to fully_match(subject)
+    end
+
+    it "must match '(>=|>|<=|<|=) X.Y.Z, (>=|>|<=|<|=) A.B.C'" do
+      expect('>= 1.2.3, < 2.0.0').to fully_match(subject)
+    end
+
+    it "must match '(>=|>|<=|<|=)X.Y.Z,(>=|>|<=|<|=)A.B.C'" do
+      expect('>=1.2.3,<2.0.0').to fully_match(subject)
+    end
+
+    it "must match '(>=|>|<=|<|=) X.Y.Z (>=|>|<=|<|=) A.B.C'" do
+      expect('>= 1.2.3 < 2.0.0').to fully_match(subject)
+    end
+
+    it "must match '(>=|>|<=|<|=)X.Y.Z (>=|>|<=|<|=)A.B.C'" do
+      expect('>=1.2.3 <2.0.0').to fully_match(subject)
+    end
+  end
 end

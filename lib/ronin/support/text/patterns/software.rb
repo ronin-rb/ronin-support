@@ -36,6 +36,11 @@ module Ronin
         #
         # @since 1.2.0
         VERSION_CONSTRAINT = /(?:>=|>|<=|<|=)\s*#{VERSION_NUMBER}/
+
+        # Regular expression for finding version ranges in text.
+        #
+        # @since 1.2.0
+        VERSION_RANGE = /#{VERSION_CONSTRAINT}(?:(?:,\s*|\s+)#{VERSION_CONSTRAINT})?/
       end
     end
   end
