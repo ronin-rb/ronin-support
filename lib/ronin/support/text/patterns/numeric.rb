@@ -30,12 +30,12 @@ module Ronin
         # Regular expression for finding all numbers in text.
         #
         # @since 1.0.0
-        NUMBER = /[0-9]+/
+        NUMBER = /(?:-)?[0-9]+/
 
         # Regular expression for finding all floating point numbers in text.
         #
         # @since 1.2.0
-        FLOAT = /\d+\.\d+(?:e[+-]?\d+)?/
+        FLOAT = /(?:-)?\d+\.\d+(?:e[+-]?\d+)?/
 
         # Regular expression for finding a octal bytes (0 - 377)
         #

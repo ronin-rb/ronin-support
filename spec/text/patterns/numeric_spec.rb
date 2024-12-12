@@ -11,6 +11,10 @@ describe Ronin::Support::Text::Patterns do
     it "must match one or more digits" do
       expect(number).to fully_match(subject)
     end
+
+    it "must match negative numbers" do
+      expect("-#{number}").to fully_match(subject)
+    end
   end
 
   describe "FLOAT" do
@@ -42,6 +46,10 @@ describe Ronin::Support::Text::Patterns do
 
     it "must match 1.0e-10" do
       expect('1.0e-10').to fully_match(subject)
+    end
+
+    it "must match negative numbers" do
+      expect("-1.234").to fully_match(subject)
     end
   end
 
