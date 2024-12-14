@@ -84,8 +84,32 @@ describe Ronin::Support::Text::Patterns do
       expect(version).to fully_match(subject)
     end
 
+    it "must match 'X.Y-Z' versions" do
+      version = '1.2-3'
+
+      expect(version).to fully_match(subject)
+    end
+
+    it "must match 'X.Y_Z' versions" do
+      version = '1.2_3'
+
+      expect(version).to fully_match(subject)
+    end
+
     it "must match 'X.Y.Y.Z' versions" do
       version = '1.2.3.4'
+
+      expect(version).to fully_match(subject)
+    end
+
+    it "must match 'X.Y.Y-Z' versions" do
+      version = '1.2.3-4'
+
+      expect(version).to fully_match(subject)
+    end
+
+    it "must match 'X.Y.Y_Z' versions" do
+      version = '1.2.3_4'
 
       expect(version).to fully_match(subject)
     end
@@ -928,6 +952,49 @@ describe Ronin::Support::Text::Patterns do
       version = '1.2.3.4.hotfix.123'
 
       expect(version).to fully_match(subject)
+    end
+
+    context "when the version ends with a '+XXX' suffix" do
+      it "must not match the '+XXX' suffix" do
+        version = '1.2.3+a1b2c3'
+
+        expect(version[subject]).to eq('1.2.3')
+      end
+    end
+
+    it "must not accidentally match a phone number" do
+      expect('1-800-111-2222').to_not match(subject)
+    end
+
+    it "must not accidentally match 'MM-DD-YY'" do
+      expect('01-02-24').to_not match(subject)
+    end
+
+    it "must not accidentally match 'MM-DD-YYYY'" do
+      expect('01-02-2024').to_not match(subject)
+    end
+
+    it "must not accidentally match 'YYYY-MM-DD'" do
+      expect('2024-01-02').to_not match(subject)
+    end
+
+    it "must not accidentally match 'CVE-YYYY-XXXX'" do
+      expect('CVE-2024-1234').to_not match(subject)
+    end
+
+    context "when the version is within a filename" do
+      let(:version) { '1.2.3' }
+
+      %w[.tar.gz .tar.bz2 .tar.xz .tgz .tbz2 .zip .rar .htm .html .xml .txt].each do |extname|
+        context "and when the filename ends with '#{extname}'" do
+          let(:extname)  { extname }
+          let(:filename) { "foo-#{version}#{extname}" }
+
+          it "must not accidentally match '#{extname}' as part of the version" do
+            expect(filename[subject]).to eq(version)
+          end
+        end
+      end
     end
   end
 end
