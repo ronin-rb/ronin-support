@@ -27,6 +27,7 @@ metadata:
 required_ruby_version: ">= 3.0.0"
 
 dependencies:
+  base64: ~> 0.1
   chars: ~> 0.3, >= 0.3.2
   hexdump: ~> 1.0
   combinatorics: ~> 0.4

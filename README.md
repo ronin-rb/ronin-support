@@ -128,6 +128,7 @@ please see the [API documentation](https://ronin-rb.dev/docs/ronin-support).
 ## Requirements
 
 * [Ruby] >= 3.0.0
+* [base64] ~> 0.1
 * [chars] ~> 0.3, >= 0.3.2
 * [hexdump] ~> 1.0
 * [combinatorics] ~> 0.4
@@ -180,6 +181,7 @@ along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 [pwntools]: https://github.com/Gallopsled/pwntools#readme
 [activesupport]: https://guides.rubyonrails.org/active_support_core_extensions.html
 
+[base64]: https://github.com/ruby/base64#readme
 [chars]: https://github.com/postmodern/chars#readme
 [hexdump]: https://github.com/postmodern/hexdump#readme
 [combinatorics]: https://github.com/postmodern/combinatorics#readme
