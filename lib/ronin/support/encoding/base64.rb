@@ -16,8 +16,6 @@
 # along with ronin-support.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'base64'
-
 module Ronin
   module Support
     class Encoding < ::Encoding
@@ -48,9 +46,9 @@ module Ronin
         #
         def self.encode(data, mode: nil)
           case mode
-          when :strict   then ::Base64.strict_encode64(data)
-          when :url_safe then ::Base64.urlsafe_encode64(data)
-          when nil       then ::Base64.encode64(data)
+          when :strict   then strict_encode64(data)
+          when :url_safe then urlsafe_encode64(data)
+          when nil       then encode64(data)
           else
             raise(ArgumentError,"Base64 mode must be either :string, :url_safe, or nil: #{mode.inspect}")
           end
@@ -70,12 +68,99 @@ module Ronin
         #
         def self.decode(data, mode: nil)
           case mode
-          when :strict   then ::Base64.strict_decode64(data)
-          when :url_safe then ::Base64.urlsafe_decode64(data)
-          when nil       then ::Base64.decode64(data)
+          when :strict   then strict_decode64(data)
+          when :url_safe then urlsafe_decode64(data)
+          when nil       then decode64(data)
           else
             raise(ArgumentError,"Base64 mode must be either :string, :url_safe, or nil: #{mode.inspect}")
           end
+        end
+
+        #
+        # Base64 encodes the given data.
+        #
+        # @param [String] data
+        #   The data to Base64 encode.
+        #
+        # @return [String]
+        #   The Base64 encoded data.
+        #
+        def self.encode64(data)
+          [data].pack("m")
+        end
+
+        #
+        # Base64 decodes the given data.
+        #
+        # @param [String] data
+        #   The Base64 data to decode.
+        #
+        # @return [String]
+        #   The decoded data.
+        #
+        def self.decode64(data)
+          data.unpack1("m")
+        end
+
+        #
+        # Base64 strict encodes the given data.
+        #
+        # @param [String] data
+        #   The data to Base64 encode.
+        #
+        # @return [String]
+        #   The Base64 strict encoded data.
+        #
+        def self.strict_encode64(data)
+          [data].pack("m0")
+        end
+
+        #
+        # Base64 strict decodes the given data.
+        #
+        # @param [String] data
+        #   The Base64 data to decode.
+        #
+        # @return [String]
+        #   The strict decoded data.
+        #
+        def self.strict_decode64(data)
+          data.unpack1("m0")
+        end
+
+        #
+        # Base64 url-safe encodes the given data.
+        #
+        # @param [String] data
+        #   The data to Base64 encode.
+        #
+        # @return [String]
+        #   The Base64 url-safe encoded data.
+        #
+        def self.urlsafe_encode64(data, padding: true)
+          str = strict_encode64(data)
+          str.chomp!("==") or str.chomp!("=") unless padding
+          str.tr!("+/", "-_")
+          str
+        end
+
+        #
+        # Base64 url-safe decodes the given data.
+        #
+        # @param [String] data
+        #   The Base64 data to decode.
+        #
+        # @return [String]
+        #   The url-safe decoded data.
+        #
+        def self.urlsafe_decode64(data)
+          if !data.end_with?("=") && data.length % 4 != 0
+            data = data.ljust((str.length + 3) & ~3, "=")
+            data.tr!("-_", "+/")
+          else
+            data = data.tr("-_", "+/")
+          end
+          strict_decode64(data)
         end
       end
     end
