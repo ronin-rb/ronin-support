@@ -700,7 +700,9 @@ module Ronin
           #   All `TXT` string values belonging of the host name.
           #
           def get_txt_strings(name)
-            get_txt_records(name).map(&:strings).flatten
+            get_txt_records(name).map do |txt|
+              txt.strings.join
+            end
           end
 
         end
