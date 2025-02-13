@@ -33,7 +33,7 @@ class Integer
   #   0x41.shell_encode
   #   # => "\\x41"
   #   0x0a.shell_encode
-  #   # => "\\n"
+  #   # => "\\x0a"
   #
   # @example Encoding unicode characters:
   #   1001.shell_encode
@@ -65,9 +65,9 @@ class Integer
   #   0x41.shell_escape
   #   # => "A"
   #   0x08.shell_escape
-  #   # => "\b"
+  #   # => "\\b"
   #   0xff.shell_escape
-  #   # => "\xff"
+  #   # => "\\xff"
   #
   # @example Escaping unicode characters:
   #   1001.shell_escape

@@ -69,7 +69,7 @@ module Ronin
         #   Encoding::Shell.encode_byte(0x41)
         #   # => "\\x41"
         #   Encoding::Shell.encode_byte(0x0a)
-        #   # => "\\n"
+        #   # => "\\x0a"
         #
         # @example Encoding unicode characters:
         #   Encoding::Shell.encode_byte(1001)
@@ -101,9 +101,9 @@ module Ronin
         #   Encoding::Shell.escape(0x41)
         #   # => "A"
         #   Encoding::Shell.escape(0x08)
-        #   # => "\b"
+        #   # => "\\b"
         #   Encoding::Shell.escape(0xff)
-        #   # => "\xff"
+        #   # => "\\xff"
         #
         # @example Escaping unicode characters:
         #   Encoding::Shell.escape(1001)
