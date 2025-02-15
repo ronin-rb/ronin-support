@@ -1,3 +1,26 @@
+### 1.1.1 / 2025-02-14
+
+* Added the `base64` gem as a dependency for Bundler and Ruby 3.4.0.
+* No longer escape `#` characters in
+  {Ronin::Support::Encoding::Shell.escape_byte},
+  {Ronin::Support::Encoding::Shell.escape},
+  {Integer#shell_escape}, and {String#shell_escape}.
+  * **Note:** The `#` character does not actually need to be backslash escaped
+    within double-quoted or single-quoted shell strings.
+* Fixed {Ronin::Support::Encoding::Shell.unescape} and {String#shell_unescape}
+  to return a UTF-8 encoded String.
+* Fixed decoding of `\UXXXXXXXX` unicode characters in
+  {Ronin::Support::Encoding::C.unescape} and {String#c_unescape}.
+* Fixed decoding of `\u{X..}` unicode characters in
+  {Ronin::Support::Encoding::Ruby.unescape} and {String#ruby_unescape}.
+* Fixed multiple bugs in {Ronin::Support::Text::Patterns::VERSION_NUMBER}:
+  * Fixed a regex typo that was preventing the regex from matching versions.
+  * Fixed matching of version numbers containing alpha-numeric characters
+    (ex: `1.2.3a`).
+  * Fixed matching of version numbers within file names, but to not accidentally
+    also match the file extension (ex: `foo-1.2.3.zip` -> `1.2.3`).
+* Documentation improvements.
+
 ### 1.1.0 / 2024-07-22
 
 * Added {Ronin::Support::Binary::CTypes::OS::Android}.
