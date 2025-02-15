@@ -262,6 +262,8 @@ module Ronin
           if data =~ /[^[:print:]]/
             "$'#{escape(data)}'"
           else
+            # NOTE: '$' characters do not need to be escaped in single quoted
+            # strings, but they *do* need to be escaped in double quoted strings.
             "\"#{escape(data).gsub('$','\$')}\""
           end
         end
@@ -288,6 +290,8 @@ module Ronin
           if (data.start_with?("$'") && data.end_with?("'"))
             unescape(data[2..-2])
           elsif (data.start_with?('"') && data.end_with?('"'))
+            # NOTE: double quoted strings only support escaping '"', '\', and
+            # '$' characters.
             data[1..-2].gsub(/\\["\$]/) do |backslash_char|
               backslash_char[1]
             end
