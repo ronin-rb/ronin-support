@@ -13,7 +13,7 @@ describe String do
     subject { "hello" }
 
     it "must Base64 encode the String" do
-      expect(subject.base64_encode).to eq(Base64.encode64(subject))
+      expect(subject.base64_encode).to eq(Ronin::Support::Encoding::Base64.encode(subject))
     end
 
     context "when given the mode: keyword of :strict" do
@@ -21,7 +21,7 @@ describe String do
 
       it "must strict encode the String" do
         expect(subject.base64_encode(mode: :strict)).to eq(
-          Base64.strict_encode64(subject)
+          Ronin::Support::Encoding::Base64.strict_encode(subject)
         )
       end
     end
@@ -31,7 +31,7 @@ describe String do
 
       it "must URL-safe encode the String" do
         expect(subject.base64_encode(mode: :url_safe)).to eq(
-          Base64.strict_encode64(subject)
+          Ronin::Support::Encoding::Base64.encode_urlsafe(subject)
         )
       end
     end
@@ -49,7 +49,7 @@ describe String do
 
   describe "#base64_decode" do
     let(:data)    { "hello" }
-    let(:subject) { Base64.encode64(data) }
+    let(:subject) { Ronin::Support::Encoding::Base64.encode(data) }
 
     it "must Base64 decode the given data" do
       expect(subject.base64_decode).to eq(data)
@@ -57,7 +57,7 @@ describe String do
 
     context "when given the mode: keyword of :strict" do
       let(:data)    { 'A' * 256 }
-      let(:subject) { Base64.strict_encode64(data) }
+      let(:subject) { Ronin::Support::Encoding::Base64.strict_encode(data) }
 
       it "must strict decode the given data" do
         expect(subject.base64_decode(mode: :strict)).to eq(data)
@@ -66,7 +66,7 @@ describe String do
 
     context "when given the mode: keyword of :url_safe" do
       let(:data)    { 'A' * 256 }
-      let(:subject) { Base64.urlsafe_encode64(data) }
+      let(:subject) { Ronin::Support::Encoding::Base64.encode_urlsafe(data) }
 
       it "must URL-safe decode the given data" do
         expect(subject.base64_decode(mode: :url_safe)).to eq(data)
