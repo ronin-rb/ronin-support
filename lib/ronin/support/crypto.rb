@@ -152,8 +152,6 @@ module Ronin
       # @return [Array<String>]
       #   The list of supported cipher names.
       #
-      # @see Cipher.supported
-      #
       # @example
       #   Crypto.ciphers
       #   # => ["RC5",
