@@ -154,7 +154,7 @@ module Ronin
       #   The list of supported cipher names.
       #
       # @example
-      #   Crypto.ciphers
+      #   Crypto.supported_ciphers
       #   # => ["RC5",
       #   #     "aes-128-cbc",
       #   #     "aes-128-cbc-hmac-sha1",
@@ -162,6 +162,15 @@ module Ronin
       #   #     ...]
       #
       # @see Cipher.supported
+      #
+      # @since 1.2.0
+      #
+      def self.supported_ciphers
+        Cipher.supported
+      end
+
+      #
+      # @see supported_ciphers
       #
       def self.ciphers
         Cipher.supported

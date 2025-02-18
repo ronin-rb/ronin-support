@@ -84,6 +84,14 @@ describe Ronin::Support::Crypto do
     end
   end
 
+  describe ".supported_ciphers" do
+    it "must return Cipher.supported" do
+      expect(subject.supported_ciphers).to eq(
+        Ronin::Support::Crypto::Cipher.supported
+      )
+    end
+  end
+
   describe ".ciphers" do
     it "must return Cipher.supported" do
       expect(subject.ciphers).to eq(Ronin::Support::Crypto::Cipher.supported)
