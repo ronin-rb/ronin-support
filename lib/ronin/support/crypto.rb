@@ -155,7 +155,7 @@ module Ronin
       # @see Cipher.supported
       #
       # @example
-      #   Cipher.supported
+      #   Crypto.ciphers
       #   # => ["RC5",
       #   #     "aes-128-cbc",
       #   #     "aes-128-cbc-hmac-sha1",
