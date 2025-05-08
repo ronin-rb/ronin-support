@@ -6,12 +6,14 @@ gemspec
 
 gem 'jruby-openssl',	'~> 0.7', platforms: :jruby
 
-gem 'net-telnet', '~> 0.1', group: :net
-if RUBY_VERSION >= '3.1.0'
-  gem 'net-ftp',    '~> 0.1', group: :net
-  gem 'net-smtp',   '~> 0.1', group: :net
-  gem 'net-pop',    '~> 0.1', group: :net
-  gem 'net-imap',   '~> 0.1', group: :net
+group :net do
+  gem 'net-telnet', '~> 0.1'
+  if RUBY_VERSION >= '3.1.0'
+    gem 'net-ftp',  '~> 0.1'
+    gem 'net-smtp', '~> 0.1'
+    gem 'net-pop',  '~> 0.1'
+    gem 'net-imap', '~> 0.1'
+  end
 end
 
 group :development do
