@@ -35,4 +35,4 @@ dependencies:
   uri-query_params: ~> 0.8
 
 development_dependencies:
-  bundler: ~> 2.0
+  bundler: ">= 2.0.0"
