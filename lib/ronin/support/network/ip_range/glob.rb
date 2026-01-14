@@ -200,7 +200,7 @@ module Ronin
           #   # 10.0.3.255
           #
           # @example Enumerate through a globbed IPv6 range:
-          #   IPRange::Glob.each('::ff::02-0a::c3') { |ip| puts ip }
+          #   IPRange::Glob.each('fc00::1-3:*') { |ip| puts ip }
           #
           def self.each(string,&block)
             new(string).each(&block)
@@ -306,7 +306,7 @@ module Ronin
           #   # 10.0.3.255
           #
           # @example Enumerate through a globbed IPv6 range:
-          #   ip_range = IPRange::Glob.new('::ff::02-0a::c3')
+          #   ip_range = IPRange::Glob.new('fc00::1-3:*')
           #   ip_range.each { |ip| puts ip }
           #
           def each
