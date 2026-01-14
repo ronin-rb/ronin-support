@@ -75,6 +75,12 @@ module Ronin
         #                 :arm64, :arm64_le, :arm64_be] :arch
         #   The desired architecture for the values of the IO stream.
         #
+        # @option kwargs [:linux, :macos, :windows,
+        #                 :android, :apple_ios, :bsd,
+        #                 :freebsd, :openbsd, :netbsd] :os
+        #   The desired Operating System (OS) for the values within the IO
+        #   stream.
+        #
         def initialize(io, **kwargs)
           initialize_type_system(**kwargs)
 
