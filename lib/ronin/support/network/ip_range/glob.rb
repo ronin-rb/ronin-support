@@ -27,6 +27,8 @@ module Ronin
         #
         # ## Examples
         #
+        # Enumerating over a IPv4 glob range:
+        #
         #     ip_range = IPRange::Glob.new('10.0.1-3.*')
         #     ip_range.each { |ip| puts ip }
         #     # 10.0.1.0
@@ -46,6 +48,28 @@ module Ronin
         #     # ...
         #     # 10.0.3.254
         #     # 10.0.3.255
+        #
+        # Enumerating over a IPv6 glob range:
+        #
+        #     ip_range = IPRange::Glob.new('fc00::1-3:*')
+        #     ip_range.each { |ip| puts ip }
+        #     # fc00::1:0000
+        #     # fc00::1:0001
+        #     # ...
+        #     # fc00::1:fffe
+        #     # fc00::1:ffff
+        #     # ...
+        #     # fc00::2:0000
+        #     # fc00::2:0001
+        #     # ...
+        #     # fc00::2:fffe
+        #     # fc00::2:ffff
+        #     # ...
+        #     # fc00::3:0000
+        #     # fc00::3:0001
+        #     # ...
+        #     # fc00::3:fffe
+        #     # fc00::3:ffff
         #
         # @api public
         #
