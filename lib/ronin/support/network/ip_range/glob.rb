@@ -201,6 +201,23 @@ module Ronin
           #
           # @example Enumerate through a globbed IPv6 range:
           #   IPRange::Glob.each('fc00::1-3:*') { |ip| puts ip }
+          #   # fc00::1:0000
+          #   # fc00::1:0001
+          #   # ...
+          #   # fc00::1:fffe
+          #   # fc00::1:ffff
+          #   # ...
+          #   # fc00::2:0000
+          #   # fc00::2:0001
+          #   # ...
+          #   # fc00::2:fffe
+          #   # fc00::2:ffff
+          #   # ...
+          #   # fc00::3:0000
+          #   # fc00::3:0001
+          #   # ...
+          #   # fc00::3:fffe
+          #   # fc00::3:ffff
           #
           def self.each(string,&block)
             new(string).each(&block)
@@ -308,6 +325,23 @@ module Ronin
           # @example Enumerate through a globbed IPv6 range:
           #   ip_range = IPRange::Glob.new('fc00::1-3:*')
           #   ip_range.each { |ip| puts ip }
+          #   # fc00::1:0000
+          #   # fc00::1:0001
+          #   # ...
+          #   # fc00::1:fffe
+          #   # fc00::1:ffff
+          #   # ...
+          #   # fc00::2:0000
+          #   # fc00::2:0001
+          #   # ...
+          #   # fc00::2:fffe
+          #   # fc00::2:ffff
+          #   # ...
+          #   # fc00::3:0000
+          #   # fc00::3:0001
+          #   # ...
+          #   # fc00::3:fffe
+          #   # fc00::3:ffff
           #
           def each
             return enum_for(__method__) unless block_given?
