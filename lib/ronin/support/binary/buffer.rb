@@ -87,6 +87,11 @@ module Ronin
         #                 :arm64, :arm64_le, :arm64_be] :arch
         #   The desired architecture for the values within the buffer.
         #
+        # @option kwargs [:linux, :macos, :windows,
+        #                 :android, :apple_ios, :bsd,
+        #                 :freebsd, :openbsd, :netbsd] :os
+        #   The desired Operating System (OS) for the values within the buffer.
+        #
         # @raise [ArgumentError]
         #   Either the `length_or_string` argument was not an Integer or a
         #   String.
