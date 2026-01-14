@@ -81,10 +81,11 @@ module Ronin
           # @param [Symbol,
           #         (Symbol, Integer),
           #         Range(type),
-          #         Binary::Struct.class] type_signature
+          #         Binary::Struct.class,
+          #         Binary::Union.class] type_signature
           #   The C type value. The value can be one of the following:
           #   * `Symbol` - represents a single type (ex: `:int32`)
-          #   * `(type, Integer)` - represents an Array type with the given
+          #   * `(Symbol, Integer)` - represents an Array type with the given
           #     element type and length (ex: `[:int32, 10]`)
           #   * `Range(type)` - represents an unbounded Array type with the
           #     given element type. (ex: `:int32..`)
