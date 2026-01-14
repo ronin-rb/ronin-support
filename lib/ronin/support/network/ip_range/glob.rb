@@ -27,7 +27,7 @@ module Ronin
         #
         # ## Examples
         #
-        #     ip_range = IPRange::Glob.new('10.0.1-3.*/24')
+        #     ip_range = IPRange::Glob.new('10.0.1-3.*')
         #     ip_range.each { |ip| puts ip }
         #     # 10.0.1.0
         #     # 10.0.1.1
