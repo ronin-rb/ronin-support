@@ -225,7 +225,7 @@ module Ronin
         #   The packed data.
         #
         # @example
-        #   template = Template.new[:uint32, [:char, 10]]
+        #   template = Template[:uint32, [:char, 10]]
         #   template.pack(0x123456, ['A', 'B', 'C'])
         #   # => "CBA\x00XYZ\x00\x00\x00\x00\x00\x00\x00"
         #
@@ -261,7 +261,7 @@ module Ronin
         #   The unpacked data.
         #
         # @example
-        #   template = Template.new[:uint32, [:char, 10]]
+        #   template = Template[:uint32, [:char, 10]]
         #   template.unpack("CBA\x00XYZ\x00\x00\x00\x00\x00\x00\x00")
         #   # => [4276803, #<Ronin::Support::Binary::Array: "XYZ\x00\x00\x00\x00\x00\x00\x00">]
         #
@@ -298,7 +298,7 @@ module Ronin
         #   The template String.
         #
         # @example
-        #   template = Template.new[:uint32, [:char, 10]]
+        #   template = Template[:uint32, [:char, 10]]
         #   template.to_s
         #   # => "La10"
         #
